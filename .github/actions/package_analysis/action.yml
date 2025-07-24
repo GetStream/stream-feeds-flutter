@@ -1,0 +1,20 @@
+name: Package Analysis
+
+runs:
+  using: "composite"
+  steps:
+    - name: "Install Tools"
+      shell: bash
+      run: flutter pub global activate melos
+
+    - name: "Bootstrap Workspace"
+      shell: bash
+      run: melos bootstrap --verbose
+      env:
+        MELOS_PACKAGES: stream_**,example
+
+    # Only analyze lib/; non-client code doesn't need to work on
+    # all supported legacy version.
+    - name: "Stream Feeds Analyze"
+      shell: bash
+      run: cd packages/stream_feeds/lib && dart analyze --fatal-warnings . && cd .. && flutter test --exclude-tags golden
