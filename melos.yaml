@@ -11,8 +11,8 @@ command:
   bootstrap:
     # Dart and Flutter environment used in the project.
     environment:
-      sdk: ^3.7.2
-      flutter: ">=3.29.2"
+      sdk: ^3.6.2
+      flutter: ">=3.27.4"
 
 scripts:
   postclean:
