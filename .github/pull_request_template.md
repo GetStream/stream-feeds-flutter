@@ -1,8 +1,8 @@
 # Submit a pull request
 <!--Internal tickets have to be added by Stream devs-->
-Linear: FLU-
+Closes FLU-
 <!--Optional to add github issue which is solved by this PR-->
-Github Issue: #
+Closes #
 
 ## CLA
 
