@@ -1,0 +1,19 @@
+name: stream_feeds
+description: The official Dart client for Stream Feeds, a service for building applications with activity feeds.
+version: 0.0.1
+repository: https://github.com/GetStream/stream-feeds-flutter
+publish_to: none # Delete when ready to publish
+
+environment:
+  sdk: ^3.6.2
+  flutter: ">=3.27.4"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
