@@ -15,8 +15,8 @@ dependencies:
   http: ^1.1.0
   intl: ">=0.18.1 <=0.21.0"
   meta: ^1.9.1
-  stream_core:
-    path: ../../../stream-core-flutter/packages/stream_core
+  # stream_core:
+  #   path: ../../../stream-core-flutter/packages/stream_core
 
 dev_dependencies:
   flutter_test:
