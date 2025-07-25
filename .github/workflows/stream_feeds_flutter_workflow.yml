@@ -86,4 +86,5 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
 
       - name: Build APK
+        working-directory: sample_app
         run: flutter build apk --release --verbose
