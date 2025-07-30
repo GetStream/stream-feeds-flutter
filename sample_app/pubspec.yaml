@@ -12,6 +12,8 @@ dependencies:
   cached_network_image: ^3.4.1
   flutter:
     sdk: flutter
+  flutter_state_notifier: ^1.0.0
+  get_it: ^8.0.3
   shared_preferences: ^2.5.3
   stream_feeds:
     path: ../packages/stream_feeds

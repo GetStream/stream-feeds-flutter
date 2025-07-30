@@ -103,18 +103,21 @@ Map<K, V>? mapCastOfType<K, V>(dynamic map, String key) {
 DateTime? mapDateTime(dynamic map, String key, [String? pattern]) {
   final dynamic value = map is Map ? map[key] : null;
   if (value != null) {
-    int? millis;
+    int? nanos;
     if (value is int) {
-      millis = value;
+      nanos = value;
     } else if (value is String) {
       if (_isEpochMarker(pattern)) {
-        millis = int.tryParse(value);
+        nanos = int.tryParse(value);
       } else {
         return DateTime.tryParse(value);
       }
     }
-    if (millis != null) {
-      return DateTime.fromMillisecondsSinceEpoch(millis, isUtc: true);
+    if (nanos != null) {
+      return DateTime.fromMicrosecondsSinceEpoch(
+        nanos ~/ 1000,
+        isUtc: true,
+      );
     }
   }
   return null;

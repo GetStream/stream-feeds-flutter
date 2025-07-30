@@ -14,7 +14,7 @@ analyzer:
     todo: ignore
   exclude:
     # exclude all the generated files
-    - packages/*/lib/**/*.*.dart
+    # - packages/*/lib/**/*.*.dart
 
 linter:
   rules:

@@ -40,6 +40,7 @@ class Feed {
   final FeedsClient client;
 
   final FeedsRepository _feedsRepository;
+  FeedStateNotifier get stateNotifier => _feedStateNotifier;
   late final FeedStateNotifier _feedStateNotifier;
 
   Future<Result<GetOrCreateFeedData>> getOrCreate() async {

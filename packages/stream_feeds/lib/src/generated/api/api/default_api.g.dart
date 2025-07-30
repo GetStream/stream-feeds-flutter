@@ -62,8 +62,8 @@ class DefaultApi {
   ) async {
     var path =
         r"/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/members/accept"
-            .replaceAll('{feedId}', feedId)
-            .replaceAll('{feedGroupId}', feedGroupId);
+            .replaceAll('{feed_id}', feedId)
+            .replaceAll('{feed_group_id}', feedGroupId);
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -131,7 +131,7 @@ class DefaultApi {
     AddBookmarkRequest? addBookmarkRequest,
   ) async {
     var path = r"/api/v2/feeds/activities/{activity_id}/bookmarks"
-        .replaceAll('{activityId}', activityId);
+        .replaceAll('{activity_id}', activityId);
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -177,7 +177,7 @@ class DefaultApi {
     AddCommentReactionRequest addCommentReactionRequest,
   ) async {
     var path = r"/api/v2/feeds/comments/{comment_id}/reactions"
-        .replaceAll('{commentId}', commentId);
+        .replaceAll('{comment_id}', commentId);
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -223,7 +223,7 @@ class DefaultApi {
     AddReactionRequest addReactionRequest,
   ) async {
     var path = r"/api/v2/feeds/activities/{activity_id}/reactions"
-        .replaceAll('{activityId}', activityId);
+        .replaceAll('{activity_id}', activityId);
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -248,8 +248,8 @@ class DefaultApi {
     CastPollVoteRequest? castPollVoteRequest,
   ) async {
     var path = r"/api/v2/feeds/activities/{activity_id}/polls/{poll_id}/vote"
-        .replaceAll('{activityId}', activityId)
-        .replaceAll('{pollId}', pollId);
+        .replaceAll('{activity_id}', activityId)
+        .replaceAll('{poll_id}', pollId);
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -317,7 +317,7 @@ class DefaultApi {
     bool? hardDelete,
   ) async {
     var path = r"/api/v2/feeds/activities/{activity_id}"
-        .replaceAll('{activityId}', activityId);
+        .replaceAll('{activity_id}', activityId);
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -345,7 +345,7 @@ class DefaultApi {
     String type,
   ) async {
     var path = r"/api/v2/feeds/activities/{activity_id}/reactions/{type}"
-        .replaceAll('{activityId}', activityId)
+        .replaceAll('{activity_id}', activityId)
         .replaceAll('{type}', type);
 
     final queryParams = <QueryParam>[];
@@ -370,7 +370,7 @@ class DefaultApi {
     String? folderId,
   ) async {
     var path = r"/api/v2/feeds/activities/{activity_id}/bookmarks"
-        .replaceAll('{activityId}', activityId);
+        .replaceAll('{activity_id}', activityId);
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -397,7 +397,7 @@ class DefaultApi {
     String folderId,
   ) async {
     var path = r"/api/v2/feeds/bookmark_folders/{folder_id}"
-        .replaceAll('{folderId}', folderId);
+        .replaceAll('{folder_id}', folderId);
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -420,7 +420,7 @@ class DefaultApi {
     String commentId,
   ) async {
     var path = r"/api/v2/feeds/comments/{comment_id}"
-        .replaceAll('{commentId}', commentId);
+        .replaceAll('{comment_id}', commentId);
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -444,7 +444,7 @@ class DefaultApi {
     String type,
   ) async {
     var path = r"/api/v2/feeds/comments/{comment_id}/reactions/{type}"
-        .replaceAll('{commentId}', commentId)
+        .replaceAll('{comment_id}', commentId)
         .replaceAll('{type}', type);
 
     final queryParams = <QueryParam>[];
@@ -470,8 +470,8 @@ class DefaultApi {
     bool? hardDelete,
   ) async {
     var path = r"/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}"
-        .replaceAll('{feedGroupId}', feedGroupId)
-        .replaceAll('{feedId}', feedId);
+        .replaceAll('{feed_group_id}', feedGroupId)
+        .replaceAll('{feed_id}', feedId);
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -502,9 +502,9 @@ class DefaultApi {
   ) async {
     var path =
         r"/api/v2/feeds/activities/{activity_id}/polls/{poll_id}/vote/{vote_id}"
-            .replaceAll('{activityId}', activityId)
-            .replaceAll('{pollId}', pollId)
-            .replaceAll('{voteId}', voteId);
+            .replaceAll('{activity_id}', activityId)
+            .replaceAll('{poll_id}', pollId)
+            .replaceAll('{vote_id}', voteId);
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -597,7 +597,7 @@ class DefaultApi {
     String activityId,
   ) async {
     var path = r"/api/v2/feeds/activities/{activity_id}"
-        .replaceAll('{activityId}', activityId);
+        .replaceAll('{activity_id}', activityId);
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -620,7 +620,7 @@ class DefaultApi {
     String commentId,
   ) async {
     var path = r"/api/v2/feeds/comments/{comment_id}"
-        .replaceAll('{commentId}', commentId);
+        .replaceAll('{comment_id}', commentId);
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -649,7 +649,7 @@ class DefaultApi {
     String? next,
   ) async {
     var path = r"/api/v2/feeds/comments/{comment_id}/replies"
-        .replaceAll('{commentId}', commentId);
+        .replaceAll('{comment_id}', commentId);
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -741,7 +741,7 @@ class DefaultApi {
     int? limit,
   ) async {
     var path = r"/api/v2/feeds/feed_groups/{feed_group_id}/follow_suggestions"
-        .replaceAll('{feedGroupId}', feedGroupId);
+        .replaceAll('{feed_group_id}', feedGroupId);
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -770,8 +770,8 @@ class DefaultApi {
     GetOrCreateFeedRequest? getOrCreateFeedRequest,
   ) async {
     var path = r"/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}"
-        .replaceAll('{feedGroupId}', feedGroupId)
-        .replaceAll('{feedId}', feedId);
+        .replaceAll('{feed_group_id}', feedGroupId)
+        .replaceAll('{feed_id}', feedId);
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -797,8 +797,8 @@ class DefaultApi {
   ) async {
     var path =
         r"/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/activities/mark/batch"
-            .replaceAll('{feedGroupId}', feedGroupId)
-            .replaceAll('{feedId}', feedId);
+            .replaceAll('{feed_group_id}', feedGroupId)
+            .replaceAll('{feed_id}', feedId);
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -824,9 +824,9 @@ class DefaultApi {
   ) async {
     var path =
         r"/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/activities/{activity_id}/pin"
-            .replaceAll('{feedGroupId}', feedGroupId)
-            .replaceAll('{feedId}', feedId)
-            .replaceAll('{activityId}', activityId);
+            .replaceAll('{feed_group_id}', feedGroupId)
+            .replaceAll('{feed_id}', feedId)
+            .replaceAll('{activity_id}', activityId);
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -872,7 +872,7 @@ class DefaultApi {
     QueryActivityReactionsRequest? queryActivityReactionsRequest,
   ) async {
     var path = r"/api/v2/feeds/activities/{activity_id}/reactions/query"
-        .replaceAll('{activityId}', activityId);
+        .replaceAll('{activity_id}', activityId);
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -940,7 +940,7 @@ class DefaultApi {
     QueryCommentReactionsRequest? queryCommentReactionsRequest,
   ) async {
     var path = r"/api/v2/feeds/comments/{comment_id}/reactions/query"
-        .replaceAll('{commentId}', commentId);
+        .replaceAll('{comment_id}', commentId);
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -988,8 +988,8 @@ class DefaultApi {
   ) async {
     var path =
         r"/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/members/query"
-            .replaceAll('{feedGroupId}', feedGroupId)
-            .replaceAll('{feedId}', feedId);
+            .replaceAll('{feed_group_id}', feedGroupId)
+            .replaceAll('{feed_id}', feedId);
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -1036,8 +1036,8 @@ class DefaultApi {
   ) async {
     var path =
         r"/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/members/reject"
-            .replaceAll('{feedGroupId}', feedGroupId)
-            .replaceAll('{feedId}', feedId);
+            .replaceAll('{feed_group_id}', feedGroupId)
+            .replaceAll('{feed_id}', feedId);
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -1084,8 +1084,8 @@ class DefaultApi {
   ) async {
     var path =
         r"/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/watch"
-            .replaceAll('{feedGroupId}', feedGroupId)
-            .replaceAll('{feedId}', feedId);
+            .replaceAll('{feed_group_id}', feedGroupId)
+            .replaceAll('{feed_id}', feedId);
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -1136,9 +1136,9 @@ class DefaultApi {
   ) async {
     var path =
         r"/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/activities/{activity_id}/pin"
-            .replaceAll('{feedGroupId}', feedGroupId)
-            .replaceAll('{feedId}', feedId)
-            .replaceAll('{activityId}', activityId);
+            .replaceAll('{feed_group_id}', feedGroupId)
+            .replaceAll('{feed_id}', feedId)
+            .replaceAll('{activity_id}', activityId);
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -1162,7 +1162,7 @@ class DefaultApi {
     UpdateActivityRequest? updateActivityRequest,
   ) async {
     var path = r"/api/v2/feeds/activities/{activity_id}"
-        .replaceAll('{activityId}', activityId);
+        .replaceAll('{activity_id}', activityId);
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -1186,7 +1186,7 @@ class DefaultApi {
     UpdateActivityPartialRequest? updateActivityPartialRequest,
   ) async {
     var path = r"/api/v2/feeds/activities/{activity_id}"
-        .replaceAll('{activityId}', activityId);
+        .replaceAll('{activity_id}', activityId);
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -1210,7 +1210,7 @@ class DefaultApi {
     UpdateBookmarkRequest? updateBookmarkRequest,
   ) async {
     var path = r"/api/v2/feeds/activities/{activity_id}/bookmarks"
-        .replaceAll('{activityId}', activityId);
+        .replaceAll('{activity_id}', activityId);
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -1234,7 +1234,7 @@ class DefaultApi {
     UpdateBookmarkFolderRequest? updateBookmarkFolderRequest,
   ) async {
     var path = r"/api/v2/feeds/bookmark_folders/{folder_id}"
-        .replaceAll('{folderId}', folderId);
+        .replaceAll('{folder_id}', folderId);
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -1258,7 +1258,7 @@ class DefaultApi {
     UpdateCommentRequest? updateCommentRequest,
   ) async {
     var path = r"/api/v2/feeds/comments/{comment_id}"
-        .replaceAll('{commentId}', commentId);
+        .replaceAll('{comment_id}', commentId);
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -1283,8 +1283,8 @@ class DefaultApi {
     UpdateFeedRequest? updateFeedRequest,
   ) async {
     var path = r"/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}"
-        .replaceAll('{feedGroupId}', feedGroupId)
-        .replaceAll('{feedId}', feedId);
+        .replaceAll('{feed_group_id}', feedGroupId)
+        .replaceAll('{feed_id}', feedId);
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -1310,8 +1310,8 @@ class DefaultApi {
   ) async {
     var path =
         r"/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/members"
-            .replaceAll('{feedGroupId}', feedGroupId)
-            .replaceAll('{feedId}', feedId);
+            .replaceAll('{feed_group_id}', feedGroupId)
+            .replaceAll('{feed_id}', feedId);
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};

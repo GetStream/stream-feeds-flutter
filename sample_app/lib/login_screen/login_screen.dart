@@ -1,17 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
+import '../navigation/app_state.dart';
 import 'user_credentials.dart';
 
 @RoutePage()
 class LoginScreen extends StatefulWidget {
   const LoginScreen({
     super.key,
-    required this.onResult,
   });
-
-  final void Function(bool result) onResult;
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -31,7 +30,14 @@ class _LoginScreenState extends State<LoginScreen> {
           ...UserCredentials.builtIn
               .map(
                 (credentials) => [
-                  _LoginUserListItem(credentials),
+                  _LoginUserListItem(
+                    credentials,
+                    onTap: () {
+                      GetIt.instance
+                          .get<AppStateProvider>()
+                          .setUser(credentials);
+                    },
+                  ),
                   const Divider(),
                 ],
               )
@@ -43,13 +49,15 @@ class _LoginScreenState extends State<LoginScreen> {
 }
 
 class _LoginUserListItem extends StatelessWidget {
-  const _LoginUserListItem(this.credentials);
+  const _LoginUserListItem(this.credentials, {required this.onTap});
 
   final UserCredentials credentials;
+  final GestureTapCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: onTap,
       leading: CircleAvatar(
         backgroundImage: switch (credentials.user.imageUrl) {
           final String imageUrl => CachedNetworkImageProvider(imageUrl),
