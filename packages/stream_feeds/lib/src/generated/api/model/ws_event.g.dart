@@ -90,12 +90,6 @@ sealed class WSEvent {
         return WSEventPollVoteRemovedFeedEvent.fromJson(json);
       case "health.check":
         return WSEventHealthCheckEvent.fromJson(json);
-      case "moderation.custom_action":
-        return WSEventModerationCustomActionEvent.fromJson(json);
-      case "moderation.flagged":
-        return WSEventModerationFlaggedEvent.fromJson(json);
-      case "moderation.mark_reviewed":
-        return WSEventModerationMarkReviewedEvent.fromJson(json);
       case "user.banned":
         return WSEventUserBannedEvent.fromJson(json);
       case "user.deactivated":
@@ -544,41 +538,6 @@ class WSEventHealthCheckEvent extends WSEvent {
   }
 
   final HealthCheckEvent healthCheckEvent;
-}
-
-class WSEventModerationCustomActionEvent extends WSEvent {
-  const WSEventModerationCustomActionEvent(this.moderationCustomActionEvent);
-
-  factory WSEventModerationCustomActionEvent.fromJson(
-      Map<String, dynamic> json) {
-    return WSEventModerationCustomActionEvent(
-        ModerationCustomActionEvent.fromJson(json)!);
-  }
-
-  final ModerationCustomActionEvent moderationCustomActionEvent;
-}
-
-class WSEventModerationFlaggedEvent extends WSEvent {
-  const WSEventModerationFlaggedEvent(this.moderationFlaggedEvent);
-
-  factory WSEventModerationFlaggedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventModerationFlaggedEvent(
-        ModerationFlaggedEvent.fromJson(json)!);
-  }
-
-  final ModerationFlaggedEvent moderationFlaggedEvent;
-}
-
-class WSEventModerationMarkReviewedEvent extends WSEvent {
-  const WSEventModerationMarkReviewedEvent(this.moderationMarkReviewedEvent);
-
-  factory WSEventModerationMarkReviewedEvent.fromJson(
-      Map<String, dynamic> json) {
-    return WSEventModerationMarkReviewedEvent(
-        ModerationMarkReviewedEvent.fromJson(json)!);
-  }
-
-  final ModerationMarkReviewedEvent moderationMarkReviewedEvent;
 }
 
 class WSEventUserBannedEvent extends WSEvent {

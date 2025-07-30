@@ -1,10 +1,17 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'user_credentials.dart';
 
+@RoutePage()
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({
+    super.key,
+    required this.onResult,
+  });
+
+  final void Function(bool result) onResult;
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();

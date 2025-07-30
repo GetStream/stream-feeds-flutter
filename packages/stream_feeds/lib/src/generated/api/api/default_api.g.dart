@@ -242,50 +242,6 @@ class DefaultApi {
     );
   }
 
-  Future<BanResponse?> ban(
-    BanRequest banRequest,
-  ) async {
-    const path = r"/api/v2/moderation/ban";
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    return invokeAPI(
-      path,
-      'POST',
-      queryParams,
-      banRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'BanResponse',
-    );
-  }
-
-  Future<BlockUsersResponse?> blockUsers(
-    BlockUsersRequest blockUsersRequest,
-  ) async {
-    const path = r"/api/v2/users/block";
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    return invokeAPI(
-      path,
-      'POST',
-      queryParams,
-      blockUsersRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'BlockUsersResponse',
-    );
-  }
-
   Future<PollVoteResponse?> castPollVote(
     String activityId,
     String pollId,
@@ -312,50 +268,6 @@ class DefaultApi {
     );
   }
 
-  Future<CreateBlockListResponse?> createBlockList(
-    CreateBlockListRequest createBlockListRequest,
-  ) async {
-    const path = r"/api/v2/blocklists";
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    return invokeAPI(
-      path,
-      'POST',
-      queryParams,
-      createBlockListRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'CreateBlockListResponse',
-    );
-  }
-
-  Future<Response?> createDevice(
-    CreateDeviceRequest createDeviceRequest,
-  ) async {
-    const path = r"/api/v2/devices";
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    return invokeAPI(
-      path,
-      'POST',
-      queryParams,
-      createDeviceRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'Response',
-    );
-  }
-
   Future<CreateFeedsBatchResponse?> createFeedsBatch(
     CreateFeedsBatchRequest createFeedsBatchRequest,
   ) async {
@@ -375,74 +287,6 @@ class DefaultApi {
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
       'CreateFeedsBatchResponse',
-    );
-  }
-
-  Future<CreateGuestResponse?> createGuest(
-    CreateGuestRequest createGuestRequest,
-  ) async {
-    const path = r"/api/v2/guest";
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    return invokeAPI(
-      path,
-      'POST',
-      queryParams,
-      createGuestRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'CreateGuestResponse',
-    );
-  }
-
-  Future<PollResponse?> createPoll(
-    CreatePollRequest createPollRequest,
-  ) async {
-    const path = r"/api/v2/polls";
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    return invokeAPI(
-      path,
-      'POST',
-      queryParams,
-      createPollRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'PollResponse',
-    );
-  }
-
-  Future<PollOptionResponse?> createPollOption(
-    String pollId,
-    CreatePollOptionRequest createPollOptionRequest,
-  ) async {
-    var path =
-        r"/api/v2/polls/{poll_id}/options".replaceAll('{pollId}', pollId);
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    return invokeAPI(
-      path,
-      'POST',
-      queryParams,
-      createPollOptionRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'PollOptionResponse',
     );
   }
 
@@ -518,33 +362,6 @@ class DefaultApi {
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
       'DeleteActivityReactionResponse',
-    );
-  }
-
-  Future<Response?> deleteBlockList(
-    String name,
-    String? team,
-  ) async {
-    var path = r"/api/v2/blocklists/{name}".replaceAll('{name}', name);
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    if (team != null) {
-      queryParams.addAll(_queryParams('', 'team', team));
-    }
-
-    return invokeAPI(
-      path,
-      'DELETE',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'Response',
     );
   }
 
@@ -647,56 +464,6 @@ class DefaultApi {
     );
   }
 
-  Future<DeleteModerationConfigResponse?> deleteConfig(
-    String key,
-    String? team,
-  ) async {
-    var path = r"/api/v2/moderation/config/{key}".replaceAll('{key}', key);
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    if (team != null) {
-      queryParams.addAll(_queryParams('', 'team', team));
-    }
-
-    return invokeAPI(
-      path,
-      'DELETE',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'DeleteModerationConfigResponse',
-    );
-  }
-
-  Future<Response?> deleteDevice(
-    String id,
-  ) async {
-    const path = r"/api/v2/devices";
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-    queryParams.addAll(_queryParams('', 'id', id));
-
-    return invokeAPI(
-      path,
-      'DELETE',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'Response',
-    );
-  }
-
   Future<DeleteFeedResponse?> deleteFeed(
     String feedGroupId,
     String feedId,
@@ -724,115 +491,6 @@ class DefaultApi {
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
       'DeleteFeedResponse',
-    );
-  }
-
-  Future<Response?> deleteFile(
-    String? url,
-  ) async {
-    const path = r"/api/v2/uploads/file";
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    if (url != null) {
-      queryParams.addAll(_queryParams('', 'url', url));
-    }
-
-    return invokeAPI(
-      path,
-      'DELETE',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'Response',
-    );
-  }
-
-  Future<Response?> deleteImage(
-    String? url,
-  ) async {
-    const path = r"/api/v2/uploads/image";
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    if (url != null) {
-      queryParams.addAll(_queryParams('', 'url', url));
-    }
-
-    return invokeAPI(
-      path,
-      'DELETE',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'Response',
-    );
-  }
-
-  Future<Response?> deletePoll(
-    String pollId,
-    String? userId,
-  ) async {
-    var path = r"/api/v2/polls/{poll_id}".replaceAll('{pollId}', pollId);
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    if (userId != null) {
-      queryParams.addAll(_queryParams('', 'user_id', userId));
-    }
-
-    return invokeAPI(
-      path,
-      'DELETE',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'Response',
-    );
-  }
-
-  Future<Response?> deletePollOption(
-    String pollId,
-    String optionId,
-    String? userId,
-  ) async {
-    var path = r"/api/v2/polls/{poll_id}/options/{option_id}"
-        .replaceAll('{pollId}', pollId)
-        .replaceAll('{optionId}', optionId);
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    if (userId != null) {
-      queryParams.addAll(_queryParams('', 'user_id', userId));
-    }
-
-    return invokeAPI(
-      path,
-      'DELETE',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'Response',
     );
   }
 
@@ -888,28 +546,6 @@ class DefaultApi {
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
       'QueryFeedsResponse',
-    );
-  }
-
-  Future<FlagResponse?> flag(
-    FlagRequest flagRequest,
-  ) async {
-    const path = r"/api/v2/moderation/flag";
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    return invokeAPI(
-      path,
-      'POST',
-      queryParams,
-      flagRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'FlagResponse',
     );
   }
 
@@ -977,46 +613,6 @@ class DefaultApi {
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
       'GetActivityResponse',
-    );
-  }
-
-  Future<GetApplicationResponse?> getApp() async {
-    const path = r"/api/v2/app";
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    return invokeAPI(
-      path,
-      'GET',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'GetApplicationResponse',
-    );
-  }
-
-  Future<GetBlockedUsersResponse?> getBlockedUsers() async {
-    const path = r"/api/v2/users/block";
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    return invokeAPI(
-      path,
-      'GET',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'GetBlockedUsersResponse',
     );
   }
 
@@ -1140,33 +736,6 @@ class DefaultApi {
     );
   }
 
-  Future<GetConfigResponse?> getConfig(
-    String key,
-    String? team,
-  ) async {
-    var path = r"/api/v2/moderation/config/{key}".replaceAll('{key}', key);
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    if (team != null) {
-      queryParams.addAll(_queryParams('', 'team', team));
-    }
-
-    return invokeAPI(
-      path,
-      'GET',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'GetConfigResponse',
-    );
-  }
-
   Future<GetFollowSuggestionsResponse?> getFollowSuggestions(
     String feedGroupId,
     int? limit,
@@ -1192,29 +761,6 @@ class DefaultApi {
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
       'GetFollowSuggestionsResponse',
-    );
-  }
-
-  Future<GetOGResponse?> getOG(
-    String url,
-  ) async {
-    const path = r"/api/v2/og";
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-    queryParams.addAll(_queryParams('', 'url', url));
-
-    return invokeAPI(
-      path,
-      'GET',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'GetOGResponse',
     );
   }
 
@@ -1244,156 +790,7 @@ class DefaultApi {
     );
   }
 
-  Future<PollResponse?> getPoll(
-    String pollId,
-    String? userId,
-  ) async {
-    var path = r"/api/v2/polls/{poll_id}".replaceAll('{pollId}', pollId);
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    if (userId != null) {
-      queryParams.addAll(_queryParams('', 'user_id', userId));
-    }
-
-    return invokeAPI(
-      path,
-      'GET',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'PollResponse',
-    );
-  }
-
-  Future<PollOptionResponse?> getPollOption(
-    String pollId,
-    String optionId,
-    String? userId,
-  ) async {
-    var path = r"/api/v2/polls/{poll_id}/options/{option_id}"
-        .replaceAll('{pollId}', pollId)
-        .replaceAll('{optionId}', optionId);
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    if (userId != null) {
-      queryParams.addAll(_queryParams('', 'user_id', userId));
-    }
-
-    return invokeAPI(
-      path,
-      'GET',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'PollOptionResponse',
-    );
-  }
-
-  Future<SharedLocationsResponse?> getUserLiveLocations() async {
-    const path = r"/api/v2/users/live_locations";
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    return invokeAPI(
-      path,
-      'GET',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'SharedLocationsResponse',
-    );
-  }
-
-  Future<ListBlockListResponse?> listBlockLists(
-    String? team,
-  ) async {
-    const path = r"/api/v2/blocklists";
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    if (team != null) {
-      queryParams.addAll(_queryParams('', 'team', team));
-    }
-
-    return invokeAPI(
-      path,
-      'GET',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'ListBlockListResponse',
-    );
-  }
-
-  Future<ListDevicesResponse?> listDevices() async {
-    const path = r"/api/v2/devices";
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    return invokeAPI(
-      path,
-      'GET',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'ListDevicesResponse',
-    );
-  }
-
-  Future<void> longPoll(
-    WSAuthMessage? json,
-  ) async {
-    const path = r"/api/v2/longpoll";
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    if (json != null) {
-      queryParams.addAll(_queryParams('', 'json', json));
-    }
-
-    return invokeAPI(
-      path,
-      'GET',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'void',
-    );
-  }
-
-  Future<Response?> markActivity(
+  Future<DurationResponse?> markActivity(
     String feedGroupId,
     String feedId,
     MarkActivityRequest? markActivityRequest,
@@ -1416,29 +813,7 @@ class DefaultApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      'Response',
-    );
-  }
-
-  Future<MuteResponse?> mute(
-    MuteRequest muteRequest,
-  ) async {
-    const path = r"/api/v2/moderation/mute";
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    return invokeAPI(
-      path,
-      'POST',
-      queryParams,
-      muteRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'MuteResponse',
+      'DurationResponse',
     );
   }
 
@@ -1655,131 +1030,6 @@ class DefaultApi {
     );
   }
 
-  Future<QueryModerationConfigsResponse?> queryModerationConfigs(
-    QueryModerationConfigsRequest? queryModerationConfigsRequest,
-  ) async {
-    const path = r"/api/v2/moderation/configs";
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    return invokeAPI(
-      path,
-      'POST',
-      queryParams,
-      queryModerationConfigsRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'QueryModerationConfigsResponse',
-    );
-  }
-
-  Future<PollVotesResponse?> queryPollVotes(
-    String pollId,
-    String? userId,
-    QueryPollVotesRequest? queryPollVotesRequest,
-  ) async {
-    var path = r"/api/v2/polls/{poll_id}/votes".replaceAll('{pollId}', pollId);
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    if (userId != null) {
-      queryParams.addAll(_queryParams('', 'user_id', userId));
-    }
-
-    return invokeAPI(
-      path,
-      'POST',
-      queryParams,
-      queryPollVotesRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'PollVotesResponse',
-    );
-  }
-
-  Future<QueryPollsResponse?> queryPolls(
-    String? userId,
-    QueryPollsRequest? queryPollsRequest,
-  ) async {
-    const path = r"/api/v2/polls/query";
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    if (userId != null) {
-      queryParams.addAll(_queryParams('', 'user_id', userId));
-    }
-
-    return invokeAPI(
-      path,
-      'POST',
-      queryParams,
-      queryPollsRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'QueryPollsResponse',
-    );
-  }
-
-  Future<QueryReviewQueueResponse?> queryReviewQueue(
-    QueryReviewQueueRequest? queryReviewQueueRequest,
-  ) async {
-    const path = r"/api/v2/moderation/review_queue";
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    return invokeAPI(
-      path,
-      'POST',
-      queryParams,
-      queryReviewQueueRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'QueryReviewQueueResponse',
-    );
-  }
-
-  Future<QueryUsersResponse?> queryUsers(
-    QueryUsersPayload? payload,
-  ) async {
-    const path = r"/api/v2/users";
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    if (payload != null) {
-      queryParams.addAll(_queryParams('', 'payload', payload));
-    }
-
-    return invokeAPI(
-      path,
-      'GET',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'QueryUsersResponse',
-    );
-  }
-
   Future<RejectFeedMemberInviteResponse?> rejectFeedMemberInvite(
     String feedGroupId,
     String feedId,
@@ -1828,7 +1078,7 @@ class DefaultApi {
     );
   }
 
-  Future<Response?> stopWatchingFeed(
+  Future<DurationResponse?> stopWatchingFeed(
     String feedGroupId,
     String feedId,
   ) async {
@@ -1850,51 +1100,7 @@ class DefaultApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      'Response',
-    );
-  }
-
-  Future<SubmitActionResponse?> submitAction(
-    SubmitActionRequest submitActionRequest,
-  ) async {
-    const path = r"/api/v2/moderation/submit_action";
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    return invokeAPI(
-      path,
-      'POST',
-      queryParams,
-      submitActionRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'SubmitActionResponse',
-    );
-  }
-
-  Future<UnblockUsersResponse?> unblockUsers(
-    UnblockUsersRequest unblockUsersRequest,
-  ) async {
-    const path = r"/api/v2/users/unblock";
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    return invokeAPI(
-      path,
-      'POST',
-      queryParams,
-      unblockUsersRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'UnblockUsersResponse',
+      'DurationResponse',
     );
   }
 
@@ -1996,29 +1202,6 @@ class DefaultApi {
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
       'UpdateActivityPartialResponse',
-    );
-  }
-
-  Future<UpdateBlockListResponse?> updateBlockList(
-    String name,
-    UpdateBlockListRequest? updateBlockListRequest,
-  ) async {
-    var path = r"/api/v2/blocklists/{name}".replaceAll('{name}', name);
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    return invokeAPI(
-      path,
-      'PUT',
-      queryParams,
-      updateBlockListRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'UpdateBlockListResponse',
     );
   }
 
@@ -2169,185 +1352,6 @@ class DefaultApi {
     );
   }
 
-  Future<SharedLocationResponse?> updateLiveLocation(
-    UpdateLiveLocationRequest updateLiveLocationRequest,
-  ) async {
-    const path = r"/api/v2/users/live_locations";
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    return invokeAPI(
-      path,
-      'PUT',
-      queryParams,
-      updateLiveLocationRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'SharedLocationResponse',
-    );
-  }
-
-  Future<PollResponse?> updatePoll(
-    UpdatePollRequest updatePollRequest,
-  ) async {
-    const path = r"/api/v2/polls";
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    return invokeAPI(
-      path,
-      'PUT',
-      queryParams,
-      updatePollRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'PollResponse',
-    );
-  }
-
-  Future<PollOptionResponse?> updatePollOption(
-    String pollId,
-    UpdatePollOptionRequest updatePollOptionRequest,
-  ) async {
-    var path =
-        r"/api/v2/polls/{poll_id}/options".replaceAll('{pollId}', pollId);
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    return invokeAPI(
-      path,
-      'PUT',
-      queryParams,
-      updatePollOptionRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'PollOptionResponse',
-    );
-  }
-
-  Future<PollResponse?> updatePollPartial(
-    String pollId,
-    UpdatePollPartialRequest? updatePollPartialRequest,
-  ) async {
-    var path = r"/api/v2/polls/{poll_id}".replaceAll('{pollId}', pollId);
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    return invokeAPI(
-      path,
-      'PATCH',
-      queryParams,
-      updatePollPartialRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'PollResponse',
-    );
-  }
-
-  Future<UpdateUsersResponse?> updateUsers(
-    UpdateUsersRequest updateUsersRequest,
-  ) async {
-    const path = r"/api/v2/users";
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    return invokeAPI(
-      path,
-      'POST',
-      queryParams,
-      updateUsersRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'UpdateUsersResponse',
-    );
-  }
-
-  Future<UpdateUsersResponse?> updateUsersPartial(
-    UpdateUsersPartialRequest updateUsersPartialRequest,
-  ) async {
-    const path = r"/api/v2/users";
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    return invokeAPI(
-      path,
-      'PATCH',
-      queryParams,
-      updateUsersPartialRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'UpdateUsersResponse',
-    );
-  }
-
-  Future<FileUploadResponse?> uploadFile(
-    FileUploadRequest? fileUploadRequest,
-  ) async {
-    const path = r"/api/v2/uploads/file";
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    return invokeAPI(
-      path,
-      'POST',
-      queryParams,
-      fileUploadRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'FileUploadResponse',
-    );
-  }
-
-  Future<ImageUploadResponse?> uploadImage(
-    ImageUploadRequest? imageUploadRequest,
-  ) async {
-    const path = r"/api/v2/uploads/image";
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    return invokeAPI(
-      path,
-      'POST',
-      queryParams,
-      imageUploadRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'ImageUploadResponse',
-    );
-  }
-
   Future<UpsertActivitiesResponse?> upsertActivities(
     UpsertActivitiesRequest upsertActivitiesRequest,
   ) async {
@@ -2367,28 +1371,6 @@ class DefaultApi {
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
       'UpsertActivitiesResponse',
-    );
-  }
-
-  Future<UpsertConfigResponse?> upsertConfig(
-    UpsertConfigRequest upsertConfigRequest,
-  ) async {
-    const path = r"/api/v2/moderation/config";
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-
-    return invokeAPI(
-      path,
-      'POST',
-      queryParams,
-      upsertConfigRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'UpsertConfigResponse',
     );
   }
 }

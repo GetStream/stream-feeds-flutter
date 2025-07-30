@@ -12,9 +12,13 @@ fi
 set -ex
 
 # remove old generated code
-rm -rf ./packages/stream_feeds/lib/generated/api/model/*
+rm -rf ./packages/stream_feeds/lib/src/generated/api/model/*
 
 # cd in API repo, generate new spec and then generate code from it
-( cd $CHAT_DIR ; make openapi ; go run ./cmd/chat-manager openapi generate-client --language dart --spec ./releases/v2/feeds-clientside-api.yaml --output $OUTPUT_DIR_FEEDS )
+(
+  cd $CHAT_DIR &&
+  go run ./cmd/chat-manager openapi generate-spec -products feeds -version v2 -clientside -output releases/v2/feeds-clientside-api -renamed-models ../stream-feeds-flutter/scripts/renamed-models.json &&
+  go run ./cmd/chat-manager openapi generate-client --language dart --spec ./releases/v2/feeds-clientside-api.yaml --output ../stream-feeds-flutter/packages/stream_feeds/lib/src/generated/api/
+)
 
 melos format

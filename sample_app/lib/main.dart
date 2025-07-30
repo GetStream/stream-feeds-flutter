@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'login_screen/login_screen.dart';
+import 'navigation/app_router.dart';
 import 'widgets/theme.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final prefs = await SharedPreferences.getInstance();
+  runApp(MyApp(prefs: prefs));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key, required this.prefs});
+
+  final SharedPreferences prefs;
+  late final AppRouter _router = AppRouter(prefs: prefs);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Flutter Demo',
       theme: FeedsSampleThemeData.light,
-      home: const LoginScreen(),
+      routerConfig: _router.config(),
     );
   }
 }

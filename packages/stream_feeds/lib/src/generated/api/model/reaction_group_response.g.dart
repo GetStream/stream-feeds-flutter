@@ -16,7 +16,6 @@ class ReactionGroupResponse {
     required this.count,
     required this.firstReactionAt,
     required this.lastReactionAt,
-    required this.sumScores,
   });
 
   final int count;
@@ -25,14 +24,11 @@ class ReactionGroupResponse {
 
   final DateTime lastReactionAt;
 
-  final int sumScores;
-
   Map<String, dynamic> toJson() {
     return {
       'count': count,
       'first_reaction_at': firstReactionAt,
       'last_reaction_at': lastReactionAt,
-      'sum_scores': sumScores,
     };
   }
 
@@ -44,7 +40,6 @@ class ReactionGroupResponse {
         count: mapValueOfType<int>(json, r'count')!,
         firstReactionAt: mapValueOfType<DateTime>(json, r'first_reaction_at')!,
         lastReactionAt: mapValueOfType<DateTime>(json, r'last_reaction_at')!,
-        sumScores: mapValueOfType<int>(json, r'sum_scores')!,
       );
     }
     return null;
@@ -72,7 +67,6 @@ class ReactionGroupResponse {
         'count: $count, '
         'firstReactionAt: $firstReactionAt, '
         'lastReactionAt: $lastReactionAt, '
-        'sumScores: $sumScores, '
         ')';
   }
 
@@ -82,8 +76,7 @@ class ReactionGroupResponse {
     return other is ReactionGroupResponse &&
         other.count == count &&
         other.firstReactionAt == firstReactionAt &&
-        other.lastReactionAt == lastReactionAt &&
-        other.sumScores == sumScores;
+        other.lastReactionAt == lastReactionAt;
   }
 
   @override
@@ -92,7 +85,6 @@ class ReactionGroupResponse {
       count,
       firstReactionAt,
       lastReactionAt,
-      sumScores,
     ]);
   }
 }
