@@ -96,6 +96,15 @@ T? mapValueOfType<T>(dynamic map, String key, [T? defaultValue]) {
 /// Returns a valid Map<K, V> found at the specified Map [key], null otherwise.
 Map<K, V>? mapCastOfType<K, V>(dynamic map, String key) {
   final dynamic value = map is Map ? map[key] : null;
+  if (value is! Map) {
+    return null;
+  }
+  // TODO: use json_serializable for json mapping
+  if (V == ReactionGroupResponse) {
+    return value.map(
+      (key, value) => MapEntry(key, ReactionGroupResponse.fromJson(value) as V),
+    );
+  }
   return value is Map ? value.cast<K, V>() : null;
 }
 

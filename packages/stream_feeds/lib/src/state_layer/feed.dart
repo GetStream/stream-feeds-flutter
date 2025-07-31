@@ -30,6 +30,7 @@ class Feed {
     required this.client,
   }) : _feedsRepository = client.feedsRepository {
     _feedStateNotifier = FeedStateNotifier(
+      client: client,
       fid: query.fid,
       query: query,
       currentUserId: client.user.id,

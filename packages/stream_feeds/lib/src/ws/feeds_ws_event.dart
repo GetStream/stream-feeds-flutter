@@ -15,6 +15,7 @@ class FeedsWsEvent extends core.WsEvent {
     try {
       final json = jsonDecode(message.toString()) as Map<String, dynamic>;
       final type = json['type'];
+      // TODO move generic connection events to core library.
       switch (type) {
         case "connection.ok":
           return core.HealthCheckPongEvent(

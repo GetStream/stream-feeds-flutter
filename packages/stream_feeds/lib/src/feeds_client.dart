@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:rxdart/rxdart.dart';
 import 'package:stream_core/stream_core.dart';
 import 'package:uuid/uuid.dart';
 
@@ -59,6 +60,8 @@ class FeedsClient {
   static final endpointConfig = EndpointConfig.production;
   late final WebSocketClient webSocketClient;
   ConnectionRecoveryHandler? connectionRecoveryHandler;
+  Stream<FeedsWsEvent> get feedsEvents =>
+      webSocketClient.events.asStream().whereType<FeedsWsEvent>();
 
   Completer<void>? _connectionCompleter;
   StreamSubscription<WebSocketConnectionState>? _connectionSubscription;
