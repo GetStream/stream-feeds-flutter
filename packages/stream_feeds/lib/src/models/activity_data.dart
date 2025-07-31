@@ -45,20 +45,20 @@ class ActivityData implements Identifiable {
     final newLatestReactions = [...latestReactions];
     final newReactionGroups =
         Map<String, ReactionGroupData>.from(reactionGroups);
-    var newOwnReactions = ownReactions;
+    var newOwnReactions = [...ownReactions];
 
     reaction.updateByAdding(
-      to: [...latestReactions],
+      to: newLatestReactions,
       reactionGroups: newReactionGroups,
     );
     if (reaction.user.id == currentUserId) {
-      newOwnReactions = ownReactions.insertById(reaction);
+      newOwnReactions = newOwnReactions.insertById(reaction);
     }
 
     return copyWith(
-      reactionCount: reactionCount + 1,
+      reactionCount: newLatestReactions.length,
       latestReactions: List.unmodifiable(newLatestReactions),
-      ownReactions: newOwnReactions,
+      ownReactions: List.unmodifiable(newOwnReactions),
       reactionGroups: Map.unmodifiable(newReactionGroups),
     );
   }
@@ -68,20 +68,20 @@ class ActivityData implements Identifiable {
     final newLatestReactions = [...latestReactions];
     final newReactionGroups =
         Map<String, ReactionGroupData>.from(reactionGroups);
-    var newOwnReactions = ownReactions;
+    var newOwnReactions = [...ownReactions];
 
     reaction.updateByRemoving(
-      to: [...latestReactions],
+      to: newLatestReactions,
       reactionGroups: newReactionGroups,
     );
     if (reaction.user.id == currentUserId) {
-      newOwnReactions = ownReactions.removeById(reaction);
+      newOwnReactions = newOwnReactions.removeById(reaction);
     }
 
     return copyWith(
-      reactionCount: reactionCount - 1,
+      reactionCount: newLatestReactions.length,
       latestReactions: List.unmodifiable(newLatestReactions),
-      ownReactions: newOwnReactions,
+      ownReactions: List.unmodifiable(newOwnReactions),
       reactionGroups: Map.unmodifiable(newReactionGroups),
     );
   }
