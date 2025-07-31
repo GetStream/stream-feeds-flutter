@@ -21,4 +21,7 @@ rm -rf ./packages/stream_feeds/lib/src/generated/api/model/*
   go run ./cmd/chat-manager openapi generate-client --language dart --spec ./releases/v2/feeds-clientside-api.yaml --output ../stream-feeds-flutter/packages/stream_feeds/lib/src/generated/api/
 )
 
+melos clean
+melos bs
+melos generate:all
 melos format

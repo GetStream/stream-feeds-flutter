@@ -1,8 +1,7 @@
 // ignore_for_file: public_member_api_docs, use_string_in_part_of_directives, prefer_single_quotes, require_trailing_commas
 
-part of openapi.api;
+import '../models.dart';
 
-@immutable
 sealed class WSClientEvent {
   const WSClientEvent();
 
