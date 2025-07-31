@@ -9,7 +9,7 @@ class FeedQuery {
   FeedQuery({
     required String group,
     required String id,
-    this.watch = false,
+    this.watch = true,
   }) : fid = FeedId(group: group, id: id);
 
   /// The unique identifier for the feed.

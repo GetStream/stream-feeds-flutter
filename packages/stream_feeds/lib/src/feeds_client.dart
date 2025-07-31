@@ -1,9 +1,13 @@
-import 'package:stream_core/src/user/user.dart';
+import 'dart:async';
+
+import 'package:stream_core/stream_core.dart';
 import 'package:uuid/uuid.dart';
 
 import '../stream_feeds.dart';
 import 'generated/api/api.g.dart' as api;
 import 'repositories.dart';
+import 'utils/endpoint_config.dart';
+import 'ws/feeds_ws_event.dart';
 
 class FeedsClient {
   FeedsClient({
@@ -12,17 +16,33 @@ class FeedsClient {
     required this.userToken,
     this.config = const FeedsConfig(),
     this.userTokenProvider,
+    this.networkMonitor,
   }) {
     apiClient = api.DefaultApi(
       api.ApiClient(
+        basePath: endpointConfig.baseFeedsUrl,
         authentication: _Authentication(
           apiKey: apiKey,
           user: user,
           getToken: () async => userToken,
-          getConnectionId: () => null,
+          getConnectionId: () => webSocketClient?.connectionId,
         ),
       ),
     );
+    final websocketUri = Uri.parse(endpointConfig.wsEndpoint).replace(
+      queryParameters: <String, String>{
+        'api_key': apiKey,
+        'stream-auth-type': 'jwt',
+        'X-Stream-Client': 'stream-feeds-dart',
+      },
+    );
+
+    webSocketClient = WebSocketClient(
+      url: websocketUri.toString(),
+      eventDecoder: FeedsWsEvent.fromEventObject,
+      onConnectionEstablished: _authenticate,
+    );
+
     feedsRepository = FeedsRepository(apiClient: apiClient);
   }
 
@@ -31,9 +51,73 @@ class FeedsClient {
   final String userToken;
   final FeedsConfig config;
   final UserTokenProvider? userTokenProvider;
+  final NetworkMonitor? networkMonitor;
 
   late final api.DefaultApi apiClient;
   late final FeedsRepository feedsRepository;
+
+  static final endpointConfig = EndpointConfig.production;
+  late final WebSocketClient webSocketClient;
+  ConnectionRecoveryHandler? connectionRecoveryHandler;
+
+  Completer<void>? _connectionCompleter;
+  StreamSubscription<WebSocketConnectionState>? _connectionSubscription;
+
+  /// Connects to the feeds websocket.
+  /// Future will complete when the connection is established and the user is authenticated.
+  /// If the authentication fails, the future will complete with an error.
+  Future<void> connect() async {
+    webSocketClient.connect();
+
+    _connectionSubscription = webSocketClient!.connectionStateStream
+        .listen(_onConnectionStateChanged);
+
+    connectionRecoveryHandler = DefaultConnectionRecoveryHandler(
+      client: webSocketClient,
+      networkMonitor: networkMonitor,
+    );
+
+    _connectionCompleter = Completer<void>();
+    return _connectionCompleter!.future;
+  }
+
+  /// Disconnects from the feeds websocket.
+  /// The FeedsClient should no longer be used after calling this method.
+  void disconnect() {
+    connectionRecoveryHandler?.dispose();
+    webSocketClient.disconnect();
+    _connectionSubscription?.cancel();
+    _connectionCompleter?.complete();
+    _connectionCompleter = null;
+  }
+
+  void _onConnectionStateChanged(WebSocketConnectionState state) {
+    if (_connectionCompleter != null) {
+      if (state is Connected) {
+        _connectionCompleter!.complete();
+        _connectionCompleter = null;
+      }
+      if (state is Disconnected) {
+        _connectionCompleter!.completeError(Exception('Connection failed'));
+        _connectionCompleter = null;
+      }
+    }
+  }
+
+  void _authenticate() {
+    final connectUserRequest = WsAuthMessageRequest(
+      products: ['feeds'],
+      token: userToken,
+      userDetails: ConnectUserDetailsRequest(
+        id: user.id,
+        name: user.originalName,
+        image: user.imageUrl,
+        customData: user.customData,
+      ),
+    );
+
+    webSocketClient.send(connectUserRequest);
+  }
 
   /// Creates a feed instance based on the provided query.
   ///
