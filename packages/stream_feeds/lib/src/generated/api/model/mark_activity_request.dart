@@ -11,6 +11,7 @@ class MarkActivityRequest {
     this.markAllRead,
     this.markAllSeen,
     this.markRead,
+    this.markSeen,
     this.markWatched,
   });
 
@@ -19,6 +20,8 @@ class MarkActivityRequest {
   final bool? markAllSeen;
 
   final List<String>? markRead;
+
+  final List<String>? markSeen;
 
   final List<String>? markWatched;
 
@@ -33,6 +36,7 @@ class MarkActivityRequest {
         'markAllRead: $markAllRead, '
         'markAllSeen: $markAllSeen, '
         'markRead: $markRead, '
+        'markSeen: $markSeen, '
         'markWatched: $markWatched, '
         ')';
   }
@@ -44,6 +48,7 @@ class MarkActivityRequest {
         other.markAllRead == markAllRead &&
         other.markAllSeen == markAllSeen &&
         other.markRead == markRead &&
+        other.markSeen == markSeen &&
         other.markWatched == markWatched;
   }
 
@@ -53,6 +58,7 @@ class MarkActivityRequest {
       markAllRead,
       markAllSeen,
       markRead,
+      markSeen,
       markWatched,
     ]);
   }

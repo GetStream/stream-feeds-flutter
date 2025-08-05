@@ -27,6 +27,9 @@ FeedResponse _$FeedResponseFromJson(Map<String, dynamic> json) => FeedResponse(
       id: json['id'] as String,
       memberCount: (json['member_count'] as num).toInt(),
       name: json['name'] as String,
+      ownFollows: (json['own_follows'] as List<dynamic>?)
+          ?.map((e) => FollowResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
       pinCount: (json['pin_count'] as num).toInt(),
       updatedAt: const EpochDateTimeConverter()
           .fromJson((json['updated_at'] as num).toInt()),
@@ -49,6 +52,7 @@ Map<String, dynamic> _$FeedResponseToJson(FeedResponse instance) =>
       'id': instance.id,
       'member_count': instance.memberCount,
       'name': instance.name,
+      'own_follows': instance.ownFollows?.map((e) => e.toJson()).toList(),
       'pin_count': instance.pinCount,
       'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
       'visibility': instance.visibility,

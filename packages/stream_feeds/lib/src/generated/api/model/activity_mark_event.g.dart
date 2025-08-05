@@ -19,6 +19,9 @@ ActivityMarkEvent _$ActivityMarkEventFromJson(Map<String, dynamic> json) =>
       markRead: (json['mark_read'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+      markSeen: (json['mark_seen'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       markWatched: (json['mark_watched'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
@@ -39,6 +42,7 @@ Map<String, dynamic> _$ActivityMarkEventToJson(ActivityMarkEvent instance) =>
       'mark_all_read': instance.markAllRead,
       'mark_all_seen': instance.markAllSeen,
       'mark_read': instance.markRead,
+      'mark_seen': instance.markSeen,
       'mark_watched': instance.markWatched,
       'received_at': _$JsonConverterToJson<int, DateTime>(
           instance.receivedAt, const EpochDateTimeConverter().toJson),

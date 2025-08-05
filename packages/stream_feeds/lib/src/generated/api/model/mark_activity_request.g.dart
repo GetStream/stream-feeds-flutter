@@ -13,6 +13,9 @@ MarkActivityRequest _$MarkActivityRequestFromJson(Map<String, dynamic> json) =>
       markRead: (json['mark_read'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+      markSeen: (json['mark_seen'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       markWatched: (json['mark_watched'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
@@ -24,5 +27,6 @@ Map<String, dynamic> _$MarkActivityRequestToJson(
       'mark_all_read': instance.markAllRead,
       'mark_all_seen': instance.markAllSeen,
       'mark_read': instance.markRead,
+      'mark_seen': instance.markSeen,
       'mark_watched': instance.markWatched,
     };

@@ -37,7 +37,7 @@ class ActivityResponse {
     this.location,
     required this.mentionedUsers,
     this.moderation,
-    this.object,
+    this.notificationContext,
     required this.ownBookmarks,
     required this.ownReactions,
     this.parent,
@@ -92,7 +92,7 @@ class ActivityResponse {
 
   final ModerationV2Response? moderation;
 
-  final Map<String, Object>? object;
+  final Map<String, Object>? notificationContext;
 
   final List<BookmarkResponse> ownBookmarks;
 
@@ -152,7 +152,7 @@ class ActivityResponse {
         'location: $location, '
         'mentionedUsers: $mentionedUsers, '
         'moderation: $moderation, '
-        'object: $object, '
+        'notificationContext: $notificationContext, '
         'ownBookmarks: $ownBookmarks, '
         'ownReactions: $ownReactions, '
         'parent: $parent, '
@@ -194,7 +194,7 @@ class ActivityResponse {
         other.location == location &&
         other.mentionedUsers == mentionedUsers &&
         other.moderation == moderation &&
-        other.object == object &&
+        other.notificationContext == notificationContext &&
         other.ownBookmarks == ownBookmarks &&
         other.ownReactions == ownReactions &&
         other.parent == parent &&
@@ -234,7 +234,7 @@ class ActivityResponse {
       location,
       mentionedUsers,
       moderation,
-      object,
+      notificationContext,
       ownBookmarks,
       ownReactions,
       parent,

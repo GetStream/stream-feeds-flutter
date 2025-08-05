@@ -8,15 +8,21 @@ part 'notification_status_response.g.dart';
 @JsonSerializable()
 class NotificationStatusResponse {
   const NotificationStatusResponse({
+    this.lastReadAt,
     this.lastSeenAt,
     this.readActivities,
+    this.seenActivities,
     required this.unread,
     required this.unseen,
   });
   @EpochDateTimeConverter()
+  final DateTime? lastReadAt;
+  @EpochDateTimeConverter()
   final DateTime? lastSeenAt;
 
   final List<String>? readActivities;
+
+  final List<String>? seenActivities;
 
   final int unread;
 
@@ -30,8 +36,10 @@ class NotificationStatusResponse {
   @override
   String toString() {
     return 'NotificationStatusResponse('
+        'lastReadAt: $lastReadAt, '
         'lastSeenAt: $lastSeenAt, '
         'readActivities: $readActivities, '
+        'seenActivities: $seenActivities, '
         'unread: $unread, '
         'unseen: $unseen, '
         ')';
@@ -41,8 +49,10 @@ class NotificationStatusResponse {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     return other is NotificationStatusResponse &&
+        other.lastReadAt == lastReadAt &&
         other.lastSeenAt == lastSeenAt &&
         other.readActivities == readActivities &&
+        other.seenActivities == seenActivities &&
         other.unread == unread &&
         other.unseen == unseen;
   }
@@ -50,8 +60,10 @@ class NotificationStatusResponse {
   @override
   int get hashCode {
     return Object.hashAll([
+      lastReadAt,
       lastSeenAt,
       readActivities,
+      seenActivities,
       unread,
       unseen,
     ]);

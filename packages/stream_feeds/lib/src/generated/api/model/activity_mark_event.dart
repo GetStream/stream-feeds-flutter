@@ -14,6 +14,7 @@ class ActivityMarkEvent {
     this.markAllRead,
     this.markAllSeen,
     this.markRead,
+    this.markSeen,
     this.markWatched,
     this.receivedAt,
     required this.type,
@@ -31,6 +32,8 @@ class ActivityMarkEvent {
   final bool? markAllSeen;
 
   final List<String>? markRead;
+
+  final List<String>? markSeen;
 
   final List<String>? markWatched;
   @EpochDateTimeConverter()
@@ -54,6 +57,7 @@ class ActivityMarkEvent {
         'markAllRead: $markAllRead, '
         'markAllSeen: $markAllSeen, '
         'markRead: $markRead, '
+        'markSeen: $markSeen, '
         'markWatched: $markWatched, '
         'receivedAt: $receivedAt, '
         'type: $type, '
@@ -71,6 +75,7 @@ class ActivityMarkEvent {
         other.markAllRead == markAllRead &&
         other.markAllSeen == markAllSeen &&
         other.markRead == markRead &&
+        other.markSeen == markSeen &&
         other.markWatched == markWatched &&
         other.receivedAt == receivedAt &&
         other.type == type &&
@@ -86,6 +91,7 @@ class ActivityMarkEvent {
       markAllRead,
       markAllSeen,
       markRead,
+      markSeen,
       markWatched,
       receivedAt,
       type,

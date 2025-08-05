@@ -21,6 +21,7 @@ class FeedResponse {
     required this.id,
     required this.memberCount,
     required this.name,
+    this.ownFollows,
     required this.pinCount,
     required this.updatedAt,
     this.visibility,
@@ -52,6 +53,8 @@ class FeedResponse {
 
   final String name;
 
+  final List<FollowResponse>? ownFollows;
+
   final int pinCount;
   @EpochDateTimeConverter()
   final DateTime updatedAt;
@@ -79,6 +82,7 @@ class FeedResponse {
         'id: $id, '
         'memberCount: $memberCount, '
         'name: $name, '
+        'ownFollows: $ownFollows, '
         'pinCount: $pinCount, '
         'updatedAt: $updatedAt, '
         'visibility: $visibility, '
@@ -102,6 +106,7 @@ class FeedResponse {
         other.id == id &&
         other.memberCount == memberCount &&
         other.name == name &&
+        other.ownFollows == ownFollows &&
         other.pinCount == pinCount &&
         other.updatedAt == updatedAt &&
         other.visibility == visibility;
@@ -123,6 +128,7 @@ class FeedResponse {
       id,
       memberCount,
       name,
+      ownFollows,
       pinCount,
       updatedAt,
       visibility,
