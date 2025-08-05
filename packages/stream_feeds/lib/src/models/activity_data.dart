@@ -56,7 +56,7 @@ class ActivityData implements Identifiable {
     }
 
     return copyWith(
-      reactionCount: newLatestReactions.length,
+      reactionCount: reactionGroups.totalCount,
       latestReactions: List.unmodifiable(newLatestReactions),
       ownReactions: List.unmodifiable(newOwnReactions),
       reactionGroups: Map.unmodifiable(newReactionGroups),
@@ -79,7 +79,7 @@ class ActivityData implements Identifiable {
     }
 
     return copyWith(
-      reactionCount: newLatestReactions.length,
+      reactionCount: reactionGroups.totalCount,
       latestReactions: List.unmodifiable(newLatestReactions),
       ownReactions: List.unmodifiable(newOwnReactions),
       reactionGroups: Map.unmodifiable(newReactionGroups),
@@ -118,4 +118,9 @@ extension on FeedsReactionData {
       }
     }
   }
+}
+
+extension on Map<String, ReactionGroupData> {
+  int get totalCount =>
+      values.fold(0, (sum, reactionGroup) => sum + reactionGroup.count);
 }
