@@ -48,7 +48,7 @@ class AppStateProvider extends ValueNotifier<AppState> {
   void clearUserId() {
     _prefs.remove('user_id');
     if (value is LoggedInState) {
-      (value as LoggedInState).feedsClient.disconnect();
+      (value as LoggedInState).feedsClient.dispose();
     }
     value = LoggedOutState();
   }

@@ -26,7 +26,7 @@ class FeedsClient {
           apiKey: apiKey,
           user: user,
           getToken: () async => userToken,
-          getConnectionId: () => webSocketClient?.connectionId,
+          getConnectionId: () => webSocketClient.connectionId,
         ),
       ),
     );
@@ -72,8 +72,8 @@ class FeedsClient {
   Future<void> connect() async {
     webSocketClient.connect();
 
-    _connectionSubscription = webSocketClient!.connectionStateStream
-        .listen(_onConnectionStateChanged);
+    _connectionSubscription =
+        webSocketClient.connectionStateStream.listen(_onConnectionStateChanged);
 
     connectionRecoveryHandler = DefaultConnectionRecoveryHandler(
       client: webSocketClient,
@@ -92,6 +92,13 @@ class FeedsClient {
     _connectionSubscription?.cancel();
     _connectionCompleter?.complete();
     _connectionCompleter = null;
+  }
+
+  void dispose() {
+    if (webSocketClient.connectionState is Connected) {
+      disconnect();
+    }
+    webSocketClient.dispose();
   }
 
   void _onConnectionStateChanged(WebSocketConnectionState state) {
