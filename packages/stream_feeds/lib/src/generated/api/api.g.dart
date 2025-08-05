@@ -17,11 +17,12 @@ import 'package:collection/collection.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
+import 'package:stream_core/stream_core.dart';
 
 import 'models.dart';
+
 export 'models.dart';
 
-part 'api_client.g.dart';
 part 'api_helper.g.dart';
 part 'api_exception.g.dart';
 part 'auth/authentication.g.dart';
@@ -31,10 +32,6 @@ part 'auth/http_basic_auth.g.dart';
 part 'auth/http_bearer_auth.g.dart';
 
 part 'api/default_api.g.dart';
-
-/// An [ApiClient] instance that uses the default values obtained from
-/// the OpenAPI specification file.
-ApiClient defaultApiClient = ApiClient();
 
 const _delimiters = {'csv': ',', 'ssv': ' ', 'tsv': '\t', 'pipes': '|'};
 const _dateEpochMarker = 'epoch';

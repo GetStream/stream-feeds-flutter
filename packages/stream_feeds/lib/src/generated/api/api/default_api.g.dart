@@ -15,48 +15,10 @@
 part of openapi.api;
 
 class DefaultApi {
-  DefaultApi([ApiClient? apiClient])
-      : apiClient = apiClient ?? defaultApiClient;
+  DefaultApi(this.apiClient);
 
-  final ApiClient apiClient;
-
-  Future<T?> invokeAPI<T>(
-    String path,
-    String method,
-    List<QueryParam> queryParams,
-    Object? body,
-    Map<String, String> headerParams,
-    Map<String, String> formParams,
-    String? contentType,
-    String returnType,
-  ) async {
-    final response = await apiClient.invokeAPI(
-      path,
-      method,
-      queryParams,
-      body,
-      headerParams,
-      formParams,
-      contentType,
-    );
-    if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
-    }
-    // When a remote server returns no body with a status of 204, we shall not decode it.
-    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
-    // FormatException when trying to decode an empty string.
-    if (returnType != 'void' &&
-        response.body.isNotEmpty &&
-        response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(
-        await _decodeBodyBytes(response),
-        returnType,
-      ) as T;
-    }
-    return null;
-  }
-
-  Future<AcceptFeedMemberInviteResponse?> acceptFeedMemberInvite(
+  final CoreHttpClient apiClient;
+  Future<AcceptFeedMemberInviteResponse> acceptFeedMemberInvite(
     String feedId,
     String feedGroupId,
   ) async {
@@ -65,184 +27,135 @@ class DefaultApi {
             .replaceAll('{feed_id}', feedId)
             .replaceAll('{feed_group_id}', feedGroupId);
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.post(
       path,
-      'POST',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'AcceptFeedMemberInviteResponse',
+      queryParameters: queryParams,
     );
+
+    return AcceptFeedMemberInviteResponse.fromJson(response.data);
   }
 
-  Future<AcceptFollowResponse?> acceptFollow(
+  Future<AcceptFollowResponse> acceptFollow(
     AcceptFollowRequest acceptFollowRequest,
   ) async {
     const path = r"/api/v2/feeds/follows/accept";
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.post(
       path,
-      'POST',
-      queryParams,
-      acceptFollowRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'AcceptFollowResponse',
+      data: acceptFollowRequest,
+      queryParameters: queryParams,
     );
+
+    return AcceptFollowResponse.fromJson(response.data);
   }
 
-  Future<AddActivityResponse?> addActivity(
+  Future<AddActivityResponse> addActivity(
     AddActivityRequest addActivityRequest,
   ) async {
     const path = r"/api/v2/feeds/activities";
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.post(
       path,
-      'POST',
-      queryParams,
-      addActivityRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'AddActivityResponse',
+      data: addActivityRequest,
+      queryParameters: queryParams,
     );
+
+    return AddActivityResponse.fromJson(response.data);
   }
 
-  Future<AddBookmarkResponse?> addBookmark(
+  Future<AddBookmarkResponse> addBookmark(
     String activityId,
     AddBookmarkRequest? addBookmarkRequest,
   ) async {
     var path = r"/api/v2/feeds/activities/{activity_id}/bookmarks"
         .replaceAll('{activity_id}', activityId);
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.post(
       path,
-      'POST',
-      queryParams,
-      addBookmarkRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'AddBookmarkResponse',
+      data: addBookmarkRequest,
+      queryParameters: queryParams,
     );
+
+    return AddBookmarkResponse.fromJson(response.data);
   }
 
-  Future<AddCommentResponse?> addComment(
+  Future<AddCommentResponse> addComment(
     AddCommentRequest addCommentRequest,
   ) async {
     const path = r"/api/v2/feeds/comments";
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.post(
       path,
-      'POST',
-      queryParams,
-      addCommentRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'AddCommentResponse',
+      data: addCommentRequest,
+      queryParameters: queryParams,
     );
+
+    return AddCommentResponse.fromJson(response.data);
   }
 
-  Future<AddCommentReactionResponse?> addCommentReaction(
+  Future<AddCommentReactionResponse> addCommentReaction(
     String commentId,
     AddCommentReactionRequest addCommentReactionRequest,
   ) async {
     var path = r"/api/v2/feeds/comments/{comment_id}/reactions"
         .replaceAll('{comment_id}', commentId);
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.post(
       path,
-      'POST',
-      queryParams,
-      addCommentReactionRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'AddCommentReactionResponse',
+      data: addCommentReactionRequest,
+      queryParameters: queryParams,
     );
+
+    return AddCommentReactionResponse.fromJson(response.data);
   }
 
-  Future<AddCommentsBatchResponse?> addCommentsBatch(
+  Future<AddCommentsBatchResponse> addCommentsBatch(
     AddCommentsBatchRequest addCommentsBatchRequest,
   ) async {
     const path = r"/api/v2/feeds/comments/batch";
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.post(
       path,
-      'POST',
-      queryParams,
-      addCommentsBatchRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'AddCommentsBatchResponse',
+      data: addCommentsBatchRequest,
+      queryParameters: queryParams,
     );
+
+    return AddCommentsBatchResponse.fromJson(response.data);
   }
 
-  Future<AddReactionResponse?> addReaction(
+  Future<AddReactionResponse> addReaction(
     String activityId,
     AddReactionRequest addReactionRequest,
   ) async {
     var path = r"/api/v2/feeds/activities/{activity_id}/reactions"
         .replaceAll('{activity_id}', activityId);
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.post(
       path,
-      'POST',
-      queryParams,
-      addReactionRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'AddReactionResponse',
+      data: addReactionRequest,
+      queryParameters: queryParams,
     );
+
+    return AddReactionResponse.fromJson(response.data);
   }
 
-  Future<PollVoteResponse?> castPollVote(
+  Future<PollVoteResponse> castPollVote(
     String activityId,
     String pollId,
     CastPollVoteRequest? castPollVoteRequest,
@@ -251,96 +164,71 @@ class DefaultApi {
         .replaceAll('{activity_id}', activityId)
         .replaceAll('{poll_id}', pollId);
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.post(
       path,
-      'POST',
-      queryParams,
-      castPollVoteRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'PollVoteResponse',
+      data: castPollVoteRequest,
+      queryParameters: queryParams,
     );
+
+    return PollVoteResponse.fromJson(response.data);
   }
 
-  Future<CreateFeedsBatchResponse?> createFeedsBatch(
+  Future<CreateFeedsBatchResponse> createFeedsBatch(
     CreateFeedsBatchRequest createFeedsBatchRequest,
   ) async {
     const path = r"/api/v2/feeds/feeds/batch";
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.post(
       path,
-      'POST',
-      queryParams,
-      createFeedsBatchRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'CreateFeedsBatchResponse',
+      data: createFeedsBatchRequest,
+      queryParameters: queryParams,
     );
+
+    return CreateFeedsBatchResponse.fromJson(response.data);
   }
 
-  Future<DeleteActivitiesResponse?> deleteActivities(
+  Future<DeleteActivitiesResponse> deleteActivities(
     DeleteActivitiesRequest deleteActivitiesRequest,
   ) async {
     const path = r"/api/v2/feeds/activities/delete";
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.post(
       path,
-      'POST',
-      queryParams,
-      deleteActivitiesRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'DeleteActivitiesResponse',
+      data: deleteActivitiesRequest,
+      queryParameters: queryParams,
     );
+
+    return DeleteActivitiesResponse.fromJson(response.data);
   }
 
-  Future<DeleteActivityResponse?> deleteActivity(
+  Future<DeleteActivityResponse> deleteActivity(
     String activityId,
     bool? hardDelete,
   ) async {
     var path = r"/api/v2/feeds/activities/{activity_id}"
         .replaceAll('{activity_id}', activityId);
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
     if (hardDelete != null) {
-      queryParams.addAll(_queryParams('', 'hard_delete', hardDelete));
+      queryParams.addAll({'hard_delete': hardDelete});
     }
 
-    return invokeAPI(
+    final response = await apiClient.delete(
       path,
-      'DELETE',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'DeleteActivityResponse',
+      queryParameters: queryParams,
     );
+
+    return DeleteActivityResponse.fromJson(response.data);
   }
 
-  Future<DeleteActivityReactionResponse?> deleteActivityReaction(
+  Future<DeleteActivityReactionResponse> deleteActivityReaction(
     String activityId,
     String type,
   ) async {
@@ -348,98 +236,70 @@ class DefaultApi {
         .replaceAll('{activity_id}', activityId)
         .replaceAll('{type}', type);
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.delete(
       path,
-      'DELETE',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'DeleteActivityReactionResponse',
+      queryParameters: queryParams,
     );
+
+    return DeleteActivityReactionResponse.fromJson(response.data);
   }
 
-  Future<DeleteBookmarkResponse?> deleteBookmark(
+  Future<DeleteBookmarkResponse> deleteBookmark(
     String activityId,
     String? folderId,
   ) async {
     var path = r"/api/v2/feeds/activities/{activity_id}/bookmarks"
         .replaceAll('{activity_id}', activityId);
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
     if (folderId != null) {
-      queryParams.addAll(_queryParams('', 'folder_id', folderId));
+      queryParams.addAll({'folder_id': folderId});
     }
 
-    return invokeAPI(
+    final response = await apiClient.delete(
       path,
-      'DELETE',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'DeleteBookmarkResponse',
+      queryParameters: queryParams,
     );
+
+    return DeleteBookmarkResponse.fromJson(response.data);
   }
 
-  Future<DeleteBookmarkFolderResponse?> deleteBookmarkFolder(
+  Future<DeleteBookmarkFolderResponse> deleteBookmarkFolder(
     String folderId,
   ) async {
     var path = r"/api/v2/feeds/bookmark_folders/{folder_id}"
         .replaceAll('{folder_id}', folderId);
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.delete(
       path,
-      'DELETE',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'DeleteBookmarkFolderResponse',
+      queryParameters: queryParams,
     );
+
+    return DeleteBookmarkFolderResponse.fromJson(response.data);
   }
 
-  Future<DeleteCommentResponse?> deleteComment(
+  Future<DeleteCommentResponse> deleteComment(
     String commentId,
   ) async {
     var path = r"/api/v2/feeds/comments/{comment_id}"
         .replaceAll('{comment_id}', commentId);
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.delete(
       path,
-      'DELETE',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'DeleteCommentResponse',
+      queryParameters: queryParams,
     );
+
+    return DeleteCommentResponse.fromJson(response.data);
   }
 
-  Future<DeleteCommentReactionResponse?> deleteCommentReaction(
+  Future<DeleteCommentReactionResponse> deleteCommentReaction(
     String commentId,
     String type,
   ) async {
@@ -447,24 +307,17 @@ class DefaultApi {
         .replaceAll('{comment_id}', commentId)
         .replaceAll('{type}', type);
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.delete(
       path,
-      'DELETE',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'DeleteCommentReactionResponse',
+      queryParameters: queryParams,
     );
+
+    return DeleteCommentReactionResponse.fromJson(response.data);
   }
 
-  Future<DeleteFeedResponse?> deleteFeed(
+  Future<DeleteFeedResponse> deleteFeed(
     String feedGroupId,
     String feedId,
     bool? hardDelete,
@@ -473,28 +326,21 @@ class DefaultApi {
         .replaceAll('{feed_group_id}', feedGroupId)
         .replaceAll('{feed_id}', feedId);
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
     if (hardDelete != null) {
-      queryParams.addAll(_queryParams('', 'hard_delete', hardDelete));
+      queryParams.addAll({'hard_delete': hardDelete});
     }
 
-    return invokeAPI(
+    final response = await apiClient.delete(
       path,
-      'DELETE',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'DeleteFeedResponse',
+      queryParameters: queryParams,
     );
+
+    return DeleteFeedResponse.fromJson(response.data);
   }
 
-  Future<PollVoteResponse?> deletePollVote(
+  Future<PollVoteResponse> deletePollVote(
     String activityId,
     String pollId,
     String voteId,
@@ -506,140 +352,101 @@ class DefaultApi {
             .replaceAll('{poll_id}', pollId)
             .replaceAll('{vote_id}', voteId);
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
     if (userId != null) {
-      queryParams.addAll(_queryParams('', 'user_id', userId));
+      queryParams.addAll({'user_id': userId});
     }
 
-    return invokeAPI(
+    final response = await apiClient.delete(
       path,
-      'DELETE',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'PollVoteResponse',
+      queryParameters: queryParams,
     );
+
+    return PollVoteResponse.fromJson(response.data);
   }
 
-  Future<QueryFeedsResponse?> feedsQueryFeeds(
+  Future<QueryFeedsResponse> feedsQueryFeeds(
     QueryFeedsRequest? queryFeedsRequest,
   ) async {
     const path = r"/api/v2/feeds/feeds/query";
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.post(
       path,
-      'POST',
-      queryParams,
-      queryFeedsRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'QueryFeedsResponse',
+      data: queryFeedsRequest,
+      queryParameters: queryParams,
     );
+
+    return QueryFeedsResponse.fromJson(response.data);
   }
 
-  Future<SingleFollowResponse?> follow(
+  Future<SingleFollowResponse> follow(
     SingleFollowRequest singleFollowRequest,
   ) async {
     const path = r"/api/v2/feeds/follows";
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.post(
       path,
-      'POST',
-      queryParams,
-      singleFollowRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'SingleFollowResponse',
+      data: singleFollowRequest,
+      queryParameters: queryParams,
     );
+
+    return SingleFollowResponse.fromJson(response.data);
   }
 
-  Future<FollowBatchResponse?> followBatch(
+  Future<FollowBatchResponse> followBatch(
     FollowBatchRequest followBatchRequest,
   ) async {
     const path = r"/api/v2/feeds/follows/batch";
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.post(
       path,
-      'POST',
-      queryParams,
-      followBatchRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'FollowBatchResponse',
+      data: followBatchRequest,
+      queryParameters: queryParams,
     );
+
+    return FollowBatchResponse.fromJson(response.data);
   }
 
-  Future<GetActivityResponse?> getActivity(
+  Future<GetActivityResponse> getActivity(
     String activityId,
   ) async {
     var path = r"/api/v2/feeds/activities/{activity_id}"
         .replaceAll('{activity_id}', activityId);
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.get(
       path,
-      'GET',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'GetActivityResponse',
+      queryParameters: queryParams,
     );
+
+    return GetActivityResponse.fromJson(response.data);
   }
 
-  Future<GetCommentResponse?> getComment(
+  Future<GetCommentResponse> getComment(
     String commentId,
   ) async {
     var path = r"/api/v2/feeds/comments/{comment_id}"
         .replaceAll('{comment_id}', commentId);
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.get(
       path,
-      'GET',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'GetCommentResponse',
+      queryParameters: queryParams,
     );
+
+    return GetCommentResponse.fromJson(response.data);
   }
 
-  Future<GetCommentRepliesResponse?> getCommentReplies(
+  Future<GetCommentRepliesResponse> getCommentReplies(
     String commentId,
     int? depth,
     String? sort,
@@ -651,43 +458,36 @@ class DefaultApi {
     var path = r"/api/v2/feeds/comments/{comment_id}/replies"
         .replaceAll('{comment_id}', commentId);
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
     if (depth != null) {
-      queryParams.addAll(_queryParams('', 'depth', depth));
+      queryParams.addAll({'depth': depth});
     }
     if (sort != null) {
-      queryParams.addAll(_queryParams('', 'sort', sort));
+      queryParams.addAll({'sort': sort});
     }
     if (repliesLimit != null) {
-      queryParams.addAll(_queryParams('', 'replies_limit', repliesLimit));
+      queryParams.addAll({'replies_limit': repliesLimit});
     }
     if (limit != null) {
-      queryParams.addAll(_queryParams('', 'limit', limit));
+      queryParams.addAll({'limit': limit});
     }
     if (prev != null) {
-      queryParams.addAll(_queryParams('', 'prev', prev));
+      queryParams.addAll({'prev': prev});
     }
     if (next != null) {
-      queryParams.addAll(_queryParams('', 'next', next));
+      queryParams.addAll({'next': next});
     }
 
-    return invokeAPI(
+    final response = await apiClient.get(
       path,
-      'GET',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'GetCommentRepliesResponse',
+      queryParameters: queryParams,
     );
+
+    return GetCommentRepliesResponse.fromJson(response.data);
   }
 
-  Future<GetCommentsResponse?> getComments(
+  Future<GetCommentsResponse> getComments(
     String objectId,
     String objectType,
     int? depth,
@@ -699,72 +499,58 @@ class DefaultApi {
   ) async {
     const path = r"/api/v2/feeds/comments";
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
-    queryParams.addAll(_queryParams('', 'object_id', objectId));
-    queryParams.addAll(_queryParams('', 'object_type', objectType));
+    final queryParams = <String, Object?>{};
+    queryParams.addAll({'object_id': objectId});
+    queryParams.addAll({'object_type': objectType});
     if (depth != null) {
-      queryParams.addAll(_queryParams('', 'depth', depth));
+      queryParams.addAll({'depth': depth});
     }
     if (sort != null) {
-      queryParams.addAll(_queryParams('', 'sort', sort));
+      queryParams.addAll({'sort': sort});
     }
     if (repliesLimit != null) {
-      queryParams.addAll(_queryParams('', 'replies_limit', repliesLimit));
+      queryParams.addAll({'replies_limit': repliesLimit});
     }
     if (limit != null) {
-      queryParams.addAll(_queryParams('', 'limit', limit));
+      queryParams.addAll({'limit': limit});
     }
     if (prev != null) {
-      queryParams.addAll(_queryParams('', 'prev', prev));
+      queryParams.addAll({'prev': prev});
     }
     if (next != null) {
-      queryParams.addAll(_queryParams('', 'next', next));
+      queryParams.addAll({'next': next});
     }
 
-    return invokeAPI(
+    final response = await apiClient.get(
       path,
-      'GET',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'GetCommentsResponse',
+      queryParameters: queryParams,
     );
+
+    return GetCommentsResponse.fromJson(response.data);
   }
 
-  Future<GetFollowSuggestionsResponse?> getFollowSuggestions(
+  Future<GetFollowSuggestionsResponse> getFollowSuggestions(
     String feedGroupId,
     int? limit,
   ) async {
     var path = r"/api/v2/feeds/feed_groups/{feed_group_id}/follow_suggestions"
         .replaceAll('{feed_group_id}', feedGroupId);
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
     if (limit != null) {
-      queryParams.addAll(_queryParams('', 'limit', limit));
+      queryParams.addAll({'limit': limit});
     }
 
-    return invokeAPI(
+    final response = await apiClient.get(
       path,
-      'GET',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'GetFollowSuggestionsResponse',
+      queryParameters: queryParams,
     );
+
+    return GetFollowSuggestionsResponse.fromJson(response.data);
   }
 
-  Future<GetOrCreateFeedResponse?> getOrCreateFeed(
+  Future<GetOrCreateFeedResponse> getOrCreateFeed(
     String feedGroupId,
     String feedId,
     GetOrCreateFeedRequest? getOrCreateFeedRequest,
@@ -773,24 +559,18 @@ class DefaultApi {
         .replaceAll('{feed_group_id}', feedGroupId)
         .replaceAll('{feed_id}', feedId);
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.post(
       path,
-      'POST',
-      queryParams,
-      getOrCreateFeedRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'GetOrCreateFeedResponse',
+      data: getOrCreateFeedRequest,
+      queryParameters: queryParams,
     );
+
+    return GetOrCreateFeedResponse.fromJson(response.data);
   }
 
-  Future<DurationResponse?> markActivity(
+  Future<DurationResponse> markActivity(
     String feedGroupId,
     String feedId,
     MarkActivityRequest? markActivityRequest,
@@ -800,24 +580,18 @@ class DefaultApi {
             .replaceAll('{feed_group_id}', feedGroupId)
             .replaceAll('{feed_id}', feedId);
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.post(
       path,
-      'POST',
-      queryParams,
-      markActivityRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'DurationResponse',
+      data: markActivityRequest,
+      queryParameters: queryParams,
     );
+
+    return DurationResponse.fromJson(response.data);
   }
 
-  Future<PinActivityResponse?> pinActivity(
+  Future<PinActivityResponse> pinActivity(
     String feedGroupId,
     String feedId,
     String activityId,
@@ -828,160 +602,117 @@ class DefaultApi {
             .replaceAll('{feed_id}', feedId)
             .replaceAll('{activity_id}', activityId);
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.post(
       path,
-      'POST',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'PinActivityResponse',
+      queryParameters: queryParams,
     );
+
+    return PinActivityResponse.fromJson(response.data);
   }
 
-  Future<QueryActivitiesResponse?> queryActivities(
+  Future<QueryActivitiesResponse> queryActivities(
     QueryActivitiesRequest? queryActivitiesRequest,
   ) async {
     const path = r"/api/v2/feeds/activities/query";
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.post(
       path,
-      'POST',
-      queryParams,
-      queryActivitiesRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'QueryActivitiesResponse',
+      data: queryActivitiesRequest,
+      queryParameters: queryParams,
     );
+
+    return QueryActivitiesResponse.fromJson(response.data);
   }
 
-  Future<QueryActivityReactionsResponse?> queryActivityReactions(
+  Future<QueryActivityReactionsResponse> queryActivityReactions(
     String activityId,
     QueryActivityReactionsRequest? queryActivityReactionsRequest,
   ) async {
     var path = r"/api/v2/feeds/activities/{activity_id}/reactions/query"
         .replaceAll('{activity_id}', activityId);
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.post(
       path,
-      'POST',
-      queryParams,
-      queryActivityReactionsRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'QueryActivityReactionsResponse',
+      data: queryActivityReactionsRequest,
+      queryParameters: queryParams,
     );
+
+    return QueryActivityReactionsResponse.fromJson(response.data);
   }
 
-  Future<QueryBookmarkFoldersResponse?> queryBookmarkFolders(
+  Future<QueryBookmarkFoldersResponse> queryBookmarkFolders(
     QueryBookmarkFoldersRequest? queryBookmarkFoldersRequest,
   ) async {
     const path = r"/api/v2/feeds/bookmark_folders/query";
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.post(
       path,
-      'POST',
-      queryParams,
-      queryBookmarkFoldersRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'QueryBookmarkFoldersResponse',
+      data: queryBookmarkFoldersRequest,
+      queryParameters: queryParams,
     );
+
+    return QueryBookmarkFoldersResponse.fromJson(response.data);
   }
 
-  Future<QueryBookmarksResponse?> queryBookmarks(
+  Future<QueryBookmarksResponse> queryBookmarks(
     QueryBookmarksRequest? queryBookmarksRequest,
   ) async {
     const path = r"/api/v2/feeds/bookmarks/query";
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.post(
       path,
-      'POST',
-      queryParams,
-      queryBookmarksRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'QueryBookmarksResponse',
+      data: queryBookmarksRequest,
+      queryParameters: queryParams,
     );
+
+    return QueryBookmarksResponse.fromJson(response.data);
   }
 
-  Future<QueryCommentReactionsResponse?> queryCommentReactions(
+  Future<QueryCommentReactionsResponse> queryCommentReactions(
     String commentId,
     QueryCommentReactionsRequest? queryCommentReactionsRequest,
   ) async {
     var path = r"/api/v2/feeds/comments/{comment_id}/reactions/query"
         .replaceAll('{comment_id}', commentId);
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.post(
       path,
-      'POST',
-      queryParams,
-      queryCommentReactionsRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'QueryCommentReactionsResponse',
+      data: queryCommentReactionsRequest,
+      queryParameters: queryParams,
     );
+
+    return QueryCommentReactionsResponse.fromJson(response.data);
   }
 
-  Future<QueryCommentsResponse?> queryComments(
+  Future<QueryCommentsResponse> queryComments(
     QueryCommentsRequest queryCommentsRequest,
   ) async {
     const path = r"/api/v2/feeds/comments/query";
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.post(
       path,
-      'POST',
-      queryParams,
-      queryCommentsRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'QueryCommentsResponse',
+      data: queryCommentsRequest,
+      queryParameters: queryParams,
     );
+
+    return QueryCommentsResponse.fromJson(response.data);
   }
 
-  Future<QueryFeedMembersResponse?> queryFeedMembers(
+  Future<QueryFeedMembersResponse> queryFeedMembers(
     String feedGroupId,
     String feedId,
     QueryFeedMembersRequest? queryFeedMembersRequest,
@@ -991,46 +722,34 @@ class DefaultApi {
             .replaceAll('{feed_group_id}', feedGroupId)
             .replaceAll('{feed_id}', feedId);
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.post(
       path,
-      'POST',
-      queryParams,
-      queryFeedMembersRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'QueryFeedMembersResponse',
+      data: queryFeedMembersRequest,
+      queryParameters: queryParams,
     );
+
+    return QueryFeedMembersResponse.fromJson(response.data);
   }
 
-  Future<QueryFollowsResponse?> queryFollows(
+  Future<QueryFollowsResponse> queryFollows(
     QueryFollowsRequest? queryFollowsRequest,
   ) async {
     const path = r"/api/v2/feeds/follows/query";
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.post(
       path,
-      'POST',
-      queryParams,
-      queryFollowsRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'QueryFollowsResponse',
+      data: queryFollowsRequest,
+      queryParameters: queryParams,
     );
+
+    return QueryFollowsResponse.fromJson(response.data);
   }
 
-  Future<RejectFeedMemberInviteResponse?> rejectFeedMemberInvite(
+  Future<RejectFeedMemberInviteResponse> rejectFeedMemberInvite(
     String feedGroupId,
     String feedId,
   ) async {
@@ -1039,46 +758,33 @@ class DefaultApi {
             .replaceAll('{feed_group_id}', feedGroupId)
             .replaceAll('{feed_id}', feedId);
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.post(
       path,
-      'POST',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'RejectFeedMemberInviteResponse',
+      queryParameters: queryParams,
     );
+
+    return RejectFeedMemberInviteResponse.fromJson(response.data);
   }
 
-  Future<RejectFollowResponse?> rejectFollow(
+  Future<RejectFollowResponse> rejectFollow(
     RejectFollowRequest rejectFollowRequest,
   ) async {
     const path = r"/api/v2/feeds/follows/reject";
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.post(
       path,
-      'POST',
-      queryParams,
-      rejectFollowRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'RejectFollowResponse',
+      data: rejectFollowRequest,
+      queryParameters: queryParams,
     );
+
+    return RejectFollowResponse.fromJson(response.data);
   }
 
-  Future<DurationResponse?> stopWatchingFeed(
+  Future<DurationResponse> stopWatchingFeed(
     String feedGroupId,
     String feedId,
   ) async {
@@ -1087,24 +793,17 @@ class DefaultApi {
             .replaceAll('{feed_group_id}', feedGroupId)
             .replaceAll('{feed_id}', feedId);
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.delete(
       path,
-      'DELETE',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'DurationResponse',
+      queryParameters: queryParams,
     );
+
+    return DurationResponse.fromJson(response.data);
   }
 
-  Future<UnfollowResponse?> unfollow(
+  Future<UnfollowResponse> unfollow(
     String source,
     String target,
   ) async {
@@ -1112,24 +811,17 @@ class DefaultApi {
         .replaceAll('{source}', source)
         .replaceAll('{target}', target);
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.delete(
       path,
-      'DELETE',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'UnfollowResponse',
+      queryParameters: queryParams,
     );
+
+    return UnfollowResponse.fromJson(response.data);
   }
 
-  Future<UnpinActivityResponse?> unpinActivity(
+  Future<UnpinActivityResponse> unpinActivity(
     String feedGroupId,
     String feedId,
     String activityId,
@@ -1140,144 +832,107 @@ class DefaultApi {
             .replaceAll('{feed_id}', feedId)
             .replaceAll('{activity_id}', activityId);
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.delete(
       path,
-      'DELETE',
-      queryParams,
-      null,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'UnpinActivityResponse',
+      queryParameters: queryParams,
     );
+
+    return UnpinActivityResponse.fromJson(response.data);
   }
 
-  Future<UpdateActivityResponse?> updateActivity(
+  Future<UpdateActivityResponse> updateActivity(
     String activityId,
     UpdateActivityRequest? updateActivityRequest,
   ) async {
     var path = r"/api/v2/feeds/activities/{activity_id}"
         .replaceAll('{activity_id}', activityId);
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.put(
       path,
-      'PUT',
-      queryParams,
-      updateActivityRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'UpdateActivityResponse',
+      data: updateActivityRequest,
+      queryParameters: queryParams,
     );
+
+    return UpdateActivityResponse.fromJson(response.data);
   }
 
-  Future<UpdateActivityPartialResponse?> updateActivityPartial(
+  Future<UpdateActivityPartialResponse> updateActivityPartial(
     String activityId,
     UpdateActivityPartialRequest? updateActivityPartialRequest,
   ) async {
     var path = r"/api/v2/feeds/activities/{activity_id}"
         .replaceAll('{activity_id}', activityId);
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.patch(
       path,
-      'PATCH',
-      queryParams,
-      updateActivityPartialRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'UpdateActivityPartialResponse',
+      data: updateActivityPartialRequest,
+      queryParameters: queryParams,
     );
+
+    return UpdateActivityPartialResponse.fromJson(response.data);
   }
 
-  Future<UpdateBookmarkResponse?> updateBookmark(
+  Future<UpdateBookmarkResponse> updateBookmark(
     String activityId,
     UpdateBookmarkRequest? updateBookmarkRequest,
   ) async {
     var path = r"/api/v2/feeds/activities/{activity_id}/bookmarks"
         .replaceAll('{activity_id}', activityId);
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.patch(
       path,
-      'PATCH',
-      queryParams,
-      updateBookmarkRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'UpdateBookmarkResponse',
+      data: updateBookmarkRequest,
+      queryParameters: queryParams,
     );
+
+    return UpdateBookmarkResponse.fromJson(response.data);
   }
 
-  Future<UpdateBookmarkFolderResponse?> updateBookmarkFolder(
+  Future<UpdateBookmarkFolderResponse> updateBookmarkFolder(
     String folderId,
     UpdateBookmarkFolderRequest? updateBookmarkFolderRequest,
   ) async {
     var path = r"/api/v2/feeds/bookmark_folders/{folder_id}"
         .replaceAll('{folder_id}', folderId);
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.patch(
       path,
-      'PATCH',
-      queryParams,
-      updateBookmarkFolderRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'UpdateBookmarkFolderResponse',
+      data: updateBookmarkFolderRequest,
+      queryParameters: queryParams,
     );
+
+    return UpdateBookmarkFolderResponse.fromJson(response.data);
   }
 
-  Future<UpdateCommentResponse?> updateComment(
+  Future<UpdateCommentResponse> updateComment(
     String commentId,
     UpdateCommentRequest? updateCommentRequest,
   ) async {
     var path = r"/api/v2/feeds/comments/{comment_id}"
         .replaceAll('{comment_id}', commentId);
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.patch(
       path,
-      'PATCH',
-      queryParams,
-      updateCommentRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'UpdateCommentResponse',
+      data: updateCommentRequest,
+      queryParameters: queryParams,
     );
+
+    return UpdateCommentResponse.fromJson(response.data);
   }
 
-  Future<UpdateFeedResponse?> updateFeed(
+  Future<UpdateFeedResponse> updateFeed(
     String feedGroupId,
     String feedId,
     UpdateFeedRequest? updateFeedRequest,
@@ -1286,24 +941,18 @@ class DefaultApi {
         .replaceAll('{feed_group_id}', feedGroupId)
         .replaceAll('{feed_id}', feedId);
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.put(
       path,
-      'PUT',
-      queryParams,
-      updateFeedRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'UpdateFeedResponse',
+      data: updateFeedRequest,
+      queryParameters: queryParams,
     );
+
+    return UpdateFeedResponse.fromJson(response.data);
   }
 
-  Future<UpdateFeedMembersResponse?> updateFeedMembers(
+  Future<UpdateFeedMembersResponse> updateFeedMembers(
     String feedGroupId,
     String feedId,
     UpdateFeedMembersRequest updateFeedMembersRequest,
@@ -1313,64 +962,46 @@ class DefaultApi {
             .replaceAll('{feed_group_id}', feedGroupId)
             .replaceAll('{feed_id}', feedId);
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.patch(
       path,
-      'PATCH',
-      queryParams,
-      updateFeedMembersRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'UpdateFeedMembersResponse',
+      data: updateFeedMembersRequest,
+      queryParameters: queryParams,
     );
+
+    return UpdateFeedMembersResponse.fromJson(response.data);
   }
 
-  Future<UpdateFollowResponse?> updateFollow(
+  Future<UpdateFollowResponse> updateFollow(
     UpdateFollowRequest updateFollowRequest,
   ) async {
     const path = r"/api/v2/feeds/follows";
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.patch(
       path,
-      'PATCH',
-      queryParams,
-      updateFollowRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'UpdateFollowResponse',
+      data: updateFollowRequest,
+      queryParameters: queryParams,
     );
+
+    return UpdateFollowResponse.fromJson(response.data);
   }
 
-  Future<UpsertActivitiesResponse?> upsertActivities(
+  Future<UpsertActivitiesResponse> upsertActivities(
     UpsertActivitiesRequest upsertActivitiesRequest,
   ) async {
     const path = r"/api/v2/feeds/activities/batch";
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    const contentTypes = <String>[];
+    final queryParams = <String, Object?>{};
 
-    return invokeAPI(
+    final response = await apiClient.post(
       path,
-      'POST',
-      queryParams,
-      upsertActivitiesRequest,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-      'UpsertActivitiesResponse',
+      data: upsertActivitiesRequest,
+      queryParameters: queryParams,
     );
+
+    return UpsertActivitiesResponse.fromJson(response.data);
   }
 }

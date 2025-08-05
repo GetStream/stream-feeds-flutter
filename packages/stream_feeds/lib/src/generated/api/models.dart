@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
-export 'model/api_error.dart';
+export 'package:stream_core/stream_core.dart' show StreamApiError;
+
 export 'model/accept_feed_member_invite_response.dart';
 export 'model/accept_follow_request.dart';
 export 'model/accept_follow_response.dart';

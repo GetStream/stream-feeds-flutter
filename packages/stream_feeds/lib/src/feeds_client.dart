@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:rxdart/rxdart.dart';
 import 'package:stream_core/stream_core.dart';
-import 'package:uuid/uuid.dart';
 
 import '../stream_feeds.dart';
 import 'generated/api/api.g.dart' as api;
@@ -14,20 +13,33 @@ class FeedsClient {
   FeedsClient({
     required this.apiKey,
     required this.user,
-    required this.userToken,
+    String? userToken,
+    TokenProvider? userTokenProvider,
     this.config = const FeedsConfig(),
-    this.userTokenProvider,
     this.networkMonitor,
   }) {
+    tokenManager = userTokenProvider != null
+        ? TokenManager.provider(
+            user: user,
+            provider: userTokenProvider,
+          )
+        : TokenManager.static(user: user, token: userToken ?? '');
+
+    final systemEnvironmentManager = SystemEnvironmentManager(
+      environment: const SystemEnvironment(
+        sdkName: 'stream-feeds-dart',
+        sdkIdentifier: 'dart',
+        sdkVersion: '0.1.0',
+      ),
+    );
+
     apiClient = api.DefaultApi(
-      api.ApiClient(
-        basePath: endpointConfig.baseFeedsUrl,
-        authentication: _Authentication(
-          apiKey: apiKey,
-          user: user,
-          getToken: () async => userToken,
-          getConnectionId: () => webSocketClient.connectionId,
-        ),
+      CoreHttpClient(
+        apiKey,
+        systemEnvironmentManager: systemEnvironmentManager,
+        options: HttpClientOptions(baseUrl: endpointConfig.baseFeedsUrl),
+        connectionIdProvider: () => webSocketClient.connectionId,
+        tokenManager: tokenManager,
       ),
     );
     final websocketUri = Uri.parse(endpointConfig.wsEndpoint).replace(
@@ -49,9 +61,8 @@ class FeedsClient {
 
   final String apiKey;
   final User user;
-  final String userToken;
+  late final TokenManager tokenManager;
   final FeedsConfig config;
-  final UserTokenProvider? userTokenProvider;
   final NetworkMonitor? networkMonitor;
 
   late final api.DefaultApi apiClient;
@@ -114,10 +125,10 @@ class FeedsClient {
     }
   }
 
-  void _authenticate() {
+  Future<void> _authenticate() async {
     final connectUserRequest = WsAuthMessageRequest(
       products: ['feeds'],
-      token: userToken,
+      token: await tokenManager.loadToken(),
       userDetails: ConnectUserDetailsRequest(
         id: user.id,
         name: user.originalName,
@@ -144,47 +155,4 @@ class FeedsClient {
 class FeedsConfig {
   const FeedsConfig();
   // TODO: Add config for feeds
-}
-
-typedef ConnectionIdProvider = String? Function();
-typedef UserTokenProvider = Future<String> Function();
-
-// TODO: Migrate the API to dio for authentication and refresh of user tokens
-class _Authentication extends api.Authentication {
-  _Authentication({
-    required this.apiKey,
-    required this.user,
-    required this.getToken,
-    required this.getConnectionId,
-  });
-
-  final String apiKey;
-  final User user;
-  final UserTokenProvider getToken;
-  final ConnectionIdProvider getConnectionId;
-
-  @override
-  Future<void> applyToParams(
-    List<api.QueryParam> queryParams,
-    Map<String, String> headerParams,
-  ) async {
-    queryParams.add(api.QueryParam('api_key', apiKey));
-    final connectionId = getConnectionId();
-    final userToken = await getToken();
-    switch (user.type) {
-      case UserAuthType.regular || UserAuthType.guest:
-        if (connectionId != null) {
-          queryParams.add(api.QueryParam('connection_id', connectionId));
-        }
-        headerParams['stream-auth-type'] = 'jwt';
-        headerParams['Authorization'] = userToken;
-      case UserAuthType.anonymous:
-        headerParams['stream-auth-type'] = 'anonymous';
-        if (userToken.isNotEmpty) {
-          headerParams['Authorization'] = userToken;
-        }
-    }
-    headerParams['X-Stream-Client'] = 'stream-feeds-dart';
-    headerParams['x-client-request-id'] = const Uuid().v4();
-  }
 }
