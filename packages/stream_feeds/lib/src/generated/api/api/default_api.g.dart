@@ -2,27 +2,23 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
-// ignore_for_file: unused_element, unused_import
-// ignore_for_file: use_string_in_part_of_directives
-// ignore_for_file: always_put_required_named_parameters_first
-// ignore_for_file: constant_identifier_names
-// ignore_for_file: lines_longer_than_80_chars
-// ignore_for_file: prefer_final_locals
 // ignore_for_file: prefer_single_quotes
 // ignore_for_file: unnecessary_raw_strings
 // ignore_for_file: public_member_api_docs
 
-part of openapi.api;
+import 'package:stream_core/stream_core.dart';
+
+import '../models.dart';
 
 class DefaultApi {
   DefaultApi(this.apiClient);
 
   final CoreHttpClient apiClient;
-  Future<AcceptFeedMemberInviteResponse> acceptFeedMemberInvite(
-    String feedId,
-    String feedGroupId,
-  ) async {
-    var path =
+  Future<AcceptFeedMemberInviteResponse> acceptFeedMemberInvite({
+    required String feedId,
+    required String feedGroupId,
+  }) async {
+    final path =
         r"/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/members/accept"
             .replaceAll('{feed_id}', feedId)
             .replaceAll('{feed_group_id}', feedGroupId);
@@ -37,9 +33,9 @@ class DefaultApi {
     return AcceptFeedMemberInviteResponse.fromJson(response.data);
   }
 
-  Future<AcceptFollowResponse> acceptFollow(
-    AcceptFollowRequest acceptFollowRequest,
-  ) async {
+  Future<AcceptFollowResponse> acceptFollow({
+    required AcceptFollowRequest acceptFollowRequest,
+  }) async {
     const path = r"/api/v2/feeds/follows/accept";
 
     final queryParams = <String, Object?>{};
@@ -53,9 +49,9 @@ class DefaultApi {
     return AcceptFollowResponse.fromJson(response.data);
   }
 
-  Future<AddActivityResponse> addActivity(
-    AddActivityRequest addActivityRequest,
-  ) async {
+  Future<AddActivityResponse> addActivity({
+    required AddActivityRequest addActivityRequest,
+  }) async {
     const path = r"/api/v2/feeds/activities";
 
     final queryParams = <String, Object?>{};
@@ -69,11 +65,11 @@ class DefaultApi {
     return AddActivityResponse.fromJson(response.data);
   }
 
-  Future<AddBookmarkResponse> addBookmark(
-    String activityId,
+  Future<AddBookmarkResponse> addBookmark({
+    required String activityId,
     AddBookmarkRequest? addBookmarkRequest,
-  ) async {
-    var path = r"/api/v2/feeds/activities/{activity_id}/bookmarks"
+  }) async {
+    final path = r"/api/v2/feeds/activities/{activity_id}/bookmarks"
         .replaceAll('{activity_id}', activityId);
 
     final queryParams = <String, Object?>{};
@@ -87,9 +83,9 @@ class DefaultApi {
     return AddBookmarkResponse.fromJson(response.data);
   }
 
-  Future<AddCommentResponse> addComment(
-    AddCommentRequest addCommentRequest,
-  ) async {
+  Future<AddCommentResponse> addComment({
+    required AddCommentRequest addCommentRequest,
+  }) async {
     const path = r"/api/v2/feeds/comments";
 
     final queryParams = <String, Object?>{};
@@ -103,11 +99,11 @@ class DefaultApi {
     return AddCommentResponse.fromJson(response.data);
   }
 
-  Future<AddCommentReactionResponse> addCommentReaction(
-    String commentId,
-    AddCommentReactionRequest addCommentReactionRequest,
-  ) async {
-    var path = r"/api/v2/feeds/comments/{comment_id}/reactions"
+  Future<AddCommentReactionResponse> addCommentReaction({
+    required String commentId,
+    required AddCommentReactionRequest addCommentReactionRequest,
+  }) async {
+    final path = r"/api/v2/feeds/comments/{comment_id}/reactions"
         .replaceAll('{comment_id}', commentId);
 
     final queryParams = <String, Object?>{};
@@ -121,9 +117,9 @@ class DefaultApi {
     return AddCommentReactionResponse.fromJson(response.data);
   }
 
-  Future<AddCommentsBatchResponse> addCommentsBatch(
-    AddCommentsBatchRequest addCommentsBatchRequest,
-  ) async {
+  Future<AddCommentsBatchResponse> addCommentsBatch({
+    required AddCommentsBatchRequest addCommentsBatchRequest,
+  }) async {
     const path = r"/api/v2/feeds/comments/batch";
 
     final queryParams = <String, Object?>{};
@@ -137,11 +133,11 @@ class DefaultApi {
     return AddCommentsBatchResponse.fromJson(response.data);
   }
 
-  Future<AddReactionResponse> addReaction(
-    String activityId,
-    AddReactionRequest addReactionRequest,
-  ) async {
-    var path = r"/api/v2/feeds/activities/{activity_id}/reactions"
+  Future<AddReactionResponse> addReaction({
+    required String activityId,
+    required AddReactionRequest addReactionRequest,
+  }) async {
+    final path = r"/api/v2/feeds/activities/{activity_id}/reactions"
         .replaceAll('{activity_id}', activityId);
 
     final queryParams = <String, Object?>{};
@@ -155,12 +151,12 @@ class DefaultApi {
     return AddReactionResponse.fromJson(response.data);
   }
 
-  Future<PollVoteResponse> castPollVote(
-    String activityId,
-    String pollId,
+  Future<PollVoteResponse> castPollVote({
+    required String activityId,
+    required String pollId,
     CastPollVoteRequest? castPollVoteRequest,
-  ) async {
-    var path = r"/api/v2/feeds/activities/{activity_id}/polls/{poll_id}/vote"
+  }) async {
+    final path = r"/api/v2/feeds/activities/{activity_id}/polls/{poll_id}/vote"
         .replaceAll('{activity_id}', activityId)
         .replaceAll('{poll_id}', pollId);
 
@@ -175,9 +171,9 @@ class DefaultApi {
     return PollVoteResponse.fromJson(response.data);
   }
 
-  Future<CreateFeedsBatchResponse> createFeedsBatch(
-    CreateFeedsBatchRequest createFeedsBatchRequest,
-  ) async {
+  Future<CreateFeedsBatchResponse> createFeedsBatch({
+    required CreateFeedsBatchRequest createFeedsBatchRequest,
+  }) async {
     const path = r"/api/v2/feeds/feeds/batch";
 
     final queryParams = <String, Object?>{};
@@ -191,9 +187,9 @@ class DefaultApi {
     return CreateFeedsBatchResponse.fromJson(response.data);
   }
 
-  Future<DeleteActivitiesResponse> deleteActivities(
-    DeleteActivitiesRequest deleteActivitiesRequest,
-  ) async {
+  Future<DeleteActivitiesResponse> deleteActivities({
+    required DeleteActivitiesRequest deleteActivitiesRequest,
+  }) async {
     const path = r"/api/v2/feeds/activities/delete";
 
     final queryParams = <String, Object?>{};
@@ -207,11 +203,11 @@ class DefaultApi {
     return DeleteActivitiesResponse.fromJson(response.data);
   }
 
-  Future<DeleteActivityResponse> deleteActivity(
-    String activityId,
+  Future<DeleteActivityResponse> deleteActivity({
+    required String activityId,
     bool? hardDelete,
-  ) async {
-    var path = r"/api/v2/feeds/activities/{activity_id}"
+  }) async {
+    final path = r"/api/v2/feeds/activities/{activity_id}"
         .replaceAll('{activity_id}', activityId);
 
     final queryParams = <String, Object?>{};
@@ -228,11 +224,11 @@ class DefaultApi {
     return DeleteActivityResponse.fromJson(response.data);
   }
 
-  Future<DeleteActivityReactionResponse> deleteActivityReaction(
-    String activityId,
-    String type,
-  ) async {
-    var path = r"/api/v2/feeds/activities/{activity_id}/reactions/{type}"
+  Future<DeleteActivityReactionResponse> deleteActivityReaction({
+    required String activityId,
+    required String type,
+  }) async {
+    final path = r"/api/v2/feeds/activities/{activity_id}/reactions/{type}"
         .replaceAll('{activity_id}', activityId)
         .replaceAll('{type}', type);
 
@@ -246,11 +242,11 @@ class DefaultApi {
     return DeleteActivityReactionResponse.fromJson(response.data);
   }
 
-  Future<DeleteBookmarkResponse> deleteBookmark(
-    String activityId,
+  Future<DeleteBookmarkResponse> deleteBookmark({
+    required String activityId,
     String? folderId,
-  ) async {
-    var path = r"/api/v2/feeds/activities/{activity_id}/bookmarks"
+  }) async {
+    final path = r"/api/v2/feeds/activities/{activity_id}/bookmarks"
         .replaceAll('{activity_id}', activityId);
 
     final queryParams = <String, Object?>{};
@@ -267,10 +263,10 @@ class DefaultApi {
     return DeleteBookmarkResponse.fromJson(response.data);
   }
 
-  Future<DeleteBookmarkFolderResponse> deleteBookmarkFolder(
-    String folderId,
-  ) async {
-    var path = r"/api/v2/feeds/bookmark_folders/{folder_id}"
+  Future<DeleteBookmarkFolderResponse> deleteBookmarkFolder({
+    required String folderId,
+  }) async {
+    final path = r"/api/v2/feeds/bookmark_folders/{folder_id}"
         .replaceAll('{folder_id}', folderId);
 
     final queryParams = <String, Object?>{};
@@ -283,10 +279,10 @@ class DefaultApi {
     return DeleteBookmarkFolderResponse.fromJson(response.data);
   }
 
-  Future<DeleteCommentResponse> deleteComment(
-    String commentId,
-  ) async {
-    var path = r"/api/v2/feeds/comments/{comment_id}"
+  Future<DeleteCommentResponse> deleteComment({
+    required String commentId,
+  }) async {
+    final path = r"/api/v2/feeds/comments/{comment_id}"
         .replaceAll('{comment_id}', commentId);
 
     final queryParams = <String, Object?>{};
@@ -299,11 +295,11 @@ class DefaultApi {
     return DeleteCommentResponse.fromJson(response.data);
   }
 
-  Future<DeleteCommentReactionResponse> deleteCommentReaction(
-    String commentId,
-    String type,
-  ) async {
-    var path = r"/api/v2/feeds/comments/{comment_id}/reactions/{type}"
+  Future<DeleteCommentReactionResponse> deleteCommentReaction({
+    required String commentId,
+    required String type,
+  }) async {
+    final path = r"/api/v2/feeds/comments/{comment_id}/reactions/{type}"
         .replaceAll('{comment_id}', commentId)
         .replaceAll('{type}', type);
 
@@ -317,12 +313,12 @@ class DefaultApi {
     return DeleteCommentReactionResponse.fromJson(response.data);
   }
 
-  Future<DeleteFeedResponse> deleteFeed(
-    String feedGroupId,
-    String feedId,
+  Future<DeleteFeedResponse> deleteFeed({
+    required String feedGroupId,
+    required String feedId,
     bool? hardDelete,
-  ) async {
-    var path = r"/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}"
+  }) async {
+    final path = r"/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}"
         .replaceAll('{feed_group_id}', feedGroupId)
         .replaceAll('{feed_id}', feedId);
 
@@ -340,13 +336,13 @@ class DefaultApi {
     return DeleteFeedResponse.fromJson(response.data);
   }
 
-  Future<PollVoteResponse> deletePollVote(
-    String activityId,
-    String pollId,
-    String voteId,
+  Future<PollVoteResponse> deletePollVote({
+    required String activityId,
+    required String pollId,
+    required String voteId,
     String? userId,
-  ) async {
-    var path =
+  }) async {
+    final path =
         r"/api/v2/feeds/activities/{activity_id}/polls/{poll_id}/vote/{vote_id}"
             .replaceAll('{activity_id}', activityId)
             .replaceAll('{poll_id}', pollId)
@@ -366,9 +362,9 @@ class DefaultApi {
     return PollVoteResponse.fromJson(response.data);
   }
 
-  Future<QueryFeedsResponse> feedsQueryFeeds(
+  Future<QueryFeedsResponse> feedsQueryFeeds({
     QueryFeedsRequest? queryFeedsRequest,
-  ) async {
+  }) async {
     const path = r"/api/v2/feeds/feeds/query";
 
     final queryParams = <String, Object?>{};
@@ -382,9 +378,9 @@ class DefaultApi {
     return QueryFeedsResponse.fromJson(response.data);
   }
 
-  Future<SingleFollowResponse> follow(
-    SingleFollowRequest singleFollowRequest,
-  ) async {
+  Future<SingleFollowResponse> follow({
+    required SingleFollowRequest singleFollowRequest,
+  }) async {
     const path = r"/api/v2/feeds/follows";
 
     final queryParams = <String, Object?>{};
@@ -398,9 +394,9 @@ class DefaultApi {
     return SingleFollowResponse.fromJson(response.data);
   }
 
-  Future<FollowBatchResponse> followBatch(
-    FollowBatchRequest followBatchRequest,
-  ) async {
+  Future<FollowBatchResponse> followBatch({
+    required FollowBatchRequest followBatchRequest,
+  }) async {
     const path = r"/api/v2/feeds/follows/batch";
 
     final queryParams = <String, Object?>{};
@@ -414,10 +410,10 @@ class DefaultApi {
     return FollowBatchResponse.fromJson(response.data);
   }
 
-  Future<GetActivityResponse> getActivity(
-    String activityId,
-  ) async {
-    var path = r"/api/v2/feeds/activities/{activity_id}"
+  Future<GetActivityResponse> getActivity({
+    required String activityId,
+  }) async {
+    final path = r"/api/v2/feeds/activities/{activity_id}"
         .replaceAll('{activity_id}', activityId);
 
     final queryParams = <String, Object?>{};
@@ -430,10 +426,10 @@ class DefaultApi {
     return GetActivityResponse.fromJson(response.data);
   }
 
-  Future<GetCommentResponse> getComment(
-    String commentId,
-  ) async {
-    var path = r"/api/v2/feeds/comments/{comment_id}"
+  Future<GetCommentResponse> getComment({
+    required String commentId,
+  }) async {
+    final path = r"/api/v2/feeds/comments/{comment_id}"
         .replaceAll('{comment_id}', commentId);
 
     final queryParams = <String, Object?>{};
@@ -446,16 +442,16 @@ class DefaultApi {
     return GetCommentResponse.fromJson(response.data);
   }
 
-  Future<GetCommentRepliesResponse> getCommentReplies(
-    String commentId,
+  Future<GetCommentRepliesResponse> getCommentReplies({
+    required String commentId,
     int? depth,
     String? sort,
     int? repliesLimit,
     int? limit,
     String? prev,
     String? next,
-  ) async {
-    var path = r"/api/v2/feeds/comments/{comment_id}/replies"
+  }) async {
+    final path = r"/api/v2/feeds/comments/{comment_id}/replies"
         .replaceAll('{comment_id}', commentId);
 
     final queryParams = <String, Object?>{};
@@ -487,16 +483,16 @@ class DefaultApi {
     return GetCommentRepliesResponse.fromJson(response.data);
   }
 
-  Future<GetCommentsResponse> getComments(
-    String objectId,
-    String objectType,
+  Future<GetCommentsResponse> getComments({
+    required String objectId,
+    required String objectType,
     int? depth,
     String? sort,
     int? repliesLimit,
     int? limit,
     String? prev,
     String? next,
-  ) async {
+  }) async {
     const path = r"/api/v2/feeds/comments";
 
     final queryParams = <String, Object?>{};
@@ -529,11 +525,11 @@ class DefaultApi {
     return GetCommentsResponse.fromJson(response.data);
   }
 
-  Future<GetFollowSuggestionsResponse> getFollowSuggestions(
-    String feedGroupId,
+  Future<GetFollowSuggestionsResponse> getFollowSuggestions({
+    required String feedGroupId,
     int? limit,
-  ) async {
-    var path = r"/api/v2/feeds/feed_groups/{feed_group_id}/follow_suggestions"
+  }) async {
+    final path = r"/api/v2/feeds/feed_groups/{feed_group_id}/follow_suggestions"
         .replaceAll('{feed_group_id}', feedGroupId);
 
     final queryParams = <String, Object?>{};
@@ -550,12 +546,12 @@ class DefaultApi {
     return GetFollowSuggestionsResponse.fromJson(response.data);
   }
 
-  Future<GetOrCreateFeedResponse> getOrCreateFeed(
-    String feedGroupId,
-    String feedId,
+  Future<GetOrCreateFeedResponse> getOrCreateFeed({
+    required String feedGroupId,
+    required String feedId,
     GetOrCreateFeedRequest? getOrCreateFeedRequest,
-  ) async {
-    var path = r"/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}"
+  }) async {
+    final path = r"/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}"
         .replaceAll('{feed_group_id}', feedGroupId)
         .replaceAll('{feed_id}', feedId);
 
@@ -570,12 +566,12 @@ class DefaultApi {
     return GetOrCreateFeedResponse.fromJson(response.data);
   }
 
-  Future<DurationResponse> markActivity(
-    String feedGroupId,
-    String feedId,
+  Future<DurationResponse> markActivity({
+    required String feedGroupId,
+    required String feedId,
     MarkActivityRequest? markActivityRequest,
-  ) async {
-    var path =
+  }) async {
+    final path =
         r"/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/activities/mark/batch"
             .replaceAll('{feed_group_id}', feedGroupId)
             .replaceAll('{feed_id}', feedId);
@@ -591,12 +587,12 @@ class DefaultApi {
     return DurationResponse.fromJson(response.data);
   }
 
-  Future<PinActivityResponse> pinActivity(
-    String feedGroupId,
-    String feedId,
-    String activityId,
-  ) async {
-    var path =
+  Future<PinActivityResponse> pinActivity({
+    required String feedGroupId,
+    required String feedId,
+    required String activityId,
+  }) async {
+    final path =
         r"/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/activities/{activity_id}/pin"
             .replaceAll('{feed_group_id}', feedGroupId)
             .replaceAll('{feed_id}', feedId)
@@ -612,9 +608,9 @@ class DefaultApi {
     return PinActivityResponse.fromJson(response.data);
   }
 
-  Future<QueryActivitiesResponse> queryActivities(
+  Future<QueryActivitiesResponse> queryActivities({
     QueryActivitiesRequest? queryActivitiesRequest,
-  ) async {
+  }) async {
     const path = r"/api/v2/feeds/activities/query";
 
     final queryParams = <String, Object?>{};
@@ -628,11 +624,11 @@ class DefaultApi {
     return QueryActivitiesResponse.fromJson(response.data);
   }
 
-  Future<QueryActivityReactionsResponse> queryActivityReactions(
-    String activityId,
+  Future<QueryActivityReactionsResponse> queryActivityReactions({
+    required String activityId,
     QueryActivityReactionsRequest? queryActivityReactionsRequest,
-  ) async {
-    var path = r"/api/v2/feeds/activities/{activity_id}/reactions/query"
+  }) async {
+    final path = r"/api/v2/feeds/activities/{activity_id}/reactions/query"
         .replaceAll('{activity_id}', activityId);
 
     final queryParams = <String, Object?>{};
@@ -646,9 +642,9 @@ class DefaultApi {
     return QueryActivityReactionsResponse.fromJson(response.data);
   }
 
-  Future<QueryBookmarkFoldersResponse> queryBookmarkFolders(
+  Future<QueryBookmarkFoldersResponse> queryBookmarkFolders({
     QueryBookmarkFoldersRequest? queryBookmarkFoldersRequest,
-  ) async {
+  }) async {
     const path = r"/api/v2/feeds/bookmark_folders/query";
 
     final queryParams = <String, Object?>{};
@@ -662,9 +658,9 @@ class DefaultApi {
     return QueryBookmarkFoldersResponse.fromJson(response.data);
   }
 
-  Future<QueryBookmarksResponse> queryBookmarks(
+  Future<QueryBookmarksResponse> queryBookmarks({
     QueryBookmarksRequest? queryBookmarksRequest,
-  ) async {
+  }) async {
     const path = r"/api/v2/feeds/bookmarks/query";
 
     final queryParams = <String, Object?>{};
@@ -678,11 +674,11 @@ class DefaultApi {
     return QueryBookmarksResponse.fromJson(response.data);
   }
 
-  Future<QueryCommentReactionsResponse> queryCommentReactions(
-    String commentId,
+  Future<QueryCommentReactionsResponse> queryCommentReactions({
+    required String commentId,
     QueryCommentReactionsRequest? queryCommentReactionsRequest,
-  ) async {
-    var path = r"/api/v2/feeds/comments/{comment_id}/reactions/query"
+  }) async {
+    final path = r"/api/v2/feeds/comments/{comment_id}/reactions/query"
         .replaceAll('{comment_id}', commentId);
 
     final queryParams = <String, Object?>{};
@@ -696,9 +692,9 @@ class DefaultApi {
     return QueryCommentReactionsResponse.fromJson(response.data);
   }
 
-  Future<QueryCommentsResponse> queryComments(
-    QueryCommentsRequest queryCommentsRequest,
-  ) async {
+  Future<QueryCommentsResponse> queryComments({
+    required QueryCommentsRequest queryCommentsRequest,
+  }) async {
     const path = r"/api/v2/feeds/comments/query";
 
     final queryParams = <String, Object?>{};
@@ -712,12 +708,12 @@ class DefaultApi {
     return QueryCommentsResponse.fromJson(response.data);
   }
 
-  Future<QueryFeedMembersResponse> queryFeedMembers(
-    String feedGroupId,
-    String feedId,
+  Future<QueryFeedMembersResponse> queryFeedMembers({
+    required String feedGroupId,
+    required String feedId,
     QueryFeedMembersRequest? queryFeedMembersRequest,
-  ) async {
-    var path =
+  }) async {
+    final path =
         r"/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/members/query"
             .replaceAll('{feed_group_id}', feedGroupId)
             .replaceAll('{feed_id}', feedId);
@@ -733,9 +729,9 @@ class DefaultApi {
     return QueryFeedMembersResponse.fromJson(response.data);
   }
 
-  Future<QueryFollowsResponse> queryFollows(
+  Future<QueryFollowsResponse> queryFollows({
     QueryFollowsRequest? queryFollowsRequest,
-  ) async {
+  }) async {
     const path = r"/api/v2/feeds/follows/query";
 
     final queryParams = <String, Object?>{};
@@ -749,11 +745,11 @@ class DefaultApi {
     return QueryFollowsResponse.fromJson(response.data);
   }
 
-  Future<RejectFeedMemberInviteResponse> rejectFeedMemberInvite(
-    String feedGroupId,
-    String feedId,
-  ) async {
-    var path =
+  Future<RejectFeedMemberInviteResponse> rejectFeedMemberInvite({
+    required String feedGroupId,
+    required String feedId,
+  }) async {
+    final path =
         r"/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/members/reject"
             .replaceAll('{feed_group_id}', feedGroupId)
             .replaceAll('{feed_id}', feedId);
@@ -768,9 +764,9 @@ class DefaultApi {
     return RejectFeedMemberInviteResponse.fromJson(response.data);
   }
 
-  Future<RejectFollowResponse> rejectFollow(
-    RejectFollowRequest rejectFollowRequest,
-  ) async {
+  Future<RejectFollowResponse> rejectFollow({
+    required RejectFollowRequest rejectFollowRequest,
+  }) async {
     const path = r"/api/v2/feeds/follows/reject";
 
     final queryParams = <String, Object?>{};
@@ -784,11 +780,11 @@ class DefaultApi {
     return RejectFollowResponse.fromJson(response.data);
   }
 
-  Future<DurationResponse> stopWatchingFeed(
-    String feedGroupId,
-    String feedId,
-  ) async {
-    var path =
+  Future<DurationResponse> stopWatchingFeed({
+    required String feedGroupId,
+    required String feedId,
+  }) async {
+    final path =
         r"/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/watch"
             .replaceAll('{feed_group_id}', feedGroupId)
             .replaceAll('{feed_id}', feedId);
@@ -803,11 +799,11 @@ class DefaultApi {
     return DurationResponse.fromJson(response.data);
   }
 
-  Future<UnfollowResponse> unfollow(
-    String source,
-    String target,
-  ) async {
-    var path = r"/api/v2/feeds/follows/{source}/{target}"
+  Future<UnfollowResponse> unfollow({
+    required String source,
+    required String target,
+  }) async {
+    final path = r"/api/v2/feeds/follows/{source}/{target}"
         .replaceAll('{source}', source)
         .replaceAll('{target}', target);
 
@@ -821,12 +817,12 @@ class DefaultApi {
     return UnfollowResponse.fromJson(response.data);
   }
 
-  Future<UnpinActivityResponse> unpinActivity(
-    String feedGroupId,
-    String feedId,
-    String activityId,
-  ) async {
-    var path =
+  Future<UnpinActivityResponse> unpinActivity({
+    required String feedGroupId,
+    required String feedId,
+    required String activityId,
+  }) async {
+    final path =
         r"/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/activities/{activity_id}/pin"
             .replaceAll('{feed_group_id}', feedGroupId)
             .replaceAll('{feed_id}', feedId)
@@ -842,11 +838,11 @@ class DefaultApi {
     return UnpinActivityResponse.fromJson(response.data);
   }
 
-  Future<UpdateActivityResponse> updateActivity(
-    String activityId,
+  Future<UpdateActivityResponse> updateActivity({
+    required String activityId,
     UpdateActivityRequest? updateActivityRequest,
-  ) async {
-    var path = r"/api/v2/feeds/activities/{activity_id}"
+  }) async {
+    final path = r"/api/v2/feeds/activities/{activity_id}"
         .replaceAll('{activity_id}', activityId);
 
     final queryParams = <String, Object?>{};
@@ -860,11 +856,11 @@ class DefaultApi {
     return UpdateActivityResponse.fromJson(response.data);
   }
 
-  Future<UpdateActivityPartialResponse> updateActivityPartial(
-    String activityId,
+  Future<UpdateActivityPartialResponse> updateActivityPartial({
+    required String activityId,
     UpdateActivityPartialRequest? updateActivityPartialRequest,
-  ) async {
-    var path = r"/api/v2/feeds/activities/{activity_id}"
+  }) async {
+    final path = r"/api/v2/feeds/activities/{activity_id}"
         .replaceAll('{activity_id}', activityId);
 
     final queryParams = <String, Object?>{};
@@ -878,11 +874,11 @@ class DefaultApi {
     return UpdateActivityPartialResponse.fromJson(response.data);
   }
 
-  Future<UpdateBookmarkResponse> updateBookmark(
-    String activityId,
+  Future<UpdateBookmarkResponse> updateBookmark({
+    required String activityId,
     UpdateBookmarkRequest? updateBookmarkRequest,
-  ) async {
-    var path = r"/api/v2/feeds/activities/{activity_id}/bookmarks"
+  }) async {
+    final path = r"/api/v2/feeds/activities/{activity_id}/bookmarks"
         .replaceAll('{activity_id}', activityId);
 
     final queryParams = <String, Object?>{};
@@ -896,11 +892,11 @@ class DefaultApi {
     return UpdateBookmarkResponse.fromJson(response.data);
   }
 
-  Future<UpdateBookmarkFolderResponse> updateBookmarkFolder(
-    String folderId,
+  Future<UpdateBookmarkFolderResponse> updateBookmarkFolder({
+    required String folderId,
     UpdateBookmarkFolderRequest? updateBookmarkFolderRequest,
-  ) async {
-    var path = r"/api/v2/feeds/bookmark_folders/{folder_id}"
+  }) async {
+    final path = r"/api/v2/feeds/bookmark_folders/{folder_id}"
         .replaceAll('{folder_id}', folderId);
 
     final queryParams = <String, Object?>{};
@@ -914,11 +910,11 @@ class DefaultApi {
     return UpdateBookmarkFolderResponse.fromJson(response.data);
   }
 
-  Future<UpdateCommentResponse> updateComment(
-    String commentId,
+  Future<UpdateCommentResponse> updateComment({
+    required String commentId,
     UpdateCommentRequest? updateCommentRequest,
-  ) async {
-    var path = r"/api/v2/feeds/comments/{comment_id}"
+  }) async {
+    final path = r"/api/v2/feeds/comments/{comment_id}"
         .replaceAll('{comment_id}', commentId);
 
     final queryParams = <String, Object?>{};
@@ -932,12 +928,12 @@ class DefaultApi {
     return UpdateCommentResponse.fromJson(response.data);
   }
 
-  Future<UpdateFeedResponse> updateFeed(
-    String feedGroupId,
-    String feedId,
+  Future<UpdateFeedResponse> updateFeed({
+    required String feedGroupId,
+    required String feedId,
     UpdateFeedRequest? updateFeedRequest,
-  ) async {
-    var path = r"/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}"
+  }) async {
+    final path = r"/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}"
         .replaceAll('{feed_group_id}', feedGroupId)
         .replaceAll('{feed_id}', feedId);
 
@@ -952,12 +948,12 @@ class DefaultApi {
     return UpdateFeedResponse.fromJson(response.data);
   }
 
-  Future<UpdateFeedMembersResponse> updateFeedMembers(
-    String feedGroupId,
-    String feedId,
-    UpdateFeedMembersRequest updateFeedMembersRequest,
-  ) async {
-    var path =
+  Future<UpdateFeedMembersResponse> updateFeedMembers({
+    required String feedGroupId,
+    required String feedId,
+    required UpdateFeedMembersRequest updateFeedMembersRequest,
+  }) async {
+    final path =
         r"/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/members"
             .replaceAll('{feed_group_id}', feedGroupId)
             .replaceAll('{feed_id}', feedId);
@@ -973,9 +969,9 @@ class DefaultApi {
     return UpdateFeedMembersResponse.fromJson(response.data);
   }
 
-  Future<UpdateFollowResponse> updateFollow(
-    UpdateFollowRequest updateFollowRequest,
-  ) async {
+  Future<UpdateFollowResponse> updateFollow({
+    required UpdateFollowRequest updateFollowRequest,
+  }) async {
     const path = r"/api/v2/feeds/follows";
 
     final queryParams = <String, Object?>{};
@@ -989,9 +985,9 @@ class DefaultApi {
     return UpdateFollowResponse.fromJson(response.data);
   }
 
-  Future<UpsertActivitiesResponse> upsertActivities(
-    UpsertActivitiesRequest upsertActivitiesRequest,
-  ) async {
+  Future<UpsertActivitiesResponse> upsertActivities({
+    required UpsertActivitiesRequest upsertActivitiesRequest,
+  }) async {
     const path = r"/api/v2/feeds/activities/batch";
 
     final queryParams = <String, Object?>{};
