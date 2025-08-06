@@ -2,10 +2,10 @@ import 'package:stream_feeds/stream_feeds.dart';
 import 'demo_app_config.dart';
 
 class UserCredentials {
+  const UserCredentials({required this.user, required this.token});
+
   final User user;
   final String token;
-
-  const UserCredentials({required this.user, required this.token});
 
   // Individual user credentials
   static final luke = UserCredentials(
@@ -23,7 +23,7 @@ class UserCredentials {
       id: 'martin',
       name: 'Martin',
       imageUrl:
-          "https://getstream.io/static/2796a305dd07651fcceb4721a94f4505/802d2/martin-mitrevski.webp",
+          'https://getstream.io/static/2796a305dd07651fcceb4721a94f4505/802d2/martin-mitrevski.webp',
     ),
     token: DemoAppConfig.current.tokenForUser('martin'),
   );

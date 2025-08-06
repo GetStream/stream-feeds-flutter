@@ -4,7 +4,7 @@ import 'dart:convert';
 
 import 'package:stream_core/stream_core.dart' as core;
 
-import '../generated/api/api.g.dart' as api;
+import '../generated/api/api.dart' as api;
 
 class FeedsWsEvent extends core.WsEvent {
   const FeedsWsEvent(this.event);

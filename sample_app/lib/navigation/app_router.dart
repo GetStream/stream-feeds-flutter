@@ -1,10 +1,9 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/widgets.dart';
 
 import '../home_screen/home_screen.dart';
 import '../login_screen/login_screen.dart';
-import 'auth_guard.dart';
 import 'app_state.dart';
+import 'auth_guard.dart';
 
 part 'app_router.gr.dart';
 

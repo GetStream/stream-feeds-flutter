@@ -1,5 +1,5 @@
 import '../../stream_feeds.dart';
-import '../generated/api/api.g.dart' as api;
+import '../generated/api/api.dart' as api;
 import '../models.dart';
 
 extension FeedsReactionResponseMapper on api.FeedsReactionResponse {

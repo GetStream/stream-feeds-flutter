@@ -1,7 +1,6 @@
 import 'package:stream_core/stream_core.dart';
 
 import '../../stream_feeds.dart';
-import '../feeds_client.dart';
 import '../repositories.dart';
 import 'feed_state.dart';
 

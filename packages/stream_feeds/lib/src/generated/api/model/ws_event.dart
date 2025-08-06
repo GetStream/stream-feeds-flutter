@@ -109,7 +109,9 @@ class WSEventAppUpdatedEvent extends WSEvent {
   const WSEventAppUpdatedEvent(this.appUpdatedEvent);
 
   factory WSEventAppUpdatedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventAppUpdatedEvent(AppUpdatedEvent.fromJson(json)!);
+    return WSEventAppUpdatedEvent(
+      AppUpdatedEvent.fromJson(json),
+    );
   }
 
   final AppUpdatedEvent appUpdatedEvent;
@@ -119,7 +121,9 @@ class WSEventActivityAddedEvent extends WSEvent {
   const WSEventActivityAddedEvent(this.activityAddedEvent);
 
   factory WSEventActivityAddedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventActivityAddedEvent(ActivityAddedEvent.fromJson(json)!);
+    return WSEventActivityAddedEvent(
+      ActivityAddedEvent.fromJson(json),
+    );
   }
 
   final ActivityAddedEvent activityAddedEvent;
@@ -129,7 +133,9 @@ class WSEventActivityDeletedEvent extends WSEvent {
   const WSEventActivityDeletedEvent(this.activityDeletedEvent);
 
   factory WSEventActivityDeletedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventActivityDeletedEvent(ActivityDeletedEvent.fromJson(json)!);
+    return WSEventActivityDeletedEvent(
+      ActivityDeletedEvent.fromJson(json),
+    );
   }
 
   final ActivityDeletedEvent activityDeletedEvent;
@@ -139,7 +145,9 @@ class WSEventActivityMarkEvent extends WSEvent {
   const WSEventActivityMarkEvent(this.activityMarkEvent);
 
   factory WSEventActivityMarkEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventActivityMarkEvent(ActivityMarkEvent.fromJson(json)!);
+    return WSEventActivityMarkEvent(
+      ActivityMarkEvent.fromJson(json),
+    );
   }
 
   final ActivityMarkEvent activityMarkEvent;
@@ -149,7 +157,9 @@ class WSEventActivityPinnedEvent extends WSEvent {
   const WSEventActivityPinnedEvent(this.activityPinnedEvent);
 
   factory WSEventActivityPinnedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventActivityPinnedEvent(ActivityPinnedEvent.fromJson(json)!);
+    return WSEventActivityPinnedEvent(
+      ActivityPinnedEvent.fromJson(json),
+    );
   }
 
   final ActivityPinnedEvent activityPinnedEvent;
@@ -161,7 +171,8 @@ class WSEventActivityReactionAddedEvent extends WSEvent {
   factory WSEventActivityReactionAddedEvent.fromJson(
       Map<String, dynamic> json) {
     return WSEventActivityReactionAddedEvent(
-        ActivityReactionAddedEvent.fromJson(json)!);
+      ActivityReactionAddedEvent.fromJson(json),
+    );
   }
 
   final ActivityReactionAddedEvent activityReactionAddedEvent;
@@ -173,7 +184,8 @@ class WSEventActivityReactionDeletedEvent extends WSEvent {
   factory WSEventActivityReactionDeletedEvent.fromJson(
       Map<String, dynamic> json) {
     return WSEventActivityReactionDeletedEvent(
-        ActivityReactionDeletedEvent.fromJson(json)!);
+      ActivityReactionDeletedEvent.fromJson(json),
+    );
   }
 
   final ActivityReactionDeletedEvent activityReactionDeletedEvent;
@@ -185,7 +197,8 @@ class WSEventActivityReactionUpdatedEvent extends WSEvent {
   factory WSEventActivityReactionUpdatedEvent.fromJson(
       Map<String, dynamic> json) {
     return WSEventActivityReactionUpdatedEvent(
-        ActivityReactionUpdatedEvent.fromJson(json)!);
+      ActivityReactionUpdatedEvent.fromJson(json),
+    );
   }
 
   final ActivityReactionUpdatedEvent activityReactionUpdatedEvent;
@@ -197,7 +210,8 @@ class WSEventActivityRemovedFromFeedEvent extends WSEvent {
   factory WSEventActivityRemovedFromFeedEvent.fromJson(
       Map<String, dynamic> json) {
     return WSEventActivityRemovedFromFeedEvent(
-        ActivityRemovedFromFeedEvent.fromJson(json)!);
+      ActivityRemovedFromFeedEvent.fromJson(json),
+    );
   }
 
   final ActivityRemovedFromFeedEvent activityRemovedFromFeedEvent;
@@ -207,7 +221,9 @@ class WSEventActivityUnpinnedEvent extends WSEvent {
   const WSEventActivityUnpinnedEvent(this.activityUnpinnedEvent);
 
   factory WSEventActivityUnpinnedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventActivityUnpinnedEvent(ActivityUnpinnedEvent.fromJson(json)!);
+    return WSEventActivityUnpinnedEvent(
+      ActivityUnpinnedEvent.fromJson(json),
+    );
   }
 
   final ActivityUnpinnedEvent activityUnpinnedEvent;
@@ -217,7 +233,9 @@ class WSEventActivityUpdatedEvent extends WSEvent {
   const WSEventActivityUpdatedEvent(this.activityUpdatedEvent);
 
   factory WSEventActivityUpdatedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventActivityUpdatedEvent(ActivityUpdatedEvent.fromJson(json)!);
+    return WSEventActivityUpdatedEvent(
+      ActivityUpdatedEvent.fromJson(json),
+    );
   }
 
   final ActivityUpdatedEvent activityUpdatedEvent;
@@ -227,7 +245,9 @@ class WSEventBookmarkAddedEvent extends WSEvent {
   const WSEventBookmarkAddedEvent(this.bookmarkAddedEvent);
 
   factory WSEventBookmarkAddedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventBookmarkAddedEvent(BookmarkAddedEvent.fromJson(json)!);
+    return WSEventBookmarkAddedEvent(
+      BookmarkAddedEvent.fromJson(json),
+    );
   }
 
   final BookmarkAddedEvent bookmarkAddedEvent;
@@ -237,7 +257,9 @@ class WSEventBookmarkDeletedEvent extends WSEvent {
   const WSEventBookmarkDeletedEvent(this.bookmarkDeletedEvent);
 
   factory WSEventBookmarkDeletedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventBookmarkDeletedEvent(BookmarkDeletedEvent.fromJson(json)!);
+    return WSEventBookmarkDeletedEvent(
+      BookmarkDeletedEvent.fromJson(json),
+    );
   }
 
   final BookmarkDeletedEvent bookmarkDeletedEvent;
@@ -247,7 +269,9 @@ class WSEventBookmarkUpdatedEvent extends WSEvent {
   const WSEventBookmarkUpdatedEvent(this.bookmarkUpdatedEvent);
 
   factory WSEventBookmarkUpdatedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventBookmarkUpdatedEvent(BookmarkUpdatedEvent.fromJson(json)!);
+    return WSEventBookmarkUpdatedEvent(
+      BookmarkUpdatedEvent.fromJson(json),
+    );
   }
 
   final BookmarkUpdatedEvent bookmarkUpdatedEvent;
@@ -259,7 +283,8 @@ class WSEventBookmarkFolderDeletedEvent extends WSEvent {
   factory WSEventBookmarkFolderDeletedEvent.fromJson(
       Map<String, dynamic> json) {
     return WSEventBookmarkFolderDeletedEvent(
-        BookmarkFolderDeletedEvent.fromJson(json)!);
+      BookmarkFolderDeletedEvent.fromJson(json),
+    );
   }
 
   final BookmarkFolderDeletedEvent bookmarkFolderDeletedEvent;
@@ -271,7 +296,8 @@ class WSEventBookmarkFolderUpdatedEvent extends WSEvent {
   factory WSEventBookmarkFolderUpdatedEvent.fromJson(
       Map<String, dynamic> json) {
     return WSEventBookmarkFolderUpdatedEvent(
-        BookmarkFolderUpdatedEvent.fromJson(json)!);
+      BookmarkFolderUpdatedEvent.fromJson(json),
+    );
   }
 
   final BookmarkFolderUpdatedEvent bookmarkFolderUpdatedEvent;
@@ -281,7 +307,9 @@ class WSEventCommentAddedEvent extends WSEvent {
   const WSEventCommentAddedEvent(this.commentAddedEvent);
 
   factory WSEventCommentAddedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventCommentAddedEvent(CommentAddedEvent.fromJson(json)!);
+    return WSEventCommentAddedEvent(
+      CommentAddedEvent.fromJson(json),
+    );
   }
 
   final CommentAddedEvent commentAddedEvent;
@@ -291,7 +319,9 @@ class WSEventCommentDeletedEvent extends WSEvent {
   const WSEventCommentDeletedEvent(this.commentDeletedEvent);
 
   factory WSEventCommentDeletedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventCommentDeletedEvent(CommentDeletedEvent.fromJson(json)!);
+    return WSEventCommentDeletedEvent(
+      CommentDeletedEvent.fromJson(json),
+    );
   }
 
   final CommentDeletedEvent commentDeletedEvent;
@@ -302,7 +332,8 @@ class WSEventCommentReactionAddedEvent extends WSEvent {
 
   factory WSEventCommentReactionAddedEvent.fromJson(Map<String, dynamic> json) {
     return WSEventCommentReactionAddedEvent(
-        CommentReactionAddedEvent.fromJson(json)!);
+      CommentReactionAddedEvent.fromJson(json),
+    );
   }
 
   final CommentReactionAddedEvent commentReactionAddedEvent;
@@ -314,7 +345,8 @@ class WSEventCommentReactionDeletedEvent extends WSEvent {
   factory WSEventCommentReactionDeletedEvent.fromJson(
       Map<String, dynamic> json) {
     return WSEventCommentReactionDeletedEvent(
-        CommentReactionDeletedEvent.fromJson(json)!);
+      CommentReactionDeletedEvent.fromJson(json),
+    );
   }
 
   final CommentReactionDeletedEvent commentReactionDeletedEvent;
@@ -326,7 +358,8 @@ class WSEventCommentReactionUpdatedEvent extends WSEvent {
   factory WSEventCommentReactionUpdatedEvent.fromJson(
       Map<String, dynamic> json) {
     return WSEventCommentReactionUpdatedEvent(
-        CommentReactionUpdatedEvent.fromJson(json)!);
+      CommentReactionUpdatedEvent.fromJson(json),
+    );
   }
 
   final CommentReactionUpdatedEvent commentReactionUpdatedEvent;
@@ -336,7 +369,9 @@ class WSEventCommentUpdatedEvent extends WSEvent {
   const WSEventCommentUpdatedEvent(this.commentUpdatedEvent);
 
   factory WSEventCommentUpdatedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventCommentUpdatedEvent(CommentUpdatedEvent.fromJson(json)!);
+    return WSEventCommentUpdatedEvent(
+      CommentUpdatedEvent.fromJson(json),
+    );
   }
 
   final CommentUpdatedEvent commentUpdatedEvent;
@@ -346,7 +381,9 @@ class WSEventFeedCreatedEvent extends WSEvent {
   const WSEventFeedCreatedEvent(this.feedCreatedEvent);
 
   factory WSEventFeedCreatedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventFeedCreatedEvent(FeedCreatedEvent.fromJson(json)!);
+    return WSEventFeedCreatedEvent(
+      FeedCreatedEvent.fromJson(json),
+    );
   }
 
   final FeedCreatedEvent feedCreatedEvent;
@@ -356,7 +393,9 @@ class WSEventFeedDeletedEvent extends WSEvent {
   const WSEventFeedDeletedEvent(this.feedDeletedEvent);
 
   factory WSEventFeedDeletedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventFeedDeletedEvent(FeedDeletedEvent.fromJson(json)!);
+    return WSEventFeedDeletedEvent(
+      FeedDeletedEvent.fromJson(json),
+    );
   }
 
   final FeedDeletedEvent feedDeletedEvent;
@@ -366,7 +405,9 @@ class WSEventFeedUpdatedEvent extends WSEvent {
   const WSEventFeedUpdatedEvent(this.feedUpdatedEvent);
 
   factory WSEventFeedUpdatedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventFeedUpdatedEvent(FeedUpdatedEvent.fromJson(json)!);
+    return WSEventFeedUpdatedEvent(
+      FeedUpdatedEvent.fromJson(json),
+    );
   }
 
   final FeedUpdatedEvent feedUpdatedEvent;
@@ -376,7 +417,9 @@ class WSEventFeedGroupChangedEvent extends WSEvent {
   const WSEventFeedGroupChangedEvent(this.feedGroupChangedEvent);
 
   factory WSEventFeedGroupChangedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventFeedGroupChangedEvent(FeedGroupChangedEvent.fromJson(json)!);
+    return WSEventFeedGroupChangedEvent(
+      FeedGroupChangedEvent.fromJson(json),
+    );
   }
 
   final FeedGroupChangedEvent feedGroupChangedEvent;
@@ -386,7 +429,9 @@ class WSEventFeedGroupDeletedEvent extends WSEvent {
   const WSEventFeedGroupDeletedEvent(this.feedGroupDeletedEvent);
 
   factory WSEventFeedGroupDeletedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventFeedGroupDeletedEvent(FeedGroupDeletedEvent.fromJson(json)!);
+    return WSEventFeedGroupDeletedEvent(
+      FeedGroupDeletedEvent.fromJson(json),
+    );
   }
 
   final FeedGroupDeletedEvent feedGroupDeletedEvent;
@@ -396,7 +441,9 @@ class WSEventFeedMemberAddedEvent extends WSEvent {
   const WSEventFeedMemberAddedEvent(this.feedMemberAddedEvent);
 
   factory WSEventFeedMemberAddedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventFeedMemberAddedEvent(FeedMemberAddedEvent.fromJson(json)!);
+    return WSEventFeedMemberAddedEvent(
+      FeedMemberAddedEvent.fromJson(json),
+    );
   }
 
   final FeedMemberAddedEvent feedMemberAddedEvent;
@@ -407,7 +454,8 @@ class WSEventFeedMemberRemovedEvent extends WSEvent {
 
   factory WSEventFeedMemberRemovedEvent.fromJson(Map<String, dynamic> json) {
     return WSEventFeedMemberRemovedEvent(
-        FeedMemberRemovedEvent.fromJson(json)!);
+      FeedMemberRemovedEvent.fromJson(json),
+    );
   }
 
   final FeedMemberRemovedEvent feedMemberRemovedEvent;
@@ -418,7 +466,8 @@ class WSEventFeedMemberUpdatedEvent extends WSEvent {
 
   factory WSEventFeedMemberUpdatedEvent.fromJson(Map<String, dynamic> json) {
     return WSEventFeedMemberUpdatedEvent(
-        FeedMemberUpdatedEvent.fromJson(json)!);
+      FeedMemberUpdatedEvent.fromJson(json),
+    );
   }
 
   final FeedMemberUpdatedEvent feedMemberUpdatedEvent;
@@ -428,7 +477,9 @@ class WSEventFollowCreatedEvent extends WSEvent {
   const WSEventFollowCreatedEvent(this.followCreatedEvent);
 
   factory WSEventFollowCreatedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventFollowCreatedEvent(FollowCreatedEvent.fromJson(json)!);
+    return WSEventFollowCreatedEvent(
+      FollowCreatedEvent.fromJson(json),
+    );
   }
 
   final FollowCreatedEvent followCreatedEvent;
@@ -438,7 +489,9 @@ class WSEventFollowDeletedEvent extends WSEvent {
   const WSEventFollowDeletedEvent(this.followDeletedEvent);
 
   factory WSEventFollowDeletedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventFollowDeletedEvent(FollowDeletedEvent.fromJson(json)!);
+    return WSEventFollowDeletedEvent(
+      FollowDeletedEvent.fromJson(json),
+    );
   }
 
   final FollowDeletedEvent followDeletedEvent;
@@ -448,7 +501,9 @@ class WSEventFollowUpdatedEvent extends WSEvent {
   const WSEventFollowUpdatedEvent(this.followUpdatedEvent);
 
   factory WSEventFollowUpdatedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventFollowUpdatedEvent(FollowUpdatedEvent.fromJson(json)!);
+    return WSEventFollowUpdatedEvent(
+      FollowUpdatedEvent.fromJson(json),
+    );
   }
 
   final FollowUpdatedEvent followUpdatedEvent;
@@ -460,7 +515,8 @@ class WSEventNotificationFeedUpdatedEvent extends WSEvent {
   factory WSEventNotificationFeedUpdatedEvent.fromJson(
       Map<String, dynamic> json) {
     return WSEventNotificationFeedUpdatedEvent(
-        NotificationFeedUpdatedEvent.fromJson(json)!);
+      NotificationFeedUpdatedEvent.fromJson(json),
+    );
   }
 
   final NotificationFeedUpdatedEvent notificationFeedUpdatedEvent;
@@ -470,7 +526,9 @@ class WSEventPollClosedFeedEvent extends WSEvent {
   const WSEventPollClosedFeedEvent(this.pollClosedFeedEvent);
 
   factory WSEventPollClosedFeedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventPollClosedFeedEvent(PollClosedFeedEvent.fromJson(json)!);
+    return WSEventPollClosedFeedEvent(
+      PollClosedFeedEvent.fromJson(json),
+    );
   }
 
   final PollClosedFeedEvent pollClosedFeedEvent;
@@ -480,7 +538,9 @@ class WSEventPollDeletedFeedEvent extends WSEvent {
   const WSEventPollDeletedFeedEvent(this.pollDeletedFeedEvent);
 
   factory WSEventPollDeletedFeedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventPollDeletedFeedEvent(PollDeletedFeedEvent.fromJson(json)!);
+    return WSEventPollDeletedFeedEvent(
+      PollDeletedFeedEvent.fromJson(json),
+    );
   }
 
   final PollDeletedFeedEvent pollDeletedFeedEvent;
@@ -490,7 +550,9 @@ class WSEventPollUpdatedFeedEvent extends WSEvent {
   const WSEventPollUpdatedFeedEvent(this.pollUpdatedFeedEvent);
 
   factory WSEventPollUpdatedFeedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventPollUpdatedFeedEvent(PollUpdatedFeedEvent.fromJson(json)!);
+    return WSEventPollUpdatedFeedEvent(
+      PollUpdatedFeedEvent.fromJson(json),
+    );
   }
 
   final PollUpdatedFeedEvent pollUpdatedFeedEvent;
@@ -501,7 +563,8 @@ class WSEventPollVoteCastedFeedEvent extends WSEvent {
 
   factory WSEventPollVoteCastedFeedEvent.fromJson(Map<String, dynamic> json) {
     return WSEventPollVoteCastedFeedEvent(
-        PollVoteCastedFeedEvent.fromJson(json)!);
+      PollVoteCastedFeedEvent.fromJson(json),
+    );
   }
 
   final PollVoteCastedFeedEvent pollVoteCastedFeedEvent;
@@ -512,7 +575,8 @@ class WSEventPollVoteChangedFeedEvent extends WSEvent {
 
   factory WSEventPollVoteChangedFeedEvent.fromJson(Map<String, dynamic> json) {
     return WSEventPollVoteChangedFeedEvent(
-        PollVoteChangedFeedEvent.fromJson(json)!);
+      PollVoteChangedFeedEvent.fromJson(json),
+    );
   }
 
   final PollVoteChangedFeedEvent pollVoteChangedFeedEvent;
@@ -523,7 +587,8 @@ class WSEventPollVoteRemovedFeedEvent extends WSEvent {
 
   factory WSEventPollVoteRemovedFeedEvent.fromJson(Map<String, dynamic> json) {
     return WSEventPollVoteRemovedFeedEvent(
-        PollVoteRemovedFeedEvent.fromJson(json)!);
+      PollVoteRemovedFeedEvent.fromJson(json),
+    );
   }
 
   final PollVoteRemovedFeedEvent pollVoteRemovedFeedEvent;
@@ -533,7 +598,9 @@ class WSEventHealthCheckEvent extends WSEvent {
   const WSEventHealthCheckEvent(this.healthCheckEvent);
 
   factory WSEventHealthCheckEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventHealthCheckEvent(HealthCheckEvent.fromJson(json)!);
+    return WSEventHealthCheckEvent(
+      HealthCheckEvent.fromJson(json),
+    );
   }
 
   final HealthCheckEvent healthCheckEvent;
@@ -543,7 +610,9 @@ class WSEventUserBannedEvent extends WSEvent {
   const WSEventUserBannedEvent(this.userBannedEvent);
 
   factory WSEventUserBannedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventUserBannedEvent(UserBannedEvent.fromJson(json)!);
+    return WSEventUserBannedEvent(
+      UserBannedEvent.fromJson(json),
+    );
   }
 
   final UserBannedEvent userBannedEvent;
@@ -553,7 +622,9 @@ class WSEventUserDeactivatedEvent extends WSEvent {
   const WSEventUserDeactivatedEvent(this.userDeactivatedEvent);
 
   factory WSEventUserDeactivatedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventUserDeactivatedEvent(UserDeactivatedEvent.fromJson(json)!);
+    return WSEventUserDeactivatedEvent(
+      UserDeactivatedEvent.fromJson(json),
+    );
   }
 
   final UserDeactivatedEvent userDeactivatedEvent;
@@ -563,7 +634,9 @@ class WSEventUserMutedEvent extends WSEvent {
   const WSEventUserMutedEvent(this.userMutedEvent);
 
   factory WSEventUserMutedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventUserMutedEvent(UserMutedEvent.fromJson(json)!);
+    return WSEventUserMutedEvent(
+      UserMutedEvent.fromJson(json),
+    );
   }
 
   final UserMutedEvent userMutedEvent;
@@ -573,7 +646,9 @@ class WSEventUserReactivatedEvent extends WSEvent {
   const WSEventUserReactivatedEvent(this.userReactivatedEvent);
 
   factory WSEventUserReactivatedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventUserReactivatedEvent(UserReactivatedEvent.fromJson(json)!);
+    return WSEventUserReactivatedEvent(
+      UserReactivatedEvent.fromJson(json),
+    );
   }
 
   final UserReactivatedEvent userReactivatedEvent;
@@ -583,7 +658,9 @@ class WSEventUserUpdatedEvent extends WSEvent {
   const WSEventUserUpdatedEvent(this.userUpdatedEvent);
 
   factory WSEventUserUpdatedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventUserUpdatedEvent(UserUpdatedEvent.fromJson(json)!);
+    return WSEventUserUpdatedEvent(
+      UserUpdatedEvent.fromJson(json),
+    );
   }
 
   final UserUpdatedEvent userUpdatedEvent;

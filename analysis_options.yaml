@@ -14,7 +14,7 @@ analyzer:
     todo: ignore
   exclude:
     # exclude all the generated files
-    # - packages/*/lib/**/*.*.dart
+    - packages/*/lib/**/*.g.dart
 
 linter:
   rules:
@@ -89,3 +89,7 @@ linter:
 
     # There are situations where we use default in enums on purpose
     no_default_cases: false
+
+    # Temporarily disabled to find more important issues
+    public_member_api_docs: false
+    avoid_print: false

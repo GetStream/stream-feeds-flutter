@@ -13,13 +13,13 @@ enum EndpointConfig {
     wsEndpoint: 'wss://feeds.stream-io-api.com/api/v2/connect',
   );
 
-  final String hostname;
-  final String wsEndpoint;
-  final String baseFeedsUrl;
-
   const EndpointConfig({
     required this.hostname,
     required this.wsEndpoint,
     String? baseFeedsUrl,
   }) : baseFeedsUrl = baseFeedsUrl ?? hostname;
+
+  final String hostname;
+  final String wsEndpoint;
+  final String baseFeedsUrl;
 }

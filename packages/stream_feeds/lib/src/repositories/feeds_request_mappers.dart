@@ -1,5 +1,5 @@
 import '../../stream_feeds.dart';
-import '../generated/api/api.g.dart' as api;
+import '../generated/api/api.dart' as api;
 
 extension FeedQueryMapper on FeedQuery {
   api.GetOrCreateFeedRequest toRequest() {

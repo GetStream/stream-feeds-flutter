@@ -4,7 +4,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:stream_core/stream_core.dart';
 
 import '../stream_feeds.dart';
-import 'generated/api/api.g.dart' as api;
+import 'generated/api/api.dart' as api;
 import 'repositories.dart';
 import 'utils/endpoint_config.dart';
 import 'ws/feeds_ws_event.dart';
@@ -69,7 +69,7 @@ class FeedsClient {
   late final api.DefaultApi apiClient;
   late final FeedsRepository feedsRepository;
 
-  static final endpointConfig = EndpointConfig.production;
+  static const endpointConfig = EndpointConfig.production;
   late final WebSocketClient webSocketClient;
   ConnectionRecoveryHandler? connectionRecoveryHandler;
   Stream<FeedsWsEvent> get feedsEvents =>

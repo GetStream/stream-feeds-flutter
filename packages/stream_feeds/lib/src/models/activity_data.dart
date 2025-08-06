@@ -40,8 +40,10 @@ class ActivityData implements Identifiable {
     );
   }
 
-  ActivityData addReaction(FeedsReactionData reaction,
-      {required String currentUserId}) {
+  ActivityData addReaction(
+    FeedsReactionData reaction, {
+    required String currentUserId,
+  }) {
     final newLatestReactions = [...latestReactions];
     final newReactionGroups =
         Map<String, ReactionGroupData>.from(reactionGroups);
@@ -63,8 +65,10 @@ class ActivityData implements Identifiable {
     );
   }
 
-  ActivityData removeReaction(FeedsReactionData reaction,
-      {required String currentUserId}) {
+  ActivityData removeReaction(
+    FeedsReactionData reaction, {
+    required String currentUserId,
+  }) {
     final newLatestReactions = [...latestReactions];
     final newReactionGroups =
         Map<String, ReactionGroupData>.from(reactionGroups);

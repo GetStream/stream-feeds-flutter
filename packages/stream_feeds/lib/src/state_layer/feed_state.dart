@@ -1,12 +1,8 @@
-import 'dart:async';
-
 import 'package:equatable/equatable.dart';
 import 'package:state_notifier/state_notifier.dart';
 
 import '../../stream_feeds.dart';
-import '../repositories/feeds_repository.dart';
 import '../utils/list_extensions.dart';
-import '../ws/feeds_ws_event.dart';
 import 'feed_ws_handler.dart';
 
 class FeedStateNotifier extends StateNotifier<FeedState> {
