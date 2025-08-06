@@ -1,4 +1,5 @@
 import 'package:mocktail/mocktail.dart';
+import 'package:stream_core/stream_core.dart';
 import 'package:stream_feeds/src/repositories/feeds_repository.dart';
 import 'package:stream_feeds/src/ws/feeds_ws_event.dart';
 import 'package:stream_feeds/stream_feeds.dart';
@@ -6,6 +7,8 @@ import 'package:stream_feeds/stream_feeds.dart';
 class MockFeedsRepository extends Mock implements FeedsRepository {}
 
 class MockFeedsClient extends Mock implements FeedsClient {}
+
+class MockWebSocketClient extends Mock implements WebSocketClient {}
 
 class FakeFeedsClient extends Fake implements FeedsClient {
   FakeFeedsClient({

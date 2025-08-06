@@ -16,7 +16,7 @@ class FeedsClient {
     String? userToken,
     TokenProvider? userTokenProvider,
     this.config = const FeedsConfig(),
-    this.networkMonitor,
+    FeedsClientEnvironment environment = const FeedsClientEnvironment(),
   }) {
     tokenManager = userTokenProvider != null
         ? TokenManager.provider(
@@ -51,7 +51,7 @@ class FeedsClient {
       },
     );
 
-    webSocketClient = WebSocketClient(
+    webSocketClient = environment.createWebSocketClient(
       url: websocketUri.toString(),
       eventDecoder: FeedsWsEvent.fromEventObject,
       onConnectionEstablished: _authenticate,
@@ -64,7 +64,6 @@ class FeedsClient {
   final User user;
   late final TokenManager tokenManager;
   final FeedsConfig config;
-  final NetworkMonitor? networkMonitor;
 
   late final api.DefaultApi apiClient;
   late final FeedsRepository feedsRepository;
@@ -89,7 +88,7 @@ class FeedsClient {
 
     connectionRecoveryHandler = DefaultConnectionRecoveryHandler(
       client: webSocketClient,
-      networkMonitor: networkMonitor,
+      networkMonitor: config.networkMonitor,
     );
 
     _connectionCompleter = Completer<void>();
@@ -154,6 +153,28 @@ class FeedsClient {
 }
 
 class FeedsConfig {
-  const FeedsConfig();
-  // TODO: Add config for feeds
+  const FeedsConfig({
+    this.networkMonitor,
+  });
+
+  final NetworkMonitor? networkMonitor;
+}
+
+class FeedsClientEnvironment {
+  const FeedsClientEnvironment();
+
+  WebSocketClient createWebSocketClient({
+    required String url,
+    required EventDecoder eventDecoder,
+    PingReguestBuilder? pingReguestBuilder,
+    VoidCallback? onConnectionEstablished,
+    VoidCallback? onConnected,
+  }) =>
+      WebSocketClient(
+        url: url,
+        eventDecoder: FeedsWsEvent.fromEventObject,
+        pingReguestBuilder: pingReguestBuilder,
+        onConnectionEstablished: onConnectionEstablished,
+        onConnected: onConnected,
+      );
 }
