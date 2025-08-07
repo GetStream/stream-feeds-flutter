@@ -30,6 +30,7 @@ class DefaultApi {
       path,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : AcceptFeedMemberInviteResponse.fromJson(data);
@@ -47,6 +48,7 @@ class DefaultApi {
       data: acceptFollowRequest,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : AcceptFollowResponse.fromJson(data);
@@ -64,6 +66,7 @@ class DefaultApi {
       data: addActivityRequest,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : AddActivityResponse.fromJson(data);
@@ -83,6 +86,7 @@ class DefaultApi {
       data: addBookmarkRequest,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : AddBookmarkResponse.fromJson(data);
@@ -100,6 +104,7 @@ class DefaultApi {
       data: addCommentRequest,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : AddCommentResponse.fromJson(data);
@@ -119,6 +124,7 @@ class DefaultApi {
       data: addCommentReactionRequest,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : AddCommentReactionResponse.fromJson(data);
@@ -136,6 +142,7 @@ class DefaultApi {
       data: addCommentsBatchRequest,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : AddCommentsBatchResponse.fromJson(data);
@@ -155,9 +162,28 @@ class DefaultApi {
       data: addReactionRequest,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : AddReactionResponse.fromJson(data);
+  }
+
+  Future<BlockUsersResponse?> blockUsers({
+    required BlockUsersRequest blockUsersRequest,
+  }) async {
+    const path = r"/api/v2/users/block";
+
+    final queryParams = <String, Object?>{};
+
+    final response = await apiClient.post<Map<String, dynamic>>(
+      path,
+      data: blockUsersRequest,
+      queryParameters: queryParams,
+    );
+
+    final data = response.data;
+
+    return data == null ? null : BlockUsersResponse.fromJson(data);
   }
 
   Future<PollVoteResponse?> castPollVote({
@@ -176,9 +202,46 @@ class DefaultApi {
       data: castPollVoteRequest,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : PollVoteResponse.fromJson(data);
+  }
+
+  Future<CreateBlockListResponse?> createBlockList({
+    required CreateBlockListRequest createBlockListRequest,
+  }) async {
+    const path = r"/api/v2/blocklists";
+
+    final queryParams = <String, Object?>{};
+
+    final response = await apiClient.post<Map<String, dynamic>>(
+      path,
+      data: createBlockListRequest,
+      queryParameters: queryParams,
+    );
+
+    final data = response.data;
+
+    return data == null ? null : CreateBlockListResponse.fromJson(data);
+  }
+
+  Future<DurationResponse?> createDevice({
+    required CreateDeviceRequest createDeviceRequest,
+  }) async {
+    const path = r"/api/v2/devices";
+
+    final queryParams = <String, Object?>{};
+
+    final response = await apiClient.post<Map<String, dynamic>>(
+      path,
+      data: createDeviceRequest,
+      queryParameters: queryParams,
+    );
+
+    final data = response.data;
+
+    return data == null ? null : DurationResponse.fromJson(data);
   }
 
   Future<CreateFeedsBatchResponse?> createFeedsBatch({
@@ -193,9 +256,66 @@ class DefaultApi {
       data: createFeedsBatchRequest,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : CreateFeedsBatchResponse.fromJson(data);
+  }
+
+  Future<CreateGuestResponse?> createGuest({
+    required CreateGuestRequest createGuestRequest,
+  }) async {
+    const path = r"/api/v2/guest";
+
+    final queryParams = <String, Object?>{};
+
+    final response = await apiClient.post<Map<String, dynamic>>(
+      path,
+      data: createGuestRequest,
+      queryParameters: queryParams,
+    );
+
+    final data = response.data;
+
+    return data == null ? null : CreateGuestResponse.fromJson(data);
+  }
+
+  Future<PollResponse?> createPoll({
+    required CreatePollRequest createPollRequest,
+  }) async {
+    const path = r"/api/v2/polls";
+
+    final queryParams = <String, Object?>{};
+
+    final response = await apiClient.post<Map<String, dynamic>>(
+      path,
+      data: createPollRequest,
+      queryParameters: queryParams,
+    );
+
+    final data = response.data;
+
+    return data == null ? null : PollResponse.fromJson(data);
+  }
+
+  Future<PollOptionResponse?> createPollOption({
+    required String pollId,
+    required CreatePollOptionRequest createPollOptionRequest,
+  }) async {
+    final path =
+        r"/api/v2/polls/{poll_id}/options".replaceAll('{poll_id}', pollId);
+
+    final queryParams = <String, Object?>{};
+
+    final response = await apiClient.post<Map<String, dynamic>>(
+      path,
+      data: createPollOptionRequest,
+      queryParameters: queryParams,
+    );
+
+    final data = response.data;
+
+    return data == null ? null : PollOptionResponse.fromJson(data);
   }
 
   Future<DeleteActivitiesResponse?> deleteActivities({
@@ -210,6 +330,7 @@ class DefaultApi {
       data: deleteActivitiesRequest,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : DeleteActivitiesResponse.fromJson(data);
@@ -232,6 +353,7 @@ class DefaultApi {
       path,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : DeleteActivityResponse.fromJson(data);
@@ -251,9 +373,32 @@ class DefaultApi {
       path,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : DeleteActivityReactionResponse.fromJson(data);
+  }
+
+  Future<DurationResponse?> deleteBlockList({
+    required String name,
+    String? team,
+  }) async {
+    final path = r"/api/v2/blocklists/{name}".replaceAll('{name}', name);
+
+    final queryParams = <String, Object?>{};
+
+    if (team != null) {
+      queryParams.addAll({'team': team});
+    }
+
+    final response = await apiClient.delete<Map<String, dynamic>>(
+      path,
+      queryParameters: queryParams,
+    );
+
+    final data = response.data;
+
+    return data == null ? null : DurationResponse.fromJson(data);
   }
 
   Future<DeleteBookmarkResponse?> deleteBookmark({
@@ -273,6 +418,7 @@ class DefaultApi {
       path,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : DeleteBookmarkResponse.fromJson(data);
@@ -290,6 +436,7 @@ class DefaultApi {
       path,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : DeleteBookmarkFolderResponse.fromJson(data);
@@ -307,6 +454,7 @@ class DefaultApi {
       path,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : DeleteCommentResponse.fromJson(data);
@@ -326,9 +474,28 @@ class DefaultApi {
       path,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : DeleteCommentReactionResponse.fromJson(data);
+  }
+
+  Future<DurationResponse?> deleteDevice({
+    required String id,
+  }) async {
+    const path = r"/api/v2/devices";
+
+    final queryParams = <String, Object?>{};
+    queryParams.addAll({'id': id});
+
+    final response = await apiClient.delete<Map<String, dynamic>>(
+      path,
+      queryParameters: queryParams,
+    );
+
+    final data = response.data;
+
+    return data == null ? null : DurationResponse.fromJson(data);
   }
 
   Future<DeleteFeedResponse?> deleteFeed({
@@ -350,9 +517,99 @@ class DefaultApi {
       path,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : DeleteFeedResponse.fromJson(data);
+  }
+
+  Future<DurationResponse?> deleteFile({
+    String? url,
+  }) async {
+    const path = r"/api/v2/uploads/file";
+
+    final queryParams = <String, Object?>{};
+
+    if (url != null) {
+      queryParams.addAll({'url': url});
+    }
+
+    final response = await apiClient.delete<Map<String, dynamic>>(
+      path,
+      queryParameters: queryParams,
+    );
+
+    final data = response.data;
+
+    return data == null ? null : DurationResponse.fromJson(data);
+  }
+
+  Future<DurationResponse?> deleteImage({
+    String? url,
+  }) async {
+    const path = r"/api/v2/uploads/image";
+
+    final queryParams = <String, Object?>{};
+
+    if (url != null) {
+      queryParams.addAll({'url': url});
+    }
+
+    final response = await apiClient.delete<Map<String, dynamic>>(
+      path,
+      queryParameters: queryParams,
+    );
+
+    final data = response.data;
+
+    return data == null ? null : DurationResponse.fromJson(data);
+  }
+
+  Future<DurationResponse?> deletePoll({
+    required String pollId,
+    String? userId,
+  }) async {
+    final path = r"/api/v2/polls/{poll_id}".replaceAll('{poll_id}', pollId);
+
+    final queryParams = <String, Object?>{};
+
+    if (userId != null) {
+      queryParams.addAll({'user_id': userId});
+    }
+
+    final response = await apiClient.delete<Map<String, dynamic>>(
+      path,
+      queryParameters: queryParams,
+    );
+
+    final data = response.data;
+
+    return data == null ? null : DurationResponse.fromJson(data);
+  }
+
+  Future<DurationResponse?> deletePollOption({
+    required String pollId,
+    required String optionId,
+    String? userId,
+  }) async {
+    final path = r"/api/v2/polls/{poll_id}/options/{option_id}"
+        .replaceAll('{poll_id}', pollId)
+        .replaceAll('{option_id}', optionId);
+
+    final queryParams = <String, Object?>{};
+
+    if (userId != null) {
+      queryParams.addAll({'user_id': userId});
+    }
+
+    final response = await apiClient.delete<Map<String, dynamic>>(
+      path,
+      queryParameters: queryParams,
+    );
+
+    final data = response.data;
+
+    return data == null ? null : DurationResponse.fromJson(data);
   }
 
   Future<PollVoteResponse?> deletePollVote({
@@ -377,6 +634,7 @@ class DefaultApi {
       path,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : PollVoteResponse.fromJson(data);
@@ -394,6 +652,7 @@ class DefaultApi {
       data: queryFeedsRequest,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : QueryFeedsResponse.fromJson(data);
@@ -411,6 +670,7 @@ class DefaultApi {
       data: singleFollowRequest,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : SingleFollowResponse.fromJson(data);
@@ -428,6 +688,7 @@ class DefaultApi {
       data: followBatchRequest,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : FollowBatchResponse.fromJson(data);
@@ -445,9 +706,40 @@ class DefaultApi {
       path,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : GetActivityResponse.fromJson(data);
+  }
+
+  Future<GetApplicationResponse?> getApp() async {
+    const path = r"/api/v2/app";
+
+    final queryParams = <String, Object?>{};
+
+    final response = await apiClient.get<Map<String, dynamic>>(
+      path,
+      queryParameters: queryParams,
+    );
+
+    final data = response.data;
+
+    return data == null ? null : GetApplicationResponse.fromJson(data);
+  }
+
+  Future<GetBlockedUsersResponse?> getBlockedUsers() async {
+    const path = r"/api/v2/users/block";
+
+    final queryParams = <String, Object?>{};
+
+    final response = await apiClient.get<Map<String, dynamic>>(
+      path,
+      queryParameters: queryParams,
+    );
+
+    final data = response.data;
+
+    return data == null ? null : GetBlockedUsersResponse.fromJson(data);
   }
 
   Future<GetCommentResponse?> getComment({
@@ -462,6 +754,7 @@ class DefaultApi {
       path,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : GetCommentResponse.fromJson(data);
@@ -504,6 +797,7 @@ class DefaultApi {
       path,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : GetCommentRepliesResponse.fromJson(data);
@@ -547,6 +841,7 @@ class DefaultApi {
       path,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : GetCommentsResponse.fromJson(data);
@@ -569,9 +864,28 @@ class DefaultApi {
       path,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : GetFollowSuggestionsResponse.fromJson(data);
+  }
+
+  Future<GetOGResponse?> getOG({
+    required String url,
+  }) async {
+    const path = r"/api/v2/og";
+
+    final queryParams = <String, Object?>{};
+    queryParams.addAll({'url': url});
+
+    final response = await apiClient.get<Map<String, dynamic>>(
+      path,
+      queryParameters: queryParams,
+    );
+
+    final data = response.data;
+
+    return data == null ? null : GetOGResponse.fromJson(data);
   }
 
   Future<GetOrCreateFeedResponse?> getOrCreateFeed({
@@ -590,9 +904,125 @@ class DefaultApi {
       data: getOrCreateFeedRequest,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : GetOrCreateFeedResponse.fromJson(data);
+  }
+
+  Future<PollResponse?> getPoll({
+    required String pollId,
+    String? userId,
+  }) async {
+    final path = r"/api/v2/polls/{poll_id}".replaceAll('{poll_id}', pollId);
+
+    final queryParams = <String, Object?>{};
+
+    if (userId != null) {
+      queryParams.addAll({'user_id': userId});
+    }
+
+    final response = await apiClient.get<Map<String, dynamic>>(
+      path,
+      queryParameters: queryParams,
+    );
+
+    final data = response.data;
+
+    return data == null ? null : PollResponse.fromJson(data);
+  }
+
+  Future<PollOptionResponse?> getPollOption({
+    required String pollId,
+    required String optionId,
+    String? userId,
+  }) async {
+    final path = r"/api/v2/polls/{poll_id}/options/{option_id}"
+        .replaceAll('{poll_id}', pollId)
+        .replaceAll('{option_id}', optionId);
+
+    final queryParams = <String, Object?>{};
+
+    if (userId != null) {
+      queryParams.addAll({'user_id': userId});
+    }
+
+    final response = await apiClient.get<Map<String, dynamic>>(
+      path,
+      queryParameters: queryParams,
+    );
+
+    final data = response.data;
+
+    return data == null ? null : PollOptionResponse.fromJson(data);
+  }
+
+  Future<SharedLocationsResponse?> getUserLiveLocations() async {
+    const path = r"/api/v2/users/live_locations";
+
+    final queryParams = <String, Object?>{};
+
+    final response = await apiClient.get<Map<String, dynamic>>(
+      path,
+      queryParameters: queryParams,
+    );
+
+    final data = response.data;
+
+    return data == null ? null : SharedLocationsResponse.fromJson(data);
+  }
+
+  Future<ListBlockListResponse?> listBlockLists({
+    String? team,
+  }) async {
+    const path = r"/api/v2/blocklists";
+
+    final queryParams = <String, Object?>{};
+
+    if (team != null) {
+      queryParams.addAll({'team': team});
+    }
+
+    final response = await apiClient.get<Map<String, dynamic>>(
+      path,
+      queryParameters: queryParams,
+    );
+
+    final data = response.data;
+
+    return data == null ? null : ListBlockListResponse.fromJson(data);
+  }
+
+  Future<ListDevicesResponse?> listDevices() async {
+    const path = r"/api/v2/devices";
+
+    final queryParams = <String, Object?>{};
+
+    final response = await apiClient.get<Map<String, dynamic>>(
+      path,
+      queryParameters: queryParams,
+    );
+
+    final data = response.data;
+
+    return data == null ? null : ListDevicesResponse.fromJson(data);
+  }
+
+  Future<void> longPoll({
+    WSAuthMessage? json,
+  }) async {
+    const path = r"/api/v2/longpoll";
+
+    final queryParams = <String, Object?>{};
+
+    if (json != null) {
+      queryParams.addAll({'json': json});
+    }
+
+    await apiClient.get<void>(
+      path,
+      queryParameters: queryParams,
+    );
   }
 
   Future<DurationResponse?> markActivity({
@@ -612,6 +1042,7 @@ class DefaultApi {
       data: markActivityRequest,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : DurationResponse.fromJson(data);
@@ -634,6 +1065,7 @@ class DefaultApi {
       path,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : PinActivityResponse.fromJson(data);
@@ -651,6 +1083,7 @@ class DefaultApi {
       data: queryActivitiesRequest,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : QueryActivitiesResponse.fromJson(data);
@@ -670,6 +1103,7 @@ class DefaultApi {
       data: queryActivityReactionsRequest,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : QueryActivityReactionsResponse.fromJson(data);
@@ -687,6 +1121,7 @@ class DefaultApi {
       data: queryBookmarkFoldersRequest,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : QueryBookmarkFoldersResponse.fromJson(data);
@@ -704,6 +1139,7 @@ class DefaultApi {
       data: queryBookmarksRequest,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : QueryBookmarksResponse.fromJson(data);
@@ -723,6 +1159,7 @@ class DefaultApi {
       data: queryCommentReactionsRequest,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : QueryCommentReactionsResponse.fromJson(data);
@@ -740,6 +1177,7 @@ class DefaultApi {
       data: queryCommentsRequest,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : QueryCommentsResponse.fromJson(data);
@@ -762,6 +1200,7 @@ class DefaultApi {
       data: queryFeedMembersRequest,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : QueryFeedMembersResponse.fromJson(data);
@@ -779,9 +1218,79 @@ class DefaultApi {
       data: queryFollowsRequest,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : QueryFollowsResponse.fromJson(data);
+  }
+
+  Future<PollVotesResponse?> queryPollVotes({
+    required String pollId,
+    String? userId,
+    QueryPollVotesRequest? queryPollVotesRequest,
+  }) async {
+    final path =
+        r"/api/v2/polls/{poll_id}/votes".replaceAll('{poll_id}', pollId);
+
+    final queryParams = <String, Object?>{};
+
+    if (userId != null) {
+      queryParams.addAll({'user_id': userId});
+    }
+
+    final response = await apiClient.post<Map<String, dynamic>>(
+      path,
+      data: queryPollVotesRequest,
+      queryParameters: queryParams,
+    );
+
+    final data = response.data;
+
+    return data == null ? null : PollVotesResponse.fromJson(data);
+  }
+
+  Future<QueryPollsResponse?> queryPolls({
+    String? userId,
+    QueryPollsRequest? queryPollsRequest,
+  }) async {
+    const path = r"/api/v2/polls/query";
+
+    final queryParams = <String, Object?>{};
+
+    if (userId != null) {
+      queryParams.addAll({'user_id': userId});
+    }
+
+    final response = await apiClient.post<Map<String, dynamic>>(
+      path,
+      data: queryPollsRequest,
+      queryParameters: queryParams,
+    );
+
+    final data = response.data;
+
+    return data == null ? null : QueryPollsResponse.fromJson(data);
+  }
+
+  Future<QueryUsersResponse?> queryUsers({
+    QueryUsersPayload? payload,
+  }) async {
+    const path = r"/api/v2/users";
+
+    final queryParams = <String, Object?>{};
+
+    if (payload != null) {
+      queryParams.addAll({'payload': payload});
+    }
+
+    final response = await apiClient.get<Map<String, dynamic>>(
+      path,
+      queryParameters: queryParams,
+    );
+
+    final data = response.data;
+
+    return data == null ? null : QueryUsersResponse.fromJson(data);
   }
 
   Future<RejectFeedMemberInviteResponse?> rejectFeedMemberInvite({
@@ -799,6 +1308,7 @@ class DefaultApi {
       path,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : RejectFeedMemberInviteResponse.fromJson(data);
@@ -816,6 +1326,7 @@ class DefaultApi {
       data: rejectFollowRequest,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : RejectFollowResponse.fromJson(data);
@@ -836,9 +1347,28 @@ class DefaultApi {
       path,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : DurationResponse.fromJson(data);
+  }
+
+  Future<UnblockUsersResponse?> unblockUsers({
+    required UnblockUsersRequest unblockUsersRequest,
+  }) async {
+    const path = r"/api/v2/users/unblock";
+
+    final queryParams = <String, Object?>{};
+
+    final response = await apiClient.post<Map<String, dynamic>>(
+      path,
+      data: unblockUsersRequest,
+      queryParameters: queryParams,
+    );
+
+    final data = response.data;
+
+    return data == null ? null : UnblockUsersResponse.fromJson(data);
   }
 
   Future<UnfollowResponse?> unfollow({
@@ -855,6 +1385,7 @@ class DefaultApi {
       path,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : UnfollowResponse.fromJson(data);
@@ -877,6 +1408,7 @@ class DefaultApi {
       path,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : UnpinActivityResponse.fromJson(data);
@@ -896,6 +1428,7 @@ class DefaultApi {
       data: updateActivityRequest,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : UpdateActivityResponse.fromJson(data);
@@ -915,9 +1448,29 @@ class DefaultApi {
       data: updateActivityPartialRequest,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : UpdateActivityPartialResponse.fromJson(data);
+  }
+
+  Future<UpdateBlockListResponse?> updateBlockList({
+    required String name,
+    UpdateBlockListRequest? updateBlockListRequest,
+  }) async {
+    final path = r"/api/v2/blocklists/{name}".replaceAll('{name}', name);
+
+    final queryParams = <String, Object?>{};
+
+    final response = await apiClient.put<Map<String, dynamic>>(
+      path,
+      data: updateBlockListRequest,
+      queryParameters: queryParams,
+    );
+
+    final data = response.data;
+
+    return data == null ? null : UpdateBlockListResponse.fromJson(data);
   }
 
   Future<UpdateBookmarkResponse?> updateBookmark({
@@ -934,6 +1487,7 @@ class DefaultApi {
       data: updateBookmarkRequest,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : UpdateBookmarkResponse.fromJson(data);
@@ -953,6 +1507,7 @@ class DefaultApi {
       data: updateBookmarkFolderRequest,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : UpdateBookmarkFolderResponse.fromJson(data);
@@ -972,6 +1527,7 @@ class DefaultApi {
       data: updateCommentRequest,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : UpdateCommentResponse.fromJson(data);
@@ -993,6 +1549,7 @@ class DefaultApi {
       data: updateFeedRequest,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : UpdateFeedResponse.fromJson(data);
@@ -1015,6 +1572,7 @@ class DefaultApi {
       data: updateFeedMembersRequest,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : UpdateFeedMembersResponse.fromJson(data);
@@ -1032,9 +1590,157 @@ class DefaultApi {
       data: updateFollowRequest,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : UpdateFollowResponse.fromJson(data);
+  }
+
+  Future<SharedLocationResponse?> updateLiveLocation({
+    required UpdateLiveLocationRequest updateLiveLocationRequest,
+  }) async {
+    const path = r"/api/v2/users/live_locations";
+
+    final queryParams = <String, Object?>{};
+
+    final response = await apiClient.put<Map<String, dynamic>>(
+      path,
+      data: updateLiveLocationRequest,
+      queryParameters: queryParams,
+    );
+
+    final data = response.data;
+
+    return data == null ? null : SharedLocationResponse.fromJson(data);
+  }
+
+  Future<PollResponse?> updatePoll({
+    required UpdatePollRequest updatePollRequest,
+  }) async {
+    const path = r"/api/v2/polls";
+
+    final queryParams = <String, Object?>{};
+
+    final response = await apiClient.put<Map<String, dynamic>>(
+      path,
+      data: updatePollRequest,
+      queryParameters: queryParams,
+    );
+
+    final data = response.data;
+
+    return data == null ? null : PollResponse.fromJson(data);
+  }
+
+  Future<PollOptionResponse?> updatePollOption({
+    required String pollId,
+    required UpdatePollOptionRequest updatePollOptionRequest,
+  }) async {
+    final path =
+        r"/api/v2/polls/{poll_id}/options".replaceAll('{poll_id}', pollId);
+
+    final queryParams = <String, Object?>{};
+
+    final response = await apiClient.put<Map<String, dynamic>>(
+      path,
+      data: updatePollOptionRequest,
+      queryParameters: queryParams,
+    );
+
+    final data = response.data;
+
+    return data == null ? null : PollOptionResponse.fromJson(data);
+  }
+
+  Future<PollResponse?> updatePollPartial({
+    required String pollId,
+    UpdatePollPartialRequest? updatePollPartialRequest,
+  }) async {
+    final path = r"/api/v2/polls/{poll_id}".replaceAll('{poll_id}', pollId);
+
+    final queryParams = <String, Object?>{};
+
+    final response = await apiClient.patch<Map<String, dynamic>>(
+      path,
+      data: updatePollPartialRequest,
+      queryParameters: queryParams,
+    );
+
+    final data = response.data;
+
+    return data == null ? null : PollResponse.fromJson(data);
+  }
+
+  Future<UpdateUsersResponse?> updateUsers({
+    required UpdateUsersRequest updateUsersRequest,
+  }) async {
+    const path = r"/api/v2/users";
+
+    final queryParams = <String, Object?>{};
+
+    final response = await apiClient.post<Map<String, dynamic>>(
+      path,
+      data: updateUsersRequest,
+      queryParameters: queryParams,
+    );
+
+    final data = response.data;
+
+    return data == null ? null : UpdateUsersResponse.fromJson(data);
+  }
+
+  Future<UpdateUsersResponse?> updateUsersPartial({
+    required UpdateUsersPartialRequest updateUsersPartialRequest,
+  }) async {
+    const path = r"/api/v2/users";
+
+    final queryParams = <String, Object?>{};
+
+    final response = await apiClient.patch<Map<String, dynamic>>(
+      path,
+      data: updateUsersPartialRequest,
+      queryParameters: queryParams,
+    );
+
+    final data = response.data;
+
+    return data == null ? null : UpdateUsersResponse.fromJson(data);
+  }
+
+  Future<FileUploadResponse?> uploadFile({
+    FileUploadRequest? fileUploadRequest,
+  }) async {
+    const path = r"/api/v2/uploads/file";
+
+    final queryParams = <String, Object?>{};
+
+    final response = await apiClient.post<Map<String, dynamic>>(
+      path,
+      data: fileUploadRequest,
+      queryParameters: queryParams,
+    );
+
+    final data = response.data;
+
+    return data == null ? null : FileUploadResponse.fromJson(data);
+  }
+
+  Future<ImageUploadResponse?> uploadImage({
+    ImageUploadRequest? imageUploadRequest,
+  }) async {
+    const path = r"/api/v2/uploads/image";
+
+    final queryParams = <String, Object?>{};
+
+    final response = await apiClient.post<Map<String, dynamic>>(
+      path,
+      data: imageUploadRequest,
+      queryParameters: queryParams,
+    );
+
+    final data = response.data;
+
+    return data == null ? null : ImageUploadResponse.fromJson(data);
   }
 
   Future<UpsertActivitiesResponse?> upsertActivities({
@@ -1049,6 +1755,7 @@ class DefaultApi {
       data: upsertActivitiesRequest,
       queryParameters: queryParams,
     );
+
     final data = response.data;
 
     return data == null ? null : UpsertActivitiesResponse.fromJson(data);

@@ -17,6 +17,7 @@ class ReactionGroupResponse {
     required this.count,
     required this.firstReactionAt,
     required this.lastReactionAt,
+    required this.sumScores,
   });
 
   final int count;
@@ -24,6 +25,8 @@ class ReactionGroupResponse {
   final DateTime firstReactionAt;
   @EpochDateTimeConverter()
   final DateTime lastReactionAt;
+
+  final int sumScores;
 
   Map<String, dynamic> toJson() => _$ReactionGroupResponseToJson(this);
 
@@ -36,6 +39,7 @@ class ReactionGroupResponse {
         'count: $count, '
         'firstReactionAt: $firstReactionAt, '
         'lastReactionAt: $lastReactionAt, '
+        'sumScores: $sumScores, '
         ')';
   }
 
@@ -45,7 +49,8 @@ class ReactionGroupResponse {
     return other is ReactionGroupResponse &&
         other.count == count &&
         other.firstReactionAt == firstReactionAt &&
-        other.lastReactionAt == lastReactionAt;
+        other.lastReactionAt == lastReactionAt &&
+        other.sumScores == sumScores;
   }
 
   @override
@@ -54,6 +59,7 @@ class ReactionGroupResponse {
       count,
       firstReactionAt,
       lastReactionAt,
+      sumScores,
     ]);
   }
 }

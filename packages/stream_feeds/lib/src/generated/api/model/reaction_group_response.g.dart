@@ -14,6 +14,7 @@ ReactionGroupResponse _$ReactionGroupResponseFromJson(
           .fromJson((json['first_reaction_at'] as num).toInt()),
       lastReactionAt: const EpochDateTimeConverter()
           .fromJson((json['last_reaction_at'] as num).toInt()),
+      sumScores: (json['sum_scores'] as num).toInt(),
     );
 
 Map<String, dynamic> _$ReactionGroupResponseToJson(
@@ -24,4 +25,5 @@ Map<String, dynamic> _$ReactionGroupResponseToJson(
           const EpochDateTimeConverter().toJson(instance.firstReactionAt),
       'last_reaction_at':
           const EpochDateTimeConverter().toJson(instance.lastReactionAt),
+      'sum_scores': instance.sumScores,
     };
