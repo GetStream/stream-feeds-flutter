@@ -4,7 +4,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:get_it/get_it.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 
 import '../navigation/app_state.dart';
@@ -54,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class _FeedList extends StatefulWidget {
-  _FeedList({super.key, required this.feedsClient});
+  const _FeedList({required this.feedsClient});
   final FeedsClient feedsClient;
 
   @override

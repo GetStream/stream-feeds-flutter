@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import '../models.dart';
 
 extension ListExtensions<T> on List<T> {

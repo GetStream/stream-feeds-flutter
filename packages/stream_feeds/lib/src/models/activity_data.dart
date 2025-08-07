@@ -40,8 +40,10 @@ class ActivityData implements Identifiable {
     );
   }
 
-  ActivityData addReaction(FeedsReactionData reaction,
-      {required String currentUserId}) {
+  ActivityData addReaction(
+    FeedsReactionData reaction, {
+    required String currentUserId,
+  }) {
     final newLatestReactions = [...latestReactions];
     final newReactionGroups =
         Map<String, ReactionGroupData>.from(reactionGroups);
@@ -56,15 +58,17 @@ class ActivityData implements Identifiable {
     }
 
     return copyWith(
-      reactionCount: reactionGroups.totalCount,
+      reactionCount: newReactionGroups.totalCount,
       latestReactions: List.unmodifiable(newLatestReactions),
       ownReactions: List.unmodifiable(newOwnReactions),
       reactionGroups: Map.unmodifiable(newReactionGroups),
     );
   }
 
-  ActivityData removeReaction(FeedsReactionData reaction,
-      {required String currentUserId}) {
+  ActivityData removeReaction(
+    FeedsReactionData reaction, {
+    required String currentUserId,
+  }) {
     final newLatestReactions = [...latestReactions];
     final newReactionGroups =
         Map<String, ReactionGroupData>.from(reactionGroups);
@@ -79,7 +83,7 @@ class ActivityData implements Identifiable {
     }
 
     return copyWith(
-      reactionCount: reactionGroups.totalCount,
+      reactionCount: newReactionGroups.totalCount,
       latestReactions: List.unmodifiable(newLatestReactions),
       ownReactions: List.unmodifiable(newOwnReactions),
       reactionGroups: Map.unmodifiable(newReactionGroups),

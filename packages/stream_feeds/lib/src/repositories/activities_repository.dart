@@ -1,9 +1,9 @@
-import '../generated/api/api.g.dart' as api;
+import '../generated/api/api.dart' as api;
 
 class ActivitiesRepository {
-  final api.DefaultApi apiClient;
-
   ActivitiesRepository({
     required this.apiClient,
   });
+
+  final api.DefaultApi apiClient;
 }

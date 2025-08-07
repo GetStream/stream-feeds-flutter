@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import '../../stream_feeds.dart';
-import '../generated/api/api.g.dart';
+import '../generated/api/api.dart';
 import '../repositories/feeds_data_mappers.dart';
 import '../ws/feeds_ws_event.dart';
 import 'feed_state.dart';
@@ -17,7 +17,7 @@ class FeedWsHandler {
   String get currentUserId => client.user.id;
 
   void _onEvent(FeedsWsEvent event) {
-    switch (event.event) {
+    switch (event.apiEvent) {
       case final WSClientEventActivityReactionAddedEvent wsEvent:
         stateNotifier.onReactionAdded(
           wsEvent.activityReactionAddedEvent.reaction.toModel(),

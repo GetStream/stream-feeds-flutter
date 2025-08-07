@@ -1,14 +1,16 @@
+import 'package:stream_core/stream_core.dart' as core;
+
 import '../../stream_feeds.dart';
-import '../generated/api/api.g.dart' as api;
+import '../generated/api/api.dart' as api;
 import 'feeds_data_mappers.dart';
 import 'feeds_request_mappers.dart';
 
 class FeedsRepository {
-  final api.DefaultApi apiClient;
-
   FeedsRepository({
     required this.apiClient,
   });
+
+  final api.DefaultApi apiClient;
 
 // TODO improve error handling
   Future<GetOrCreateFeedData> getOrCreateFeed(FeedQuery query) async {
@@ -16,17 +18,20 @@ class FeedsRepository {
     final request = query.toRequest();
     try {
       final result = await apiClient.getOrCreateFeed(
-        fid.group,
-        fid.id,
-        request,
+        feedGroupId: fid.group,
+        feedId: fid.id,
+        getOrCreateFeedRequest: request,
       );
       if (result == null) {
-        throw Exception('Failed to get or create feed');
+        throw core.ClientException(
+          message: 'No result data from getOrCreateFeed',
+        );
       }
+
       return GetOrCreateFeedData(
         activities: result.toPaginatedActivityData(),
       );
-    } on api.ApiException catch (e) {
+    } on core.ClientException catch (e) {
       // TODO custom logger
       print(e);
       // TODO replace with Result.failure
