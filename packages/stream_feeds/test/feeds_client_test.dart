@@ -1,12 +1,20 @@
+import 'dart:async';
 import 'dart:convert';
 
+import 'package:mocktail/mocktail.dart';
 import 'package:stream_core/stream_core.dart';
 import 'package:stream_feeds/src/generated/api/api.dart' as api;
 import 'package:stream_feeds/src/ws/feeds_ws_event.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 import 'package:test/test.dart';
 
+import 'mocks.dart';
+
 void main() {
+  setUpAll(() {
+    registerFallbackValue(const WsAuthMessageRequest(token: 'test_token'));
+  });
+
   group('FeedsClient', () {
     const testApiKey = 'test_api_key';
     const testUser = User(id: 'test_user_id', name: 'test_user_name');
@@ -185,6 +193,155 @@ void main() {
         await eventsSubscription.cancel();
       });
     });
+    group('connect', () {
+      test('should connect to the websocket', () {
+        final webSocketClient = MockWebSocketClient();
+        final connectionStateStream =
+            MutableSharedEmitterImpl<WebSocketConnectionState>();
+        when(() => webSocketClient.connectionStateStream)
+            .thenReturn(connectionStateStream);
+
+        final client = FeedsClient(
+          apiKey: testApiKey,
+          user: testUser,
+          userToken: testUserToken,
+          environment: FakeFeedsClientEnvironment(
+            webSocketClientBuilder: ({
+              required String url,
+              required EventDecoder eventDecoder,
+              PingReguestBuilder? pingReguestBuilder,
+              VoidCallback? onConnectionEstablished,
+              VoidCallback? onConnected,
+            }) =>
+                webSocketClient,
+          ),
+        );
+
+        client.connect();
+
+        verify(webSocketClient.connect).called(1);
+      });
+
+      test('connect Future should complete after connection', () async {
+        final webSocketClient = MockWebSocketClient();
+        final connectionStateStream =
+            MutableSharedEmitterImpl<WebSocketConnectionState>();
+        when(() => webSocketClient.connectionStateStream)
+            .thenReturn(connectionStateStream);
+
+        final client = FeedsClient(
+          apiKey: testApiKey,
+          user: testUser,
+          userToken: testUserToken,
+          environment: FakeFeedsClientEnvironment(
+            webSocketClientBuilder:
+                staticWebSocketClientBuilder(webSocketClient),
+          ),
+        );
+
+        final connectFuture = client.connect();
+        var isCompleted = false;
+        unawaited(connectFuture.whenComplete(() => isCompleted = true));
+        await Future<void>.delayed(Duration.zero);
+
+        expect(isCompleted, isFalse);
+
+        connectionStateStream.emit(WebSocketConnectionState.connected());
+        await Future<void>.delayed(Duration.zero);
+        expect(isCompleted, isTrue);
+      });
+
+      test('Client should authenticate when connection established', () async {
+        final webSocketClient = MockWebSocketClient();
+        final connectionStateStream =
+            MutableSharedEmitterImpl<WebSocketConnectionState>();
+        when(() => webSocketClient.connectionStateStream)
+            .thenReturn(connectionStateStream);
+
+        late VoidCallback? onConnectionEstablishedCallback;
+
+        final _ = FeedsClient(
+          apiKey: testApiKey,
+          user: testUser,
+          userToken: testUserToken,
+          environment: FakeFeedsClientEnvironment(
+            webSocketClientBuilder: ({
+              required String url,
+              required EventDecoder eventDecoder,
+              PingReguestBuilder? pingReguestBuilder,
+              VoidCallback? onConnectionEstablished,
+              VoidCallback? onConnected,
+            }) {
+              onConnectionEstablishedCallback = onConnectionEstablished;
+              return webSocketClient;
+            },
+          ),
+        );
+
+        onConnectionEstablishedCallback?.call();
+        await Future<void>.delayed(Duration.zero);
+
+        verify(() => webSocketClient.send(any<WsAuthMessageRequest>()))
+            .called(1);
+      });
+    });
+
+    group('disconnect', () {
+      test('dispose should disconnect websocket when connected', () {
+        final webSocketClient = MockWebSocketClient();
+        final connectionStateStream =
+            MutableSharedEmitterImpl<WebSocketConnectionState>();
+
+        final connectionState = WebSocketConnectionState.connected();
+        connectionStateStream.emit(connectionState);
+
+        when(() => webSocketClient.connectionState).thenReturn(connectionState);
+        when(() => webSocketClient.connectionStateStream)
+            .thenReturn(connectionStateStream);
+
+        final client = FeedsClient(
+          apiKey: testApiKey,
+          user: testUser,
+          userToken: testUserToken,
+          environment: FakeFeedsClientEnvironment(
+            webSocketClientBuilder:
+                staticWebSocketClientBuilder(webSocketClient),
+          ),
+        );
+
+        client.dispose();
+
+        verify(webSocketClient.disconnect).called(1);
+      });
+
+      test('dispose should not disconnect websocket when disconnected', () {
+        final webSocketClient = MockWebSocketClient();
+        final connectionStateStream =
+            MutableSharedEmitterImpl<WebSocketConnectionState>();
+
+        final connectionState =
+            Disconnected(source: DisconnectionSource.userInitiated());
+        connectionStateStream.emit(connectionState);
+
+        when(() => webSocketClient.connectionState).thenReturn(connectionState);
+        when(() => webSocketClient.connectionStateStream)
+            .thenReturn(connectionStateStream);
+
+        final client = FeedsClient(
+          apiKey: testApiKey,
+          user: testUser,
+          userToken: testUserToken,
+          environment: FakeFeedsClientEnvironment(
+            webSocketClientBuilder:
+                staticWebSocketClientBuilder(webSocketClient),
+          ),
+        );
+
+        client.dispose();
+
+        verifyNever(webSocketClient.disconnect);
+      });
+    });
   });
 }
 
@@ -231,3 +388,56 @@ final testUserResponse = api.UserResponse(
   teams: const [],
   updatedAt: DateTime.now(),
 );
+
+FakeWebSocketClientBuilder staticWebSocketClientBuilder(
+  WebSocketClient webSocketClient,
+) {
+  return ({
+    required String url,
+    required EventDecoder eventDecoder,
+    PingReguestBuilder? pingReguestBuilder,
+    VoidCallback? onConnectionEstablished,
+    VoidCallback? onConnected,
+  }) =>
+      webSocketClient;
+}
+
+typedef FakeWebSocketClientBuilder = WebSocketClient Function({
+  required String url,
+  required EventDecoder eventDecoder,
+  PingReguestBuilder? pingReguestBuilder,
+  VoidCallback? onConnectionEstablished,
+  VoidCallback? onConnected,
+});
+
+class FakeFeedsClientEnvironment extends FeedsClientEnvironment {
+  FakeFeedsClientEnvironment({
+    this.webSocketClientBuilder,
+  });
+
+  // websocket client builder
+  FakeWebSocketClientBuilder? webSocketClientBuilder;
+
+  @override
+  WebSocketClient createWebSocketClient({
+    required String url,
+    required EventDecoder eventDecoder,
+    PingReguestBuilder? pingReguestBuilder,
+    VoidCallback? onConnectionEstablished,
+    VoidCallback? onConnected,
+  }) =>
+      webSocketClientBuilder?.call(
+        url: url,
+        eventDecoder: eventDecoder,
+        pingReguestBuilder: pingReguestBuilder,
+        onConnectionEstablished: onConnectionEstablished,
+        onConnected: onConnected,
+      ) ??
+      super.createWebSocketClient(
+        url: url,
+        eventDecoder: eventDecoder,
+        pingReguestBuilder: pingReguestBuilder,
+        onConnectionEstablished: onConnectionEstablished,
+        onConnected: onConnected,
+      );
+}
