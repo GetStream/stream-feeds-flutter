@@ -37,7 +37,7 @@ class Feed {
   }
 
   final FeedQuery query;
-  final FeedsClient client;
+  final RepositoryProvider client;
 
   final FeedsRepository _feedsRepository;
   FeedStateNotifier get stateNotifier => _feedStateNotifier;

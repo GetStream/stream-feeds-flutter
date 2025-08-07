@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import '../../stream_feeds.dart';
 import '../generated/api/api.dart';
+import '../repositories.dart';
 import '../repositories/feeds_data_mappers.dart';
 import '../ws/feeds_ws_event.dart';
 import 'feed_state.dart';
@@ -39,6 +39,6 @@ class FeedWsHandler {
     _feedsEventsSubscription.cancel();
   }
 
-  final FeedsClient client;
+  final RepositoryProvider client;
   final FeedStateNotifier stateNotifier;
 }

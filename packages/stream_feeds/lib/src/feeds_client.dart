@@ -1,151 +1,36 @@
-import 'dart:async';
-
-import 'package:meta/meta.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:stream_core/stream_core.dart';
 
 import '../stream_feeds.dart';
-import 'generated/api/api.dart' as api;
-import 'repositories.dart';
-import 'utils/endpoint_config.dart';
-import 'ws/feeds_ws_event.dart';
+import 'internal_feeds_client.dart';
 
-class FeedsClient {
-  FeedsClient({
-    required this.apiKey,
-    required this.user,
+abstract interface class FeedsClient {
+  factory FeedsClient({
+    required String apiKey,
+    required User user,
     String? userToken,
     TokenProvider? userTokenProvider,
-    this.config = const FeedsConfig(),
-    FeedsClientEnvironment environment = const FeedsClientEnvironment(),
-  }) : assert(
-          userToken != null || userTokenProvider != null,
-          'Provide either a user token or a user token provider, or both',
-        ) {
-    tokenManager = userTokenProvider != null
-        ? TokenManager.provider(
-            user: user,
-            provider: userTokenProvider,
-            token: userToken,
-          )
-        : TokenManager.static(user: user, token: userToken ?? '');
-
-    // TODO: fill with correct values
-    final systemEnvironmentManager = SystemEnvironmentManager(
-      environment: const SystemEnvironment(
-        sdkName: 'stream-feeds-dart',
-        sdkIdentifier: 'dart',
-        sdkVersion: '0.1.0',
-      ),
-    );
-
-    apiClient = api.DefaultApi(
-      CoreHttpClient(
-        apiKey,
-        systemEnvironmentManager: systemEnvironmentManager,
-        options: HttpClientOptions(baseUrl: endpointConfig.baseFeedsUrl),
-        connectionIdProvider: () => webSocketClient.connectionId,
-        tokenManager: tokenManager,
-      ),
-    );
-    final websocketUri = Uri.parse(endpointConfig.wsEndpoint).replace(
-      queryParameters: <String, String>{
-        'api_key': apiKey,
-        'stream-auth-type': 'jwt',
-        'X-Stream-Client': 'stream-feeds-dart',
-      },
-    );
-
-    webSocketClient = environment.createWebSocketClient(
-      url: websocketUri.toString(),
-      eventDecoder: FeedsWsEvent.fromEventObject,
-      onConnectionEstablished: _authenticate,
-    );
-
-    feedsRepository = FeedsRepository(apiClient: apiClient);
-  }
-
-  final String apiKey;
-  final User user;
-  late final TokenManager tokenManager;
-  final FeedsConfig config;
-
-  late final api.DefaultApi apiClient;
-
-  @internal
-  late final FeedsRepository feedsRepository;
-
-  static const endpointConfig = EndpointConfig.production;
-  late final WebSocketClient webSocketClient;
-  ConnectionRecoveryHandler? connectionRecoveryHandler;
-  Stream<FeedsWsEvent> get feedsEvents =>
-      webSocketClient.events.asStream().whereType<FeedsWsEvent>();
-
-  Completer<void>? _connectionCompleter;
-  StreamSubscription<WebSocketConnectionState>? _connectionSubscription;
+    FeedsConfig config = const FeedsConfig(),
+  }) =>
+      InternalFeedsClient(
+        apiKey: apiKey,
+        user: user,
+        userToken: userToken,
+        userTokenProvider: userTokenProvider,
+        config: config,
+      );
 
   /// Connects to the feeds websocket.
   /// Future will complete when the connection is established and the user is authenticated.
   /// If the authentication fails, the future will complete with an error.
-  Future<void> connect() async {
-    webSocketClient.connect();
-
-    _connectionSubscription =
-        webSocketClient.connectionStateStream.listen(_onConnectionStateChanged);
-
-    connectionRecoveryHandler = DefaultConnectionRecoveryHandler(
-      client: webSocketClient,
-      networkMonitor: config.networkMonitor,
-    );
-
-    _connectionCompleter = Completer<void>();
-    return _connectionCompleter!.future;
-  }
+  Future<void> connect();
 
   /// Disconnects from the feeds websocket.
-  /// The FeedsClient should no longer be used after calling this method.
-  void disconnect() {
-    connectionRecoveryHandler?.dispose();
-    webSocketClient.disconnect();
-    _connectionSubscription?.cancel();
-    _connectionCompleter?.complete();
-    _connectionCompleter = null;
-  }
+  void disconnect();
 
-  void dispose() {
-    if (webSocketClient.connectionState is Connected) {
-      disconnect();
-    }
-    webSocketClient.dispose();
-  }
-
-  void _onConnectionStateChanged(WebSocketConnectionState state) {
-    if (_connectionCompleter != null) {
-      if (state is Connected) {
-        _connectionCompleter!.complete();
-        _connectionCompleter = null;
-      }
-      if (state is Disconnected) {
-        _connectionCompleter!.completeError(Exception('Connection failed'));
-        _connectionCompleter = null;
-      }
-    }
-  }
-
-  Future<void> _authenticate() async {
-    final connectUserRequest = WsAuthMessageRequest(
-      products: ['feeds'],
-      token: await tokenManager.loadToken(),
-      userDetails: ConnectUserDetailsRequest(
-        id: user.id,
-        name: user.originalName,
-        image: user.imageUrl,
-        customData: user.customData,
-      ),
-    );
-
-    webSocketClient.send(connectUserRequest);
-  }
+  /// Disposes the FeedsClient.
+  /// This should be called when the FeedsClient is no longer needed.
+  /// It will disconnect from the websocket and dispose of the client.
+  void dispose();
 
   /// Creates a feed instance based on the provided query.
   ///
@@ -154,9 +39,7 @@ class FeedsClient {
   ///
   /// - Parameter query: The feed query containing the feed identifier and optional configuration
   /// - Returns: A [Feed] instance that can be used to interact with the specified feed
-  Feed feed({required FeedQuery query}) {
-    return Feed(query: query, client: this);
-  }
+  Feed feed({required FeedQuery query});
 }
 
 class FeedsConfig {
@@ -165,23 +48,4 @@ class FeedsConfig {
   });
 
   final NetworkMonitor? networkMonitor;
-}
-
-class FeedsClientEnvironment {
-  const FeedsClientEnvironment();
-
-  WebSocketClient createWebSocketClient({
-    required String url,
-    required EventDecoder eventDecoder,
-    PingReguestBuilder? pingReguestBuilder,
-    VoidCallback? onConnectionEstablished,
-    VoidCallback? onConnected,
-  }) =>
-      WebSocketClient(
-        url: url,
-        eventDecoder: FeedsWsEvent.fromEventObject,
-        pingReguestBuilder: pingReguestBuilder,
-        onConnectionEstablished: onConnectionEstablished,
-        onConnected: onConnected,
-      );
 }

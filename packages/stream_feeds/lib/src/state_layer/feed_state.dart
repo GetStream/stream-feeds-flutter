@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:state_notifier/state_notifier.dart';
 
 import '../../stream_feeds.dart';
+import '../repositories.dart';
 import '../utils/list_extensions.dart';
 import 'feed_ws_handler.dart';
 
@@ -10,7 +11,7 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
     required FeedId fid,
     required FeedQuery query,
     required String currentUserId,
-    required FeedsClient client,
+    required RepositoryProvider client,
   }) : super(
           FeedState(
             fid: fid,
