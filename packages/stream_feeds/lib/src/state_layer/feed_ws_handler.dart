@@ -17,7 +17,7 @@ class FeedWsHandler {
   String get currentUserId => client.user.id;
 
   void _onEvent(FeedsWsEvent event) {
-    switch (event.event) {
+    switch (event.apiEvent) {
       case final WSClientEventActivityReactionAddedEvent wsEvent:
         stateNotifier.onReactionAdded(
           wsEvent.activityReactionAddedEvent.reaction.toModel(),

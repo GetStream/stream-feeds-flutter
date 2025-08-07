@@ -17,11 +17,15 @@ class FeedsClient {
     TokenProvider? userTokenProvider,
     this.config = const FeedsConfig(),
     FeedsClientEnvironment environment = const FeedsClientEnvironment(),
-  }) {
+  }) : assert(
+          userToken != null || userTokenProvider != null,
+          'Provide either a user token or a user token provider, or both',
+        ) {
     tokenManager = userTokenProvider != null
         ? TokenManager.provider(
             user: user,
             provider: userTokenProvider,
+            token: userToken,
           )
         : TokenManager.static(user: user, token: userToken ?? '');
 

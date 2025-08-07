@@ -186,7 +186,7 @@ void main() {
         expect(events, hasLength(1));
         expect(events[0], isA<FeedsWsEvent>());
         expect(
-          (events[0] as FeedsWsEvent).event,
+          (events[0] as FeedsWsEvent).apiEvent,
           isA<api.WSClientEventCommentAddedEvent>(),
         );
 

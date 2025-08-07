@@ -58,7 +58,7 @@ class ActivityData implements Identifiable {
     }
 
     return copyWith(
-      reactionCount: reactionGroups.totalCount,
+      reactionCount: newReactionGroups.totalCount,
       latestReactions: List.unmodifiable(newLatestReactions),
       ownReactions: List.unmodifiable(newOwnReactions),
       reactionGroups: Map.unmodifiable(newReactionGroups),
@@ -83,7 +83,7 @@ class ActivityData implements Identifiable {
     }
 
     return copyWith(
-      reactionCount: reactionGroups.totalCount,
+      reactionCount: newReactionGroups.totalCount,
       latestReactions: List.unmodifiable(newLatestReactions),
       ownReactions: List.unmodifiable(newOwnReactions),
       reactionGroups: Map.unmodifiable(newReactionGroups),
