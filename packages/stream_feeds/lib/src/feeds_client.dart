@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:stream_core/stream_core.dart';
 
@@ -70,6 +71,8 @@ class FeedsClient {
   final FeedsConfig config;
 
   late final api.DefaultApi apiClient;
+
+  @internal
   late final FeedsRepository feedsRepository;
 
   static const endpointConfig = EndpointConfig.production;
