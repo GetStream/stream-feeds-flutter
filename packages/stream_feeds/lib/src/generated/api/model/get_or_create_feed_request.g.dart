@@ -31,7 +31,7 @@ GetOrCreateFeedRequest _$GetOrCreateFeedRequestFromJson(
           : PagerRequest.fromJson(
               json['following_pagination'] as Map<String, dynamic>),
       interestWeights: (json['interest_weights'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as num),
+        (k, e) => MapEntry(k, (e as num).toDouble()),
       ),
       limit: (json['limit'] as num?)?.toInt(),
       memberPagination: json['member_pagination'] == null

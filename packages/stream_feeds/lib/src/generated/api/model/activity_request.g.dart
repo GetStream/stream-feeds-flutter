@@ -37,7 +37,8 @@ ActivityRequest _$ActivityRequestFromJson(Map<String, dynamic> json) =>
       text: json['text'] as String?,
       type: json['type'] as String,
       visibility: $enumDecodeNullable(
-          _$ActivityRequestVisibilityEnumEnumMap, json['visibility']),
+          _$ActivityRequestVisibilityEnumMap, json['visibility'],
+          unknownValue: ActivityRequestVisibility.unknown),
       visibilityTag: json['visibility_tag'] as String?,
     );
 
@@ -57,13 +58,13 @@ Map<String, dynamic> _$ActivityRequestToJson(ActivityRequest instance) =>
       'search_data': instance.searchData,
       'text': instance.text,
       'type': instance.type,
-      'visibility': _$ActivityRequestVisibilityEnumEnumMap[instance.visibility],
+      'visibility': _$ActivityRequestVisibilityEnumMap[instance.visibility],
       'visibility_tag': instance.visibilityTag,
     };
 
-const _$ActivityRequestVisibilityEnumEnumMap = {
-  ActivityRequestVisibilityEnum.private: 'private',
-  ActivityRequestVisibilityEnum.public: 'public',
-  ActivityRequestVisibilityEnum.tag: 'tag',
-  ActivityRequestVisibilityEnum.unknown: 'unknown',
+const _$ActivityRequestVisibilityEnumMap = {
+  ActivityRequestVisibility.private: 'private',
+  ActivityRequestVisibility.public: 'public',
+  ActivityRequestVisibility.tag: 'tag',
+  ActivityRequestVisibility.unknown: '_unknown',
 };

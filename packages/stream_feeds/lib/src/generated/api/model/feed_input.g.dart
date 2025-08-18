@@ -19,7 +19,8 @@ FeedInput _$FeedInputFromJson(Map<String, dynamic> json) => FeedInput(
           .toList(),
       name: json['name'] as String?,
       visibility: $enumDecodeNullable(
-          _$FeedInputVisibilityEnumEnumMap, json['visibility']),
+          _$FeedInputVisibilityEnumMap, json['visibility'],
+          unknownValue: FeedInputVisibility.unknown),
     );
 
 Map<String, dynamic> _$FeedInputToJson(FeedInput instance) => <String, dynamic>{
@@ -28,14 +29,14 @@ Map<String, dynamic> _$FeedInputToJson(FeedInput instance) => <String, dynamic>{
       'filter_tags': instance.filterTags,
       'members': instance.members?.map((e) => e.toJson()).toList(),
       'name': instance.name,
-      'visibility': _$FeedInputVisibilityEnumEnumMap[instance.visibility],
+      'visibility': _$FeedInputVisibilityEnumMap[instance.visibility],
     };
 
-const _$FeedInputVisibilityEnumEnumMap = {
-  FeedInputVisibilityEnum.followers: 'followers',
-  FeedInputVisibilityEnum.members: 'members',
-  FeedInputVisibilityEnum.private: 'private',
-  FeedInputVisibilityEnum.public: 'public',
-  FeedInputVisibilityEnum.visible: 'visible',
-  FeedInputVisibilityEnum.unknown: 'unknown',
+const _$FeedInputVisibilityEnumMap = {
+  FeedInputVisibility.followers: 'followers',
+  FeedInputVisibility.members: 'members',
+  FeedInputVisibility.private: 'private',
+  FeedInputVisibility.public: 'public',
+  FeedInputVisibility.visible: 'visible',
+  FeedInputVisibility.unknown: '_unknown',
 };

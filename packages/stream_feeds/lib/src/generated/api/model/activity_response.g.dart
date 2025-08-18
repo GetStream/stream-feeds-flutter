@@ -73,7 +73,7 @@ ActivityResponse _$ActivityResponseFromJson(Map<String, dynamic> json) =>
         (k, e) => MapEntry(
             k, ReactionGroupResponse.fromJson(e as Map<String, dynamic>)),
       ),
-      score: json['score'] as num,
+      score: (json['score'] as num).toDouble(),
       searchData: (json['search_data'] as Map<String, dynamic>).map(
         (k, e) => MapEntry(k, e as Object),
       ),
@@ -84,7 +84,8 @@ ActivityResponse _$ActivityResponseFromJson(Map<String, dynamic> json) =>
           .fromJson((json['updated_at'] as num).toInt()),
       user: UserResponse.fromJson(json['user'] as Map<String, dynamic>),
       visibility: $enumDecode(
-          _$ActivityResponseVisibilityEnumEnumMap, json['visibility']),
+          _$ActivityResponseVisibilityEnumMap, json['visibility'],
+          unknownValue: ActivityResponseVisibility.unknown),
       visibilityTag: json['visibility_tag'] as String?,
     );
 
@@ -129,8 +130,7 @@ Map<String, dynamic> _$ActivityResponseToJson(ActivityResponse instance) =>
       'type': instance.type,
       'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
       'user': instance.user.toJson(),
-      'visibility':
-          _$ActivityResponseVisibilityEnumEnumMap[instance.visibility]!,
+      'visibility': _$ActivityResponseVisibilityEnumMap[instance.visibility]!,
       'visibility_tag': instance.visibilityTag,
     };
 
@@ -140,11 +140,11 @@ Value? _$JsonConverterFromJson<Json, Value>(
 ) =>
     json == null ? null : fromJson(json as Json);
 
-const _$ActivityResponseVisibilityEnumEnumMap = {
-  ActivityResponseVisibilityEnum.private: 'private',
-  ActivityResponseVisibilityEnum.public: 'public',
-  ActivityResponseVisibilityEnum.tag: 'tag',
-  ActivityResponseVisibilityEnum.unknown: 'unknown',
+const _$ActivityResponseVisibilityEnumMap = {
+  ActivityResponseVisibility.private: 'private',
+  ActivityResponseVisibility.public: 'public',
+  ActivityResponseVisibility.tag: 'tag',
+  ActivityResponseVisibility.unknown: '_unknown',
 };
 
 Json? _$JsonConverterToJson<Json, Value>(

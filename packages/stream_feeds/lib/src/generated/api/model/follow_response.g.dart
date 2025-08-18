@@ -15,14 +15,16 @@ FollowResponse _$FollowResponseFromJson(Map<String, dynamic> json) =>
       ),
       followerRole: json['follower_role'] as String,
       pushPreference: $enumDecode(
-          _$FollowResponsePushPreferenceEnumEnumMap, json['push_preference']),
+          _$FollowResponsePushPreferenceEnumMap, json['push_preference'],
+          unknownValue: FollowResponsePushPreference.unknown),
       requestAcceptedAt: _$JsonConverterFromJson<int, DateTime>(
           json['request_accepted_at'], const EpochDateTimeConverter().fromJson),
       requestRejectedAt: _$JsonConverterFromJson<int, DateTime>(
           json['request_rejected_at'], const EpochDateTimeConverter().fromJson),
       sourceFeed:
           FeedResponse.fromJson(json['source_feed'] as Map<String, dynamic>),
-      status: $enumDecode(_$FollowResponseStatusEnumEnumMap, json['status']),
+      status: $enumDecode(_$FollowResponseStatusEnumMap, json['status'],
+          unknownValue: FollowResponseStatus.unknown),
       targetFeed:
           FeedResponse.fromJson(json['target_feed'] as Map<String, dynamic>),
       updatedAt: const EpochDateTimeConverter()
@@ -35,21 +37,21 @@ Map<String, dynamic> _$FollowResponseToJson(FollowResponse instance) =>
       'custom': instance.custom,
       'follower_role': instance.followerRole,
       'push_preference':
-          _$FollowResponsePushPreferenceEnumEnumMap[instance.pushPreference]!,
+          _$FollowResponsePushPreferenceEnumMap[instance.pushPreference]!,
       'request_accepted_at': _$JsonConverterToJson<int, DateTime>(
           instance.requestAcceptedAt, const EpochDateTimeConverter().toJson),
       'request_rejected_at': _$JsonConverterToJson<int, DateTime>(
           instance.requestRejectedAt, const EpochDateTimeConverter().toJson),
       'source_feed': instance.sourceFeed.toJson(),
-      'status': _$FollowResponseStatusEnumEnumMap[instance.status]!,
+      'status': _$FollowResponseStatusEnumMap[instance.status]!,
       'target_feed': instance.targetFeed.toJson(),
       'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
     };
 
-const _$FollowResponsePushPreferenceEnumEnumMap = {
-  FollowResponsePushPreferenceEnum.all: 'all',
-  FollowResponsePushPreferenceEnum.none: 'none',
-  FollowResponsePushPreferenceEnum.unknown: 'unknown',
+const _$FollowResponsePushPreferenceEnumMap = {
+  FollowResponsePushPreference.all: 'all',
+  FollowResponsePushPreference.none: 'none',
+  FollowResponsePushPreference.unknown: '_unknown',
 };
 
 Value? _$JsonConverterFromJson<Json, Value>(
@@ -58,11 +60,11 @@ Value? _$JsonConverterFromJson<Json, Value>(
 ) =>
     json == null ? null : fromJson(json as Json);
 
-const _$FollowResponseStatusEnumEnumMap = {
-  FollowResponseStatusEnum.accepted: 'accepted',
-  FollowResponseStatusEnum.pending: 'pending',
-  FollowResponseStatusEnum.rejected: 'rejected',
-  FollowResponseStatusEnum.unknown: 'unknown',
+const _$FollowResponseStatusEnumMap = {
+  FollowResponseStatus.accepted: 'accepted',
+  FollowResponseStatus.pending: 'pending',
+  FollowResponseStatus.rejected: 'rejected',
+  FollowResponseStatus.unknown: '_unknown',
 };
 
 Json? _$JsonConverterToJson<Json, Value>(

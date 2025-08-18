@@ -18,8 +18,8 @@ FeedMemberResponse _$FeedMemberResponseFromJson(Map<String, dynamic> json) =>
       inviteRejectedAt: _$JsonConverterFromJson<int, DateTime>(
           json['invite_rejected_at'], const EpochDateTimeConverter().fromJson),
       role: json['role'] as String,
-      status:
-          $enumDecode(_$FeedMemberResponseStatusEnumEnumMap, json['status']),
+      status: $enumDecode(_$FeedMemberResponseStatusEnumMap, json['status'],
+          unknownValue: FeedMemberResponseStatus.unknown),
       updatedAt: const EpochDateTimeConverter()
           .fromJson((json['updated_at'] as num).toInt()),
       user: UserResponse.fromJson(json['user'] as Map<String, dynamic>),
@@ -34,7 +34,7 @@ Map<String, dynamic> _$FeedMemberResponseToJson(FeedMemberResponse instance) =>
       'invite_rejected_at': _$JsonConverterToJson<int, DateTime>(
           instance.inviteRejectedAt, const EpochDateTimeConverter().toJson),
       'role': instance.role,
-      'status': _$FeedMemberResponseStatusEnumEnumMap[instance.status]!,
+      'status': _$FeedMemberResponseStatusEnumMap[instance.status]!,
       'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
       'user': instance.user.toJson(),
     };
@@ -45,11 +45,11 @@ Value? _$JsonConverterFromJson<Json, Value>(
 ) =>
     json == null ? null : fromJson(json as Json);
 
-const _$FeedMemberResponseStatusEnumEnumMap = {
-  FeedMemberResponseStatusEnum.member: 'member',
-  FeedMemberResponseStatusEnum.pending: 'pending',
-  FeedMemberResponseStatusEnum.rejected: 'rejected',
-  FeedMemberResponseStatusEnum.unknown: 'unknown',
+const _$FeedMemberResponseStatusEnumMap = {
+  FeedMemberResponseStatus.member: 'member',
+  FeedMemberResponseStatus.pending: 'pending',
+  FeedMemberResponseStatus.rejected: 'rejected',
+  FeedMemberResponseStatus.unknown: '_unknown',
 };
 
 Json? _$JsonConverterToJson<Json, Value>(

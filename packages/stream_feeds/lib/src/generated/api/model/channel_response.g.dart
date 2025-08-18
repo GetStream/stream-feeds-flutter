@@ -138,6 +138,7 @@ const _$ChannelOwnCapabilityEnumMap = {
   ChannelOwnCapability.updateOwnMessage: 'update-own-message',
   ChannelOwnCapability.updateThread: 'update-thread',
   ChannelOwnCapability.uploadFile: 'upload-file',
+  ChannelOwnCapability.unknown: '_unknown',
 };
 
 Json? _$JsonConverterToJson<Json, Value>(

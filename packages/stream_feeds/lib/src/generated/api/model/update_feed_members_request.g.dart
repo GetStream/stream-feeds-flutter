@@ -15,7 +15,8 @@ UpdateFeedMembersRequest _$UpdateFeedMembersRequestFromJson(
           .toList(),
       next: json['next'] as String?,
       operation: $enumDecode(
-          _$UpdateFeedMembersRequestOperationEnumEnumMap, json['operation']),
+          _$UpdateFeedMembersRequestOperationEnumMap, json['operation'],
+          unknownValue: UpdateFeedMembersRequestOperation.unknown),
       prev: json['prev'] as String?,
     );
 
@@ -26,13 +27,13 @@ Map<String, dynamic> _$UpdateFeedMembersRequestToJson(
       'members': instance.members?.map((e) => e.toJson()).toList(),
       'next': instance.next,
       'operation':
-          _$UpdateFeedMembersRequestOperationEnumEnumMap[instance.operation]!,
+          _$UpdateFeedMembersRequestOperationEnumMap[instance.operation]!,
       'prev': instance.prev,
     };
 
-const _$UpdateFeedMembersRequestOperationEnumEnumMap = {
-  UpdateFeedMembersRequestOperationEnum.remove: 'remove',
-  UpdateFeedMembersRequestOperationEnum.set: 'set',
-  UpdateFeedMembersRequestOperationEnum.upsert: 'upsert',
-  UpdateFeedMembersRequestOperationEnum.unknown: 'unknown',
+const _$UpdateFeedMembersRequestOperationEnumMap = {
+  UpdateFeedMembersRequestOperation.remove: 'remove',
+  UpdateFeedMembersRequestOperation.set: 'set',
+  UpdateFeedMembersRequestOperation.upsert: 'upsert',
+  UpdateFeedMembersRequestOperation.unknown: '_unknown',
 };

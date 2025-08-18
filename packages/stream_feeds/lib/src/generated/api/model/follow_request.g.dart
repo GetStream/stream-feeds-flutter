@@ -13,7 +13,8 @@ FollowRequest _$FollowRequestFromJson(Map<String, dynamic> json) =>
         (k, e) => MapEntry(k, e as Object),
       ),
       pushPreference: $enumDecodeNullable(
-          _$FollowRequestPushPreferenceEnumEnumMap, json['push_preference']),
+          _$FollowRequestPushPreferenceEnumMap, json['push_preference'],
+          unknownValue: FollowRequestPushPreference.unknown),
       source: json['source'] as String,
       target: json['target'] as String,
     );
@@ -23,13 +24,13 @@ Map<String, dynamic> _$FollowRequestToJson(FollowRequest instance) =>
       'create_notification_activity': instance.createNotificationActivity,
       'custom': instance.custom,
       'push_preference':
-          _$FollowRequestPushPreferenceEnumEnumMap[instance.pushPreference],
+          _$FollowRequestPushPreferenceEnumMap[instance.pushPreference],
       'source': instance.source,
       'target': instance.target,
     };
 
-const _$FollowRequestPushPreferenceEnumEnumMap = {
-  FollowRequestPushPreferenceEnum.all: 'all',
-  FollowRequestPushPreferenceEnum.none: 'none',
-  FollowRequestPushPreferenceEnum.unknown: 'unknown',
+const _$FollowRequestPushPreferenceEnumMap = {
+  FollowRequestPushPreference.all: 'all',
+  FollowRequestPushPreference.none: 'none',
+  FollowRequestPushPreference.unknown: '_unknown',
 };

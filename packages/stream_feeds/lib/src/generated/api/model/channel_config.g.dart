@@ -11,17 +11,19 @@ ChannelConfig _$ChannelConfigFromJson(Map<String, dynamic> json) =>
       allowedFlagReasons: (json['allowed_flag_reasons'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
-      automod: $enumDecode(_$ChannelConfigAutomodEnumEnumMap, json['automod']),
+      automod: $enumDecode(_$ChannelConfigAutomodEnumMap, json['automod'],
+          unknownValue: ChannelConfigAutomod.unknown),
       automodBehavior: $enumDecode(
-          _$ChannelConfigAutomodBehaviorEnumEnumMap, json['automod_behavior']),
+          _$ChannelConfigAutomodBehaviorEnumMap, json['automod_behavior'],
+          unknownValue: ChannelConfigAutomodBehavior.unknown),
       automodThresholds: json['automod_thresholds'] == null
           ? null
           : Thresholds.fromJson(
               json['automod_thresholds'] as Map<String, dynamic>),
       blocklist: json['blocklist'] as String?,
       blocklistBehavior: $enumDecodeNullable(
-          _$ChannelConfigBlocklistBehaviorEnumEnumMap,
-          json['blocklist_behavior']),
+          _$ChannelConfigBlocklistBehaviorEnumMap, json['blocklist_behavior'],
+          unknownValue: ChannelConfigBlocklistBehavior.unknown),
       blocklists: (json['blocklists'] as List<dynamic>?)
           ?.map((e) => BlockListOptions.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -59,13 +61,13 @@ ChannelConfig _$ChannelConfigFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$ChannelConfigToJson(ChannelConfig instance) =>
     <String, dynamic>{
       'allowed_flag_reasons': instance.allowedFlagReasons,
-      'automod': _$ChannelConfigAutomodEnumEnumMap[instance.automod]!,
+      'automod': _$ChannelConfigAutomodEnumMap[instance.automod]!,
       'automod_behavior':
-          _$ChannelConfigAutomodBehaviorEnumEnumMap[instance.automodBehavior]!,
+          _$ChannelConfigAutomodBehaviorEnumMap[instance.automodBehavior]!,
       'automod_thresholds': instance.automodThresholds?.toJson(),
       'blocklist': instance.blocklist,
-      'blocklist_behavior': _$ChannelConfigBlocklistBehaviorEnumEnumMap[
-          instance.blocklistBehavior],
+      'blocklist_behavior':
+          _$ChannelConfigBlocklistBehaviorEnumMap[instance.blocklistBehavior],
       'blocklists': instance.blocklists?.map((e) => e.toJson()).toList(),
       'commands': instance.commands,
       'connect_events': instance.connectEvents,
@@ -95,23 +97,23 @@ Map<String, dynamic> _$ChannelConfigToJson(ChannelConfig instance) =>
       'user_message_reminders': instance.userMessageReminders,
     };
 
-const _$ChannelConfigAutomodEnumEnumMap = {
-  ChannelConfigAutomodEnum.aI: 'AI',
-  ChannelConfigAutomodEnum.disabled: 'disabled',
-  ChannelConfigAutomodEnum.simple: 'simple',
-  ChannelConfigAutomodEnum.unknown: 'unknown',
+const _$ChannelConfigAutomodEnumMap = {
+  ChannelConfigAutomod.aI: 'AI',
+  ChannelConfigAutomod.disabled: 'disabled',
+  ChannelConfigAutomod.simple: 'simple',
+  ChannelConfigAutomod.unknown: '_unknown',
 };
 
-const _$ChannelConfigAutomodBehaviorEnumEnumMap = {
-  ChannelConfigAutomodBehaviorEnum.block: 'block',
-  ChannelConfigAutomodBehaviorEnum.flag: 'flag',
-  ChannelConfigAutomodBehaviorEnum.shadowBlock: 'shadow_block',
-  ChannelConfigAutomodBehaviorEnum.unknown: 'unknown',
+const _$ChannelConfigAutomodBehaviorEnumMap = {
+  ChannelConfigAutomodBehavior.block: 'block',
+  ChannelConfigAutomodBehavior.flag: 'flag',
+  ChannelConfigAutomodBehavior.shadowBlock: 'shadow_block',
+  ChannelConfigAutomodBehavior.unknown: '_unknown',
 };
 
-const _$ChannelConfigBlocklistBehaviorEnumEnumMap = {
-  ChannelConfigBlocklistBehaviorEnum.block: 'block',
-  ChannelConfigBlocklistBehaviorEnum.flag: 'flag',
-  ChannelConfigBlocklistBehaviorEnum.shadowBlock: 'shadow_block',
-  ChannelConfigBlocklistBehaviorEnum.unknown: 'unknown',
+const _$ChannelConfigBlocklistBehaviorEnumMap = {
+  ChannelConfigBlocklistBehavior.block: 'block',
+  ChannelConfigBlocklistBehavior.flag: 'flag',
+  ChannelConfigBlocklistBehavior.shadowBlock: 'shadow_block',
+  ChannelConfigBlocklistBehavior.unknown: '_unknown',
 };

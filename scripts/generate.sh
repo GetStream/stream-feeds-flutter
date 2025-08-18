@@ -21,7 +21,13 @@ rm -rf ./packages/stream_feeds/lib/src/generated/api/model/*
   go run ./cmd/chat-manager openapi generate-client --language dart --spec ./releases/v2/feeds-clientside-api.yaml --output ../stream-feeds-flutter/packages/stream_feeds/lib/src/generated/api/
 )
 
-melos clean
-melos bs
+# Fix duplicate role field in CallParticipant model (OpenAPI template bug)
+CALL_PARTICIPANT_FILE="$OUTPUT_DIR_FEEDS/model/call_participant.dart"
+if [ -f "$CALL_PARTICIPANT_FILE" ]; then
+  sed -i '' '/required this\.role,/{N; /required this\.role,.*\n.*required this\.role,/s/\n.*required this\.role,//;}' "$CALL_PARTICIPANT_FILE"
+  sed -i '' '/final String role;/{N;N;N; /final String role;.*\n.*\n.*@override.*\n.*final String role;/s/\n.*\n.*@override.*\n.*final String role;//;}' "$CALL_PARTICIPANT_FILE"
+  echo "Fixed duplicate role field in CallParticipant model using sed"
+fi
+
 melos generate:all
 melos format

@@ -10,8 +10,8 @@ ConfigOverrides _$ConfigOverridesFromJson(Map<String, dynamic> json) =>
     ConfigOverrides(
       blocklist: json['blocklist'] as String?,
       blocklistBehavior: $enumDecodeNullable(
-          _$ConfigOverridesBlocklistBehaviorEnumEnumMap,
-          json['blocklist_behavior']),
+          _$ConfigOverridesBlocklistBehaviorEnumMap, json['blocklist_behavior'],
+          unknownValue: ConfigOverridesBlocklistBehavior.unknown),
       commands:
           (json['commands'] as List<dynamic>).map((e) => e as String).toList(),
       grants: (json['grants'] as Map<String, dynamic>).map(
@@ -32,8 +32,8 @@ ConfigOverrides _$ConfigOverridesFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$ConfigOverridesToJson(ConfigOverrides instance) =>
     <String, dynamic>{
       'blocklist': instance.blocklist,
-      'blocklist_behavior': _$ConfigOverridesBlocklistBehaviorEnumEnumMap[
-          instance.blocklistBehavior],
+      'blocklist_behavior':
+          _$ConfigOverridesBlocklistBehaviorEnumMap[instance.blocklistBehavior],
       'commands': instance.commands,
       'grants': instance.grants,
       'max_message_length': instance.maxMessageLength,
@@ -47,8 +47,8 @@ Map<String, dynamic> _$ConfigOverridesToJson(ConfigOverrides instance) =>
       'user_message_reminders': instance.userMessageReminders,
     };
 
-const _$ConfigOverridesBlocklistBehaviorEnumEnumMap = {
-  ConfigOverridesBlocklistBehaviorEnum.block: 'block',
-  ConfigOverridesBlocklistBehaviorEnum.flag: 'flag',
-  ConfigOverridesBlocklistBehaviorEnum.unknown: 'unknown',
+const _$ConfigOverridesBlocklistBehaviorEnumMap = {
+  ConfigOverridesBlocklistBehavior.block: 'block',
+  ConfigOverridesBlocklistBehavior.flag: 'flag',
+  ConfigOverridesBlocklistBehavior.unknown: '_unknown',
 };

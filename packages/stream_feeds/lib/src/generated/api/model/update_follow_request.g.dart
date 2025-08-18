@@ -14,8 +14,8 @@ UpdateFollowRequest _$UpdateFollowRequestFromJson(Map<String, dynamic> json) =>
       ),
       followerRole: json['follower_role'] as String?,
       pushPreference: $enumDecodeNullable(
-          _$UpdateFollowRequestPushPreferenceEnumEnumMap,
-          json['push_preference']),
+          _$UpdateFollowRequestPushPreferenceEnumMap, json['push_preference'],
+          unknownValue: UpdateFollowRequestPushPreference.unknown),
       source: json['source'] as String,
       target: json['target'] as String,
     );
@@ -26,14 +26,14 @@ Map<String, dynamic> _$UpdateFollowRequestToJson(
       'create_notification_activity': instance.createNotificationActivity,
       'custom': instance.custom,
       'follower_role': instance.followerRole,
-      'push_preference': _$UpdateFollowRequestPushPreferenceEnumEnumMap[
-          instance.pushPreference],
+      'push_preference':
+          _$UpdateFollowRequestPushPreferenceEnumMap[instance.pushPreference],
       'source': instance.source,
       'target': instance.target,
     };
 
-const _$UpdateFollowRequestPushPreferenceEnumEnumMap = {
-  UpdateFollowRequestPushPreferenceEnum.all: 'all',
-  UpdateFollowRequestPushPreferenceEnum.none: 'none',
-  UpdateFollowRequestPushPreferenceEnum.unknown: 'unknown',
+const _$UpdateFollowRequestPushPreferenceEnumMap = {
+  UpdateFollowRequestPushPreference.all: 'all',
+  UpdateFollowRequestPushPreference.none: 'none',
+  UpdateFollowRequestPushPreference.unknown: '_unknown',
 };

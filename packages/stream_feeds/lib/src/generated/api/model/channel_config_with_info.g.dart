@@ -13,18 +13,21 @@ ChannelConfigWithInfo _$ChannelConfigWithInfoFromJson(
           ?.map((e) => e as String)
           .toList(),
       automod: $enumDecode(
-          _$ChannelConfigWithInfoAutomodEnumEnumMap, json['automod']),
+          _$ChannelConfigWithInfoAutomodEnumMap, json['automod'],
+          unknownValue: ChannelConfigWithInfoAutomod.unknown),
       automodBehavior: $enumDecode(
-          _$ChannelConfigWithInfoAutomodBehaviorEnumEnumMap,
-          json['automod_behavior']),
+          _$ChannelConfigWithInfoAutomodBehaviorEnumMap,
+          json['automod_behavior'],
+          unknownValue: ChannelConfigWithInfoAutomodBehavior.unknown),
       automodThresholds: json['automod_thresholds'] == null
           ? null
           : Thresholds.fromJson(
               json['automod_thresholds'] as Map<String, dynamic>),
       blocklist: json['blocklist'] as String?,
       blocklistBehavior: $enumDecodeNullable(
-          _$ChannelConfigWithInfoBlocklistBehaviorEnumEnumMap,
-          json['blocklist_behavior']),
+          _$ChannelConfigWithInfoBlocklistBehaviorEnumMap,
+          json['blocklist_behavior'],
+          unknownValue: ChannelConfigWithInfoBlocklistBehavior.unknown),
       blocklists: (json['blocklists'] as List<dynamic>?)
           ?.map((e) => BlockListOptions.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -68,12 +71,12 @@ Map<String, dynamic> _$ChannelConfigWithInfoToJson(
         ChannelConfigWithInfo instance) =>
     <String, dynamic>{
       'allowed_flag_reasons': instance.allowedFlagReasons,
-      'automod': _$ChannelConfigWithInfoAutomodEnumEnumMap[instance.automod]!,
-      'automod_behavior': _$ChannelConfigWithInfoAutomodBehaviorEnumEnumMap[
+      'automod': _$ChannelConfigWithInfoAutomodEnumMap[instance.automod]!,
+      'automod_behavior': _$ChannelConfigWithInfoAutomodBehaviorEnumMap[
           instance.automodBehavior]!,
       'automod_thresholds': instance.automodThresholds?.toJson(),
       'blocklist': instance.blocklist,
-      'blocklist_behavior': _$ChannelConfigWithInfoBlocklistBehaviorEnumEnumMap[
+      'blocklist_behavior': _$ChannelConfigWithInfoBlocklistBehaviorEnumMap[
           instance.blocklistBehavior],
       'blocklists': instance.blocklists?.map((e) => e.toJson()).toList(),
       'commands': instance.commands.map((e) => e.toJson()).toList(),
@@ -105,23 +108,23 @@ Map<String, dynamic> _$ChannelConfigWithInfoToJson(
       'user_message_reminders': instance.userMessageReminders,
     };
 
-const _$ChannelConfigWithInfoAutomodEnumEnumMap = {
-  ChannelConfigWithInfoAutomodEnum.aI: 'AI',
-  ChannelConfigWithInfoAutomodEnum.disabled: 'disabled',
-  ChannelConfigWithInfoAutomodEnum.simple: 'simple',
-  ChannelConfigWithInfoAutomodEnum.unknown: 'unknown',
+const _$ChannelConfigWithInfoAutomodEnumMap = {
+  ChannelConfigWithInfoAutomod.aI: 'AI',
+  ChannelConfigWithInfoAutomod.disabled: 'disabled',
+  ChannelConfigWithInfoAutomod.simple: 'simple',
+  ChannelConfigWithInfoAutomod.unknown: '_unknown',
 };
 
-const _$ChannelConfigWithInfoAutomodBehaviorEnumEnumMap = {
-  ChannelConfigWithInfoAutomodBehaviorEnum.block: 'block',
-  ChannelConfigWithInfoAutomodBehaviorEnum.flag: 'flag',
-  ChannelConfigWithInfoAutomodBehaviorEnum.shadowBlock: 'shadow_block',
-  ChannelConfigWithInfoAutomodBehaviorEnum.unknown: 'unknown',
+const _$ChannelConfigWithInfoAutomodBehaviorEnumMap = {
+  ChannelConfigWithInfoAutomodBehavior.block: 'block',
+  ChannelConfigWithInfoAutomodBehavior.flag: 'flag',
+  ChannelConfigWithInfoAutomodBehavior.shadowBlock: 'shadow_block',
+  ChannelConfigWithInfoAutomodBehavior.unknown: '_unknown',
 };
 
-const _$ChannelConfigWithInfoBlocklistBehaviorEnumEnumMap = {
-  ChannelConfigWithInfoBlocklistBehaviorEnum.block: 'block',
-  ChannelConfigWithInfoBlocklistBehaviorEnum.flag: 'flag',
-  ChannelConfigWithInfoBlocklistBehaviorEnum.shadowBlock: 'shadow_block',
-  ChannelConfigWithInfoBlocklistBehaviorEnum.unknown: 'unknown',
+const _$ChannelConfigWithInfoBlocklistBehaviorEnumMap = {
+  ChannelConfigWithInfoBlocklistBehavior.block: 'block',
+  ChannelConfigWithInfoBlocklistBehavior.flag: 'flag',
+  ChannelConfigWithInfoBlocklistBehavior.shadowBlock: 'shadow_block',
+  ChannelConfigWithInfoBlocklistBehavior.unknown: '_unknown',
 };

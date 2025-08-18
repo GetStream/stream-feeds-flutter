@@ -8,8 +8,8 @@ part of 'activity_location.dart';
 
 ActivityLocation _$ActivityLocationFromJson(Map<String, dynamic> json) =>
     ActivityLocation(
-      lat: json['lat'] as num,
-      lng: json['lng'] as num,
+      lat: (json['lat'] as num).toDouble(),
+      lng: (json['lng'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$ActivityLocationToJson(ActivityLocation instance) =>

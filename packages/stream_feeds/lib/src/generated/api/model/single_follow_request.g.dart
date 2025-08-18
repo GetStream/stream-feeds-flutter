@@ -13,8 +13,8 @@ SingleFollowRequest _$SingleFollowRequestFromJson(Map<String, dynamic> json) =>
         (k, e) => MapEntry(k, e as Object),
       ),
       pushPreference: $enumDecodeNullable(
-          _$SingleFollowRequestPushPreferenceEnumEnumMap,
-          json['push_preference']),
+          _$SingleFollowRequestPushPreferenceEnumMap, json['push_preference'],
+          unknownValue: SingleFollowRequestPushPreference.unknown),
       source: json['source'] as String,
       target: json['target'] as String,
     );
@@ -24,14 +24,14 @@ Map<String, dynamic> _$SingleFollowRequestToJson(
     <String, dynamic>{
       'create_notification_activity': instance.createNotificationActivity,
       'custom': instance.custom,
-      'push_preference': _$SingleFollowRequestPushPreferenceEnumEnumMap[
-          instance.pushPreference],
+      'push_preference':
+          _$SingleFollowRequestPushPreferenceEnumMap[instance.pushPreference],
       'source': instance.source,
       'target': instance.target,
     };
 
-const _$SingleFollowRequestPushPreferenceEnumEnumMap = {
-  SingleFollowRequestPushPreferenceEnum.all: 'all',
-  SingleFollowRequestPushPreferenceEnum.none: 'none',
-  SingleFollowRequestPushPreferenceEnum.unknown: 'unknown',
+const _$SingleFollowRequestPushPreferenceEnumMap = {
+  SingleFollowRequestPushPreference.all: 'all',
+  SingleFollowRequestPushPreference.none: 'none',
+  SingleFollowRequestPushPreference.unknown: '_unknown',
 };

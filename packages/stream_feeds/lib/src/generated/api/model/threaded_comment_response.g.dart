@@ -12,8 +12,8 @@ ThreadedCommentResponse _$ThreadedCommentResponseFromJson(
       attachments: (json['attachments'] as List<dynamic>?)
           ?.map((e) => Attachment.fromJson(e as Map<String, dynamic>))
           .toList(),
-      confidenceScore: json['confidence_score'] as num,
-      controversyScore: json['controversy_score'] as num?,
+      confidenceScore: (json['confidence_score'] as num).toDouble(),
+      controversyScore: (json['controversy_score'] as num?)?.toDouble(),
       createdAt: const EpochDateTimeConverter()
           .fromJson((json['created_at'] as num).toInt()),
       custom: (json['custom'] as Map<String, dynamic>?)?.map(

@@ -8,7 +8,6 @@ part of 'update_feed_request.dart';
 
 UpdateFeedRequest _$UpdateFeedRequestFromJson(Map<String, dynamic> json) =>
     UpdateFeedRequest(
-      createdById: json['created_by_id'] as String?,
       custom: (json['custom'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as Object),
       ),
@@ -16,6 +15,5 @@ UpdateFeedRequest _$UpdateFeedRequestFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$UpdateFeedRequestToJson(UpdateFeedRequest instance) =>
     <String, dynamic>{
-      'created_by_id': instance.createdById,
       'custom': instance.custom,
     };
