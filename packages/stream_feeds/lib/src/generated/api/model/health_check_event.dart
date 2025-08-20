@@ -6,6 +6,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
+import 'package:stream_core/stream_core.dart' as core;
+
 import '../models.dart';
 
 part 'health_check_event.g.dart';
@@ -14,7 +16,7 @@ part 'health_check_event.freezed.dart';
 @freezed
 @immutable
 @JsonSerializable()
-class HealthCheckEvent with _$HealthCheckEvent {
+class HealthCheckEvent extends core.WsEvent with _$HealthCheckEvent {
   const HealthCheckEvent({
     this.cid,
     required this.connectionId,

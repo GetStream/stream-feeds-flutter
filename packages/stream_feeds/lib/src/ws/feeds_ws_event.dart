@@ -1,45 +1,33 @@
-// ignore_for_file: prefer_single_quotes
-
 import 'dart:convert';
 
-import 'package:stream_core/stream_core.dart' as core;
+import 'package:stream_core/stream_core.dart';
 
 import '../generated/api/api.dart' as api;
+import 'events/events.dart';
 
-class FeedsWsEvent extends core.WsEvent {
-  const FeedsWsEvent(this.apiEvent);
+abstract class FeedsWsEvent {
+  const FeedsWsEvent._();
 
-  final api.WSClientEvent? apiEvent;
-
-  static core.WsEvent fromEventObject(Object message) {
+  static WsEvent? fromEventObject(Object message) {
     try {
-      final json = jsonDecode(message.toString()) as Map<String, dynamic>;
-      final type = json['type'];
-      // TODO move generic connection events to core library.
-      switch (type) {
-        case "connection.ok":
-          return core.HealthCheckPongEvent(
-            healthCheckInfo: core.HealthCheckInfo(
-              connectionId: json['connection_id'],
-            ),
-          );
-        case 'connection.error':
-          return core.WsErrorEvent(error: json['error'], message: message);
-        default:
-          final event = api.WSClientEvent.fromJson(json);
+      final jsonData = json.decode(message.toString()) as Map<String, Object?>;
+      final event = api.WSEvent.fromJson(jsonData).wrapped;
 
-          if (event is api.WSClientEventHealthCheckEvent) {
-            return core.HealthCheckPongEvent(
-              healthCheckInfo: core.HealthCheckInfo(
-                connectionId: event.healthCheckEvent.connectionId,
-              ),
-            );
-          }
-          print(type);
-          return FeedsWsEvent(event);
+      if (event is api.UnknownWSEvent) {
+        return _parseUnknownEvent(event);
       }
-    } catch (e) {
-      return core.WsErrorEvent(error: e, message: message);
+
+      return event;
+    } catch (e, stk) {
+      return null;
     }
   }
+}
+
+WsEvent _parseUnknownEvent(api.UnknownWSEvent unknownEvent) {
+  return switch (unknownEvent.type) {
+    'connection.ok' => ConnectedEvent.fromJson(unknownEvent.rawJson),
+    'connection.error' => ConnectionErrorEvent.fromJson(unknownEvent.rawJson),
+    _ => unknownEvent,
+  };
 }

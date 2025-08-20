@@ -6,6 +6,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
+import 'package:stream_core/stream_core.dart' as core;
+
 import '../models.dart';
 
 part 'update_poll_request.g.dart';

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-CHAT_DIR=../chat
-OUTPUT_DIR_FEEDS=../stream-feeds-flutter/packages/stream_feeds/lib/src/generated/api/
+CHAT_DIR=/Users/xsahil03x/WebstormProjects/chat
+OUTPUT_DIR_FEEDS=/Users/xsahil03x/StudioProjects/stream-feeds-flutter/packages/stream_feeds/lib/src/generated/api/
 
 if [ ! -d $CHAT_DIR ]
 then
@@ -12,13 +12,13 @@ fi
 set -ex
 
 # remove old generated code
-rm -rf ./packages/stream_feeds/lib/src/generated/api/model/*
+rm -rf /Users/xsahil03x/StudioProjects/stream-feeds-flutter/packages/stream_feeds/lib/src/generated/api/model/*
 
 # cd in API repo, generate new spec and then generate code from it
 (
   cd $CHAT_DIR &&
-  go run ./cmd/chat-manager openapi generate-spec -products feeds,common -version v2 -clientside -encode-time-as-unix-timestamp -output releases/v2/feeds-clientside-api -renamed-models ../stream-feeds-flutter/scripts/renamed-models.json &&
-  go run ./cmd/chat-manager openapi generate-client --language dart --spec ./releases/v2/feeds-clientside-api.yaml --output ../stream-feeds-flutter/packages/stream_feeds/lib/src/generated/api/
+  go run ./cmd/chat-manager openapi generate-spec -products feeds,common,moderation -version v2 -clientside -encode-time-as-unix-timestamp -output releases/v2/feeds-clientside-api -renamed-models /Users/xsahil03x/StudioProjects/stream-feeds-flutter/scripts/renamed-models.json &&
+  go run ./cmd/chat-manager openapi generate-client --language dart --spec ./releases/v2/feeds-clientside-api.yaml --output $OUTPUT_DIR_FEEDS
 )
 
 # Fix duplicate role field in CallParticipant model (OpenAPI template bug)

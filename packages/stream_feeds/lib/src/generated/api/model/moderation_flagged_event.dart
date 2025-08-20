@@ -6,6 +6,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
+import 'package:stream_core/stream_core.dart' as core;
+
 import '../models.dart';
 
 part 'moderation_flagged_event.g.dart';
@@ -14,7 +16,8 @@ part 'moderation_flagged_event.freezed.dart';
 @freezed
 @immutable
 @JsonSerializable()
-class ModerationFlaggedEvent with _$ModerationFlaggedEvent {
+class ModerationFlaggedEvent extends core.WsEvent
+    with _$ModerationFlaggedEvent {
   const ModerationFlaggedEvent({
     required this.createdAt,
     this.item,

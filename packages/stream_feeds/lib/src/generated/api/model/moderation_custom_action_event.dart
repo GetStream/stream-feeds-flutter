@@ -6,6 +6,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
+import 'package:stream_core/stream_core.dart' as core;
+
 import '../models.dart';
 
 part 'moderation_custom_action_event.g.dart';
@@ -14,7 +16,8 @@ part 'moderation_custom_action_event.freezed.dart';
 @freezed
 @immutable
 @JsonSerializable()
-class ModerationCustomActionEvent with _$ModerationCustomActionEvent {
+class ModerationCustomActionEvent extends core.WsEvent
+    with _$ModerationCustomActionEvent {
   const ModerationCustomActionEvent({
     required this.createdAt,
     this.item,

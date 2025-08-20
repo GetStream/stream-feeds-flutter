@@ -6,6 +6,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
+import 'package:stream_core/stream_core.dart' as core;
+
 import '../models.dart';
 
 part 'activity_reaction_added_event.g.dart';
@@ -14,7 +16,8 @@ part 'activity_reaction_added_event.freezed.dart';
 @freezed
 @immutable
 @JsonSerializable()
-class ActivityReactionAddedEvent with _$ActivityReactionAddedEvent {
+class ActivityReactionAddedEvent extends core.WsEvent
+    with _$ActivityReactionAddedEvent {
   const ActivityReactionAddedEvent({
     required this.activity,
     required this.createdAt,

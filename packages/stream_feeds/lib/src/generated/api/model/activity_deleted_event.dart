@@ -6,6 +6,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
+import 'package:stream_core/stream_core.dart' as core;
+
 import '../models.dart';
 
 part 'activity_deleted_event.g.dart';
@@ -14,7 +16,7 @@ part 'activity_deleted_event.freezed.dart';
 @freezed
 @immutable
 @JsonSerializable()
-class ActivityDeletedEvent with _$ActivityDeletedEvent {
+class ActivityDeletedEvent extends core.WsEvent with _$ActivityDeletedEvent {
   const ActivityDeletedEvent({
     required this.activity,
     required this.createdAt,

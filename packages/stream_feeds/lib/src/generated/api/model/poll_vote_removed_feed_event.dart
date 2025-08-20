@@ -6,6 +6,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
+import 'package:stream_core/stream_core.dart' as core;
+
 import '../models.dart';
 
 part 'poll_vote_removed_feed_event.g.dart';
@@ -14,7 +16,8 @@ part 'poll_vote_removed_feed_event.freezed.dart';
 @freezed
 @immutable
 @JsonSerializable()
-class PollVoteRemovedFeedEvent with _$PollVoteRemovedFeedEvent {
+class PollVoteRemovedFeedEvent extends core.WsEvent
+    with _$PollVoteRemovedFeedEvent {
   const PollVoteRemovedFeedEvent({
     required this.createdAt,
     required this.custom,

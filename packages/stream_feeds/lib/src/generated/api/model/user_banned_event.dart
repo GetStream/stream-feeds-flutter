@@ -6,6 +6,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
+import 'package:stream_core/stream_core.dart' as core;
+
 import '../models.dart';
 
 part 'user_banned_event.g.dart';
@@ -14,7 +16,7 @@ part 'user_banned_event.freezed.dart';
 @freezed
 @immutable
 @JsonSerializable()
-class UserBannedEvent with _$UserBannedEvent {
+class UserBannedEvent extends core.WsEvent with _$UserBannedEvent {
   const UserBannedEvent({
     required this.channelId,
     required this.channelType,

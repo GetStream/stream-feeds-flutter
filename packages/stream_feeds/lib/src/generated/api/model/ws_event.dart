@@ -3,712 +3,483 @@
 // coverage:ignore-file
 // ignore_for_file: unused_import, unnecessary_import, prefer_single_quotes, require_trailing_commas, unnecessary_raw_strings, public_member_api_docs
 
+import 'package:stream_core/stream_core.dart' as core;
+
 import '../models.dart';
 
-sealed class WSEvent {
-  const WSEvent();
+abstract class WSEvent<T extends core.WsEvent> {
+  const WSEvent(this.wrapped);
+
+  final T wrapped;
+  String get type;
 
   static WSEvent fromJson(Map<String, dynamic> json) {
-    switch (json['type']) {
-      case "app.updated":
-        return WSEventAppUpdatedEvent.fromJson(json);
-      case "feeds.activity.added":
-        return WSEventActivityAddedEvent.fromJson(json);
-      case "feeds.activity.deleted":
-        return WSEventActivityDeletedEvent.fromJson(json);
-      case "feeds.activity.marked":
-        return WSEventActivityMarkEvent.fromJson(json);
-      case "feeds.activity.pinned":
-        return WSEventActivityPinnedEvent.fromJson(json);
-      case "feeds.activity.reaction.added":
-        return WSEventActivityReactionAddedEvent.fromJson(json);
-      case "feeds.activity.reaction.deleted":
-        return WSEventActivityReactionDeletedEvent.fromJson(json);
-      case "feeds.activity.reaction.updated":
-        return WSEventActivityReactionUpdatedEvent.fromJson(json);
-      case "feeds.activity.removed_from_feed":
-        return WSEventActivityRemovedFromFeedEvent.fromJson(json);
-      case "feeds.activity.unpinned":
-        return WSEventActivityUnpinnedEvent.fromJson(json);
-      case "feeds.activity.updated":
-        return WSEventActivityUpdatedEvent.fromJson(json);
-      case "feeds.bookmark.added":
-        return WSEventBookmarkAddedEvent.fromJson(json);
-      case "feeds.bookmark.deleted":
-        return WSEventBookmarkDeletedEvent.fromJson(json);
-      case "feeds.bookmark.updated":
-        return WSEventBookmarkUpdatedEvent.fromJson(json);
-      case "feeds.bookmark_folder.deleted":
-        return WSEventBookmarkFolderDeletedEvent.fromJson(json);
-      case "feeds.bookmark_folder.updated":
-        return WSEventBookmarkFolderUpdatedEvent.fromJson(json);
-      case "feeds.comment.added":
-        return WSEventCommentAddedEvent.fromJson(json);
-      case "feeds.comment.deleted":
-        return WSEventCommentDeletedEvent.fromJson(json);
-      case "feeds.comment.reaction.added":
-        return WSEventCommentReactionAddedEvent.fromJson(json);
-      case "feeds.comment.reaction.deleted":
-        return WSEventCommentReactionDeletedEvent.fromJson(json);
-      case "feeds.comment.reaction.updated":
-        return WSEventCommentReactionUpdatedEvent.fromJson(json);
-      case "feeds.comment.updated":
-        return WSEventCommentUpdatedEvent.fromJson(json);
-      case "feeds.feed.created":
-        return WSEventFeedCreatedEvent.fromJson(json);
-      case "feeds.feed.deleted":
-        return WSEventFeedDeletedEvent.fromJson(json);
-      case "feeds.feed.updated":
-        return WSEventFeedUpdatedEvent.fromJson(json);
-      case "feeds.feed_group.changed":
-        return WSEventFeedGroupChangedEvent.fromJson(json);
-      case "feeds.feed_group.deleted":
-        return WSEventFeedGroupDeletedEvent.fromJson(json);
-      case "feeds.feed_member.added":
-        return WSEventFeedMemberAddedEvent.fromJson(json);
-      case "feeds.feed_member.removed":
-        return WSEventFeedMemberRemovedEvent.fromJson(json);
-      case "feeds.feed_member.updated":
-        return WSEventFeedMemberUpdatedEvent.fromJson(json);
-      case "feeds.follow.created":
-        return WSEventFollowCreatedEvent.fromJson(json);
-      case "feeds.follow.deleted":
-        return WSEventFollowDeletedEvent.fromJson(json);
-      case "feeds.follow.updated":
-        return WSEventFollowUpdatedEvent.fromJson(json);
-      case "feeds.notification_feed.updated":
-        return WSEventNotificationFeedUpdatedEvent.fromJson(json);
-      case "feeds.poll.closed":
-        return WSEventPollClosedFeedEvent.fromJson(json);
-      case "feeds.poll.deleted":
-        return WSEventPollDeletedFeedEvent.fromJson(json);
-      case "feeds.poll.updated":
-        return WSEventPollUpdatedFeedEvent.fromJson(json);
-      case "feeds.poll.vote_casted":
-        return WSEventPollVoteCastedFeedEvent.fromJson(json);
-      case "feeds.poll.vote_changed":
-        return WSEventPollVoteChangedFeedEvent.fromJson(json);
-      case "feeds.poll.vote_removed":
-        return WSEventPollVoteRemovedFeedEvent.fromJson(json);
-      case "health.check":
-        return WSEventHealthCheckEvent.fromJson(json);
-      case "moderation.custom_action":
-        return WSEventModerationCustomActionEvent.fromJson(json);
-      case "moderation.flagged":
-        return WSEventModerationFlaggedEvent.fromJson(json);
-      case "moderation.mark_reviewed":
-        return WSEventModerationMarkReviewedEvent.fromJson(json);
-      case "user.banned":
-        return WSEventUserBannedEvent.fromJson(json);
-      case "user.deactivated":
-        return WSEventUserDeactivatedEvent.fromJson(json);
-      case "user.muted":
-        return WSEventUserMutedEvent.fromJson(json);
-      case "user.reactivated":
-        return WSEventUserReactivatedEvent.fromJson(json);
-      case "user.updated":
-        return WSEventUserUpdatedEvent.fromJson(json);
-      default:
-        throw Exception('Unknown video event type: ${json['type']}');
+    final eventType = json['type'];
+
+    if (eventType == null || eventType is! String) {
+      throw ArgumentError('Invalid or missing "type" field in JSON: $json');
     }
+
+    return switch (eventType) {
+      "app.updated" => _AppUpdatedEvent(AppUpdatedEvent.fromJson(json)),
+      "feeds.activity.added" =>
+        _ActivityAddedEvent(ActivityAddedEvent.fromJson(json)),
+      "feeds.activity.deleted" =>
+        _ActivityDeletedEvent(ActivityDeletedEvent.fromJson(json)),
+      "feeds.activity.marked" =>
+        _ActivityMarkEvent(ActivityMarkEvent.fromJson(json)),
+      "feeds.activity.pinned" =>
+        _ActivityPinnedEvent(ActivityPinnedEvent.fromJson(json)),
+      "feeds.activity.reaction.added" =>
+        _ActivityReactionAddedEvent(ActivityReactionAddedEvent.fromJson(json)),
+      "feeds.activity.reaction.deleted" => _ActivityReactionDeletedEvent(
+          ActivityReactionDeletedEvent.fromJson(json)),
+      "feeds.activity.reaction.updated" => _ActivityReactionUpdatedEvent(
+          ActivityReactionUpdatedEvent.fromJson(json)),
+      "feeds.activity.removed_from_feed" => _ActivityRemovedFromFeedEvent(
+          ActivityRemovedFromFeedEvent.fromJson(json)),
+      "feeds.activity.unpinned" =>
+        _ActivityUnpinnedEvent(ActivityUnpinnedEvent.fromJson(json)),
+      "feeds.activity.updated" =>
+        _ActivityUpdatedEvent(ActivityUpdatedEvent.fromJson(json)),
+      "feeds.bookmark.added" =>
+        _BookmarkAddedEvent(BookmarkAddedEvent.fromJson(json)),
+      "feeds.bookmark.deleted" =>
+        _BookmarkDeletedEvent(BookmarkDeletedEvent.fromJson(json)),
+      "feeds.bookmark.updated" =>
+        _BookmarkUpdatedEvent(BookmarkUpdatedEvent.fromJson(json)),
+      "feeds.bookmark_folder.deleted" =>
+        _BookmarkFolderDeletedEvent(BookmarkFolderDeletedEvent.fromJson(json)),
+      "feeds.bookmark_folder.updated" =>
+        _BookmarkFolderUpdatedEvent(BookmarkFolderUpdatedEvent.fromJson(json)),
+      "feeds.comment.added" =>
+        _CommentAddedEvent(CommentAddedEvent.fromJson(json)),
+      "feeds.comment.deleted" =>
+        _CommentDeletedEvent(CommentDeletedEvent.fromJson(json)),
+      "feeds.comment.reaction.added" =>
+        _CommentReactionAddedEvent(CommentReactionAddedEvent.fromJson(json)),
+      "feeds.comment.reaction.deleted" => _CommentReactionDeletedEvent(
+          CommentReactionDeletedEvent.fromJson(json)),
+      "feeds.comment.reaction.updated" => _CommentReactionUpdatedEvent(
+          CommentReactionUpdatedEvent.fromJson(json)),
+      "feeds.comment.updated" =>
+        _CommentUpdatedEvent(CommentUpdatedEvent.fromJson(json)),
+      "feeds.feed.created" =>
+        _FeedCreatedEvent(FeedCreatedEvent.fromJson(json)),
+      "feeds.feed.deleted" =>
+        _FeedDeletedEvent(FeedDeletedEvent.fromJson(json)),
+      "feeds.feed.updated" =>
+        _FeedUpdatedEvent(FeedUpdatedEvent.fromJson(json)),
+      "feeds.feed_group.changed" =>
+        _FeedGroupChangedEvent(FeedGroupChangedEvent.fromJson(json)),
+      "feeds.feed_group.deleted" =>
+        _FeedGroupDeletedEvent(FeedGroupDeletedEvent.fromJson(json)),
+      "feeds.feed_member.added" =>
+        _FeedMemberAddedEvent(FeedMemberAddedEvent.fromJson(json)),
+      "feeds.feed_member.removed" =>
+        _FeedMemberRemovedEvent(FeedMemberRemovedEvent.fromJson(json)),
+      "feeds.feed_member.updated" =>
+        _FeedMemberUpdatedEvent(FeedMemberUpdatedEvent.fromJson(json)),
+      "feeds.follow.created" =>
+        _FollowCreatedEvent(FollowCreatedEvent.fromJson(json)),
+      "feeds.follow.deleted" =>
+        _FollowDeletedEvent(FollowDeletedEvent.fromJson(json)),
+      "feeds.follow.updated" =>
+        _FollowUpdatedEvent(FollowUpdatedEvent.fromJson(json)),
+      "feeds.notification_feed.updated" => _NotificationFeedUpdatedEvent(
+          NotificationFeedUpdatedEvent.fromJson(json)),
+      "feeds.poll.closed" =>
+        _PollClosedFeedEvent(PollClosedFeedEvent.fromJson(json)),
+      "feeds.poll.deleted" =>
+        _PollDeletedFeedEvent(PollDeletedFeedEvent.fromJson(json)),
+      "feeds.poll.updated" =>
+        _PollUpdatedFeedEvent(PollUpdatedFeedEvent.fromJson(json)),
+      "feeds.poll.vote_casted" =>
+        _PollVoteCastedFeedEvent(PollVoteCastedFeedEvent.fromJson(json)),
+      "feeds.poll.vote_changed" =>
+        _PollVoteChangedFeedEvent(PollVoteChangedFeedEvent.fromJson(json)),
+      "feeds.poll.vote_removed" =>
+        _PollVoteRemovedFeedEvent(PollVoteRemovedFeedEvent.fromJson(json)),
+      "health.check" => _HealthCheckEvent(HealthCheckEvent.fromJson(json)),
+      "moderation.custom_action" => _ModerationCustomActionEvent(
+          ModerationCustomActionEvent.fromJson(json)),
+      "moderation.flagged" =>
+        _ModerationFlaggedEvent(ModerationFlaggedEvent.fromJson(json)),
+      "moderation.mark_reviewed" => _ModerationMarkReviewedEvent(
+          ModerationMarkReviewedEvent.fromJson(json)),
+      "user.banned" => _UserBannedEvent(UserBannedEvent.fromJson(json)),
+      "user.deactivated" =>
+        _UserDeactivatedEvent(UserDeactivatedEvent.fromJson(json)),
+      "user.muted" => _UserMutedEvent(UserMutedEvent.fromJson(json)),
+      "user.reactivated" =>
+        _UserReactivatedEvent(UserReactivatedEvent.fromJson(json)),
+      "user.updated" => _UserUpdatedEvent(UserUpdatedEvent.fromJson(json)),
+      _ => _UnknownWSEvent(UnknownWSEvent(eventType, json)),
+    };
   }
 }
 
-class WSEventAppUpdatedEvent extends WSEvent {
-  const WSEventAppUpdatedEvent(this.appUpdatedEvent);
+class _AppUpdatedEvent extends WSEvent<AppUpdatedEvent> {
+  const _AppUpdatedEvent(super.wrapped);
 
-  factory WSEventAppUpdatedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventAppUpdatedEvent(
-      AppUpdatedEvent.fromJson(json),
-    );
-  }
-
-  final AppUpdatedEvent appUpdatedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventActivityAddedEvent extends WSEvent {
-  const WSEventActivityAddedEvent(this.activityAddedEvent);
+class _ActivityAddedEvent extends WSEvent<ActivityAddedEvent> {
+  const _ActivityAddedEvent(super.wrapped);
 
-  factory WSEventActivityAddedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventActivityAddedEvent(
-      ActivityAddedEvent.fromJson(json),
-    );
-  }
-
-  final ActivityAddedEvent activityAddedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventActivityDeletedEvent extends WSEvent {
-  const WSEventActivityDeletedEvent(this.activityDeletedEvent);
+class _ActivityDeletedEvent extends WSEvent<ActivityDeletedEvent> {
+  const _ActivityDeletedEvent(super.wrapped);
 
-  factory WSEventActivityDeletedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventActivityDeletedEvent(
-      ActivityDeletedEvent.fromJson(json),
-    );
-  }
-
-  final ActivityDeletedEvent activityDeletedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventActivityMarkEvent extends WSEvent {
-  const WSEventActivityMarkEvent(this.activityMarkEvent);
+class _ActivityMarkEvent extends WSEvent<ActivityMarkEvent> {
+  const _ActivityMarkEvent(super.wrapped);
 
-  factory WSEventActivityMarkEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventActivityMarkEvent(
-      ActivityMarkEvent.fromJson(json),
-    );
-  }
-
-  final ActivityMarkEvent activityMarkEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventActivityPinnedEvent extends WSEvent {
-  const WSEventActivityPinnedEvent(this.activityPinnedEvent);
+class _ActivityPinnedEvent extends WSEvent<ActivityPinnedEvent> {
+  const _ActivityPinnedEvent(super.wrapped);
 
-  factory WSEventActivityPinnedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventActivityPinnedEvent(
-      ActivityPinnedEvent.fromJson(json),
-    );
-  }
-
-  final ActivityPinnedEvent activityPinnedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventActivityReactionAddedEvent extends WSEvent {
-  const WSEventActivityReactionAddedEvent(this.activityReactionAddedEvent);
+class _ActivityReactionAddedEvent extends WSEvent<ActivityReactionAddedEvent> {
+  const _ActivityReactionAddedEvent(super.wrapped);
 
-  factory WSEventActivityReactionAddedEvent.fromJson(
-      Map<String, dynamic> json) {
-    return WSEventActivityReactionAddedEvent(
-      ActivityReactionAddedEvent.fromJson(json),
-    );
-  }
-
-  final ActivityReactionAddedEvent activityReactionAddedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventActivityReactionDeletedEvent extends WSEvent {
-  const WSEventActivityReactionDeletedEvent(this.activityReactionDeletedEvent);
+class _ActivityReactionDeletedEvent
+    extends WSEvent<ActivityReactionDeletedEvent> {
+  const _ActivityReactionDeletedEvent(super.wrapped);
 
-  factory WSEventActivityReactionDeletedEvent.fromJson(
-      Map<String, dynamic> json) {
-    return WSEventActivityReactionDeletedEvent(
-      ActivityReactionDeletedEvent.fromJson(json),
-    );
-  }
-
-  final ActivityReactionDeletedEvent activityReactionDeletedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventActivityReactionUpdatedEvent extends WSEvent {
-  const WSEventActivityReactionUpdatedEvent(this.activityReactionUpdatedEvent);
+class _ActivityReactionUpdatedEvent
+    extends WSEvent<ActivityReactionUpdatedEvent> {
+  const _ActivityReactionUpdatedEvent(super.wrapped);
 
-  factory WSEventActivityReactionUpdatedEvent.fromJson(
-      Map<String, dynamic> json) {
-    return WSEventActivityReactionUpdatedEvent(
-      ActivityReactionUpdatedEvent.fromJson(json),
-    );
-  }
-
-  final ActivityReactionUpdatedEvent activityReactionUpdatedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventActivityRemovedFromFeedEvent extends WSEvent {
-  const WSEventActivityRemovedFromFeedEvent(this.activityRemovedFromFeedEvent);
+class _ActivityRemovedFromFeedEvent
+    extends WSEvent<ActivityRemovedFromFeedEvent> {
+  const _ActivityRemovedFromFeedEvent(super.wrapped);
 
-  factory WSEventActivityRemovedFromFeedEvent.fromJson(
-      Map<String, dynamic> json) {
-    return WSEventActivityRemovedFromFeedEvent(
-      ActivityRemovedFromFeedEvent.fromJson(json),
-    );
-  }
-
-  final ActivityRemovedFromFeedEvent activityRemovedFromFeedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventActivityUnpinnedEvent extends WSEvent {
-  const WSEventActivityUnpinnedEvent(this.activityUnpinnedEvent);
+class _ActivityUnpinnedEvent extends WSEvent<ActivityUnpinnedEvent> {
+  const _ActivityUnpinnedEvent(super.wrapped);
 
-  factory WSEventActivityUnpinnedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventActivityUnpinnedEvent(
-      ActivityUnpinnedEvent.fromJson(json),
-    );
-  }
-
-  final ActivityUnpinnedEvent activityUnpinnedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventActivityUpdatedEvent extends WSEvent {
-  const WSEventActivityUpdatedEvent(this.activityUpdatedEvent);
+class _ActivityUpdatedEvent extends WSEvent<ActivityUpdatedEvent> {
+  const _ActivityUpdatedEvent(super.wrapped);
 
-  factory WSEventActivityUpdatedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventActivityUpdatedEvent(
-      ActivityUpdatedEvent.fromJson(json),
-    );
-  }
-
-  final ActivityUpdatedEvent activityUpdatedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventBookmarkAddedEvent extends WSEvent {
-  const WSEventBookmarkAddedEvent(this.bookmarkAddedEvent);
+class _BookmarkAddedEvent extends WSEvent<BookmarkAddedEvent> {
+  const _BookmarkAddedEvent(super.wrapped);
 
-  factory WSEventBookmarkAddedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventBookmarkAddedEvent(
-      BookmarkAddedEvent.fromJson(json),
-    );
-  }
-
-  final BookmarkAddedEvent bookmarkAddedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventBookmarkDeletedEvent extends WSEvent {
-  const WSEventBookmarkDeletedEvent(this.bookmarkDeletedEvent);
+class _BookmarkDeletedEvent extends WSEvent<BookmarkDeletedEvent> {
+  const _BookmarkDeletedEvent(super.wrapped);
 
-  factory WSEventBookmarkDeletedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventBookmarkDeletedEvent(
-      BookmarkDeletedEvent.fromJson(json),
-    );
-  }
-
-  final BookmarkDeletedEvent bookmarkDeletedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventBookmarkUpdatedEvent extends WSEvent {
-  const WSEventBookmarkUpdatedEvent(this.bookmarkUpdatedEvent);
+class _BookmarkUpdatedEvent extends WSEvent<BookmarkUpdatedEvent> {
+  const _BookmarkUpdatedEvent(super.wrapped);
 
-  factory WSEventBookmarkUpdatedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventBookmarkUpdatedEvent(
-      BookmarkUpdatedEvent.fromJson(json),
-    );
-  }
-
-  final BookmarkUpdatedEvent bookmarkUpdatedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventBookmarkFolderDeletedEvent extends WSEvent {
-  const WSEventBookmarkFolderDeletedEvent(this.bookmarkFolderDeletedEvent);
+class _BookmarkFolderDeletedEvent extends WSEvent<BookmarkFolderDeletedEvent> {
+  const _BookmarkFolderDeletedEvent(super.wrapped);
 
-  factory WSEventBookmarkFolderDeletedEvent.fromJson(
-      Map<String, dynamic> json) {
-    return WSEventBookmarkFolderDeletedEvent(
-      BookmarkFolderDeletedEvent.fromJson(json),
-    );
-  }
-
-  final BookmarkFolderDeletedEvent bookmarkFolderDeletedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventBookmarkFolderUpdatedEvent extends WSEvent {
-  const WSEventBookmarkFolderUpdatedEvent(this.bookmarkFolderUpdatedEvent);
+class _BookmarkFolderUpdatedEvent extends WSEvent<BookmarkFolderUpdatedEvent> {
+  const _BookmarkFolderUpdatedEvent(super.wrapped);
 
-  factory WSEventBookmarkFolderUpdatedEvent.fromJson(
-      Map<String, dynamic> json) {
-    return WSEventBookmarkFolderUpdatedEvent(
-      BookmarkFolderUpdatedEvent.fromJson(json),
-    );
-  }
-
-  final BookmarkFolderUpdatedEvent bookmarkFolderUpdatedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventCommentAddedEvent extends WSEvent {
-  const WSEventCommentAddedEvent(this.commentAddedEvent);
+class _CommentAddedEvent extends WSEvent<CommentAddedEvent> {
+  const _CommentAddedEvent(super.wrapped);
 
-  factory WSEventCommentAddedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventCommentAddedEvent(
-      CommentAddedEvent.fromJson(json),
-    );
-  }
-
-  final CommentAddedEvent commentAddedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventCommentDeletedEvent extends WSEvent {
-  const WSEventCommentDeletedEvent(this.commentDeletedEvent);
+class _CommentDeletedEvent extends WSEvent<CommentDeletedEvent> {
+  const _CommentDeletedEvent(super.wrapped);
 
-  factory WSEventCommentDeletedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventCommentDeletedEvent(
-      CommentDeletedEvent.fromJson(json),
-    );
-  }
-
-  final CommentDeletedEvent commentDeletedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventCommentReactionAddedEvent extends WSEvent {
-  const WSEventCommentReactionAddedEvent(this.commentReactionAddedEvent);
+class _CommentReactionAddedEvent extends WSEvent<CommentReactionAddedEvent> {
+  const _CommentReactionAddedEvent(super.wrapped);
 
-  factory WSEventCommentReactionAddedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventCommentReactionAddedEvent(
-      CommentReactionAddedEvent.fromJson(json),
-    );
-  }
-
-  final CommentReactionAddedEvent commentReactionAddedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventCommentReactionDeletedEvent extends WSEvent {
-  const WSEventCommentReactionDeletedEvent(this.commentReactionDeletedEvent);
+class _CommentReactionDeletedEvent
+    extends WSEvent<CommentReactionDeletedEvent> {
+  const _CommentReactionDeletedEvent(super.wrapped);
 
-  factory WSEventCommentReactionDeletedEvent.fromJson(
-      Map<String, dynamic> json) {
-    return WSEventCommentReactionDeletedEvent(
-      CommentReactionDeletedEvent.fromJson(json),
-    );
-  }
-
-  final CommentReactionDeletedEvent commentReactionDeletedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventCommentReactionUpdatedEvent extends WSEvent {
-  const WSEventCommentReactionUpdatedEvent(this.commentReactionUpdatedEvent);
+class _CommentReactionUpdatedEvent
+    extends WSEvent<CommentReactionUpdatedEvent> {
+  const _CommentReactionUpdatedEvent(super.wrapped);
 
-  factory WSEventCommentReactionUpdatedEvent.fromJson(
-      Map<String, dynamic> json) {
-    return WSEventCommentReactionUpdatedEvent(
-      CommentReactionUpdatedEvent.fromJson(json),
-    );
-  }
-
-  final CommentReactionUpdatedEvent commentReactionUpdatedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventCommentUpdatedEvent extends WSEvent {
-  const WSEventCommentUpdatedEvent(this.commentUpdatedEvent);
+class _CommentUpdatedEvent extends WSEvent<CommentUpdatedEvent> {
+  const _CommentUpdatedEvent(super.wrapped);
 
-  factory WSEventCommentUpdatedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventCommentUpdatedEvent(
-      CommentUpdatedEvent.fromJson(json),
-    );
-  }
-
-  final CommentUpdatedEvent commentUpdatedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventFeedCreatedEvent extends WSEvent {
-  const WSEventFeedCreatedEvent(this.feedCreatedEvent);
+class _FeedCreatedEvent extends WSEvent<FeedCreatedEvent> {
+  const _FeedCreatedEvent(super.wrapped);
 
-  factory WSEventFeedCreatedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventFeedCreatedEvent(
-      FeedCreatedEvent.fromJson(json),
-    );
-  }
-
-  final FeedCreatedEvent feedCreatedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventFeedDeletedEvent extends WSEvent {
-  const WSEventFeedDeletedEvent(this.feedDeletedEvent);
+class _FeedDeletedEvent extends WSEvent<FeedDeletedEvent> {
+  const _FeedDeletedEvent(super.wrapped);
 
-  factory WSEventFeedDeletedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventFeedDeletedEvent(
-      FeedDeletedEvent.fromJson(json),
-    );
-  }
-
-  final FeedDeletedEvent feedDeletedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventFeedUpdatedEvent extends WSEvent {
-  const WSEventFeedUpdatedEvent(this.feedUpdatedEvent);
+class _FeedUpdatedEvent extends WSEvent<FeedUpdatedEvent> {
+  const _FeedUpdatedEvent(super.wrapped);
 
-  factory WSEventFeedUpdatedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventFeedUpdatedEvent(
-      FeedUpdatedEvent.fromJson(json),
-    );
-  }
-
-  final FeedUpdatedEvent feedUpdatedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventFeedGroupChangedEvent extends WSEvent {
-  const WSEventFeedGroupChangedEvent(this.feedGroupChangedEvent);
+class _FeedGroupChangedEvent extends WSEvent<FeedGroupChangedEvent> {
+  const _FeedGroupChangedEvent(super.wrapped);
 
-  factory WSEventFeedGroupChangedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventFeedGroupChangedEvent(
-      FeedGroupChangedEvent.fromJson(json),
-    );
-  }
-
-  final FeedGroupChangedEvent feedGroupChangedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventFeedGroupDeletedEvent extends WSEvent {
-  const WSEventFeedGroupDeletedEvent(this.feedGroupDeletedEvent);
+class _FeedGroupDeletedEvent extends WSEvent<FeedGroupDeletedEvent> {
+  const _FeedGroupDeletedEvent(super.wrapped);
 
-  factory WSEventFeedGroupDeletedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventFeedGroupDeletedEvent(
-      FeedGroupDeletedEvent.fromJson(json),
-    );
-  }
-
-  final FeedGroupDeletedEvent feedGroupDeletedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventFeedMemberAddedEvent extends WSEvent {
-  const WSEventFeedMemberAddedEvent(this.feedMemberAddedEvent);
+class _FeedMemberAddedEvent extends WSEvent<FeedMemberAddedEvent> {
+  const _FeedMemberAddedEvent(super.wrapped);
 
-  factory WSEventFeedMemberAddedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventFeedMemberAddedEvent(
-      FeedMemberAddedEvent.fromJson(json),
-    );
-  }
-
-  final FeedMemberAddedEvent feedMemberAddedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventFeedMemberRemovedEvent extends WSEvent {
-  const WSEventFeedMemberRemovedEvent(this.feedMemberRemovedEvent);
+class _FeedMemberRemovedEvent extends WSEvent<FeedMemberRemovedEvent> {
+  const _FeedMemberRemovedEvent(super.wrapped);
 
-  factory WSEventFeedMemberRemovedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventFeedMemberRemovedEvent(
-      FeedMemberRemovedEvent.fromJson(json),
-    );
-  }
-
-  final FeedMemberRemovedEvent feedMemberRemovedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventFeedMemberUpdatedEvent extends WSEvent {
-  const WSEventFeedMemberUpdatedEvent(this.feedMemberUpdatedEvent);
+class _FeedMemberUpdatedEvent extends WSEvent<FeedMemberUpdatedEvent> {
+  const _FeedMemberUpdatedEvent(super.wrapped);
 
-  factory WSEventFeedMemberUpdatedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventFeedMemberUpdatedEvent(
-      FeedMemberUpdatedEvent.fromJson(json),
-    );
-  }
-
-  final FeedMemberUpdatedEvent feedMemberUpdatedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventFollowCreatedEvent extends WSEvent {
-  const WSEventFollowCreatedEvent(this.followCreatedEvent);
+class _FollowCreatedEvent extends WSEvent<FollowCreatedEvent> {
+  const _FollowCreatedEvent(super.wrapped);
 
-  factory WSEventFollowCreatedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventFollowCreatedEvent(
-      FollowCreatedEvent.fromJson(json),
-    );
-  }
-
-  final FollowCreatedEvent followCreatedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventFollowDeletedEvent extends WSEvent {
-  const WSEventFollowDeletedEvent(this.followDeletedEvent);
+class _FollowDeletedEvent extends WSEvent<FollowDeletedEvent> {
+  const _FollowDeletedEvent(super.wrapped);
 
-  factory WSEventFollowDeletedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventFollowDeletedEvent(
-      FollowDeletedEvent.fromJson(json),
-    );
-  }
-
-  final FollowDeletedEvent followDeletedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventFollowUpdatedEvent extends WSEvent {
-  const WSEventFollowUpdatedEvent(this.followUpdatedEvent);
+class _FollowUpdatedEvent extends WSEvent<FollowUpdatedEvent> {
+  const _FollowUpdatedEvent(super.wrapped);
 
-  factory WSEventFollowUpdatedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventFollowUpdatedEvent(
-      FollowUpdatedEvent.fromJson(json),
-    );
-  }
-
-  final FollowUpdatedEvent followUpdatedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventNotificationFeedUpdatedEvent extends WSEvent {
-  const WSEventNotificationFeedUpdatedEvent(this.notificationFeedUpdatedEvent);
+class _NotificationFeedUpdatedEvent
+    extends WSEvent<NotificationFeedUpdatedEvent> {
+  const _NotificationFeedUpdatedEvent(super.wrapped);
 
-  factory WSEventNotificationFeedUpdatedEvent.fromJson(
-      Map<String, dynamic> json) {
-    return WSEventNotificationFeedUpdatedEvent(
-      NotificationFeedUpdatedEvent.fromJson(json),
-    );
-  }
-
-  final NotificationFeedUpdatedEvent notificationFeedUpdatedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventPollClosedFeedEvent extends WSEvent {
-  const WSEventPollClosedFeedEvent(this.pollClosedFeedEvent);
+class _PollClosedFeedEvent extends WSEvent<PollClosedFeedEvent> {
+  const _PollClosedFeedEvent(super.wrapped);
 
-  factory WSEventPollClosedFeedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventPollClosedFeedEvent(
-      PollClosedFeedEvent.fromJson(json),
-    );
-  }
-
-  final PollClosedFeedEvent pollClosedFeedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventPollDeletedFeedEvent extends WSEvent {
-  const WSEventPollDeletedFeedEvent(this.pollDeletedFeedEvent);
+class _PollDeletedFeedEvent extends WSEvent<PollDeletedFeedEvent> {
+  const _PollDeletedFeedEvent(super.wrapped);
 
-  factory WSEventPollDeletedFeedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventPollDeletedFeedEvent(
-      PollDeletedFeedEvent.fromJson(json),
-    );
-  }
-
-  final PollDeletedFeedEvent pollDeletedFeedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventPollUpdatedFeedEvent extends WSEvent {
-  const WSEventPollUpdatedFeedEvent(this.pollUpdatedFeedEvent);
+class _PollUpdatedFeedEvent extends WSEvent<PollUpdatedFeedEvent> {
+  const _PollUpdatedFeedEvent(super.wrapped);
 
-  factory WSEventPollUpdatedFeedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventPollUpdatedFeedEvent(
-      PollUpdatedFeedEvent.fromJson(json),
-    );
-  }
-
-  final PollUpdatedFeedEvent pollUpdatedFeedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventPollVoteCastedFeedEvent extends WSEvent {
-  const WSEventPollVoteCastedFeedEvent(this.pollVoteCastedFeedEvent);
+class _PollVoteCastedFeedEvent extends WSEvent<PollVoteCastedFeedEvent> {
+  const _PollVoteCastedFeedEvent(super.wrapped);
 
-  factory WSEventPollVoteCastedFeedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventPollVoteCastedFeedEvent(
-      PollVoteCastedFeedEvent.fromJson(json),
-    );
-  }
-
-  final PollVoteCastedFeedEvent pollVoteCastedFeedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventPollVoteChangedFeedEvent extends WSEvent {
-  const WSEventPollVoteChangedFeedEvent(this.pollVoteChangedFeedEvent);
+class _PollVoteChangedFeedEvent extends WSEvent<PollVoteChangedFeedEvent> {
+  const _PollVoteChangedFeedEvent(super.wrapped);
 
-  factory WSEventPollVoteChangedFeedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventPollVoteChangedFeedEvent(
-      PollVoteChangedFeedEvent.fromJson(json),
-    );
-  }
-
-  final PollVoteChangedFeedEvent pollVoteChangedFeedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventPollVoteRemovedFeedEvent extends WSEvent {
-  const WSEventPollVoteRemovedFeedEvent(this.pollVoteRemovedFeedEvent);
+class _PollVoteRemovedFeedEvent extends WSEvent<PollVoteRemovedFeedEvent> {
+  const _PollVoteRemovedFeedEvent(super.wrapped);
 
-  factory WSEventPollVoteRemovedFeedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventPollVoteRemovedFeedEvent(
-      PollVoteRemovedFeedEvent.fromJson(json),
-    );
-  }
-
-  final PollVoteRemovedFeedEvent pollVoteRemovedFeedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventHealthCheckEvent extends WSEvent {
-  const WSEventHealthCheckEvent(this.healthCheckEvent);
+class _HealthCheckEvent extends WSEvent<HealthCheckEvent> {
+  const _HealthCheckEvent(super.wrapped);
 
-  factory WSEventHealthCheckEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventHealthCheckEvent(
-      HealthCheckEvent.fromJson(json),
-    );
-  }
-
-  final HealthCheckEvent healthCheckEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventModerationCustomActionEvent extends WSEvent {
-  const WSEventModerationCustomActionEvent(this.moderationCustomActionEvent);
+class _ModerationCustomActionEvent
+    extends WSEvent<ModerationCustomActionEvent> {
+  const _ModerationCustomActionEvent(super.wrapped);
 
-  factory WSEventModerationCustomActionEvent.fromJson(
-      Map<String, dynamic> json) {
-    return WSEventModerationCustomActionEvent(
-      ModerationCustomActionEvent.fromJson(json),
-    );
-  }
-
-  final ModerationCustomActionEvent moderationCustomActionEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventModerationFlaggedEvent extends WSEvent {
-  const WSEventModerationFlaggedEvent(this.moderationFlaggedEvent);
+class _ModerationFlaggedEvent extends WSEvent<ModerationFlaggedEvent> {
+  const _ModerationFlaggedEvent(super.wrapped);
 
-  factory WSEventModerationFlaggedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventModerationFlaggedEvent(
-      ModerationFlaggedEvent.fromJson(json),
-    );
-  }
-
-  final ModerationFlaggedEvent moderationFlaggedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventModerationMarkReviewedEvent extends WSEvent {
-  const WSEventModerationMarkReviewedEvent(this.moderationMarkReviewedEvent);
+class _ModerationMarkReviewedEvent
+    extends WSEvent<ModerationMarkReviewedEvent> {
+  const _ModerationMarkReviewedEvent(super.wrapped);
 
-  factory WSEventModerationMarkReviewedEvent.fromJson(
-      Map<String, dynamic> json) {
-    return WSEventModerationMarkReviewedEvent(
-      ModerationMarkReviewedEvent.fromJson(json),
-    );
-  }
-
-  final ModerationMarkReviewedEvent moderationMarkReviewedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventUserBannedEvent extends WSEvent {
-  const WSEventUserBannedEvent(this.userBannedEvent);
+class _UserBannedEvent extends WSEvent<UserBannedEvent> {
+  const _UserBannedEvent(super.wrapped);
 
-  factory WSEventUserBannedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventUserBannedEvent(
-      UserBannedEvent.fromJson(json),
-    );
-  }
-
-  final UserBannedEvent userBannedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventUserDeactivatedEvent extends WSEvent {
-  const WSEventUserDeactivatedEvent(this.userDeactivatedEvent);
+class _UserDeactivatedEvent extends WSEvent<UserDeactivatedEvent> {
+  const _UserDeactivatedEvent(super.wrapped);
 
-  factory WSEventUserDeactivatedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventUserDeactivatedEvent(
-      UserDeactivatedEvent.fromJson(json),
-    );
-  }
-
-  final UserDeactivatedEvent userDeactivatedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventUserMutedEvent extends WSEvent {
-  const WSEventUserMutedEvent(this.userMutedEvent);
+class _UserMutedEvent extends WSEvent<UserMutedEvent> {
+  const _UserMutedEvent(super.wrapped);
 
-  factory WSEventUserMutedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventUserMutedEvent(
-      UserMutedEvent.fromJson(json),
-    );
-  }
-
-  final UserMutedEvent userMutedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventUserReactivatedEvent extends WSEvent {
-  const WSEventUserReactivatedEvent(this.userReactivatedEvent);
+class _UserReactivatedEvent extends WSEvent<UserReactivatedEvent> {
+  const _UserReactivatedEvent(super.wrapped);
 
-  factory WSEventUserReactivatedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventUserReactivatedEvent(
-      UserReactivatedEvent.fromJson(json),
-    );
-  }
-
-  final UserReactivatedEvent userReactivatedEvent;
+  @override
+  String get type => wrapped.type;
 }
 
-class WSEventUserUpdatedEvent extends WSEvent {
-  const WSEventUserUpdatedEvent(this.userUpdatedEvent);
+class _UserUpdatedEvent extends WSEvent<UserUpdatedEvent> {
+  const _UserUpdatedEvent(super.wrapped);
 
-  factory WSEventUserUpdatedEvent.fromJson(Map<String, dynamic> json) {
-    return WSEventUserUpdatedEvent(
-      UserUpdatedEvent.fromJson(json),
-    );
-  }
+  @override
+  String get type => wrapped.type;
+}
 
-  final UserUpdatedEvent userUpdatedEvent;
+class _UnknownWSEvent extends WSEvent<UnknownWSEvent> {
+  const _UnknownWSEvent(super.wrapped);
+
+  @override
+  String get type => wrapped.type;
+}
+
+class UnknownWSEvent extends core.WsEvent {
+  const UnknownWSEvent(this.type, this.rawJson);
+
+  final String type;
+  final Map<String, Object?> rawJson;
 }

@@ -6,6 +6,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
+import 'package:stream_core/stream_core.dart' as core;
+
 import '../models.dart';
 
 part 'notification_feed_updated_event.g.dart';
@@ -14,7 +16,8 @@ part 'notification_feed_updated_event.freezed.dart';
 @freezed
 @immutable
 @JsonSerializable()
-class NotificationFeedUpdatedEvent with _$NotificationFeedUpdatedEvent {
+class NotificationFeedUpdatedEvent extends core.WsEvent
+    with _$NotificationFeedUpdatedEvent {
   const NotificationFeedUpdatedEvent({
     this.aggregatedActivities,
     required this.createdAt,

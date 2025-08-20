@@ -6,6 +6,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
+import 'package:stream_core/stream_core.dart' as core;
+
 import '../models.dart';
 
 part 'bookmark_added_event.g.dart';
@@ -14,7 +16,7 @@ part 'bookmark_added_event.freezed.dart';
 @freezed
 @immutable
 @JsonSerializable()
-class BookmarkAddedEvent with _$BookmarkAddedEvent {
+class BookmarkAddedEvent extends core.WsEvent with _$BookmarkAddedEvent {
   const BookmarkAddedEvent({
     required this.bookmark,
     required this.createdAt,

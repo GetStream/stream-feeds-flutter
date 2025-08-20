@@ -6,6 +6,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
+import 'package:stream_core/stream_core.dart' as core;
+
 import '../models.dart';
 
 part 'comment_reaction_updated_event.g.dart';
@@ -14,7 +16,8 @@ part 'comment_reaction_updated_event.freezed.dart';
 @freezed
 @immutable
 @JsonSerializable()
-class CommentReactionUpdatedEvent with _$CommentReactionUpdatedEvent {
+class CommentReactionUpdatedEvent extends core.WsEvent
+    with _$CommentReactionUpdatedEvent {
   const CommentReactionUpdatedEvent({
     required this.comment,
     required this.createdAt,

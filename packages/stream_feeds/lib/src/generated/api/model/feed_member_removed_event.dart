@@ -6,6 +6,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
+import 'package:stream_core/stream_core.dart' as core;
+
 import '../models.dart';
 
 part 'feed_member_removed_event.g.dart';
@@ -14,7 +16,8 @@ part 'feed_member_removed_event.freezed.dart';
 @freezed
 @immutable
 @JsonSerializable()
-class FeedMemberRemovedEvent with _$FeedMemberRemovedEvent {
+class FeedMemberRemovedEvent extends core.WsEvent
+    with _$FeedMemberRemovedEvent {
   const FeedMemberRemovedEvent({
     required this.createdAt,
     required this.custom,

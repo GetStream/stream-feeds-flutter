@@ -6,6 +6,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
+import 'package:stream_core/stream_core.dart' as core;
+
 import '../models.dart';
 
 part 'user_muted_event.g.dart';
@@ -14,7 +16,7 @@ part 'user_muted_event.freezed.dart';
 @freezed
 @immutable
 @JsonSerializable()
-class UserMutedEvent with _$UserMutedEvent {
+class UserMutedEvent extends core.WsEvent with _$UserMutedEvent {
   const UserMutedEvent({
     required this.createdAt,
     this.targetUser,

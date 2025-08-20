@@ -4,6 +4,18 @@ version: 0.0.1
 repository: https://github.com/GetStream/stream-feeds-flutter
 publish_to: none # Delete when ready to publish
 
+# Note: The environment configuration and dependency versions are managed by Melos.
+#
+# Do not edit them manually.
+#
+# Steps to update dependencies:
+#   1. Modify the version in the melos.yaml file.
+#   2. Run `melos bootstrap` to apply changes.
+#
+# Steps to add a new dependency:
+#   1. Add the dependency to this list.
+#   2. Add it to the melos.yaml file for future updates.
+
 environment:
   sdk: ^3.6.2
 
@@ -20,11 +32,7 @@ dependencies:
   rxdart: ^0.28.0
   state_notifier: ^1.0.0
   stream_core:
-    # path: ../../../stream-core-flutter/packages/stream_core
-    git: 
-      url: https://github.com/GetStream/stream-core-flutter.git
-      ref: 85db55033dc6c72db5c92cc2f5c1e6c8f76f0115
-      path: packages/stream_core
+    path: /Users/xsahil03x/StudioProjects/stream-core-flutter/packages/stream_core
   uuid: ^4.5.1
 
 dev_dependencies:

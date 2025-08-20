@@ -6,6 +6,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
+import 'package:stream_core/stream_core.dart' as core;
+
 import '../models.dart';
 
 part 'feed_created_event.g.dart';
@@ -14,7 +16,7 @@ part 'feed_created_event.freezed.dart';
 @freezed
 @immutable
 @JsonSerializable()
-class FeedCreatedEvent with _$FeedCreatedEvent {
+class FeedCreatedEvent extends core.WsEvent with _$FeedCreatedEvent {
   const FeedCreatedEvent({
     required this.createdAt,
     required this.custom,
