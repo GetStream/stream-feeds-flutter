@@ -31,6 +31,7 @@ class FollowRequest with _$FollowRequest {
     this.createNotificationActivity,
     this.custom,
     this.pushPreference,
+    this.skipPush,
     required this.source,
     required this.target,
   });
@@ -39,11 +40,14 @@ class FollowRequest with _$FollowRequest {
   final bool? createNotificationActivity;
 
   @override
-  final Map<String, Object>? custom;
+  final Map<String, Object?>? custom;
 
   @override
   @JsonKey(unknownEnumValue: FollowRequestPushPreference.unknown)
   final FollowRequestPushPreference? pushPreference;
+
+  @override
+  final bool? skipPush;
 
   @override
   final String source;

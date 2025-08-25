@@ -21,6 +21,7 @@ environment:
 
 dependencies:
   collection: ^1.18.0
+  dio: ^5.9.0
   equatable: ^2.0.5
   flutter:
     sdk: flutter
@@ -29,6 +30,7 @@ dependencies:
   intl: ">=0.18.1 <=0.21.0"
   json_annotation: ^4.9.0
   meta: ^1.9.1
+  retrofit: ^4.6.0
   rxdart: ^0.28.0
   state_notifier: ^1.0.0
   stream_core:
@@ -40,4 +42,5 @@ dev_dependencies:
   freezed: ^3.0.0
   json_serializable: ^6.9.5
   mocktail: ^1.0.4
+  retrofit_generator: ^9.6.0
   test: ^1.26.3

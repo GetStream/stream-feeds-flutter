@@ -12,7 +12,7 @@ fi
 set -ex
 
 # remove old generated code
-rm -rf /Users/xsahil03x/StudioProjects/stream-feeds-flutter/packages/stream_feeds/lib/src/generated/api/model/*
+rm -rf /Users/xsahil03x/StudioProjects/stream-feeds-flutter/packages/stream_feeds/lib/src/generated/api/
 
 # cd in API repo, generate new spec and then generate code from it
 (
@@ -27,6 +27,14 @@ if [ -f "$CALL_PARTICIPANT_FILE" ]; then
   sed -i '' '/required this\.role,/{N; /required this\.role,.*\n.*required this\.role,/s/\n.*required this\.role,//;}' "$CALL_PARTICIPANT_FILE"
   sed -i '' '/final String role;/{N;N;N; /final String role;.*\n.*\n.*@override.*\n.*final String role;/s/\n.*\n.*@override.*\n.*final String role;//;}' "$CALL_PARTICIPANT_FILE"
   echo "Fixed duplicate role field in CallParticipant model using sed"
+fi
+
+# Fix extra sumScores field in ReactionGroupResponse model (OpenAPI template bug)
+REACTION_GROUP_RESPONSE_FILE="$OUTPUT_DIR_FEEDS/model/reaction_group_response.dart"
+if [ -f "$REACTION_GROUP_RESPONSE_FILE" ]; then
+  sed -i '' '/required this\.sumScores,/d' "$REACTION_GROUP_RESPONSE_FILE"
+  sed -i '' '/@override/{N; /final int sumScores;/d;}' "$REACTION_GROUP_RESPONSE_FILE"
+  echo "Fixed extra sumScores field in ReactionGroupResponse model using sed"
 fi
 
 melos generate:all

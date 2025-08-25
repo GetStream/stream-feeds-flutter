@@ -59,7 +59,7 @@ class EntityCreator with _$EntityCreator {
   final DateTime? createdAt;
 
   @override
-  final Map<String, Object> custom;
+  final Map<String, Object?> custom;
 
   @override
   @EpochDateTimeConverter()

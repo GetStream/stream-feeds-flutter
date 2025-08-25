@@ -20,6 +20,7 @@ class AddCommentReactionRequest with _$AddCommentReactionRequest {
   const AddCommentReactionRequest({
     this.createNotificationActivity,
     this.custom,
+    this.skipPush,
     required this.type,
   });
 
@@ -27,7 +28,10 @@ class AddCommentReactionRequest with _$AddCommentReactionRequest {
   final bool? createNotificationActivity;
 
   @override
-  final Map<String, Object>? custom;
+  final Map<String, Object?>? custom;
+
+  @override
+  final bool? skipPush;
 
   @override
   final String type;

@@ -18,6 +18,8 @@ mixin _$PushPreferences {
   String? get callLevel;
   String? get chatLevel;
   DateTime? get disabledUntil;
+  FeedsEventPreferences? get feedsEvents;
+  String? get feedsLevel;
 
   /// Create a copy of PushPreferences
   /// with the given fields replaced by the non-null parameter values.
@@ -37,16 +39,20 @@ mixin _$PushPreferences {
             (identical(other.chatLevel, chatLevel) ||
                 other.chatLevel == chatLevel) &&
             (identical(other.disabledUntil, disabledUntil) ||
-                other.disabledUntil == disabledUntil));
+                other.disabledUntil == disabledUntil) &&
+            (identical(other.feedsEvents, feedsEvents) ||
+                other.feedsEvents == feedsEvents) &&
+            (identical(other.feedsLevel, feedsLevel) ||
+                other.feedsLevel == feedsLevel));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, callLevel, chatLevel, disabledUntil);
+  int get hashCode => Object.hash(runtimeType, callLevel, chatLevel,
+      disabledUntil, feedsEvents, feedsLevel);
 
   @override
   String toString() {
-    return 'PushPreferences(callLevel: $callLevel, chatLevel: $chatLevel, disabledUntil: $disabledUntil)';
+    return 'PushPreferences(callLevel: $callLevel, chatLevel: $chatLevel, disabledUntil: $disabledUntil, feedsEvents: $feedsEvents, feedsLevel: $feedsLevel)';
   }
 }
 
@@ -56,7 +62,12 @@ abstract mixin class $PushPreferencesCopyWith<$Res> {
           PushPreferences value, $Res Function(PushPreferences) _then) =
       _$PushPreferencesCopyWithImpl;
   @useResult
-  $Res call({String? callLevel, String? chatLevel, DateTime? disabledUntil});
+  $Res call(
+      {String? callLevel,
+      String? chatLevel,
+      DateTime? disabledUntil,
+      FeedsEventPreferences? feedsEvents,
+      String? feedsLevel});
 }
 
 /// @nodoc
@@ -75,6 +86,8 @@ class _$PushPreferencesCopyWithImpl<$Res>
     Object? callLevel = freezed,
     Object? chatLevel = freezed,
     Object? disabledUntil = freezed,
+    Object? feedsEvents = freezed,
+    Object? feedsLevel = freezed,
   }) {
     return _then(PushPreferences(
       callLevel: freezed == callLevel
@@ -89,6 +102,14 @@ class _$PushPreferencesCopyWithImpl<$Res>
           ? _self.disabledUntil
           : disabledUntil // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      feedsEvents: freezed == feedsEvents
+          ? _self.feedsEvents
+          : feedsEvents // ignore: cast_nullable_to_non_nullable
+              as FeedsEventPreferences?,
+      feedsLevel: freezed == feedsLevel
+          ? _self.feedsLevel
+          : feedsLevel // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }

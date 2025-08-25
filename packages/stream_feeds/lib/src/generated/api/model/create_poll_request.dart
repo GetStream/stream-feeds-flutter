@@ -48,7 +48,7 @@ class CreatePollRequest with _$CreatePollRequest {
   final bool? allowUserSuggestedOptions;
 
   @override
-  final Map<String, Object>? custom;
+  final Map<String, Object?>? custom;
 
   @override
   final String? description;

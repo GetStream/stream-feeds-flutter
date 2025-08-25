@@ -63,6 +63,7 @@ class ChannelConfigWithInfo with _$ChannelConfigWithInfo {
     this.blocklists,
     required this.commands,
     required this.connectEvents,
+    required this.countMessages,
     required this.createdAt,
     required this.customEvents,
     this.grants,
@@ -118,6 +119,9 @@ class ChannelConfigWithInfo with _$ChannelConfigWithInfo {
 
   @override
   final bool connectEvents;
+
+  @override
+  final bool countMessages;
 
   @override
   @EpochDateTimeConverter()

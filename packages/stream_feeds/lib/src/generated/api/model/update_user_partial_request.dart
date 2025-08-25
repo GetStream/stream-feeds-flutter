@@ -27,7 +27,7 @@ class UpdateUserPartialRequest with _$UpdateUserPartialRequest {
   final String id;
 
   @override
-  final Map<String, Object>? set;
+  final Map<String, Object?>? set;
 
   @override
   final List<String>? unset;

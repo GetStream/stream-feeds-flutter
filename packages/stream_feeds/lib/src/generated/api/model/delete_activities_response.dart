@@ -18,12 +18,12 @@ part 'delete_activities_response.freezed.dart';
 @JsonSerializable()
 class DeleteActivitiesResponse with _$DeleteActivitiesResponse {
   const DeleteActivitiesResponse({
-    required this.deletedActivityIds,
+    required this.deletedIds,
     required this.duration,
   });
 
   @override
-  final List<String> deletedActivityIds;
+  final List<String> deletedIds;
 
   @override
   final String duration;

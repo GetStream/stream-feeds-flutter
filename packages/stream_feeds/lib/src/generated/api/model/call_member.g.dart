@@ -9,9 +9,7 @@ part of 'call_member.dart';
 CallMember _$CallMemberFromJson(Map<String, dynamic> json) => CallMember(
       createdAt: const EpochDateTimeConverter()
           .fromJson((json['created_at'] as num).toInt()),
-      custom: (json['custom'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>,
       deletedAt: _$JsonConverterFromJson<int, DateTime>(
           json['deleted_at'], const EpochDateTimeConverter().fromJson),
       role: json['role'] as String,

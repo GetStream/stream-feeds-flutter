@@ -34,6 +34,7 @@ class FeedMemberResponse with _$FeedMemberResponse {
     this.custom,
     this.inviteAcceptedAt,
     this.inviteRejectedAt,
+    this.membershipLevel,
     required this.role,
     required this.status,
     required this.updatedAt,
@@ -45,7 +46,7 @@ class FeedMemberResponse with _$FeedMemberResponse {
   final DateTime createdAt;
 
   @override
-  final Map<String, Object>? custom;
+  final Map<String, Object?>? custom;
 
   @override
   @EpochDateTimeConverter()
@@ -54,6 +55,9 @@ class FeedMemberResponse with _$FeedMemberResponse {
   @override
   @EpochDateTimeConverter()
   final DateTime? inviteRejectedAt;
+
+  @override
+  final MembershipLevelResponse? membershipLevel;
 
   @override
   final String role;

@@ -20,13 +20,17 @@ class UpdateCommentRequest with _$UpdateCommentRequest {
   const UpdateCommentRequest({
     this.comment,
     this.custom,
+    this.skipPush,
   });
 
   @override
   final String? comment;
 
   @override
-  final Map<String, Object>? custom;
+  final Map<String, Object?>? custom;
+
+  @override
+  final bool? skipPush;
 
   Map<String, dynamic> toJson() => _$UpdateCommentRequestToJson(this);
 

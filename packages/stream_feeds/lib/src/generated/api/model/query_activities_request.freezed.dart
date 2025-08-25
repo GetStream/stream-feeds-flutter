@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$QueryActivitiesRequest {
-  Map<String, Object>? get filter;
+  Map<String, Object?>? get filter;
   int? get limit;
   String? get next;
   String? get prev;
@@ -63,7 +63,7 @@ abstract mixin class $QueryActivitiesRequestCopyWith<$Res> {
       _$QueryActivitiesRequestCopyWithImpl;
   @useResult
   $Res call(
-      {Map<String, Object>? filter,
+      {Map<String, Object?>? filter,
       int? limit,
       String? next,
       String? prev,
@@ -93,7 +93,7 @@ class _$QueryActivitiesRequestCopyWithImpl<$Res>
       filter: freezed == filter
           ? _self.filter
           : filter // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
       limit: freezed == limit
           ? _self.limit
           : limit // ignore: cast_nullable_to_non_nullable

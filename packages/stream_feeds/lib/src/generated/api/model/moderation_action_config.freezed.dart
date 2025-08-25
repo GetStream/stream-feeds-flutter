@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ModerationActionConfig {
   String get action;
-  Map<String, Object> get custom;
+  Map<String, Object?> get custom;
   String get description;
   String get entityType;
   String get icon;
@@ -69,7 +69,7 @@ abstract mixin class $ModerationActionConfigCopyWith<$Res> {
   @useResult
   $Res call(
       {String action,
-      Map<String, Object> custom,
+      Map<String, Object?> custom,
       String description,
       String entityType,
       String icon,
@@ -104,7 +104,7 @@ class _$ModerationActionConfigCopyWithImpl<$Res>
       custom: null == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>,
+              as Map<String, Object?>,
       description: null == description
           ? _self.description
           : description // ignore: cast_nullable_to_non_nullable

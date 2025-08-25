@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$AddFolderRequest {
-  Map<String, Object>? get custom;
+  Map<String, Object?>? get custom;
   String get name;
 
   /// Create a copy of AddFolderRequest
@@ -51,7 +51,7 @@ abstract mixin class $AddFolderRequestCopyWith<$Res> {
           AddFolderRequest value, $Res Function(AddFolderRequest) _then) =
       _$AddFolderRequestCopyWithImpl;
   @useResult
-  $Res call({Map<String, Object>? custom, String name});
+  $Res call({Map<String, Object?>? custom, String name});
 }
 
 /// @nodoc
@@ -74,7 +74,7 @@ class _$AddFolderRequestCopyWithImpl<$Res>
       custom: freezed == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
       name: null == name
           ? _self.name
           : name // ignore: cast_nullable_to_non_nullable

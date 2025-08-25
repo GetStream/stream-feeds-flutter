@@ -13,9 +13,7 @@ LayoutSettings _$LayoutSettingsFromJson(Map<String, dynamic> json) =>
       externalCssUrl: json['external_css_url'] as String,
       name: $enumDecode(_$LayoutSettingsNameEnumMap, json['name'],
           unknownValue: LayoutSettingsName.unknown),
-      options: (json['options'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      options: json['options'] as Map<String, dynamic>?,
     );
 
 Map<String, dynamic> _$LayoutSettingsToJson(LayoutSettings instance) =>

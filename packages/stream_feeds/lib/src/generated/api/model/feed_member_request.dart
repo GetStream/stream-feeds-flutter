@@ -20,15 +20,19 @@ class FeedMemberRequest with _$FeedMemberRequest {
   const FeedMemberRequest({
     this.custom,
     this.invite,
+    this.membershipLevel,
     this.role,
     required this.userId,
   });
 
   @override
-  final Map<String, Object>? custom;
+  final Map<String, Object?>? custom;
 
   @override
   final bool? invite;
+
+  @override
+  final String? membershipLevel;
 
   @override
   final String? role;

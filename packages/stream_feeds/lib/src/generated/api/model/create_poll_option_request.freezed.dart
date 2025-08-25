@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$CreatePollOptionRequest {
-  Map<String, Object>? get custom;
+  Map<String, Object?>? get custom;
   String get text;
 
   /// Create a copy of CreatePollOptionRequest
@@ -51,7 +51,7 @@ abstract mixin class $CreatePollOptionRequestCopyWith<$Res> {
           $Res Function(CreatePollOptionRequest) _then) =
       _$CreatePollOptionRequestCopyWithImpl;
   @useResult
-  $Res call({Map<String, Object>? custom, String text});
+  $Res call({Map<String, Object?>? custom, String text});
 }
 
 /// @nodoc
@@ -74,7 +74,7 @@ class _$CreatePollOptionRequestCopyWithImpl<$Res>
       custom: freezed == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
       text: null == text
           ? _self.text
           : text // ignore: cast_nullable_to_non_nullable

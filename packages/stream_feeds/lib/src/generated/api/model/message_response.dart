@@ -42,6 +42,7 @@ class MessageResponse with _$MessageResponse {
     required this.createdAt,
     required this.custom,
     this.deletedAt,
+    this.deletedForMe,
     required this.deletedReplyCount,
     this.draft,
     required this.html,
@@ -94,11 +95,14 @@ class MessageResponse with _$MessageResponse {
   final DateTime createdAt;
 
   @override
-  final Map<String, Object> custom;
+  final Map<String, Object?> custom;
 
   @override
   @EpochDateTimeConverter()
   final DateTime? deletedAt;
+
+  @override
+  final bool? deletedForMe;
 
   @override
   final int deletedReplyCount;

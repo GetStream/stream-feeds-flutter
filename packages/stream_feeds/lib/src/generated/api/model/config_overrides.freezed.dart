@@ -18,6 +18,7 @@ mixin _$ConfigOverrides {
   String? get blocklist;
   ConfigOverridesBlocklistBehavior? get blocklistBehavior;
   List<String> get commands;
+  bool? get countMessages;
   Map<String, List<String>> get grants;
   int? get maxMessageLength;
   bool? get quotes;
@@ -47,6 +48,8 @@ mixin _$ConfigOverrides {
             (identical(other.blocklistBehavior, blocklistBehavior) ||
                 other.blocklistBehavior == blocklistBehavior) &&
             const DeepCollectionEquality().equals(other.commands, commands) &&
+            (identical(other.countMessages, countMessages) ||
+                other.countMessages == countMessages) &&
             const DeepCollectionEquality().equals(other.grants, grants) &&
             (identical(other.maxMessageLength, maxMessageLength) ||
                 other.maxMessageLength == maxMessageLength) &&
@@ -71,6 +74,7 @@ mixin _$ConfigOverrides {
       blocklist,
       blocklistBehavior,
       const DeepCollectionEquality().hash(commands),
+      countMessages,
       const DeepCollectionEquality().hash(grants),
       maxMessageLength,
       quotes,
@@ -84,7 +88,7 @@ mixin _$ConfigOverrides {
 
   @override
   String toString() {
-    return 'ConfigOverrides(blocklist: $blocklist, blocklistBehavior: $blocklistBehavior, commands: $commands, grants: $grants, maxMessageLength: $maxMessageLength, quotes: $quotes, reactions: $reactions, replies: $replies, sharedLocations: $sharedLocations, typingEvents: $typingEvents, uploads: $uploads, urlEnrichment: $urlEnrichment, userMessageReminders: $userMessageReminders)';
+    return 'ConfigOverrides(blocklist: $blocklist, blocklistBehavior: $blocklistBehavior, commands: $commands, countMessages: $countMessages, grants: $grants, maxMessageLength: $maxMessageLength, quotes: $quotes, reactions: $reactions, replies: $replies, sharedLocations: $sharedLocations, typingEvents: $typingEvents, uploads: $uploads, urlEnrichment: $urlEnrichment, userMessageReminders: $userMessageReminders)';
   }
 }
 
@@ -98,6 +102,7 @@ abstract mixin class $ConfigOverridesCopyWith<$Res> {
       {String? blocklist,
       ConfigOverridesBlocklistBehavior? blocklistBehavior,
       List<String> commands,
+      bool? countMessages,
       Map<String, List<String>> grants,
       int? maxMessageLength,
       bool? quotes,
@@ -126,6 +131,7 @@ class _$ConfigOverridesCopyWithImpl<$Res>
     Object? blocklist = freezed,
     Object? blocklistBehavior = freezed,
     Object? commands = null,
+    Object? countMessages = freezed,
     Object? grants = null,
     Object? maxMessageLength = freezed,
     Object? quotes = freezed,
@@ -150,6 +156,10 @@ class _$ConfigOverridesCopyWithImpl<$Res>
           ? _self.commands
           : commands // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      countMessages: freezed == countMessages
+          ? _self.countMessages
+          : countMessages // ignore: cast_nullable_to_non_nullable
+              as bool?,
       grants: null == grants
           ? _self.grants
           : grants // ignore: cast_nullable_to_non_nullable

@@ -17,7 +17,6 @@ T _$identity<T>(T value) => value;
 mixin _$WSAuthMessage {
   List<String>? get products;
   String get token;
-  ConnectUserDetailsRequest get userDetails;
 
   /// Create a copy of WSAuthMessage
   /// with the given fields replaced by the non-null parameter values.
@@ -33,18 +32,16 @@ mixin _$WSAuthMessage {
         (other.runtimeType == runtimeType &&
             other is WSAuthMessage &&
             const DeepCollectionEquality().equals(other.products, products) &&
-            (identical(other.token, token) || other.token == token) &&
-            (identical(other.userDetails, userDetails) ||
-                other.userDetails == userDetails));
+            (identical(other.token, token) || other.token == token));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(products), token, userDetails);
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(products), token);
 
   @override
   String toString() {
-    return 'WSAuthMessage(products: $products, token: $token, userDetails: $userDetails)';
+    return 'WSAuthMessage(products: $products, token: $token)';
   }
 }
 
@@ -54,10 +51,7 @@ abstract mixin class $WSAuthMessageCopyWith<$Res> {
           WSAuthMessage value, $Res Function(WSAuthMessage) _then) =
       _$WSAuthMessageCopyWithImpl;
   @useResult
-  $Res call(
-      {List<String>? products,
-      String token,
-      ConnectUserDetailsRequest userDetails});
+  $Res call({List<String>? products, String token});
 }
 
 /// @nodoc
@@ -75,7 +69,6 @@ class _$WSAuthMessageCopyWithImpl<$Res>
   $Res call({
     Object? products = freezed,
     Object? token = null,
-    Object? userDetails = null,
   }) {
     return _then(WSAuthMessage(
       products: freezed == products
@@ -86,10 +79,6 @@ class _$WSAuthMessageCopyWithImpl<$Res>
           ? _self.token
           : token // ignore: cast_nullable_to_non_nullable
               as String,
-      userDetails: null == userDetails
-          ? _self.userDetails
-          : userDetails // ignore: cast_nullable_to_non_nullable
-              as ConnectUserDetailsRequest,
     ));
   }
 }

@@ -32,6 +32,7 @@ class UpdateFollowRequest with _$UpdateFollowRequest {
     this.custom,
     this.followerRole,
     this.pushPreference,
+    this.skipPush,
     required this.source,
     required this.target,
   });
@@ -40,7 +41,7 @@ class UpdateFollowRequest with _$UpdateFollowRequest {
   final bool? createNotificationActivity;
 
   @override
-  final Map<String, Object>? custom;
+  final Map<String, Object?>? custom;
 
   @override
   final String? followerRole;
@@ -48,6 +49,9 @@ class UpdateFollowRequest with _$UpdateFollowRequest {
   @override
   @JsonKey(unknownEnumValue: UpdateFollowRequestPushPreference.unknown)
   final UpdateFollowRequestPushPreference? pushPreference;
+
+  @override
+  final bool? skipPush;
 
   @override
   final String source;

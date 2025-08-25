@@ -10,9 +10,7 @@ ReactionResponse _$ReactionResponseFromJson(Map<String, dynamic> json) =>
     ReactionResponse(
       createdAt: const EpochDateTimeConverter()
           .fromJson((json['created_at'] as num).toInt()),
-      custom: (json['custom'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>,
       messageId: json['message_id'] as String,
       score: (json['score'] as num).toInt(),
       type: json['type'] as String,

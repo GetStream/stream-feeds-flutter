@@ -12,9 +12,7 @@ EnrichedReaction _$EnrichedReactionFromJson(Map<String, dynamic> json) =>
       childrenCounts: (json['children_counts'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, (e as num).toInt()),
       ),
-      data: (json['data'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      data: json['data'] as Map<String, dynamic>?,
       id: json['id'] as String?,
       kind: json['kind'] as String,
       latestChildren: (json['latest_children'] as Map<String, dynamic>?)?.map(

@@ -10,9 +10,7 @@ ModerationActionConfig _$ModerationActionConfigFromJson(
         Map<String, dynamic> json) =>
     ModerationActionConfig(
       action: json['action'] as String,
-      custom: (json['custom'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>,
       description: json['description'] as String,
       entityType: json['entity_type'] as String,
       icon: json['icon'] as String,

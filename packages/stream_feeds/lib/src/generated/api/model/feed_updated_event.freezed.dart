@@ -16,8 +16,9 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$FeedUpdatedEvent {
   DateTime get createdAt;
-  Map<String, Object> get custom;
+  Map<String, Object?> get custom;
   FeedResponse get feed;
+  String? get feedVisibility;
   String get fid;
   DateTime? get receivedAt;
   String get type;
@@ -36,10 +37,13 @@ mixin _$FeedUpdatedEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is FeedUpdatedEvent &&
+            super == other &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
             (identical(other.feed, feed) || other.feed == feed) &&
+            (identical(other.feedVisibility, feedVisibility) ||
+                other.feedVisibility == feedVisibility) &&
             (identical(other.fid, fid) || other.fid == fid) &&
             (identical(other.receivedAt, receivedAt) ||
                 other.receivedAt == receivedAt) &&
@@ -50,9 +54,11 @@ mixin _$FeedUpdatedEvent {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      super.hashCode,
       createdAt,
       const DeepCollectionEquality().hash(custom),
       feed,
+      feedVisibility,
       fid,
       receivedAt,
       type,
@@ -60,7 +66,7 @@ mixin _$FeedUpdatedEvent {
 
   @override
   String toString() {
-    return 'FeedUpdatedEvent(createdAt: $createdAt, custom: $custom, feed: $feed, fid: $fid, receivedAt: $receivedAt, type: $type, user: $user)';
+    return 'FeedUpdatedEvent(createdAt: $createdAt, custom: $custom, feed: $feed, feedVisibility: $feedVisibility, fid: $fid, receivedAt: $receivedAt, type: $type, user: $user)';
   }
 }
 
@@ -72,8 +78,9 @@ abstract mixin class $FeedUpdatedEventCopyWith<$Res> {
   @useResult
   $Res call(
       {DateTime createdAt,
-      Map<String, Object> custom,
+      Map<String, Object?> custom,
       FeedResponse feed,
+      String? feedVisibility,
       String fid,
       DateTime? receivedAt,
       String type,
@@ -96,6 +103,7 @@ class _$FeedUpdatedEventCopyWithImpl<$Res>
     Object? createdAt = null,
     Object? custom = null,
     Object? feed = null,
+    Object? feedVisibility = freezed,
     Object? fid = null,
     Object? receivedAt = freezed,
     Object? type = null,
@@ -109,11 +117,15 @@ class _$FeedUpdatedEventCopyWithImpl<$Res>
       custom: null == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>,
+              as Map<String, Object?>,
       feed: null == feed
           ? _self.feed
           : feed // ignore: cast_nullable_to_non_nullable
               as FeedResponse,
+      feedVisibility: freezed == feedVisibility
+          ? _self.feedVisibility
+          : feedVisibility // ignore: cast_nullable_to_non_nullable
+              as String?,
       fid: null == fid
           ? _self.fid
           : fid // ignore: cast_nullable_to_non_nullable

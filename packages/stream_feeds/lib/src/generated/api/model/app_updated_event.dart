@@ -33,7 +33,7 @@ class AppUpdatedEvent extends core.WsEvent with _$AppUpdatedEvent {
   final DateTime createdAt;
 
   @override
-  final Map<String, Object> custom;
+  final Map<String, Object?> custom;
 
   @override
   @EpochDateTimeConverter()

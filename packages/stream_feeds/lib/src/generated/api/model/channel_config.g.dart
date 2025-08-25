@@ -30,6 +30,7 @@ ChannelConfig _$ChannelConfigFromJson(Map<String, dynamic> json) =>
       commands:
           (json['commands'] as List<dynamic>).map((e) => e as String).toList(),
       connectEvents: json['connect_events'] as bool,
+      countMessages: json['count_messages'] as bool,
       createdAt: const EpochDateTimeConverter()
           .fromJson((json['created_at'] as num).toInt()),
       customEvents: json['custom_events'] as bool,
@@ -71,6 +72,7 @@ Map<String, dynamic> _$ChannelConfigToJson(ChannelConfig instance) =>
       'blocklists': instance.blocklists?.map((e) => e.toJson()).toList(),
       'commands': instance.commands,
       'connect_events': instance.connectEvents,
+      'count_messages': instance.countMessages,
       'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
       'custom_events': instance.customEvents,
       'mark_messages_pending': instance.markMessagesPending,

@@ -36,6 +36,7 @@ class ChannelResponse with _$ChannelResponse {
     this.lastMessageAt,
     this.memberCount,
     this.members,
+    this.messageCount,
     this.muteExpiresAt,
     this.muted,
     this.ownCapabilities,
@@ -72,7 +73,7 @@ class ChannelResponse with _$ChannelResponse {
   final UserResponse? createdBy;
 
   @override
-  final Map<String, Object> custom;
+  final Map<String, Object?> custom;
 
   @override
   @EpochDateTimeConverter()
@@ -103,6 +104,9 @@ class ChannelResponse with _$ChannelResponse {
 
   @override
   final List<ChannelMember>? members;
+
+  @override
+  final int? messageCount;
 
   @override
   @EpochDateTimeConverter()

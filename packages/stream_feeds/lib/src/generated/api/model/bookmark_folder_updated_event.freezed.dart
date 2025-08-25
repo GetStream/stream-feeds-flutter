@@ -17,7 +17,7 @@ T _$identity<T>(T value) => value;
 mixin _$BookmarkFolderUpdatedEvent {
   BookmarkFolderResponse get bookmarkFolder;
   DateTime get createdAt;
-  Map<String, Object> get custom;
+  Map<String, Object?> get custom;
   DateTime? get receivedAt;
   String get type;
   UserResponseCommonFields? get user;
@@ -36,6 +36,7 @@ mixin _$BookmarkFolderUpdatedEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is BookmarkFolderUpdatedEvent &&
+            super == other &&
             (identical(other.bookmarkFolder, bookmarkFolder) ||
                 other.bookmarkFolder == bookmarkFolder) &&
             (identical(other.createdAt, createdAt) ||
@@ -48,8 +49,15 @@ mixin _$BookmarkFolderUpdatedEvent {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, bookmarkFolder, createdAt,
-      const DeepCollectionEquality().hash(custom), receivedAt, type, user);
+  int get hashCode => Object.hash(
+      runtimeType,
+      super.hashCode,
+      bookmarkFolder,
+      createdAt,
+      const DeepCollectionEquality().hash(custom),
+      receivedAt,
+      type,
+      user);
 
   @override
   String toString() {
@@ -66,7 +74,7 @@ abstract mixin class $BookmarkFolderUpdatedEventCopyWith<$Res> {
   $Res call(
       {BookmarkFolderResponse bookmarkFolder,
       DateTime createdAt,
-      Map<String, Object> custom,
+      Map<String, Object?> custom,
       DateTime? receivedAt,
       String type,
       UserResponseCommonFields? user});
@@ -104,7 +112,7 @@ class _$BookmarkFolderUpdatedEventCopyWithImpl<$Res>
       custom: null == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>,
+              as Map<String, Object?>,
       receivedAt: freezed == receivedAt
           ? _self.receivedAt
           : receivedAt // ignore: cast_nullable_to_non_nullable

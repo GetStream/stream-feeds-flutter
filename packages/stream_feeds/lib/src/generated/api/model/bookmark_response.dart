@@ -34,7 +34,7 @@ class BookmarkResponse with _$BookmarkResponse {
   final DateTime createdAt;
 
   @override
-  final Map<String, Object>? custom;
+  final Map<String, Object?>? custom;
 
   @override
   final BookmarkFolderResponse? folder;

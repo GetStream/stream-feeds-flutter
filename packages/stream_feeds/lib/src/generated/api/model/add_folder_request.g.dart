@@ -8,9 +8,7 @@ part of 'add_folder_request.dart';
 
 AddFolderRequest _$AddFolderRequestFromJson(Map<String, dynamic> json) =>
     AddFolderRequest(
-      custom: (json['custom'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>?,
       name: json['name'] as String,
     );
 

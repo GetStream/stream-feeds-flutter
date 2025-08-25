@@ -37,7 +37,7 @@ class DraftPayloadResponse with _$DraftPayloadResponse {
   final List<Attachment>? attachments;
 
   @override
-  final Map<String, Object> custom;
+  final Map<String, Object?> custom;
 
   @override
   final String? html;

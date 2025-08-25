@@ -61,7 +61,7 @@ class Attachment with _$Attachment {
   final String? color;
 
   @override
-  final Map<String, Object> custom;
+  final Map<String, Object?> custom;
 
   @override
   final String? fallback;

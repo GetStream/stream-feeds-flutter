@@ -21,7 +21,7 @@ mixin _$PollResponseData {
   DateTime get createdAt;
   UserResponse? get createdBy;
   String get createdById;
-  Map<String, Object> get custom;
+  Map<String, Object?> get custom;
   String get description;
   bool get enforceUniqueVote;
   String get id;
@@ -135,7 +135,7 @@ abstract mixin class $PollResponseDataCopyWith<$Res> {
       DateTime createdAt,
       UserResponse? createdBy,
       String createdById,
-      Map<String, Object> custom,
+      Map<String, Object?> custom,
       String description,
       bool enforceUniqueVote,
       String id,
@@ -215,7 +215,7 @@ class _$PollResponseDataCopyWithImpl<$Res>
       custom: null == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>,
+              as Map<String, Object?>,
       description: null == description
           ? _self.description
           : description // ignore: cast_nullable_to_non_nullable

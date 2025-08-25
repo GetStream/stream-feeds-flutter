@@ -14,6 +14,7 @@ ConfigOverrides _$ConfigOverridesFromJson(Map<String, dynamic> json) =>
           unknownValue: ConfigOverridesBlocklistBehavior.unknown),
       commands:
           (json['commands'] as List<dynamic>).map((e) => e as String).toList(),
+      countMessages: json['count_messages'] as bool?,
       grants: (json['grants'] as Map<String, dynamic>).map(
         (k, e) =>
             MapEntry(k, (e as List<dynamic>).map((e) => e as String).toList()),
@@ -35,6 +36,7 @@ Map<String, dynamic> _$ConfigOverridesToJson(ConfigOverrides instance) =>
       'blocklist_behavior':
           _$ConfigOverridesBlocklistBehaviorEnumMap[instance.blocklistBehavior],
       'commands': instance.commands,
+      'count_messages': instance.countMessages,
       'grants': instance.grants,
       'max_message_length': instance.maxMessageLength,
       'quotes': instance.quotes,

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$QueryReviewQueueRequest {
-  Map<String, Object>? get filter;
+  Map<String, Object?>? get filter;
   int? get limit;
   int? get lockCount;
   int? get lockDuration;
@@ -79,7 +79,7 @@ abstract mixin class $QueryReviewQueueRequestCopyWith<$Res> {
       _$QueryReviewQueueRequestCopyWithImpl;
   @useResult
   $Res call(
-      {Map<String, Object>? filter,
+      {Map<String, Object?>? filter,
       int? limit,
       int? lockCount,
       int? lockDuration,
@@ -117,7 +117,7 @@ class _$QueryReviewQueueRequestCopyWithImpl<$Res>
       filter: freezed == filter
           ? _self.filter
           : filter // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
       limit: freezed == limit
           ? _self.limit
           : limit // ignore: cast_nullable_to_non_nullable

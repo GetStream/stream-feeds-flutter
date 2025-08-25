@@ -20,6 +20,7 @@ class FeedMemberAddedEvent extends core.WsEvent with _$FeedMemberAddedEvent {
   const FeedMemberAddedEvent({
     required this.createdAt,
     required this.custom,
+    this.feedVisibility,
     required this.fid,
     required this.member,
     this.receivedAt,
@@ -32,7 +33,10 @@ class FeedMemberAddedEvent extends core.WsEvent with _$FeedMemberAddedEvent {
   final DateTime createdAt;
 
   @override
-  final Map<String, Object> custom;
+  final Map<String, Object?> custom;
+
+  @override
+  final String? feedVisibility;
 
   @override
   final String fid;

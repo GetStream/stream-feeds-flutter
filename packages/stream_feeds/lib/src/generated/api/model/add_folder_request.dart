@@ -23,7 +23,7 @@ class AddFolderRequest with _$AddFolderRequest {
   });
 
   @override
-  final Map<String, Object>? custom;
+  final Map<String, Object?>? custom;
 
   @override
   final String name;

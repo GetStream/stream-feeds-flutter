@@ -17,7 +17,8 @@ T _$identity<T>(T value) => value;
 mixin _$ActivityReactionDeletedEvent {
   ActivityResponse get activity;
   DateTime get createdAt;
-  Map<String, Object> get custom;
+  Map<String, Object?> get custom;
+  String? get feedVisibility;
   String get fid;
   FeedsReactionResponse get reaction;
   DateTime? get receivedAt;
@@ -38,11 +39,14 @@ mixin _$ActivityReactionDeletedEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ActivityReactionDeletedEvent &&
+            super == other &&
             (identical(other.activity, activity) ||
                 other.activity == activity) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
+            (identical(other.feedVisibility, feedVisibility) ||
+                other.feedVisibility == feedVisibility) &&
             (identical(other.fid, fid) || other.fid == fid) &&
             (identical(other.reaction, reaction) ||
                 other.reaction == reaction) &&
@@ -55,9 +59,11 @@ mixin _$ActivityReactionDeletedEvent {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      super.hashCode,
       activity,
       createdAt,
       const DeepCollectionEquality().hash(custom),
+      feedVisibility,
       fid,
       reaction,
       receivedAt,
@@ -66,7 +72,7 @@ mixin _$ActivityReactionDeletedEvent {
 
   @override
   String toString() {
-    return 'ActivityReactionDeletedEvent(activity: $activity, createdAt: $createdAt, custom: $custom, fid: $fid, reaction: $reaction, receivedAt: $receivedAt, type: $type, user: $user)';
+    return 'ActivityReactionDeletedEvent(activity: $activity, createdAt: $createdAt, custom: $custom, feedVisibility: $feedVisibility, fid: $fid, reaction: $reaction, receivedAt: $receivedAt, type: $type, user: $user)';
   }
 }
 
@@ -80,7 +86,8 @@ abstract mixin class $ActivityReactionDeletedEventCopyWith<$Res> {
   $Res call(
       {ActivityResponse activity,
       DateTime createdAt,
-      Map<String, Object> custom,
+      Map<String, Object?> custom,
+      String? feedVisibility,
       String fid,
       FeedsReactionResponse reaction,
       DateTime? receivedAt,
@@ -104,6 +111,7 @@ class _$ActivityReactionDeletedEventCopyWithImpl<$Res>
     Object? activity = null,
     Object? createdAt = null,
     Object? custom = null,
+    Object? feedVisibility = freezed,
     Object? fid = null,
     Object? reaction = null,
     Object? receivedAt = freezed,
@@ -122,7 +130,11 @@ class _$ActivityReactionDeletedEventCopyWithImpl<$Res>
       custom: null == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>,
+              as Map<String, Object?>,
+      feedVisibility: freezed == feedVisibility
+          ? _self.feedVisibility
+          : feedVisibility // ignore: cast_nullable_to_non_nullable
+              as String?,
       fid: null == fid
           ? _self.fid
           : fid // ignore: cast_nullable_to_non_nullable

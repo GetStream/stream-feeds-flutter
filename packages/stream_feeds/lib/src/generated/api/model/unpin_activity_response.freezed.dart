@@ -17,7 +17,7 @@ T _$identity<T>(T value) => value;
 mixin _$UnpinActivityResponse {
   ActivityResponse get activity;
   String get duration;
-  String get fid;
+  String get feed;
   String get userId;
 
   /// Create a copy of UnpinActivityResponse
@@ -37,16 +37,17 @@ mixin _$UnpinActivityResponse {
                 other.activity == activity) &&
             (identical(other.duration, duration) ||
                 other.duration == duration) &&
-            (identical(other.fid, fid) || other.fid == fid) &&
+            (identical(other.feed, feed) || other.feed == feed) &&
             (identical(other.userId, userId) || other.userId == userId));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, activity, duration, fid, userId);
+  int get hashCode =>
+      Object.hash(runtimeType, activity, duration, feed, userId);
 
   @override
   String toString() {
-    return 'UnpinActivityResponse(activity: $activity, duration: $duration, fid: $fid, userId: $userId)';
+    return 'UnpinActivityResponse(activity: $activity, duration: $duration, feed: $feed, userId: $userId)';
   }
 }
 
@@ -57,7 +58,7 @@ abstract mixin class $UnpinActivityResponseCopyWith<$Res> {
       _$UnpinActivityResponseCopyWithImpl;
   @useResult
   $Res call(
-      {ActivityResponse activity, String duration, String fid, String userId});
+      {ActivityResponse activity, String duration, String feed, String userId});
 }
 
 /// @nodoc
@@ -75,7 +76,7 @@ class _$UnpinActivityResponseCopyWithImpl<$Res>
   $Res call({
     Object? activity = null,
     Object? duration = null,
-    Object? fid = null,
+    Object? feed = null,
     Object? userId = null,
   }) {
     return _then(UnpinActivityResponse(
@@ -87,9 +88,9 @@ class _$UnpinActivityResponseCopyWithImpl<$Res>
           ? _self.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as String,
-      fid: null == fid
-          ? _self.fid
-          : fid // ignore: cast_nullable_to_non_nullable
+      feed: null == feed
+          ? _self.feed
+          : feed // ignore: cast_nullable_to_non_nullable
               as String,
       userId: null == userId
           ? _self.userId

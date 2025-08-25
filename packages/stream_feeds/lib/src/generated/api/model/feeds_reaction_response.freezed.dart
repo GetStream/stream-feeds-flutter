@@ -18,7 +18,7 @@ mixin _$FeedsReactionResponse {
   String get activityId;
   String? get commentId;
   DateTime get createdAt;
-  Map<String, Object>? get custom;
+  Map<String, Object?>? get custom;
   String get type;
   DateTime get updatedAt;
   UserResponse get user;
@@ -69,7 +69,7 @@ abstract mixin class $FeedsReactionResponseCopyWith<$Res> {
       {String activityId,
       String? commentId,
       DateTime createdAt,
-      Map<String, Object>? custom,
+      Map<String, Object?>? custom,
       String type,
       DateTime updatedAt,
       UserResponse user});
@@ -112,7 +112,7 @@ class _$FeedsReactionResponseCopyWithImpl<$Res>
       custom: freezed == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
       type: null == type
           ? _self.type
           : type // ignore: cast_nullable_to_non_nullable

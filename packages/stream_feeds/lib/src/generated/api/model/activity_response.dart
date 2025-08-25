@@ -42,6 +42,7 @@ class ActivityResponse with _$ActivityResponse {
     this.expiresAt,
     required this.feeds,
     required this.filterTags,
+    this.hidden,
     required this.id,
     required this.interestTags,
     required this.latestReactions,
@@ -87,7 +88,7 @@ class ActivityResponse with _$ActivityResponse {
   final FeedResponse? currentFeed;
 
   @override
-  final Map<String, Object> custom;
+  final Map<String, Object?> custom;
 
   @override
   @EpochDateTimeConverter()
@@ -108,6 +109,9 @@ class ActivityResponse with _$ActivityResponse {
   final List<String> filterTags;
 
   @override
+  final bool? hidden;
+
+  @override
   final String id;
 
   @override
@@ -126,7 +130,7 @@ class ActivityResponse with _$ActivityResponse {
   final ModerationV2Response? moderation;
 
   @override
-  final Map<String, Object>? notificationContext;
+  final Map<String, Object?>? notificationContext;
 
   @override
   final List<BookmarkResponse> ownBookmarks;
@@ -153,7 +157,7 @@ class ActivityResponse with _$ActivityResponse {
   final double score;
 
   @override
-  final Map<String, Object> searchData;
+  final Map<String, Object?> searchData;
 
   @override
   final int shareCount;

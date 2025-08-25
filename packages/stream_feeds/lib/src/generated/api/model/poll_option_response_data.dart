@@ -24,7 +24,7 @@ class PollOptionResponseData with _$PollOptionResponseData {
   });
 
   @override
-  final Map<String, Object> custom;
+  final Map<String, Object?> custom;
 
   @override
   final String id;

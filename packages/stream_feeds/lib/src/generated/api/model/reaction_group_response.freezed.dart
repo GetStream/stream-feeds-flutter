@@ -18,7 +18,6 @@ mixin _$ReactionGroupResponse {
   int get count;
   DateTime get firstReactionAt;
   DateTime get lastReactionAt;
-  int get sumScores;
 
   /// Create a copy of ReactionGroupResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -37,18 +36,16 @@ mixin _$ReactionGroupResponse {
             (identical(other.firstReactionAt, firstReactionAt) ||
                 other.firstReactionAt == firstReactionAt) &&
             (identical(other.lastReactionAt, lastReactionAt) ||
-                other.lastReactionAt == lastReactionAt) &&
-            (identical(other.sumScores, sumScores) ||
-                other.sumScores == sumScores));
+                other.lastReactionAt == lastReactionAt));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, count, firstReactionAt, lastReactionAt, sumScores);
+  int get hashCode =>
+      Object.hash(runtimeType, count, firstReactionAt, lastReactionAt);
 
   @override
   String toString() {
-    return 'ReactionGroupResponse(count: $count, firstReactionAt: $firstReactionAt, lastReactionAt: $lastReactionAt, sumScores: $sumScores)';
+    return 'ReactionGroupResponse(count: $count, firstReactionAt: $firstReactionAt, lastReactionAt: $lastReactionAt)';
   }
 }
 
@@ -58,11 +55,7 @@ abstract mixin class $ReactionGroupResponseCopyWith<$Res> {
           $Res Function(ReactionGroupResponse) _then) =
       _$ReactionGroupResponseCopyWithImpl;
   @useResult
-  $Res call(
-      {int count,
-      DateTime firstReactionAt,
-      DateTime lastReactionAt,
-      int sumScores});
+  $Res call({int count, DateTime firstReactionAt, DateTime lastReactionAt});
 }
 
 /// @nodoc
@@ -81,7 +74,6 @@ class _$ReactionGroupResponseCopyWithImpl<$Res>
     Object? count = null,
     Object? firstReactionAt = null,
     Object? lastReactionAt = null,
-    Object? sumScores = null,
   }) {
     return _then(ReactionGroupResponse(
       count: null == count
@@ -96,10 +88,6 @@ class _$ReactionGroupResponseCopyWithImpl<$Res>
           ? _self.lastReactionAt
           : lastReactionAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      sumScores: null == sumScores
-          ? _self.sumScores
-          : sumScores // ignore: cast_nullable_to_non_nullable
-              as int,
     ));
   }
 }

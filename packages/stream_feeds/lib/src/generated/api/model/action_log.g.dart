@@ -9,9 +9,7 @@ part of 'action_log.dart';
 ActionLog _$ActionLogFromJson(Map<String, dynamic> json) => ActionLog(
       createdAt: const EpochDateTimeConverter()
           .fromJson((json['created_at'] as num).toInt()),
-      custom: (json['custom'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>,
       id: json['id'] as String,
       reason: json['reason'] as String,
       reporterType: json['reporter_type'] as String,

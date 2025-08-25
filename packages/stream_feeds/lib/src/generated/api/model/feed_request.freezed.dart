@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$FeedRequest {
   String? get createdById;
-  Map<String, Object>? get custom;
+  Map<String, Object?>? get custom;
   String? get description;
   String get feedGroupId;
   String get feedId;
@@ -80,7 +80,7 @@ abstract mixin class $FeedRequestCopyWith<$Res> {
   @useResult
   $Res call(
       {String? createdById,
-      Map<String, Object>? custom,
+      Map<String, Object?>? custom,
       String? description,
       String feedGroupId,
       String feedId,
@@ -120,7 +120,7 @@ class _$FeedRequestCopyWithImpl<$Res> implements $FeedRequestCopyWith<$Res> {
       custom: freezed == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
       description: freezed == description
           ? _self.description
           : description // ignore: cast_nullable_to_non_nullable

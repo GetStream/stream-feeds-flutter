@@ -10,9 +10,7 @@ ActionLogResponse _$ActionLogResponseFromJson(Map<String, dynamic> json) =>
     ActionLogResponse(
       createdAt: const EpochDateTimeConverter()
           .fromJson((json['created_at'] as num).toInt()),
-      custom: (json['custom'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>,
       id: json['id'] as String,
       reason: json['reason'] as String,
       reviewQueueItem: json['review_queue_item'] == null

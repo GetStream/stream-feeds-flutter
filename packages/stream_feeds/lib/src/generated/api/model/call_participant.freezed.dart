@@ -19,7 +19,7 @@ mixin _$CallParticipant {
   DateTime? get banExpires;
   bool get banned;
   DateTime? get createdAt;
-  Map<String, Object> get custom;
+  Map<String, Object?> get custom;
   DateTime? get deactivatedAt;
   DateTime? get deletedAt;
   String get id;
@@ -131,7 +131,7 @@ abstract mixin class $CallParticipantCopyWith<$Res> {
       DateTime? banExpires,
       bool banned,
       DateTime? createdAt,
-      Map<String, Object> custom,
+      Map<String, Object?> custom,
       DateTime? deactivatedAt,
       DateTime? deletedAt,
       String id,
@@ -205,7 +205,7 @@ class _$CallParticipantCopyWithImpl<$Res>
       custom: null == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>,
+              as Map<String, Object?>,
       deactivatedAt: freezed == deactivatedAt
           ? _self.deactivatedAt
           : deactivatedAt // ignore: cast_nullable_to_non_nullable

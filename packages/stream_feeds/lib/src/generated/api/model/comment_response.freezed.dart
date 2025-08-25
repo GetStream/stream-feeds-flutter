@@ -19,7 +19,7 @@ mixin _$CommentResponse {
   double get confidenceScore;
   double? get controversyScore;
   DateTime get createdAt;
-  Map<String, Object>? get custom;
+  Map<String, Object?>? get custom;
   DateTime? get deletedAt;
   int get downvoteCount;
   String get id;
@@ -143,7 +143,7 @@ abstract mixin class $CommentResponseCopyWith<$Res> {
       double confidenceScore,
       double? controversyScore,
       DateTime createdAt,
-      Map<String, Object>? custom,
+      Map<String, Object?>? custom,
       DateTime? deletedAt,
       int downvoteCount,
       String id,
@@ -223,7 +223,7 @@ class _$CommentResponseCopyWithImpl<$Res>
       custom: freezed == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
       deletedAt: freezed == deletedAt
           ? _self.deletedAt
           : deletedAt // ignore: cast_nullable_to_non_nullable

@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ActionLogResponse {
   DateTime get createdAt;
-  Map<String, Object> get custom;
+  Map<String, Object?> get custom;
   String get id;
   String get reason;
   ReviewQueueItemResponse? get reviewQueueItem;
@@ -83,7 +83,7 @@ abstract mixin class $ActionLogResponseCopyWith<$Res> {
   @useResult
   $Res call(
       {DateTime createdAt,
-      Map<String, Object> custom,
+      Map<String, Object?> custom,
       String id,
       String reason,
       ReviewQueueItemResponse? reviewQueueItem,
@@ -126,7 +126,7 @@ class _$ActionLogResponseCopyWithImpl<$Res>
       custom: null == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>,
+              as Map<String, Object?>,
       id: null == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable

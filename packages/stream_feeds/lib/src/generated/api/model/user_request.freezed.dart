@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$UserRequest {
-  Map<String, Object>? get custom;
+  Map<String, Object?>? get custom;
   String get id;
   String? get image;
   bool? get invisible;
@@ -71,7 +71,7 @@ abstract mixin class $UserRequestCopyWith<$Res> {
       _$UserRequestCopyWithImpl;
   @useResult
   $Res call(
-      {Map<String, Object>? custom,
+      {Map<String, Object?>? custom,
       String id,
       String? image,
       bool? invisible,
@@ -104,7 +104,7 @@ class _$UserRequestCopyWithImpl<$Res> implements $UserRequestCopyWith<$Res> {
       custom: freezed == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
       id: null == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable

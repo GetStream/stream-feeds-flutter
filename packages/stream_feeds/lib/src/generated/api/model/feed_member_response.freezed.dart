@@ -16,9 +16,10 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$FeedMemberResponse {
   DateTime get createdAt;
-  Map<String, Object>? get custom;
+  Map<String, Object?>? get custom;
   DateTime? get inviteAcceptedAt;
   DateTime? get inviteRejectedAt;
+  MembershipLevelResponse? get membershipLevel;
   String get role;
   FeedMemberResponseStatus get status;
   DateTime get updatedAt;
@@ -44,6 +45,8 @@ mixin _$FeedMemberResponse {
                 other.inviteAcceptedAt == inviteAcceptedAt) &&
             (identical(other.inviteRejectedAt, inviteRejectedAt) ||
                 other.inviteRejectedAt == inviteRejectedAt) &&
+            (identical(other.membershipLevel, membershipLevel) ||
+                other.membershipLevel == membershipLevel) &&
             (identical(other.role, role) || other.role == role) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -58,6 +61,7 @@ mixin _$FeedMemberResponse {
       const DeepCollectionEquality().hash(custom),
       inviteAcceptedAt,
       inviteRejectedAt,
+      membershipLevel,
       role,
       status,
       updatedAt,
@@ -65,7 +69,7 @@ mixin _$FeedMemberResponse {
 
   @override
   String toString() {
-    return 'FeedMemberResponse(createdAt: $createdAt, custom: $custom, inviteAcceptedAt: $inviteAcceptedAt, inviteRejectedAt: $inviteRejectedAt, role: $role, status: $status, updatedAt: $updatedAt, user: $user)';
+    return 'FeedMemberResponse(createdAt: $createdAt, custom: $custom, inviteAcceptedAt: $inviteAcceptedAt, inviteRejectedAt: $inviteRejectedAt, membershipLevel: $membershipLevel, role: $role, status: $status, updatedAt: $updatedAt, user: $user)';
   }
 }
 
@@ -77,9 +81,10 @@ abstract mixin class $FeedMemberResponseCopyWith<$Res> {
   @useResult
   $Res call(
       {DateTime createdAt,
-      Map<String, Object>? custom,
+      Map<String, Object?>? custom,
       DateTime? inviteAcceptedAt,
       DateTime? inviteRejectedAt,
+      MembershipLevelResponse? membershipLevel,
       String role,
       FeedMemberResponseStatus status,
       DateTime updatedAt,
@@ -103,6 +108,7 @@ class _$FeedMemberResponseCopyWithImpl<$Res>
     Object? custom = freezed,
     Object? inviteAcceptedAt = freezed,
     Object? inviteRejectedAt = freezed,
+    Object? membershipLevel = freezed,
     Object? role = null,
     Object? status = null,
     Object? updatedAt = null,
@@ -116,7 +122,7 @@ class _$FeedMemberResponseCopyWithImpl<$Res>
       custom: freezed == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
       inviteAcceptedAt: freezed == inviteAcceptedAt
           ? _self.inviteAcceptedAt
           : inviteAcceptedAt // ignore: cast_nullable_to_non_nullable
@@ -125,6 +131,10 @@ class _$FeedMemberResponseCopyWithImpl<$Res>
           ? _self.inviteRejectedAt
           : inviteRejectedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      membershipLevel: freezed == membershipLevel
+          ? _self.membershipLevel
+          : membershipLevel // ignore: cast_nullable_to_non_nullable
+              as MembershipLevelResponse?,
       role: null == role
           ? _self.role
           : role // ignore: cast_nullable_to_non_nullable

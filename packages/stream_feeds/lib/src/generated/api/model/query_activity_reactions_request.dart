@@ -26,7 +26,7 @@ class QueryActivityReactionsRequest with _$QueryActivityReactionsRequest {
   });
 
   @override
-  final Map<String, Object>? filter;
+  final Map<String, Object?>? filter;
 
   @override
   final int? limit;

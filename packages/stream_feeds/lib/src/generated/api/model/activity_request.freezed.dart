@@ -16,9 +16,9 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ActivityRequest {
   List<Attachment>? get attachments;
-  Map<String, Object>? get custom;
+  Map<String, Object?>? get custom;
   String? get expiresAt;
-  List<String> get fids;
+  List<String> get feeds;
   List<String>? get filterTags;
   String? get id;
   List<String>? get interestTags;
@@ -26,7 +26,7 @@ mixin _$ActivityRequest {
   List<String>? get mentionedUserIds;
   String? get parentId;
   String? get pollId;
-  Map<String, Object>? get searchData;
+  Map<String, Object?>? get searchData;
   String? get text;
   String get type;
   ActivityRequestVisibility? get visibility;
@@ -50,7 +50,7 @@ mixin _$ActivityRequest {
             const DeepCollectionEquality().equals(other.custom, custom) &&
             (identical(other.expiresAt, expiresAt) ||
                 other.expiresAt == expiresAt) &&
-            const DeepCollectionEquality().equals(other.fids, fids) &&
+            const DeepCollectionEquality().equals(other.feeds, feeds) &&
             const DeepCollectionEquality()
                 .equals(other.filterTags, filterTags) &&
             (identical(other.id, id) || other.id == id) &&
@@ -79,7 +79,7 @@ mixin _$ActivityRequest {
       const DeepCollectionEquality().hash(attachments),
       const DeepCollectionEquality().hash(custom),
       expiresAt,
-      const DeepCollectionEquality().hash(fids),
+      const DeepCollectionEquality().hash(feeds),
       const DeepCollectionEquality().hash(filterTags),
       id,
       const DeepCollectionEquality().hash(interestTags),
@@ -95,7 +95,7 @@ mixin _$ActivityRequest {
 
   @override
   String toString() {
-    return 'ActivityRequest(attachments: $attachments, custom: $custom, expiresAt: $expiresAt, fids: $fids, filterTags: $filterTags, id: $id, interestTags: $interestTags, location: $location, mentionedUserIds: $mentionedUserIds, parentId: $parentId, pollId: $pollId, searchData: $searchData, text: $text, type: $type, visibility: $visibility, visibilityTag: $visibilityTag)';
+    return 'ActivityRequest(attachments: $attachments, custom: $custom, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, id: $id, interestTags: $interestTags, location: $location, mentionedUserIds: $mentionedUserIds, parentId: $parentId, pollId: $pollId, searchData: $searchData, text: $text, type: $type, visibility: $visibility, visibilityTag: $visibilityTag)';
   }
 }
 
@@ -107,9 +107,9 @@ abstract mixin class $ActivityRequestCopyWith<$Res> {
   @useResult
   $Res call(
       {List<Attachment>? attachments,
-      Map<String, Object>? custom,
+      Map<String, Object?>? custom,
       String? expiresAt,
-      List<String> fids,
+      List<String> feeds,
       List<String>? filterTags,
       String? id,
       List<String>? interestTags,
@@ -117,7 +117,7 @@ abstract mixin class $ActivityRequestCopyWith<$Res> {
       List<String>? mentionedUserIds,
       String? parentId,
       String? pollId,
-      Map<String, Object>? searchData,
+      Map<String, Object?>? searchData,
       String? text,
       String type,
       ActivityRequestVisibility? visibility,
@@ -140,7 +140,7 @@ class _$ActivityRequestCopyWithImpl<$Res>
     Object? attachments = freezed,
     Object? custom = freezed,
     Object? expiresAt = freezed,
-    Object? fids = null,
+    Object? feeds = null,
     Object? filterTags = freezed,
     Object? id = freezed,
     Object? interestTags = freezed,
@@ -162,14 +162,14 @@ class _$ActivityRequestCopyWithImpl<$Res>
       custom: freezed == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
       expiresAt: freezed == expiresAt
           ? _self.expiresAt
           : expiresAt // ignore: cast_nullable_to_non_nullable
               as String?,
-      fids: null == fids
-          ? _self.fids
-          : fids // ignore: cast_nullable_to_non_nullable
+      feeds: null == feeds
+          ? _self.feeds
+          : feeds // ignore: cast_nullable_to_non_nullable
               as List<String>,
       filterTags: freezed == filterTags
           ? _self.filterTags
@@ -202,7 +202,7 @@ class _$ActivityRequestCopyWithImpl<$Res>
       searchData: freezed == searchData
           ? _self.searchData
           : searchData // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
       text: freezed == text
           ? _self.text
           : text // ignore: cast_nullable_to_non_nullable

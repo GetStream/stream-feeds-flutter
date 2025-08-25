@@ -20,6 +20,7 @@ class ActivityMarkEvent extends core.WsEvent with _$ActivityMarkEvent {
   const ActivityMarkEvent({
     required this.createdAt,
     required this.custom,
+    this.feedVisibility,
     required this.fid,
     this.markAllRead,
     this.markAllSeen,
@@ -36,7 +37,10 @@ class ActivityMarkEvent extends core.WsEvent with _$ActivityMarkEvent {
   final DateTime createdAt;
 
   @override
-  final Map<String, Object> custom;
+  final Map<String, Object?> custom;
+
+  @override
+  final String? feedVisibility;
 
   @override
   final String fid;

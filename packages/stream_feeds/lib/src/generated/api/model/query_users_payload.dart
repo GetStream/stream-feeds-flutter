@@ -27,7 +27,7 @@ class QueryUsersPayload with _$QueryUsersPayload {
   });
 
   @override
-  final Map<String, Object> filterConditions;
+  final Map<String, Object?> filterConditions;
 
   @override
   final bool? includeDeactivatedUsers;

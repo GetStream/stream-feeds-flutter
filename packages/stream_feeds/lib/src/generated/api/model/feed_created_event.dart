@@ -21,6 +21,7 @@ class FeedCreatedEvent extends core.WsEvent with _$FeedCreatedEvent {
     required this.createdAt,
     required this.custom,
     required this.feed,
+    this.feedVisibility,
     required this.fid,
     required this.members,
     this.receivedAt,
@@ -33,10 +34,13 @@ class FeedCreatedEvent extends core.WsEvent with _$FeedCreatedEvent {
   final DateTime createdAt;
 
   @override
-  final Map<String, Object> custom;
+  final Map<String, Object?> custom;
 
   @override
   final FeedResponse feed;
+
+  @override
+  final String? feedVisibility;
 
   @override
   final String fid;

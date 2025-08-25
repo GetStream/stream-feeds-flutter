@@ -21,6 +21,7 @@ class CommentDeletedEvent extends core.WsEvent with _$CommentDeletedEvent {
     required this.comment,
     required this.createdAt,
     required this.custom,
+    this.feedVisibility,
     required this.fid,
     this.receivedAt,
     required this.type,
@@ -35,7 +36,10 @@ class CommentDeletedEvent extends core.WsEvent with _$CommentDeletedEvent {
   final DateTime createdAt;
 
   @override
-  final Map<String, Object> custom;
+  final Map<String, Object?> custom;
+
+  @override
+  final String? feedVisibility;
 
   @override
   final String fid;

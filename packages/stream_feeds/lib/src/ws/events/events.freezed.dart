@@ -14,9 +14,135 @@ part of 'events.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
+mixin _$HealthCheckEvent {
+  String? get cid;
+  String get connectionId;
+  DateTime get createdAt;
+  Map<String, Object?> get custom;
+  OwnUserResponse? get me;
+  DateTime? get receivedAt;
+  String get type;
+
+  /// Create a copy of HealthCheckEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $HealthCheckEventCopyWith<HealthCheckEvent> get copyWith =>
+      _$HealthCheckEventCopyWithImpl<HealthCheckEvent>(
+          this as HealthCheckEvent, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is HealthCheckEvent &&
+            super == other &&
+            (identical(other.cid, cid) || other.cid == cid) &&
+            (identical(other.connectionId, connectionId) ||
+                other.connectionId == connectionId) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            const DeepCollectionEquality().equals(other.custom, custom) &&
+            (identical(other.me, me) || other.me == me) &&
+            (identical(other.receivedAt, receivedAt) ||
+                other.receivedAt == receivedAt) &&
+            (identical(other.type, type) || other.type == type));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      super.hashCode,
+      cid,
+      connectionId,
+      createdAt,
+      const DeepCollectionEquality().hash(custom),
+      me,
+      receivedAt,
+      type);
+
+  @override
+  String toString() {
+    return 'HealthCheckEvent(cid: $cid, connectionId: $connectionId, createdAt: $createdAt, custom: $custom, me: $me, receivedAt: $receivedAt, type: $type)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $HealthCheckEventCopyWith<$Res> {
+  factory $HealthCheckEventCopyWith(
+          HealthCheckEvent value, $Res Function(HealthCheckEvent) _then) =
+      _$HealthCheckEventCopyWithImpl;
+  @useResult
+  $Res call(
+      {String? cid,
+      String connectionId,
+      DateTime createdAt,
+      Map<String, Object?> custom,
+      OwnUserResponse? me,
+      DateTime? receivedAt,
+      String type});
+}
+
+/// @nodoc
+class _$HealthCheckEventCopyWithImpl<$Res>
+    implements $HealthCheckEventCopyWith<$Res> {
+  _$HealthCheckEventCopyWithImpl(this._self, this._then);
+
+  final HealthCheckEvent _self;
+  final $Res Function(HealthCheckEvent) _then;
+
+  /// Create a copy of HealthCheckEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? cid = freezed,
+    Object? connectionId = null,
+    Object? createdAt = null,
+    Object? custom = null,
+    Object? me = freezed,
+    Object? receivedAt = freezed,
+    Object? type = null,
+  }) {
+    return _then(HealthCheckEvent(
+      cid: freezed == cid
+          ? _self.cid
+          : cid // ignore: cast_nullable_to_non_nullable
+              as String?,
+      connectionId: null == connectionId
+          ? _self.connectionId
+          : connectionId // ignore: cast_nullable_to_non_nullable
+              as String,
+      createdAt: null == createdAt
+          ? _self.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      custom: null == custom
+          ? _self.custom
+          : custom // ignore: cast_nullable_to_non_nullable
+              as Map<String, Object?>,
+      me: freezed == me
+          ? _self.me
+          : me // ignore: cast_nullable_to_non_nullable
+              as OwnUserResponse?,
+      receivedAt: freezed == receivedAt
+          ? _self.receivedAt
+          : receivedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      type: null == type
+          ? _self.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
 mixin _$ConnectedEvent {
   String get connectionId;
-  api.OwnUserResponse get me;
+  DateTime get createdAt;
+  OwnUserResponse get me;
+  String get type;
 
   /// Create a copy of ConnectedEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -31,17 +157,22 @@ mixin _$ConnectedEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ConnectedEvent &&
+            super == other &&
             (identical(other.connectionId, connectionId) ||
                 other.connectionId == connectionId) &&
-            (identical(other.me, me) || other.me == me));
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.me, me) || other.me == me) &&
+            (identical(other.type, type) || other.type == type));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, connectionId, me);
+  int get hashCode => Object.hash(
+      runtimeType, super.hashCode, connectionId, createdAt, me, type);
 
   @override
   String toString() {
-    return 'ConnectedEvent(connectionId: $connectionId, me: $me)';
+    return 'ConnectedEvent(connectionId: $connectionId, createdAt: $createdAt, me: $me, type: $type)';
   }
 }
 
@@ -51,7 +182,11 @@ abstract mixin class $ConnectedEventCopyWith<$Res> {
           ConnectedEvent value, $Res Function(ConnectedEvent) _then) =
       _$ConnectedEventCopyWithImpl;
   @useResult
-  $Res call({String connectionId, OwnUserResponse me});
+  $Res call(
+      {String connectionId,
+      DateTime createdAt,
+      OwnUserResponse me,
+      String type});
 }
 
 /// @nodoc
@@ -68,17 +203,27 @@ class _$ConnectedEventCopyWithImpl<$Res>
   @override
   $Res call({
     Object? connectionId = null,
+    Object? createdAt = null,
     Object? me = null,
+    Object? type = null,
   }) {
     return _then(ConnectedEvent(
       connectionId: null == connectionId
           ? _self.connectionId
           : connectionId // ignore: cast_nullable_to_non_nullable
               as String,
+      createdAt: null == createdAt
+          ? _self.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       me: null == me
           ? _self.me
           : me // ignore: cast_nullable_to_non_nullable
               as OwnUserResponse,
+      type: null == type
+          ? _self.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -87,7 +232,7 @@ class _$ConnectedEventCopyWithImpl<$Res>
 mixin _$ConnectionErrorEvent {
   String get connectionId;
   DateTime get createdAt;
-  api.StreamApiError get error;
+  StreamApiError get error;
   String get type;
 
   /// Create a copy of ConnectionErrorEvent
@@ -103,6 +248,7 @@ mixin _$ConnectionErrorEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ConnectionErrorEvent &&
+            super == other &&
             (identical(other.connectionId, connectionId) ||
                 other.connectionId == connectionId) &&
             (identical(other.createdAt, createdAt) ||
@@ -112,8 +258,8 @@ mixin _$ConnectionErrorEvent {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, connectionId, createdAt, error, type);
+  int get hashCode => Object.hash(
+      runtimeType, super.hashCode, connectionId, createdAt, error, type);
 
   @override
   String toString() {

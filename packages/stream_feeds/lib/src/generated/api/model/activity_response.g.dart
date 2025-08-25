@@ -21,9 +21,7 @@ ActivityResponse _$ActivityResponseFromJson(Map<String, dynamic> json) =>
       currentFeed: json['current_feed'] == null
           ? null
           : FeedResponse.fromJson(json['current_feed'] as Map<String, dynamic>),
-      custom: (json['custom'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>,
       deletedAt: _$JsonConverterFromJson<int, DateTime>(
           json['deleted_at'], const EpochDateTimeConverter().fromJson),
       editedAt: _$JsonConverterFromJson<int, DateTime>(
@@ -34,6 +32,7 @@ ActivityResponse _$ActivityResponseFromJson(Map<String, dynamic> json) =>
       filterTags: (json['filter_tags'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
+      hidden: json['hidden'] as bool?,
       id: json['id'] as String,
       interestTags: (json['interest_tags'] as List<dynamic>)
           .map((e) => e as String)
@@ -52,9 +51,7 @@ ActivityResponse _$ActivityResponseFromJson(Map<String, dynamic> json) =>
           : ModerationV2Response.fromJson(
               json['moderation'] as Map<String, dynamic>),
       notificationContext:
-          (json['notification_context'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+          json['notification_context'] as Map<String, dynamic>?,
       ownBookmarks: (json['own_bookmarks'] as List<dynamic>)
           .map((e) => BookmarkResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -74,9 +71,7 @@ ActivityResponse _$ActivityResponseFromJson(Map<String, dynamic> json) =>
             k, ReactionGroupResponse.fromJson(e as Map<String, dynamic>)),
       ),
       score: (json['score'] as num).toDouble(),
-      searchData: (json['search_data'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      searchData: json['search_data'] as Map<String, dynamic>,
       shareCount: (json['share_count'] as num).toInt(),
       text: json['text'] as String?,
       type: json['type'] as String,
@@ -106,6 +101,7 @@ Map<String, dynamic> _$ActivityResponseToJson(ActivityResponse instance) =>
           instance.expiresAt, const EpochDateTimeConverter().toJson),
       'feeds': instance.feeds,
       'filter_tags': instance.filterTags,
+      'hidden': instance.hidden,
       'id': instance.id,
       'interest_tags': instance.interestTags,
       'latest_reactions':

@@ -33,7 +33,7 @@ class ActivityRequest with _$ActivityRequest {
     this.attachments,
     this.custom,
     this.expiresAt,
-    required this.fids,
+    required this.feeds,
     this.filterTags,
     this.id,
     this.interestTags,
@@ -52,13 +52,13 @@ class ActivityRequest with _$ActivityRequest {
   final List<Attachment>? attachments;
 
   @override
-  final Map<String, Object>? custom;
+  final Map<String, Object?>? custom;
 
   @override
   final String? expiresAt;
 
   @override
-  final List<String> fids;
+  final List<String> feeds;
 
   @override
   final List<String>? filterTags;
@@ -82,7 +82,7 @@ class ActivityRequest with _$ActivityRequest {
   final String? pollId;
 
   @override
-  final Map<String, Object>? searchData;
+  final Map<String, Object?>? searchData;
 
   @override
   final String? text;

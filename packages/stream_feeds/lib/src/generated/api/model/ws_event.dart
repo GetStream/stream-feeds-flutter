@@ -100,7 +100,6 @@ abstract class WSEvent<T extends core.WsEvent> {
         _PollVoteChangedFeedEvent(PollVoteChangedFeedEvent.fromJson(json)),
       "feeds.poll.vote_removed" =>
         _PollVoteRemovedFeedEvent(PollVoteRemovedFeedEvent.fromJson(json)),
-      "health.check" => _HealthCheckEvent(HealthCheckEvent.fromJson(json)),
       "moderation.custom_action" => _ModerationCustomActionEvent(
           ModerationCustomActionEvent.fromJson(json)),
       "moderation.flagged" =>
@@ -400,13 +399,6 @@ class _PollVoteChangedFeedEvent extends WSEvent<PollVoteChangedFeedEvent> {
 
 class _PollVoteRemovedFeedEvent extends WSEvent<PollVoteRemovedFeedEvent> {
   const _PollVoteRemovedFeedEvent(super.wrapped);
-
-  @override
-  String get type => wrapped.type;
-}
-
-class _HealthCheckEvent extends WSEvent<HealthCheckEvent> {
-  const _HealthCheckEvent(super.wrapped);
 
   @override
   String get type => wrapped.type;

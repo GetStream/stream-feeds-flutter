@@ -41,7 +41,7 @@ class Flag with _$Flag {
   final DateTime createdAt;
 
   @override
-  final Map<String, Object>? custom;
+  final Map<String, Object?>? custom;
 
   @override
   final String? entityCreatorId;
@@ -68,7 +68,7 @@ class Flag with _$Flag {
   final String? reason;
 
   @override
-  final List<Map<String, Object>> result;
+  final List<Map<String, Object?>> result;
 
   @override
   final ReviewQueueItem? reviewQueueItem;

@@ -15,8 +15,8 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$RejectFollowRequest {
-  String get sourceFid;
-  String get targetFid;
+  String get source;
+  String get target;
 
   /// Create a copy of RejectFollowRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -31,18 +31,16 @@ mixin _$RejectFollowRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is RejectFollowRequest &&
-            (identical(other.sourceFid, sourceFid) ||
-                other.sourceFid == sourceFid) &&
-            (identical(other.targetFid, targetFid) ||
-                other.targetFid == targetFid));
+            (identical(other.source, source) || other.source == source) &&
+            (identical(other.target, target) || other.target == target));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, sourceFid, targetFid);
+  int get hashCode => Object.hash(runtimeType, source, target);
 
   @override
   String toString() {
-    return 'RejectFollowRequest(sourceFid: $sourceFid, targetFid: $targetFid)';
+    return 'RejectFollowRequest(source: $source, target: $target)';
   }
 }
 
@@ -52,7 +50,7 @@ abstract mixin class $RejectFollowRequestCopyWith<$Res> {
           RejectFollowRequest value, $Res Function(RejectFollowRequest) _then) =
       _$RejectFollowRequestCopyWithImpl;
   @useResult
-  $Res call({String sourceFid, String targetFid});
+  $Res call({String source, String target});
 }
 
 /// @nodoc
@@ -68,17 +66,17 @@ class _$RejectFollowRequestCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? sourceFid = null,
-    Object? targetFid = null,
+    Object? source = null,
+    Object? target = null,
   }) {
     return _then(RejectFollowRequest(
-      sourceFid: null == sourceFid
-          ? _self.sourceFid
-          : sourceFid // ignore: cast_nullable_to_non_nullable
+      source: null == source
+          ? _self.source
+          : source // ignore: cast_nullable_to_non_nullable
               as String,
-      targetFid: null == targetFid
-          ? _self.targetFid
-          : targetFid // ignore: cast_nullable_to_non_nullable
+      target: null == target
+          ? _self.target
+          : target // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }

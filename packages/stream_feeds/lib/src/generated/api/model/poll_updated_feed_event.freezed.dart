@@ -16,7 +16,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PollUpdatedFeedEvent {
   DateTime get createdAt;
-  Map<String, Object> get custom;
+  Map<String, Object?> get custom;
+  String? get feedVisibility;
   String get fid;
   PollResponseData get poll;
   DateTime? get receivedAt;
@@ -35,9 +36,12 @@ mixin _$PollUpdatedFeedEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is PollUpdatedFeedEvent &&
+            super == other &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
+            (identical(other.feedVisibility, feedVisibility) ||
+                other.feedVisibility == feedVisibility) &&
             (identical(other.fid, fid) || other.fid == fid) &&
             (identical(other.poll, poll) || other.poll == poll) &&
             (identical(other.receivedAt, receivedAt) ||
@@ -46,12 +50,20 @@ mixin _$PollUpdatedFeedEvent {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, createdAt,
-      const DeepCollectionEquality().hash(custom), fid, poll, receivedAt, type);
+  int get hashCode => Object.hash(
+      runtimeType,
+      super.hashCode,
+      createdAt,
+      const DeepCollectionEquality().hash(custom),
+      feedVisibility,
+      fid,
+      poll,
+      receivedAt,
+      type);
 
   @override
   String toString() {
-    return 'PollUpdatedFeedEvent(createdAt: $createdAt, custom: $custom, fid: $fid, poll: $poll, receivedAt: $receivedAt, type: $type)';
+    return 'PollUpdatedFeedEvent(createdAt: $createdAt, custom: $custom, feedVisibility: $feedVisibility, fid: $fid, poll: $poll, receivedAt: $receivedAt, type: $type)';
   }
 }
 
@@ -63,7 +75,8 @@ abstract mixin class $PollUpdatedFeedEventCopyWith<$Res> {
   @useResult
   $Res call(
       {DateTime createdAt,
-      Map<String, Object> custom,
+      Map<String, Object?> custom,
+      String? feedVisibility,
       String fid,
       PollResponseData poll,
       DateTime? receivedAt,
@@ -85,6 +98,7 @@ class _$PollUpdatedFeedEventCopyWithImpl<$Res>
   $Res call({
     Object? createdAt = null,
     Object? custom = null,
+    Object? feedVisibility = freezed,
     Object? fid = null,
     Object? poll = null,
     Object? receivedAt = freezed,
@@ -98,7 +112,11 @@ class _$PollUpdatedFeedEventCopyWithImpl<$Res>
       custom: null == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>,
+              as Map<String, Object?>,
+      feedVisibility: freezed == feedVisibility
+          ? _self.feedVisibility
+          : feedVisibility // ignore: cast_nullable_to_non_nullable
+              as String?,
       fid: null == fid
           ? _self.fid
           : fid // ignore: cast_nullable_to_non_nullable

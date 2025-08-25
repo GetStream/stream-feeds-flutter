@@ -8,9 +8,7 @@ part of 'feed_request.dart';
 
 FeedRequest _$FeedRequestFromJson(Map<String, dynamic> json) => FeedRequest(
       createdById: json['created_by_id'] as String?,
-      custom: (json['custom'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>?,
       description: json['description'] as String?,
       feedGroupId: json['feed_group_id'] as String,
       feedId: json['feed_id'] as String,

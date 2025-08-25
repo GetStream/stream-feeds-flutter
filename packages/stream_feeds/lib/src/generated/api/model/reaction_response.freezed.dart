@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ReactionResponse {
   DateTime get createdAt;
-  Map<String, Object> get custom;
+  Map<String, Object?> get custom;
   String get messageId;
   int get score;
   String get type;
@@ -76,7 +76,7 @@ abstract mixin class $ReactionResponseCopyWith<$Res> {
   @useResult
   $Res call(
       {DateTime createdAt,
-      Map<String, Object> custom,
+      Map<String, Object?> custom,
       String messageId,
       int score,
       String type,
@@ -115,7 +115,7 @@ class _$ReactionResponseCopyWithImpl<$Res>
       custom: null == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>,
+              as Map<String, Object?>,
       messageId: null == messageId
           ? _self.messageId
           : messageId // ignore: cast_nullable_to_non_nullable

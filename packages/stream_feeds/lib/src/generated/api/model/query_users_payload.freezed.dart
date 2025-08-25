@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$QueryUsersPayload {
-  Map<String, Object> get filterConditions;
+  Map<String, Object?> get filterConditions;
   bool? get includeDeactivatedUsers;
   int? get limit;
   int? get offset;
@@ -70,7 +70,7 @@ abstract mixin class $QueryUsersPayloadCopyWith<$Res> {
       _$QueryUsersPayloadCopyWithImpl;
   @useResult
   $Res call(
-      {Map<String, Object> filterConditions,
+      {Map<String, Object?> filterConditions,
       bool? includeDeactivatedUsers,
       int? limit,
       int? offset,
@@ -102,7 +102,7 @@ class _$QueryUsersPayloadCopyWithImpl<$Res>
       filterConditions: null == filterConditions
           ? _self.filterConditions
           : filterConditions // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>,
+              as Map<String, Object?>,
       includeDeactivatedUsers: freezed == includeDeactivatedUsers
           ? _self.includeDeactivatedUsers
           : includeDeactivatedUsers // ignore: cast_nullable_to_non_nullable

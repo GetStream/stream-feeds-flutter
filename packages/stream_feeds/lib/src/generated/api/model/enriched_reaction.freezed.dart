@@ -17,7 +17,7 @@ T _$identity<T>(T value) => value;
 mixin _$EnrichedReaction {
   String get activityId;
   Map<String, int>? get childrenCounts;
-  Map<String, Object>? get data;
+  Map<String, Object?>? get data;
   String? get id;
   String get kind;
   Map<String, List<EnrichedReaction>>? get latestChildren;
@@ -88,7 +88,7 @@ abstract mixin class $EnrichedReactionCopyWith<$Res> {
   $Res call(
       {String activityId,
       Map<String, int>? childrenCounts,
-      Map<String, Object>? data,
+      Map<String, Object?>? data,
       String? id,
       String kind,
       Map<String, List<EnrichedReaction>>? latestChildren,
@@ -136,7 +136,7 @@ class _$EnrichedReactionCopyWithImpl<$Res>
       data: freezed == data
           ? _self.data
           : data // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
       id: freezed == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable

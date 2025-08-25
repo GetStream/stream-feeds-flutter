@@ -16,8 +16,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AcceptFollowRequest {
   String? get followerRole;
-  String get sourceFid;
-  String get targetFid;
+  String get source;
+  String get target;
 
   /// Create a copy of AcceptFollowRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -34,19 +34,16 @@ mixin _$AcceptFollowRequest {
             other is AcceptFollowRequest &&
             (identical(other.followerRole, followerRole) ||
                 other.followerRole == followerRole) &&
-            (identical(other.sourceFid, sourceFid) ||
-                other.sourceFid == sourceFid) &&
-            (identical(other.targetFid, targetFid) ||
-                other.targetFid == targetFid));
+            (identical(other.source, source) || other.source == source) &&
+            (identical(other.target, target) || other.target == target));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, followerRole, sourceFid, targetFid);
+  int get hashCode => Object.hash(runtimeType, followerRole, source, target);
 
   @override
   String toString() {
-    return 'AcceptFollowRequest(followerRole: $followerRole, sourceFid: $sourceFid, targetFid: $targetFid)';
+    return 'AcceptFollowRequest(followerRole: $followerRole, source: $source, target: $target)';
   }
 }
 
@@ -56,7 +53,7 @@ abstract mixin class $AcceptFollowRequestCopyWith<$Res> {
           AcceptFollowRequest value, $Res Function(AcceptFollowRequest) _then) =
       _$AcceptFollowRequestCopyWithImpl;
   @useResult
-  $Res call({String? followerRole, String sourceFid, String targetFid});
+  $Res call({String? followerRole, String source, String target});
 }
 
 /// @nodoc
@@ -73,21 +70,21 @@ class _$AcceptFollowRequestCopyWithImpl<$Res>
   @override
   $Res call({
     Object? followerRole = freezed,
-    Object? sourceFid = null,
-    Object? targetFid = null,
+    Object? source = null,
+    Object? target = null,
   }) {
     return _then(AcceptFollowRequest(
       followerRole: freezed == followerRole
           ? _self.followerRole
           : followerRole // ignore: cast_nullable_to_non_nullable
               as String?,
-      sourceFid: null == sourceFid
-          ? _self.sourceFid
-          : sourceFid // ignore: cast_nullable_to_non_nullable
+      source: null == source
+          ? _self.source
+          : source // ignore: cast_nullable_to_non_nullable
               as String,
-      targetFid: null == targetFid
-          ? _self.targetFid
-          : targetFid // ignore: cast_nullable_to_non_nullable
+      target: null == target
+          ? _self.target
+          : target // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }

@@ -9,9 +9,7 @@ part of 'query_review_queue_request.dart';
 QueryReviewQueueRequest _$QueryReviewQueueRequestFromJson(
         Map<String, dynamic> json) =>
     QueryReviewQueueRequest(
-      filter: (json['filter'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      filter: json['filter'] as Map<String, dynamic>?,
       limit: (json['limit'] as num?)?.toInt(),
       lockCount: (json['lock_count'] as num?)?.toInt(),
       lockDuration: (json['lock_duration'] as num?)?.toInt(),

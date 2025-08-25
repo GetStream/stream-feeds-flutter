@@ -26,7 +26,7 @@ class QueryFeedMembersRequest with _$QueryFeedMembersRequest {
   });
 
   @override
-  final Map<String, Object>? filter;
+  final Map<String, Object?>? filter;
 
   @override
   final int? limit;

@@ -19,7 +19,7 @@ mixin _$User {
   DateTime? get banExpires;
   bool get banned;
   DateTime? get createdAt;
-  Map<String, Object> get custom;
+  Map<String, Object?> get custom;
   DateTime? get deactivatedAt;
   DateTime? get deletedAt;
   String get id;
@@ -121,7 +121,7 @@ abstract mixin class $UserCopyWith<$Res> {
       DateTime? banExpires,
       bool banned,
       DateTime? createdAt,
-      Map<String, Object> custom,
+      Map<String, Object?> custom,
       DateTime? deactivatedAt,
       DateTime? deletedAt,
       String id,
@@ -190,7 +190,7 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
       custom: null == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>,
+              as Map<String, Object?>,
       deactivatedAt: freezed == deactivatedAt
           ? _self.deactivatedAt
           : deactivatedAt // ignore: cast_nullable_to_non_nullable

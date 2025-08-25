@@ -16,9 +16,10 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$UpdateFollowRequest {
   bool? get createNotificationActivity;
-  Map<String, Object>? get custom;
+  Map<String, Object?>? get custom;
   String? get followerRole;
   UpdateFollowRequestPushPreference? get pushPreference;
+  bool? get skipPush;
   String get source;
   String get target;
 
@@ -44,6 +45,8 @@ mixin _$UpdateFollowRequest {
                 other.followerRole == followerRole) &&
             (identical(other.pushPreference, pushPreference) ||
                 other.pushPreference == pushPreference) &&
+            (identical(other.skipPush, skipPush) ||
+                other.skipPush == skipPush) &&
             (identical(other.source, source) || other.source == source) &&
             (identical(other.target, target) || other.target == target));
   }
@@ -55,12 +58,13 @@ mixin _$UpdateFollowRequest {
       const DeepCollectionEquality().hash(custom),
       followerRole,
       pushPreference,
+      skipPush,
       source,
       target);
 
   @override
   String toString() {
-    return 'UpdateFollowRequest(createNotificationActivity: $createNotificationActivity, custom: $custom, followerRole: $followerRole, pushPreference: $pushPreference, source: $source, target: $target)';
+    return 'UpdateFollowRequest(createNotificationActivity: $createNotificationActivity, custom: $custom, followerRole: $followerRole, pushPreference: $pushPreference, skipPush: $skipPush, source: $source, target: $target)';
   }
 }
 
@@ -72,9 +76,10 @@ abstract mixin class $UpdateFollowRequestCopyWith<$Res> {
   @useResult
   $Res call(
       {bool? createNotificationActivity,
-      Map<String, Object>? custom,
+      Map<String, Object?>? custom,
       String? followerRole,
       UpdateFollowRequestPushPreference? pushPreference,
+      bool? skipPush,
       String source,
       String target});
 }
@@ -96,6 +101,7 @@ class _$UpdateFollowRequestCopyWithImpl<$Res>
     Object? custom = freezed,
     Object? followerRole = freezed,
     Object? pushPreference = freezed,
+    Object? skipPush = freezed,
     Object? source = null,
     Object? target = null,
   }) {
@@ -107,7 +113,7 @@ class _$UpdateFollowRequestCopyWithImpl<$Res>
       custom: freezed == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
       followerRole: freezed == followerRole
           ? _self.followerRole
           : followerRole // ignore: cast_nullable_to_non_nullable
@@ -116,6 +122,10 @@ class _$UpdateFollowRequestCopyWithImpl<$Res>
           ? _self.pushPreference
           : pushPreference // ignore: cast_nullable_to_non_nullable
               as UpdateFollowRequestPushPreference?,
+      skipPush: freezed == skipPush
+          ? _self.skipPush
+          : skipPush // ignore: cast_nullable_to_non_nullable
+              as bool?,
       source: null == source
           ? _self.source
           : source // ignore: cast_nullable_to_non_nullable

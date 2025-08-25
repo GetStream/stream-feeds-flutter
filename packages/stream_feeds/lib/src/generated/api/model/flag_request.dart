@@ -27,7 +27,7 @@ class FlagRequest with _$FlagRequest {
   });
 
   @override
-  final Map<String, Object>? custom;
+  final Map<String, Object?>? custom;
 
   @override
   final String? entityCreatorId;

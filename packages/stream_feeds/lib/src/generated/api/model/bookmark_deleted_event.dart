@@ -34,7 +34,7 @@ class BookmarkDeletedEvent extends core.WsEvent with _$BookmarkDeletedEvent {
   final DateTime createdAt;
 
   @override
-  final Map<String, Object> custom;
+  final Map<String, Object?> custom;
 
   @override
   @EpochDateTimeConverter()

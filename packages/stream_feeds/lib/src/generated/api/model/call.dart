@@ -86,7 +86,7 @@ class Call with _$Call {
   final String currentSessionID;
 
   @override
-  final Map<String, Object> custom;
+  final Map<String, Object?> custom;
 
   @override
   @EpochDateTimeConverter()

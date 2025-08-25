@@ -18,15 +18,15 @@ part 'reject_follow_request.freezed.dart';
 @JsonSerializable()
 class RejectFollowRequest with _$RejectFollowRequest {
   const RejectFollowRequest({
-    required this.sourceFid,
-    required this.targetFid,
+    required this.source,
+    required this.target,
   });
 
   @override
-  final String sourceFid;
+  final String source;
 
   @override
-  final String targetFid;
+  final String target;
 
   Map<String, dynamic> toJson() => _$RejectFollowRequestToJson(this);
 

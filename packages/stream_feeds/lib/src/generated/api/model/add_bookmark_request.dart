@@ -24,7 +24,7 @@ class AddBookmarkRequest with _$AddBookmarkRequest {
   });
 
   @override
-  final Map<String, Object>? custom;
+  final Map<String, Object?>? custom;
 
   @override
   final String? folderId;

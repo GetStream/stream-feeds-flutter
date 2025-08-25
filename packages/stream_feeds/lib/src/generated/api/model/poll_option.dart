@@ -24,7 +24,7 @@ class PollOption with _$PollOption {
   });
 
   @override
-  final Map<String, Object> custom;
+  final Map<String, Object?> custom;
 
   @override
   final String id;

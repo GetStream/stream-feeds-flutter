@@ -22,7 +22,7 @@ class UpdateFeedRequest with _$UpdateFeedRequest {
   });
 
   @override
-  final Map<String, Object>? custom;
+  final Map<String, Object?>? custom;
 
   Map<String, dynamic> toJson() => _$UpdateFeedRequestToJson(this);
 

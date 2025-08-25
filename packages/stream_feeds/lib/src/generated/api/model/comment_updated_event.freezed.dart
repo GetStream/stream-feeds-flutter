@@ -17,7 +17,8 @@ T _$identity<T>(T value) => value;
 mixin _$CommentUpdatedEvent {
   CommentResponse get comment;
   DateTime get createdAt;
-  Map<String, Object> get custom;
+  Map<String, Object?> get custom;
+  String? get feedVisibility;
   String get fid;
   DateTime? get receivedAt;
   String get type;
@@ -36,10 +37,13 @@ mixin _$CommentUpdatedEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is CommentUpdatedEvent &&
+            super == other &&
             (identical(other.comment, comment) || other.comment == comment) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
+            (identical(other.feedVisibility, feedVisibility) ||
+                other.feedVisibility == feedVisibility) &&
             (identical(other.fid, fid) || other.fid == fid) &&
             (identical(other.receivedAt, receivedAt) ||
                 other.receivedAt == receivedAt) &&
@@ -48,12 +52,21 @@ mixin _$CommentUpdatedEvent {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, comment, createdAt,
-      const DeepCollectionEquality().hash(custom), fid, receivedAt, type, user);
+  int get hashCode => Object.hash(
+      runtimeType,
+      super.hashCode,
+      comment,
+      createdAt,
+      const DeepCollectionEquality().hash(custom),
+      feedVisibility,
+      fid,
+      receivedAt,
+      type,
+      user);
 
   @override
   String toString() {
-    return 'CommentUpdatedEvent(comment: $comment, createdAt: $createdAt, custom: $custom, fid: $fid, receivedAt: $receivedAt, type: $type, user: $user)';
+    return 'CommentUpdatedEvent(comment: $comment, createdAt: $createdAt, custom: $custom, feedVisibility: $feedVisibility, fid: $fid, receivedAt: $receivedAt, type: $type, user: $user)';
   }
 }
 
@@ -66,7 +79,8 @@ abstract mixin class $CommentUpdatedEventCopyWith<$Res> {
   $Res call(
       {CommentResponse comment,
       DateTime createdAt,
-      Map<String, Object> custom,
+      Map<String, Object?> custom,
+      String? feedVisibility,
       String fid,
       DateTime? receivedAt,
       String type,
@@ -89,6 +103,7 @@ class _$CommentUpdatedEventCopyWithImpl<$Res>
     Object? comment = null,
     Object? createdAt = null,
     Object? custom = null,
+    Object? feedVisibility = freezed,
     Object? fid = null,
     Object? receivedAt = freezed,
     Object? type = null,
@@ -106,7 +121,11 @@ class _$CommentUpdatedEventCopyWithImpl<$Res>
       custom: null == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>,
+              as Map<String, Object?>,
+      feedVisibility: freezed == feedVisibility
+          ? _self.feedVisibility
+          : feedVisibility // ignore: cast_nullable_to_non_nullable
+              as String?,
       fid: null == fid
           ? _self.fid
           : fid // ignore: cast_nullable_to_non_nullable

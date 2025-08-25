@@ -23,7 +23,7 @@ class FeedResponse with _$FeedResponse {
     this.custom,
     this.deletedAt,
     required this.description,
-    required this.fid,
+    required this.feed,
     this.filterTags,
     required this.followerCount,
     required this.followingCount,
@@ -45,7 +45,7 @@ class FeedResponse with _$FeedResponse {
   final UserResponse createdBy;
 
   @override
-  final Map<String, Object>? custom;
+  final Map<String, Object?>? custom;
 
   @override
   @EpochDateTimeConverter()
@@ -55,7 +55,7 @@ class FeedResponse with _$FeedResponse {
   final String description;
 
   @override
-  final String fid;
+  final String feed;
 
   @override
   final List<String>? filterTags;

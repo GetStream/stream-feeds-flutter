@@ -20,6 +20,7 @@ class PollClosedFeedEvent extends core.WsEvent with _$PollClosedFeedEvent {
   const PollClosedFeedEvent({
     required this.createdAt,
     required this.custom,
+    this.feedVisibility,
     required this.fid,
     required this.poll,
     this.receivedAt,
@@ -31,7 +32,10 @@ class PollClosedFeedEvent extends core.WsEvent with _$PollClosedFeedEvent {
   final DateTime createdAt;
 
   @override
-  final Map<String, Object> custom;
+  final Map<String, Object?> custom;
+
+  @override
+  final String? feedVisibility;
 
   @override
   final String fid;

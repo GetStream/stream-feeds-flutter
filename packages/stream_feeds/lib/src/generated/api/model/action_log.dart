@@ -36,7 +36,7 @@ class ActionLog with _$ActionLog {
   final DateTime createdAt;
 
   @override
-  final Map<String, Object> custom;
+  final Map<String, Object?> custom;
 
   @override
   final String id;

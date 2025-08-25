@@ -63,6 +63,7 @@ class ChannelConfig with _$ChannelConfig {
     this.blocklists,
     required this.commands,
     required this.connectEvents,
+    required this.countMessages,
     required this.createdAt,
     required this.customEvents,
     required this.markMessagesPending,
@@ -117,6 +118,9 @@ class ChannelConfig with _$ChannelConfig {
 
   @override
   final bool connectEvents;
+
+  @override
+  final bool countMessages;
 
   @override
   @EpochDateTimeConverter()

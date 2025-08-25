@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$UpdateFeedRequest {
-  Map<String, Object>? get custom;
+  Map<String, Object?>? get custom;
 
   /// Create a copy of UpdateFeedRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -49,7 +49,7 @@ abstract mixin class $UpdateFeedRequestCopyWith<$Res> {
           UpdateFeedRequest value, $Res Function(UpdateFeedRequest) _then) =
       _$UpdateFeedRequestCopyWithImpl;
   @useResult
-  $Res call({Map<String, Object>? custom});
+  $Res call({Map<String, Object?>? custom});
 }
 
 /// @nodoc
@@ -71,7 +71,7 @@ class _$UpdateFeedRequestCopyWithImpl<$Res>
       custom: freezed == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
     ));
   }
 }

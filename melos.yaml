@@ -21,6 +21,7 @@ command:
       auto_route: ^10.0.0
       cached_network_image: ^3.4.1
       collection: ^1.18.0
+      dio: ^5.9.0
       equatable: ^2.0.5
       flutter_state_notifier: ^1.0.0
       freezed_annotation: ^3.0.0
@@ -29,6 +30,7 @@ command:
       intl: ">=0.18.1 <=0.21.0"
       json_annotation: ^4.9.0
       meta: ^1.9.1
+      retrofit: ^4.6.0
       rxdart: ^0.28.0
       shared_preferences: ^2.5.3
       state_notifier: ^1.0.0
@@ -44,6 +46,7 @@ command:
       freezed: ^3.0.0
       json_serializable: ^6.9.5
       mocktail: ^1.0.4
+      retrofit_generator: ^9.6.0
       test: ^1.26.3
 
 scripts:

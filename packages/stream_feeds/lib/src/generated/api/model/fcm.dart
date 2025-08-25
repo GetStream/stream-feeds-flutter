@@ -22,7 +22,7 @@ class FCM with _$FCM {
   });
 
   @override
-  final Map<String, Object>? data;
+  final Map<String, Object?>? data;
 
   Map<String, dynamic> toJson() => _$FCMToJson(this);
 

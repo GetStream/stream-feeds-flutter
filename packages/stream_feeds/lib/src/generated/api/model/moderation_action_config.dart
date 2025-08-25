@@ -30,7 +30,7 @@ class ModerationActionConfig with _$ModerationActionConfig {
   final String action;
 
   @override
-  final Map<String, Object> custom;
+  final Map<String, Object?> custom;
 
   @override
   final String description;

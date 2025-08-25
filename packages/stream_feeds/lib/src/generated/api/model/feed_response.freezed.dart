@@ -17,10 +17,10 @@ T _$identity<T>(T value) => value;
 mixin _$FeedResponse {
   DateTime get createdAt;
   UserResponse get createdBy;
-  Map<String, Object>? get custom;
+  Map<String, Object?>? get custom;
   DateTime? get deletedAt;
   String get description;
-  String get fid;
+  String get feed;
   List<String>? get filterTags;
   int get followerCount;
   int get followingCount;
@@ -55,7 +55,7 @@ mixin _$FeedResponse {
                 other.deletedAt == deletedAt) &&
             (identical(other.description, description) ||
                 other.description == description) &&
-            (identical(other.fid, fid) || other.fid == fid) &&
+            (identical(other.feed, feed) || other.feed == feed) &&
             const DeepCollectionEquality()
                 .equals(other.filterTags, filterTags) &&
             (identical(other.followerCount, followerCount) ||
@@ -85,7 +85,7 @@ mixin _$FeedResponse {
       const DeepCollectionEquality().hash(custom),
       deletedAt,
       description,
-      fid,
+      feed,
       const DeepCollectionEquality().hash(filterTags),
       followerCount,
       followingCount,
@@ -100,7 +100,7 @@ mixin _$FeedResponse {
 
   @override
   String toString() {
-    return 'FeedResponse(createdAt: $createdAt, createdBy: $createdBy, custom: $custom, deletedAt: $deletedAt, description: $description, fid: $fid, filterTags: $filterTags, followerCount: $followerCount, followingCount: $followingCount, groupId: $groupId, id: $id, memberCount: $memberCount, name: $name, ownFollows: $ownFollows, pinCount: $pinCount, updatedAt: $updatedAt, visibility: $visibility)';
+    return 'FeedResponse(createdAt: $createdAt, createdBy: $createdBy, custom: $custom, deletedAt: $deletedAt, description: $description, feed: $feed, filterTags: $filterTags, followerCount: $followerCount, followingCount: $followingCount, groupId: $groupId, id: $id, memberCount: $memberCount, name: $name, ownFollows: $ownFollows, pinCount: $pinCount, updatedAt: $updatedAt, visibility: $visibility)';
   }
 }
 
@@ -113,10 +113,10 @@ abstract mixin class $FeedResponseCopyWith<$Res> {
   $Res call(
       {DateTime createdAt,
       UserResponse createdBy,
-      Map<String, Object>? custom,
+      Map<String, Object?>? custom,
       DateTime? deletedAt,
       String description,
-      String fid,
+      String feed,
       List<String>? filterTags,
       int followerCount,
       int followingCount,
@@ -147,7 +147,7 @@ class _$FeedResponseCopyWithImpl<$Res> implements $FeedResponseCopyWith<$Res> {
     Object? custom = freezed,
     Object? deletedAt = freezed,
     Object? description = null,
-    Object? fid = null,
+    Object? feed = null,
     Object? filterTags = freezed,
     Object? followerCount = null,
     Object? followingCount = null,
@@ -172,7 +172,7 @@ class _$FeedResponseCopyWithImpl<$Res> implements $FeedResponseCopyWith<$Res> {
       custom: freezed == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
       deletedAt: freezed == deletedAt
           ? _self.deletedAt
           : deletedAt // ignore: cast_nullable_to_non_nullable
@@ -181,9 +181,9 @@ class _$FeedResponseCopyWithImpl<$Res> implements $FeedResponseCopyWith<$Res> {
           ? _self.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      fid: null == fid
-          ? _self.fid
-          : fid // ignore: cast_nullable_to_non_nullable
+      feed: null == feed
+          ? _self.feed
+          : feed // ignore: cast_nullable_to_non_nullable
               as String,
       filterTags: freezed == filterTags
           ? _self.filterTags

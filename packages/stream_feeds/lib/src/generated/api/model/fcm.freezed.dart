@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$FCM {
-  Map<String, Object>? get data;
+  Map<String, Object?>? get data;
 
   /// Create a copy of FCM
   /// with the given fields replaced by the non-null parameter values.
@@ -46,7 +46,7 @@ mixin _$FCM {
 abstract mixin class $FCMCopyWith<$Res> {
   factory $FCMCopyWith(FCM value, $Res Function(FCM) _then) = _$FCMCopyWithImpl;
   @useResult
-  $Res call({Map<String, Object>? data});
+  $Res call({Map<String, Object?>? data});
 }
 
 /// @nodoc
@@ -67,7 +67,7 @@ class _$FCMCopyWithImpl<$Res> implements $FCMCopyWith<$Res> {
       data: freezed == data
           ? _self.data
           : data // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
     ));
   }
 }

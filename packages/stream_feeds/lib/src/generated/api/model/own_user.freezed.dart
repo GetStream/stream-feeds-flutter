@@ -20,7 +20,7 @@ mixin _$OwnUser {
   List<String>? get blockedUserIds;
   List<ChannelMute> get channelMutes;
   DateTime get createdAt;
-  Map<String, Object> get custom;
+  Map<String, Object?> get custom;
   DateTime? get deactivatedAt;
   DateTime? get deletedAt;
   List<Device> get devices;
@@ -155,7 +155,7 @@ abstract mixin class $OwnUserCopyWith<$Res> {
       List<String>? blockedUserIds,
       List<ChannelMute> channelMutes,
       DateTime createdAt,
-      Map<String, Object> custom,
+      Map<String, Object?> custom,
       DateTime? deactivatedAt,
       DateTime? deletedAt,
       List<Device> devices,
@@ -245,7 +245,7 @@ class _$OwnUserCopyWithImpl<$Res> implements $OwnUserCopyWith<$Res> {
       custom: null == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>,
+              as Map<String, Object?>,
       deactivatedAt: freezed == deactivatedAt
           ? _self.deactivatedAt
           : deactivatedAt // ignore: cast_nullable_to_non_nullable

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$FlagRequest {
-  Map<String, Object>? get custom;
+  Map<String, Object?>? get custom;
   String? get entityCreatorId;
   String get entityId;
   String get entityType;
@@ -69,7 +69,7 @@ abstract mixin class $FlagRequestCopyWith<$Res> {
       _$FlagRequestCopyWithImpl;
   @useResult
   $Res call(
-      {Map<String, Object>? custom,
+      {Map<String, Object?>? custom,
       String? entityCreatorId,
       String entityId,
       String entityType,
@@ -100,7 +100,7 @@ class _$FlagRequestCopyWithImpl<$Res> implements $FlagRequestCopyWith<$Res> {
       custom: freezed == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
       entityCreatorId: freezed == entityCreatorId
           ? _self.entityCreatorId
           : entityCreatorId // ignore: cast_nullable_to_non_nullable

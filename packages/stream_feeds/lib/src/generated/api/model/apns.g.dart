@@ -9,9 +9,7 @@ part of 'apns.dart';
 APNS _$APNSFromJson(Map<String, dynamic> json) => APNS(
       body: json['body'] as String,
       contentAvailable: (json['content_available'] as num?)?.toInt(),
-      data: (json['data'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      data: json['data'] as Map<String, dynamic>?,
       mutableContent: (json['mutable_content'] as num?)?.toInt(),
       sound: json['sound'] as String?,
       title: json['title'] as String,

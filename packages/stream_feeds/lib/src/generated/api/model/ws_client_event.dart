@@ -100,7 +100,6 @@ abstract class WSClientEvent<T extends core.WsEvent> {
         _PollVoteChangedFeedEvent(PollVoteChangedFeedEvent.fromJson(json)),
       "feeds.poll.vote_removed" =>
         _PollVoteRemovedFeedEvent(PollVoteRemovedFeedEvent.fromJson(json)),
-      "health.check" => _HealthCheckEvent(HealthCheckEvent.fromJson(json)),
       "user.updated" => _UserUpdatedEvent(UserUpdatedEvent.fromJson(json)),
       _ => _UnknownWSClientEvent(UnknownWSClientEvent(eventType, json)),
     };
@@ -394,13 +393,6 @@ class _PollVoteChangedFeedEvent
 class _PollVoteRemovedFeedEvent
     extends WSClientEvent<PollVoteRemovedFeedEvent> {
   const _PollVoteRemovedFeedEvent(super.wrapped);
-
-  @override
-  String get type => wrapped.type;
-}
-
-class _HealthCheckEvent extends WSClientEvent<HealthCheckEvent> {
-  const _HealthCheckEvent(super.wrapped);
 
   @override
   String get type => wrapped.type;

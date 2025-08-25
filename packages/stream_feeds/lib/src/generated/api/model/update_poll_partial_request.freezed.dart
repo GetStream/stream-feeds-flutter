@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$UpdatePollPartialRequest {
-  Map<String, Object>? get set;
+  Map<String, Object?>? get set;
   List<String>? get unset;
 
   /// Create a copy of UpdatePollPartialRequest
@@ -53,7 +53,7 @@ abstract mixin class $UpdatePollPartialRequestCopyWith<$Res> {
           $Res Function(UpdatePollPartialRequest) _then) =
       _$UpdatePollPartialRequestCopyWithImpl;
   @useResult
-  $Res call({Map<String, Object>? set, List<String>? unset});
+  $Res call({Map<String, Object?>? set, List<String>? unset});
 }
 
 /// @nodoc
@@ -76,7 +76,7 @@ class _$UpdatePollPartialRequestCopyWithImpl<$Res>
       set: freezed == set
           ? _self.set
           : set // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
       unset: freezed == unset
           ? _self.unset
           : unset // ignore: cast_nullable_to_non_nullable

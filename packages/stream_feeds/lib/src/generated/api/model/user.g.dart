@@ -13,9 +13,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       banned: json['banned'] as bool,
       createdAt: _$JsonConverterFromJson<int, DateTime>(
           json['created_at'], const EpochDateTimeConverter().fromJson),
-      custom: (json['custom'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>,
       deactivatedAt: _$JsonConverterFromJson<int, DateTime>(
           json['deactivated_at'], const EpochDateTimeConverter().fromJson),
       deletedAt: _$JsonConverterFromJson<int, DateTime>(

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$ModerationPayload {
-  Map<String, Object>? get custom;
+  Map<String, Object?>? get custom;
   List<String>? get images;
   List<String>? get texts;
   List<String>? get videos;
@@ -60,7 +60,7 @@ abstract mixin class $ModerationPayloadCopyWith<$Res> {
       _$ModerationPayloadCopyWithImpl;
   @useResult
   $Res call(
-      {Map<String, Object>? custom,
+      {Map<String, Object?>? custom,
       List<String>? images,
       List<String>? texts,
       List<String>? videos});
@@ -88,7 +88,7 @@ class _$ModerationPayloadCopyWithImpl<$Res>
       custom: freezed == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
       images: freezed == images
           ? _self.images
           : images // ignore: cast_nullable_to_non_nullable

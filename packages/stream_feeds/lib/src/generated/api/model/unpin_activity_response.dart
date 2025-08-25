@@ -20,7 +20,7 @@ class UnpinActivityResponse with _$UnpinActivityResponse {
   const UnpinActivityResponse({
     required this.activity,
     required this.duration,
-    required this.fid,
+    required this.feed,
     required this.userId,
   });
 
@@ -31,7 +31,7 @@ class UnpinActivityResponse with _$UnpinActivityResponse {
   final String duration;
 
   @override
-  final String fid;
+  final String feed;
 
   @override
   final String userId;

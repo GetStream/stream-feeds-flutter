@@ -16,9 +16,7 @@ ThreadedCommentResponse _$ThreadedCommentResponseFromJson(
       controversyScore: (json['controversy_score'] as num?)?.toDouble(),
       createdAt: const EpochDateTimeConverter()
           .fromJson((json['created_at'] as num).toInt()),
-      custom: (json['custom'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>?,
       deletedAt: _$JsonConverterFromJson<int, DateTime>(
           json['deleted_at'], const EpochDateTimeConverter().fromJson),
       downvoteCount: (json['downvote_count'] as num).toInt(),

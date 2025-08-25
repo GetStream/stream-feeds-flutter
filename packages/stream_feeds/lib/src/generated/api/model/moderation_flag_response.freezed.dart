@@ -15,19 +15,19 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$ModerationFlagResponse {
-  String get createdAt;
-  Map<String, Object>? get custom;
+  DateTime get createdAt;
+  Map<String, Object?>? get custom;
   String? get entityCreatorId;
   String get entityId;
   String get entityType;
   List<String>? get labels;
   ModerationPayload? get moderationPayload;
   String? get reason;
-  List<Map<String, Object>> get result;
+  List<Map<String, Object?>> get result;
   ReviewQueueItemResponse? get reviewQueueItem;
   String? get reviewQueueItemId;
   String get type;
-  String get updatedAt;
+  DateTime get updatedAt;
   UserResponse? get user;
   String get userId;
 
@@ -101,19 +101,19 @@ abstract mixin class $ModerationFlagResponseCopyWith<$Res> {
       _$ModerationFlagResponseCopyWithImpl;
   @useResult
   $Res call(
-      {String createdAt,
-      Map<String, Object>? custom,
+      {DateTime createdAt,
+      Map<String, Object?>? custom,
       String? entityCreatorId,
       String entityId,
       String entityType,
       List<String>? labels,
       ModerationPayload? moderationPayload,
       String? reason,
-      List<Map<String, Object>> result,
+      List<Map<String, Object?>> result,
       ReviewQueueItemResponse? reviewQueueItem,
       String? reviewQueueItemId,
       String type,
-      String updatedAt,
+      DateTime updatedAt,
       UserResponse? user,
       String userId});
 }
@@ -151,11 +151,11 @@ class _$ModerationFlagResponseCopyWithImpl<$Res>
       createdAt: null == createdAt
           ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime,
       custom: freezed == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
       entityCreatorId: freezed == entityCreatorId
           ? _self.entityCreatorId
           : entityCreatorId // ignore: cast_nullable_to_non_nullable
@@ -183,7 +183,7 @@ class _$ModerationFlagResponseCopyWithImpl<$Res>
       result: null == result
           ? _self.result
           : result // ignore: cast_nullable_to_non_nullable
-              as List<Map<String, Object>>,
+              as List<Map<String, Object?>>,
       reviewQueueItem: freezed == reviewQueueItem
           ? _self.reviewQueueItem
           : reviewQueueItem // ignore: cast_nullable_to_non_nullable
@@ -199,7 +199,7 @@ class _$ModerationFlagResponseCopyWithImpl<$Res>
       updatedAt: null == updatedAt
           ? _self.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime,
       user: freezed == user
           ? _self.user
           : user // ignore: cast_nullable_to_non_nullable

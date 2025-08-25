@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Flag {
   DateTime get createdAt;
-  Map<String, Object>? get custom;
+  Map<String, Object?>? get custom;
   String? get entityCreatorId;
   String get entityId;
   String get entityType;
@@ -25,7 +25,7 @@ mixin _$Flag {
   ModerationPayload? get moderationPayload;
   String? get moderationPayloadHash;
   String? get reason;
-  List<Map<String, Object>> get result;
+  List<Map<String, Object?>> get result;
   ReviewQueueItem? get reviewQueueItem;
   String? get reviewQueueItemId;
   String? get type;
@@ -105,7 +105,7 @@ abstract mixin class $FlagCopyWith<$Res> {
   @useResult
   $Res call(
       {DateTime createdAt,
-      Map<String, Object>? custom,
+      Map<String, Object?>? custom,
       String? entityCreatorId,
       String entityId,
       String entityType,
@@ -114,7 +114,7 @@ abstract mixin class $FlagCopyWith<$Res> {
       ModerationPayload? moderationPayload,
       String? moderationPayloadHash,
       String? reason,
-      List<Map<String, Object>> result,
+      List<Map<String, Object?>> result,
       ReviewQueueItem? reviewQueueItem,
       String? reviewQueueItemId,
       String? type,
@@ -159,7 +159,7 @@ class _$FlagCopyWithImpl<$Res> implements $FlagCopyWith<$Res> {
       custom: freezed == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
       entityCreatorId: freezed == entityCreatorId
           ? _self.entityCreatorId
           : entityCreatorId // ignore: cast_nullable_to_non_nullable
@@ -195,7 +195,7 @@ class _$FlagCopyWithImpl<$Res> implements $FlagCopyWith<$Res> {
       result: null == result
           ? _self.result
           : result // ignore: cast_nullable_to_non_nullable
-              as List<Map<String, Object>>,
+              as List<Map<String, Object?>>,
       reviewQueueItem: freezed == reviewQueueItem
           ? _self.reviewQueueItem
           : reviewQueueItem // ignore: cast_nullable_to_non_nullable

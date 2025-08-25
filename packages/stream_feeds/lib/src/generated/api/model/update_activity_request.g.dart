@@ -12,9 +12,7 @@ UpdateActivityRequest _$UpdateActivityRequestFromJson(
       attachments: (json['attachments'] as List<dynamic>?)
           ?.map((e) => Attachment.fromJson(e as Map<String, dynamic>))
           .toList(),
-      custom: (json['custom'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>?,
       expiresAt: _$JsonConverterFromJson<int, DateTime>(
           json['expires_at'], const EpochDateTimeConverter().fromJson),
       filterTags: (json['filter_tags'] as List<dynamic>?)

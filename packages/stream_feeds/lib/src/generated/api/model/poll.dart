@@ -61,7 +61,7 @@ class Poll with _$Poll {
   final String createdById;
 
   @override
-  final Map<String, Object> custom;
+  final Map<String, Object?> custom;
 
   @override
   final String description;

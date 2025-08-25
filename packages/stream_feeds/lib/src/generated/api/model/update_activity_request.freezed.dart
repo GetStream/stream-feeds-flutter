@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$UpdateActivityRequest {
   List<Attachment>? get attachments;
-  Map<String, Object>? get custom;
+  Map<String, Object?>? get custom;
   DateTime? get expiresAt;
   List<String>? get filterTags;
   List<String>? get interestTags;
@@ -82,7 +82,7 @@ abstract mixin class $UpdateActivityRequestCopyWith<$Res> {
   @useResult
   $Res call(
       {List<Attachment>? attachments,
-      Map<String, Object>? custom,
+      Map<String, Object?>? custom,
       DateTime? expiresAt,
       List<String>? filterTags,
       List<String>? interestTags,
@@ -123,7 +123,7 @@ class _$UpdateActivityRequestCopyWithImpl<$Res>
       custom: freezed == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
       expiresAt: freezed == expiresAt
           ? _self.expiresAt
           : expiresAt // ignore: cast_nullable_to_non_nullable

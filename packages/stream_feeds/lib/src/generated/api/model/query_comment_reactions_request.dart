@@ -26,7 +26,7 @@ class QueryCommentReactionsRequest with _$QueryCommentReactionsRequest {
   });
 
   @override
-  final Map<String, Object>? filter;
+  final Map<String, Object?>? filter;
 
   @override
   final int? limit;

@@ -21,7 +21,7 @@ class PinActivityResponse with _$PinActivityResponse {
     required this.activity,
     required this.createdAt,
     required this.duration,
-    required this.fid,
+    required this.feed,
     required this.userId,
   });
 
@@ -36,7 +36,7 @@ class PinActivityResponse with _$PinActivityResponse {
   final String duration;
 
   @override
-  final String fid;
+  final String feed;
 
   @override
   final String userId;

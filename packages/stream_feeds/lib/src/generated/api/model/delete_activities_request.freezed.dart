@@ -15,8 +15,8 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$DeleteActivitiesRequest {
-  List<String> get activityIds;
   bool? get hardDelete;
+  List<String> get ids;
 
   /// Create a copy of DeleteActivitiesRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -31,19 +31,18 @@ mixin _$DeleteActivitiesRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is DeleteActivitiesRequest &&
-            const DeepCollectionEquality()
-                .equals(other.activityIds, activityIds) &&
             (identical(other.hardDelete, hardDelete) ||
-                other.hardDelete == hardDelete));
+                other.hardDelete == hardDelete) &&
+            const DeepCollectionEquality().equals(other.ids, ids));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(activityIds), hardDelete);
+  int get hashCode => Object.hash(
+      runtimeType, hardDelete, const DeepCollectionEquality().hash(ids));
 
   @override
   String toString() {
-    return 'DeleteActivitiesRequest(activityIds: $activityIds, hardDelete: $hardDelete)';
+    return 'DeleteActivitiesRequest(hardDelete: $hardDelete, ids: $ids)';
   }
 }
 
@@ -53,7 +52,7 @@ abstract mixin class $DeleteActivitiesRequestCopyWith<$Res> {
           $Res Function(DeleteActivitiesRequest) _then) =
       _$DeleteActivitiesRequestCopyWithImpl;
   @useResult
-  $Res call({List<String> activityIds, bool? hardDelete});
+  $Res call({bool? hardDelete, List<String> ids});
 }
 
 /// @nodoc
@@ -69,18 +68,18 @@ class _$DeleteActivitiesRequestCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? activityIds = null,
     Object? hardDelete = freezed,
+    Object? ids = null,
   }) {
     return _then(DeleteActivitiesRequest(
-      activityIds: null == activityIds
-          ? _self.activityIds
-          : activityIds // ignore: cast_nullable_to_non_nullable
-              as List<String>,
       hardDelete: freezed == hardDelete
           ? _self.hardDelete
           : hardDelete // ignore: cast_nullable_to_non_nullable
               as bool?,
+      ids: null == ids
+          ? _self.ids
+          : ids // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }

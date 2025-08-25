@@ -16,11 +16,12 @@ ChannelMember _$ChannelMemberFromJson(Map<String, dynamic> json) =>
       channelRole: json['channel_role'] as String,
       createdAt: const EpochDateTimeConverter()
           .fromJson((json['created_at'] as num).toInt()),
-      custom: (json['custom'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>,
       deletedAt: _$JsonConverterFromJson<int, DateTime>(
           json['deleted_at'], const EpochDateTimeConverter().fromJson),
+      deletedMessages: (json['deleted_messages'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       inviteAcceptedAt: _$JsonConverterFromJson<int, DateTime>(
           json['invite_accepted_at'], const EpochDateTimeConverter().fromJson),
       inviteRejectedAt: _$JsonConverterFromJson<int, DateTime>(
@@ -54,6 +55,7 @@ Map<String, dynamic> _$ChannelMemberToJson(ChannelMember instance) =>
       'custom': instance.custom,
       'deleted_at': _$JsonConverterToJson<int, DateTime>(
           instance.deletedAt, const EpochDateTimeConverter().toJson),
+      'deleted_messages': instance.deletedMessages,
       'invite_accepted_at': _$JsonConverterToJson<int, DateTime>(
           instance.inviteAcceptedAt, const EpochDateTimeConverter().toJson),
       'invite_rejected_at': _$JsonConverterToJson<int, DateTime>(

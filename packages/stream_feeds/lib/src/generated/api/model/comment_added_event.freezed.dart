@@ -15,9 +15,11 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$CommentAddedEvent {
+  ActivityResponse get activity;
   CommentResponse get comment;
   DateTime get createdAt;
-  Map<String, Object> get custom;
+  Map<String, Object?> get custom;
+  String? get feedVisibility;
   String get fid;
   DateTime? get receivedAt;
   String get type;
@@ -36,10 +38,15 @@ mixin _$CommentAddedEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is CommentAddedEvent &&
+            super == other &&
+            (identical(other.activity, activity) ||
+                other.activity == activity) &&
             (identical(other.comment, comment) || other.comment == comment) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
+            (identical(other.feedVisibility, feedVisibility) ||
+                other.feedVisibility == feedVisibility) &&
             (identical(other.fid, fid) || other.fid == fid) &&
             (identical(other.receivedAt, receivedAt) ||
                 other.receivedAt == receivedAt) &&
@@ -48,12 +55,22 @@ mixin _$CommentAddedEvent {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, comment, createdAt,
-      const DeepCollectionEquality().hash(custom), fid, receivedAt, type, user);
+  int get hashCode => Object.hash(
+      runtimeType,
+      super.hashCode,
+      activity,
+      comment,
+      createdAt,
+      const DeepCollectionEquality().hash(custom),
+      feedVisibility,
+      fid,
+      receivedAt,
+      type,
+      user);
 
   @override
   String toString() {
-    return 'CommentAddedEvent(comment: $comment, createdAt: $createdAt, custom: $custom, fid: $fid, receivedAt: $receivedAt, type: $type, user: $user)';
+    return 'CommentAddedEvent(activity: $activity, comment: $comment, createdAt: $createdAt, custom: $custom, feedVisibility: $feedVisibility, fid: $fid, receivedAt: $receivedAt, type: $type, user: $user)';
   }
 }
 
@@ -64,9 +81,11 @@ abstract mixin class $CommentAddedEventCopyWith<$Res> {
       _$CommentAddedEventCopyWithImpl;
   @useResult
   $Res call(
-      {CommentResponse comment,
+      {ActivityResponse activity,
+      CommentResponse comment,
       DateTime createdAt,
-      Map<String, Object> custom,
+      Map<String, Object?> custom,
+      String? feedVisibility,
       String fid,
       DateTime? receivedAt,
       String type,
@@ -86,15 +105,21 @@ class _$CommentAddedEventCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? activity = null,
     Object? comment = null,
     Object? createdAt = null,
     Object? custom = null,
+    Object? feedVisibility = freezed,
     Object? fid = null,
     Object? receivedAt = freezed,
     Object? type = null,
     Object? user = freezed,
   }) {
     return _then(CommentAddedEvent(
+      activity: null == activity
+          ? _self.activity
+          : activity // ignore: cast_nullable_to_non_nullable
+              as ActivityResponse,
       comment: null == comment
           ? _self.comment
           : comment // ignore: cast_nullable_to_non_nullable
@@ -106,7 +131,11 @@ class _$CommentAddedEventCopyWithImpl<$Res>
       custom: null == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>,
+              as Map<String, Object?>,
+      feedVisibility: freezed == feedVisibility
+          ? _self.feedVisibility
+          : feedVisibility // ignore: cast_nullable_to_non_nullable
+              as String?,
       fid: null == fid
           ? _self.fid
           : fid // ignore: cast_nullable_to_non_nullable

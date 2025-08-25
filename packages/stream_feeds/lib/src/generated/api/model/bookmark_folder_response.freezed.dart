@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$BookmarkFolderResponse {
   DateTime get createdAt;
-  Map<String, Object>? get custom;
+  Map<String, Object?>? get custom;
   String get id;
   String get name;
   DateTime get updatedAt;
@@ -61,7 +61,7 @@ abstract mixin class $BookmarkFolderResponseCopyWith<$Res> {
   @useResult
   $Res call(
       {DateTime createdAt,
-      Map<String, Object>? custom,
+      Map<String, Object?>? custom,
       String id,
       String name,
       DateTime updatedAt});
@@ -94,7 +94,7 @@ class _$BookmarkFolderResponseCopyWithImpl<$Res>
       custom: freezed == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
       id: null == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable

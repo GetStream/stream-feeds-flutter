@@ -27,9 +27,7 @@ Call _$CallFromJson(Map<String, dynamic> json) => Call(
           : User.fromJson(json['created_by'] as Map<String, dynamic>),
       createdByUserID: json['created_by_user_i_d'] as String,
       currentSessionID: json['current_session_i_d'] as String,
-      custom: (json['custom'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>,
       deletedAt: _$JsonConverterFromJson<int, DateTime>(
           json['deleted_at'], const EpochDateTimeConverter().fromJson),
       egressUpdatedAt: _$JsonConverterFromJson<int, DateTime>(

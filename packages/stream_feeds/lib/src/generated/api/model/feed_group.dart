@@ -18,18 +18,35 @@ part 'feed_group.freezed.dart';
 @JsonSerializable()
 class FeedGroup with _$FeedGroup {
   const FeedGroup({
+    required this.activityProcessors,
+    required this.activitySelectors,
+    this.aggregation,
+    required this.aggregationVersion,
     required this.appPK,
     required this.createdAt,
     required this.custom,
-    required this.defaultViewID,
     required this.defaultVisibility,
     this.deletedAt,
     required this.iD,
     this.lastFeedGetAt,
     this.notification,
+    this.pushNotification,
+    this.ranking,
     this.stories,
     required this.updatedAt,
   });
+
+  @override
+  final List<ActivityProcessorConfig> activityProcessors;
+
+  @override
+  final List<ActivitySelectorConfig> activitySelectors;
+
+  @override
+  final AggregationConfig? aggregation;
+
+  @override
+  final int aggregationVersion;
 
   @override
   final int appPK;
@@ -39,10 +56,7 @@ class FeedGroup with _$FeedGroup {
   final DateTime createdAt;
 
   @override
-  final Map<String, Object> custom;
-
-  @override
-  final String defaultViewID;
+  final Map<String, Object?> custom;
 
   @override
   final String defaultVisibility;
@@ -60,6 +74,12 @@ class FeedGroup with _$FeedGroup {
 
   @override
   final NotificationConfig? notification;
+
+  @override
+  final PushNotificationConfig? pushNotification;
+
+  @override
+  final RankingConfig? ranking;
 
   @override
   final StoriesConfig? stories;

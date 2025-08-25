@@ -12,3 +12,11 @@ targets:
           equal: true
           copy_with: true
           to_string_override: true
+
+global_options:
+  freezed:
+    runs_before:
+      - json_serializable
+  json_serializable:
+    runs_before:
+      - retrofit_generator

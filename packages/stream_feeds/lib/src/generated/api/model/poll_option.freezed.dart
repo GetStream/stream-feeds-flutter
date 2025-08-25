@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$PollOption {
-  Map<String, Object> get custom;
+  Map<String, Object?> get custom;
   String get id;
   String get text;
 
@@ -52,7 +52,7 @@ abstract mixin class $PollOptionCopyWith<$Res> {
           PollOption value, $Res Function(PollOption) _then) =
       _$PollOptionCopyWithImpl;
   @useResult
-  $Res call({Map<String, Object> custom, String id, String text});
+  $Res call({Map<String, Object?> custom, String id, String text});
 }
 
 /// @nodoc
@@ -75,7 +75,7 @@ class _$PollOptionCopyWithImpl<$Res> implements $PollOptionCopyWith<$Res> {
       custom: null == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>,
+              as Map<String, Object?>,
       id: null == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable

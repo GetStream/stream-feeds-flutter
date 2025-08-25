@@ -21,7 +21,7 @@ mixin _$Attachment {
   String? get authorLink;
   String? get authorName;
   String? get color;
-  Map<String, Object> get custom;
+  Map<String, Object?> get custom;
   String? get fallback;
   List<Field>? get fields;
   String? get footer;
@@ -132,7 +132,7 @@ abstract mixin class $AttachmentCopyWith<$Res> {
       String? authorLink,
       String? authorName,
       String? color,
-      Map<String, Object> custom,
+      Map<String, Object?> custom,
       String? fallback,
       List<Field>? fields,
       String? footer,
@@ -213,7 +213,7 @@ class _$AttachmentCopyWithImpl<$Res> implements $AttachmentCopyWith<$Res> {
       custom: null == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>,
+              as Map<String, Object?>,
       fallback: freezed == fallback
           ? _self.fallback
           : fallback // ignore: cast_nullable_to_non_nullable

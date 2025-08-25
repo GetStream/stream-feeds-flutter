@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$CustomActionRequest {
   String? get id;
-  Map<String, Object>? get options;
+  Map<String, Object?>? get options;
 
   /// Create a copy of CustomActionRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -51,7 +51,7 @@ abstract mixin class $CustomActionRequestCopyWith<$Res> {
           CustomActionRequest value, $Res Function(CustomActionRequest) _then) =
       _$CustomActionRequestCopyWithImpl;
   @useResult
-  $Res call({String? id, Map<String, Object>? options});
+  $Res call({String? id, Map<String, Object?>? options});
 }
 
 /// @nodoc
@@ -78,7 +78,7 @@ class _$CustomActionRequestCopyWithImpl<$Res>
       options: freezed == options
           ? _self.options
           : options // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
     ));
   }
 }

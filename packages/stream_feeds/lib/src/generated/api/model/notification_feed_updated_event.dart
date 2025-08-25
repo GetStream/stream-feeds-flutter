@@ -22,6 +22,7 @@ class NotificationFeedUpdatedEvent extends core.WsEvent
     this.aggregatedActivities,
     required this.createdAt,
     required this.custom,
+    this.feedVisibility,
     required this.fid,
     this.notificationStatus,
     this.receivedAt,
@@ -37,7 +38,10 @@ class NotificationFeedUpdatedEvent extends core.WsEvent
   final DateTime createdAt;
 
   @override
-  final Map<String, Object> custom;
+  final Map<String, Object?> custom;
+
+  @override
+  final String? feedVisibility;
 
   @override
   final String fid;

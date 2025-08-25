@@ -17,7 +17,7 @@ T _$identity<T>(T value) => value;
 mixin _$AppUpdatedEvent {
   AppEventResponse get app;
   DateTime get createdAt;
-  Map<String, Object> get custom;
+  Map<String, Object?> get custom;
   DateTime? get receivedAt;
   String get type;
 
@@ -34,6 +34,7 @@ mixin _$AppUpdatedEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is AppUpdatedEvent &&
+            super == other &&
             (identical(other.app, app) || other.app == app) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
@@ -44,7 +45,7 @@ mixin _$AppUpdatedEvent {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, app, createdAt,
+  int get hashCode => Object.hash(runtimeType, super.hashCode, app, createdAt,
       const DeepCollectionEquality().hash(custom), receivedAt, type);
 
   @override
@@ -62,7 +63,7 @@ abstract mixin class $AppUpdatedEventCopyWith<$Res> {
   $Res call(
       {AppEventResponse app,
       DateTime createdAt,
-      Map<String, Object> custom,
+      Map<String, Object?> custom,
       DateTime? receivedAt,
       String type});
 }
@@ -98,7 +99,7 @@ class _$AppUpdatedEventCopyWithImpl<$Res>
       custom: null == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>,
+              as Map<String, Object?>,
       receivedAt: freezed == receivedAt
           ? _self.receivedAt
           : receivedAt // ignore: cast_nullable_to_non_nullable

@@ -9,9 +9,7 @@ part of 'update_poll_option_request.dart';
 UpdatePollOptionRequest _$UpdatePollOptionRequestFromJson(
         Map<String, dynamic> json) =>
     UpdatePollOptionRequest(
-      custom: (json['custom'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>?,
       id: json['id'] as String,
       text: json['text'] as String,
     );

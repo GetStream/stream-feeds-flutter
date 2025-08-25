@@ -34,16 +34,16 @@ class GetOrCreateFeedRequest with _$GetOrCreateFeedRequest {
   });
 
   @override
-  final Map<String, Object>? activitySelectorOptions;
+  final Map<String, Object?>? activitySelectorOptions;
 
   @override
   final FeedInput? data;
 
   @override
-  final Map<String, Object>? externalRanking;
+  final Map<String, Object?>? externalRanking;
 
   @override
-  final Map<String, Object>? filter;
+  final Map<String, Object?>? filter;
 
   @override
   final PagerRequest? followersPagination;

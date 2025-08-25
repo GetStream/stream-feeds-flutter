@@ -19,15 +19,20 @@ part 'comment_reaction_added_event.freezed.dart';
 class CommentReactionAddedEvent extends core.WsEvent
     with _$CommentReactionAddedEvent {
   const CommentReactionAddedEvent({
+    required this.activity,
     required this.comment,
     required this.createdAt,
     required this.custom,
+    this.feedVisibility,
     required this.fid,
     required this.reaction,
     this.receivedAt,
     required this.type,
     this.user,
   });
+
+  @override
+  final ActivityResponse activity;
 
   @override
   final CommentResponse comment;
@@ -37,7 +42,10 @@ class CommentReactionAddedEvent extends core.WsEvent
   final DateTime createdAt;
 
   @override
-  final Map<String, Object> custom;
+  final Map<String, Object?> custom;
+
+  @override
+  final String? feedVisibility;
 
   @override
   final String fid;

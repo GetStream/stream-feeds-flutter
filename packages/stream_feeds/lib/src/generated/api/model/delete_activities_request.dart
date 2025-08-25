@@ -18,15 +18,15 @@ part 'delete_activities_request.freezed.dart';
 @JsonSerializable()
 class DeleteActivitiesRequest with _$DeleteActivitiesRequest {
   const DeleteActivitiesRequest({
-    required this.activityIds,
     this.hardDelete,
+    required this.ids,
   });
 
   @override
-  final List<String> activityIds;
+  final bool? hardDelete;
 
   @override
-  final bool? hardDelete;
+  final List<String> ids;
 
   Map<String, dynamic> toJson() => _$DeleteActivitiesRequestToJson(this);
 

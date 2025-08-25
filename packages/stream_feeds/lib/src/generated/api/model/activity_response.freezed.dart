@@ -21,19 +21,20 @@ mixin _$ActivityResponse {
   List<CommentResponse> get comments;
   DateTime get createdAt;
   FeedResponse? get currentFeed;
-  Map<String, Object> get custom;
+  Map<String, Object?> get custom;
   DateTime? get deletedAt;
   DateTime? get editedAt;
   DateTime? get expiresAt;
   List<String> get feeds;
   List<String> get filterTags;
+  bool? get hidden;
   String get id;
   List<String> get interestTags;
   List<FeedsReactionResponse> get latestReactions;
   ActivityLocation? get location;
   List<UserResponse> get mentionedUsers;
   ModerationV2Response? get moderation;
-  Map<String, Object>? get notificationContext;
+  Map<String, Object?>? get notificationContext;
   List<BookmarkResponse> get ownBookmarks;
   List<FeedsReactionResponse> get ownReactions;
   ActivityResponse? get parent;
@@ -42,7 +43,7 @@ mixin _$ActivityResponse {
   int get reactionCount;
   Map<String, ReactionGroupResponse> get reactionGroups;
   double get score;
-  Map<String, Object> get searchData;
+  Map<String, Object?> get searchData;
   int get shareCount;
   String? get text;
   String get type;
@@ -85,6 +86,7 @@ mixin _$ActivityResponse {
             const DeepCollectionEquality().equals(other.feeds, feeds) &&
             const DeepCollectionEquality()
                 .equals(other.filterTags, filterTags) &&
+            (identical(other.hidden, hidden) || other.hidden == hidden) &&
             (identical(other.id, id) || other.id == id) &&
             const DeepCollectionEquality()
                 .equals(other.interestTags, interestTags) &&
@@ -141,6 +143,7 @@ mixin _$ActivityResponse {
         expiresAt,
         const DeepCollectionEquality().hash(feeds),
         const DeepCollectionEquality().hash(filterTags),
+        hidden,
         id,
         const DeepCollectionEquality().hash(interestTags),
         const DeepCollectionEquality().hash(latestReactions),
@@ -168,7 +171,7 @@ mixin _$ActivityResponse {
 
   @override
   String toString() {
-    return 'ActivityResponse(attachments: $attachments, bookmarkCount: $bookmarkCount, commentCount: $commentCount, comments: $comments, createdAt: $createdAt, currentFeed: $currentFeed, custom: $custom, deletedAt: $deletedAt, editedAt: $editedAt, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, id: $id, interestTags: $interestTags, latestReactions: $latestReactions, location: $location, mentionedUsers: $mentionedUsers, moderation: $moderation, notificationContext: $notificationContext, ownBookmarks: $ownBookmarks, ownReactions: $ownReactions, parent: $parent, poll: $poll, popularity: $popularity, reactionCount: $reactionCount, reactionGroups: $reactionGroups, score: $score, searchData: $searchData, shareCount: $shareCount, text: $text, type: $type, updatedAt: $updatedAt, user: $user, visibility: $visibility, visibilityTag: $visibilityTag)';
+    return 'ActivityResponse(attachments: $attachments, bookmarkCount: $bookmarkCount, commentCount: $commentCount, comments: $comments, createdAt: $createdAt, currentFeed: $currentFeed, custom: $custom, deletedAt: $deletedAt, editedAt: $editedAt, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, hidden: $hidden, id: $id, interestTags: $interestTags, latestReactions: $latestReactions, location: $location, mentionedUsers: $mentionedUsers, moderation: $moderation, notificationContext: $notificationContext, ownBookmarks: $ownBookmarks, ownReactions: $ownReactions, parent: $parent, poll: $poll, popularity: $popularity, reactionCount: $reactionCount, reactionGroups: $reactionGroups, score: $score, searchData: $searchData, shareCount: $shareCount, text: $text, type: $type, updatedAt: $updatedAt, user: $user, visibility: $visibility, visibilityTag: $visibilityTag)';
   }
 }
 
@@ -185,19 +188,20 @@ abstract mixin class $ActivityResponseCopyWith<$Res> {
       List<CommentResponse> comments,
       DateTime createdAt,
       FeedResponse? currentFeed,
-      Map<String, Object> custom,
+      Map<String, Object?> custom,
       DateTime? deletedAt,
       DateTime? editedAt,
       DateTime? expiresAt,
       List<String> feeds,
       List<String> filterTags,
+      bool? hidden,
       String id,
       List<String> interestTags,
       List<FeedsReactionResponse> latestReactions,
       ActivityLocation? location,
       List<UserResponse> mentionedUsers,
       ModerationV2Response? moderation,
-      Map<String, Object>? notificationContext,
+      Map<String, Object?>? notificationContext,
       List<BookmarkResponse> ownBookmarks,
       List<FeedsReactionResponse> ownReactions,
       ActivityResponse? parent,
@@ -206,7 +210,7 @@ abstract mixin class $ActivityResponseCopyWith<$Res> {
       int reactionCount,
       Map<String, ReactionGroupResponse> reactionGroups,
       double score,
-      Map<String, Object> searchData,
+      Map<String, Object?> searchData,
       int shareCount,
       String? text,
       String type,
@@ -241,6 +245,7 @@ class _$ActivityResponseCopyWithImpl<$Res>
     Object? expiresAt = freezed,
     Object? feeds = null,
     Object? filterTags = null,
+    Object? hidden = freezed,
     Object? id = null,
     Object? interestTags = null,
     Object? latestReactions = null,
@@ -293,7 +298,7 @@ class _$ActivityResponseCopyWithImpl<$Res>
       custom: null == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>,
+              as Map<String, Object?>,
       deletedAt: freezed == deletedAt
           ? _self.deletedAt
           : deletedAt // ignore: cast_nullable_to_non_nullable
@@ -314,6 +319,10 @@ class _$ActivityResponseCopyWithImpl<$Res>
           ? _self.filterTags
           : filterTags // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      hidden: freezed == hidden
+          ? _self.hidden
+          : hidden // ignore: cast_nullable_to_non_nullable
+              as bool?,
       id: null == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -341,7 +350,7 @@ class _$ActivityResponseCopyWithImpl<$Res>
       notificationContext: freezed == notificationContext
           ? _self.notificationContext
           : notificationContext // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
       ownBookmarks: null == ownBookmarks
           ? _self.ownBookmarks
           : ownBookmarks // ignore: cast_nullable_to_non_nullable
@@ -377,7 +386,7 @@ class _$ActivityResponseCopyWithImpl<$Res>
       searchData: null == searchData
           ? _self.searchData
           : searchData // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>,
+              as Map<String, Object?>,
       shareCount: null == shareCount
           ? _self.shareCount
           : shareCount // ignore: cast_nullable_to_non_nullable

@@ -2,51 +2,53 @@ import 'dart:async';
 
 import 'package:stream_core/stream_core.dart';
 
-import '../core/models/app_data.dart';
-import '../core/models/feed_id.dart';
-import '../core/models/feeds_config.dart';
-import '../core/repository/activities_repository.dart';
-import '../core/repository/app_repository.dart';
-import '../core/repository/bookmarks_repository.dart';
-import '../core/repository/comments_repository.dart';
-import '../core/repository/feeds_repository.dart';
-import '../core/repository/moderation_repository.dart';
-import '../core/repository/polls_repository.dart';
-import '../core/state/activity.dart';
-import '../core/state/activity_comment_list.dart';
-import '../core/state/activity_list.dart';
-import '../core/state/activity_reaction_list.dart';
-import '../core/state/bookmark_folder_list.dart';
-import '../core/state/bookmark_list.dart';
-import '../core/state/comment_list.dart';
-import '../core/state/comment_reaction_list.dart';
-import '../core/state/comment_reply_list.dart';
-import '../core/state/feed.dart';
-import '../core/state/feed_list.dart';
-import '../core/state/follow_list.dart';
-import '../core/state/member_list.dart';
-import '../core/state/moderation_config_list.dart';
-import '../core/state/poll_list.dart';
-import '../core/state/poll_vote_list.dart';
-import '../core/state/query/activities_query.dart';
-import '../core/state/query/activity_comments_query.dart';
-import '../core/state/query/activity_reactions_query.dart';
-import '../core/state/query/bookmark_folders_query.dart';
-import '../core/state/query/bookmarks_query.dart';
-import '../core/state/query/comment_reactions_query.dart';
-import '../core/state/query/comment_replies_query.dart';
-import '../core/state/query/comments_query.dart';
-import '../core/state/query/feed_query.dart';
-import '../core/state/query/feeds_query.dart';
-import '../core/state/query/follows_query.dart';
-import '../core/state/query/members_query.dart';
-import '../core/state/query/moderation_configs_query.dart';
-import '../core/state/query/poll_votes_query.dart';
-import '../core/state/query/polls_query.dart';
-import '../core/utils/endpoint_config.dart';
+import '../feeds_client.dart';
 import '../generated/api/api.dart' as api;
+import '../models/app_data.dart';
+import '../models/feed_id.dart';
+import '../models/feeds_config.dart';
+import '../models/push_notifications_config.dart';
+import '../repository/activities_repository.dart';
+import '../repository/app_repository.dart';
+import '../repository/bookmarks_repository.dart';
+import '../repository/comments_repository.dart';
+import '../repository/devices_repository.dart';
+import '../repository/feeds_repository.dart';
+import '../repository/moderation_repository.dart';
+import '../repository/polls_repository.dart';
+import '../state/activity.dart';
+import '../state/activity_comment_list.dart';
+import '../state/activity_list.dart';
+import '../state/activity_reaction_list.dart';
+import '../state/bookmark_folder_list.dart';
+import '../state/bookmark_list.dart';
+import '../state/comment_list.dart';
+import '../state/comment_reaction_list.dart';
+import '../state/comment_reply_list.dart';
+import '../state/feed.dart';
+import '../state/feed_list.dart';
+import '../state/follow_list.dart';
+import '../state/member_list.dart';
+import '../state/moderation_config_list.dart';
+import '../state/poll_list.dart';
+import '../state/poll_vote_list.dart';
+import '../state/query/activities_query.dart';
+import '../state/query/activity_comments_query.dart';
+import '../state/query/activity_reactions_query.dart';
+import '../state/query/bookmark_folders_query.dart';
+import '../state/query/bookmarks_query.dart';
+import '../state/query/comment_reactions_query.dart';
+import '../state/query/comment_replies_query.dart';
+import '../state/query/comments_query.dart';
+import '../state/query/feed_query.dart';
+import '../state/query/feeds_query.dart';
+import '../state/query/follows_query.dart';
+import '../state/query/members_query.dart';
+import '../state/query/moderation_configs_query.dart';
+import '../state/query/poll_votes_query.dart';
+import '../state/query/polls_query.dart';
 import '../ws/feeds_ws_event.dart';
-import 'feeds_client.dart';
+import 'endpoint_config.dart';
 import 'moderation_client.dart';
 
 class StreamFeedsClientImpl implements StreamFeedsClient {
@@ -54,153 +56,192 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
     required this.apiKey,
     required this.user,
     this.config = const FeedsConfig(),
-    String? userToken,
-    TokenProvider? userTokenProvider,
-  }) : assert(
-          userToken != null || userTokenProvider != null,
-          'Provide either a user token or a user token provider, or both',
-        ) {
+    TokenProvider? tokenProvider,
+    RetryStrategy? retryStrategy,
+    NetworkStateProvider? networkStateProvider,
+    AppLifecycleStateProvider? appLifecycleStateProvider,
+    List<AutomaticReconnectionPolicy>? reconnectionPolicies,
+  }) {
     // TODO: Make this configurable
     const endpointConfig = EndpointConfig.production;
 
-    final systemEnvironmentManager = SystemEnvironmentManager(
-      environment: const SystemEnvironment(
-        sdkName: 'stream-feeds-dart',
-        sdkIdentifier: 'dart',
-        sdkVersion: '0.1.0',
-      ),
-    );
+    // region Token manager setup
 
-    final webSocketUri = Uri.parse(endpointConfig.wsEndpoint).replace(
-      queryParameters: <String, String>{
-        'api_key': apiKey,
-        'stream-auth-type': 'jwt',
-        'X-Stream-Client': systemEnvironmentManager.userAgent,
-      },
-    );
-
-    tokenManager = switch (userTokenProvider) {
-      final provider? => TokenManager.provider(
-          user: user,
-          provider: provider,
-          token: userToken,
+    final userTokenProvider = switch ((user.type, tokenProvider)) {
+      (UserType.regular, final provider?) => provider,
+      (UserType.regular, null) => throw ArgumentError(
+          'TokenProvider must be provided for regular users.',
         ),
-      _ => TokenManager.static(user: user, token: userToken!),
+      (UserType.anonymous || UserType.guest, _) => TokenProvider.static(
+          UserToken.anonymous(userId: user.id),
+        ),
     };
 
-    webSocketClient = WebSocketClient(
-      url: webSocketUri.toString(),
-      eventDecoder: FeedsWsEvent.fromEventObject,
+    _tokenManager = TokenManager(
+      userId: user.id,
+      tokenProvider: userTokenProvider,
+    );
+
+    // endregion
+
+    // region WebSocket client setup
+
+    _ws = StreamWebSocketClient(
+      options: WebSocketOptions(
+        url: endpointConfig.wsEndpoint,
+        queryParameters: {
+          'api_key': apiKey,
+          'stream-auth-type': 'jwt',
+          'X-Stream-Client': _systemEnvironmentManager.userAgent,
+        },
+      ),
+      messageCodec: const FeedsWsCodec(),
       onConnectionEstablished: _authenticateUser,
     );
 
-    final apiClient = api.DefaultApi(
-      CoreHttpClient(
-        apiKey,
-        systemEnvironmentManager: systemEnvironmentManager,
-        options: HttpClientOptions(baseUrl: endpointConfig.baseFeedsUrl),
-        connectionIdProvider: () => webSocketClient.connectionId,
-        tokenManager: tokenManager,
-      ),
+    _connectionRecoveryHandler = ConnectionRecoveryHandler(
+      client: _ws,
+      retryStrategy: retryStrategy,
+      networkStateProvider: networkStateProvider,
+      appLifecycleStateProvider: appLifecycleStateProvider,
+      policies: reconnectionPolicies,
     );
 
-    activitiesRepository = ActivitiesRepository(apiClient);
-    appRepository = AppRepository(apiClient);
-    bookmarksRepository = BookmarksRepository(apiClient);
-    commentsRepository = CommentsRepository(apiClient);
-    feedsRepository = FeedsRepository(apiClient);
-    moderationRepository = ModerationRepository(apiClient);
-    pollsRepository = PollsRepository(apiClient);
+    // endregion
 
-    moderation = ModerationClient(moderationRepository);
+    // region Http client setup
+
+    final connectionIdInterceptor = ConnectionIdInterceptor(() {
+      final connectionState = _ws.connectionState;
+      if (connectionState.value case Connected(:final healthCheck)) {
+        return healthCheck.connectionId;
+      }
+
+      return null; // No connection ID available
+    });
+
+    final httpClient = StreamCoreHttpClient(
+      options: BaseOptions(
+        baseUrl: endpointConfig.baseFeedsUrl,
+        connectTimeout: const Duration(seconds: 6),
+        receiveTimeout: const Duration(seconds: 6),
+      ),
+    ).apply(
+      (client) => client.interceptors.addAll([
+        ApiKeyInterceptor(apiKey),
+        HeadersInterceptor(_systemEnvironmentManager),
+        if (user.type != UserType.anonymous) connectionIdInterceptor,
+        AuthInterceptor(client, _tokenManager),
+        const ApiErrorInterceptor(),
+        LoggingInterceptor(requestHeader: true),
+      ]),
+    );
+
+    final apiClient = api.DefaultApi(httpClient);
+
+    // endregion
+
+    // region Initialize repositories
+
+    _activitiesRepository = ActivitiesRepository(apiClient);
+    _appRepository = AppRepository(apiClient);
+    _bookmarksRepository = BookmarksRepository(apiClient);
+    _commentsRepository = CommentsRepository(apiClient);
+    _devicesRepository = DevicesRepository(apiClient);
+    _feedsRepository = FeedsRepository(apiClient);
+    _moderationRepository = ModerationRepository(apiClient);
+    _pollsRepository = PollsRepository(apiClient);
+
+    moderation = ModerationClient(_moderationRepository);
+
+    // endregion
   }
 
   final String apiKey;
+
+  @override
   final User user;
+
   final FeedsConfig config;
 
-  late final TokenManager tokenManager;
-  late final WebSocketClient webSocketClient;
+  late final TokenManager _tokenManager;
+  late final StreamWebSocketClient _ws;
+  late final ConnectionRecoveryHandler _connectionRecoveryHandler;
 
-  late final ActivitiesRepository activitiesRepository;
-  late final AppRepository appRepository;
-  late final BookmarksRepository bookmarksRepository;
-  late final CommentsRepository commentsRepository;
-  late final FeedsRepository feedsRepository;
-  late final ModerationRepository moderationRepository;
-  late final PollsRepository pollsRepository;
+  late final ActivitiesRepository _activitiesRepository;
+  late final AppRepository _appRepository;
+  late final BookmarksRepository _bookmarksRepository;
+  late final CommentsRepository _commentsRepository;
+  late final DevicesRepository _devicesRepository;
+  late final FeedsRepository _feedsRepository;
+  late final ModerationRepository _moderationRepository;
+  late final PollsRepository _pollsRepository;
+
+  // TODO: Fill this with correct values
+  late final _systemEnvironmentManager = SystemEnvironmentManager(
+    environment: const SystemEnvironment(
+      sdkName: 'stream-feeds-dart',
+      sdkIdentifier: 'dart',
+      sdkVersion: '0.1.0',
+    ),
+  );
+
+  @override
+  void updateSystemEnvironment(SystemEnvironment environment) {
+    _systemEnvironmentManager.updateEnvironment(environment);
+  }
 
   @override
   late final ModerationClient moderation;
 
   Future<void> _authenticateUser() async {
+    final userToken = await _tokenManager.getToken();
+
     final connectUserRequest = WsAuthMessageRequest(
-      products: ['feeds'],
-      token: await tokenManager.loadToken(),
+      products: const ['feeds'],
+      token: userToken.rawValue,
       userDetails: ConnectUserDetailsRequest(
         id: user.id,
         name: user.originalName,
         image: user.imageUrl,
-        customData: user.custom,
+        custom: user.custom,
       ),
     );
 
-    webSocketClient.send(connectUserRequest);
-  }
-
-  Completer<void>? _connectionCompleter;
-  ConnectionRecoveryHandler? _connectionRecoveryHandler;
-  StreamSubscription<WebSocketConnectionState>? _connectionSubscription;
-
-  SharedEmitter<WsEvent> get events => webSocketClient.events;
-
-  void _onConnectionStateChanged(WebSocketConnectionState state) {
-    // Connection completer not yet initialized, return early
-    if (_connectionCompleter == null) return;
-
-    if (state is Connected) {
-      _connectionCompleter?.complete();
-      _connectionCompleter = null;
-    } else if (state is Disconnected) {
-      _connectionCompleter?.completeError(Exception('Connection failed'));
-      _connectionCompleter = null;
-    }
+    _ws.send(connectUserRequest);
   }
 
   @override
+  EventEmitter get events => _ws.events;
+
+  @override
+  ConnectionStateEmitter get connectionState => _ws.connectionState;
+
+  @override
   Future<void> connect() async {
-    // Already connected, return early
-    if (webSocketClient.connectionState is Connected) return;
-
-    // Waiting for an existing connection to complete
-    if (_connectionCompleter != null) return _connectionCompleter?.future;
-
-    if (user.type == UserAuthType.anonymous) {
-      // Anonymous users cannot connect to the feeds websocket
-      throw ClientException(message: 'Anonymous users cannot connect.');
+    if (user.type == UserType.guest) {
+      throw ArgumentError('Anonymous users cannot connect to the WebSocket.');
     }
 
-    _connectionRecoveryHandler = DefaultConnectionRecoveryHandler(
-      client: webSocketClient,
-    );
+    // TODO: Add support for Guest users
 
-    webSocketClient.connect();
+    // Connect to the WebSocket
+    unawaited(_ws.connect());
 
-    _connectionSubscription = webSocketClient.connectionStateStream.listen(
-      _onConnectionStateChanged,
-    );
+    final state = await Future.any([
+      connectionState.waitFor<Connected>(),
+      connectionState.waitFor<Disconnected>(),
+    ]);
 
-    _connectionCompleter = Completer<void>();
-    return _connectionCompleter?.future;
+    if (state is Disconnected) {
+      throw Exception('WebSocket connection failed: $connectionState');
+    }
   }
 
   @override
   Future<void> disconnect() async {
-    _connectionCompleter = null;
-    await _connectionRecoveryHandler?.dispose();
-    await _connectionSubscription?.cancel();
-
-    webSocketClient.disconnect(source: DisconnectionSource.userInitiated());
+    await _connectionRecoveryHandler.dispose();
+    await _ws.disconnect();
   }
 
   @override
@@ -208,19 +249,22 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
     return Feed(
       query: query,
       currentUserId: user.id,
-      activitiesRepository: activitiesRepository,
-      bookmarksRepository: bookmarksRepository,
-      commentsRepository: commentsRepository,
-      feedsRepository: feedsRepository,
-      pollsRepository: pollsRepository,
+      activitiesRepository: _activitiesRepository,
+      bookmarksRepository: _bookmarksRepository,
+      commentsRepository: _commentsRepository,
+      feedsRepository: _feedsRepository,
+      pollsRepository: _pollsRepository,
       eventsEmitter: events,
     );
   }
 
   @override
   FeedList feedList(FeedsQuery query) {
-    // TODO: implement feedList
-    throw UnimplementedError();
+    return FeedList(
+      query: query,
+      feedsRepository: _feedsRepository,
+      eventsEmitter: events,
+    );
   }
 
   @override
@@ -261,8 +305,11 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
 
   @override
   CommentList commentList(CommentsQuery query) {
-    // TODO: implement commentList
-    throw UnimplementedError();
+    return CommentList(
+      query: query,
+      commentsRepository: _commentsRepository,
+      eventsEmitter: events,
+    );
   }
 
   @override
@@ -285,8 +332,11 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
 
   @override
   MemberList memberList(MembersQuery query) {
-    // TODO: implement memberList
-    throw UnimplementedError();
+    return MemberList(
+      query: query,
+      feedsRepository: _feedsRepository,
+      eventsEmitter: events,
+    );
   }
 
   @override
@@ -303,14 +353,33 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
 
   @override
   ModerationConfigList moderationConfigList(ModerationConfigsQuery query) {
-    // TODO: implement moderationConfigList
-    throw UnimplementedError();
+    return ModerationConfigList(
+      query: query,
+      moderationRepository: _moderationRepository,
+      eventsEmitter: events,
+    );
   }
 
   @override
-  Future<Result<AppData>> getApp() {
-    // TODO: implement getApp
-    throw UnimplementedError();
+  Future<Result<AppData>> getApp() => _appRepository.getApp();
+
+  @override
+  Future<Result<api.ListDevicesResponse>> queryDevices() {
+    return _devicesRepository.queryDevices();
+  }
+
+  @override
+  Future<Result<void>> createDevice(
+    String id,
+    PushNotificationsProvider pushProvider,
+    String pushProviderName,
+  ) {
+    return _devicesRepository.createDevice(id, pushProvider, pushProviderName);
+  }
+
+  @override
+  Future<Result<void>> deleteDevice(String id) {
+    return _devicesRepository.deleteDevice(id);
   }
 
   @override

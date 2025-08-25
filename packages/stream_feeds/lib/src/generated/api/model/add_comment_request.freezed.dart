@@ -18,11 +18,12 @@ mixin _$AddCommentRequest {
   List<Attachment>? get attachments;
   String get comment;
   bool? get createNotificationActivity;
-  Map<String, Object>? get custom;
+  Map<String, Object?>? get custom;
   List<String>? get mentionedUserIds;
   String get objectId;
   String get objectType;
   String? get parentId;
+  bool? get skipPush;
 
   /// Create a copy of AddCommentRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -52,7 +53,9 @@ mixin _$AddCommentRequest {
             (identical(other.objectType, objectType) ||
                 other.objectType == objectType) &&
             (identical(other.parentId, parentId) ||
-                other.parentId == parentId));
+                other.parentId == parentId) &&
+            (identical(other.skipPush, skipPush) ||
+                other.skipPush == skipPush));
   }
 
   @override
@@ -65,11 +68,12 @@ mixin _$AddCommentRequest {
       const DeepCollectionEquality().hash(mentionedUserIds),
       objectId,
       objectType,
-      parentId);
+      parentId,
+      skipPush);
 
   @override
   String toString() {
-    return 'AddCommentRequest(attachments: $attachments, comment: $comment, createNotificationActivity: $createNotificationActivity, custom: $custom, mentionedUserIds: $mentionedUserIds, objectId: $objectId, objectType: $objectType, parentId: $parentId)';
+    return 'AddCommentRequest(attachments: $attachments, comment: $comment, createNotificationActivity: $createNotificationActivity, custom: $custom, mentionedUserIds: $mentionedUserIds, objectId: $objectId, objectType: $objectType, parentId: $parentId, skipPush: $skipPush)';
   }
 }
 
@@ -83,11 +87,12 @@ abstract mixin class $AddCommentRequestCopyWith<$Res> {
       {List<Attachment>? attachments,
       String comment,
       bool? createNotificationActivity,
-      Map<String, Object>? custom,
+      Map<String, Object?>? custom,
       List<String>? mentionedUserIds,
       String objectId,
       String objectType,
-      String? parentId});
+      String? parentId,
+      bool? skipPush});
 }
 
 /// @nodoc
@@ -111,6 +116,7 @@ class _$AddCommentRequestCopyWithImpl<$Res>
     Object? objectId = null,
     Object? objectType = null,
     Object? parentId = freezed,
+    Object? skipPush = freezed,
   }) {
     return _then(AddCommentRequest(
       attachments: freezed == attachments
@@ -128,7 +134,7 @@ class _$AddCommentRequestCopyWithImpl<$Res>
       custom: freezed == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
       mentionedUserIds: freezed == mentionedUserIds
           ? _self.mentionedUserIds
           : mentionedUserIds // ignore: cast_nullable_to_non_nullable
@@ -145,6 +151,10 @@ class _$AddCommentRequestCopyWithImpl<$Res>
           ? _self.parentId
           : parentId // ignore: cast_nullable_to_non_nullable
               as String?,
+      skipPush: freezed == skipPush
+          ? _self.skipPush
+          : skipPush // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }

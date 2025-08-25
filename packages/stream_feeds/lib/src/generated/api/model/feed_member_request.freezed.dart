@@ -15,8 +15,9 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$FeedMemberRequest {
-  Map<String, Object>? get custom;
+  Map<String, Object?>? get custom;
   bool? get invite;
+  String? get membershipLevel;
   String? get role;
   String get userId;
 
@@ -35,17 +36,24 @@ mixin _$FeedMemberRequest {
             other is FeedMemberRequest &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
             (identical(other.invite, invite) || other.invite == invite) &&
+            (identical(other.membershipLevel, membershipLevel) ||
+                other.membershipLevel == membershipLevel) &&
             (identical(other.role, role) || other.role == role) &&
             (identical(other.userId, userId) || other.userId == userId));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(custom), invite, role, userId);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(custom),
+      invite,
+      membershipLevel,
+      role,
+      userId);
 
   @override
   String toString() {
-    return 'FeedMemberRequest(custom: $custom, invite: $invite, role: $role, userId: $userId)';
+    return 'FeedMemberRequest(custom: $custom, invite: $invite, membershipLevel: $membershipLevel, role: $role, userId: $userId)';
   }
 }
 
@@ -56,7 +64,11 @@ abstract mixin class $FeedMemberRequestCopyWith<$Res> {
       _$FeedMemberRequestCopyWithImpl;
   @useResult
   $Res call(
-      {Map<String, Object>? custom, bool? invite, String? role, String userId});
+      {Map<String, Object?>? custom,
+      bool? invite,
+      String? membershipLevel,
+      String? role,
+      String userId});
 }
 
 /// @nodoc
@@ -74,6 +86,7 @@ class _$FeedMemberRequestCopyWithImpl<$Res>
   $Res call({
     Object? custom = freezed,
     Object? invite = freezed,
+    Object? membershipLevel = freezed,
     Object? role = freezed,
     Object? userId = null,
   }) {
@@ -81,11 +94,15 @@ class _$FeedMemberRequestCopyWithImpl<$Res>
       custom: freezed == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
       invite: freezed == invite
           ? _self.invite
           : invite // ignore: cast_nullable_to_non_nullable
               as bool?,
+      membershipLevel: freezed == membershipLevel
+          ? _self.membershipLevel
+          : membershipLevel // ignore: cast_nullable_to_non_nullable
+              as String?,
       role: freezed == role
           ? _self.role
           : role // ignore: cast_nullable_to_non_nullable

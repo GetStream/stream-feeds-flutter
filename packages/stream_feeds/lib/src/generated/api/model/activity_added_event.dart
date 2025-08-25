@@ -21,6 +21,7 @@ class ActivityAddedEvent extends core.WsEvent with _$ActivityAddedEvent {
     required this.activity,
     required this.createdAt,
     required this.custom,
+    this.feedVisibility,
     required this.fid,
     this.receivedAt,
     required this.type,
@@ -35,7 +36,10 @@ class ActivityAddedEvent extends core.WsEvent with _$ActivityAddedEvent {
   final DateTime createdAt;
 
   @override
-  final Map<String, Object> custom;
+  final Map<String, Object?> custom;
+
+  @override
+  final String? feedVisibility;
 
   @override
   final String fid;

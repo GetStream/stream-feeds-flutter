@@ -17,7 +17,8 @@ T _$identity<T>(T value) => value;
 mixin _$NotificationFeedUpdatedEvent {
   List<AggregatedActivityResponse>? get aggregatedActivities;
   DateTime get createdAt;
-  Map<String, Object> get custom;
+  Map<String, Object?> get custom;
+  String? get feedVisibility;
   String get fid;
   NotificationStatusResponse? get notificationStatus;
   DateTime? get receivedAt;
@@ -38,11 +39,14 @@ mixin _$NotificationFeedUpdatedEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is NotificationFeedUpdatedEvent &&
+            super == other &&
             const DeepCollectionEquality()
                 .equals(other.aggregatedActivities, aggregatedActivities) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
+            (identical(other.feedVisibility, feedVisibility) ||
+                other.feedVisibility == feedVisibility) &&
             (identical(other.fid, fid) || other.fid == fid) &&
             (identical(other.notificationStatus, notificationStatus) ||
                 other.notificationStatus == notificationStatus) &&
@@ -55,9 +59,11 @@ mixin _$NotificationFeedUpdatedEvent {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      super.hashCode,
       const DeepCollectionEquality().hash(aggregatedActivities),
       createdAt,
       const DeepCollectionEquality().hash(custom),
+      feedVisibility,
       fid,
       notificationStatus,
       receivedAt,
@@ -66,7 +72,7 @@ mixin _$NotificationFeedUpdatedEvent {
 
   @override
   String toString() {
-    return 'NotificationFeedUpdatedEvent(aggregatedActivities: $aggregatedActivities, createdAt: $createdAt, custom: $custom, fid: $fid, notificationStatus: $notificationStatus, receivedAt: $receivedAt, type: $type, user: $user)';
+    return 'NotificationFeedUpdatedEvent(aggregatedActivities: $aggregatedActivities, createdAt: $createdAt, custom: $custom, feedVisibility: $feedVisibility, fid: $fid, notificationStatus: $notificationStatus, receivedAt: $receivedAt, type: $type, user: $user)';
   }
 }
 
@@ -80,7 +86,8 @@ abstract mixin class $NotificationFeedUpdatedEventCopyWith<$Res> {
   $Res call(
       {List<AggregatedActivityResponse>? aggregatedActivities,
       DateTime createdAt,
-      Map<String, Object> custom,
+      Map<String, Object?> custom,
+      String? feedVisibility,
       String fid,
       NotificationStatusResponse? notificationStatus,
       DateTime? receivedAt,
@@ -104,6 +111,7 @@ class _$NotificationFeedUpdatedEventCopyWithImpl<$Res>
     Object? aggregatedActivities = freezed,
     Object? createdAt = null,
     Object? custom = null,
+    Object? feedVisibility = freezed,
     Object? fid = null,
     Object? notificationStatus = freezed,
     Object? receivedAt = freezed,
@@ -122,7 +130,11 @@ class _$NotificationFeedUpdatedEventCopyWithImpl<$Res>
       custom: null == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>,
+              as Map<String, Object?>,
+      feedVisibility: freezed == feedVisibility
+          ? _self.feedVisibility
+          : feedVisibility // ignore: cast_nullable_to_non_nullable
+              as String?,
       fid: null == fid
           ? _self.fid
           : fid // ignore: cast_nullable_to_non_nullable

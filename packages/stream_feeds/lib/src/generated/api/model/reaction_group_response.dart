@@ -21,7 +21,6 @@ class ReactionGroupResponse with _$ReactionGroupResponse {
     required this.count,
     required this.firstReactionAt,
     required this.lastReactionAt,
-    required this.sumScores,
   });
 
   @override
@@ -34,9 +33,6 @@ class ReactionGroupResponse with _$ReactionGroupResponse {
   @override
   @EpochDateTimeConverter()
   final DateTime lastReactionAt;
-
-  @override
-  final int sumScores;
 
   Map<String, dynamic> toJson() => _$ReactionGroupResponseToJson(this);
 

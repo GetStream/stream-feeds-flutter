@@ -9,10 +9,9 @@ part of 'moderation_flag_response.dart';
 ModerationFlagResponse _$ModerationFlagResponseFromJson(
         Map<String, dynamic> json) =>
     ModerationFlagResponse(
-      createdAt: json['created_at'] as String,
-      custom: (json['custom'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      createdAt: const EpochDateTimeConverter()
+          .fromJson((json['created_at'] as num).toInt()),
+      custom: json['custom'] as Map<String, dynamic>?,
       entityCreatorId: json['entity_creator_id'] as String?,
       entityId: json['entity_id'] as String,
       entityType: json['entity_type'] as String,
@@ -24,9 +23,7 @@ ModerationFlagResponse _$ModerationFlagResponseFromJson(
               json['moderation_payload'] as Map<String, dynamic>),
       reason: json['reason'] as String?,
       result: (json['result'] as List<dynamic>)
-          .map((e) => (e as Map<String, dynamic>).map(
-                (k, e) => MapEntry(k, e as Object),
-              ))
+          .map((e) => e as Map<String, dynamic>)
           .toList(),
       reviewQueueItem: json['review_queue_item'] == null
           ? null
@@ -34,7 +31,8 @@ ModerationFlagResponse _$ModerationFlagResponseFromJson(
               json['review_queue_item'] as Map<String, dynamic>),
       reviewQueueItemId: json['review_queue_item_id'] as String?,
       type: json['type'] as String,
-      updatedAt: json['updated_at'] as String,
+      updatedAt: const EpochDateTimeConverter()
+          .fromJson((json['updated_at'] as num).toInt()),
       user: json['user'] == null
           ? null
           : UserResponse.fromJson(json['user'] as Map<String, dynamic>),
@@ -44,7 +42,7 @@ ModerationFlagResponse _$ModerationFlagResponseFromJson(
 Map<String, dynamic> _$ModerationFlagResponseToJson(
         ModerationFlagResponse instance) =>
     <String, dynamic>{
-      'created_at': instance.createdAt,
+      'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
       'custom': instance.custom,
       'entity_creator_id': instance.entityCreatorId,
       'entity_id': instance.entityId,
@@ -56,7 +54,7 @@ Map<String, dynamic> _$ModerationFlagResponseToJson(
       'review_queue_item': instance.reviewQueueItem?.toJson(),
       'review_queue_item_id': instance.reviewQueueItemId,
       'type': instance.type,
-      'updated_at': instance.updatedAt,
+      'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
       'user': instance.user?.toJson(),
       'user_id': instance.userId,
     };

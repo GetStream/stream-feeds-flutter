@@ -48,7 +48,7 @@ class UpdatePollRequest with _$UpdatePollRequest {
   final bool? allowUserSuggestedOptions;
 
   @override
-  final Map<String, Object>? custom;
+  final Map<String, Object?>? custom;
 
   @override
   final String? description;

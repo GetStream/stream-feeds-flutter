@@ -33,7 +33,7 @@ class APNS with _$APNS {
   final int? contentAvailable;
 
   @override
-  final Map<String, Object>? data;
+  final Map<String, Object?>? data;
 
   @override
   final int? mutableContent;

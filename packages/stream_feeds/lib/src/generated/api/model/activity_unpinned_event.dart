@@ -20,6 +20,7 @@ class ActivityUnpinnedEvent extends core.WsEvent with _$ActivityUnpinnedEvent {
   const ActivityUnpinnedEvent({
     required this.createdAt,
     required this.custom,
+    this.feedVisibility,
     required this.fid,
     required this.pinnedActivity,
     this.receivedAt,
@@ -32,7 +33,10 @@ class ActivityUnpinnedEvent extends core.WsEvent with _$ActivityUnpinnedEvent {
   final DateTime createdAt;
 
   @override
-  final Map<String, Object> custom;
+  final Map<String, Object?> custom;
+
+  @override
+  final String? feedVisibility;
 
   @override
   final String fid;

@@ -16,7 +16,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ActivityMarkEvent {
   DateTime get createdAt;
-  Map<String, Object> get custom;
+  Map<String, Object?> get custom;
+  String? get feedVisibility;
   String get fid;
   bool? get markAllRead;
   bool? get markAllSeen;
@@ -40,9 +41,12 @@ mixin _$ActivityMarkEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ActivityMarkEvent &&
+            super == other &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
+            (identical(other.feedVisibility, feedVisibility) ||
+                other.feedVisibility == feedVisibility) &&
             (identical(other.fid, fid) || other.fid == fid) &&
             (identical(other.markAllRead, markAllRead) ||
                 other.markAllRead == markAllRead) &&
@@ -61,8 +65,10 @@ mixin _$ActivityMarkEvent {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      super.hashCode,
       createdAt,
       const DeepCollectionEquality().hash(custom),
+      feedVisibility,
       fid,
       markAllRead,
       markAllSeen,
@@ -75,7 +81,7 @@ mixin _$ActivityMarkEvent {
 
   @override
   String toString() {
-    return 'ActivityMarkEvent(createdAt: $createdAt, custom: $custom, fid: $fid, markAllRead: $markAllRead, markAllSeen: $markAllSeen, markRead: $markRead, markSeen: $markSeen, markWatched: $markWatched, receivedAt: $receivedAt, type: $type, user: $user)';
+    return 'ActivityMarkEvent(createdAt: $createdAt, custom: $custom, feedVisibility: $feedVisibility, fid: $fid, markAllRead: $markAllRead, markAllSeen: $markAllSeen, markRead: $markRead, markSeen: $markSeen, markWatched: $markWatched, receivedAt: $receivedAt, type: $type, user: $user)';
   }
 }
 
@@ -87,7 +93,8 @@ abstract mixin class $ActivityMarkEventCopyWith<$Res> {
   @useResult
   $Res call(
       {DateTime createdAt,
-      Map<String, Object> custom,
+      Map<String, Object?> custom,
+      String? feedVisibility,
       String fid,
       bool? markAllRead,
       bool? markAllSeen,
@@ -114,6 +121,7 @@ class _$ActivityMarkEventCopyWithImpl<$Res>
   $Res call({
     Object? createdAt = null,
     Object? custom = null,
+    Object? feedVisibility = freezed,
     Object? fid = null,
     Object? markAllRead = freezed,
     Object? markAllSeen = freezed,
@@ -132,7 +140,11 @@ class _$ActivityMarkEventCopyWithImpl<$Res>
       custom: null == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>,
+              as Map<String, Object?>,
+      feedVisibility: freezed == feedVisibility
+          ? _self.feedVisibility
+          : feedVisibility // ignore: cast_nullable_to_non_nullable
+              as String?,
       fid: null == fid
           ? _self.fid
           : fid // ignore: cast_nullable_to_non_nullable

@@ -19,18 +19,18 @@ part 'accept_follow_request.freezed.dart';
 class AcceptFollowRequest with _$AcceptFollowRequest {
   const AcceptFollowRequest({
     this.followerRole,
-    required this.sourceFid,
-    required this.targetFid,
+    required this.source,
+    required this.target,
   });
 
   @override
   final String? followerRole;
 
   @override
-  final String sourceFid;
+  final String source;
 
   @override
-  final String targetFid;
+  final String target;
 
   Map<String, dynamic> toJson() => _$AcceptFollowRequestToJson(this);
 

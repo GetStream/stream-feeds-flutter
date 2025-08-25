@@ -10,13 +10,15 @@ FeedMemberResponse _$FeedMemberResponseFromJson(Map<String, dynamic> json) =>
     FeedMemberResponse(
       createdAt: const EpochDateTimeConverter()
           .fromJson((json['created_at'] as num).toInt()),
-      custom: (json['custom'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>?,
       inviteAcceptedAt: _$JsonConverterFromJson<int, DateTime>(
           json['invite_accepted_at'], const EpochDateTimeConverter().fromJson),
       inviteRejectedAt: _$JsonConverterFromJson<int, DateTime>(
           json['invite_rejected_at'], const EpochDateTimeConverter().fromJson),
+      membershipLevel: json['membership_level'] == null
+          ? null
+          : MembershipLevelResponse.fromJson(
+              json['membership_level'] as Map<String, dynamic>),
       role: json['role'] as String,
       status: $enumDecode(_$FeedMemberResponseStatusEnumMap, json['status'],
           unknownValue: FeedMemberResponseStatus.unknown),
@@ -33,6 +35,7 @@ Map<String, dynamic> _$FeedMemberResponseToJson(FeedMemberResponse instance) =>
           instance.inviteAcceptedAt, const EpochDateTimeConverter().toJson),
       'invite_rejected_at': _$JsonConverterToJson<int, DateTime>(
           instance.inviteRejectedAt, const EpochDateTimeConverter().toJson),
+      'membership_level': instance.membershipLevel?.toJson(),
       'role': instance.role,
       'status': _$FeedMemberResponseStatusEnumMap[instance.status]!,
       'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),

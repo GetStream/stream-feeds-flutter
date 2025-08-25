@@ -17,9 +17,7 @@ EntityCreatorResponse _$EntityCreatorResponseFromJson(
           .toList(),
       createdAt: const EpochDateTimeConverter()
           .fromJson((json['created_at'] as num).toInt()),
-      custom: (json['custom'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>,
       deactivatedAt: _$JsonConverterFromJson<int, DateTime>(
           json['deactivated_at'], const EpochDateTimeConverter().fromJson),
       deletedAt: _$JsonConverterFromJson<int, DateTime>(

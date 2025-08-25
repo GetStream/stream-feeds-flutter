@@ -39,6 +39,7 @@ class ChannelMember with _$ChannelMember {
     required this.createdAt,
     required this.custom,
     this.deletedAt,
+    this.deletedMessages,
     this.inviteAcceptedAt,
     this.inviteRejectedAt,
     this.invited,
@@ -72,11 +73,14 @@ class ChannelMember with _$ChannelMember {
   final DateTime createdAt;
 
   @override
-  final Map<String, Object> custom;
+  final Map<String, Object?> custom;
 
   @override
   @EpochDateTimeConverter()
   final DateTime? deletedAt;
+
+  @override
+  final List<String>? deletedMessages;
 
   @override
   @EpochDateTimeConverter()

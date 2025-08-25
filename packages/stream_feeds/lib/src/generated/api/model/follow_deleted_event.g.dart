@@ -10,9 +10,8 @@ FollowDeletedEvent _$FollowDeletedEventFromJson(Map<String, dynamic> json) =>
     FollowDeletedEvent(
       createdAt: const EpochDateTimeConverter()
           .fromJson((json['created_at'] as num).toInt()),
-      custom: (json['custom'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>,
+      feedVisibility: json['feed_visibility'] as String?,
       fid: json['fid'] as String,
       follow: FollowResponse.fromJson(json['follow'] as Map<String, dynamic>),
       receivedAt: _$JsonConverterFromJson<int, DateTime>(
@@ -24,6 +23,7 @@ Map<String, dynamic> _$FollowDeletedEventToJson(FollowDeletedEvent instance) =>
     <String, dynamic>{
       'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
       'custom': instance.custom,
+      'feed_visibility': instance.feedVisibility,
       'fid': instance.fid,
       'follow': instance.follow.toJson(),
       'received_at': _$JsonConverterToJson<int, DateTime>(

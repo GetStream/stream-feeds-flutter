@@ -25,6 +25,7 @@ class Message with _$Message {
     required this.createdAt,
     required this.custom,
     this.deletedAt,
+    this.deletedForMe,
     required this.deletedReplyCount,
     required this.html,
     this.i18n,
@@ -79,11 +80,14 @@ class Message with _$Message {
   final DateTime createdAt;
 
   @override
-  final Map<String, Object> custom;
+  final Map<String, Object?> custom;
 
   @override
   @EpochDateTimeConverter()
   final DateTime? deletedAt;
+
+  @override
+  final bool? deletedForMe;
 
   @override
   final int deletedReplyCount;

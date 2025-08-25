@@ -23,7 +23,7 @@ class UpdateActivityPartialRequest with _$UpdateActivityPartialRequest {
   });
 
   @override
-  final Map<String, Object>? set;
+  final Map<String, Object?>? set;
 
   @override
   final List<String>? unset;

@@ -67,7 +67,7 @@ class OwnUserResponse with _$OwnUserResponse {
   final DateTime createdAt;
 
   @override
-  final Map<String, Object> custom;
+  final Map<String, Object?> custom;
 
   @override
   @EpochDateTimeConverter()

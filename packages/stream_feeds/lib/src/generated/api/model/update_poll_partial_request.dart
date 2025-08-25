@@ -23,7 +23,7 @@ class UpdatePollPartialRequest with _$UpdatePollPartialRequest {
   });
 
   @override
-  final Map<String, Object>? set;
+  final Map<String, Object?>? set;
 
   @override
   final List<String>? unset;

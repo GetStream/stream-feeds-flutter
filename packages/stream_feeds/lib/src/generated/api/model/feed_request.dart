@@ -49,7 +49,7 @@ class FeedRequest with _$FeedRequest {
   final String? createdById;
 
   @override
-  final Map<String, Object>? custom;
+  final Map<String, Object?>? custom;
 
   @override
   final String? description;

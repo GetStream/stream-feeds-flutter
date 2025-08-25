@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$DraftPayloadResponse {
   List<Attachment>? get attachments;
-  Map<String, Object> get custom;
+  Map<String, Object?> get custom;
   String? get html;
   String get id;
   List<UserResponse>? get mentionedUsers;
@@ -93,7 +93,7 @@ abstract mixin class $DraftPayloadResponseCopyWith<$Res> {
   @useResult
   $Res call(
       {List<Attachment>? attachments,
-      Map<String, Object> custom,
+      Map<String, Object?> custom,
       String? html,
       String id,
       List<UserResponse>? mentionedUsers,
@@ -142,7 +142,7 @@ class _$DraftPayloadResponseCopyWithImpl<$Res>
       custom: null == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>,
+              as Map<String, Object?>,
       html: freezed == html
           ? _self.html
           : html // ignore: cast_nullable_to_non_nullable

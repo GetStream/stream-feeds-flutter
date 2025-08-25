@@ -20,8 +20,9 @@ mixin _$Message {
   String get cid;
   String? get command;
   DateTime get createdAt;
-  Map<String, Object> get custom;
+  Map<String, Object?> get custom;
   DateTime? get deletedAt;
+  bool? get deletedForMe;
   int get deletedReplyCount;
   String get html;
   Map<String, String>? get i18n;
@@ -82,6 +83,8 @@ mixin _$Message {
             const DeepCollectionEquality().equals(other.custom, custom) &&
             (identical(other.deletedAt, deletedAt) ||
                 other.deletedAt == deletedAt) &&
+            (identical(other.deletedForMe, deletedForMe) ||
+                other.deletedForMe == deletedForMe) &&
             (identical(other.deletedReplyCount, deletedReplyCount) ||
                 other.deletedReplyCount == deletedReplyCount) &&
             (identical(other.html, html) || other.html == html) &&
@@ -153,6 +156,7 @@ mixin _$Message {
         createdAt,
         const DeepCollectionEquality().hash(custom),
         deletedAt,
+        deletedForMe,
         deletedReplyCount,
         html,
         const DeepCollectionEquality().hash(i18n),
@@ -192,7 +196,7 @@ mixin _$Message {
 
   @override
   String toString() {
-    return 'Message(attachments: $attachments, beforeMessageSendFailed: $beforeMessageSendFailed, cid: $cid, command: $command, createdAt: $createdAt, custom: $custom, deletedAt: $deletedAt, deletedReplyCount: $deletedReplyCount, html: $html, i18n: $i18n, id: $id, imageLabels: $imageLabels, latestReactions: $latestReactions, mentionedUsers: $mentionedUsers, messageTextUpdatedAt: $messageTextUpdatedAt, mml: $mml, moderation: $moderation, ownReactions: $ownReactions, parentId: $parentId, pinExpires: $pinExpires, pinned: $pinned, pinnedAt: $pinnedAt, pinnedBy: $pinnedBy, poll: $poll, pollId: $pollId, quotedMessage: $quotedMessage, quotedMessageId: $quotedMessageId, reactionCounts: $reactionCounts, reactionGroups: $reactionGroups, reactionScores: $reactionScores, reminder: $reminder, replyCount: $replyCount, restrictedVisibility: $restrictedVisibility, shadowed: $shadowed, sharedLocation: $sharedLocation, showInChannel: $showInChannel, silent: $silent, text: $text, threadParticipants: $threadParticipants, type: $type, updatedAt: $updatedAt, user: $user)';
+    return 'Message(attachments: $attachments, beforeMessageSendFailed: $beforeMessageSendFailed, cid: $cid, command: $command, createdAt: $createdAt, custom: $custom, deletedAt: $deletedAt, deletedForMe: $deletedForMe, deletedReplyCount: $deletedReplyCount, html: $html, i18n: $i18n, id: $id, imageLabels: $imageLabels, latestReactions: $latestReactions, mentionedUsers: $mentionedUsers, messageTextUpdatedAt: $messageTextUpdatedAt, mml: $mml, moderation: $moderation, ownReactions: $ownReactions, parentId: $parentId, pinExpires: $pinExpires, pinned: $pinned, pinnedAt: $pinnedAt, pinnedBy: $pinnedBy, poll: $poll, pollId: $pollId, quotedMessage: $quotedMessage, quotedMessageId: $quotedMessageId, reactionCounts: $reactionCounts, reactionGroups: $reactionGroups, reactionScores: $reactionScores, reminder: $reminder, replyCount: $replyCount, restrictedVisibility: $restrictedVisibility, shadowed: $shadowed, sharedLocation: $sharedLocation, showInChannel: $showInChannel, silent: $silent, text: $text, threadParticipants: $threadParticipants, type: $type, updatedAt: $updatedAt, user: $user)';
   }
 }
 
@@ -207,8 +211,9 @@ abstract mixin class $MessageCopyWith<$Res> {
       String cid,
       String? command,
       DateTime createdAt,
-      Map<String, Object> custom,
+      Map<String, Object?> custom,
       DateTime? deletedAt,
+      bool? deletedForMe,
       int deletedReplyCount,
       String html,
       Map<String, String>? i18n,
@@ -265,6 +270,7 @@ class _$MessageCopyWithImpl<$Res> implements $MessageCopyWith<$Res> {
     Object? createdAt = null,
     Object? custom = null,
     Object? deletedAt = freezed,
+    Object? deletedForMe = freezed,
     Object? deletedReplyCount = null,
     Object? html = null,
     Object? i18n = freezed,
@@ -325,11 +331,15 @@ class _$MessageCopyWithImpl<$Res> implements $MessageCopyWith<$Res> {
       custom: null == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>,
+              as Map<String, Object?>,
       deletedAt: freezed == deletedAt
           ? _self.deletedAt
           : deletedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      deletedForMe: freezed == deletedForMe
+          ? _self.deletedForMe
+          : deletedForMe // ignore: cast_nullable_to_non_nullable
+              as bool?,
       deletedReplyCount: null == deletedReplyCount
           ? _self.deletedReplyCount
           : deletedReplyCount // ignore: cast_nullable_to_non_nullable

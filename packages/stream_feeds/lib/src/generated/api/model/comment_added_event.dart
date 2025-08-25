@@ -18,14 +18,19 @@ part 'comment_added_event.freezed.dart';
 @JsonSerializable()
 class CommentAddedEvent extends core.WsEvent with _$CommentAddedEvent {
   const CommentAddedEvent({
+    required this.activity,
     required this.comment,
     required this.createdAt,
     required this.custom,
+    this.feedVisibility,
     required this.fid,
     this.receivedAt,
     required this.type,
     this.user,
   });
+
+  @override
+  final ActivityResponse activity;
 
   @override
   final CommentResponse comment;
@@ -35,7 +40,10 @@ class CommentAddedEvent extends core.WsEvent with _$CommentAddedEvent {
   final DateTime createdAt;
 
   @override
-  final Map<String, Object> custom;
+  final Map<String, Object?> custom;
+
+  @override
+  final String? feedVisibility;
 
   @override
   final String fid;

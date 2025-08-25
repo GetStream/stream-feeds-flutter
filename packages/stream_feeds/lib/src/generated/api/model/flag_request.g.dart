@@ -7,9 +7,7 @@ part of 'flag_request.dart';
 // **************************************************************************
 
 FlagRequest _$FlagRequestFromJson(Map<String, dynamic> json) => FlagRequest(
-      custom: (json['custom'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>?,
       entityCreatorId: json['entity_creator_id'] as String?,
       entityId: json['entity_id'] as String,
       entityType: json['entity_type'] as String,

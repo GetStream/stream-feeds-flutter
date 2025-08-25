@@ -19,7 +19,7 @@ mixin _$LayoutSettings {
   String get externalAppUrl;
   String get externalCssUrl;
   LayoutSettingsName get name;
-  Map<String, Object>? get options;
+  Map<String, Object?>? get options;
 
   /// Create a copy of LayoutSettings
   /// with the given fields replaced by the non-null parameter values.
@@ -70,7 +70,7 @@ abstract mixin class $LayoutSettingsCopyWith<$Res> {
       String externalAppUrl,
       String externalCssUrl,
       LayoutSettingsName name,
-      Map<String, Object>? options});
+      Map<String, Object?>? options});
 }
 
 /// @nodoc
@@ -112,7 +112,7 @@ class _$LayoutSettingsCopyWithImpl<$Res>
       options: freezed == options
           ? _self.options
           : options // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
     ));
   }
 }

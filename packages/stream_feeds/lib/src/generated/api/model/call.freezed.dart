@@ -26,7 +26,7 @@ mixin _$Call {
   User? get createdBy;
   String get createdByUserID;
   String get currentSessionID;
-  Map<String, Object> get custom;
+  Map<String, Object?> get custom;
   DateTime? get deletedAt;
   DateTime? get egressUpdatedAt;
   List<CallEgress> get egresses;
@@ -172,7 +172,7 @@ abstract mixin class $CallCopyWith<$Res> {
       User? createdBy,
       String createdByUserID,
       String currentSessionID,
-      Map<String, Object> custom,
+      Map<String, Object?> custom,
       DateTime? deletedAt,
       DateTime? egressUpdatedAt,
       List<CallEgress> egresses,
@@ -286,7 +286,7 @@ class _$CallCopyWithImpl<$Res> implements $CallCopyWith<$Res> {
       custom: null == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>,
+              as Map<String, Object?>,
       deletedAt: freezed == deletedAt
           ? _self.deletedAt
           : deletedAt // ignore: cast_nullable_to_non_nullable

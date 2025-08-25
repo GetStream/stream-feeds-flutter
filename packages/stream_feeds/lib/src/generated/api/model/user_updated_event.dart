@@ -30,7 +30,7 @@ class UserUpdatedEvent extends core.WsEvent with _$UserUpdatedEvent {
   final DateTime createdAt;
 
   @override
-  final Map<String, Object> custom;
+  final Map<String, Object?> custom;
 
   @override
   @EpochDateTimeConverter()

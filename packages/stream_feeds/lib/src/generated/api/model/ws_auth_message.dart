@@ -20,7 +20,6 @@ class WSAuthMessage with _$WSAuthMessage {
   const WSAuthMessage({
     this.products,
     required this.token,
-    required this.userDetails,
   });
 
   @override
@@ -28,9 +27,6 @@ class WSAuthMessage with _$WSAuthMessage {
 
   @override
   final String token;
-
-  @override
-  final ConnectUserDetailsRequest userDetails;
 
   Map<String, dynamic> toJson() => _$WSAuthMessageToJson(this);
 

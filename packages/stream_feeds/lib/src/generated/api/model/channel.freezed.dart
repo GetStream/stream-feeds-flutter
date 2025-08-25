@@ -24,7 +24,7 @@ mixin _$Channel {
   int? get cooldown;
   DateTime get createdAt;
   User? get createdBy;
-  Map<String, Object> get custom;
+  Map<String, Object?> get custom;
   DateTime? get deletedAt;
   bool get disabled;
   bool get frozen;
@@ -34,6 +34,8 @@ mixin _$Channel {
   DateTime? get lastMessageAt;
   int? get memberCount;
   List<ChannelMember>? get members;
+  int? get messageCount;
+  DateTime? get messageCountUpdatedAt;
   String? get team;
   User? get truncatedBy;
   String get type;
@@ -83,6 +85,10 @@ mixin _$Channel {
             (identical(other.memberCount, memberCount) ||
                 other.memberCount == memberCount) &&
             const DeepCollectionEquality().equals(other.members, members) &&
+            (identical(other.messageCount, messageCount) ||
+                other.messageCount == messageCount) &&
+            (identical(other.messageCountUpdatedAt, messageCountUpdatedAt) ||
+                other.messageCountUpdatedAt == messageCountUpdatedAt) &&
             (identical(other.team, team) || other.team == team) &&
             (identical(other.truncatedBy, truncatedBy) ||
                 other.truncatedBy == truncatedBy) &&
@@ -113,6 +119,8 @@ mixin _$Channel {
         lastMessageAt,
         memberCount,
         const DeepCollectionEquality().hash(members),
+        messageCount,
+        messageCountUpdatedAt,
         team,
         truncatedBy,
         type,
@@ -121,7 +129,7 @@ mixin _$Channel {
 
   @override
   String toString() {
-    return 'Channel(activeLiveLocations: $activeLiveLocations, autoTranslationEnabled: $autoTranslationEnabled, autoTranslationLanguage: $autoTranslationLanguage, cid: $cid, config: $config, configOverrides: $configOverrides, cooldown: $cooldown, createdAt: $createdAt, createdBy: $createdBy, custom: $custom, deletedAt: $deletedAt, disabled: $disabled, frozen: $frozen, id: $id, invites: $invites, lastCampaigns: $lastCampaigns, lastMessageAt: $lastMessageAt, memberCount: $memberCount, members: $members, team: $team, truncatedBy: $truncatedBy, type: $type, updatedAt: $updatedAt)';
+    return 'Channel(activeLiveLocations: $activeLiveLocations, autoTranslationEnabled: $autoTranslationEnabled, autoTranslationLanguage: $autoTranslationLanguage, cid: $cid, config: $config, configOverrides: $configOverrides, cooldown: $cooldown, createdAt: $createdAt, createdBy: $createdBy, custom: $custom, deletedAt: $deletedAt, disabled: $disabled, frozen: $frozen, id: $id, invites: $invites, lastCampaigns: $lastCampaigns, lastMessageAt: $lastMessageAt, memberCount: $memberCount, members: $members, messageCount: $messageCount, messageCountUpdatedAt: $messageCountUpdatedAt, team: $team, truncatedBy: $truncatedBy, type: $type, updatedAt: $updatedAt)';
   }
 }
 
@@ -140,7 +148,7 @@ abstract mixin class $ChannelCopyWith<$Res> {
       int? cooldown,
       DateTime createdAt,
       User? createdBy,
-      Map<String, Object> custom,
+      Map<String, Object?> custom,
       DateTime? deletedAt,
       bool disabled,
       bool frozen,
@@ -150,6 +158,8 @@ abstract mixin class $ChannelCopyWith<$Res> {
       DateTime? lastMessageAt,
       int? memberCount,
       List<ChannelMember>? members,
+      int? messageCount,
+      DateTime? messageCountUpdatedAt,
       String? team,
       User? truncatedBy,
       String type,
@@ -187,6 +197,8 @@ class _$ChannelCopyWithImpl<$Res> implements $ChannelCopyWith<$Res> {
     Object? lastMessageAt = freezed,
     Object? memberCount = freezed,
     Object? members = freezed,
+    Object? messageCount = freezed,
+    Object? messageCountUpdatedAt = freezed,
     Object? team = freezed,
     Object? truncatedBy = freezed,
     Object? type = null,
@@ -232,7 +244,7 @@ class _$ChannelCopyWithImpl<$Res> implements $ChannelCopyWith<$Res> {
       custom: null == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>,
+              as Map<String, Object?>,
       deletedAt: freezed == deletedAt
           ? _self.deletedAt
           : deletedAt // ignore: cast_nullable_to_non_nullable
@@ -269,6 +281,14 @@ class _$ChannelCopyWithImpl<$Res> implements $ChannelCopyWith<$Res> {
           ? _self.members
           : members // ignore: cast_nullable_to_non_nullable
               as List<ChannelMember>?,
+      messageCount: freezed == messageCount
+          ? _self.messageCount
+          : messageCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      messageCountUpdatedAt: freezed == messageCountUpdatedAt
+          ? _self.messageCountUpdatedAt
+          : messageCountUpdatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       team: freezed == team
           ? _self.team
           : team // ignore: cast_nullable_to_non_nullable

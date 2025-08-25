@@ -16,7 +16,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$FollowUpdatedEvent {
   DateTime get createdAt;
-  Map<String, Object> get custom;
+  Map<String, Object?> get custom;
+  String? get feedVisibility;
   String get fid;
   FollowResponse get follow;
   DateTime? get receivedAt;
@@ -35,9 +36,12 @@ mixin _$FollowUpdatedEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is FollowUpdatedEvent &&
+            super == other &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
+            (identical(other.feedVisibility, feedVisibility) ||
+                other.feedVisibility == feedVisibility) &&
             (identical(other.fid, fid) || other.fid == fid) &&
             (identical(other.follow, follow) || other.follow == follow) &&
             (identical(other.receivedAt, receivedAt) ||
@@ -48,8 +52,10 @@ mixin _$FollowUpdatedEvent {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      super.hashCode,
       createdAt,
       const DeepCollectionEquality().hash(custom),
+      feedVisibility,
       fid,
       follow,
       receivedAt,
@@ -57,7 +63,7 @@ mixin _$FollowUpdatedEvent {
 
   @override
   String toString() {
-    return 'FollowUpdatedEvent(createdAt: $createdAt, custom: $custom, fid: $fid, follow: $follow, receivedAt: $receivedAt, type: $type)';
+    return 'FollowUpdatedEvent(createdAt: $createdAt, custom: $custom, feedVisibility: $feedVisibility, fid: $fid, follow: $follow, receivedAt: $receivedAt, type: $type)';
   }
 }
 
@@ -69,7 +75,8 @@ abstract mixin class $FollowUpdatedEventCopyWith<$Res> {
   @useResult
   $Res call(
       {DateTime createdAt,
-      Map<String, Object> custom,
+      Map<String, Object?> custom,
+      String? feedVisibility,
       String fid,
       FollowResponse follow,
       DateTime? receivedAt,
@@ -91,6 +98,7 @@ class _$FollowUpdatedEventCopyWithImpl<$Res>
   $Res call({
     Object? createdAt = null,
     Object? custom = null,
+    Object? feedVisibility = freezed,
     Object? fid = null,
     Object? follow = null,
     Object? receivedAt = freezed,
@@ -104,7 +112,11 @@ class _$FollowUpdatedEventCopyWithImpl<$Res>
       custom: null == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>,
+              as Map<String, Object?>,
+      feedVisibility: freezed == feedVisibility
+          ? _self.feedVisibility
+          : feedVisibility // ignore: cast_nullable_to_non_nullable
+              as String?,
       fid: null == fid
           ? _self.fid
           : fid // ignore: cast_nullable_to_non_nullable

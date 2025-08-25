@@ -15,10 +15,10 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$GetOrCreateFeedRequest {
-  Map<String, Object>? get activitySelectorOptions;
+  Map<String, Object?>? get activitySelectorOptions;
   FeedInput? get data;
-  Map<String, Object>? get externalRanking;
-  Map<String, Object>? get filter;
+  Map<String, Object?>? get externalRanking;
+  Map<String, Object?>? get filter;
   PagerRequest? get followersPagination;
   PagerRequest? get followingPagination;
   Map<String, double>? get interestWeights;
@@ -93,10 +93,10 @@ abstract mixin class $GetOrCreateFeedRequestCopyWith<$Res> {
       _$GetOrCreateFeedRequestCopyWithImpl;
   @useResult
   $Res call(
-      {Map<String, Object>? activitySelectorOptions,
+      {Map<String, Object?>? activitySelectorOptions,
       FeedInput? data,
-      Map<String, Object>? externalRanking,
-      Map<String, Object>? filter,
+      Map<String, Object?>? externalRanking,
+      Map<String, Object?>? filter,
       PagerRequest? followersPagination,
       PagerRequest? followingPagination,
       Map<String, double>? interestWeights,
@@ -139,7 +139,7 @@ class _$GetOrCreateFeedRequestCopyWithImpl<$Res>
       activitySelectorOptions: freezed == activitySelectorOptions
           ? _self.activitySelectorOptions
           : activitySelectorOptions // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
       data: freezed == data
           ? _self.data
           : data // ignore: cast_nullable_to_non_nullable
@@ -147,11 +147,11 @@ class _$GetOrCreateFeedRequestCopyWithImpl<$Res>
       externalRanking: freezed == externalRanking
           ? _self.externalRanking
           : externalRanking // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
       filter: freezed == filter
           ? _self.filter
           : filter // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
       followersPagination: freezed == followersPagination
           ? _self.followersPagination
           : followersPagination // ignore: cast_nullable_to_non_nullable

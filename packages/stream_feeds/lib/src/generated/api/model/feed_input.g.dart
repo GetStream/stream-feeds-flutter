@@ -7,9 +7,7 @@ part of 'feed_input.dart';
 // **************************************************************************
 
 FeedInput _$FeedInputFromJson(Map<String, dynamic> json) => FeedInput(
-      custom: (json['custom'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>?,
       description: json['description'] as String?,
       filterTags: (json['filter_tags'] as List<dynamic>?)
           ?.map((e) => e as String)

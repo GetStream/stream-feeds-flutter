@@ -20,6 +20,7 @@ class FollowDeletedEvent extends core.WsEvent with _$FollowDeletedEvent {
   const FollowDeletedEvent({
     required this.createdAt,
     required this.custom,
+    this.feedVisibility,
     required this.fid,
     required this.follow,
     this.receivedAt,
@@ -31,7 +32,10 @@ class FollowDeletedEvent extends core.WsEvent with _$FollowDeletedEvent {
   final DateTime createdAt;
 
   @override
-  final Map<String, Object> custom;
+  final Map<String, Object?> custom;
+
+  @override
+  final String? feedVisibility;
 
   @override
   final String fid;

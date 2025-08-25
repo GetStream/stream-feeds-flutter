@@ -31,6 +31,7 @@ class ConfigOverrides with _$ConfigOverrides {
     this.blocklist,
     this.blocklistBehavior,
     required this.commands,
+    this.countMessages,
     required this.grants,
     this.maxMessageLength,
     this.quotes,
@@ -52,6 +53,9 @@ class ConfigOverrides with _$ConfigOverrides {
 
   @override
   final List<String> commands;
+
+  @override
+  final bool? countMessages;
 
   @override
   final Map<String, List<String>> grants;

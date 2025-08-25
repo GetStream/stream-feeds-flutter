@@ -10,9 +10,7 @@ FollowResponse _$FollowResponseFromJson(Map<String, dynamic> json) =>
     FollowResponse(
       createdAt: const EpochDateTimeConverter()
           .fromJson((json['created_at'] as num).toInt()),
-      custom: (json['custom'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>?,
       followerRole: json['follower_role'] as String,
       pushPreference: $enumDecode(
           _$FollowResponsePushPreferenceEnumMap, json['push_preference'],

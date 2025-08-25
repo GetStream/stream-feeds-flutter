@@ -10,9 +10,8 @@ PollClosedFeedEvent _$PollClosedFeedEventFromJson(Map<String, dynamic> json) =>
     PollClosedFeedEvent(
       createdAt: const EpochDateTimeConverter()
           .fromJson((json['created_at'] as num).toInt()),
-      custom: (json['custom'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>,
+      feedVisibility: json['feed_visibility'] as String?,
       fid: json['fid'] as String,
       poll: PollResponseData.fromJson(json['poll'] as Map<String, dynamic>),
       receivedAt: _$JsonConverterFromJson<int, DateTime>(
@@ -25,6 +24,7 @@ Map<String, dynamic> _$PollClosedFeedEventToJson(
     <String, dynamic>{
       'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
       'custom': instance.custom,
+      'feed_visibility': instance.feedVisibility,
       'fid': instance.fid,
       'poll': instance.poll.toJson(),
       'received_at': _$JsonConverterToJson<int, DateTime>(

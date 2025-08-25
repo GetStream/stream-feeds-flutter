@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$UserUpdatedEvent {
   DateTime get createdAt;
-  Map<String, Object> get custom;
+  Map<String, Object?> get custom;
   DateTime? get receivedAt;
   String get type;
   UserResponsePrivacyFields get user;
@@ -34,6 +34,7 @@ mixin _$UserUpdatedEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is UserUpdatedEvent &&
+            super == other &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
@@ -44,7 +45,7 @@ mixin _$UserUpdatedEvent {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, createdAt,
+  int get hashCode => Object.hash(runtimeType, super.hashCode, createdAt,
       const DeepCollectionEquality().hash(custom), receivedAt, type, user);
 
   @override
@@ -61,7 +62,7 @@ abstract mixin class $UserUpdatedEventCopyWith<$Res> {
   @useResult
   $Res call(
       {DateTime createdAt,
-      Map<String, Object> custom,
+      Map<String, Object?> custom,
       DateTime? receivedAt,
       String type,
       UserResponsePrivacyFields user});
@@ -94,7 +95,7 @@ class _$UserUpdatedEventCopyWithImpl<$Res>
       custom: null == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>,
+              as Map<String, Object?>,
       receivedAt: freezed == receivedAt
           ? _self.receivedAt
           : receivedAt // ignore: cast_nullable_to_non_nullable

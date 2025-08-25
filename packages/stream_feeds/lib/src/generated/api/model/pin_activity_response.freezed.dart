@@ -18,7 +18,7 @@ mixin _$PinActivityResponse {
   ActivityResponse get activity;
   DateTime get createdAt;
   String get duration;
-  String get fid;
+  String get feed;
   String get userId;
 
   /// Create a copy of PinActivityResponse
@@ -40,17 +40,17 @@ mixin _$PinActivityResponse {
                 other.createdAt == createdAt) &&
             (identical(other.duration, duration) ||
                 other.duration == duration) &&
-            (identical(other.fid, fid) || other.fid == fid) &&
+            (identical(other.feed, feed) || other.feed == feed) &&
             (identical(other.userId, userId) || other.userId == userId));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, activity, createdAt, duration, fid, userId);
+      Object.hash(runtimeType, activity, createdAt, duration, feed, userId);
 
   @override
   String toString() {
-    return 'PinActivityResponse(activity: $activity, createdAt: $createdAt, duration: $duration, fid: $fid, userId: $userId)';
+    return 'PinActivityResponse(activity: $activity, createdAt: $createdAt, duration: $duration, feed: $feed, userId: $userId)';
   }
 }
 
@@ -64,7 +64,7 @@ abstract mixin class $PinActivityResponseCopyWith<$Res> {
       {ActivityResponse activity,
       DateTime createdAt,
       String duration,
-      String fid,
+      String feed,
       String userId});
 }
 
@@ -84,7 +84,7 @@ class _$PinActivityResponseCopyWithImpl<$Res>
     Object? activity = null,
     Object? createdAt = null,
     Object? duration = null,
-    Object? fid = null,
+    Object? feed = null,
     Object? userId = null,
   }) {
     return _then(PinActivityResponse(
@@ -100,9 +100,9 @@ class _$PinActivityResponseCopyWithImpl<$Res>
           ? _self.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as String,
-      fid: null == fid
-          ? _self.fid
-          : fid // ignore: cast_nullable_to_non_nullable
+      feed: null == feed
+          ? _self.feed
+          : feed // ignore: cast_nullable_to_non_nullable
               as String,
       userId: null == userId
           ? _self.userId

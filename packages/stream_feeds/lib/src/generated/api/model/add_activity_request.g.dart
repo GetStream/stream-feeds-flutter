@@ -11,11 +11,9 @@ AddActivityRequest _$AddActivityRequestFromJson(Map<String, dynamic> json) =>
       attachments: (json['attachments'] as List<dynamic>?)
           ?.map((e) => Attachment.fromJson(e as Map<String, dynamic>))
           .toList(),
-      custom: (json['custom'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>?,
       expiresAt: json['expires_at'] as String?,
-      fids: (json['fids'] as List<dynamic>).map((e) => e as String).toList(),
+      feeds: (json['feeds'] as List<dynamic>).map((e) => e as String).toList(),
       filterTags: (json['filter_tags'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
@@ -31,9 +29,7 @@ AddActivityRequest _$AddActivityRequestFromJson(Map<String, dynamic> json) =>
           .toList(),
       parentId: json['parent_id'] as String?,
       pollId: json['poll_id'] as String?,
-      searchData: (json['search_data'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      searchData: json['search_data'] as Map<String, dynamic>?,
       text: json['text'] as String?,
       type: json['type'] as String,
       visibility: $enumDecodeNullable(
@@ -47,7 +43,7 @@ Map<String, dynamic> _$AddActivityRequestToJson(AddActivityRequest instance) =>
       'attachments': instance.attachments?.map((e) => e.toJson()).toList(),
       'custom': instance.custom,
       'expires_at': instance.expiresAt,
-      'fids': instance.fids,
+      'feeds': instance.feeds,
       'filter_tags': instance.filterTags,
       'id': instance.id,
       'interest_tags': instance.interestTags,

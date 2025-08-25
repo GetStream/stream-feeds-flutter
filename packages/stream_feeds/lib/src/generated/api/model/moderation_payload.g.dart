@@ -8,9 +8,7 @@ part of 'moderation_payload.dart';
 
 ModerationPayload _$ModerationPayloadFromJson(Map<String, dynamic> json) =>
     ModerationPayload(
-      custom: (json['custom'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>?,
       images:
           (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
       texts:

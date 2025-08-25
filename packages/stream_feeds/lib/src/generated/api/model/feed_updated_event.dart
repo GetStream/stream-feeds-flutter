@@ -21,6 +21,7 @@ class FeedUpdatedEvent extends core.WsEvent with _$FeedUpdatedEvent {
     required this.createdAt,
     required this.custom,
     required this.feed,
+    this.feedVisibility,
     required this.fid,
     this.receivedAt,
     required this.type,
@@ -32,10 +33,13 @@ class FeedUpdatedEvent extends core.WsEvent with _$FeedUpdatedEvent {
   final DateTime createdAt;
 
   @override
-  final Map<String, Object> custom;
+  final Map<String, Object?> custom;
 
   @override
   final FeedResponse feed;
+
+  @override
+  final String? feedVisibility;
 
   @override
   final String fid;

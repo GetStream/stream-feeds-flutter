@@ -10,9 +10,7 @@ CreatePollRequest _$CreatePollRequestFromJson(Map<String, dynamic> json) =>
     CreatePollRequest(
       allowAnswers: json['allow_answers'] as bool?,
       allowUserSuggestedOptions: json['allow_user_suggested_options'] as bool?,
-      custom: (json['custom'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>?,
       description: json['description'] as String?,
       enforceUniqueVote: json['enforce_unique_vote'] as bool?,
       id: json['id'] as String?,

@@ -16,7 +16,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$UpdateCommentRequest {
   String? get comment;
-  Map<String, Object>? get custom;
+  Map<String, Object?>? get custom;
+  bool? get skipPush;
 
   /// Create a copy of UpdateCommentRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -32,16 +33,18 @@ mixin _$UpdateCommentRequest {
         (other.runtimeType == runtimeType &&
             other is UpdateCommentRequest &&
             (identical(other.comment, comment) || other.comment == comment) &&
-            const DeepCollectionEquality().equals(other.custom, custom));
+            const DeepCollectionEquality().equals(other.custom, custom) &&
+            (identical(other.skipPush, skipPush) ||
+                other.skipPush == skipPush));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, comment, const DeepCollectionEquality().hash(custom));
+  int get hashCode => Object.hash(runtimeType, comment,
+      const DeepCollectionEquality().hash(custom), skipPush);
 
   @override
   String toString() {
-    return 'UpdateCommentRequest(comment: $comment, custom: $custom)';
+    return 'UpdateCommentRequest(comment: $comment, custom: $custom, skipPush: $skipPush)';
   }
 }
 
@@ -51,7 +54,7 @@ abstract mixin class $UpdateCommentRequestCopyWith<$Res> {
           $Res Function(UpdateCommentRequest) _then) =
       _$UpdateCommentRequestCopyWithImpl;
   @useResult
-  $Res call({String? comment, Map<String, Object>? custom});
+  $Res call({String? comment, Map<String, Object?>? custom, bool? skipPush});
 }
 
 /// @nodoc
@@ -69,6 +72,7 @@ class _$UpdateCommentRequestCopyWithImpl<$Res>
   $Res call({
     Object? comment = freezed,
     Object? custom = freezed,
+    Object? skipPush = freezed,
   }) {
     return _then(UpdateCommentRequest(
       comment: freezed == comment
@@ -78,7 +82,11 @@ class _$UpdateCommentRequestCopyWithImpl<$Res>
       custom: freezed == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
+      skipPush: freezed == skipPush
+          ? _self.skipPush
+          : skipPush // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }

@@ -55,7 +55,7 @@ class LayoutSettings with _$LayoutSettings {
   final LayoutSettingsName name;
 
   @override
-  final Map<String, Object>? options;
+  final Map<String, Object?>? options;
 
   Map<String, dynamic> toJson() => _$LayoutSettingsToJson(this);
 

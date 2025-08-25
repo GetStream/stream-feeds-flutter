@@ -16,7 +16,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PollVoteCastedFeedEvent {
   DateTime get createdAt;
-  Map<String, Object> get custom;
+  Map<String, Object?> get custom;
+  String? get feedVisibility;
   String get fid;
   PollResponseData get poll;
   PollVoteResponseData get pollVote;
@@ -36,9 +37,12 @@ mixin _$PollVoteCastedFeedEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is PollVoteCastedFeedEvent &&
+            super == other &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
+            (identical(other.feedVisibility, feedVisibility) ||
+                other.feedVisibility == feedVisibility) &&
             (identical(other.fid, fid) || other.fid == fid) &&
             (identical(other.poll, poll) || other.poll == poll) &&
             (identical(other.pollVote, pollVote) ||
@@ -51,8 +55,10 @@ mixin _$PollVoteCastedFeedEvent {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      super.hashCode,
       createdAt,
       const DeepCollectionEquality().hash(custom),
+      feedVisibility,
       fid,
       poll,
       pollVote,
@@ -61,7 +67,7 @@ mixin _$PollVoteCastedFeedEvent {
 
   @override
   String toString() {
-    return 'PollVoteCastedFeedEvent(createdAt: $createdAt, custom: $custom, fid: $fid, poll: $poll, pollVote: $pollVote, receivedAt: $receivedAt, type: $type)';
+    return 'PollVoteCastedFeedEvent(createdAt: $createdAt, custom: $custom, feedVisibility: $feedVisibility, fid: $fid, poll: $poll, pollVote: $pollVote, receivedAt: $receivedAt, type: $type)';
   }
 }
 
@@ -73,7 +79,8 @@ abstract mixin class $PollVoteCastedFeedEventCopyWith<$Res> {
   @useResult
   $Res call(
       {DateTime createdAt,
-      Map<String, Object> custom,
+      Map<String, Object?> custom,
+      String? feedVisibility,
       String fid,
       PollResponseData poll,
       PollVoteResponseData pollVote,
@@ -96,6 +103,7 @@ class _$PollVoteCastedFeedEventCopyWithImpl<$Res>
   $Res call({
     Object? createdAt = null,
     Object? custom = null,
+    Object? feedVisibility = freezed,
     Object? fid = null,
     Object? poll = null,
     Object? pollVote = null,
@@ -110,7 +118,11 @@ class _$PollVoteCastedFeedEventCopyWithImpl<$Res>
       custom: null == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>,
+              as Map<String, Object?>,
+      feedVisibility: freezed == feedVisibility
+          ? _self.feedVisibility
+          : feedVisibility // ignore: cast_nullable_to_non_nullable
+              as String?,
       fid: null == fid
           ? _self.fid
           : fid // ignore: cast_nullable_to_non_nullable

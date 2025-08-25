@@ -42,7 +42,7 @@ class QueryReviewQueueResponse with _$QueryReviewQueueResponse {
   final String? prev;
 
   @override
-  final Map<String, Object> stats;
+  final Map<String, Object?> stats;
 
   Map<String, dynamic> toJson() => _$QueryReviewQueueResponseToJson(this);
 

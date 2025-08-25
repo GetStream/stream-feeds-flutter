@@ -38,7 +38,7 @@ class EnrichedReaction with _$EnrichedReaction {
   final Map<String, int>? childrenCounts;
 
   @override
-  final Map<String, Object>? data;
+  final Map<String, Object?>? data;
 
   @override
   final String? id;

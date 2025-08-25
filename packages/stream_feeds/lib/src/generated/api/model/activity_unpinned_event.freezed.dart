@@ -16,7 +16,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ActivityUnpinnedEvent {
   DateTime get createdAt;
-  Map<String, Object> get custom;
+  Map<String, Object?> get custom;
+  String? get feedVisibility;
   String get fid;
   PinActivityResponse get pinnedActivity;
   DateTime? get receivedAt;
@@ -36,9 +37,12 @@ mixin _$ActivityUnpinnedEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ActivityUnpinnedEvent &&
+            super == other &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
+            (identical(other.feedVisibility, feedVisibility) ||
+                other.feedVisibility == feedVisibility) &&
             (identical(other.fid, fid) || other.fid == fid) &&
             (identical(other.pinnedActivity, pinnedActivity) ||
                 other.pinnedActivity == pinnedActivity) &&
@@ -51,8 +55,10 @@ mixin _$ActivityUnpinnedEvent {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      super.hashCode,
       createdAt,
       const DeepCollectionEquality().hash(custom),
+      feedVisibility,
       fid,
       pinnedActivity,
       receivedAt,
@@ -61,7 +67,7 @@ mixin _$ActivityUnpinnedEvent {
 
   @override
   String toString() {
-    return 'ActivityUnpinnedEvent(createdAt: $createdAt, custom: $custom, fid: $fid, pinnedActivity: $pinnedActivity, receivedAt: $receivedAt, type: $type, user: $user)';
+    return 'ActivityUnpinnedEvent(createdAt: $createdAt, custom: $custom, feedVisibility: $feedVisibility, fid: $fid, pinnedActivity: $pinnedActivity, receivedAt: $receivedAt, type: $type, user: $user)';
   }
 }
 
@@ -73,7 +79,8 @@ abstract mixin class $ActivityUnpinnedEventCopyWith<$Res> {
   @useResult
   $Res call(
       {DateTime createdAt,
-      Map<String, Object> custom,
+      Map<String, Object?> custom,
+      String? feedVisibility,
       String fid,
       PinActivityResponse pinnedActivity,
       DateTime? receivedAt,
@@ -96,6 +103,7 @@ class _$ActivityUnpinnedEventCopyWithImpl<$Res>
   $Res call({
     Object? createdAt = null,
     Object? custom = null,
+    Object? feedVisibility = freezed,
     Object? fid = null,
     Object? pinnedActivity = null,
     Object? receivedAt = freezed,
@@ -110,7 +118,11 @@ class _$ActivityUnpinnedEventCopyWithImpl<$Res>
       custom: null == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>,
+              as Map<String, Object?>,
+      feedVisibility: freezed == feedVisibility
+          ? _self.feedVisibility
+          : feedVisibility // ignore: cast_nullable_to_non_nullable
+              as String?,
       fid: null == fid
           ? _self.fid
           : fid // ignore: cast_nullable_to_non_nullable

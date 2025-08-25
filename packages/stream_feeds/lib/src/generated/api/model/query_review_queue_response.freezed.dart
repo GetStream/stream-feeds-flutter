@@ -20,7 +20,7 @@ mixin _$QueryReviewQueueResponse {
   List<ReviewQueueItemResponse> get items;
   String? get next;
   String? get prev;
-  Map<String, Object> get stats;
+  Map<String, Object?> get stats;
 
   /// Create a copy of QueryReviewQueueResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -73,7 +73,7 @@ abstract mixin class $QueryReviewQueueResponseCopyWith<$Res> {
       List<ReviewQueueItemResponse> items,
       String? next,
       String? prev,
-      Map<String, Object> stats});
+      Map<String, Object?> stats});
 }
 
 /// @nodoc
@@ -120,7 +120,7 @@ class _$QueryReviewQueueResponseCopyWithImpl<$Res>
       stats: null == stats
           ? _self.stats
           : stats // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>,
+              as Map<String, Object?>,
     ));
   }
 }

@@ -17,7 +17,7 @@ T _$identity<T>(T value) => value;
 mixin _$APNS {
   String get body;
   int? get contentAvailable;
-  Map<String, Object>? get data;
+  Map<String, Object?>? get data;
   int? get mutableContent;
   String? get sound;
   String get title;
@@ -62,7 +62,7 @@ abstract mixin class $APNSCopyWith<$Res> {
   $Res call(
       {String body,
       int? contentAvailable,
-      Map<String, Object>? data,
+      Map<String, Object?>? data,
       int? mutableContent,
       String? sound,
       String title});
@@ -99,7 +99,7 @@ class _$APNSCopyWithImpl<$Res> implements $APNSCopyWith<$Res> {
       data: freezed == data
           ? _self.data
           : data // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
       mutableContent: freezed == mutableContent
           ? _self.mutableContent
           : mutableContent // ignore: cast_nullable_to_non_nullable

@@ -9,9 +9,7 @@ part of 'custom_action_request.dart';
 CustomActionRequest _$CustomActionRequestFromJson(Map<String, dynamic> json) =>
     CustomActionRequest(
       id: json['id'] as String?,
-      options: (json['options'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      options: json['options'] as Map<String, dynamic>?,
     );
 
 Map<String, dynamic> _$CustomActionRequestToJson(

@@ -21,7 +21,7 @@ mixin _$GetOGResponse {
   String? get authorLink;
   String? get authorName;
   String? get color;
-  Map<String, Object> get custom;
+  Map<String, Object?> get custom;
   String get duration;
   String? get fallback;
   List<Field>? get fields;
@@ -137,7 +137,7 @@ abstract mixin class $GetOGResponseCopyWith<$Res> {
       String? authorLink,
       String? authorName,
       String? color,
-      Map<String, Object> custom,
+      Map<String, Object?> custom,
       String duration,
       String? fallback,
       List<Field>? fields,
@@ -221,7 +221,7 @@ class _$GetOGResponseCopyWithImpl<$Res>
       custom: null == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>,
+              as Map<String, Object?>,
       duration: null == duration
           ? _self.duration
           : duration // ignore: cast_nullable_to_non_nullable

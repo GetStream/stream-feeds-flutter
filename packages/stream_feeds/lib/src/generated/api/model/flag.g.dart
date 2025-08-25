@@ -9,9 +9,7 @@ part of 'flag.dart';
 Flag _$FlagFromJson(Map<String, dynamic> json) => Flag(
       createdAt: const EpochDateTimeConverter()
           .fromJson((json['created_at'] as num).toInt()),
-      custom: (json['custom'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>?,
       entityCreatorId: json['entity_creator_id'] as String?,
       entityId: json['entity_id'] as String,
       entityType: json['entity_type'] as String,
@@ -25,9 +23,7 @@ Flag _$FlagFromJson(Map<String, dynamic> json) => Flag(
       moderationPayloadHash: json['moderation_payload_hash'] as String?,
       reason: json['reason'] as String?,
       result: (json['result'] as List<dynamic>)
-          .map((e) => (e as Map<String, dynamic>).map(
-                (k, e) => MapEntry(k, e as Object),
-              ))
+          .map((e) => e as Map<String, dynamic>)
           .toList(),
       reviewQueueItem: json['review_queue_item'] == null
           ? null

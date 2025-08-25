@@ -33,7 +33,7 @@ class UpdateActivityRequest with _$UpdateActivityRequest {
   final List<Attachment>? attachments;
 
   @override
-  final Map<String, Object>? custom;
+  final Map<String, Object?>? custom;
 
   @override
   @EpochDateTimeConverter()

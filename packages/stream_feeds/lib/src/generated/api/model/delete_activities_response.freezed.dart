@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$DeleteActivitiesResponse {
-  List<String> get deletedActivityIds;
+  List<String> get deletedIds;
   String get duration;
 
   /// Create a copy of DeleteActivitiesResponse
@@ -32,18 +32,18 @@ mixin _$DeleteActivitiesResponse {
         (other.runtimeType == runtimeType &&
             other is DeleteActivitiesResponse &&
             const DeepCollectionEquality()
-                .equals(other.deletedActivityIds, deletedActivityIds) &&
+                .equals(other.deletedIds, deletedIds) &&
             (identical(other.duration, duration) ||
                 other.duration == duration));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(deletedActivityIds), duration);
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(deletedIds), duration);
 
   @override
   String toString() {
-    return 'DeleteActivitiesResponse(deletedActivityIds: $deletedActivityIds, duration: $duration)';
+    return 'DeleteActivitiesResponse(deletedIds: $deletedIds, duration: $duration)';
   }
 }
 
@@ -53,7 +53,7 @@ abstract mixin class $DeleteActivitiesResponseCopyWith<$Res> {
           $Res Function(DeleteActivitiesResponse) _then) =
       _$DeleteActivitiesResponseCopyWithImpl;
   @useResult
-  $Res call({List<String> deletedActivityIds, String duration});
+  $Res call({List<String> deletedIds, String duration});
 }
 
 /// @nodoc
@@ -69,13 +69,13 @@ class _$DeleteActivitiesResponseCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? deletedActivityIds = null,
+    Object? deletedIds = null,
     Object? duration = null,
   }) {
     return _then(DeleteActivitiesResponse(
-      deletedActivityIds: null == deletedActivityIds
-          ? _self.deletedActivityIds
-          : deletedActivityIds // ignore: cast_nullable_to_non_nullable
+      deletedIds: null == deletedIds
+          ? _self.deletedIds
+          : deletedIds // ignore: cast_nullable_to_non_nullable
               as List<String>,
       duration: null == duration
           ? _self.duration

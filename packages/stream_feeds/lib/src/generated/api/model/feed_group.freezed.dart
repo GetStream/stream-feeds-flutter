@@ -15,15 +15,20 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$FeedGroup {
+  List<ActivityProcessorConfig> get activityProcessors;
+  List<ActivitySelectorConfig> get activitySelectors;
+  AggregationConfig? get aggregation;
+  int get aggregationVersion;
   int get appPK;
   DateTime get createdAt;
-  Map<String, Object> get custom;
-  String get defaultViewID;
+  Map<String, Object?> get custom;
   String get defaultVisibility;
   DateTime? get deletedAt;
   String get iD;
   DateTime? get lastFeedGetAt;
   NotificationConfig? get notification;
+  PushNotificationConfig? get pushNotification;
+  RankingConfig? get ranking;
   StoriesConfig? get stories;
   DateTime get updatedAt;
 
@@ -39,12 +44,18 @@ mixin _$FeedGroup {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is FeedGroup &&
+            const DeepCollectionEquality()
+                .equals(other.activityProcessors, activityProcessors) &&
+            const DeepCollectionEquality()
+                .equals(other.activitySelectors, activitySelectors) &&
+            (identical(other.aggregation, aggregation) ||
+                other.aggregation == aggregation) &&
+            (identical(other.aggregationVersion, aggregationVersion) ||
+                other.aggregationVersion == aggregationVersion) &&
             (identical(other.appPK, appPK) || other.appPK == appPK) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
-            (identical(other.defaultViewID, defaultViewID) ||
-                other.defaultViewID == defaultViewID) &&
             (identical(other.defaultVisibility, defaultVisibility) ||
                 other.defaultVisibility == defaultVisibility) &&
             (identical(other.deletedAt, deletedAt) ||
@@ -54,6 +65,9 @@ mixin _$FeedGroup {
                 other.lastFeedGetAt == lastFeedGetAt) &&
             (identical(other.notification, notification) ||
                 other.notification == notification) &&
+            (identical(other.pushNotification, pushNotification) ||
+                other.pushNotification == pushNotification) &&
+            (identical(other.ranking, ranking) || other.ranking == ranking) &&
             (identical(other.stories, stories) || other.stories == stories) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt));
@@ -62,21 +76,26 @@ mixin _$FeedGroup {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      const DeepCollectionEquality().hash(activityProcessors),
+      const DeepCollectionEquality().hash(activitySelectors),
+      aggregation,
+      aggregationVersion,
       appPK,
       createdAt,
       const DeepCollectionEquality().hash(custom),
-      defaultViewID,
       defaultVisibility,
       deletedAt,
       iD,
       lastFeedGetAt,
       notification,
+      pushNotification,
+      ranking,
       stories,
       updatedAt);
 
   @override
   String toString() {
-    return 'FeedGroup(appPK: $appPK, createdAt: $createdAt, custom: $custom, defaultViewID: $defaultViewID, defaultVisibility: $defaultVisibility, deletedAt: $deletedAt, iD: $iD, lastFeedGetAt: $lastFeedGetAt, notification: $notification, stories: $stories, updatedAt: $updatedAt)';
+    return 'FeedGroup(activityProcessors: $activityProcessors, activitySelectors: $activitySelectors, aggregation: $aggregation, aggregationVersion: $aggregationVersion, appPK: $appPK, createdAt: $createdAt, custom: $custom, defaultVisibility: $defaultVisibility, deletedAt: $deletedAt, iD: $iD, lastFeedGetAt: $lastFeedGetAt, notification: $notification, pushNotification: $pushNotification, ranking: $ranking, stories: $stories, updatedAt: $updatedAt)';
   }
 }
 
@@ -86,15 +105,20 @@ abstract mixin class $FeedGroupCopyWith<$Res> {
       _$FeedGroupCopyWithImpl;
   @useResult
   $Res call(
-      {int appPK,
+      {List<ActivityProcessorConfig> activityProcessors,
+      List<ActivitySelectorConfig> activitySelectors,
+      AggregationConfig? aggregation,
+      int aggregationVersion,
+      int appPK,
       DateTime createdAt,
-      Map<String, Object> custom,
-      String defaultViewID,
+      Map<String, Object?> custom,
       String defaultVisibility,
       DateTime? deletedAt,
       String iD,
       DateTime? lastFeedGetAt,
       NotificationConfig? notification,
+      PushNotificationConfig? pushNotification,
+      RankingConfig? ranking,
       StoriesConfig? stories,
       DateTime updatedAt});
 }
@@ -111,19 +135,40 @@ class _$FeedGroupCopyWithImpl<$Res> implements $FeedGroupCopyWith<$Res> {
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? activityProcessors = null,
+    Object? activitySelectors = null,
+    Object? aggregation = freezed,
+    Object? aggregationVersion = null,
     Object? appPK = null,
     Object? createdAt = null,
     Object? custom = null,
-    Object? defaultViewID = null,
     Object? defaultVisibility = null,
     Object? deletedAt = freezed,
     Object? iD = null,
     Object? lastFeedGetAt = freezed,
     Object? notification = freezed,
+    Object? pushNotification = freezed,
+    Object? ranking = freezed,
     Object? stories = freezed,
     Object? updatedAt = null,
   }) {
     return _then(FeedGroup(
+      activityProcessors: null == activityProcessors
+          ? _self.activityProcessors
+          : activityProcessors // ignore: cast_nullable_to_non_nullable
+              as List<ActivityProcessorConfig>,
+      activitySelectors: null == activitySelectors
+          ? _self.activitySelectors
+          : activitySelectors // ignore: cast_nullable_to_non_nullable
+              as List<ActivitySelectorConfig>,
+      aggregation: freezed == aggregation
+          ? _self.aggregation
+          : aggregation // ignore: cast_nullable_to_non_nullable
+              as AggregationConfig?,
+      aggregationVersion: null == aggregationVersion
+          ? _self.aggregationVersion
+          : aggregationVersion // ignore: cast_nullable_to_non_nullable
+              as int,
       appPK: null == appPK
           ? _self.appPK
           : appPK // ignore: cast_nullable_to_non_nullable
@@ -135,11 +180,7 @@ class _$FeedGroupCopyWithImpl<$Res> implements $FeedGroupCopyWith<$Res> {
       custom: null == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>,
-      defaultViewID: null == defaultViewID
-          ? _self.defaultViewID
-          : defaultViewID // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Map<String, Object?>,
       defaultVisibility: null == defaultVisibility
           ? _self.defaultVisibility
           : defaultVisibility // ignore: cast_nullable_to_non_nullable
@@ -160,6 +201,14 @@ class _$FeedGroupCopyWithImpl<$Res> implements $FeedGroupCopyWith<$Res> {
           ? _self.notification
           : notification // ignore: cast_nullable_to_non_nullable
               as NotificationConfig?,
+      pushNotification: freezed == pushNotification
+          ? _self.pushNotification
+          : pushNotification // ignore: cast_nullable_to_non_nullable
+              as PushNotificationConfig?,
+      ranking: freezed == ranking
+          ? _self.ranking
+          : ranking // ignore: cast_nullable_to_non_nullable
+              as RankingConfig?,
       stories: freezed == stories
           ? _self.stories
           : stories // ignore: cast_nullable_to_non_nullable

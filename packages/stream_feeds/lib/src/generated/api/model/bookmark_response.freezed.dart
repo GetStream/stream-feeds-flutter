@@ -17,7 +17,7 @@ T _$identity<T>(T value) => value;
 mixin _$BookmarkResponse {
   ActivityResponse get activity;
   DateTime get createdAt;
-  Map<String, Object>? get custom;
+  Map<String, Object?>? get custom;
   BookmarkFolderResponse? get folder;
   DateTime get updatedAt;
   UserResponse get user;
@@ -65,7 +65,7 @@ abstract mixin class $BookmarkResponseCopyWith<$Res> {
   $Res call(
       {ActivityResponse activity,
       DateTime createdAt,
-      Map<String, Object>? custom,
+      Map<String, Object?>? custom,
       BookmarkFolderResponse? folder,
       DateTime updatedAt,
       UserResponse user});
@@ -103,7 +103,7 @@ class _$BookmarkResponseCopyWithImpl<$Res>
       custom: freezed == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
       folder: freezed == folder
           ? _self.folder
           : folder // ignore: cast_nullable_to_non_nullable

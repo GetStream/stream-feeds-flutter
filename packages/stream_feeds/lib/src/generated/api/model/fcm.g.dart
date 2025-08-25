@@ -7,9 +7,7 @@ part of 'fcm.dart';
 // **************************************************************************
 
 FCM _$FCMFromJson(Map<String, dynamic> json) => FCM(
-      data: (json['data'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      data: json['data'] as Map<String, dynamic>?,
     );
 
 Map<String, dynamic> _$FCMToJson(FCM instance) => <String, dynamic>{

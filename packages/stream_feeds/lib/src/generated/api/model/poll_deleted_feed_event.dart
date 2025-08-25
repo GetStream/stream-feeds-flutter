@@ -20,6 +20,7 @@ class PollDeletedFeedEvent extends core.WsEvent with _$PollDeletedFeedEvent {
   const PollDeletedFeedEvent({
     required this.createdAt,
     required this.custom,
+    this.feedVisibility,
     required this.fid,
     required this.poll,
     this.receivedAt,
@@ -31,7 +32,10 @@ class PollDeletedFeedEvent extends core.WsEvent with _$PollDeletedFeedEvent {
   final DateTime createdAt;
 
   @override
-  final Map<String, Object> custom;
+  final Map<String, Object?> custom;
+
+  @override
+  final String? feedVisibility;
 
   @override
   final String fid;

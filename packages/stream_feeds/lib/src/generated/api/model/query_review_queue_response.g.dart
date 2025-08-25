@@ -24,9 +24,7 @@ QueryReviewQueueResponse _$QueryReviewQueueResponseFromJson(
           .toList(),
       next: json['next'] as String?,
       prev: json['prev'] as String?,
-      stats: (json['stats'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      stats: json['stats'] as Map<String, dynamic>,
     );
 
 Map<String, dynamic> _$QueryReviewQueueResponseToJson(

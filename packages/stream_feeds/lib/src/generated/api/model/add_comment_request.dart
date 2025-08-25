@@ -26,6 +26,7 @@ class AddCommentRequest with _$AddCommentRequest {
     required this.objectId,
     required this.objectType,
     this.parentId,
+    this.skipPush,
   });
 
   @override
@@ -38,7 +39,7 @@ class AddCommentRequest with _$AddCommentRequest {
   final bool? createNotificationActivity;
 
   @override
-  final Map<String, Object>? custom;
+  final Map<String, Object?>? custom;
 
   @override
   final List<String>? mentionedUserIds;
@@ -51,6 +52,9 @@ class AddCommentRequest with _$AddCommentRequest {
 
   @override
   final String? parentId;
+
+  @override
+  final bool? skipPush;
 
   Map<String, dynamic> toJson() => _$AddCommentRequestToJson(this);
 

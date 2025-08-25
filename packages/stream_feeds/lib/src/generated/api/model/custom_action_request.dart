@@ -26,7 +26,7 @@ class CustomActionRequest with _$CustomActionRequest {
   final String? id;
 
   @override
-  final Map<String, Object>? options;
+  final Map<String, Object?>? options;
 
   Map<String, dynamic> toJson() => _$CustomActionRequestToJson(this);
 

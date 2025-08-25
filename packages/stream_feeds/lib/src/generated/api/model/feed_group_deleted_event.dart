@@ -20,6 +20,7 @@ class FeedGroupDeletedEvent extends core.WsEvent with _$FeedGroupDeletedEvent {
   const FeedGroupDeletedEvent({
     required this.createdAt,
     required this.custom,
+    this.feedVisibility,
     required this.fid,
     required this.groupId,
     this.receivedAt,
@@ -31,7 +32,10 @@ class FeedGroupDeletedEvent extends core.WsEvent with _$FeedGroupDeletedEvent {
   final DateTime createdAt;
 
   @override
-  final Map<String, Object> custom;
+  final Map<String, Object?> custom;
+
+  @override
+  final String? feedVisibility;
 
   @override
   final String fid;

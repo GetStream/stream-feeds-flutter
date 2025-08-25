@@ -37,6 +37,8 @@ class Channel with _$Channel {
     this.lastMessageAt,
     this.memberCount,
     this.members,
+    this.messageCount,
+    this.messageCountUpdatedAt,
     this.team,
     this.truncatedBy,
     required this.type,
@@ -72,7 +74,7 @@ class Channel with _$Channel {
   final User? createdBy;
 
   @override
-  final Map<String, Object> custom;
+  final Map<String, Object?> custom;
 
   @override
   @EpochDateTimeConverter()
@@ -102,6 +104,13 @@ class Channel with _$Channel {
 
   @override
   final List<ChannelMember>? members;
+
+  @override
+  final int? messageCount;
+
+  @override
+  @EpochDateTimeConverter()
+  final DateTime? messageCountUpdatedAt;
 
   @override
   final String? team;

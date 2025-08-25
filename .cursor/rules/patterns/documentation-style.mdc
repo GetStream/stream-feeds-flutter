@@ -115,6 +115,26 @@ class Box {
 #### PREFER brevity
 Be clear and precise, but also terse. Avoid verbose explanations.
 
+#### DO separate return documentation with a blank line
+Always place return documentation on a separate line with a blank line before it for better readability and consistency.
+
+```dart
+/// Creates a new activity.
+///
+/// Creates a new activity using the provided [request] data.
+///
+/// Returns a [Result] containing the created [ActivityData] or an error.
+Future<Result<ActivityData>> addActivity(AddActivityRequest request) async { ... }
+
+/// Deletes an activity.
+///
+/// Removes the activity with the specified [activityId]. When [hardDelete]
+/// is true, permanently deletes the activity; otherwise marks it as deleted.
+///
+/// Returns a [Result] containing void or an error.
+Future<Result<void>> deleteActivity(String activityId, {bool hardDelete = false}) { ... }
+```
+
 ### Common Anti-Patterns to Avoid
 
 ```dart
@@ -720,6 +740,7 @@ When documenting SDK components, ensure:
 - [ ] Avoided redundancy with surrounding context
 - [ ] Used "this" instead of "the" for member's instance
 - [ ] Maintained brevity while being precise
+- [ ] Separated return documentation with a blank line
 
 ### SDK-Specific Patterns
 - [ ] Used appropriate class documentation pattern (Feed vs List vs State vs Notifier)

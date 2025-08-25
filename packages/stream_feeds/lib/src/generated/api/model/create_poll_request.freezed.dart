@@ -17,7 +17,7 @@ T _$identity<T>(T value) => value;
 mixin _$CreatePollRequest {
   bool? get allowAnswers;
   bool? get allowUserSuggestedOptions;
-  Map<String, Object>? get custom;
+  Map<String, Object?>? get custom;
   String? get description;
   bool? get enforceUniqueVote;
   String? get id;
@@ -91,7 +91,7 @@ abstract mixin class $CreatePollRequestCopyWith<$Res> {
   $Res call(
       {bool? allowAnswers,
       bool? allowUserSuggestedOptions,
-      Map<String, Object>? custom,
+      Map<String, Object?>? custom,
       String? description,
       bool? enforceUniqueVote,
       String? id,
@@ -139,7 +139,7 @@ class _$CreatePollRequestCopyWithImpl<$Res>
       custom: freezed == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
       description: freezed == description
           ? _self.description
           : description // ignore: cast_nullable_to_non_nullable

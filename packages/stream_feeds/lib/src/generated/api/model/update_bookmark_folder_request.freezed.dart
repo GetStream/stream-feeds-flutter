@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$UpdateBookmarkFolderRequest {
-  Map<String, Object>? get custom;
+  Map<String, Object?>? get custom;
   String? get name;
 
   /// Create a copy of UpdateBookmarkFolderRequest
@@ -53,7 +53,7 @@ abstract mixin class $UpdateBookmarkFolderRequestCopyWith<$Res> {
           $Res Function(UpdateBookmarkFolderRequest) _then) =
       _$UpdateBookmarkFolderRequestCopyWithImpl;
   @useResult
-  $Res call({Map<String, Object>? custom, String? name});
+  $Res call({Map<String, Object?>? custom, String? name});
 }
 
 /// @nodoc
@@ -76,7 +76,7 @@ class _$UpdateBookmarkFolderRequestCopyWithImpl<$Res>
       custom: freezed == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
       name: freezed == name
           ? _self.name
           : name // ignore: cast_nullable_to_non_nullable

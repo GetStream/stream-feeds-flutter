@@ -23,7 +23,7 @@ mixin _$CallResponse {
   DateTime get createdAt;
   UserResponse get createdBy;
   String get currentSessionId;
-  Map<String, Object> get custom;
+  Map<String, Object?> get custom;
   EgressResponse get egress;
   DateTime? get endedAt;
   String get id;
@@ -140,7 +140,7 @@ abstract mixin class $CallResponseCopyWith<$Res> {
       DateTime createdAt,
       UserResponse createdBy,
       String currentSessionId,
-      Map<String, Object> custom,
+      Map<String, Object?> custom,
       EgressResponse egress,
       DateTime? endedAt,
       String id,
@@ -229,7 +229,7 @@ class _$CallResponseCopyWithImpl<$Res> implements $CallResponseCopyWith<$Res> {
       custom: null == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>,
+              as Map<String, Object?>,
       egress: null == egress
           ? _self.egress
           : egress // ignore: cast_nullable_to_non_nullable

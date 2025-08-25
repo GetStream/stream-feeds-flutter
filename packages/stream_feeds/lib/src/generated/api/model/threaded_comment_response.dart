@@ -60,7 +60,7 @@ class ThreadedCommentResponse with _$ThreadedCommentResponse {
   final DateTime createdAt;
 
   @override
-  final Map<String, Object>? custom;
+  final Map<String, Object?>? custom;
 
   @override
   @EpochDateTimeConverter()

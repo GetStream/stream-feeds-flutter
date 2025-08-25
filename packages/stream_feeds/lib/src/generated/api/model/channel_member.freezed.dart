@@ -20,8 +20,9 @@ mixin _$ChannelMember {
   bool get banned;
   String get channelRole;
   DateTime get createdAt;
-  Map<String, Object> get custom;
+  Map<String, Object?> get custom;
   DateTime? get deletedAt;
+  List<String>? get deletedMessages;
   DateTime? get inviteAcceptedAt;
   DateTime? get inviteRejectedAt;
   bool? get invited;
@@ -60,6 +61,8 @@ mixin _$ChannelMember {
             const DeepCollectionEquality().equals(other.custom, custom) &&
             (identical(other.deletedAt, deletedAt) ||
                 other.deletedAt == deletedAt) &&
+            const DeepCollectionEquality()
+                .equals(other.deletedMessages, deletedMessages) &&
             (identical(other.inviteAcceptedAt, inviteAcceptedAt) ||
                 other.inviteAcceptedAt == inviteAcceptedAt) &&
             (identical(other.inviteRejectedAt, inviteRejectedAt) ||
@@ -91,6 +94,7 @@ mixin _$ChannelMember {
         createdAt,
         const DeepCollectionEquality().hash(custom),
         deletedAt,
+        const DeepCollectionEquality().hash(deletedMessages),
         inviteAcceptedAt,
         inviteRejectedAt,
         invited,
@@ -107,7 +111,7 @@ mixin _$ChannelMember {
 
   @override
   String toString() {
-    return 'ChannelMember(archivedAt: $archivedAt, banExpires: $banExpires, banned: $banned, channelRole: $channelRole, createdAt: $createdAt, custom: $custom, deletedAt: $deletedAt, inviteAcceptedAt: $inviteAcceptedAt, inviteRejectedAt: $inviteRejectedAt, invited: $invited, isModerator: $isModerator, notificationsMuted: $notificationsMuted, pinnedAt: $pinnedAt, role: $role, shadowBanned: $shadowBanned, status: $status, updatedAt: $updatedAt, user: $user, userId: $userId)';
+    return 'ChannelMember(archivedAt: $archivedAt, banExpires: $banExpires, banned: $banned, channelRole: $channelRole, createdAt: $createdAt, custom: $custom, deletedAt: $deletedAt, deletedMessages: $deletedMessages, inviteAcceptedAt: $inviteAcceptedAt, inviteRejectedAt: $inviteRejectedAt, invited: $invited, isModerator: $isModerator, notificationsMuted: $notificationsMuted, pinnedAt: $pinnedAt, role: $role, shadowBanned: $shadowBanned, status: $status, updatedAt: $updatedAt, user: $user, userId: $userId)';
   }
 }
 
@@ -123,8 +127,9 @@ abstract mixin class $ChannelMemberCopyWith<$Res> {
       bool banned,
       String channelRole,
       DateTime createdAt,
-      Map<String, Object> custom,
+      Map<String, Object?> custom,
       DateTime? deletedAt,
+      List<String>? deletedMessages,
       DateTime? inviteAcceptedAt,
       DateTime? inviteRejectedAt,
       bool? invited,
@@ -159,6 +164,7 @@ class _$ChannelMemberCopyWithImpl<$Res>
     Object? createdAt = null,
     Object? custom = null,
     Object? deletedAt = freezed,
+    Object? deletedMessages = freezed,
     Object? inviteAcceptedAt = freezed,
     Object? inviteRejectedAt = freezed,
     Object? invited = freezed,
@@ -196,11 +202,15 @@ class _$ChannelMemberCopyWithImpl<$Res>
       custom: null == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>,
+              as Map<String, Object?>,
       deletedAt: freezed == deletedAt
           ? _self.deletedAt
           : deletedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      deletedMessages: freezed == deletedMessages
+          ? _self.deletedMessages
+          : deletedMessages // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       inviteAcceptedAt: freezed == inviteAcceptedAt
           ? _self.inviteAcceptedAt
           : inviteAcceptedAt // ignore: cast_nullable_to_non_nullable

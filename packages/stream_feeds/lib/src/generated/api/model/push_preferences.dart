@@ -21,6 +21,8 @@ class PushPreferences with _$PushPreferences {
     this.callLevel,
     this.chatLevel,
     this.disabledUntil,
+    this.feedsEvents,
+    this.feedsLevel,
   });
 
   @override
@@ -32,6 +34,12 @@ class PushPreferences with _$PushPreferences {
   @override
   @EpochDateTimeConverter()
   final DateTime? disabledUntil;
+
+  @override
+  final FeedsEventPreferences? feedsEvents;
+
+  @override
+  final String? feedsLevel;
 
   Map<String, dynamic> toJson() => _$PushPreferencesToJson(this);
 

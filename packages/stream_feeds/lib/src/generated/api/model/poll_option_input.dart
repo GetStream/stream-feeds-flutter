@@ -23,7 +23,7 @@ class PollOptionInput with _$PollOptionInput {
   });
 
   @override
-  final Map<String, Object>? custom;
+  final Map<String, Object?>? custom;
 
   @override
   final String? text;

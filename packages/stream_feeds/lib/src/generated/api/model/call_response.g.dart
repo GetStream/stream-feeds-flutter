@@ -19,9 +19,7 @@ CallResponse _$CallResponseFromJson(Map<String, dynamic> json) => CallResponse(
       createdBy:
           UserResponse.fromJson(json['created_by'] as Map<String, dynamic>),
       currentSessionId: json['current_session_id'] as String,
-      custom: (json['custom'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>,
       egress: EgressResponse.fromJson(json['egress'] as Map<String, dynamic>),
       endedAt: _$JsonConverterFromJson<int, DateTime>(
           json['ended_at'], const EpochDateTimeConverter().fromJson),

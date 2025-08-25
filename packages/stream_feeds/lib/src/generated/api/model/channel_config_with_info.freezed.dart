@@ -24,6 +24,7 @@ mixin _$ChannelConfigWithInfo {
   List<BlockListOptions>? get blocklists;
   List<Command> get commands;
   bool get connectEvents;
+  bool get countMessages;
   DateTime get createdAt;
   bool get customEvents;
   Map<String, List<String>>? get grants;
@@ -78,6 +79,8 @@ mixin _$ChannelConfigWithInfo {
             const DeepCollectionEquality().equals(other.commands, commands) &&
             (identical(other.connectEvents, connectEvents) ||
                 other.connectEvents == connectEvents) &&
+            (identical(other.countMessages, countMessages) ||
+                other.countMessages == countMessages) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.customEvents, customEvents) ||
@@ -134,6 +137,7 @@ mixin _$ChannelConfigWithInfo {
         const DeepCollectionEquality().hash(blocklists),
         const DeepCollectionEquality().hash(commands),
         connectEvents,
+        countMessages,
         createdAt,
         customEvents,
         const DeepCollectionEquality().hash(grants),
@@ -162,7 +166,7 @@ mixin _$ChannelConfigWithInfo {
 
   @override
   String toString() {
-    return 'ChannelConfigWithInfo(allowedFlagReasons: $allowedFlagReasons, automod: $automod, automodBehavior: $automodBehavior, automodThresholds: $automodThresholds, blocklist: $blocklist, blocklistBehavior: $blocklistBehavior, blocklists: $blocklists, commands: $commands, connectEvents: $connectEvents, createdAt: $createdAt, customEvents: $customEvents, grants: $grants, markMessagesPending: $markMessagesPending, maxMessageLength: $maxMessageLength, mutes: $mutes, name: $name, partitionSize: $partitionSize, partitionTtl: $partitionTtl, polls: $polls, pushNotifications: $pushNotifications, quotes: $quotes, reactions: $reactions, readEvents: $readEvents, reminders: $reminders, replies: $replies, search: $search, sharedLocations: $sharedLocations, skipLastMsgUpdateForSystemMsgs: $skipLastMsgUpdateForSystemMsgs, typingEvents: $typingEvents, updatedAt: $updatedAt, uploads: $uploads, urlEnrichment: $urlEnrichment, userMessageReminders: $userMessageReminders)';
+    return 'ChannelConfigWithInfo(allowedFlagReasons: $allowedFlagReasons, automod: $automod, automodBehavior: $automodBehavior, automodThresholds: $automodThresholds, blocklist: $blocklist, blocklistBehavior: $blocklistBehavior, blocklists: $blocklists, commands: $commands, connectEvents: $connectEvents, countMessages: $countMessages, createdAt: $createdAt, customEvents: $customEvents, grants: $grants, markMessagesPending: $markMessagesPending, maxMessageLength: $maxMessageLength, mutes: $mutes, name: $name, partitionSize: $partitionSize, partitionTtl: $partitionTtl, polls: $polls, pushNotifications: $pushNotifications, quotes: $quotes, reactions: $reactions, readEvents: $readEvents, reminders: $reminders, replies: $replies, search: $search, sharedLocations: $sharedLocations, skipLastMsgUpdateForSystemMsgs: $skipLastMsgUpdateForSystemMsgs, typingEvents: $typingEvents, updatedAt: $updatedAt, uploads: $uploads, urlEnrichment: $urlEnrichment, userMessageReminders: $userMessageReminders)';
   }
 }
 
@@ -182,6 +186,7 @@ abstract mixin class $ChannelConfigWithInfoCopyWith<$Res> {
       List<BlockListOptions>? blocklists,
       List<Command> commands,
       bool connectEvents,
+      bool countMessages,
       DateTime createdAt,
       bool customEvents,
       Map<String, List<String>>? grants,
@@ -230,6 +235,7 @@ class _$ChannelConfigWithInfoCopyWithImpl<$Res>
     Object? blocklists = freezed,
     Object? commands = null,
     Object? connectEvents = null,
+    Object? countMessages = null,
     Object? createdAt = null,
     Object? customEvents = null,
     Object? grants = freezed,
@@ -291,6 +297,10 @@ class _$ChannelConfigWithInfoCopyWithImpl<$Res>
       connectEvents: null == connectEvents
           ? _self.connectEvents
           : connectEvents // ignore: cast_nullable_to_non_nullable
+              as bool,
+      countMessages: null == countMessages
+          ? _self.countMessages
+          : countMessages // ignore: cast_nullable_to_non_nullable
               as bool,
       createdAt: null == createdAt
           ? _self.createdAt

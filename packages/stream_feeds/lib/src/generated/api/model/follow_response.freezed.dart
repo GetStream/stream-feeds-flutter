@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$FollowResponse {
   DateTime get createdAt;
-  Map<String, Object>? get custom;
+  Map<String, Object?>? get custom;
   String get followerRole;
   FollowResponsePushPreference get pushPreference;
   DateTime? get requestAcceptedAt;
@@ -87,7 +87,7 @@ abstract mixin class $FollowResponseCopyWith<$Res> {
   @useResult
   $Res call(
       {DateTime createdAt,
-      Map<String, Object>? custom,
+      Map<String, Object?>? custom,
       String followerRole,
       FollowResponsePushPreference pushPreference,
       DateTime? requestAcceptedAt,
@@ -130,7 +130,7 @@ class _$FollowResponseCopyWithImpl<$Res>
       custom: freezed == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
+              as Map<String, Object?>?,
       followerRole: null == followerRole
           ? _self.followerRole
           : followerRole // ignore: cast_nullable_to_non_nullable
