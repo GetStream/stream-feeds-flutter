@@ -1,0 +1,453 @@
+---
+description: Result-based repository pattern for Stream Feeds SDK
+globs: ["**/*_repository.dart", "**/repositories/*.dart"]
+alwaysApply: true
+---
+
+# Repository Pattern - Result-Based Data Access
+
+Implement robust data access layer with Result types, comprehensive error handling, and OpenAPI client integration.
+
+## When to Apply
+
+Use these guidelines when:
+- Creating repository classes for data access
+- Implementing API client integrations
+- Building data transformation layers
+- Handling network operations with error management
+- Converting legacy repository patterns
+
+## Core Principles
+
+- ✅ **Result Types**: All operations return `Result<T>` for explicit error handling
+- ✅ **Single Responsibility**: Each repository handles one domain area
+- ✅ **Constructor Injection**: Use dependency injection for API clients
+- ✅ **Early Returns**: Apply early return patterns for validation and errors
+- ✅ **Data Mapping**: Use extension functions for model transformations
+- ✅ **Error Mapping**: Convert all exceptions to domain-specific types
+
+## Implementation Guide
+
+### Step 1: Basic Repository Structure
+
+Create repositories with clear single responsibility:
+
+```dart
+/// Repository for managing feed-related operations.
+///
+/// Provides methods for creating, updating, querying, and managing feeds
+/// through the Stream Feeds API. Handles all feed-related data access
+/// with comprehensive error handling and result types.
+class FeedsRepository {
+  /// Creates a new [FeedsRepository] instance.
+  FeedsRepository({
+    required this.apiClient,
+  });
+  
+  /// The API client used for making requests to the Stream Feeds service.
+  final api.DefaultApi apiClient;
+  
+  // Repository methods here
+}
+```
+
+### Step 2: Result-Based Method Patterns
+
+Implement methods that return Result types with early returns:
+
+```dart
+/// Retrieves or creates a feed based on the provided [query].
+///
+/// Returns a [Result] containing [GetOrCreateFeedData] or an error.
+Future<Result<GetOrCreateFeedData>> getOrCreateFeed(FeedQuery query) async {
+  // Early return for invalid input
+  if (!query.isValid) {
+    return Result.failure(ValidationException('Invalid feed query: ${query.validationError}'));
+  }
+  
+  final fid = query.fid;
+  final request = query.toRequest();
+  
+  try {
+    final result = await apiClient.getOrCreateFeed(
+      feedGroupId: fid.group,
+      feedId: fid.id,
+      getOrCreateFeedRequest: request,
+    );
+    
+    // Early return for null result
+    if (result == null) {
+      return Result.failure(NetworkException('No result data from getOrCreateFeed'));
+    }
+    
+    return Result.success(GetOrCreateFeedData(
+      activities: result.toPaginatedActivityData(),
+    ));
+  } on ClientException catch (e) {
+    return Result.failure(_mapClientException(e));
+  } catch (e) {
+    return Result.failure(NetworkException('Failed to get or create feed: $e'));
+  }
+}
+
+/// Adds a new activity based on the provided [request].
+///
+/// Returns a [Result] containing [ActivityData] or an error.
+Future<Result<ActivityData>> addActivity(AddActivityRequest request) async {
+  try {
+    final result = await apiClient.addActivity(
+      addActivityRequest: request.toApiRequest(),
+    );
+    
+    if (result == null) {
+      return Result.failure(NetworkException('No result data from addActivity'));
+    }
+    
+    return Result.success(result.toModel());
+  } on ClientException catch (e) {
+    return Result.failure(_mapClientException(e));
+  } catch (e) {
+    return Result.failure(NetworkException('Failed to add activity: $e'));
+  }
+}
+
+/// Deletes an activity by its ID.
+///
+/// Returns a [Result] containing void on success or an error.
+Future<Result<void>> deleteActivity(String activityId) async {
+  try {
+    await apiClient.deleteActivity(activityId: activityId);
+    return const Result.success(null);
+  } on ClientException catch (e) {
+    return Result.failure(_mapClientException(e));
+  } catch (e) {
+    return Result.failure(NetworkException('Failed to delete activity: $e'));
+  }
+}
+```
+
+### Step 3: Error Handling System
+
+Implement comprehensive error mapping:
+
+```dart
+/// Base exception class for all Stream Feeds SDK errors.
+///
+/// Provides a common interface for all exceptions that can occur
+/// during repository operations and API interactions.
+sealed class StreamFeedsException implements Exception {
+  /// Creates a new [StreamFeedsException] with the given [message].
+  const StreamFeedsException(this.message);
+  
+  /// The error message describing what went wrong.
+  final String message;
+}
+
+/// Exception thrown when network operations fail.
+///
+/// Represents errors during HTTP requests, connection issues,
+/// or server-side problems.
+class NetworkException extends StreamFeedsException {
+  /// Creates a new [NetworkException] with the given [message] and optional [statusCode].
+  const NetworkException(super.message, {this.statusCode});
+  
+  /// The HTTP status code, if available.
+  final int? statusCode;
+}
+
+/// Exception thrown when authentication fails.
+///
+/// Represents unauthorized access attempts or invalid credentials.
+class AuthenticationException extends StreamFeedsException {
+  /// Creates a new [AuthenticationException] with the given [message].
+  const AuthenticationException(super.message);
+}
+
+/// Exception thrown when input validation fails.
+///
+/// Represents invalid request parameters or malformed data.
+class ValidationException extends StreamFeedsException {
+  /// Creates a new [ValidationException] with the given [message] and optional [field].
+  const ValidationException(super.message, {this.field});
+  
+  /// The specific field that failed validation, if applicable.
+  final String? field;
+}
+
+/// Exception thrown when a requested resource is not found.
+///
+/// Represents 404 errors or missing entities in the system.
+class NotFoundException extends StreamFeedsException {
+  /// Creates a new [NotFoundException] with the given [message] and optional [resourceType].
+  const NotFoundException(super.message, {this.resourceType});
+  
+  /// The type of resource that was not found, if applicable.
+  final String? resourceType;
+}
+
+/// Maps a [ClientException] to a domain-specific [StreamFeedsException].
+///
+/// Converts HTTP client exceptions into appropriate domain exceptions
+/// based on status codes and error messages.
+StreamFeedsException _mapClientException(ClientException e) {
+  final statusCode = e.statusCode;
+  final message = e.message;
+  
+  // Early return for common cases
+  if (statusCode == 401) return AuthenticationException(message);
+  if (statusCode == 404) return NotFoundException(message);
+  if (statusCode == 400) return ValidationException(message);
+  if (statusCode >= 500) return NetworkException(message, statusCode: statusCode);
+  
+  // Default case
+  return NetworkException(message, statusCode: statusCode);
+}
+```
+
+### Step 4: Data Transformation
+
+Use extension functions for clean model mapping:
+
+```dart
+/// Extension function to convert an [api.GetOrCreateFeedResponse] to a [GetOrCreateFeedData] model.
+extension GetOrCreateFeedResponseMapper on api.GetOrCreateFeedResponse {
+  /// Converts this API response to a domain [GetOrCreateFeedData] instance.
+  ///
+  /// Maps all fields from the API response to the corresponding domain model
+  /// with proper type conversions and data transformations.
+  GetOrCreateFeedData toDomainModel() {
+    return GetOrCreateFeedData(
+      activities: activities.toPaginatedActivityData(),
+      feed: feed?.toModel(),
+      followers: followers?.map((f) => f.toModel()).toList() ?? [],
+      following: following?.map((f) => f.toModel()).toList() ?? [],
+      members: members?.map((m) => m.toModel()).toList() ?? [],
+    );
+  }
+}
+
+/// Extension function to convert an [AddActivityRequest] to an [api.AddActivityRequest].
+extension AddActivityRequestMapper on AddActivityRequest {
+  /// Converts this domain request to an API request format.
+  ///
+  /// Maps all fields from the domain request to the corresponding API request
+  /// with proper type conversions and data formatting.
+  api.AddActivityRequest toApiRequest() {
+    return api.AddActivityRequest(
+      actor: actor,
+      verb: verb,
+      object: object,
+      target: target,
+      time: time?.toUtc().toIso8601String(),
+      extraData: extraData,
+      attachments: attachments?.map((a) => a.toApiModel()).toList(),
+    );
+  }
+}
+```
+
+## Repository Organization Patterns
+
+### Single Domain Responsibility
+```dart
+// ✅ Good - Single domain responsibility
+class FeedsRepository {
+  // Feed-related operations only
+  Future<Result<FeedData>> getFeed(FeedId id);
+  Future<Result<FeedData>> createFeed(CreateFeedRequest request);
+  Future<Result<FeedData>> updateFeed(FeedId id, UpdateFeedRequest request);
+  Future<Result<void>> deleteFeed(FeedId id);
+}
+
+class ActivitiesRepository {
+  // Activity-related operations only
+  Future<Result<ActivityData>> getActivity(String id);
+  Future<Result<ActivityData>> addActivity(AddActivityRequest request);
+  Future<Result<ActivityData>> updateActivity(String id, UpdateActivityRequest request);
+  Future<Result<void>> deleteActivity(String id);
+}
+```
+
+### Method Categories
+```dart
+class FeedsRepository {
+  // CRUD Operations
+  Future<Result<FeedData>> getFeed(FeedId id);
+  Future<Result<FeedData>> createFeed(CreateFeedRequest request);
+  Future<Result<FeedData>> updateFeed(FeedId id, UpdateFeedRequest request);
+  Future<Result<void>> deleteFeed(FeedId id);
+  
+  // Query Operations
+  Future<Result<GetOrCreateFeedData>> getOrCreateFeed(FeedQuery query);
+  Future<Result<List<FeedData>>> queryFeeds(FeedsQuery query);
+  
+  // Relationship Operations
+  Future<Result<FollowData>> follow(FeedId feedId, SingleFollowRequest request);
+  Future<Result<void>> unfollow(FeedId feedId, String targetFeedId);
+  Future<Result<List<FollowData>>> getFollowers(FeedId feedId, QueryFollowsRequest request);
+  Future<Result<List<FollowData>>> getFollowing(FeedId feedId, QueryFollowsRequest request);
+  
+  // Member Operations
+  Future<Result<List<FeedMemberData>>> getMembers(FeedId feedId, QueryFeedMembersRequest request);
+  Future<Result<void>> updateMembers(FeedId feedId, UpdateFeedMembersRequest request);
+  Future<Result<void>> acceptMemberInvite(FeedId feedId);
+}
+```
+
+## Performance Optimization Patterns
+
+### Batch Operations
+```dart
+// Handle multiple API calls efficiently
+Future<Result<List<ActivityData>>> addActivities(List<AddActivityRequest> requests) async {
+  final apiRequests = requests.map((r) => r.toApiRequest()).toList();
+  
+  try {
+    final response = await apiClient.batchAddActivities(
+      batchAddActivitiesRequest: api.BatchAddActivitiesRequest(activities: apiRequests),
+    );
+    
+    if (response == null) {
+      return Result.failure(NetworkException('No result data from batch add activities'));
+    }
+    
+    return Result.success(response.activities.map((a) => a.toModel()).toList());
+  } on ClientException catch (e) {
+    return Result.failure(_mapClientException(e));
+  } catch (e) {
+    return Result.failure(NetworkException('Failed to add activities: $e'));
+  }
+}
+
+// Batch multiple requests for efficiency
+Future<Result<Map<FeedId, FeedData>>> getMultipleFeeds(List<FeedId> feedIds) async {
+  try {
+    final response = await apiClient.batchGetFeeds(
+      feedIds: feedIds.map((id) => '${id.group}:${id.id}').toList(),
+    );
+    
+    if (response == null) {
+      return Result.failure(NetworkException('No result data from batch get feeds'));
+    }
+    
+    return Result.success(Map.fromEntries(
+      response.feeds.map((feed) => MapEntry(
+        FeedId.fromString(feed.id),
+        feed.toModel(),
+      )),
+    ));
+  } on ClientException catch (e) {
+    return Result.failure(_mapClientException(e));
+  } catch (e) {
+    return Result.failure(NetworkException('Failed to get multiple feeds: $e'));
+  }
+}
+```
+
+## Testing Integration
+
+### Public API Focus
+```dart
+// Test only through public SDK interfaces
+// Repository implementations are tested via StreamFeedsClient public API
+class StreamFeedsClient {
+  // Public methods that consumers use
+  Future<Result<Feed>> feed(FeedId id);
+  Future<Result<ActivityList>> activities(ActivitiesQuery query);
+  
+  // Internal repositories are implementation details
+  FeedsRepository _createFeedsRepository() {
+    return FeedsRepository(apiClient: _apiClient);
+  }
+}
+```
+
+### CoreHttpClient Interceptor Testing
+```dart
+// Use HTTP interceptors instead of repository mocks
+void main() {
+  group('StreamFeedsClient', () {
+    late StreamFeedsClient client;
+    late HttpClientInterceptor interceptor;
+    
+    setUp(() {
+      interceptor = HttpClientInterceptor();
+      client = StreamFeedsClient(
+        httpClient: createHttpClientWithInterceptor(interceptor),
+      );
+    });
+    
+    test('should create feed successfully', () async {
+      interceptor.mockResponse('/feeds', {'id': 'feed-1'});
+      
+      final result = await client.feed(FeedId(group: 'user', id: 'test'));
+      
+      switch (result) {
+        case Success(value: final feed):
+          expect(feed.id, equals('feed-1'));
+        case Failure(error: final error):
+          fail('Expected success, got error: $error');
+      }
+    });
+  });
+}
+```
+
+## Best Practices Checklist
+
+When implementing repositories, ensure:
+
+- [ ] All methods return `Result<T>` types
+- [ ] Early return patterns for validation
+- [ ] Comprehensive error mapping
+- [ ] Extension functions for data mapping
+- [ ] Single responsibility per repository
+- [ ] Constructor injection for dependencies
+- [ ] Proper null checking with early returns
+- [ ] Batch operations for efficiency
+- [ ] Integration with OpenAPI client
+
+## Common Repository Patterns
+
+### Basic CRUD Repository
+```dart
+class UserRepository {
+  UserRepository({required this.apiClient});
+  
+  final api.DefaultApi apiClient;
+  
+  Future<Result<UserData>> getUser(String userId) async {
+    // Implementation with Result pattern
+  }
+  
+  Future<Result<UserData>> updateUser(String userId, UpdateUserRequest request) async {
+    // Implementation with Result pattern
+  }
+}
+```
+
+### Query-Based Repository
+```dart
+class ActivitiesRepository {
+  Future<Result<PaginatedList<ActivityData>>> getActivities(ActivitiesQuery query) async {
+    // Implementation with pagination and filtering
+  }
+  
+  Future<Result<List<ActivityData>>> searchActivities(SearchQuery query) async {
+    // Implementation with search functionality
+  }
+}
+```
+
+## Success Criteria
+
+A well-implemented repository should:
+- ✅ Return Result types for all operations
+- ✅ Handle all error scenarios gracefully
+- ✅ Use early return patterns consistently
+- ✅ Include comprehensive error mapping
+- ✅ Support efficient batch operations
+- ✅ Integrate cleanly with OpenAPI client
+- ✅ Follow single responsibility principle
+- ✅ Include proper validation and null checks
+- ✅ Use extension functions for data mapping

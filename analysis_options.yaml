@@ -26,6 +26,9 @@ linter:
 
     always_put_control_body_on_new_line: false
 
+    # Not always necessary, especially for interfaces.
+    one_member_abstracts: false
+
     # Does not always make code more readable.
     cascade_invocations: false
 

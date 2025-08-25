@@ -1,0 +1,768 @@
+---
+description: Documentation style patterns for Stream Feeds SDK
+globs: ["**/*.dart", "**/*.md"]
+alwaysApply: true
+---
+
+# Documentation Style - Consistent SDK Documentation
+
+Create comprehensive, consistent documentation across the Stream Feeds SDK using established patterns and conventions.
+
+## When to Apply
+
+Use these guidelines when:
+- Documenting classes, methods, and fields
+- Writing API documentation
+- Creating code examples and usage guides
+- Documenting state management components
+- Writing query and data model documentation
+
+## Core Principles
+
+- ✅ **Comprehensive**: Cover all public APIs with detailed documentation
+- ✅ **Consistent**: Follow established patterns across all components
+- ✅ **Action-Oriented**: Use clear, descriptive language
+- ✅ **Practical**: Include examples and use cases
+- ✅ **Structured**: Organize information logically
+- ✅ **Type-Safe**: Reference specific types and parameters
+- ✅ **Public vs Private**: Use `///` for public APIs, `//` for private/internal fields
+- ✅ **Effective Dart Compliant**: Follow Effective Dart documentation guidelines
+
+## Effective Dart Guidelines
+
+### Key Rules for SDK Documentation
+
+#### DO start with single-sentence summary ending with period
+Start with brief, user-centric description. Provide just enough context for reader orientation.
+
+```dart
+/// Deletes the file at [path] from the file system.
+void delete(String path) { ... }
+```
+
+#### PREFER third-person verbs for functions with side effects
+Focus on what the code *does*.
+
+```dart
+/// Connects to the server and fetches the query results.
+Stream<QueryResult> fetchResults(Query query) => ...
+
+/// Starts the stopwatch if not already running.
+void start() => ...
+```
+
+#### PREFER noun phrases for non-boolean properties
+Stress what the property *is*, even for getters that do calculation.
+
+```dart
+/// The current day of the week, where `0` is Sunday.
+int weekday;
+
+/// The number of checked buttons on the page.
+int get checkedCount => ...
+```
+
+#### PREFER "Whether" for boolean properties
+Clarify the states this variable represents.
+
+```dart
+/// Whether the modal is currently displayed to the user.
+bool isVisible;
+
+/// Whether the modal should confirm the user's intent on navigation.
+bool get shouldConfirm => ...
+```
+
+#### DO use square brackets for in-scope identifiers
+Link to relevant API docs by surrounding identifiers in square brackets.
+
+```dart
+/// Throws a [StateError] if the operation fails.
+///
+/// Similar to [Duration.inDays], but handles fractional days.
+///
+/// To create a point, call [Point.new] or use [Point.polar].
+```
+
+#### DO use prose for parameters, returns, and exceptions
+Integrate descriptions into the method documentation using square brackets.
+
+```dart
+/// Defines a flag with the given [name] and [abbreviation].
+///
+/// The [name] and [abbreviation] strings must not be empty.
+///
+/// Returns a new flag.
+///
+/// Throws a [DuplicateFlagException] if there is already an option named
+/// [name] or there is already an option using the [abbreviation].
+Flag addFlag(String name, String abbreviation) => ...
+```
+
+#### PREFER "this" instead of "the" for member's instance
+Be specific when referring to the object the member is called on.
+
+```dart
+class Box {
+  // The value this box wraps.
+  Object? _value;
+
+  /// Whether this box contains a value.
+  bool get hasValue => _value != null;
+}
+```
+
+#### PREFER brevity
+Be clear and precise, but also terse. Avoid verbose explanations.
+
+#### DO separate return documentation with a blank line
+Always place return documentation on a separate line with a blank line before it for better readability and consistency.
+
+```dart
+/// Creates a new activity.
+///
+/// Creates a new activity using the provided [request] data.
+///
+/// Returns a [Result] containing the created [ActivityData] or an error.
+Future<Result<ActivityData>> addActivity(AddActivityRequest request) async { ... }
+
+/// Deletes an activity.
+///
+/// Removes the activity with the specified [activityId]. When [hardDelete]
+/// is true, permanently deletes the activity; otherwise marks it as deleted.
+///
+/// Returns a [Result] containing void or an error.
+Future<Result<void>> deleteActivity(String activityId, {bool hardDelete = false}) { ... }
+```
+
+### Common Anti-Patterns to Avoid
+
+```dart
+// ❌ BAD: Redundant with signature
+/// Sets the name parameter to the provided name string.
+void setName(String name) { ... }
+
+// ✅ GOOD: Concise and adds value
+/// Updates the display name for this user.
+void setName(String name) { ... }
+
+// ❌ BAD: Verbose parameter documentation
+/// Deletes a file.
+/// [path] The file path to delete
+/// [force] Whether to force deletion
+/// Returns true if successful, false otherwise
+bool deleteFile(String path, {bool force = false}) { ... }
+
+// ✅ GOOD: Integrated prose description
+/// Deletes the file at [path].
+///
+/// When [force] is true, ignores file permissions and readonly flags.
+/// Returns whether the deletion was successful.
+bool deleteFile(String path, {bool force = false}) { ... }
+
+// ❌ BAD: Using "the" for instance members
+/// Updates the name of the user.
+void updateName(String name) { ... }
+
+// ✅ GOOD: Using "this" for instance members  
+/// Updates the name of this user.
+void updateName(String name) { ... }
+```
+
+## Documentation Patterns
+
+### Class Documentation
+
+#### Library-Level Documentation
+
+```dart
+/// Stream Feeds SDK for Dart - Real-time Activity Feeds and Social Features.
+///
+/// This library provides comprehensive activity feed management, real-time updates,
+/// and social interactions for Dart applications. It includes:
+/// 
+/// * Activity feed creation and management ([Feed], [FeedList])
+/// * Real-time updates via WebSocket connections ([StreamFeedsClient])
+/// * Social features like reactions, comments, and follows
+/// * Type-safe querying with filtering and pagination ([ActivitiesQuery], [FeedsQuery])
+/// 
+/// ## Quick Start
+/// 
+/// ```dart
+/// final client = StreamFeedsClient(
+///   apiKey: ApiKey('your-api-key'),
+///   user: User(id: 'user-123'),
+///   tokenProvider: UserTokenProvider.static('user-token'),
+/// );
+/// 
+/// await client.connect();
+/// final feed = client.feed(FeedId(group: 'user', id: 'john'));
+/// ```
+library stream_feeds;
+```
+
+#### High-Level State Objects (Feed, FeedList, MemberList)
+
+```dart
+/// A feed with a query and state.
+///
+/// The primary interface for working with feeds in the Stream Feeds SDK that provides
+/// functionality for activity management with real-time updates support.
+///
+/// Each [Feed] instance is associated with a specific query and maintains its own state
+/// that can be observed for real-time updates. The feed state includes activities and
+/// pagination information.
+///
+/// Example usage:
+/// ```dart
+/// final feed = client.feed(FeedId(group: 'user', id: 'john'));
+/// 
+/// // Listen to state changes
+/// feed.addListener(() {
+///   print('Activities: ${feed.state.activities.length}');
+/// });
+/// 
+/// // Perform operations
+/// await feed.refresh();
+/// ```
+class Feed extends Disposable { ... }
+```
+
+#### Data Models (ActivityData, FeedData, etc.)
+
+```dart
+/// An activity in the Stream Feeds system.
+///
+/// Represents a social activity such as a post, like, or comment that can be displayed 
+/// in activity feeds. Activities support reactions, comments, and real-time updates.
+@freezed
+class ActivityData with _$ActivityData { ... }
+```
+
+#### Query Classes (ActivitiesQuery, FeedsQuery, etc.)
+
+```dart
+/// A query for retrieving activities with filtering, sorting, and pagination.
+///
+/// Supports comprehensive activity discovery by content, time ranges, and social metrics.
+/// Includes flexible filtering options and efficient pagination.
+///
+/// ## Example
+/// ```dart
+/// final query = ActivitiesQuery(
+///   filter: Filter.equal(ActivitiesFilterField.type, "post"),
+///   sort: [ActivitiesSort.desc(ActivitiesSortField.createdAt)],
+///   limit: 20,
+/// );
+/// ```
+@freezed
+class ActivitiesQuery with _$ActivitiesQuery { ... }
+```
+
+#### State Classes (@freezed state definitions)
+
+```dart
+/// An observable state object that manages the current state of a feed.
+///
+/// Maintains the current activities and pagination data for
+/// efficient loading and navigation through activity collections.
+@freezed
+class FeedState with _$FeedState { ... }
+```
+
+#### StateNotifier Classes
+
+```dart
+/// Manages the state of a feed and handles state updates.
+///
+/// Provides methods to update the feed state in response to data changes,
+/// user interactions, and real-time events from the Stream Feeds API.
+class FeedStateNotifier extends StateNotifier<FeedState> { ... }
+```
+
+#### Repository Classes
+
+```dart
+/// Repository for managing feed-related operations.
+///
+/// Provides methods for creating, updating, querying, and managing feeds
+/// through the Stream Feeds API. Handles all feed-related data access
+/// with comprehensive error handling and result types.
+class FeedsRepository {
+  /// Creates a new [FeedsRepository] instance.
+  const FeedsRepository(this._apiClient);
+
+  // The API client used for making requests to the Stream Feeds service.
+  final api.DefaultApi _apiClient;
+
+  /// Creates a new feed based on the provided [request].
+  ///
+  /// Returns a [Result] containing [FeedData] or an error.
+  Future<Result<FeedData>> createFeed(CreateFeedRequest request);
+
+  /// Deletes a feed by [feedId].
+  ///
+  /// Returns a [Result] containing void or an error.
+  Future<Result<void>> deleteFeed(String feedId);
+}
+```
+
+#### Constructor Documentation Patterns
+
+```dart
+/// Creates a [StreamFeedsClient] instance for real-time activity feeds.
+StreamFeedsClient({
+  required ApiKey apiKey,
+  required User user,
+  required TokenProvider tokenProvider,
+  HttpClient? httpClient,
+  LogLevel logLevel = LogLevel.warn,
+});
+
+/// Creates a [FeedQuery] for retrieving feed data.
+const FeedQuery({
+  required this.fid,
+  this.watch = true,
+  this.activityLimit,
+});
+```
+
+
+
+### Method Documentation
+
+#### Public API Methods
+
+Use concise, action-oriented documentation following Effective Dart guidelines:
+
+**Repository Methods Pattern:**
+```dart
+/// Creates a feed based on the provided [request].
+///
+/// Returns a [Result] containing [FeedData] or an error.
+Future<Result<FeedData>> createFeed(CreateFeedRequest request) async { ... }
+
+/// Deletes a feed by [feedId].
+///
+/// Returns a [Result] containing void or an error.
+Future<Result<void>> deleteFeed(String feedId) async { ... }
+
+/// Updates feed [feedId] with the provided [request].
+///
+/// Returns a [Result] containing the updated [FeedData] or an error.
+Future<Result<FeedData>> updateFeed(String feedId, UpdateFeedRequest request) async { ... }
+
+/// Queries feeds using the specified [query].
+///
+/// When [query] is null, returns all feeds with default sorting.
+/// Returns a [Result] containing a list of [FeedData] or an error.
+Future<Result<List<FeedData>>> queryFeeds(FeedsQuery? query) async { ... }
+```
+
+**State Object Methods Pattern:**
+```dart
+/// Refreshes this feed.
+///
+/// Returns a [Result] containing [FeedData] or an error.
+Future<Result<FeedData>> refresh() async { ... }
+
+/// Loads more activities if available.
+///
+/// When [limit] is null, uses the default pagination size.
+/// Returns a [Result] containing additional [ActivityData] or an error.
+Future<Result<List<ActivityData>>> queryMore({int? limit}) async { ... }
+
+/// Adds a new activity with the provided [request].
+///
+/// When [target] is specified, creates a targeted activity.
+/// Returns a [Result] containing the created [ActivityData] or an error.
+Future<Result<ActivityData>> addActivity(AddActivityRequest request, {String? target}) async { ... }
+
+/// Updates activity [activityId] with [changes] and optional [reason].
+///
+/// Returns a [Result] containing the updated [ActivityData] or an error.
+Future<Result<ActivityData>> updateActivity(
+  String activityId, 
+  Map<String, Object> changes, 
+  {String? reason}
+) async { ... }
+```
+
+**Examples with Effective Dart compliance:**
+```dart
+/// Queries activities based on the provided [query].
+///
+/// Returns a [Result] containing a [PaginationResult] of [ActivityData] or an error.
+Future<Result<PaginationResult<ActivityData>>> queryActivities(ActivitiesQuery query) async { ... }
+
+/// Deletes an activity by [activityId].
+///
+/// Returns a [Result] containing void or an error.
+Future<Result<void>> deleteActivity(String activityId) async { ... }
+
+/// Adds a reaction to activity [activityId] with [type] and optional [data].
+///
+/// Returns a [Result] containing the created [ReactionData] or an error.
+Future<Result<ReactionData>> addReaction(
+  String activityId, 
+  String type, 
+  {Map<String, Object>? data}
+) async { ... }
+
+/// Creates a comment on activity [activityId] with [text] and [userId].
+///
+/// When [parentId] is provided, creates a reply to the specified parent comment.
+/// Returns a [Result] containing the created [CommentData] or an error.
+Future<Result<CommentData>> addComment(
+  String activityId,
+  String text,
+  String userId,
+  {String? parentId}
+) async { ... }
+```
+
+#### Extension Functions
+
+```dart
+/// Extension function to convert an [api.ActivityResponse] to an [ActivityData] model.
+extension ActivityResponseMapper on api.ActivityResponse {
+  /// Converts this API activity response to a domain [ActivityData] instance.
+  ActivityData toModel() { ... }
+}
+```
+
+#### Exception Classes
+
+```dart
+/// Base exception class for all Stream Feeds SDK errors.
+///
+/// Provides a common interface for all exceptions that can occur
+/// during repository operations and API interactions.
+sealed class StreamFeedsException implements Exception {
+  /// Creates a new [StreamFeedsException] with the given [message].
+  const StreamFeedsException(this.message);
+  
+  /// The error message describing what went wrong.
+  final String message;
+}
+
+/// Exception thrown when network operations fail.
+///
+/// Represents errors during HTTP requests, connection issues,
+/// or server-side problems.
+class NetworkException extends StreamFeedsException {
+  /// Creates a new [NetworkException] with the given [message] and optional [statusCode].
+  const NetworkException(super.message, {this.statusCode});
+  
+  /// The HTTP status code, if available.
+  final int? statusCode;
+}
+```
+
+#### Async Methods with Error Handling
+
+```dart
+/// Deletes the file at [path].
+///
+/// Returns a [Result] containing void on success or an error on failure.
+/// 
+/// Throws a [FileSystemException] if the file cannot be accessed.
+/// Throws a [PermissionException] if insufficient permissions.
+Future<Result<void>> deleteFile(String path) async { ... }
+
+/// Validates the user input and returns the processed result.
+///
+/// The [input] must not be null or empty. Returns a [Result] containing
+/// the validated [ProcessedData] or a [ValidationException] if invalid.
+Future<Result<ProcessedData>> validateInput(String input) async { ... }
+```
+
+### Field Documentation
+
+#### Primary Collections
+
+```dart
+/// The activities currently loaded in this collection.
+///
+/// This list contains all activities that have been fetched across multiple
+/// pagination requests. The activities are automatically sorted according to
+/// the current sorting configuration.
+@override
+final List<ActivityData> activities;
+
+/// The feeds currently loaded in this list.
+///
+/// Feeds are ordered by creation time with the most recent first.
+/// This list updates automatically when new feeds are added or existing
+/// ones are modified through real-time events.
+@override
+final List<FeedData> feeds;
+```
+
+#### Pagination Fields
+
+```dart
+/// The pagination information for this collection.
+///
+/// Contains the next and previous cursors for pagination, allowing for
+/// efficient navigation through the complete activity collection.
+@override
+final PaginationData? pagination;
+
+/// The next cursor for loading additional activities.
+///
+/// Used internally for pagination requests. When null, indicates no more
+/// activities are available to load.
+@override
+final String? next;
+```
+
+#### State Flags (Boolean Properties)
+
+```dart
+/// Whether there are more activities available to load.
+bool get canLoadMore => pagination?.next != null;
+
+/// Whether this feed is currently loading data.
+bool get isLoading => _loadingState == LoadingState.loading;
+
+/// Whether the current user can modify this feed.
+bool get canEdit => permissions?.edit ?? false;
+```
+
+#### Public vs Private Documentation
+
+```dart
+class FeedState {
+  /// The activities currently loaded in this feed.
+  @override
+  final List<ActivityData> activities;
+
+  // Internal loading state tracker.
+  final LoadingState _loadingState;
+
+  /// Whether this feed is currently loading data.
+  bool get isLoading => _loadingState == LoadingState.loading;
+}
+```
+
+#### Entity Fields
+
+```dart
+/// The unique identifier of the activity.
+@override
+final String id;
+
+/// The date and time when the activity was created.
+@override
+final DateTime createdAt;
+
+/// The date and time when the activity was last updated.
+@override
+final DateTime updatedAt;
+
+/// Custom data associated with the activity.
+@override
+final Map<String, Object>? custom;
+```
+
+
+
+### Filter Field Documentation
+
+```dart
+/// Represents a field that can be used in activities filtering.
+///
+/// This extension type provides a type-safe way to specify which field should be used
+/// when creating filters for activities queries.
+extension type const ActivitiesFilterField(String field) implements String {
+  /// Filter by the unique identifier of the activity.
+  ///
+  /// **Supported operators:** `.equal`, `.in`
+  static const id = ActivitiesFilterField('id');
+
+  /// Filter by the creation timestamp of the activity.
+  ///
+  /// **Supported operators:** `.equal`, `.greaterThan`, `.lessThan`,
+  /// `.greaterThanOrEqual`, `.lessThanOrEqual`
+  static const createdAt = ActivitiesFilterField('created_at');
+
+  /// Filter by the text content of the activity.
+  ///
+  /// **Supported operators:** `.equal`, `.customQ`, `.customAutocomplete`
+  static const text = ActivitiesFilterField('text');
+
+  /// Filter by numeric fields (e.g., reaction counts, scores).
+  ///
+  /// **Supported operators:** `.equal`, `.notEqual`, `.greaterThan`,
+  /// `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`
+  static const reactionCount = ActivitiesFilterField('reaction_count');
+}
+```
+
+### Sort Field Documentation
+
+```dart
+/// Defines the fields by which activities can be sorted.
+///
+/// This extension type provides specific fields for sorting activity data.
+/// Each field corresponds to a property of the [ActivityData] model, allowing for flexible
+/// sorting options when querying activities.
+extension type const ActivitiesSortField(SortField<ActivityData> field)
+    implements SortField<ActivityData> {
+  /// Sort by the creation timestamp of the activity.
+  ///
+  /// This field allows sorting activities by when they were created (newest/oldest first).
+  static final createdAt = ActivitiesSortField(
+    SortField('created_at', (data) => data.createdAt),
+  );
+
+  /// Sort by the update timestamp of the activity.
+  ///
+  /// This field allows sorting activities by when they were last updated (newest/oldest first).
+  static final updatedAt = ActivitiesSortField(
+    SortField('updated_at', (data) => data.updatedAt),
+  );
+}
+```
+
+## Pattern Distinctions
+
+### Entity Type Patterns
+
+**Feed vs List Documentation**:
+- **Feed**: "Represents a [entity]" (single entity with activities and metadata)
+- **List**: "Represents a list of [entities]..." (collection of entities with pagination)
+
+**State vs Notifier Documentation**:
+- **State**: "An observable state object that manages..."
+- **Notifier**: "Manages the state of a [entity] and handles state updates..."
+
+### Documentation Templates
+
+#### Entity-Specific vs Global Queries
+
+**Entity-Specific (requires identifier)**:
+```dart
+/// A query for retrieving feed members with filtering, sorting, and pagination.
+///
+/// Configures how feed members should be fetched from the Stream Feeds API
+/// including filters, sorting options, and pagination parameters.
+@freezed
+class MembersQuery with _$MembersQuery {
+  const MembersQuery({
+    required this.fid,  // Required: must specify which feed
+    // ... other fields
+  });
+}
+```
+
+**Global Queries (all optional)**:
+```dart
+/// A query for retrieving activities with filtering, sorting, and pagination.
+///
+/// Supports comprehensive filtering by content, time ranges, social metrics,
+/// and custom metadata with various sorting options and efficient pagination.
+@freezed
+class ActivitiesQuery with _$ActivitiesQuery {
+  const ActivitiesQuery({
+    this.filter,        // All optional - can query all activities
+    // ... other fields
+  });
+}
+```
+
+## Code Examples
+
+### Complete Documentation Example
+
+```dart
+/// A list of feeds with a query and state.
+///
+/// The primary interface for working with feed lists in the Stream Feeds SDK that provides
+/// functionality for querying and managing collections of feeds with pagination support.
+///
+/// Each feed list instance is associated with a specific query and maintains its own state
+/// that can be observed for real-time updates. The feed list state includes feeds and
+/// pagination information.
+class FeedList extends Disposable {
+  /// Queries the initial list of feeds based on the provided [FeedsQuery].
+  ///
+  /// Returns a [Result] containing a list of [FeedData] or an error.
+  Future<Result<List<FeedData>>> get() async { ... }
+  
+  /// Loads more feeds if available.
+  ///
+  /// Returns a [Result] containing additional [FeedData] or an error.
+  Future<Result<List<FeedData>>> queryMore({int? limit}) async { ... }
+}
+
+/// An observable state object that manages the current state of a feed list.
+///
+/// Maintains the current list of feeds and pagination information for
+/// efficient loading and navigation through feed collections.
+@freezed
+class FeedListState with _$FeedListState {
+  /// The feeds currently loaded in this list.
+  ///
+  /// This list contains all feeds that have been fetched across multiple
+  /// pagination requests. The feeds are automatically sorted according to
+  /// the current sorting configuration.
+  @override
+  final List<FeedData> feeds;
+
+  /// The pagination information for this feed list.
+  ///
+  /// Contains the next and previous cursors for pagination, allowing for
+  /// efficient navigation through the complete feed collection.
+  @override
+  final PaginationData? pagination;
+
+  /// Whether there are more feeds available to load.
+  bool get canLoadMore => pagination?.next != null;
+}
+```
+
+
+
+## Documentation Checklist
+
+When documenting SDK components, ensure:
+
+### Effective Dart Compliance
+- [ ] Started with single-sentence summary ending with period
+- [ ] Separated first sentence into own paragraph with blank line
+- [ ] Used third-person verbs for functions with side effects ("Deletes...", "Creates...")
+- [ ] Used noun phrases for non-boolean properties ("The number of...")
+- [ ] Used "Whether" for boolean properties ("Whether this modal is visible")
+- [ ] Used square brackets for type references ([ActivityData], [Result]) and parameter names ([request], [feedId])
+- [ ] Integrated parameter descriptions into prose using parameter names, not types
+- [ ] Avoided redundancy with surrounding context
+- [ ] Used "this" instead of "the" for member's instance
+- [ ] Maintained brevity while being precise
+- [ ] Separated return documentation with a blank line
+
+### SDK-Specific Patterns
+- [ ] Used appropriate class documentation pattern (Feed vs List vs State vs Notifier)
+- [ ] Included concise method documentation with action-oriented descriptions
+- [ ] Added comprehensive field documentation for state properties
+- [ ] Included code examples for high-level state objects
+- [ ] Distinguished between Feed and List documentation patterns
+- [ ] Used consistent terminology throughout
+- [ ] Added "Returns a [Result]..." for async methods
+- [ ] Described pagination and state management behavior
+- [ ] Included supported operators for filter fields
+- [ ] Added practical examples and use cases
+- [ ] Used `///` for public APIs, `//` for private/internal fields (fields starting with `_`)
+
+## Success Criteria
+
+Well-documented SDK components should:
+- ✅ Follow Effective Dart documentation guidelines
+- ✅ Use consistent patterns across similar components
+- ✅ Include practical examples and use cases
+- ✅ Provide action-oriented method descriptions
+- ✅ Include detailed field documentation for state properties
+- ✅ Support developer understanding and adoption
+- ✅ Include code examples that actually work
+- ✅ Use appropriate terminology and conventions

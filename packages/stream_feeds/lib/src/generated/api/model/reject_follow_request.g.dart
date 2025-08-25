@@ -8,13 +8,13 @@ part of 'reject_follow_request.dart';
 
 RejectFollowRequest _$RejectFollowRequestFromJson(Map<String, dynamic> json) =>
     RejectFollowRequest(
-      sourceFid: json['source_fid'] as String,
-      targetFid: json['target_fid'] as String,
+      source: json['source'] as String,
+      target: json['target'] as String,
     );
 
 Map<String, dynamic> _$RejectFollowRequestToJson(
         RejectFollowRequest instance) =>
     <String, dynamic>{
-      'source_fid': instance.sourceFid,
-      'target_fid': instance.targetFid,
+      'source': instance.source,
+      'target': instance.target,
     };

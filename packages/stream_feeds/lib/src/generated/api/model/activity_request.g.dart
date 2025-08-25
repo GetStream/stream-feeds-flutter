@@ -11,11 +11,9 @@ ActivityRequest _$ActivityRequestFromJson(Map<String, dynamic> json) =>
       attachments: (json['attachments'] as List<dynamic>?)
           ?.map((e) => Attachment.fromJson(e as Map<String, dynamic>))
           .toList(),
-      custom: (json['custom'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>?,
       expiresAt: json['expires_at'] as String?,
-      fids: (json['fids'] as List<dynamic>).map((e) => e as String).toList(),
+      feeds: (json['feeds'] as List<dynamic>).map((e) => e as String).toList(),
       filterTags: (json['filter_tags'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
@@ -31,13 +29,12 @@ ActivityRequest _$ActivityRequestFromJson(Map<String, dynamic> json) =>
           .toList(),
       parentId: json['parent_id'] as String?,
       pollId: json['poll_id'] as String?,
-      searchData: (json['search_data'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      searchData: json['search_data'] as Map<String, dynamic>?,
       text: json['text'] as String?,
       type: json['type'] as String,
       visibility: $enumDecodeNullable(
-          _$ActivityRequestVisibilityEnumEnumMap, json['visibility']),
+          _$ActivityRequestVisibilityEnumMap, json['visibility'],
+          unknownValue: ActivityRequestVisibility.unknown),
       visibilityTag: json['visibility_tag'] as String?,
     );
 
@@ -46,7 +43,7 @@ Map<String, dynamic> _$ActivityRequestToJson(ActivityRequest instance) =>
       'attachments': instance.attachments?.map((e) => e.toJson()).toList(),
       'custom': instance.custom,
       'expires_at': instance.expiresAt,
-      'fids': instance.fids,
+      'feeds': instance.feeds,
       'filter_tags': instance.filterTags,
       'id': instance.id,
       'interest_tags': instance.interestTags,
@@ -57,13 +54,13 @@ Map<String, dynamic> _$ActivityRequestToJson(ActivityRequest instance) =>
       'search_data': instance.searchData,
       'text': instance.text,
       'type': instance.type,
-      'visibility': _$ActivityRequestVisibilityEnumEnumMap[instance.visibility],
+      'visibility': _$ActivityRequestVisibilityEnumMap[instance.visibility],
       'visibility_tag': instance.visibilityTag,
     };
 
-const _$ActivityRequestVisibilityEnumEnumMap = {
-  ActivityRequestVisibilityEnum.private: 'private',
-  ActivityRequestVisibilityEnum.public: 'public',
-  ActivityRequestVisibilityEnum.tag: 'tag',
-  ActivityRequestVisibilityEnum.unknown: 'unknown',
+const _$ActivityRequestVisibilityEnumMap = {
+  ActivityRequestVisibility.private: 'private',
+  ActivityRequestVisibility.public: 'public',
+  ActivityRequestVisibility.tag: 'tag',
+  ActivityRequestVisibility.unknown: '_unknown',
 };

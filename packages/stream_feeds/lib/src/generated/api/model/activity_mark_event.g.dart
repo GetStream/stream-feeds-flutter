@@ -10,9 +10,8 @@ ActivityMarkEvent _$ActivityMarkEventFromJson(Map<String, dynamic> json) =>
     ActivityMarkEvent(
       createdAt: const EpochDateTimeConverter()
           .fromJson((json['created_at'] as num).toInt()),
-      custom: (json['custom'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>,
+      feedVisibility: json['feed_visibility'] as String?,
       fid: json['fid'] as String,
       markAllRead: json['mark_all_read'] as bool?,
       markAllSeen: json['mark_all_seen'] as bool?,
@@ -38,6 +37,7 @@ Map<String, dynamic> _$ActivityMarkEventToJson(ActivityMarkEvent instance) =>
     <String, dynamic>{
       'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
       'custom': instance.custom,
+      'feed_visibility': instance.feedVisibility,
       'fid': instance.fid,
       'mark_all_read': instance.markAllRead,
       'mark_all_seen': instance.markAllSeen,

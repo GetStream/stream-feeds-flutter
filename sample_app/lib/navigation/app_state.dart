@@ -33,10 +33,12 @@ class AppStateProvider extends ValueNotifier<AppState> {
   Future<void> setUser(UserCredentials userCredentials) async {
     await _prefs.setString('user_id', userCredentials.user.id);
     value = LoadingState();
-    final client = FeedsClient(
+    final client = StreamFeedsClient(
       apiKey: DemoAppConfig.current.apiKey,
       user: userCredentials.user,
-      userToken: userCredentials.token,
+      tokenProvider: TokenProvider.static(
+        UserToken(userCredentials.token),
+      ),
     );
     await client.connect();
 
@@ -48,7 +50,7 @@ class AppStateProvider extends ValueNotifier<AppState> {
   void clearUserId() {
     _prefs.remove('user_id');
     if (value is LoggedInState) {
-      (value as LoggedInState).feedsClient.dispose();
+      (value as LoggedInState).feedsClient.disconnect();
     }
     value = LoggedOutState();
   }
@@ -65,5 +67,5 @@ class LoadingState extends AppState {}
 class LoggedInState extends AppState {
   LoggedInState({required this.feedsClient});
 
-  final FeedsClient feedsClient;
+  final StreamFeedsClient feedsClient;
 }

@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 class _FeedList extends StatefulWidget {
   const _FeedList({required this.feedsClient});
-  final FeedsClient feedsClient;
+  final StreamFeedsClient feedsClient;
 
   @override
   State<_FeedList> createState() => _FeedListState();
@@ -86,10 +86,8 @@ class _FeedListState extends State<_FeedList> {
 
   void _createFeed() {
     feed = widget.feedsClient.feed(
-      query: FeedQuery(
-        group: 'user',
-        id: widget.feedsClient.user.id,
-      ),
+      'user',
+      widget.feedsClient.user.id,
     )..getOrCreate();
   }
 
@@ -100,7 +98,7 @@ class _FeedListState extends State<_FeedList> {
   @override
   Widget build(BuildContext context) {
     return StateNotifierBuilder(
-      stateNotifier: feed.stateNotifier,
+      stateNotifier: feed.state,
       builder: (context, state, child) => RefreshIndicator(
         onRefresh: () => feed.getOrCreate(),
         child: ScrollConfiguration(
@@ -117,12 +115,12 @@ class _FeedListState extends State<_FeedList> {
 
               return ListTile(
                 leading: CircleAvatar(
-                  backgroundImage: switch (activity.user.imageUrl) {
+                  backgroundImage: switch (activity.user.image) {
                     final String imageUrl =>
                       CachedNetworkImageProvider(imageUrl),
                     _ => null,
                   },
-                  child: switch (activity.user.imageUrl) {
+                  child: switch (activity.user.image) {
                     String _ => null,
                     _ => Text(
                         activity.user.name?.substring(0, 1).toUpperCase() ??

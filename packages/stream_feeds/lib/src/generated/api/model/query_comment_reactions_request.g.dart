@@ -9,9 +9,7 @@ part of 'query_comment_reactions_request.dart';
 QueryCommentReactionsRequest _$QueryCommentReactionsRequestFromJson(
         Map<String, dynamic> json) =>
     QueryCommentReactionsRequest(
-      filter: (json['filter'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      filter: json['filter'] as Map<String, dynamic>?,
       limit: (json['limit'] as num?)?.toInt(),
       next: json['next'] as String?,
       prev: json['prev'] as String?,

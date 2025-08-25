@@ -8,20 +8,20 @@ part of 'block_list_options.dart';
 
 BlockListOptions _$BlockListOptionsFromJson(Map<String, dynamic> json) =>
     BlockListOptions(
-      behavior:
-          $enumDecode(_$BlockListOptionsBehaviorEnumEnumMap, json['behavior']),
+      behavior: $enumDecode(_$BlockListOptionsBehaviorEnumMap, json['behavior'],
+          unknownValue: BlockListOptionsBehavior.unknown),
       blocklist: json['blocklist'] as String,
     );
 
 Map<String, dynamic> _$BlockListOptionsToJson(BlockListOptions instance) =>
     <String, dynamic>{
-      'behavior': _$BlockListOptionsBehaviorEnumEnumMap[instance.behavior]!,
+      'behavior': _$BlockListOptionsBehaviorEnumMap[instance.behavior]!,
       'blocklist': instance.blocklist,
     };
 
-const _$BlockListOptionsBehaviorEnumEnumMap = {
-  BlockListOptionsBehaviorEnum.block: 'block',
-  BlockListOptionsBehaviorEnum.flag: 'flag',
-  BlockListOptionsBehaviorEnum.shadowBlock: 'shadow_block',
-  BlockListOptionsBehaviorEnum.unknown: 'unknown',
+const _$BlockListOptionsBehaviorEnumMap = {
+  BlockListOptionsBehavior.block: 'block',
+  BlockListOptionsBehavior.flag: 'flag',
+  BlockListOptionsBehavior.shadowBlock: 'shadow_block',
+  BlockListOptionsBehavior.unknown: '_unknown',
 };

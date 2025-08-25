@@ -7,9 +7,7 @@ part of 'poll_option.dart';
 // **************************************************************************
 
 PollOption _$PollOptionFromJson(Map<String, dynamic> json) => PollOption(
-      custom: (json['custom'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>,
       id: json['id'] as String,
       text: json['text'] as String,
     );

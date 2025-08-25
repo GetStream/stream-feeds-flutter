@@ -9,9 +9,7 @@ part of 'update_bookmark_request.dart';
 UpdateBookmarkRequest _$UpdateBookmarkRequestFromJson(
         Map<String, dynamic> json) =>
     UpdateBookmarkRequest(
-      custom: (json['custom'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>?,
       folderId: json['folder_id'] as String?,
       newFolder: json['new_folder'] == null
           ? null

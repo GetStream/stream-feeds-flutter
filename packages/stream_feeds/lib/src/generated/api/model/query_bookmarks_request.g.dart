@@ -9,9 +9,7 @@ part of 'query_bookmarks_request.dart';
 QueryBookmarksRequest _$QueryBookmarksRequestFromJson(
         Map<String, dynamic> json) =>
     QueryBookmarksRequest(
-      filter: (json['filter'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      filter: json['filter'] as Map<String, dynamic>?,
       limit: (json['limit'] as num?)?.toInt(),
       next: json['next'] as String?,
       prev: json['prev'] as String?,

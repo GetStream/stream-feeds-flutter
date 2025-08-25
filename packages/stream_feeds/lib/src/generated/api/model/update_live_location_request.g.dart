@@ -11,8 +11,8 @@ UpdateLiveLocationRequest _$UpdateLiveLocationRequestFromJson(
     UpdateLiveLocationRequest(
       endAt: _$JsonConverterFromJson<int, DateTime>(
           json['end_at'], const EpochDateTimeConverter().fromJson),
-      latitude: json['latitude'] as num?,
-      longitude: json['longitude'] as num?,
+      latitude: (json['latitude'] as num?)?.toDouble(),
+      longitude: (json['longitude'] as num?)?.toDouble(),
       messageId: json['message_id'] as String,
     );
 

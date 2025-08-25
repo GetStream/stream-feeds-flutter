@@ -10,16 +10,18 @@ FeedMemberResponse _$FeedMemberResponseFromJson(Map<String, dynamic> json) =>
     FeedMemberResponse(
       createdAt: const EpochDateTimeConverter()
           .fromJson((json['created_at'] as num).toInt()),
-      custom: (json['custom'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>?,
       inviteAcceptedAt: _$JsonConverterFromJson<int, DateTime>(
           json['invite_accepted_at'], const EpochDateTimeConverter().fromJson),
       inviteRejectedAt: _$JsonConverterFromJson<int, DateTime>(
           json['invite_rejected_at'], const EpochDateTimeConverter().fromJson),
+      membershipLevel: json['membership_level'] == null
+          ? null
+          : MembershipLevelResponse.fromJson(
+              json['membership_level'] as Map<String, dynamic>),
       role: json['role'] as String,
-      status:
-          $enumDecode(_$FeedMemberResponseStatusEnumEnumMap, json['status']),
+      status: $enumDecode(_$FeedMemberResponseStatusEnumMap, json['status'],
+          unknownValue: FeedMemberResponseStatus.unknown),
       updatedAt: const EpochDateTimeConverter()
           .fromJson((json['updated_at'] as num).toInt()),
       user: UserResponse.fromJson(json['user'] as Map<String, dynamic>),
@@ -33,8 +35,9 @@ Map<String, dynamic> _$FeedMemberResponseToJson(FeedMemberResponse instance) =>
           instance.inviteAcceptedAt, const EpochDateTimeConverter().toJson),
       'invite_rejected_at': _$JsonConverterToJson<int, DateTime>(
           instance.inviteRejectedAt, const EpochDateTimeConverter().toJson),
+      'membership_level': instance.membershipLevel?.toJson(),
       'role': instance.role,
-      'status': _$FeedMemberResponseStatusEnumEnumMap[instance.status]!,
+      'status': _$FeedMemberResponseStatusEnumMap[instance.status]!,
       'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
       'user': instance.user.toJson(),
     };
@@ -45,11 +48,11 @@ Value? _$JsonConverterFromJson<Json, Value>(
 ) =>
     json == null ? null : fromJson(json as Json);
 
-const _$FeedMemberResponseStatusEnumEnumMap = {
-  FeedMemberResponseStatusEnum.member: 'member',
-  FeedMemberResponseStatusEnum.pending: 'pending',
-  FeedMemberResponseStatusEnum.rejected: 'rejected',
-  FeedMemberResponseStatusEnum.unknown: 'unknown',
+const _$FeedMemberResponseStatusEnumMap = {
+  FeedMemberResponseStatus.member: 'member',
+  FeedMemberResponseStatus.pending: 'pending',
+  FeedMemberResponseStatus.rejected: 'rejected',
+  FeedMemberResponseStatus.unknown: '_unknown',
 };
 
 Json? _$JsonConverterToJson<Json, Value>(

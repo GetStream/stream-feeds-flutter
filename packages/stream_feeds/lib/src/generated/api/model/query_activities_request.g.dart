@@ -9,9 +9,7 @@ part of 'query_activities_request.dart';
 QueryActivitiesRequest _$QueryActivitiesRequestFromJson(
         Map<String, dynamic> json) =>
     QueryActivitiesRequest(
-      filter: (json['filter'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      filter: json['filter'] as Map<String, dynamic>?,
       limit: (json['limit'] as num?)?.toInt(),
       next: json['next'] as String?,
       prev: json['prev'] as String?,

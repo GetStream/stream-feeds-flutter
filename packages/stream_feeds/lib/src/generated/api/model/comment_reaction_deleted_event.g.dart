@@ -13,9 +13,8 @@ CommentReactionDeletedEvent _$CommentReactionDeletedEventFromJson(
           CommentResponse.fromJson(json['comment'] as Map<String, dynamic>),
       createdAt: const EpochDateTimeConverter()
           .fromJson((json['created_at'] as num).toInt()),
-      custom: (json['custom'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>,
+      feedVisibility: json['feed_visibility'] as String?,
       fid: json['fid'] as String,
       reaction: FeedsReactionResponse.fromJson(
           json['reaction'] as Map<String, dynamic>),
@@ -30,6 +29,7 @@ Map<String, dynamic> _$CommentReactionDeletedEventToJson(
       'comment': instance.comment.toJson(),
       'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
       'custom': instance.custom,
+      'feed_visibility': instance.feedVisibility,
       'fid': instance.fid,
       'reaction': instance.reaction.toJson(),
       'received_at': _$JsonConverterToJson<int, DateTime>(

@@ -12,13 +12,10 @@ WSAuthMessage _$WSAuthMessageFromJson(Map<String, dynamic> json) =>
           ?.map((e) => e as String)
           .toList(),
       token: json['token'] as String,
-      userDetails: ConnectUserDetailsRequest.fromJson(
-          json['user_details'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$WSAuthMessageToJson(WSAuthMessage instance) =>
     <String, dynamic>{
       'products': instance.products,
       'token': instance.token,
-      'user_details': instance.userDetails.toJson(),
     };

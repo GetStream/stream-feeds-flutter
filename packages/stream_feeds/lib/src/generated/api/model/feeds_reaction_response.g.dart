@@ -13,9 +13,7 @@ FeedsReactionResponse _$FeedsReactionResponseFromJson(
       commentId: json['comment_id'] as String?,
       createdAt: const EpochDateTimeConverter()
           .fromJson((json['created_at'] as num).toInt()),
-      custom: (json['custom'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>?,
       type: json['type'] as String,
       updatedAt: const EpochDateTimeConverter()
           .fromJson((json['updated_at'] as num).toInt()),

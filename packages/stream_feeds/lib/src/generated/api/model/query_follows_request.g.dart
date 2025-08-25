@@ -8,9 +8,7 @@ part of 'query_follows_request.dart';
 
 QueryFollowsRequest _$QueryFollowsRequestFromJson(Map<String, dynamic> json) =>
     QueryFollowsRequest(
-      filter: (json['filter'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      filter: json['filter'] as Map<String, dynamic>?,
       limit: (json['limit'] as num?)?.toInt(),
       next: json['next'] as String?,
       prev: json['prev'] as String?,

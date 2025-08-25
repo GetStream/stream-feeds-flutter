@@ -119,4 +119,5 @@ const _$FeedOwnCapabilityEnumMap = {
   FeedOwnCapability.updateFeed: 'update-feed',
   FeedOwnCapability.updateFeedFollowers: 'update-feed-followers',
   FeedOwnCapability.updateFeedMembers: 'update-feed-members',
+  FeedOwnCapability.unknown: '_unknown',
 };

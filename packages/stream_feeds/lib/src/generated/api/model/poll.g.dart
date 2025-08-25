@@ -16,9 +16,7 @@ Poll _$PollFromJson(Map<String, dynamic> json) => Poll(
           ? null
           : User.fromJson(json['created_by'] as Map<String, dynamic>),
       createdById: json['created_by_id'] as String,
-      custom: (json['custom'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>,
       description: json['description'] as String,
       enforceUniqueVote: json['enforce_unique_vote'] as bool,
       id: json['id'] as String,

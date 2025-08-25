@@ -1,11 +1,14 @@
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class FeedId extends Equatable {
-  /// Creates a new feed identifier with the specified group and feed IDs.
-  ///
-  /// - Parameters:
-  ///   - group: The feed group identifier (e.g., "user", "timeline")
-  ///   - id: The specific feed identifier within the group
+part 'feed_id.freezed.dart';
+
+/// A unique feed identifier.
+///
+/// Contains group and feed ID components formatted as 'group:id' to
+/// uniquely identify feeds across the Stream Feeds system.
+@freezed
+class FeedId with _$FeedId {
+  /// Creates a new [FeedId] instance.
   const FeedId({
     required this.group,
     required this.id,
@@ -28,12 +31,14 @@ class FeedId extends Equatable {
   /// - `"timeline"`: Timeline feeds
   /// - `"notification"`: Notification feeds
   /// - `"aggregated"`: Aggregated feeds
+  @override
   final String group;
 
   /// The specific feed identifier within the group.
   ///
   /// This is typically a user ID, feed name, or other unique identifier
   /// that distinguishes this feed from others in the same group.
+  @override
   final String id;
 
   /// The complete feed identifier as a colon-separated string.
@@ -41,11 +46,9 @@ class FeedId extends Equatable {
   /// This is the canonical string representation of the feed ID,
   /// formatted as `"group:id"`. This value is used for API requests
   /// and serialization.
+  @override
   final String rawValue;
 
   @override
   String toString() => rawValue;
-
-  @override
-  List<Object?> get props => [group, id];
 }

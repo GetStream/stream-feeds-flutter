@@ -1,0 +1,289 @@
+---
+description: Cursor Rules organization and file structure standards
+globs: ["**/*.mdc", ".cursorrules"]
+alwaysApply: true
+---
+
+# Cursor Rules Organization - Modern Standards
+
+Implement effective organization and file structure standards for Cursor AI rules and configuration files in the repository.
+
+## When to Apply
+
+Use these guidelines when:
+- Organizing cursor rules for a new project
+- Restructuring existing cursor configuration
+- Adding new domain-specific rule files
+- Updating rules for better AI understanding
+- Migrating from legacy cursor rule patterns
+
+## Core Principles
+
+- ✅ **Clear Hierarchy**: Primary rules in root, specialized rules in subdirectories
+- ✅ **Single Responsibility**: Each rule file has a focused purpose
+- ✅ **Consistent Structure**: Standardized format across all rule files
+- ✅ **Actionable Content**: Rules provide implementation guidance, not just documentation
+- ✅ **Maintainable**: Easy to update and extend as project evolves
+- ✅ **AI-Friendly**: Structured for optimal Cursor AI understanding
+
+## Implementation Guide
+
+### Step 1: File Structure Setup
+
+Organize cursor rules following modern 2024/2025 best practices:
+
+```
+stream-feeds-flutter/
+├── .cursorrules                           # Primary development rules
+├── .cursor/
+│   └── rules/                            # Supplementary documentation
+│       ├── project-overview.mdc          # Development context & architecture
+│       ├── stream-feeds-sdk.mdc          # SDK implementation patterns
+│       ├── stream-feeds-api.mdc          # Stream Feeds API overview
+│       ├── planit-mode.mdc              # Structured development methodology
+│       ├── cursor-rules-location.mdc     # This file - organization docs
+│       └── patterns/                     # Implementation pattern rules
+│           ├── data-models.mdc           # @freezed data class guidelines
+│           ├── query-specifications.mdc  # Query class patterns
+│           ├── repository-pattern.mdc    # Repository implementation
+│           ├── data-mapping.mdc          # Extension function mapping
+│           └── state-management.mdc      # StateNotifier patterns
+└── ...
+```
+
+### Step 2: Primary Configuration
+
+Create the main `.cursorrules` file in project root:
+
+```
+# Stream Feeds Dart SDK - Cursor Rules
+
+You are an expert Dart developer working on the Stream Feeds Dart SDK, a professional real-time activity feeds SDK. Follow these guidelines strictly.
+
+## Project Context
+
+This is a pure Dart SDK that implements the Stream Feeds API for real-time social feeds and activity streams. The SDK:
+
+- Provides activity feeds, social interactions, and real-time updates
+- Works across all Dart environments (Flutter, Dart VM, Dart Web)  
+- Uses WebSocket for real-time updates and OpenAPI-generated HTTP client for API communication
+- Implements StateNotifier-based reactive state management with automatic notifications
+- Uses @freezed models for immutable data structures
+
+## Architecture & Design Patterns
+
+### Project Structure
+- Follow the existing structure: `lib/src/` for implementation details
+- Keep public API in `lib/` root files (main entry point: `stream_feeds.dart`)
+- Use `@includeInBarrelFile` to mark classes/functions for public API export
+- Generated barrel files automatically export public elements from `lib/src/`
+- Tests mirror the lib structure in `test/`
+- Use clear layer separation: core, data, presentation, client, state_objects
+
+// ... more specific guidelines
+```
+
+### Step 3: Supplementary Rules Structure
+
+Create specialized `.mdc` files for complex contexts:
+
+```yaml
+---
+description: Brief description of rule purpose  
+globs: ["**/*.dart", "**/*.swift"]  # File patterns to apply to
+alwaysApply: true/false             # Whether to apply automatically
+---
+
+# Rule Title - Action-Oriented Description
+
+Brief description of what this rule accomplishes and when to use it.
+
+## When to Apply
+
+Use these guidelines when:
+- Specific trigger condition 1
+- Specific trigger condition 2
+- Specific trigger condition 3
+
+## Core Principles
+
+- ✅ **Principle 1**: Clear, actionable guidance
+- ✅ **Principle 2**: Specific implementation approach
+- ✅ **Principle 3**: Measurable outcome
+
+## Implementation Guide
+
+### Step 1: Title
+Detailed implementation instructions...
+
+### Step 2: Title  
+More implementation steps...
+
+## Best Practices Checklist
+
+When implementing, ensure:
+- [ ] Checklist item 1
+- [ ] Checklist item 2
+- [ ] Checklist item 3
+
+## Success Criteria
+
+A well-implemented solution should:
+- ✅ Measurable criterion 1
+- ✅ Measurable criterion 2
+- ✅ Measurable criterion 3
+```
+
+### Step 4: Naming Conventions
+
+Apply consistent naming standards:
+
+#### File Naming
+- **`.cursorrules`**: Always this exact filename in root
+- **`.mdc files`**: Use kebab-case, descriptive names (e.g., `stream-feeds-api.mdc`)
+- **Subdirectories**: Use lowercase, functional grouping (e.g., `patterns/`, `testing/`)
+
+#### Content Naming
+- **Descriptive**: Names should indicate purpose clearly
+- **Action-Oriented**: Use active verbs in titles ("Implement X", "Build Y", "Create Z")
+- **Consistent**: Follow established patterns across all rule files
+
+## Organization Strategy
+
+### Top-Level Rules (`.cursor/rules/`)
+- **Project Overview**: High-level architecture and context
+- **SDK Documentation**: Main SDK explanation and features  
+- **API Documentation**: External API and service information
+- **Organization Guidelines**: This file and meta-documentation
+
+### Patterns Subdirectory (`.cursor/rules/patterns/`)
+- **Component-Specific**: Rules for specific code component types
+- **Implementation Focus**: Detailed coding patterns and best practices
+- **Architectural Layers**: Organized by responsibility (data, state, mapping)
+- **Code Examples**: Rich examples and implementation guidelines
+
+### Content Guidelines
+
+#### For .cursorrules (Primary)
+- Focus on general development patterns
+- Include language/framework specific guidelines
+- Define code style and architecture preferences
+- Keep concise but comprehensive
+
+#### For .mdc files (Supplementary)
+- Use YAML frontmatter for metadata
+- Include detailed context and examples
+- Focus on specific domains or complex scenarios
+- Use action-oriented structure (When to Apply, Implementation Guide, Success Criteria)
+
+## Code Generation & Barrel Files
+
+### Barrel Files Strategy
+- Use `barrel_files` package for automated public API management
+- Place `@includeInBarrelFile` annotation on public classes, enums, and functions
+- Keep implementation details in `lib/src/` without annotations
+- Generate barrel files with `build_runner` alongside other code generation
+
+### Dependencies Setup
+```yaml
+dependencies:
+  barrel_files_annotation: ^0.1.1
+
+dev_dependencies:
+  barrel_files: ^0.1.1
+  build_runner: ^2.4.7
+```
+
+### Public API Guidelines
+- Mark only classes/functions intended for external package usage
+- Internal SDK components should remain in `lib/src/` without annotations
+- Repository classes, mappers, and internal state objects are not public
+- Only client interfaces, data models, queries, and exceptions are public
+
+## Maintenance Strategy
+
+### Integration from Legacy Patterns
+1. **Primary rules** → Move to `.cursorrules` in root
+2. **Complex rules** → Keep as `.mdc` files in `.cursor/rules/`
+3. **Update metadata** → Add proper YAML frontmatter
+4. **Consolidate overlaps** → Avoid duplication between files
+
+### Ongoing Maintenance
+- Keep `.cursorrules` as the primary entry point
+- Use `.mdc` files for specialized contexts only
+- Review rules quarterly for framework updates
+- Update based on framework/language evolution
+- Tag rule versions in git for change tracking
+- Document rule changes in commit messages
+
+### Quality Standards
+- **Specificity**: Rules should be specific to project needs
+- **Clarity**: Clear, actionable guidelines
+- **Currency**: Updated for latest framework versions
+- **Completeness**: Cover common development scenarios
+- **Validation**: Rules should be testable and verifiable
+
+## Best Practices Checklist
+
+When organizing cursor rules, ensure:
+
+- [ ] Used clear file structure with `.cursorrules` in root
+- [ ] Applied consistent naming conventions (kebab-case for .mdc)
+- [ ] Added proper YAML frontmatter to .mdc files
+- [ ] Organized by functional responsibility
+- [ ] Used action-oriented language throughout
+- [ ] Included implementation guides and success criteria
+- [ ] Avoided duplication between files
+- [ ] Made rules specific to project needs
+- [ ] Updated content for latest framework versions
+- [ ] Documented organization decisions
+
+## Common Organization Patterns
+
+### Basic Project Setup
+```
+PROJECT_ROOT/
+├── .cursorrules                    # Primary rules (REQUIRED)
+├── .cursor/
+│   └── rules/                      # Supplementary rules (OPTIONAL)
+│       ├── project-context.mdc    # Project-specific context
+│       ├── architecture-rules.mdc # Architecture guidelines
+│       └── domain-specs.mdc       # Domain-specific patterns
+└── ...
+```
+
+### Advanced Multi-Domain Setup
+```
+PROJECT_ROOT/
+├── .cursorrules                    # Primary development rules
+├── .cursor/
+│   └── rules/                      # Specialized contexts
+│       ├── project-overview.mdc    # High-level context
+│       ├── sdk-patterns.mdc        # SDK-specific patterns
+│       ├── api-integration.mdc     # External API patterns
+│       └── patterns/               # Implementation patterns
+│           ├── data-models.mdc     # Data structure patterns
+│           ├── state-mgmt.mdc      # State management patterns
+│           └── testing.mdc         # Testing strategies
+└── ...
+```
+
+### Rule Validation in CI
+- Validate YAML frontmatter syntax
+- Check for broken internal links
+- Verify code examples compile
+- Test rule consistency across files
+
+## Success Criteria
+
+A well-organized cursor rules system should:
+- ✅ Provide clear, actionable guidance for AI and developers
+- ✅ Follow consistent structure and naming conventions
+- ✅ Scale effectively as project complexity grows
+- ✅ Support easy maintenance and updates
+- ✅ Include proper validation and quality checks
+- ✅ Focus on implementation guidance over documentation
+- ✅ Use modern 2024/2025 best practices
+- ✅ Support both general and specialized development contexts
+- ✅ Include automated rule validation in CI/CD
+- ✅ Balance simplicity with flexibility for complex scenarios

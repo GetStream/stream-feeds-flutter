@@ -7,9 +7,7 @@ part of 'user_request.dart';
 // **************************************************************************
 
 UserRequest _$UserRequestFromJson(Map<String, dynamic> json) => UserRequest(
-      custom: (json['custom'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>?,
       id: json['id'] as String,
       image: json['image'] as String?,
       invisible: json['invisible'] as bool?,

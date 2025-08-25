@@ -17,8 +17,8 @@ SharedLocation _$SharedLocationFromJson(Map<String, dynamic> json) =>
       createdByDeviceId: json['created_by_device_id'] as String,
       endAt: _$JsonConverterFromJson<int, DateTime>(
           json['end_at'], const EpochDateTimeConverter().fromJson),
-      latitude: json['latitude'] as num?,
-      longitude: json['longitude'] as num?,
+      latitude: (json['latitude'] as num?)?.toDouble(),
+      longitude: (json['longitude'] as num?)?.toDouble(),
       message: json['message'] == null
           ? null
           : Message.fromJson(json['message'] as Map<String, dynamic>),

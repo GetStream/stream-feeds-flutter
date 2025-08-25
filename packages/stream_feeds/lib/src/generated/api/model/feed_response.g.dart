@@ -11,13 +11,11 @@ FeedResponse _$FeedResponseFromJson(Map<String, dynamic> json) => FeedResponse(
           .fromJson((json['created_at'] as num).toInt()),
       createdBy:
           UserResponse.fromJson(json['created_by'] as Map<String, dynamic>),
-      custom: (json['custom'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>?,
       deletedAt: _$JsonConverterFromJson<int, DateTime>(
           json['deleted_at'], const EpochDateTimeConverter().fromJson),
       description: json['description'] as String,
-      fid: json['fid'] as String,
+      feed: json['feed'] as String,
       filterTags: (json['filter_tags'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
@@ -44,7 +42,7 @@ Map<String, dynamic> _$FeedResponseToJson(FeedResponse instance) =>
       'deleted_at': _$JsonConverterToJson<int, DateTime>(
           instance.deletedAt, const EpochDateTimeConverter().toJson),
       'description': instance.description,
-      'fid': instance.fid,
+      'feed': instance.feed,
       'filter_tags': instance.filterTags,
       'follower_count': instance.followerCount,
       'following_count': instance.followingCount,

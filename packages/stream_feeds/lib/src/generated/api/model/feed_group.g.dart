@@ -7,13 +7,23 @@ part of 'feed_group.dart';
 // **************************************************************************
 
 FeedGroup _$FeedGroupFromJson(Map<String, dynamic> json) => FeedGroup(
+      activityProcessors: (json['activity_processors'] as List<dynamic>)
+          .map((e) =>
+              ActivityProcessorConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      activitySelectors: (json['activity_selectors'] as List<dynamic>)
+          .map(
+              (e) => ActivitySelectorConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      aggregation: json['aggregation'] == null
+          ? null
+          : AggregationConfig.fromJson(
+              json['aggregation'] as Map<String, dynamic>),
+      aggregationVersion: (json['aggregation_version'] as num).toInt(),
       appPK: (json['app_p_k'] as num).toInt(),
       createdAt: const EpochDateTimeConverter()
           .fromJson((json['created_at'] as num).toInt()),
-      custom: (json['custom'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
-      defaultViewID: json['default_view_i_d'] as String,
+      custom: json['custom'] as Map<String, dynamic>,
       defaultVisibility: json['default_visibility'] as String,
       deletedAt: _$JsonConverterFromJson<int, DateTime>(
           json['deleted_at'], const EpochDateTimeConverter().fromJson),
@@ -24,6 +34,13 @@ FeedGroup _$FeedGroupFromJson(Map<String, dynamic> json) => FeedGroup(
           ? null
           : NotificationConfig.fromJson(
               json['notification'] as Map<String, dynamic>),
+      pushNotification: json['push_notification'] == null
+          ? null
+          : PushNotificationConfig.fromJson(
+              json['push_notification'] as Map<String, dynamic>),
+      ranking: json['ranking'] == null
+          ? null
+          : RankingConfig.fromJson(json['ranking'] as Map<String, dynamic>),
       stories: json['stories'] == null
           ? null
           : StoriesConfig.fromJson(json['stories'] as Map<String, dynamic>),
@@ -32,10 +49,15 @@ FeedGroup _$FeedGroupFromJson(Map<String, dynamic> json) => FeedGroup(
     );
 
 Map<String, dynamic> _$FeedGroupToJson(FeedGroup instance) => <String, dynamic>{
+      'activity_processors':
+          instance.activityProcessors.map((e) => e.toJson()).toList(),
+      'activity_selectors':
+          instance.activitySelectors.map((e) => e.toJson()).toList(),
+      'aggregation': instance.aggregation?.toJson(),
+      'aggregation_version': instance.aggregationVersion,
       'app_p_k': instance.appPK,
       'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
       'custom': instance.custom,
-      'default_view_i_d': instance.defaultViewID,
       'default_visibility': instance.defaultVisibility,
       'deleted_at': _$JsonConverterToJson<int, DateTime>(
           instance.deletedAt, const EpochDateTimeConverter().toJson),
@@ -43,6 +65,8 @@ Map<String, dynamic> _$FeedGroupToJson(FeedGroup instance) => <String, dynamic>{
       'last_feed_get_at': _$JsonConverterToJson<int, DateTime>(
           instance.lastFeedGetAt, const EpochDateTimeConverter().toJson),
       'notification': instance.notification?.toJson(),
+      'push_notification': instance.pushNotification?.toJson(),
+      'ranking': instance.ranking?.toJson(),
       'stories': instance.stories?.toJson(),
       'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
     };

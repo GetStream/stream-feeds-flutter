@@ -15,11 +15,10 @@ MessageResponse _$MessageResponseFromJson(Map<String, dynamic> json) =>
       command: json['command'] as String?,
       createdAt: const EpochDateTimeConverter()
           .fromJson((json['created_at'] as num).toInt()),
-      custom: (json['custom'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>,
       deletedAt: _$JsonConverterFromJson<int, DateTime>(
           json['deleted_at'], const EpochDateTimeConverter().fromJson),
+      deletedForMe: json['deleted_for_me'] as bool?,
       deletedReplyCount: (json['deleted_reply_count'] as num).toInt(),
       draft: json['draft'] == null
           ? null
@@ -93,7 +92,8 @@ MessageResponse _$MessageResponseFromJson(Map<String, dynamic> json) =>
       threadParticipants: (json['thread_participants'] as List<dynamic>?)
           ?.map((e) => UserResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
-      type: $enumDecode(_$MessageResponseTypeEnumEnumMap, json['type']),
+      type: $enumDecode(_$MessageResponseTypeEnumMap, json['type'],
+          unknownValue: MessageResponseType.unknown),
       updatedAt: const EpochDateTimeConverter()
           .fromJson((json['updated_at'] as num).toInt()),
       user: UserResponse.fromJson(json['user'] as Map<String, dynamic>),
@@ -108,6 +108,7 @@ Map<String, dynamic> _$MessageResponseToJson(MessageResponse instance) =>
       'custom': instance.custom,
       'deleted_at': _$JsonConverterToJson<int, DateTime>(
           instance.deletedAt, const EpochDateTimeConverter().toJson),
+      'deleted_for_me': instance.deletedForMe,
       'deleted_reply_count': instance.deletedReplyCount,
       'draft': instance.draft?.toJson(),
       'html': instance.html,
@@ -148,7 +149,7 @@ Map<String, dynamic> _$MessageResponseToJson(MessageResponse instance) =>
       'text': instance.text,
       'thread_participants':
           instance.threadParticipants?.map((e) => e.toJson()).toList(),
-      'type': _$MessageResponseTypeEnumEnumMap[instance.type]!,
+      'type': _$MessageResponseTypeEnumMap[instance.type]!,
       'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
       'user': instance.user.toJson(),
     };
@@ -159,14 +160,14 @@ Value? _$JsonConverterFromJson<Json, Value>(
 ) =>
     json == null ? null : fromJson(json as Json);
 
-const _$MessageResponseTypeEnumEnumMap = {
-  MessageResponseTypeEnum.deleted: 'deleted',
-  MessageResponseTypeEnum.ephemeral: 'ephemeral',
-  MessageResponseTypeEnum.error: 'error',
-  MessageResponseTypeEnum.regular: 'regular',
-  MessageResponseTypeEnum.reply: 'reply',
-  MessageResponseTypeEnum.system: 'system',
-  MessageResponseTypeEnum.unknown: 'unknown',
+const _$MessageResponseTypeEnumMap = {
+  MessageResponseType.deleted: 'deleted',
+  MessageResponseType.ephemeral: 'ephemeral',
+  MessageResponseType.error: 'error',
+  MessageResponseType.regular: 'regular',
+  MessageResponseType.reply: 'reply',
+  MessageResponseType.system: 'system',
+  MessageResponseType.unknown: '_unknown',
 };
 
 Json? _$JsonConverterToJson<Json, Value>(

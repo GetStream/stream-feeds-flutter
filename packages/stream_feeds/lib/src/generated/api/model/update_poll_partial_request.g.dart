@@ -9,9 +9,7 @@ part of 'update_poll_partial_request.dart';
 UpdatePollPartialRequest _$UpdatePollPartialRequestFromJson(
         Map<String, dynamic> json) =>
     UpdatePollPartialRequest(
-      set: (json['set'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      set: json['set'] as Map<String, dynamic>?,
       unset:
           (json['unset'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );

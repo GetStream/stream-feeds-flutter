@@ -11,9 +11,8 @@ FeedMemberRemovedEvent _$FeedMemberRemovedEventFromJson(
     FeedMemberRemovedEvent(
       createdAt: const EpochDateTimeConverter()
           .fromJson((json['created_at'] as num).toInt()),
-      custom: (json['custom'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>,
+      feedVisibility: json['feed_visibility'] as String?,
       fid: json['fid'] as String,
       memberId: json['member_id'] as String,
       receivedAt: _$JsonConverterFromJson<int, DateTime>(
@@ -30,6 +29,7 @@ Map<String, dynamic> _$FeedMemberRemovedEventToJson(
     <String, dynamic>{
       'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
       'custom': instance.custom,
+      'feed_visibility': instance.feedVisibility,
       'fid': instance.fid,
       'member_id': instance.memberId,
       'received_at': _$JsonConverterToJson<int, DateTime>(

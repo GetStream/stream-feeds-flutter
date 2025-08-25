@@ -15,11 +15,10 @@ Message _$MessageFromJson(Map<String, dynamic> json) => Message(
       command: json['command'] as String?,
       createdAt: const EpochDateTimeConverter()
           .fromJson((json['created_at'] as num).toInt()),
-      custom: (json['custom'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>,
       deletedAt: _$JsonConverterFromJson<int, DateTime>(
           json['deleted_at'], const EpochDateTimeConverter().fromJson),
+      deletedForMe: json['deleted_for_me'] as bool?,
       deletedReplyCount: (json['deleted_reply_count'] as num).toInt(),
       html: json['html'] as String,
       i18n: (json['i18n'] as Map<String, dynamic>?)?.map(
@@ -105,6 +104,7 @@ Map<String, dynamic> _$MessageToJson(Message instance) => <String, dynamic>{
       'custom': instance.custom,
       'deleted_at': _$JsonConverterToJson<int, DateTime>(
           instance.deletedAt, const EpochDateTimeConverter().toJson),
+      'deleted_for_me': instance.deletedForMe,
       'deleted_reply_count': instance.deletedReplyCount,
       'html': instance.html,
       'i18n': instance.i18n,

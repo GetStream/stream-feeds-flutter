@@ -10,9 +10,7 @@ UpdateUserPartialRequest _$UpdateUserPartialRequestFromJson(
         Map<String, dynamic> json) =>
     UpdateUserPartialRequest(
       id: json['id'] as String,
-      set: (json['set'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      set: json['set'] as Map<String, dynamic>?,
       unset:
           (json['unset'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );

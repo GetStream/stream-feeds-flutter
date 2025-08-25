@@ -26,9 +26,7 @@ Channel _$ChannelFromJson(Map<String, dynamic> json) => Channel(
       createdBy: json['created_by'] == null
           ? null
           : User.fromJson(json['created_by'] as Map<String, dynamic>),
-      custom: (json['custom'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>,
       deletedAt: _$JsonConverterFromJson<int, DateTime>(
           json['deleted_at'], const EpochDateTimeConverter().fromJson),
       disabled: json['disabled'] as bool,
@@ -44,6 +42,10 @@ Channel _$ChannelFromJson(Map<String, dynamic> json) => Channel(
       members: (json['members'] as List<dynamic>?)
           ?.map((e) => ChannelMember.fromJson(e as Map<String, dynamic>))
           .toList(),
+      messageCount: (json['message_count'] as num?)?.toInt(),
+      messageCountUpdatedAt: _$JsonConverterFromJson<int, DateTime>(
+          json['message_count_updated_at'],
+          const EpochDateTimeConverter().fromJson),
       team: json['team'] as String?,
       truncatedBy: json['truncated_by'] == null
           ? null
@@ -76,6 +78,10 @@ Map<String, dynamic> _$ChannelToJson(Channel instance) => <String, dynamic>{
           instance.lastMessageAt, const EpochDateTimeConverter().toJson),
       'member_count': instance.memberCount,
       'members': instance.members?.map((e) => e.toJson()).toList(),
+      'message_count': instance.messageCount,
+      'message_count_updated_at': _$JsonConverterToJson<int, DateTime>(
+          instance.messageCountUpdatedAt,
+          const EpochDateTimeConverter().toJson),
       'team': instance.team,
       'truncated_by': instance.truncatedBy?.toJson(),
       'type': instance.type,

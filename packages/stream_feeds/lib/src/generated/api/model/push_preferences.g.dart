@@ -12,6 +12,11 @@ PushPreferences _$PushPreferencesFromJson(Map<String, dynamic> json) =>
       chatLevel: json['chat_level'] as String?,
       disabledUntil: _$JsonConverterFromJson<int, DateTime>(
           json['disabled_until'], const EpochDateTimeConverter().fromJson),
+      feedsEvents: json['feeds_events'] == null
+          ? null
+          : FeedsEventPreferences.fromJson(
+              json['feeds_events'] as Map<String, dynamic>),
+      feedsLevel: json['feeds_level'] as String?,
     );
 
 Map<String, dynamic> _$PushPreferencesToJson(PushPreferences instance) =>
@@ -20,6 +25,8 @@ Map<String, dynamic> _$PushPreferencesToJson(PushPreferences instance) =>
       'chat_level': instance.chatLevel,
       'disabled_until': _$JsonConverterToJson<int, DateTime>(
           instance.disabledUntil, const EpochDateTimeConverter().toJson),
+      'feeds_events': instance.feedsEvents?.toJson(),
+      'feeds_level': instance.feedsLevel,
     };
 
 Value? _$JsonConverterFromJson<Json, Value>(
