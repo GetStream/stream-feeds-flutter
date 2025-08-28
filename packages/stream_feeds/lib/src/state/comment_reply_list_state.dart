@@ -6,7 +6,6 @@ import '../models/comment_data.dart';
 import '../models/feeds_reaction_data.dart';
 import '../models/pagination_data.dart';
 import '../models/threaded_comment_data.dart';
-import 'query/comment_replies_query.dart';
 import 'query/comments_query.dart';
 
 part 'comment_reply_list_state.freezed.dart';
