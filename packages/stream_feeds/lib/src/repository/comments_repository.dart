@@ -84,9 +84,7 @@ class CommentsRepository {
   ///
   /// Returns a [Result] containing the newly created [CommentData] or an error.
   Future<Result<CommentData>> addComment(api.AddCommentRequest request) async {
-    final result = await _api.addComment(
-      addCommentRequest: request,
-    );
+    final result = await _api.addComment(addCommentRequest: request);
 
     return result.map((response) => response.comment.toModel());
   }
@@ -112,9 +110,14 @@ class CommentsRepository {
   ///
   /// Removes the comment with the specified [commentId] from the system.
   ///
+  /// If [hardDelete] is true, the comment is permanently deleted; otherwise, it may be soft-deleted.
+  ///
   /// Returns a [Result] containing void or an error.
-  Future<Result<void>> deleteComment(String commentId) {
-    return _api.deleteComment(id: commentId);
+  Future<Result<void>> deleteComment(
+    String commentId, {
+    bool? hardDelete,
+  }) {
+    return _api.deleteComment(id: commentId, hardDelete: hardDelete);
   }
 
   /// Retrieves a specific comment.

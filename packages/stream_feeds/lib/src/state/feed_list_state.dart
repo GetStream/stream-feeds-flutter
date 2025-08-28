@@ -19,9 +19,7 @@ class FeedListStateNotifier extends StateNotifier<FeedListState> {
   }) : super(initialState);
 
   QueryConfiguration<FeedsSort>? _queryConfig;
-  List<FeedsSort> get feedsSorting {
-    return _queryConfig?.sort ?? FeedsSort.defaultSort;
-  }
+  List<FeedsSort> get feedsSort => _queryConfig?.sort ?? FeedsSort.defaultSort;
 
   /// Handles the result of a query for more feeds.
   void onQueryMoreFeeds(
@@ -34,7 +32,7 @@ class FeedListStateNotifier extends StateNotifier<FeedListState> {
     final updatedFeeds = state.feeds.merge(
       result.items,
       key: (it) => it.fid.rawValue,
-      compare: feedsSorting.compare,
+      compare: feedsSort.compare,
     );
 
     state = state.copyWith(

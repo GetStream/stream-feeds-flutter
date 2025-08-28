@@ -138,36 +138,14 @@ extension type const ActivitiesSortField(SortField<ActivityData> field)
     implements SortField<ActivityData> {
   /// Sort by the creation timestamp of the activity.
   /// This field allows sorting activities by when they were created (newest/oldest first).
-  ///
-  /// Note: Uses the id field as a proxy for creation time until a dedicated createdAt field is available.
   static final createdAt = ActivitiesSortField(
-    SortField('created_at', (data) => data.id),
+    SortField('created_at', (data) => data.createdAt),
   );
 
   /// Sort by the popularity score of the activity.
   /// This field allows sorting activities by popularity (most/least popular first).
-  ///
-  /// Note: Using reactionCount as a proxy for popularity.
   static final popularity = ActivitiesSortField(
-    SortField('popularity', (data) => data.reactionCount),
-  );
-
-  /// Sort by the activity ID.
-  /// This field allows sorting activities by their unique identifier.
-  static final id = ActivitiesSortField(
-    SortField('id', (data) => data.id),
-  );
-
-  /// Sort by the user who created the activity.
-  /// This field allows sorting activities by the user's ID.
-  static final userId = ActivitiesSortField(
-    SortField('user_id', (data) => data.user.id),
-  );
-
-  /// Sort by the number of reactions on the activity.
-  /// This field allows sorting activities by their reaction count.
-  static final reactionCount = ActivitiesSortField(
-    SortField('reaction_count', (data) => data.reactionCount),
+    SortField('popularity', (data) => data.popularity),
   );
 }
 

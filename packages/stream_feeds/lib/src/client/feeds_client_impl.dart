@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:stream_core/stream_core.dart';
 
+import '../event_resolvers/resolvers.dart' as event_resolvers;
 import '../feeds_client.dart';
 import '../generated/api/api.dart' as api;
+import '../models/activity_data.dart';
 import '../models/app_data.dart';
 import '../models/feed_id.dart';
 import '../models/feeds_config.dart';
@@ -97,6 +99,10 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
       ),
       messageCodec: const FeedsWsCodec(),
       onConnectionEstablished: _authenticateUser,
+      eventResolvers: [
+        event_resolvers.pollAnswerCastedFeedEventResolver,
+        event_resolvers.pollAnswerRemovedFeedEventResolver,
+      ],
     );
 
     _connectionRecoveryHandler = ConnectionRecoveryHandler(
@@ -203,7 +209,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
       userDetails: ConnectUserDetailsRequest(
         id: user.id,
         name: user.originalName,
-        image: user.imageUrl,
+        image: user.image,
         custom: user.custom,
       ),
     );
@@ -219,14 +225,12 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
 
   @override
   Future<void> connect() async {
-    if (user.type == UserType.guest) {
-      throw ArgumentError('Anonymous users cannot connect to the WebSocket.');
+    if (user.type == UserType.anonymous) {
+      throw ClientException(message: 'Cannot connect as an anonymous user.');
     }
 
-    // TODO: Add support for Guest users
-
     // Connect to the WebSocket
-    unawaited(_ws.connect());
+    _ws.connect().ignore();
 
     final state = await Future.any([
       connectionState.waitFor<Connected>(),
@@ -234,7 +238,8 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
     ]);
 
     if (state is Disconnected) {
-      throw Exception('WebSocket connection failed: $connectionState');
+      final message = state.source.closeReason;
+      throw ClientException(message: message);
     }
   }
 
@@ -269,38 +274,65 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
 
   @override
   FollowList followList(FollowsQuery query) {
-    // TODO: implement followList
-    throw UnimplementedError();
+    return FollowList(
+      query: query,
+      feedsRepository: _feedsRepository,
+      eventsEmitter: events,
+    );
   }
 
   @override
-  Activity activity(String activityId, FeedId fid) {
-    // TODO: implement activity
-    throw UnimplementedError();
+  Activity activity(
+    String activityId,
+    FeedId fid, {
+    ActivityData? initialData,
+  }) {
+    return Activity(
+      activityId: activityId,
+      fid: fid,
+      currentUserId: user.id,
+      activitiesRepository: _activitiesRepository,
+      commentsRepository: _commentsRepository,
+      pollsRepository: _pollsRepository,
+      eventsEmitter: events,
+    );
   }
 
   @override
   ActivityList activityList(ActivitiesQuery query) {
-    // TODO: implement activityList
-    throw UnimplementedError();
+    return ActivityList(
+      query: query,
+      currentUserId: user.id,
+      activitiesRepository: _activitiesRepository,
+      eventsEmitter: events,
+    );
   }
 
   @override
   ActivityReactionList activityReactionList(ActivityReactionsQuery query) {
-    // TODO: implement activityReactionList
-    throw UnimplementedError();
+    return ActivityReactionList(
+      query: query,
+      activitiesRepository: _activitiesRepository,
+      eventsEmitter: events,
+    );
   }
 
   @override
   BookmarkList bookmarkList(BookmarksQuery query) {
-    // TODO: implement bookmarkList
-    throw UnimplementedError();
+    return BookmarkList(
+      query: query,
+      bookmarksRepository: _bookmarksRepository,
+      eventsEmitter: events,
+    );
   }
 
   @override
   BookmarkFolderList bookmarkFolderList(BookmarkFoldersQuery query) {
-    // TODO: implement bookmarkFolderList
-    throw UnimplementedError();
+    return BookmarkFolderList(
+      query: query,
+      bookmarksRepository: _bookmarksRepository,
+      eventsEmitter: events,
+    );
   }
 
   @override
@@ -314,20 +346,31 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
 
   @override
   ActivityCommentList activityCommentList(ActivityCommentsQuery query) {
-    // TODO: implement activityCommentList
-    throw UnimplementedError();
+    return ActivityCommentList(
+      query: query,
+      commentsRepository: _commentsRepository,
+      eventsEmitter: events,
+      currentUserId: user.id,
+    );
   }
 
   @override
   CommentReplyList commentReplyList(CommentRepliesQuery query) {
-    // TODO: implement commentReplyList
-    throw UnimplementedError();
+    return CommentReplyList(
+      query: query,
+      currentUserId: user.id,
+      commentsRepository: _commentsRepository,
+      eventsEmitter: events,
+    );
   }
 
   @override
   CommentReactionList commentReactionList(CommentReactionsQuery query) {
-    // TODO: implement commentReactionList
-    throw UnimplementedError();
+    return CommentReactionList(
+      query: query,
+      commentsRepository: _commentsRepository,
+      eventsEmitter: events,
+    );
   }
 
   @override
@@ -341,14 +384,20 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
 
   @override
   PollVoteList pollVoteList(PollVotesQuery query) {
-    // TODO: implement pollVoteList
-    throw UnimplementedError();
+    return PollVoteList(
+      query: query,
+      pollsRepository: _pollsRepository,
+      eventsEmitter: events,
+    );
   }
 
   @override
   PollList pollList(PollsQuery query) {
-    // TODO: implement pollList
-    throw UnimplementedError();
+    return PollList(
+      query: query,
+      pollsRepository: _pollsRepository,
+      eventsEmitter: events,
+    );
   }
 
   @override

@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:stream_core/stream_core.dart';
 
 import '../generated/api/models.dart';
 
@@ -44,15 +45,7 @@ extension ReactionGroupDataMutations on ReactionGroupData {
   /// - Parameter date: The date to check for decrementing.
   /// - Returns: A new ReactionGroupData with updated count, or the original if not decremented.
   ReactionGroupData decrement(DateTime date) {
-    final isWithinValidRange = switch (date) {
-      _ when date.isAtSameMomentAs(firstReactionAt) => true,
-      _ when date.isAfter(firstReactionAt) => true,
-      _ when date.isAtSameMomentAs(lastReactionAt) => true,
-      _ when date.isBefore(lastReactionAt) => true,
-      _ => false,
-    };
-
-    if (!isWithinValidRange) return this;
+    if (date < firstReactionAt || date > lastReactionAt) return this;
     return copyWith(count: math.max(0, count - 1));
   }
 
@@ -64,8 +57,8 @@ extension ReactionGroupDataMutations on ReactionGroupData {
   /// - Returns: A new ReactionGroupData with updated count and lastReactionAt, or the original if not
   /// incremented.
   ReactionGroupData increment(DateTime date) {
-    if (date.isBefore(firstReactionAt)) return this;
-    return copyWith(count: count + 1, lastReactionAt: date);
+    if (date <= firstReactionAt) return this;
+    return copyWith(count: math.max(0, count + 1), lastReactionAt: date);
   }
 }
 

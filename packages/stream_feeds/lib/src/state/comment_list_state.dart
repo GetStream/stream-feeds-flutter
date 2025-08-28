@@ -18,7 +18,7 @@ class CommentListStateNotifier extends StateNotifier<CommentListState> {
   }) : super(initialState);
 
   ({Filter? filter, CommentsSort? sort})? _queryConfig;
-  CommentsSort get commentSorting => _queryConfig?.sort ?? CommentsSort.last;
+  CommentsSort get commentSort => _queryConfig?.sort ?? CommentsSort.last;
 
   /// Handles the result of a query for more comments.
   void onQueryMoreComments(
@@ -32,7 +32,7 @@ class CommentListStateNotifier extends StateNotifier<CommentListState> {
     final updatedComments = state.comments.merge(
       result.items,
       key: (it) => it.id,
-      compare: commentSorting.compare,
+      compare: commentSort.compare,
     );
 
     state = state.copyWith(

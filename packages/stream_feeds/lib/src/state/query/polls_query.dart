@@ -184,7 +184,7 @@ extension type const PollsSortField(SortField<PollData> field)
   /// Sort by whether the poll is closed.
   /// This field allows sorting polls by their closed status.
   static final isClosed = PollsSortField(
-    SortField('is_closed', (data) => data.isClosed ? 1 : 0),
+    SortField('is_closed', (data) => data.isClosed),
   );
 }
 

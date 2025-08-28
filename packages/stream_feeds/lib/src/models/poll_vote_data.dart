@@ -19,7 +19,6 @@ class PollVoteData with _$PollVoteData {
     required this.pollId,
     required this.updatedAt,
     this.answerText,
-    this.isAnswer,
     this.user,
     this.userId,
   });
@@ -37,8 +36,7 @@ class PollVoteData with _$PollVoteData {
   final String id;
 
   /// Whether this vote is the answer, if known.
-  @override
-  final bool? isAnswer;
+  bool get isAnswer => answerText != null;
 
   /// The ID of the selected option.
   @override
@@ -69,7 +67,6 @@ extension PollVoteResponseMapper on PollVoteResponseData {
       answerText: answerText,
       createdAt: createdAt,
       id: id,
-      isAnswer: isAnswer,
       optionId: optionId,
       pollId: pollId,
       updatedAt: updatedAt,

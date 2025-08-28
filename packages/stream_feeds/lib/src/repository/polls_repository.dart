@@ -59,11 +59,8 @@ class PollsRepository {
   /// Permanently removes the poll with [pollId] from the system.
   ///
   /// Returns a [Result] containing void or an error.
-  Future<Result<void>> deletePoll(String pollId, String? userId) {
-    return _api.deletePoll(
-      pollId: pollId,
-      userId: userId,
-    );
+  Future<Result<void>> deletePoll(String pollId) {
+    return _api.deletePoll(pollId: pollId);
   }
 
   /// Retrieves a poll.
@@ -71,11 +68,8 @@ class PollsRepository {
   /// Fetches the poll with [pollId] from the server.
   ///
   /// Returns a [Result] containing [PollData] or an error.
-  Future<Result<PollData>> getPoll(String pollId, String? userId) async {
-    final result = await _api.getPoll(
-      pollId: pollId,
-      userId: userId,
-    );
+  Future<Result<PollData>> getPoll(String pollId) async {
+    final result = await _api.getPoll(pollId: pollId);
 
     return result.map((response) => response.poll.toModel());
   }
@@ -135,12 +129,10 @@ class PollsRepository {
   Future<Result<void>> deletePollOption(
     String pollId,
     String optionId,
-    String? userId,
   ) {
     return _api.deletePollOption(
       pollId: pollId,
       optionId: optionId,
-      userId: userId,
     );
   }
 
@@ -152,12 +144,10 @@ class PollsRepository {
   Future<Result<PollOptionData>> getPollOption(
     String pollId,
     String optionId,
-    String? userId,
   ) async {
     final result = await _api.getPollOption(
       pollId: pollId,
       optionId: optionId,
-      userId: userId,
     );
 
     return result.map((response) => response.pollOption.toModel());
@@ -255,14 +245,12 @@ class PollsRepository {
   Future<Result<PollVoteData?>> deletePollVote(
     String activityId,
     String pollId,
-    String voteId, {
-    String? userId,
-  }) async {
+    String voteId,
+  ) async {
     final result = await _api.deletePollVote(
       activityId: activityId,
       pollId: pollId,
       voteId: voteId,
-      userId: userId,
     );
 
     return result.map((response) => response.vote?.toModel());

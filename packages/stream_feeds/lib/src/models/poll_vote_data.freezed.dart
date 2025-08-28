@@ -18,7 +18,6 @@ mixin _$PollVoteData {
   String? get answerText;
   DateTime get createdAt;
   String get id;
-  bool? get isAnswer;
   String get optionId;
   String get pollId;
   DateTime get updatedAt;
@@ -43,8 +42,6 @@ mixin _$PollVoteData {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.isAnswer, isAnswer) ||
-                other.isAnswer == isAnswer) &&
             (identical(other.optionId, optionId) ||
                 other.optionId == optionId) &&
             (identical(other.pollId, pollId) || other.pollId == pollId) &&
@@ -56,11 +53,11 @@ mixin _$PollVoteData {
 
   @override
   int get hashCode => Object.hash(runtimeType, answerText, createdAt, id,
-      isAnswer, optionId, pollId, updatedAt, user, userId);
+      optionId, pollId, updatedAt, user, userId);
 
   @override
   String toString() {
-    return 'PollVoteData(answerText: $answerText, createdAt: $createdAt, id: $id, isAnswer: $isAnswer, optionId: $optionId, pollId: $pollId, updatedAt: $updatedAt, user: $user, userId: $userId)';
+    return 'PollVoteData(answerText: $answerText, createdAt: $createdAt, id: $id, optionId: $optionId, pollId: $pollId, updatedAt: $updatedAt, user: $user, userId: $userId)';
   }
 }
 
@@ -77,7 +74,6 @@ abstract mixin class $PollVoteDataCopyWith<$Res> {
       String pollId,
       DateTime updatedAt,
       String? answerText,
-      bool? isAnswer,
       UserData? user,
       String? userId});
 }
@@ -100,7 +96,6 @@ class _$PollVoteDataCopyWithImpl<$Res> implements $PollVoteDataCopyWith<$Res> {
     Object? pollId = null,
     Object? updatedAt = null,
     Object? answerText = freezed,
-    Object? isAnswer = freezed,
     Object? user = freezed,
     Object? userId = freezed,
   }) {
@@ -129,10 +124,6 @@ class _$PollVoteDataCopyWithImpl<$Res> implements $PollVoteDataCopyWith<$Res> {
           ? _self.answerText
           : answerText // ignore: cast_nullable_to_non_nullable
               as String?,
-      isAnswer: freezed == isAnswer
-          ? _self.isAnswer
-          : isAnswer // ignore: cast_nullable_to_non_nullable
-              as bool?,
       user: freezed == user
           ? _self.user
           : user // ignore: cast_nullable_to_non_nullable

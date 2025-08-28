@@ -1,4 +1,6 @@
+import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:stream_core/stream_core.dart';
 
 import '../generated/api/models.dart';
 import 'poll_option_data.dart';
@@ -29,7 +31,7 @@ class PollData with _$PollData {
     required this.latestVotesByOption,
     required this.name,
     required this.options,
-    required this.ownVotes,
+    required this.ownVotesAndAnswers,
     required this.updatedAt,
     required this.voteCount,
     required this.voteCountsByOption,
@@ -83,6 +85,14 @@ class PollData with _$PollData {
   @override
   final List<PollVoteData> latestAnswers;
 
+  /// List of votes received by the poll.
+  ///
+  /// Note: This does not include the answers provided by the users,
+  /// see [latestAnswers] for that.
+  List<PollVoteData> get latestVotes {
+    return [...latestVotesByOption.values.flattened];
+  }
+
   /// The latest votes by option.
   @override
   final Map<String, List<PollVoteData>> latestVotesByOption;
@@ -101,7 +111,23 @@ class PollData with _$PollData {
 
   /// The votes made by the current user.
   @override
-  final List<PollVoteData> ownVotes;
+  final List<PollVoteData> ownVotesAndAnswers;
+
+  /// List of votes casted by the current user.
+  ///
+  /// Note: This does not include the answers provided by the user,
+  /// see [ownAnswers] for that.
+  List<PollVoteData> get ownVotes {
+    return ownVotesAndAnswers.where((it) => !it.isAnswer).toList();
+  }
+
+  /// List of answers provided by the current user.
+  ///
+  /// Note: This does not include the votes casted by the user,
+  /// see [ownVotes] for that.
+  List<PollVoteData> get ownAnswers {
+    return ownVotesAndAnswers.where((it) => it.isAnswer).toList();
+  }
 
   /// The date and time when the poll was last updated.
   @override
@@ -122,6 +148,48 @@ class PollData with _$PollData {
   /// Custom data as a map.
   @override
   final Map<String, Object?>? custom;
+}
+
+extension PollDataMutations on PollData {
+  PollData addOption(PollOptionData option) {
+    final updatedOptions = options.upsert(
+      option,
+      key: (it) => it.id == option.id,
+    );
+
+    return copyWith(options: updatedOptions);
+  }
+
+  PollData removeOption(String optionId) {
+    final updatedOptions = options.where((it) => it.id != optionId).toList();
+
+    return copyWith(options: updatedOptions);
+  }
+
+  PollData updateOption(PollOptionData option) {
+    final updatedOptions = options.map((it) {
+      if (it.id != option.id) return it;
+      return option;
+    }).toList();
+
+    return copyWith(options: updatedOptions);
+  }
+
+  PollData castAnswer(PollVoteData answer, String currentUserId) {
+    final updatedLatestAnswers = latestAnswers.let((it) {
+      return it.upsert(answer, key: (it) => it.id == answer.id);
+    });
+
+    final updatedOwnVotesAndAnswers = ownVotesAndAnswers.let((it) {
+      if (answer.userId != currentUserId) return it;
+      return it.upsert(answer, key: (it) => it.id == answer.id);
+    });
+
+    return copyWith(
+      latestAnswers: updatedLatestAnswers,
+      ownVotesAndAnswers: updatedOwnVotesAndAnswers,
+    );
+  }
 }
 
 /// Extension function to convert a [PollResponseData] to a [PollData] model.
@@ -147,7 +215,7 @@ extension PollResponseMapper on PollResponseData {
       maxVotesAllowed: maxVotesAllowed,
       name: name,
       options: [...options.map((e) => e.toModel())],
-      ownVotes: [...ownVotes.map((e) => e.toModel())],
+      ownVotesAndAnswers: [...ownVotes.map((e) => e.toModel())],
       updatedAt: updatedAt,
       voteCount: voteCount,
       voteCountsByOption: voteCountsByOption,

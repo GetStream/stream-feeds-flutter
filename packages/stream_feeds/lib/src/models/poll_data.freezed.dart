@@ -30,7 +30,7 @@ mixin _$PollData {
   int? get maxVotesAllowed;
   String get name;
   List<PollOptionData> get options;
-  List<PollVoteData> get ownVotes;
+  List<PollVoteData> get ownVotesAndAnswers;
   DateTime get updatedAt;
   int get voteCount;
   Map<String, int> get voteCountsByOption;
@@ -77,7 +77,8 @@ mixin _$PollData {
                 other.maxVotesAllowed == maxVotesAllowed) &&
             (identical(other.name, name) || other.name == name) &&
             const DeepCollectionEquality().equals(other.options, options) &&
-            const DeepCollectionEquality().equals(other.ownVotes, ownVotes) &&
+            const DeepCollectionEquality()
+                .equals(other.ownVotesAndAnswers, ownVotesAndAnswers) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
             (identical(other.voteCount, voteCount) ||
@@ -107,7 +108,7 @@ mixin _$PollData {
         maxVotesAllowed,
         name,
         const DeepCollectionEquality().hash(options),
-        const DeepCollectionEquality().hash(ownVotes),
+        const DeepCollectionEquality().hash(ownVotesAndAnswers),
         updatedAt,
         voteCount,
         const DeepCollectionEquality().hash(voteCountsByOption),
@@ -117,7 +118,7 @@ mixin _$PollData {
 
   @override
   String toString() {
-    return 'PollData(allowAnswers: $allowAnswers, allowUserSuggestedOptions: $allowUserSuggestedOptions, answersCount: $answersCount, createdAt: $createdAt, createdBy: $createdBy, createdById: $createdById, description: $description, enforceUniqueVote: $enforceUniqueVote, id: $id, isClosed: $isClosed, latestAnswers: $latestAnswers, latestVotesByOption: $latestVotesByOption, maxVotesAllowed: $maxVotesAllowed, name: $name, options: $options, ownVotes: $ownVotes, updatedAt: $updatedAt, voteCount: $voteCount, voteCountsByOption: $voteCountsByOption, votingVisibility: $votingVisibility, custom: $custom)';
+    return 'PollData(allowAnswers: $allowAnswers, allowUserSuggestedOptions: $allowUserSuggestedOptions, answersCount: $answersCount, createdAt: $createdAt, createdBy: $createdBy, createdById: $createdById, description: $description, enforceUniqueVote: $enforceUniqueVote, id: $id, isClosed: $isClosed, latestAnswers: $latestAnswers, latestVotesByOption: $latestVotesByOption, maxVotesAllowed: $maxVotesAllowed, name: $name, options: $options, ownVotesAndAnswers: $ownVotesAndAnswers, updatedAt: $updatedAt, voteCount: $voteCount, voteCountsByOption: $voteCountsByOption, votingVisibility: $votingVisibility, custom: $custom)';
   }
 }
 
@@ -140,7 +141,7 @@ abstract mixin class $PollDataCopyWith<$Res> {
       Map<String, List<PollVoteData>> latestVotesByOption,
       String name,
       List<PollOptionData> options,
-      List<PollVoteData> ownVotes,
+      List<PollVoteData> ownVotesAndAnswers,
       DateTime updatedAt,
       int voteCount,
       Map<String, int> voteCountsByOption,
@@ -175,7 +176,7 @@ class _$PollDataCopyWithImpl<$Res> implements $PollDataCopyWith<$Res> {
     Object? latestVotesByOption = null,
     Object? name = null,
     Object? options = null,
-    Object? ownVotes = null,
+    Object? ownVotesAndAnswers = null,
     Object? updatedAt = null,
     Object? voteCount = null,
     Object? voteCountsByOption = null,
@@ -237,9 +238,9 @@ class _$PollDataCopyWithImpl<$Res> implements $PollDataCopyWith<$Res> {
           ? _self.options
           : options // ignore: cast_nullable_to_non_nullable
               as List<PollOptionData>,
-      ownVotes: null == ownVotes
-          ? _self.ownVotes
-          : ownVotes // ignore: cast_nullable_to_non_nullable
+      ownVotesAndAnswers: null == ownVotesAndAnswers
+          ? _self.ownVotesAndAnswers
+          : ownVotesAndAnswers // ignore: cast_nullable_to_non_nullable
               as List<PollVoteData>,
       updatedAt: null == updatedAt
           ? _self.updatedAt

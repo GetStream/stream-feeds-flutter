@@ -56,11 +56,13 @@ class CommentList extends Disposable {
   ///
   /// Returns a [Result] containing additional [CommentData] or an error.
   Future<Result<List<CommentData>>> queryMoreComments({int? limit}) async {
+    // Build the query with the current pagination state (with next page token)
     final next = _stateNotifier.state.pagination?.next;
 
     // Early return if no more comments available
     if (next == null) return const Result.success([]);
 
+    // Create a new query with the next page token
     final nextQuery = query.copyWith(
       limit: limit ?? query.limit,
       next: next,
