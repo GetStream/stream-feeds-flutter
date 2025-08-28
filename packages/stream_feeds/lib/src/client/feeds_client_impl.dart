@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:stream_core/stream_core.dart';
 
-import '../event_resolvers/resolvers.dart' as event_resolvers;
 import '../feeds_client.dart';
 import '../generated/api/api.dart' as api;
 import '../models/activity_data.dart';
@@ -18,6 +17,7 @@ import '../repository/devices_repository.dart';
 import '../repository/feeds_repository.dart';
 import '../repository/moderation_repository.dart';
 import '../repository/polls_repository.dart';
+import '../resolvers/resolvers.dart' as event_resolvers;
 import '../state/activity.dart';
 import '../state/activity_comment_list.dart';
 import '../state/activity_list.dart';
