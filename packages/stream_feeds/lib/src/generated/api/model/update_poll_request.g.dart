@@ -10,9 +10,7 @@ UpdatePollRequest _$UpdatePollRequestFromJson(Map<String, dynamic> json) =>
     UpdatePollRequest(
       allowAnswers: json['allow_answers'] as bool?,
       allowUserSuggestedOptions: json['allow_user_suggested_options'] as bool?,
-      custom: (json['custom'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>?,
       description: json['description'] as String?,
       enforceUniqueVote: json['enforce_unique_vote'] as bool?,
       id: json['id'] as String,
@@ -23,8 +21,8 @@ UpdatePollRequest _$UpdatePollRequestFromJson(Map<String, dynamic> json) =>
           ?.map((e) => PollOptionRequest.fromJson(e as Map<String, dynamic>))
           .toList(),
       votingVisibility: $enumDecodeNullable(
-          _$UpdatePollRequestVotingVisibilityEnumEnumMap,
-          json['voting_visibility']),
+          _$UpdatePollRequestVotingVisibilityEnumMap, json['voting_visibility'],
+          unknownValue: UpdatePollRequestVotingVisibility.unknown),
     );
 
 Map<String, dynamic> _$UpdatePollRequestToJson(UpdatePollRequest instance) =>
@@ -39,12 +37,12 @@ Map<String, dynamic> _$UpdatePollRequestToJson(UpdatePollRequest instance) =>
       'max_votes_allowed': instance.maxVotesAllowed,
       'name': instance.name,
       'options': instance.options?.map((e) => e.toJson()).toList(),
-      'voting_visibility': _$UpdatePollRequestVotingVisibilityEnumEnumMap[
-          instance.votingVisibility],
+      'voting_visibility':
+          _$UpdatePollRequestVotingVisibilityEnumMap[instance.votingVisibility],
     };
 
-const _$UpdatePollRequestVotingVisibilityEnumEnumMap = {
-  UpdatePollRequestVotingVisibilityEnum.anonymous: 'anonymous',
-  UpdatePollRequestVotingVisibilityEnum.public: 'public',
-  UpdatePollRequestVotingVisibilityEnum.unknown: 'unknown',
+const _$UpdatePollRequestVotingVisibilityEnumMap = {
+  UpdatePollRequestVotingVisibility.anonymous: 'anonymous',
+  UpdatePollRequestVotingVisibility.public: 'public',
+  UpdatePollRequestVotingVisibility.unknown: '_unknown',
 };

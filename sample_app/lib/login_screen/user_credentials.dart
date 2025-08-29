@@ -12,7 +12,7 @@ class UserCredentials {
     user: const User(
       id: 'luke_skywalker',
       name: 'Luke Skywalker',
-      imageUrl:
+      image:
           'https://vignette.wikia.nocookie.net/starwars/images/2/20/LukeTLJ.jpg',
     ),
     token: DemoAppConfig.current.tokenForUser('luke_skywalker'),
@@ -22,7 +22,7 @@ class UserCredentials {
     user: const User(
       id: 'martin',
       name: 'Martin',
-      imageUrl:
+      image:
           'https://getstream.io/static/2796a305dd07651fcceb4721a94f4505/802d2/martin-mitrevski.webp',
     ),
     token: DemoAppConfig.current.tokenForUser('martin'),
@@ -32,7 +32,7 @@ class UserCredentials {
     user: const User(
       id: 'tommaso',
       name: 'Tommaso',
-      imageUrl:
+      image:
           'https://getstream.io/static/712bb5c0bd5ed8d3fa6e5842f6cfbeed/c59de/tommaso.webp',
     ),
     token: DemoAppConfig.current.tokenForUser('tommaso'),
@@ -42,7 +42,7 @@ class UserCredentials {
     user: const User(
       id: 'thierry',
       name: 'Thierry',
-      imageUrl:
+      image:
           'https://getstream.io/static/237f45f28690696ad8fff92726f45106/c59de/thierry.webp',
     ),
     token: DemoAppConfig.current.tokenForUser('thierry'),
@@ -52,7 +52,7 @@ class UserCredentials {
     user: const User(
       id: 'marcelo',
       name: 'Marcelo',
-      imageUrl:
+      image:
           'https://getstream.io/static/aaf5fb17dcfd0a3dd885f62bd21b325a/802d2/marcelo-pires.webp',
     ),
     token: DemoAppConfig.current.tokenForUser('marcelo'),

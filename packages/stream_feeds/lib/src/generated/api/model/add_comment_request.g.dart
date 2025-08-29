@@ -13,15 +13,14 @@ AddCommentRequest _$AddCommentRequestFromJson(Map<String, dynamic> json) =>
           .toList(),
       comment: json['comment'] as String,
       createNotificationActivity: json['create_notification_activity'] as bool?,
-      custom: (json['custom'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>?,
       mentionedUserIds: (json['mentioned_user_ids'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
       objectId: json['object_id'] as String,
       objectType: json['object_type'] as String,
       parentId: json['parent_id'] as String?,
+      skipPush: json['skip_push'] as bool?,
     );
 
 Map<String, dynamic> _$AddCommentRequestToJson(AddCommentRequest instance) =>
@@ -34,4 +33,5 @@ Map<String, dynamic> _$AddCommentRequestToJson(AddCommentRequest instance) =>
       'object_id': instance.objectId,
       'object_type': instance.objectType,
       'parent_id': instance.parentId,
+      'skip_push': instance.skipPush,
     };

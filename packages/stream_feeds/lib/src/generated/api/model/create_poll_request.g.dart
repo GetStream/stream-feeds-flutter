@@ -10,9 +10,7 @@ CreatePollRequest _$CreatePollRequestFromJson(Map<String, dynamic> json) =>
     CreatePollRequest(
       allowAnswers: json['allow_answers'] as bool?,
       allowUserSuggestedOptions: json['allow_user_suggested_options'] as bool?,
-      custom: (json['custom'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>?,
       description: json['description'] as String?,
       enforceUniqueVote: json['enforce_unique_vote'] as bool?,
       id: json['id'] as String?,
@@ -23,8 +21,8 @@ CreatePollRequest _$CreatePollRequestFromJson(Map<String, dynamic> json) =>
           ?.map((e) => PollOptionInput.fromJson(e as Map<String, dynamic>))
           .toList(),
       votingVisibility: $enumDecodeNullable(
-          _$CreatePollRequestVotingVisibilityEnumEnumMap,
-          json['voting_visibility']),
+          _$CreatePollRequestVotingVisibilityEnumMap, json['voting_visibility'],
+          unknownValue: CreatePollRequestVotingVisibility.unknown),
     );
 
 Map<String, dynamic> _$CreatePollRequestToJson(CreatePollRequest instance) =>
@@ -39,12 +37,12 @@ Map<String, dynamic> _$CreatePollRequestToJson(CreatePollRequest instance) =>
       'max_votes_allowed': instance.maxVotesAllowed,
       'name': instance.name,
       'options': instance.options?.map((e) => e.toJson()).toList(),
-      'voting_visibility': _$CreatePollRequestVotingVisibilityEnumEnumMap[
-          instance.votingVisibility],
+      'voting_visibility':
+          _$CreatePollRequestVotingVisibilityEnumMap[instance.votingVisibility],
     };
 
-const _$CreatePollRequestVotingVisibilityEnumEnumMap = {
-  CreatePollRequestVotingVisibilityEnum.anonymous: 'anonymous',
-  CreatePollRequestVotingVisibilityEnum.public: 'public',
-  CreatePollRequestVotingVisibilityEnum.unknown: 'unknown',
+const _$CreatePollRequestVotingVisibilityEnumMap = {
+  CreatePollRequestVotingVisibility.anonymous: 'anonymous',
+  CreatePollRequestVotingVisibility.public: 'public',
+  CreatePollRequestVotingVisibility.unknown: '_unknown',
 };

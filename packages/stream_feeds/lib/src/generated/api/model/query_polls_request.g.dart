@@ -8,9 +8,7 @@ part of 'query_polls_request.dart';
 
 QueryPollsRequest _$QueryPollsRequestFromJson(Map<String, dynamic> json) =>
     QueryPollsRequest(
-      filter: (json['filter'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      filter: json['filter'] as Map<String, dynamic>?,
       limit: (json['limit'] as num?)?.toInt(),
       next: json['next'] as String?,
       prev: json['prev'] as String?,

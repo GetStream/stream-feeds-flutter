@@ -12,7 +12,7 @@ UnpinActivityResponse _$UnpinActivityResponseFromJson(
       activity:
           ActivityResponse.fromJson(json['activity'] as Map<String, dynamic>),
       duration: json['duration'] as String,
-      fid: json['fid'] as String,
+      feed: json['feed'] as String,
       userId: json['user_id'] as String,
     );
 
@@ -21,6 +21,6 @@ Map<String, dynamic> _$UnpinActivityResponseToJson(
     <String, dynamic>{
       'activity': instance.activity.toJson(),
       'duration': instance.duration,
-      'fid': instance.fid,
+      'feed': instance.feed,
       'user_id': instance.userId,
     };

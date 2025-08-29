@@ -9,9 +9,7 @@ part of 'update_activity_partial_request.dart';
 UpdateActivityPartialRequest _$UpdateActivityPartialRequestFromJson(
         Map<String, dynamic> json) =>
     UpdateActivityPartialRequest(
-      set: (json['set'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      set: json['set'] as Map<String, dynamic>?,
       unset:
           (json['unset'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );

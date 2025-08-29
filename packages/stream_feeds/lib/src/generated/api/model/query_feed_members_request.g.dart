@@ -9,9 +9,7 @@ part of 'query_feed_members_request.dart';
 QueryFeedMembersRequest _$QueryFeedMembersRequestFromJson(
         Map<String, dynamic> json) =>
     QueryFeedMembersRequest(
-      filter: (json['filter'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      filter: json['filter'] as Map<String, dynamic>?,
       limit: (json['limit'] as num?)?.toInt(),
       next: json['next'] as String?,
       prev: json['prev'] as String?,

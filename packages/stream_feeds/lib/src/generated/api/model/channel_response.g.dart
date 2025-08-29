@@ -22,9 +22,7 @@ ChannelResponse _$ChannelResponseFromJson(Map<String, dynamic> json) =>
       createdBy: json['created_by'] == null
           ? null
           : UserResponse.fromJson(json['created_by'] as Map<String, dynamic>),
-      custom: (json['custom'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>,
       deletedAt: _$JsonConverterFromJson<int, DateTime>(
           json['deleted_at'], const EpochDateTimeConverter().fromJson),
       disabled: json['disabled'] as bool,
@@ -40,6 +38,7 @@ ChannelResponse _$ChannelResponseFromJson(Map<String, dynamic> json) =>
       members: (json['members'] as List<dynamic>?)
           ?.map((e) => ChannelMember.fromJson(e as Map<String, dynamic>))
           .toList(),
+      messageCount: (json['message_count'] as num?)?.toInt(),
       muteExpiresAt: _$JsonConverterFromJson<int, DateTime>(
           json['mute_expires_at'], const EpochDateTimeConverter().fromJson),
       muted: json['muted'] as bool?,
@@ -80,6 +79,7 @@ Map<String, dynamic> _$ChannelResponseToJson(ChannelResponse instance) =>
           instance.lastMessageAt, const EpochDateTimeConverter().toJson),
       'member_count': instance.memberCount,
       'members': instance.members?.map((e) => e.toJson()).toList(),
+      'message_count': instance.messageCount,
       'mute_expires_at': _$JsonConverterToJson<int, DateTime>(
           instance.muteExpiresAt, const EpochDateTimeConverter().toJson),
       'muted': instance.muted,
@@ -138,6 +138,7 @@ const _$ChannelOwnCapabilityEnumMap = {
   ChannelOwnCapability.updateOwnMessage: 'update-own-message',
   ChannelOwnCapability.updateThread: 'update-thread',
   ChannelOwnCapability.uploadFile: 'upload-file',
+  ChannelOwnCapability.unknown: '_unknown',
 };
 
 Json? _$JsonConverterToJson<Json, Value>(

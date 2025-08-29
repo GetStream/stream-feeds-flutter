@@ -10,9 +10,8 @@ UpdateCommentRequest _$UpdateCommentRequestFromJson(
         Map<String, dynamic> json) =>
     UpdateCommentRequest(
       comment: json['comment'] as String?,
-      custom: (json['custom'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>?,
+      skipPush: json['skip_push'] as bool?,
     );
 
 Map<String, dynamic> _$UpdateCommentRequestToJson(
@@ -20,4 +19,5 @@ Map<String, dynamic> _$UpdateCommentRequestToJson(
     <String, dynamic>{
       'comment': instance.comment,
       'custom': instance.custom,
+      'skip_push': instance.skipPush,
     };

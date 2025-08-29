@@ -5,3 +5,18 @@ targets:
         options:
           explicit_to_json: true
           field_rename: snake
+      freezed:
+        options:
+          map: false
+          when: false
+          equal: true
+          copy_with: true
+          to_string_override: true
+
+global_options:
+  freezed:
+    runs_before:
+      - json_serializable
+  json_serializable:
+    runs_before:
+      - retrofit_generator

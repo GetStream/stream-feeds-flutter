@@ -12,9 +12,7 @@ BookmarkResponse _$BookmarkResponseFromJson(Map<String, dynamic> json) =>
           ActivityResponse.fromJson(json['activity'] as Map<String, dynamic>),
       createdAt: const EpochDateTimeConverter()
           .fromJson((json['created_at'] as num).toInt()),
-      custom: (json['custom'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>?,
       folder: json['folder'] == null
           ? null
           : BookmarkFolderResponse.fromJson(

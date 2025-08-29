@@ -8,9 +8,7 @@ part of 'poll_option_request.dart';
 
 PollOptionRequest _$PollOptionRequestFromJson(Map<String, dynamic> json) =>
     PollOptionRequest(
-      custom: (json['custom'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      custom: json['custom'] as Map<String, dynamic>?,
       id: json['id'] as String,
       text: json['text'] as String?,
     );

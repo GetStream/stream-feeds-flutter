@@ -19,8 +19,8 @@ SharedLocationResponse _$SharedLocationResponseFromJson(
       duration: json['duration'] as String,
       endAt: _$JsonConverterFromJson<int, DateTime>(
           json['end_at'], const EpochDateTimeConverter().fromJson),
-      latitude: json['latitude'] as num,
-      longitude: json['longitude'] as num,
+      latitude: (json['latitude'] as num).toDouble(),
+      longitude: (json['longitude'] as num).toDouble(),
       message: json['message'] == null
           ? null
           : MessageResponse.fromJson(json['message'] as Map<String, dynamic>),

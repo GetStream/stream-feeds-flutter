@@ -10,18 +10,12 @@ GetOrCreateFeedRequest _$GetOrCreateFeedRequestFromJson(
         Map<String, dynamic> json) =>
     GetOrCreateFeedRequest(
       activitySelectorOptions:
-          (json['activity_selector_options'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+          json['activity_selector_options'] as Map<String, dynamic>?,
       data: json['data'] == null
           ? null
           : FeedInput.fromJson(json['data'] as Map<String, dynamic>),
-      externalRanking: (json['external_ranking'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
-      filter: (json['filter'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as Object),
-      ),
+      externalRanking: json['external_ranking'] as Map<String, dynamic>?,
+      filter: json['filter'] as Map<String, dynamic>?,
       followersPagination: json['followers_pagination'] == null
           ? null
           : PagerRequest.fromJson(
@@ -31,7 +25,7 @@ GetOrCreateFeedRequest _$GetOrCreateFeedRequestFromJson(
           : PagerRequest.fromJson(
               json['following_pagination'] as Map<String, dynamic>),
       interestWeights: (json['interest_weights'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as num),
+        (k, e) => MapEntry(k, (e as num).toDouble()),
       ),
       limit: (json['limit'] as num?)?.toInt(),
       memberPagination: json['member_pagination'] == null

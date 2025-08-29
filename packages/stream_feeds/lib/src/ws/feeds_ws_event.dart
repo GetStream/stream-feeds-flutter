@@ -1,45 +1,36 @@
-// ignore_for_file: prefer_single_quotes
-
 import 'dart:convert';
 
-import 'package:stream_core/stream_core.dart' as core;
+import 'package:stream_core/stream_core.dart';
 
 import '../generated/api/api.dart' as api;
+import 'events/events.dart';
 
-class FeedsWsEvent extends core.WsEvent {
-  const FeedsWsEvent(this.apiEvent);
+class FeedsWsCodec implements WebSocketMessageCodec<WsEvent, WsRequest> {
+  const FeedsWsCodec();
 
-  final api.WSClientEvent? apiEvent;
+  @override
+  Object encode(WsRequest message) {
+    final jsonData = message.toJson();
+    return json.encode(jsonData);
+  }
 
-  static core.WsEvent fromEventObject(Object message) {
-    try {
-      final json = jsonDecode(message.toString()) as Map<String, dynamic>;
-      final type = json['type'];
-      // TODO move generic connection events to core library.
-      switch (type) {
-        case "connection.ok":
-          return core.HealthCheckPongEvent(
-            healthCheckInfo: core.HealthCheckInfo(
-              connectionId: json['connection_id'],
-            ),
-          );
-        case 'connection.error':
-          return core.WsErrorEvent(error: json['error'], message: message);
-        default:
-          final event = api.WSClientEvent.fromJson(json);
+  @override
+  WsEvent decode(Object message) {
+    final jsonData = json.decode(message.toString()) as Map<String, Object?>;
+    final event = api.WSEvent.fromJson(jsonData).wrapped;
 
-          if (event is api.WSClientEventHealthCheckEvent) {
-            return core.HealthCheckPongEvent(
-              healthCheckInfo: core.HealthCheckInfo(
-                connectionId: event.healthCheckEvent.connectionId,
-              ),
-            );
-          }
-          print(type);
-          return FeedsWsEvent(event);
-      }
-    } catch (e) {
-      return core.WsErrorEvent(error: e, message: message);
-    }
+    // Handle unknown events by mapping them to known event types if possible
+    if (event is api.UnknownWSEvent) return _parseUnknownEvent(event);
+
+    return event;
+  }
+
+  WsEvent _parseUnknownEvent(api.UnknownWSEvent unknownEvent) {
+    return switch (unknownEvent.type) {
+      'health.check' => HealthCheckEvent.fromJson(unknownEvent.rawJson),
+      'connection.ok' => ConnectedEvent.fromJson(unknownEvent.rawJson),
+      'connection.error' => ConnectionErrorEvent.fromJson(unknownEvent.rawJson),
+      _ => unknownEvent,
+    };
   }
 }

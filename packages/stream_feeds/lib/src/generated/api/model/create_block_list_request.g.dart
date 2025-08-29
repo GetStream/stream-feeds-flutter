@@ -12,7 +12,8 @@ CreateBlockListRequest _$CreateBlockListRequestFromJson(
       name: json['name'] as String,
       team: json['team'] as String?,
       type: $enumDecodeNullable(
-          _$CreateBlockListRequestTypeEnumEnumMap, json['type']),
+          _$CreateBlockListRequestTypeEnumMap, json['type'],
+          unknownValue: CreateBlockListRequestType.unknown),
       words: (json['words'] as List<dynamic>).map((e) => e as String).toList(),
     );
 
@@ -21,15 +22,15 @@ Map<String, dynamic> _$CreateBlockListRequestToJson(
     <String, dynamic>{
       'name': instance.name,
       'team': instance.team,
-      'type': _$CreateBlockListRequestTypeEnumEnumMap[instance.type],
+      'type': _$CreateBlockListRequestTypeEnumMap[instance.type],
       'words': instance.words,
     };
 
-const _$CreateBlockListRequestTypeEnumEnumMap = {
-  CreateBlockListRequestTypeEnum.domain: 'domain',
-  CreateBlockListRequestTypeEnum.domainAllowlist: 'domain_allowlist',
-  CreateBlockListRequestTypeEnum.email: 'email',
-  CreateBlockListRequestTypeEnum.regex: 'regex',
-  CreateBlockListRequestTypeEnum.word: 'word',
-  CreateBlockListRequestTypeEnum.unknown: 'unknown',
+const _$CreateBlockListRequestTypeEnumMap = {
+  CreateBlockListRequestType.domain: 'domain',
+  CreateBlockListRequestType.domainAllowlist: 'domain_allowlist',
+  CreateBlockListRequestType.email: 'email',
+  CreateBlockListRequestType.regex: 'regex',
+  CreateBlockListRequestType.word: 'word',
+  CreateBlockListRequestType.unknown: '_unknown',
 };

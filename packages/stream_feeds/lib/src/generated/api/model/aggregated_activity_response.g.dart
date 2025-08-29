@@ -16,7 +16,7 @@ AggregatedActivityResponse _$AggregatedActivityResponseFromJson(
       createdAt: const EpochDateTimeConverter()
           .fromJson((json['created_at'] as num).toInt()),
       group: json['group'] as String,
-      score: json['score'] as num,
+      score: (json['score'] as num).toDouble(),
       updatedAt: const EpochDateTimeConverter()
           .fromJson((json['updated_at'] as num).toInt()),
       userCount: (json['user_count'] as num).toInt(),

@@ -8,8 +8,8 @@ part of 'label_thresholds.dart';
 
 LabelThresholds _$LabelThresholdsFromJson(Map<String, dynamic> json) =>
     LabelThresholds(
-      block: json['block'] as num?,
-      flag: json['flag'] as num?,
+      block: (json['block'] as num?)?.toDouble(),
+      flag: (json['flag'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$LabelThresholdsToJson(LabelThresholds instance) =>
