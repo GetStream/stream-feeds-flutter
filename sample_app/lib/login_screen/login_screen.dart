@@ -59,11 +59,11 @@ class _LoginUserListItem extends StatelessWidget {
     return ListTile(
       onTap: onTap,
       leading: CircleAvatar(
-        backgroundImage: switch (credentials.user.imageUrl) {
-          final String imageUrl => CachedNetworkImageProvider(imageUrl),
+        backgroundImage: switch (credentials.user.image) {
+          final String image => CachedNetworkImageProvider(image),
           _ => null,
         },
-        child: switch (credentials.user.imageUrl) {
+        child: switch (credentials.user.image) {
           String _ => null,
           _ => _LoginUserListItemPlaceholder(credentials),
         },
