@@ -18,11 +18,11 @@ part 'block_content_options.freezed.dart';
 @JsonSerializable()
 class BlockContentOptions with _$BlockContentOptions {
   const BlockContentOptions({
-    required this.reason,
+    this.reason,
   });
 
   @override
-  final String reason;
+  final String? reason;
 
   Map<String, dynamic> toJson() => _$BlockContentOptionsToJson(this);
 

@@ -21,6 +21,7 @@ class TextContentParameters with _$TextContentParameters {
     this.blocklistMatch,
     this.containsUrl,
     this.harmLabels,
+    this.llmHarmLabels,
     this.severity,
   });
 
@@ -32,6 +33,9 @@ class TextContentParameters with _$TextContentParameters {
 
   @override
   final List<String>? harmLabels;
+
+  @override
+  final Map<String, String>? llmHarmLabels;
 
   @override
   final String? severity;

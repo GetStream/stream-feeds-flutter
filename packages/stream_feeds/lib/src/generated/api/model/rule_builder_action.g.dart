@@ -23,7 +23,7 @@ RuleBuilderAction _$RuleBuilderActionFromJson(Map<String, dynamic> json) =>
           ? null
           : BlockContentOptions.fromJson(
               json['remove_content_options'] as Map<String, dynamic>),
-      type: json['type'] as String,
+      type: json['type'] as String?,
     );
 
 Map<String, dynamic> _$RuleBuilderActionToJson(RuleBuilderAction instance) =>

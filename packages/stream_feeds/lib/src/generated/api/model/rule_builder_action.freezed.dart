@@ -19,7 +19,7 @@ mixin _$RuleBuilderAction {
   FlagContentOptions? get flagContentOptions;
   FlagUserOptions? get flagUserOptions;
   BlockContentOptions? get removeContentOptions;
-  String get type;
+  String? get type;
 
   /// Create a copy of RuleBuilderAction
   /// with the given fields replaced by the non-null parameter values.
@@ -66,7 +66,7 @@ abstract mixin class $RuleBuilderActionCopyWith<$Res> {
       FlagContentOptions? flagContentOptions,
       FlagUserOptions? flagUserOptions,
       BlockContentOptions? removeContentOptions,
-      String type});
+      String? type});
 }
 
 /// @nodoc
@@ -86,7 +86,7 @@ class _$RuleBuilderActionCopyWithImpl<$Res>
     Object? flagContentOptions = freezed,
     Object? flagUserOptions = freezed,
     Object? removeContentOptions = freezed,
-    Object? type = null,
+    Object? type = freezed,
   }) {
     return _then(RuleBuilderAction(
       banOptions: freezed == banOptions
@@ -105,10 +105,10 @@ class _$RuleBuilderActionCopyWithImpl<$Res>
           ? _self.removeContentOptions
           : removeContentOptions // ignore: cast_nullable_to_non_nullable
               as BlockContentOptions?,
-      type: null == type
+      type: freezed == type
           ? _self.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }

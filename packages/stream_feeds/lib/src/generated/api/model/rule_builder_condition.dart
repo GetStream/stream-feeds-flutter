@@ -24,8 +24,9 @@ class RuleBuilderCondition with _$RuleBuilderCondition {
     this.imageRuleParams,
     this.textContentParams,
     this.textRuleParams,
-    required this.type,
+    this.type,
     this.userCreatedWithinParams,
+    this.userCustomPropertyParams,
     this.userRuleParams,
     this.videoContentParams,
     this.videoRuleParams,
@@ -50,10 +51,13 @@ class RuleBuilderCondition with _$RuleBuilderCondition {
   final TextRuleParameters? textRuleParams;
 
   @override
-  final String type;
+  final String? type;
 
   @override
   final UserCreatedWithinParameters? userCreatedWithinParams;
+
+  @override
+  final UserCustomPropertyParameters? userCustomPropertyParams;
 
   @override
   final UserRuleParameters? userRuleParams;

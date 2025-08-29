@@ -19,14 +19,14 @@ part 'rule_builder_config.freezed.dart';
 class RuleBuilderConfig with _$RuleBuilderConfig {
   const RuleBuilderConfig({
     this.async,
-    required this.rules,
+    this.rules,
   });
 
   @override
   final bool? async;
 
   @override
-  final List<RuleBuilderRule> rules;
+  final List<RuleBuilderRule>? rules;
 
   Map<String, dynamic> toJson() => _$RuleBuilderConfigToJson(this);
 

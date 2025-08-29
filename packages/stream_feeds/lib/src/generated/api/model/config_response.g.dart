@@ -46,10 +46,6 @@ ConfigResponse _$ConfigResponseFromJson(Map<String, dynamic> json) =>
       llmConfig: json['llm_config'] == null
           ? null
           : LLMConfig.fromJson(json['llm_config'] as Map<String, dynamic>),
-      ruleBuilderConfig: json['rule_builder_config'] == null
-          ? null
-          : RuleBuilderConfig.fromJson(
-              json['rule_builder_config'] as Map<String, dynamic>),
       team: json['team'] as String,
       updatedAt: const EpochDateTimeConverter()
           .fromJson((json['updated_at'] as num).toInt()),
@@ -78,7 +74,6 @@ Map<String, dynamic> _$ConfigResponseToJson(ConfigResponse instance) =>
       'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
       'key': instance.key,
       'llm_config': instance.llmConfig?.toJson(),
-      'rule_builder_config': instance.ruleBuilderConfig?.toJson(),
       'team': instance.team,
       'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
       'velocity_filter_config': instance.velocityFilterConfig?.toJson(),

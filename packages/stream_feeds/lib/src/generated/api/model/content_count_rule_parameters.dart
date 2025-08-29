@@ -18,15 +18,15 @@ part 'content_count_rule_parameters.freezed.dart';
 @JsonSerializable()
 class ContentCountRuleParameters with _$ContentCountRuleParameters {
   const ContentCountRuleParameters({
-    required this.threshold,
-    required this.timeWindow,
+    this.threshold,
+    this.timeWindow,
   });
 
   @override
-  final int threshold;
+  final int? threshold;
 
   @override
-  final String timeWindow;
+  final String? timeWindow;
 
   Map<String, dynamic> toJson() => _$ContentCountRuleParametersToJson(this);
 

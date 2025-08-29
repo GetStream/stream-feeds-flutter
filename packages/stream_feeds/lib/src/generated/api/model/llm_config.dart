@@ -18,11 +18,15 @@ part 'llm_config.freezed.dart';
 @JsonSerializable()
 class LLMConfig with _$LLMConfig {
   const LLMConfig({
+    this.appContext,
     this.async,
     required this.enabled,
     required this.rules,
     this.severityDescriptions,
   });
+
+  @override
+  final String? appContext;
 
   @override
   final bool? async;

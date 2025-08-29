@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$RuleBuilderConfig {
   bool? get async;
-  List<RuleBuilderRule> get rules;
+  List<RuleBuilderRule>? get rules;
 
   /// Create a copy of RuleBuilderConfig
   /// with the given fields replaced by the non-null parameter values.
@@ -51,7 +51,7 @@ abstract mixin class $RuleBuilderConfigCopyWith<$Res> {
           RuleBuilderConfig value, $Res Function(RuleBuilderConfig) _then) =
       _$RuleBuilderConfigCopyWithImpl;
   @useResult
-  $Res call({bool? async, List<RuleBuilderRule> rules});
+  $Res call({bool? async, List<RuleBuilderRule>? rules});
 }
 
 /// @nodoc
@@ -68,17 +68,17 @@ class _$RuleBuilderConfigCopyWithImpl<$Res>
   @override
   $Res call({
     Object? async = freezed,
-    Object? rules = null,
+    Object? rules = freezed,
   }) {
     return _then(RuleBuilderConfig(
       async: freezed == async
           ? _self.async
           : async // ignore: cast_nullable_to_non_nullable
               as bool?,
-      rules: null == rules
+      rules: freezed == rules
           ? _self.rules
           : rules // ignore: cast_nullable_to_non_nullable
-              as List<RuleBuilderRule>,
+              as List<RuleBuilderRule>?,
     ));
   }
 }

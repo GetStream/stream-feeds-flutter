@@ -19,18 +19,18 @@ part 'image_rule_parameters.freezed.dart';
 class ImageRuleParameters with _$ImageRuleParameters {
   const ImageRuleParameters({
     this.harmLabels,
-    required this.threshold,
-    required this.timeWindow,
+    this.threshold,
+    this.timeWindow,
   });
 
   @override
   final List<String>? harmLabels;
 
   @override
-  final int threshold;
+  final int? threshold;
 
   @override
-  final String timeWindow;
+  final String? timeWindow;
 
   Map<String, dynamic> toJson() => _$ImageRuleParametersToJson(this);
 

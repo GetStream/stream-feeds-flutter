@@ -18,11 +18,9 @@ mixin _$RuleBuilderRule {
   RuleBuilderAction get action;
   List<RuleBuilderCondition>? get conditions;
   String? get cooldownPeriod;
-  bool get enabled;
   List<RuleBuilderConditionGroup>? get groups;
-  String get id;
+  String? get id;
   String? get logic;
-  String get name;
   String get ruleType;
 
   /// Create a copy of RuleBuilderRule
@@ -43,11 +41,9 @@ mixin _$RuleBuilderRule {
                 .equals(other.conditions, conditions) &&
             (identical(other.cooldownPeriod, cooldownPeriod) ||
                 other.cooldownPeriod == cooldownPeriod) &&
-            (identical(other.enabled, enabled) || other.enabled == enabled) &&
             const DeepCollectionEquality().equals(other.groups, groups) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.logic, logic) || other.logic == logic) &&
-            (identical(other.name, name) || other.name == name) &&
             (identical(other.ruleType, ruleType) ||
                 other.ruleType == ruleType));
   }
@@ -58,16 +54,14 @@ mixin _$RuleBuilderRule {
       action,
       const DeepCollectionEquality().hash(conditions),
       cooldownPeriod,
-      enabled,
       const DeepCollectionEquality().hash(groups),
       id,
       logic,
-      name,
       ruleType);
 
   @override
   String toString() {
-    return 'RuleBuilderRule(action: $action, conditions: $conditions, cooldownPeriod: $cooldownPeriod, enabled: $enabled, groups: $groups, id: $id, logic: $logic, name: $name, ruleType: $ruleType)';
+    return 'RuleBuilderRule(action: $action, conditions: $conditions, cooldownPeriod: $cooldownPeriod, groups: $groups, id: $id, logic: $logic, ruleType: $ruleType)';
   }
 }
 
@@ -81,11 +75,9 @@ abstract mixin class $RuleBuilderRuleCopyWith<$Res> {
       {RuleBuilderAction action,
       List<RuleBuilderCondition>? conditions,
       String? cooldownPeriod,
-      bool enabled,
       List<RuleBuilderConditionGroup>? groups,
-      String id,
+      String? id,
       String? logic,
-      String name,
       String ruleType});
 }
 
@@ -105,11 +97,9 @@ class _$RuleBuilderRuleCopyWithImpl<$Res>
     Object? action = null,
     Object? conditions = freezed,
     Object? cooldownPeriod = freezed,
-    Object? enabled = null,
     Object? groups = freezed,
-    Object? id = null,
+    Object? id = freezed,
     Object? logic = freezed,
-    Object? name = null,
     Object? ruleType = null,
   }) {
     return _then(RuleBuilderRule(
@@ -125,26 +115,18 @@ class _$RuleBuilderRuleCopyWithImpl<$Res>
           ? _self.cooldownPeriod
           : cooldownPeriod // ignore: cast_nullable_to_non_nullable
               as String?,
-      enabled: null == enabled
-          ? _self.enabled
-          : enabled // ignore: cast_nullable_to_non_nullable
-              as bool,
       groups: freezed == groups
           ? _self.groups
           : groups // ignore: cast_nullable_to_non_nullable
               as List<RuleBuilderConditionGroup>?,
-      id: null == id
+      id: freezed == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       logic: freezed == logic
           ? _self.logic
           : logic // ignore: cast_nullable_to_non_nullable
               as String?,
-      name: null == name
-          ? _self.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
       ruleType: null == ruleType
           ? _self.ruleType
           : ruleType // ignore: cast_nullable_to_non_nullable

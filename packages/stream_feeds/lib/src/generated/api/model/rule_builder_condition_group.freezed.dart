@@ -15,8 +15,8 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$RuleBuilderConditionGroup {
-  List<RuleBuilderCondition> get conditions;
-  String get logic;
+  List<RuleBuilderCondition>? get conditions;
+  String? get logic;
 
   /// Create a copy of RuleBuilderConditionGroup
   /// with the given fields replaced by the non-null parameter values.
@@ -52,7 +52,7 @@ abstract mixin class $RuleBuilderConditionGroupCopyWith<$Res> {
           $Res Function(RuleBuilderConditionGroup) _then) =
       _$RuleBuilderConditionGroupCopyWithImpl;
   @useResult
-  $Res call({List<RuleBuilderCondition> conditions, String logic});
+  $Res call({List<RuleBuilderCondition>? conditions, String? logic});
 }
 
 /// @nodoc
@@ -68,18 +68,18 @@ class _$RuleBuilderConditionGroupCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? conditions = null,
-    Object? logic = null,
+    Object? conditions = freezed,
+    Object? logic = freezed,
   }) {
     return _then(RuleBuilderConditionGroup(
-      conditions: null == conditions
+      conditions: freezed == conditions
           ? _self.conditions
           : conditions // ignore: cast_nullable_to_non_nullable
-              as List<RuleBuilderCondition>,
-      logic: null == logic
+              as List<RuleBuilderCondition>?,
+      logic: freezed == logic
           ? _self.logic
           : logic // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }

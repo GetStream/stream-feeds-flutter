@@ -8,7 +8,7 @@ part of 'flag_content_options.dart';
 
 FlagContentOptions _$FlagContentOptionsFromJson(Map<String, dynamic> json) =>
     FlagContentOptions(
-      reason: json['reason'] as String,
+      reason: json['reason'] as String?,
     );
 
 Map<String, dynamic> _$FlagContentOptionsToJson(FlagContentOptions instance) =>

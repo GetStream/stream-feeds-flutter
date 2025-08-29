@@ -15,10 +15,10 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$BanOptions {
-  int get duration;
-  bool get ipBan;
-  String get reason;
-  bool get shadowBan;
+  int? get duration;
+  bool? get ipBan;
+  String? get reason;
+  bool? get shadowBan;
 
   /// Create a copy of BanOptions
   /// with the given fields replaced by the non-null parameter values.
@@ -56,7 +56,7 @@ abstract mixin class $BanOptionsCopyWith<$Res> {
           BanOptions value, $Res Function(BanOptions) _then) =
       _$BanOptionsCopyWithImpl;
   @useResult
-  $Res call({int duration, bool ipBan, String reason, bool shadowBan});
+  $Res call({int? duration, bool? ipBan, String? reason, bool? shadowBan});
 }
 
 /// @nodoc
@@ -71,28 +71,28 @@ class _$BanOptionsCopyWithImpl<$Res> implements $BanOptionsCopyWith<$Res> {
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? duration = null,
-    Object? ipBan = null,
-    Object? reason = null,
-    Object? shadowBan = null,
+    Object? duration = freezed,
+    Object? ipBan = freezed,
+    Object? reason = freezed,
+    Object? shadowBan = freezed,
   }) {
     return _then(BanOptions(
-      duration: null == duration
+      duration: freezed == duration
           ? _self.duration
           : duration // ignore: cast_nullable_to_non_nullable
-              as int,
-      ipBan: null == ipBan
+              as int?,
+      ipBan: freezed == ipBan
           ? _self.ipBan
           : ipBan // ignore: cast_nullable_to_non_nullable
-              as bool,
-      reason: null == reason
+              as bool?,
+      reason: freezed == reason
           ? _self.reason
           : reason // ignore: cast_nullable_to_non_nullable
-              as String,
-      shadowBan: null == shadowBan
+              as String?,
+      shadowBan: freezed == shadowBan
           ? _self.shadowBan
           : shadowBan // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
     ));
   }
 }

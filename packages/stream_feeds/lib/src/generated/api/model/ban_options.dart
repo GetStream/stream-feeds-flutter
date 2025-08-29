@@ -18,23 +18,23 @@ part 'ban_options.freezed.dart';
 @JsonSerializable()
 class BanOptions with _$BanOptions {
   const BanOptions({
-    required this.duration,
-    required this.ipBan,
-    required this.reason,
-    required this.shadowBan,
+    this.duration,
+    this.ipBan,
+    this.reason,
+    this.shadowBan,
   });
 
   @override
-  final int duration;
+  final int? duration;
 
   @override
-  final bool ipBan;
+  final bool? ipBan;
 
   @override
-  final String reason;
+  final String? reason;
 
   @override
-  final bool shadowBan;
+  final bool? shadowBan;
 
   Map<String, dynamic> toJson() => _$BanOptionsToJson(this);
 

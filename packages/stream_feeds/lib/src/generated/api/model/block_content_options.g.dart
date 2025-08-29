@@ -8,7 +8,7 @@ part of 'block_content_options.dart';
 
 BlockContentOptions _$BlockContentOptionsFromJson(Map<String, dynamic> json) =>
     BlockContentOptions(
-      reason: json['reason'] as String,
+      reason: json['reason'] as String?,
     );
 
 Map<String, dynamic> _$BlockContentOptionsToJson(
