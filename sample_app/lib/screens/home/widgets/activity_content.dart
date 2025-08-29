@@ -3,6 +3,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 
 import '../../../theme/extensions/theme_extensions.dart';
+import '../../../utils/date_time_extensions.dart';
 import '../../../widgets/user_avatar.dart';
 
 class ActivityContent extends StatelessWidget {
@@ -27,7 +28,7 @@ class ActivityContent extends StatelessWidget {
   final ActivityData data;
   final String currentUserId;
   final VoidCallback? onCommentClick;
-  final VoidCallback? onHeartClick;
+  final ValueSetter<bool>? onHeartClick;
   final ValueSetter<String?>? onRepostClick;
   final VoidCallback? onBookmarkClick;
   final VoidCallback? onDeleteClick;
@@ -38,113 +39,78 @@ class ActivityContent extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _UserHeader(user: user, data: data),
-        const SizedBox(height: 8),
-        _ActivityBody(
+        _UserContent(
           user: user,
+          data: data,
           text: text,
           attachments: attachments,
-          data: data,
         ),
         const SizedBox(height: 8),
-        _UserActions(
-          user: user,
-          data: data,
-          currentUserId: currentUserId,
-          onCommentClick: onCommentClick,
-          onHeartClick: onHeartClick,
-          onRepostClick: onRepostClick,
-          onBookmarkClick: onBookmarkClick,
-        ),
-      ],
-    );
-
-    return Row(
-      children: [
-        UserAvatar(user: User(id: user.id, name: user.name, image: user.image)),
-        Column(
-          children: [
-            Text(user.name ?? user.id),
-            if (text.isNotEmpty) Text(text),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.comment),
-                  onPressed: onCommentClick,
-                ),
-                IconButton(
-                  icon: const Icon(Icons.favorite_border),
-                  onPressed: onHeartClick,
-                ),
-                IconButton(
-                  icon: const Icon(Icons.repeat),
-                  onPressed: () => onRepostClick?.call(null),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.bookmark_border),
-                  onPressed: onBookmarkClick,
-                ),
-                if (user.id == currentUserId) ...[
-                  IconButton(
-                    icon: const Icon(Icons.delete),
-                    onPressed: onDeleteClick,
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.edit),
-                    onPressed: () {
-                      // For simplicity, we just call onEditSave with a dummy text
-                      onEditSave?.call('Edited text');
-                    },
-                  ),
-                ],
-              ],
+        Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxWidth: 500,
             ),
-          ],
+            child: _UserActions(
+              user: user,
+              data: data,
+              currentUserId: currentUserId,
+              onCommentClick: onCommentClick,
+              onHeartClick: onHeartClick,
+              onRepostClick: onRepostClick,
+              onBookmarkClick: onBookmarkClick,
+            ),
+          ),
         ),
-        // Display attachments if any
-        // if (attachments.isNotEmpty)
-        //   Column(
-        //     children: attachments
-        //         .map((attachment) => Text('Attachment: ${attachment.url}'))
-        //         .toList(),
-        //   ),
-        // Action buttons
       ],
     );
   }
 }
 
-class _UserHeader extends StatelessWidget {
-  const _UserHeader({
+class _UserContent extends StatelessWidget {
+  const _UserContent({
     super.key,
     required this.user,
     required this.data,
+    required this.text,
+    required this.attachments,
   });
 
   final UserData user;
   final ActivityData data;
+  final String text;
+  final List<Attachment> attachments;
 
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         UserAvatar.appBar(
           user: User(id: user.id, name: user.name, image: user.image),
         ),
         const SizedBox(width: 8),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              user.name ?? user.id,
-              style: context.appTextStyles.footnoteBold,
-            ),
-            Text(
-              Jiffy.parseFromDateTime(data.createdAt).fromNow(),
-              style: context.appTextStyles.footnote,
-            ),
-          ],
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                user.name ?? user.id,
+                style: context.appTextStyles.footnoteBold,
+              ),
+              Text(
+                data.createdAt.displayRelativeTime,
+                style: context.appTextStyles.footnote,
+              ),
+              const SizedBox(height: 8),
+              _ActivityBody(
+                user: user,
+                text: text,
+                attachments: attachments,
+                data: data,
+              ),
+            ],
+          ),
         ),
       ],
     );
@@ -169,6 +135,7 @@ class _ActivityBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         if (text.isNotEmpty) Text(text),
         if (attachments.isNotEmpty) ...[
@@ -212,7 +179,7 @@ class _UserActions extends StatelessWidget {
   final ActivityData data;
   final String currentUserId;
   final VoidCallback? onCommentClick;
-  final VoidCallback? onHeartClick;
+  final ValueSetter<bool>? onHeartClick;
   final ValueSetter<String?>? onRepostClick;
   final VoidCallback? onBookmarkClick;
 
@@ -229,13 +196,12 @@ class _UserActions extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        _ActionButton(
+        ActionButton(
           icon: const Icon(Icons.comment, size: 16),
           count: data.commentCount,
           onTap: onCommentClick,
         ),
-        const SizedBox(width: 16),
-        _ActionButton(
+        ActionButton(
           icon: Icon(
             hasOwnHeart
                 ? Icons.favorite_rounded
@@ -244,16 +210,14 @@ class _UserActions extends StatelessWidget {
             color: hasOwnHeart ? Colors.red : null,
           ),
           count: heartsCount,
-          onTap: onHeartClick,
+          onTap: () => onHeartClick?.call(!hasOwnHeart),
         ),
-        const SizedBox(width: 16),
-        _ActionButton(
+        ActionButton(
           icon: const Icon(Icons.share_rounded, size: 16),
           count: data.shareCount,
           onTap: () => onRepostClick?.call(null),
         ),
-        const SizedBox(width: 16),
-        _ActionButton(
+        ActionButton(
           icon: Icon(
             hasOwnBookmark
                 ? Icons.bookmark_rounded
@@ -269,8 +233,8 @@ class _UserActions extends StatelessWidget {
   }
 }
 
-class _ActionButton extends StatelessWidget {
-  const _ActionButton({
+class ActionButton extends StatelessWidget {
+  const ActionButton({
     super.key,
     this.icon,
     required this.count,

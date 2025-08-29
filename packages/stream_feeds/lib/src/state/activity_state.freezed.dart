@@ -17,6 +17,7 @@ T _$identity<T>(T value) => value;
 mixin _$ActivityState {
   ActivityData? get activity;
   List<ThreadedCommentData> get comments;
+  PaginationData? get commentsPagination;
   PollData? get poll;
 
   /// Create a copy of ActivityState
@@ -35,16 +36,18 @@ mixin _$ActivityState {
             (identical(other.activity, activity) ||
                 other.activity == activity) &&
             const DeepCollectionEquality().equals(other.comments, comments) &&
+            (identical(other.commentsPagination, commentsPagination) ||
+                other.commentsPagination == commentsPagination) &&
             (identical(other.poll, poll) || other.poll == poll));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, activity,
-      const DeepCollectionEquality().hash(comments), poll);
+      const DeepCollectionEquality().hash(comments), commentsPagination, poll);
 
   @override
   String toString() {
-    return 'ActivityState(activity: $activity, comments: $comments, poll: $poll)';
+    return 'ActivityState(activity: $activity, comments: $comments, commentsPagination: $commentsPagination, poll: $poll)';
   }
 }
 
@@ -57,6 +60,7 @@ abstract mixin class $ActivityStateCopyWith<$Res> {
   $Res call(
       {ActivityData? activity,
       List<ThreadedCommentData> comments,
+      PaginationData? commentsPagination,
       PollData? poll});
 }
 
@@ -75,6 +79,7 @@ class _$ActivityStateCopyWithImpl<$Res>
   $Res call({
     Object? activity = freezed,
     Object? comments = null,
+    Object? commentsPagination = freezed,
     Object? poll = freezed,
   }) {
     return _then(ActivityState(
@@ -86,6 +91,10 @@ class _$ActivityStateCopyWithImpl<$Res>
           ? _self.comments
           : comments // ignore: cast_nullable_to_non_nullable
               as List<ThreadedCommentData>,
+      commentsPagination: freezed == commentsPagination
+          ? _self.commentsPagination
+          : commentsPagination // ignore: cast_nullable_to_non_nullable
+              as PaginationData?,
       poll: freezed == poll
           ? _self.poll
           : poll // ignore: cast_nullable_to_non_nullable

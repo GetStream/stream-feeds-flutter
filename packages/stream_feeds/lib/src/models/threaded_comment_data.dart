@@ -298,7 +298,7 @@ extension ThreadedCommentDataMutations on ThreadedCommentData {
     ThreadedCommentData reply,
     Comparator<CommentsSortDataFields> comparator,
   ) {
-    final updatedReplies = replies?.sortedUpsert(
+    final updatedReplies = (replies ?? []).sortedUpsert(
       reply,
       key: (it) => it.id,
       compare: comparator,

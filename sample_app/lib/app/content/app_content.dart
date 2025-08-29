@@ -43,7 +43,6 @@ class _StreamFeedsSampleAppContentState
       debugShowCheckedModeBanner: false,
       theme: ThemeConfig.fromBrightness(Brightness.light),
       darkTheme: ThemeConfig.fromBrightness(Brightness.dark),
-      themeMode: ThemeMode.light,
       routerConfig: _appRouter.config(
         reevaluateListenable: _authController,
       ),

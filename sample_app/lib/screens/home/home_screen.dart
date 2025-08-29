@@ -1,13 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_state_notifier/flutter_state_notifier.dart';
-import 'package:stream_feeds/stream_feeds.dart';
 
 import '../../app/content/auth_controller.dart';
 import '../../core/di/di_initializer.dart';
 import '../../theme/theme.dart';
 import '../../widgets/user_avatar.dart';
-import 'widgets/activity_content.dart';
 import 'widgets/user_feed_appbar.dart';
 import 'widgets/user_feed_view.dart';
 

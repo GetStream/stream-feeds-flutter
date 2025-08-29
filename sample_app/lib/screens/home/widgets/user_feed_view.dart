@@ -1,8 +1,11 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 
 import '../../../theme/extensions/theme_extensions.dart';
+import 'activity_comments_view.dart';
 import 'activity_content.dart';
 
 class UserFeedView extends StatefulWidget {
@@ -52,49 +55,84 @@ class _UserFeedViewState extends State<UserFeedView> {
 
         return RefreshIndicator(
           onRefresh: () => feed.getOrCreate(),
-          child: ListView.separated(
-            itemCount: activities.length,
-            separatorBuilder: (context, index) => Divider(
-              height: 1,
-              color: context.appColors.borders,
+          child: ScrollConfiguration(
+            behavior: ScrollConfiguration.of(context).copyWith(
+              dragDevices: {
+                PointerDeviceKind.touch,
+                PointerDeviceKind.mouse,
+              },
             ),
-            itemBuilder: (context, index) {
-              final activity = activities[index];
-              final parentActivity = activity.parent;
-              final baseActivity = activity.parent ?? activity;
+            child: ListView.separated(
+              itemCount: activities.length,
+              separatorBuilder: (context, index) => Divider(
+                height: 1,
+                color: context.appColors.borders,
+              ),
+              itemBuilder: (context, index) {
+                final activity = activities[index];
+                final parentActivity = activity.parent;
+                final baseActivity = activity.parent ?? activity;
 
-              return Padding(
-                padding: const EdgeInsets.all(8),
-                child: Column(
-                  children: [
-                    if (parentActivity != null) ...[
-                      ActivityRepostIndicator(
-                        user: activity.user,
-                        data: parentActivity,
+                return Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Column(
+                    children: [
+                      if (parentActivity != null) ...[
+                        ActivityRepostIndicator(
+                          user: activity.user,
+                          data: parentActivity,
+                        ),
+                        const SizedBox(height: 8),
+                      ],
+                      ActivityContent(
+                        user: baseActivity.user,
+                        text: baseActivity.text ?? '',
+                        attachments: baseActivity.attachments,
+                        data: activity,
+                        currentUserId: widget.client.user.id,
+                        onCommentClick: () =>
+                            _onCommentClick(context, activity),
+                        onHeartClick: (isAdding) =>
+                            _onHeartClick(activity, isAdding),
+                        onRepostClick: (message) {},
+                        onBookmarkClick: () {},
+                        onDeleteClick: () {},
+                        onEditSave: (text) {},
                       ),
-                      const SizedBox(height: 8),
                     ],
-                    ActivityContent(
-                      user: baseActivity.user,
-                      text: baseActivity.text ?? '',
-                      attachments: baseActivity.attachments,
-                      data: activity,
-                      currentUserId: widget.client.user.id,
-                      onCommentClick: () {},
-                      onHeartClick: () {},
-                      onRepostClick: (message) {},
-                      onBookmarkClick: () {},
-                      onDeleteClick: () {},
-                      onEditSave: (text) {},
-                    ),
-                  ],
-                ),
-              );
-            },
+                  ),
+                );
+              },
+            ),
           ),
         );
       },
     );
+  }
+
+  void _onCommentClick(BuildContext context, ActivityData activity) {
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (context) => ActivityCommentsView(
+        activityId: activity.id,
+        feed: feed,
+        client: widget.client,
+      ),
+    );
+  }
+
+  void _onHeartClick(ActivityData activity, bool isAdding) {
+    if (isAdding) {
+      feed.addReaction(
+        activityId: activity.id,
+        request: const AddReactionRequest(type: 'heart'),
+      );
+    } else {
+      feed.deleteReaction(
+        activityId: activity.id,
+        type: 'heart',
+      );
+    }
   }
 }
 
