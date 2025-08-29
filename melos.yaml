@@ -175,3 +175,7 @@ scripts:
       npm install -g https://github.com/GetStream/stream-chat-docusaurus-cli &&
       npx stream-chat-docusaurus -i -s
     description: Runs the docusaurus documentation locally.
+
+  gen:feeds:
+    run: $MELOS_ROOT_PATH/scripts/generate.sh
+    description: Generate Feeds Dart client from Chat OpenAPI
