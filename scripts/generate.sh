@@ -6,7 +6,7 @@ set -euo pipefail
 # =========================
 CHAT_DIR="/ABSOLUTE/PATH/TO/YOUR/chat/repo"
 if [[ "$CHAT_DIR" == "/ABSOLUTE/PATH/TO/YOUR/chat/repo" ]]; then
-  echo "❌ Please edit scripts/gen-feeds.sh and set CHAT_DIR to your local chat repo path"
+  echo "❌ Please edit scripts/generate.sh and set CHAT_DIR to your local chat repo path"
   exit 1
 fi
 
