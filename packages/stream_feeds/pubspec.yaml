@@ -33,7 +33,6 @@ dependencies:
   retrofit: ^4.6.0
   rxdart: ^0.28.0
   state_notifier: ^1.0.0
-  # TODO Replace with hosted version when published
   stream_core:
     git:
       url: https://github.com/GetStream/stream-core-flutter.git
