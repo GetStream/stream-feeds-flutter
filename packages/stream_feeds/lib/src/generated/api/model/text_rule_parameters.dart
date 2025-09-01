@@ -21,9 +21,10 @@ class TextRuleParameters with _$TextRuleParameters {
     this.blocklistMatch,
     this.containsUrl,
     this.harmLabels,
+    this.llmHarmLabels,
     this.severity,
-    required this.threshold,
-    required this.timeWindow,
+    this.threshold,
+    this.timeWindow,
   });
 
   @override
@@ -36,13 +37,16 @@ class TextRuleParameters with _$TextRuleParameters {
   final List<String>? harmLabels;
 
   @override
+  final Map<String, String>? llmHarmLabels;
+
+  @override
   final String? severity;
 
   @override
-  final int threshold;
+  final int? threshold;
 
   @override
-  final String timeWindow;
+  final String? timeWindow;
 
   Map<String, dynamic> toJson() => _$TextRuleParametersToJson(this);
 

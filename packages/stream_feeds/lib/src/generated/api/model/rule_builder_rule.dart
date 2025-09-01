@@ -21,11 +21,9 @@ class RuleBuilderRule with _$RuleBuilderRule {
     required this.action,
     this.conditions,
     this.cooldownPeriod,
-    required this.enabled,
     this.groups,
-    required this.id,
+    this.id,
     this.logic,
-    required this.name,
     required this.ruleType,
   });
 
@@ -39,19 +37,13 @@ class RuleBuilderRule with _$RuleBuilderRule {
   final String? cooldownPeriod;
 
   @override
-  final bool enabled;
-
-  @override
   final List<RuleBuilderConditionGroup>? groups;
 
   @override
-  final String id;
+  final String? id;
 
   @override
   final String? logic;
-
-  @override
-  final String name;
 
   @override
   final String ruleType;

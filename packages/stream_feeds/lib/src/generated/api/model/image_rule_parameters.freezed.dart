@@ -16,8 +16,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ImageRuleParameters {
   List<String>? get harmLabels;
-  int get threshold;
-  String get timeWindow;
+  int? get threshold;
+  String? get timeWindow;
 
   /// Create a copy of ImageRuleParameters
   /// with the given fields replaced by the non-null parameter values.
@@ -56,7 +56,7 @@ abstract mixin class $ImageRuleParametersCopyWith<$Res> {
           ImageRuleParameters value, $Res Function(ImageRuleParameters) _then) =
       _$ImageRuleParametersCopyWithImpl;
   @useResult
-  $Res call({List<String>? harmLabels, int threshold, String timeWindow});
+  $Res call({List<String>? harmLabels, int? threshold, String? timeWindow});
 }
 
 /// @nodoc
@@ -73,22 +73,22 @@ class _$ImageRuleParametersCopyWithImpl<$Res>
   @override
   $Res call({
     Object? harmLabels = freezed,
-    Object? threshold = null,
-    Object? timeWindow = null,
+    Object? threshold = freezed,
+    Object? timeWindow = freezed,
   }) {
     return _then(ImageRuleParameters(
       harmLabels: freezed == harmLabels
           ? _self.harmLabels
           : harmLabels // ignore: cast_nullable_to_non_nullable
               as List<String>?,
-      threshold: null == threshold
+      threshold: freezed == threshold
           ? _self.threshold
           : threshold // ignore: cast_nullable_to_non_nullable
-              as int,
-      timeWindow: null == timeWindow
+              as int?,
+      timeWindow: freezed == timeWindow
           ? _self.timeWindow
           : timeWindow // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }

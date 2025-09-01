@@ -18,11 +18,11 @@ part 'flag_user_options.freezed.dart';
 @JsonSerializable()
 class FlagUserOptions with _$FlagUserOptions {
   const FlagUserOptions({
-    required this.reason,
+    this.reason,
   });
 
   @override
-  final String reason;
+  final String? reason;
 
   Map<String, dynamic> toJson() => _$FlagUserOptionsToJson(this);
 

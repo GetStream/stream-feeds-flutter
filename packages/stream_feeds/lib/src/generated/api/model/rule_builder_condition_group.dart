@@ -18,15 +18,15 @@ part 'rule_builder_condition_group.freezed.dart';
 @JsonSerializable()
 class RuleBuilderConditionGroup with _$RuleBuilderConditionGroup {
   const RuleBuilderConditionGroup({
-    required this.conditions,
-    required this.logic,
+    this.conditions,
+    this.logic,
   });
 
   @override
-  final List<RuleBuilderCondition> conditions;
+  final List<RuleBuilderCondition>? conditions;
 
   @override
-  final String logic;
+  final String? logic;
 
   Map<String, dynamic> toJson() => _$RuleBuilderConditionGroupToJson(this);
 

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$FlagContentOptions {
-  String get reason;
+  String? get reason;
 
   /// Create a copy of FlagContentOptions
   /// with the given fields replaced by the non-null parameter values.
@@ -48,7 +48,7 @@ abstract mixin class $FlagContentOptionsCopyWith<$Res> {
           FlagContentOptions value, $Res Function(FlagContentOptions) _then) =
       _$FlagContentOptionsCopyWithImpl;
   @useResult
-  $Res call({String reason});
+  $Res call({String? reason});
 }
 
 /// @nodoc
@@ -64,13 +64,13 @@ class _$FlagContentOptionsCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? reason = null,
+    Object? reason = freezed,
   }) {
     return _then(FlagContentOptions(
-      reason: null == reason
+      reason: freezed == reason
           ? _self.reason
           : reason // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }

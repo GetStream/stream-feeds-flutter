@@ -18,9 +18,10 @@ mixin _$TextRuleParameters {
   List<String>? get blocklistMatch;
   bool? get containsUrl;
   List<String>? get harmLabels;
+  Map<String, String>? get llmHarmLabels;
   String? get severity;
-  int get threshold;
-  String get timeWindow;
+  int? get threshold;
+  String? get timeWindow;
 
   /// Create a copy of TextRuleParameters
   /// with the given fields replaced by the non-null parameter values.
@@ -41,6 +42,8 @@ mixin _$TextRuleParameters {
                 other.containsUrl == containsUrl) &&
             const DeepCollectionEquality()
                 .equals(other.harmLabels, harmLabels) &&
+            const DeepCollectionEquality()
+                .equals(other.llmHarmLabels, llmHarmLabels) &&
             (identical(other.severity, severity) ||
                 other.severity == severity) &&
             (identical(other.threshold, threshold) ||
@@ -55,13 +58,14 @@ mixin _$TextRuleParameters {
       const DeepCollectionEquality().hash(blocklistMatch),
       containsUrl,
       const DeepCollectionEquality().hash(harmLabels),
+      const DeepCollectionEquality().hash(llmHarmLabels),
       severity,
       threshold,
       timeWindow);
 
   @override
   String toString() {
-    return 'TextRuleParameters(blocklistMatch: $blocklistMatch, containsUrl: $containsUrl, harmLabels: $harmLabels, severity: $severity, threshold: $threshold, timeWindow: $timeWindow)';
+    return 'TextRuleParameters(blocklistMatch: $blocklistMatch, containsUrl: $containsUrl, harmLabels: $harmLabels, llmHarmLabels: $llmHarmLabels, severity: $severity, threshold: $threshold, timeWindow: $timeWindow)';
   }
 }
 
@@ -75,9 +79,10 @@ abstract mixin class $TextRuleParametersCopyWith<$Res> {
       {List<String>? blocklistMatch,
       bool? containsUrl,
       List<String>? harmLabels,
+      Map<String, String>? llmHarmLabels,
       String? severity,
-      int threshold,
-      String timeWindow});
+      int? threshold,
+      String? timeWindow});
 }
 
 /// @nodoc
@@ -96,9 +101,10 @@ class _$TextRuleParametersCopyWithImpl<$Res>
     Object? blocklistMatch = freezed,
     Object? containsUrl = freezed,
     Object? harmLabels = freezed,
+    Object? llmHarmLabels = freezed,
     Object? severity = freezed,
-    Object? threshold = null,
-    Object? timeWindow = null,
+    Object? threshold = freezed,
+    Object? timeWindow = freezed,
   }) {
     return _then(TextRuleParameters(
       blocklistMatch: freezed == blocklistMatch
@@ -113,18 +119,22 @@ class _$TextRuleParametersCopyWithImpl<$Res>
           ? _self.harmLabels
           : harmLabels // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      llmHarmLabels: freezed == llmHarmLabels
+          ? _self.llmHarmLabels
+          : llmHarmLabels // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>?,
       severity: freezed == severity
           ? _self.severity
           : severity // ignore: cast_nullable_to_non_nullable
               as String?,
-      threshold: null == threshold
+      threshold: freezed == threshold
           ? _self.threshold
           : threshold // ignore: cast_nullable_to_non_nullable
-              as int,
-      timeWindow: null == timeWindow
+              as int?,
+      timeWindow: freezed == timeWindow
           ? _self.timeWindow
           : timeWindow // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }

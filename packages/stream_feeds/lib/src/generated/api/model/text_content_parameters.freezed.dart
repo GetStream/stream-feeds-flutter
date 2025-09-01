@@ -18,6 +18,7 @@ mixin _$TextContentParameters {
   List<String>? get blocklistMatch;
   bool? get containsUrl;
   List<String>? get harmLabels;
+  Map<String, String>? get llmHarmLabels;
   String? get severity;
 
   /// Create a copy of TextContentParameters
@@ -39,6 +40,8 @@ mixin _$TextContentParameters {
                 other.containsUrl == containsUrl) &&
             const DeepCollectionEquality()
                 .equals(other.harmLabels, harmLabels) &&
+            const DeepCollectionEquality()
+                .equals(other.llmHarmLabels, llmHarmLabels) &&
             (identical(other.severity, severity) ||
                 other.severity == severity));
   }
@@ -49,11 +52,12 @@ mixin _$TextContentParameters {
       const DeepCollectionEquality().hash(blocklistMatch),
       containsUrl,
       const DeepCollectionEquality().hash(harmLabels),
+      const DeepCollectionEquality().hash(llmHarmLabels),
       severity);
 
   @override
   String toString() {
-    return 'TextContentParameters(blocklistMatch: $blocklistMatch, containsUrl: $containsUrl, harmLabels: $harmLabels, severity: $severity)';
+    return 'TextContentParameters(blocklistMatch: $blocklistMatch, containsUrl: $containsUrl, harmLabels: $harmLabels, llmHarmLabels: $llmHarmLabels, severity: $severity)';
   }
 }
 
@@ -67,6 +71,7 @@ abstract mixin class $TextContentParametersCopyWith<$Res> {
       {List<String>? blocklistMatch,
       bool? containsUrl,
       List<String>? harmLabels,
+      Map<String, String>? llmHarmLabels,
       String? severity});
 }
 
@@ -86,6 +91,7 @@ class _$TextContentParametersCopyWithImpl<$Res>
     Object? blocklistMatch = freezed,
     Object? containsUrl = freezed,
     Object? harmLabels = freezed,
+    Object? llmHarmLabels = freezed,
     Object? severity = freezed,
   }) {
     return _then(TextContentParameters(
@@ -101,6 +107,10 @@ class _$TextContentParametersCopyWithImpl<$Res>
           ? _self.harmLabels
           : harmLabels // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      llmHarmLabels: freezed == llmHarmLabels
+          ? _self.llmHarmLabels
+          : llmHarmLabels // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>?,
       severity: freezed == severity
           ? _self.severity
           : severity // ignore: cast_nullable_to_non_nullable

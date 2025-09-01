@@ -411,6 +411,7 @@ export 'model/upsert_config_response.dart';
 export 'model/user.dart';
 export 'model/user_banned_event.dart';
 export 'model/user_created_within_parameters.dart';
+export 'model/user_custom_property_parameters.dart';
 export 'model/user_deactivated_event.dart';
 export 'model/user_mute.dart';
 export 'model/user_mute_response.dart';

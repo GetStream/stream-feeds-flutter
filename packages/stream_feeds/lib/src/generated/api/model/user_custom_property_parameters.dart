@@ -10,26 +10,26 @@ import 'package:stream_core/stream_core.dart' as core;
 
 import '../models.dart';
 
-part 'rule_builder_config.g.dart';
-part 'rule_builder_config.freezed.dart';
+part 'user_custom_property_parameters.g.dart';
+part 'user_custom_property_parameters.freezed.dart';
 
 @freezed
 @immutable
 @JsonSerializable()
-class RuleBuilderConfig with _$RuleBuilderConfig {
-  const RuleBuilderConfig({
-    this.async,
-    this.rules,
+class UserCustomPropertyParameters with _$UserCustomPropertyParameters {
+  const UserCustomPropertyParameters({
+    this.operator,
+    this.propertyKey,
   });
 
   @override
-  final bool? async;
+  final String? operator;
 
   @override
-  final List<RuleBuilderRule>? rules;
+  final String? propertyKey;
 
-  Map<String, dynamic> toJson() => _$RuleBuilderConfigToJson(this);
+  Map<String, dynamic> toJson() => _$UserCustomPropertyParametersToJson(this);
 
-  static RuleBuilderConfig fromJson(Map<String, dynamic> json) =>
-      _$RuleBuilderConfigFromJson(json);
+  static UserCustomPropertyParameters fromJson(Map<String, dynamic> json) =>
+      _$UserCustomPropertyParametersFromJson(json);
 }

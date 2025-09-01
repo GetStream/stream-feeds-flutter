@@ -29,7 +29,6 @@ class ConfigResponse with _$ConfigResponse {
     required this.createdAt,
     required this.key,
     this.llmConfig,
-    this.ruleBuilderConfig,
     required this.team,
     required this.updatedAt,
     this.velocityFilterConfig,
@@ -69,9 +68,6 @@ class ConfigResponse with _$ConfigResponse {
 
   @override
   final LLMConfig? llmConfig;
-
-  @override
-  final RuleBuilderConfig? ruleBuilderConfig;
 
   @override
   final String team;

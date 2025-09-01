@@ -30,11 +30,15 @@ RuleBuilderCondition _$RuleBuilderConditionFromJson(
           ? null
           : TextRuleParameters.fromJson(
               json['text_rule_params'] as Map<String, dynamic>),
-      type: json['type'] as String,
+      type: json['type'] as String?,
       userCreatedWithinParams: json['user_created_within_params'] == null
           ? null
           : UserCreatedWithinParameters.fromJson(
               json['user_created_within_params'] as Map<String, dynamic>),
+      userCustomPropertyParams: json['user_custom_property_params'] == null
+          ? null
+          : UserCustomPropertyParameters.fromJson(
+              json['user_custom_property_params'] as Map<String, dynamic>),
       userRuleParams: json['user_rule_params'] == null
           ? null
           : UserRuleParameters.fromJson(
@@ -60,6 +64,8 @@ Map<String, dynamic> _$RuleBuilderConditionToJson(
       'text_rule_params': instance.textRuleParams?.toJson(),
       'type': instance.type,
       'user_created_within_params': instance.userCreatedWithinParams?.toJson(),
+      'user_custom_property_params':
+          instance.userCustomPropertyParams?.toJson(),
       'user_rule_params': instance.userRuleParams?.toJson(),
       'video_content_params': instance.videoContentParams?.toJson(),
       'video_rule_params': instance.videoRuleParams?.toJson(),

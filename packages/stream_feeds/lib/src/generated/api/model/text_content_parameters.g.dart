@@ -16,6 +16,9 @@ TextContentParameters _$TextContentParametersFromJson(
       harmLabels: (json['harm_labels'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+      llmHarmLabels: (json['llm_harm_labels'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String),
+      ),
       severity: json['severity'] as String?,
     );
 
@@ -25,5 +28,6 @@ Map<String, dynamic> _$TextContentParametersToJson(
       'blocklist_match': instance.blocklistMatch,
       'contains_url': instance.containsUrl,
       'harm_labels': instance.harmLabels,
+      'llm_harm_labels': instance.llmHarmLabels,
       'severity': instance.severity,
     };

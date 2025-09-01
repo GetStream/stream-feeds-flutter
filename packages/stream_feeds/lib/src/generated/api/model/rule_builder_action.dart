@@ -22,7 +22,7 @@ class RuleBuilderAction with _$RuleBuilderAction {
     this.flagContentOptions,
     this.flagUserOptions,
     this.removeContentOptions,
-    required this.type,
+    this.type,
   });
 
   @override
@@ -38,7 +38,7 @@ class RuleBuilderAction with _$RuleBuilderAction {
   final BlockContentOptions? removeContentOptions;
 
   @override
-  final String type;
+  final String? type;
 
   Map<String, dynamic> toJson() => _$RuleBuilderActionToJson(this);
 

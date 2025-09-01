@@ -14,14 +14,12 @@ RuleBuilderRule _$RuleBuilderRuleFromJson(Map<String, dynamic> json) =>
           ?.map((e) => RuleBuilderCondition.fromJson(e as Map<String, dynamic>))
           .toList(),
       cooldownPeriod: json['cooldown_period'] as String?,
-      enabled: json['enabled'] as bool,
       groups: (json['groups'] as List<dynamic>?)
           ?.map((e) =>
               RuleBuilderConditionGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
-      id: json['id'] as String,
+      id: json['id'] as String?,
       logic: json['logic'] as String?,
-      name: json['name'] as String,
       ruleType: json['rule_type'] as String,
     );
 
@@ -30,10 +28,8 @@ Map<String, dynamic> _$RuleBuilderRuleToJson(RuleBuilderRule instance) =>
       'action': instance.action.toJson(),
       'conditions': instance.conditions?.map((e) => e.toJson()).toList(),
       'cooldown_period': instance.cooldownPeriod,
-      'enabled': instance.enabled,
       'groups': instance.groups?.map((e) => e.toJson()).toList(),
       'id': instance.id,
       'logic': instance.logic,
-      'name': instance.name,
       'rule_type': instance.ruleType,
     };

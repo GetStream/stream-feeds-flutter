@@ -15,6 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$LLMConfig {
+  String? get appContext;
   bool? get async;
   bool get enabled;
   List<LLMRule> get rules;
@@ -32,6 +33,8 @@ mixin _$LLMConfig {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is LLMConfig &&
+            (identical(other.appContext, appContext) ||
+                other.appContext == appContext) &&
             (identical(other.async, async) || other.async == async) &&
             (identical(other.enabled, enabled) || other.enabled == enabled) &&
             const DeepCollectionEquality().equals(other.rules, rules) &&
@@ -42,6 +45,7 @@ mixin _$LLMConfig {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      appContext,
       async,
       enabled,
       const DeepCollectionEquality().hash(rules),
@@ -49,7 +53,7 @@ mixin _$LLMConfig {
 
   @override
   String toString() {
-    return 'LLMConfig(async: $async, enabled: $enabled, rules: $rules, severityDescriptions: $severityDescriptions)';
+    return 'LLMConfig(appContext: $appContext, async: $async, enabled: $enabled, rules: $rules, severityDescriptions: $severityDescriptions)';
   }
 }
 
@@ -59,7 +63,8 @@ abstract mixin class $LLMConfigCopyWith<$Res> {
       _$LLMConfigCopyWithImpl;
   @useResult
   $Res call(
-      {bool? async,
+      {String? appContext,
+      bool? async,
       bool enabled,
       List<LLMRule> rules,
       Map<String, String>? severityDescriptions});
@@ -77,12 +82,17 @@ class _$LLMConfigCopyWithImpl<$Res> implements $LLMConfigCopyWith<$Res> {
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? appContext = freezed,
     Object? async = freezed,
     Object? enabled = null,
     Object? rules = null,
     Object? severityDescriptions = freezed,
   }) {
     return _then(LLMConfig(
+      appContext: freezed == appContext
+          ? _self.appContext
+          : appContext // ignore: cast_nullable_to_non_nullable
+              as String?,
       async: freezed == async
           ? _self.async
           : async // ignore: cast_nullable_to_non_nullable

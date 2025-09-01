@@ -21,8 +21,9 @@ mixin _$RuleBuilderCondition {
   ImageRuleParameters? get imageRuleParams;
   TextContentParameters? get textContentParams;
   TextRuleParameters? get textRuleParams;
-  String get type;
+  String? get type;
   UserCreatedWithinParameters? get userCreatedWithinParams;
+  UserCustomPropertyParameters? get userCustomPropertyParams;
   UserRuleParameters? get userRuleParams;
   VideoContentParameters? get videoContentParams;
   VideoRuleParameters? get videoRuleParams;
@@ -56,6 +57,9 @@ mixin _$RuleBuilderCondition {
             (identical(
                     other.userCreatedWithinParams, userCreatedWithinParams) ||
                 other.userCreatedWithinParams == userCreatedWithinParams) &&
+            (identical(
+                    other.userCustomPropertyParams, userCustomPropertyParams) ||
+                other.userCustomPropertyParams == userCustomPropertyParams) &&
             (identical(other.userRuleParams, userRuleParams) ||
                 other.userRuleParams == userRuleParams) &&
             (identical(other.videoContentParams, videoContentParams) ||
@@ -75,13 +79,14 @@ mixin _$RuleBuilderCondition {
       textRuleParams,
       type,
       userCreatedWithinParams,
+      userCustomPropertyParams,
       userRuleParams,
       videoContentParams,
       videoRuleParams);
 
   @override
   String toString() {
-    return 'RuleBuilderCondition(confidence: $confidence, contentCountRuleParams: $contentCountRuleParams, imageContentParams: $imageContentParams, imageRuleParams: $imageRuleParams, textContentParams: $textContentParams, textRuleParams: $textRuleParams, type: $type, userCreatedWithinParams: $userCreatedWithinParams, userRuleParams: $userRuleParams, videoContentParams: $videoContentParams, videoRuleParams: $videoRuleParams)';
+    return 'RuleBuilderCondition(confidence: $confidence, contentCountRuleParams: $contentCountRuleParams, imageContentParams: $imageContentParams, imageRuleParams: $imageRuleParams, textContentParams: $textContentParams, textRuleParams: $textRuleParams, type: $type, userCreatedWithinParams: $userCreatedWithinParams, userCustomPropertyParams: $userCustomPropertyParams, userRuleParams: $userRuleParams, videoContentParams: $videoContentParams, videoRuleParams: $videoRuleParams)';
   }
 }
 
@@ -98,8 +103,9 @@ abstract mixin class $RuleBuilderConditionCopyWith<$Res> {
       ImageRuleParameters? imageRuleParams,
       TextContentParameters? textContentParams,
       TextRuleParameters? textRuleParams,
-      String type,
+      String? type,
       UserCreatedWithinParameters? userCreatedWithinParams,
+      UserCustomPropertyParameters? userCustomPropertyParams,
       UserRuleParameters? userRuleParams,
       VideoContentParameters? videoContentParams,
       VideoRuleParameters? videoRuleParams});
@@ -124,8 +130,9 @@ class _$RuleBuilderConditionCopyWithImpl<$Res>
     Object? imageRuleParams = freezed,
     Object? textContentParams = freezed,
     Object? textRuleParams = freezed,
-    Object? type = null,
+    Object? type = freezed,
     Object? userCreatedWithinParams = freezed,
+    Object? userCustomPropertyParams = freezed,
     Object? userRuleParams = freezed,
     Object? videoContentParams = freezed,
     Object? videoRuleParams = freezed,
@@ -155,14 +162,18 @@ class _$RuleBuilderConditionCopyWithImpl<$Res>
           ? _self.textRuleParams
           : textRuleParams // ignore: cast_nullable_to_non_nullable
               as TextRuleParameters?,
-      type: null == type
+      type: freezed == type
           ? _self.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       userCreatedWithinParams: freezed == userCreatedWithinParams
           ? _self.userCreatedWithinParams
           : userCreatedWithinParams // ignore: cast_nullable_to_non_nullable
               as UserCreatedWithinParameters?,
+      userCustomPropertyParams: freezed == userCustomPropertyParams
+          ? _self.userCustomPropertyParams
+          : userCustomPropertyParams // ignore: cast_nullable_to_non_nullable
+              as UserCustomPropertyParameters?,
       userRuleParams: freezed == userRuleParams
           ? _self.userRuleParams
           : userRuleParams // ignore: cast_nullable_to_non_nullable

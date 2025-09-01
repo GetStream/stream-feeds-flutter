@@ -15,8 +15,8 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$ContentCountRuleParameters {
-  int get threshold;
-  String get timeWindow;
+  int? get threshold;
+  String? get timeWindow;
 
   /// Create a copy of ContentCountRuleParameters
   /// with the given fields replaced by the non-null parameter values.
@@ -53,7 +53,7 @@ abstract mixin class $ContentCountRuleParametersCopyWith<$Res> {
           $Res Function(ContentCountRuleParameters) _then) =
       _$ContentCountRuleParametersCopyWithImpl;
   @useResult
-  $Res call({int threshold, String timeWindow});
+  $Res call({int? threshold, String? timeWindow});
 }
 
 /// @nodoc
@@ -69,18 +69,18 @@ class _$ContentCountRuleParametersCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? threshold = null,
-    Object? timeWindow = null,
+    Object? threshold = freezed,
+    Object? timeWindow = freezed,
   }) {
     return _then(ContentCountRuleParameters(
-      threshold: null == threshold
+      threshold: freezed == threshold
           ? _self.threshold
           : threshold // ignore: cast_nullable_to_non_nullable
-              as int,
-      timeWindow: null == timeWindow
+              as int?,
+      timeWindow: freezed == timeWindow
           ? _self.timeWindow
           : timeWindow // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
