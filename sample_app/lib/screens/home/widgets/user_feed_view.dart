@@ -51,6 +51,8 @@ class _UserFeedViewState extends State<UserFeedView> {
       stateNotifier: feed.state,
       builder: (context, state, child) {
         final activities = state.activities;
+        final canLoadMore = state.canLoadMoreActivities;
+
         if (activities.isEmpty) return const EmptyActivities();
 
         return RefreshIndicator(
@@ -63,12 +65,21 @@ class _UserFeedViewState extends State<UserFeedView> {
               },
             ),
             child: ListView.separated(
-              itemCount: activities.length,
+              itemCount: activities.length + 1,
               separatorBuilder: (context, index) => Divider(
                 height: 1,
                 color: context.appColors.borders,
               ),
               itemBuilder: (context, index) {
+                if (index == activities.length) {
+                  return canLoadMore
+                      ? TextButton(
+                          onPressed: () => feed.queryMoreActivities(),
+                          child: const Text('Load more...'),
+                        )
+                      : const Text('End of feed');
+                }
+
                 final activity = activities[index];
                 final parentActivity = activity.parent;
                 final baseActivity = activity.parent ?? activity;

@@ -26,10 +26,14 @@ class ActivityCommentsView extends StatefulWidget {
 
 class _ActivityCommentsViewState extends State<ActivityCommentsView> {
   late Activity activity;
+  RemoveListener? _removeFeedListener;
+  late List<FeedOwnCapability> capabilities;
+
   @override
   void initState() {
     super.initState();
     _getActivity();
+    _observeFeedCapabilities();
   }
 
   @override
@@ -40,10 +44,14 @@ class _ActivityCommentsViewState extends State<ActivityCommentsView> {
       activity.dispose();
       _getActivity();
     }
+    if (oldWidget.feed != widget.feed) {
+      _observeFeedCapabilities();
+    }
   }
 
   @override
   void dispose() {
+    _removeFeedListener?.call();
     activity.dispose();
     super.dispose();
   }
@@ -63,6 +71,8 @@ class _ActivityCommentsViewState extends State<ActivityCommentsView> {
               onLoadMore:
                   state.canLoadMoreComments ? activity.queryMoreComments : null,
               onReplyClick: (comment) => _reply(context, comment),
+              onLongPressComment: (comment) =>
+                  _onLongPressComment(context, comment),
             );
           },
         ),
@@ -72,6 +82,15 @@ class _ActivityCommentsViewState extends State<ActivityCommentsView> {
         child: const Icon(Icons.add),
       ),
     );
+  }
+
+  void _observeFeedCapabilities() {
+    _removeFeedListener?.call();
+    _removeFeedListener = widget.feed.state.addListener(_onFeedStateChange);
+  }
+
+  void _onFeedStateChange(FeedState state) {
+    capabilities = state.ownCapabilities;
   }
 
   Future<void> _getActivity() async {
@@ -107,11 +126,69 @@ class _ActivityCommentsViewState extends State<ActivityCommentsView> {
     );
   }
 
+  void _onLongPressComment(BuildContext context, ThreadedCommentData comment) {
+    final isOwnComment = comment.user.id == widget.client.user.id;
+    if (!isOwnComment) return;
+    final canEdit = capabilities.contains(FeedOwnCapability.updateComment);
+    final canDelete = capabilities.contains(FeedOwnCapability.deleteComment);
+    if (!canEdit && !canDelete) return;
+
+    final chooseActionDialog = SimpleDialog(
+      children: [
+        if (canEdit)
+          SimpleDialogOption(
+            child: const Text('Edit'),
+            onPressed: () {
+              Navigator.pop(context);
+              _editComment(context, comment);
+            },
+          ),
+        if (canDelete)
+          SimpleDialogOption(
+            child: const Text('Delete'),
+            onPressed: () {
+              activity.deleteComment(comment.id);
+              Navigator.pop(context);
+            },
+          ),
+      ],
+    );
+
+    showDialog<void>(
+      context: context,
+      builder: (context) {
+        return chooseActionDialog;
+      },
+    );
+  }
+
+  Future<void> _editComment(
+    BuildContext context,
+    ThreadedCommentData comment,
+  ) async {
+    final text = await _displayTextInputDialog(
+      context,
+      title: 'Edit comment',
+      initialText: comment.text,
+      positiveAction: 'Edit',
+    );
+
+    if (text == null) return;
+
+    await activity.updateComment(
+      comment.id,
+      ActivityUpdateCommentRequest(comment: text),
+    );
+  }
+
   Future<String?> _displayTextInputDialog(
     BuildContext context, {
     required String title,
+    String? initialText,
+    String positiveAction = 'Add',
   }) async {
     final textFieldController = TextEditingController();
+    textFieldController.text = initialText ?? '';
     return showDialog<String>(
       context: context,
       builder: (context) {
@@ -120,13 +197,13 @@ class _ActivityCommentsViewState extends State<ActivityCommentsView> {
           content: TextField(controller: textFieldController),
           actions: <Widget>[
             TextButton(
-              child: const Text('CANCEL'),
+              child: const Text('Cancel'),
               onPressed: () {
                 Navigator.pop(context);
               },
             ),
             TextButton(
-              child: const Text('Add'),
+              child: Text(positiveAction),
               onPressed: () {
                 Navigator.pop(context, textFieldController.text);
               },
@@ -146,12 +223,14 @@ class CommentsList extends StatelessWidget {
     required this.onHeartClick,
     required this.onLoadMore,
     required this.onReplyClick,
+    required this.onLongPressComment,
   });
 
   final int totalComments;
   final List<ThreadedCommentData> comments;
   final void Function(ThreadedCommentData comment, bool isAdding) onHeartClick;
   final ValueSetter<ThreadedCommentData> onReplyClick;
+  final ValueSetter<ThreadedCommentData> onLongPressComment;
   final VoidCallback? onLoadMore;
 
   @override
@@ -187,6 +266,7 @@ class CommentsList extends StatelessWidget {
           comment: comment,
           onHeartClick: onHeartClick,
           onReplyClick: onReplyClick,
+          onLongPressComment: onLongPressComment,
         );
       },
     );
@@ -199,10 +279,12 @@ class CommentWidget extends StatelessWidget {
     required this.comment,
     required this.onHeartClick,
     required this.onReplyClick,
+    required this.onLongPressComment,
   });
   final ThreadedCommentData comment;
   final ValueSetter<ThreadedCommentData> onReplyClick;
   final void Function(ThreadedCommentData comment, bool isAdding) onHeartClick;
+  final ValueSetter<ThreadedCommentData> onLongPressComment;
 
   @override
   Widget build(BuildContext context) {
@@ -214,31 +296,34 @@ class CommentWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 8),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            UserAvatar.appBar(
-              user: User(id: user.id, name: user.name, image: user.image),
-            ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    user.name ?? user.id,
-                    style: context.appTextStyles.footnoteBold,
-                  ),
-                  Text(
-                    comment.createdAt.displayRelativeTime,
-                    style: context.appTextStyles.footnote,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(comment.text ?? ''),
-                ],
+        GestureDetector(
+          onLongPress: () => onLongPressComment(comment),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              UserAvatar.appBar(
+                user: User(id: user.id, name: user.name, image: user.image),
               ),
-            ),
-          ],
+              const SizedBox(width: 8),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      user.name ?? user.id,
+                      style: context.appTextStyles.footnoteBold,
+                    ),
+                    Text(
+                      comment.createdAt.displayRelativeTime,
+                      style: context.appTextStyles.footnote,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(comment.text ?? ''),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -267,6 +352,7 @@ class CommentWidget extends StatelessWidget {
               comment: reply,
               onHeartClick: onHeartClick,
               onReplyClick: onReplyClick,
+              onLongPressComment: onLongPressComment,
             ),
           ),
       ],
