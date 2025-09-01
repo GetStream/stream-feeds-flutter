@@ -23,7 +23,6 @@ class ActivityUpdateCommentRequest with _$ActivityUpdateCommentRequest {
   final bool? skipPush;
 }
 
-
 extension ActivityUpdateCommentRequestMapper on ActivityUpdateCommentRequest {
   api.UpdateCommentRequest toRequest() => api.UpdateCommentRequest(
         comment: comment,
