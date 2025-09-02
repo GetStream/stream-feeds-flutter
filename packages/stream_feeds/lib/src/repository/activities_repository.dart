@@ -72,8 +72,8 @@ class ActivitiesRepository {
         if (uploaded == null) return null;
 
         return api.Attachment(
-          custom: const {},
           type: uploaded.type,
+          custom: {...?uploaded.custom},
           assetUrl: uploaded.remoteUrl,
           imageUrl: uploaded.remoteUrl,
           thumbUrl: uploaded.thumbnailUrl,
