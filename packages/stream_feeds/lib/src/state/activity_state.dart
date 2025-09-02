@@ -32,7 +32,10 @@ class ActivityStateNotifier extends StateNotifier<ActivityState> {
   void _setupCommentListSynchronization() {
     _removeCommentListListener = commentList.addListener((commentListState) {
       // Synchronize state with the comment list state
-      state = state.copyWith(comments: commentListState.comments);
+      state = state.copyWith(
+        comments: commentListState.comments,
+        commentsPagination: commentListState.pagination,
+      );
     });
   }
 

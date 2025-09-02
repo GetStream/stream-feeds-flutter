@@ -18,7 +18,7 @@ class AppStateNotifier extends ValueNotifier<AppState> {
       // Initialize the dependency injection system
       await initDI();
 
-      await Future.delayed(const Duration(seconds: 3));
+      await Future<void>.delayed(const Duration(seconds: 3));
 
       // Ensure all fonts are loaded before rendering the app
       await GoogleFonts.pendingFonts();
