@@ -42,7 +42,10 @@ command:
 
       # TODO Replace with hosted version when published
       stream_core:
-        path: /Users/xsahil03x/StudioProjects/stream-core-flutter/packages/stream_core
+        git:
+          url: https://github.com/GetStream/stream-core-flutter.git
+          ref: 944f677e72e30f148f5f7c251419f3ad1dac2ffa
+          path: packages/stream_core
 
     # List of all the dev_dependencies used in the project.
     dev_dependencies:

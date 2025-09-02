@@ -122,7 +122,11 @@ class _ActivityCommentsViewState extends State<ActivityCommentsView> {
     if (text == null) return;
 
     await activity.addComment(
-      ActivityAddCommentRequest(comment: text, parentId: parentComment?.id),
+      ActivityAddCommentRequest(
+        comment: text,
+        parentId: parentComment?.id,
+        activityId: activity.activityId,
+      ),
     );
   }
 
