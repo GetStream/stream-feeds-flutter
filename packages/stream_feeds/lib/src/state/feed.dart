@@ -67,6 +67,7 @@ class Feed with Disposable {
     _eventsSubscription = eventsEmitter.listen(handler.handleEvent);
   }
 
+  FeedId get fid => query.fid;
   final FeedQuery query;
   final String currentUserId;
 

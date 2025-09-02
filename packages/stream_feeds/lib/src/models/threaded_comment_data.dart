@@ -298,7 +298,8 @@ extension ThreadedCommentDataMutations on ThreadedCommentData {
     ThreadedCommentData reply,
     Comparator<CommentsSortDataFields> comparator,
   ) {
-    final updatedReplies = replies?.sortedUpsert(
+    final currentReplies = replies ?? [];
+    final updatedReplies = currentReplies.sortedUpsert(
       reply,
       key: (it) => it.id,
       compare: comparator,
@@ -315,7 +316,10 @@ extension ThreadedCommentDataMutations on ThreadedCommentData {
   /// @param comment The reply comment to remove.
   /// @return A new [ThreadedCommentData] instance with the updated replies and reply count.
   ThreadedCommentData removeReply(ThreadedCommentData reply) {
-    final updatedReplies = replies?.where((it) => it.id != reply.id).toList();
+    final currentReplies = replies ?? [];
+    final updatedReplies = currentReplies.where((it) {
+      return it.id != reply.id;
+    }).toList();
 
     return copyWith(
       replies: updatedReplies,
@@ -331,7 +335,8 @@ extension ThreadedCommentDataMutations on ThreadedCommentData {
     ThreadedCommentData reply,
     Comparator<CommentsSortDataFields> comparator,
   ) {
-    final updatedReplies = replies?.sortedUpsert(
+    final currentReplies = replies ?? [];
+    final updatedReplies = currentReplies.sortedUpsert(
       reply,
       key: (it) => it.id,
       compare: comparator,

@@ -3,6 +3,7 @@ import 'package:state_notifier/state_notifier.dart';
 import 'package:stream_core/stream_core.dart';
 
 import '../models/activity_data.dart';
+import '../models/pagination_data.dart';
 import '../models/poll_data.dart';
 import '../models/poll_vote_data.dart';
 import '../models/threaded_comment_data.dart';
@@ -31,7 +32,10 @@ class ActivityStateNotifier extends StateNotifier<ActivityState> {
   void _setupCommentListSynchronization() {
     _removeCommentListListener = commentList.addListener((commentListState) {
       // Synchronize state with the comment list state
-      state = state.copyWith(comments: commentListState.comments);
+      state = state.copyWith(
+        comments: commentListState.comments,
+        commentsPagination: commentListState.pagination,
+      );
     });
   }
 
@@ -174,6 +178,7 @@ class ActivityState with _$ActivityState {
   const ActivityState({
     this.activity,
     this.comments = const [],
+    this.commentsPagination,
     this.poll,
   });
 
@@ -189,6 +194,15 @@ class ActivityState with _$ActivityState {
   /// Contains a list of threaded comments related to the activity.
   @override
   final List<ThreadedCommentData> comments;
+
+  /// Pagination information for [comments].
+  @override
+  final PaginationData? commentsPagination;
+
+  /// Indicates whether there are more [comments] available to load.
+  ///
+  /// Returns true if there is a next page available for pagination.
+  bool get canLoadMoreComments => commentsPagination?.next != null;
 
   /// The poll associated with this activity, if any.
   ///
