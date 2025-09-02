@@ -17,9 +17,10 @@ class _CdnApi implements CdnApi {
 
   final ParseErrorLogger? errorLogger;
 
-  Future<FileUploadResponse> _sendFile({
+  Future<FileUploadResponse> _uploadFile({
     required List<MultipartFile> file,
-    void Function(int, int)? onSendProgress,
+    void Function(int, int)? onUploadProgress,
+    CancelToken? cancelToken,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -39,7 +40,8 @@ class _CdnApi implements CdnApi {
             '/api/v2/uploads/file',
             queryParameters: queryParameters,
             data: _data,
-            onSendProgress: onSendProgress,
+            cancelToken: cancelToken,
+            onSendProgress: onUploadProgress,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
@@ -55,18 +57,24 @@ class _CdnApi implements CdnApi {
   }
 
   @override
-  Future<Result<FileUploadResponse>> sendFile({
+  Future<Result<FileUploadResponse>> uploadFile({
     required List<MultipartFile> file,
-    void Function(int, int)? onSendProgress,
+    void Function(int, int)? onUploadProgress,
+    CancelToken? cancelToken,
   }) {
     return _ResultCallAdapter<FileUploadResponse>().adapt(
-      () => _sendFile(file: file, onSendProgress: onSendProgress),
+      () => _uploadFile(
+        file: file,
+        onUploadProgress: onUploadProgress,
+        cancelToken: cancelToken,
+      ),
     );
   }
 
-  Future<FileUploadResponse> _sendImage({
+  Future<ImageUploadResponse> _uploadImage({
     required List<MultipartFile> file,
-    void Function(int, int)? onSendProgress,
+    void Function(int, int)? onUploadProgress,
+    CancelToken? cancelToken,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -74,7 +82,7 @@ class _CdnApi implements CdnApi {
     final _headers = <String, dynamic>{};
     final _data = FormData();
     _data.files.addAll(file.map((i) => MapEntry('file', i)));
-    final _options = _setStreamType<Result<FileUploadResponse>>(
+    final _options = _setStreamType<Result<ImageUploadResponse>>(
       Options(
         method: 'POST',
         headers: _headers,
@@ -86,14 +94,15 @@ class _CdnApi implements CdnApi {
             '/api/v2/uploads/image',
             queryParameters: queryParameters,
             data: _data,
-            onSendProgress: onSendProgress,
+            cancelToken: cancelToken,
+            onSendProgress: onUploadProgress,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late FileUploadResponse _value;
+    late ImageUploadResponse _value;
     try {
-      _value = FileUploadResponse.fromJson(_result.data!);
+      _value = ImageUploadResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -102,12 +111,99 @@ class _CdnApi implements CdnApi {
   }
 
   @override
-  Future<Result<FileUploadResponse>> sendImage({
+  Future<Result<ImageUploadResponse>> uploadImage({
     required List<MultipartFile> file,
-    void Function(int, int)? onSendProgress,
+    void Function(int, int)? onUploadProgress,
+    CancelToken? cancelToken,
   }) {
-    return _ResultCallAdapter<FileUploadResponse>().adapt(
-      () => _sendImage(file: file, onSendProgress: onSendProgress),
+    return _ResultCallAdapter<ImageUploadResponse>().adapt(
+      () => _uploadImage(
+        file: file,
+        onUploadProgress: onUploadProgress,
+        cancelToken: cancelToken,
+      ),
+    );
+  }
+
+  Future<DurationResponse> _deleteFile({
+    String? url,
+    CancelToken? cancelToken,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'url': url};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<Result<DurationResponse>>(
+      Options(method: 'DELETE', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/uploads/file',
+            queryParameters: queryParameters,
+            data: _data,
+            cancelToken: cancelToken,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late DurationResponse _value;
+    try {
+      _value = DurationResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<DurationResponse>> deleteFile({
+    String? url,
+    CancelToken? cancelToken,
+  }) {
+    return _ResultCallAdapter<DurationResponse>().adapt(
+      () => _deleteFile(url: url, cancelToken: cancelToken),
+    );
+  }
+
+  Future<DurationResponse> _deleteImage({
+    String? url,
+    CancelToken? cancelToken,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'url': url};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<Result<DurationResponse>>(
+      Options(method: 'DELETE', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/uploads/image',
+            queryParameters: queryParameters,
+            data: _data,
+            cancelToken: cancelToken,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late DurationResponse _value;
+    try {
+      _value = DurationResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<DurationResponse>> deleteImage({
+    String? url,
+    CancelToken? cancelToken,
+  }) {
+    return _ResultCallAdapter<DurationResponse>().adapt(
+      () => _deleteImage(url: url, cancelToken: cancelToken),
     );
   }
 

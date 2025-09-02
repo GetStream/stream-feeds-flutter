@@ -4,6 +4,7 @@ import '../generated/api/api.dart' as api;
 import '../models/comment_data.dart';
 import '../models/feeds_reaction_data.dart';
 import '../models/pagination_data.dart';
+import '../models/request/activity_add_comment_request.dart';
 import '../models/threaded_comment_data.dart';
 import '../state/query/activity_comments_query.dart';
 import '../state/query/comment_reactions_query.dart';
@@ -18,12 +19,13 @@ import '../state/query/comments_query.dart';
 /// All methods return [Result] objects for explicit error handling.
 class CommentsRepository {
   /// Creates a new [CommentsRepository] instance.
-  ///
-  /// The [api] parameter is required for making API calls to the Stream Feeds service.
-  const CommentsRepository(this._api);
+  const CommentsRepository(this._api, this._uploader);
 
   // The API client used for making requests to the Stream Feeds service.
   final api.DefaultApi _api;
+
+  // The attachment uploader for handling file and image uploads.
+  final StreamAttachmentUploader _uploader;
 
   /// Queries comments.
   ///
@@ -83,8 +85,26 @@ class CommentsRepository {
   /// Creates a new comment using the provided [request] data.
   ///
   /// Returns a [Result] containing the newly created [CommentData] or an error.
-  Future<Result<CommentData>> addComment(api.AddCommentRequest request) async {
-    final result = await _api.addComment(addCommentRequest: request);
+  Future<Result<CommentData>> addComment(
+    ActivityAddCommentRequest request,
+  ) async {
+    final uploadedAttachments = await _uploadStreamAttachments(
+      request.attachmentUploads,
+    );
+
+    final currentAttachments = request.attachments ?? [];
+    final updatedAttachments = currentAttachments.merge(
+      uploadedAttachments,
+      key: (it) => (it.type, it.assetUrl, it.imageUrl),
+    );
+
+    final updatedRequest = request.copyWith(
+      attachments: updatedAttachments.takeIf((it) => it.isNotEmpty),
+    );
+
+    final result = await _api.addComment(
+      addCommentRequest: updatedRequest.toRequest(),
+    );
 
     return result.map((response) => response.comment.toModel());
   }
@@ -95,15 +115,67 @@ class CommentsRepository {
   ///
   /// Returns a [Result] containing a list of [CommentData] or an error.
   Future<Result<List<CommentData>>> addCommentsBatch(
-    api.AddCommentsBatchRequest request,
+    List<ActivityAddCommentRequest> requests,
   ) async {
+    final batch = await requests.map(
+      (request) async {
+        final uploadedAttachments = await _uploadStreamAttachments(
+          request.attachmentUploads,
+        );
+
+        final currentAttachments = request.attachments ?? [];
+        final updatedAttachments = currentAttachments.merge(
+          uploadedAttachments,
+          key: (it) => (it.type, it.assetUrl, it.imageUrl),
+        );
+
+        return request.copyWith(
+          attachments: updatedAttachments.takeIf((it) => it.isNotEmpty),
+        );
+      },
+    ).wait;
+
+    final batchRequest = api.AddCommentsBatchRequest(
+      comments: batch.map((r) => r.toRequest()).toList(),
+    );
+
     final result = await _api.addCommentsBatch(
-      addCommentsBatchRequest: request,
+      addCommentsBatchRequest: batchRequest,
     );
 
     return result.map(
       (response) => response.comments.map((c) => c.toModel()).toList(),
     );
+  }
+
+  // Uploads stream attachments and converts them to API attachment format.
+  //
+  // Processes the provided attachments by uploading them via the uploader
+  // and converting successful uploads to API attachment objects.
+  Future<List<api.Attachment>> _uploadStreamAttachments(
+    List<StreamAttachment> attachments,
+  ) async {
+    if (attachments.isEmpty) return <api.Attachment>[];
+
+    final batch = _uploader.uploadBatch(attachments);
+    final results = await batch.toList();
+
+    final successfulUploads = results.map(
+      (result) {
+        final uploaded = result.getOrNull();
+        if (uploaded == null) return null;
+
+        return api.Attachment(
+          custom: const {},
+          type: uploaded.type,
+          assetUrl: uploaded.remoteUrl,
+          imageUrl: uploaded.remoteUrl,
+          thumbUrl: uploaded.thumbnailUrl,
+        );
+      },
+    ).nonNulls;
+
+    return successfulUploads.toList();
   }
 
   /// Deletes a comment.

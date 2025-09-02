@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:stream_core/stream_core.dart';
 
 import '../../generated/api/models.dart';
 
@@ -12,17 +13,33 @@ part 'activity_add_comment_request.freezed.dart';
 class ActivityAddCommentRequest with _$ActivityAddCommentRequest {
   /// Creates a new [ActivityAddCommentRequest] instance.
   const ActivityAddCommentRequest({
+    required this.activityId,
     required this.comment,
+    this.activityType = 'activity',
     this.attachments,
+    this.attachmentUploads = const [],
     this.createNotificationActivity,
     this.mentionedUserIds,
     this.parentId,
     this.custom,
   });
 
+  /// The unique identifier of the activity to comment on.
+  @override
+  final String activityId;
+
+  /// The type of the activity being commented on.
+  @override
+  final String activityType;
+
   /// Optional list of attachments to include with the comment.
   @override
   final List<Attachment>? attachments;
+
+  /// Optional list of stream attachments to be uploaded before adding the
+  /// comment to the activity.
+  @override
+  final List<StreamAttachment> attachmentUploads;
 
   /// The content of the comment to be added.
   @override
@@ -51,10 +68,7 @@ extension ActivityAddCommentRequestMapper on ActivityAddCommentRequest {
   ///
   /// Returns an [AddCommentRequest] containing all the necessary
   /// information to add a comment to an activity.
-  AddCommentRequest toRequest({
-    required String activityId,
-    String activityType = 'activity',
-  }) {
+  AddCommentRequest toRequest() {
     return AddCommentRequest(
       comment: comment,
       attachments: attachments,
