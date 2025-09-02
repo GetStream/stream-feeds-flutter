@@ -13,6 +13,7 @@ import '../models/poll_data.dart';
 import '../models/poll_option_data.dart';
 import '../models/poll_vote_data.dart';
 import '../models/request/activity_add_comment_request.dart';
+import '../models/request/activity_update_comment_request.dart';
 import '../models/threaded_comment_data.dart';
 import '../repository/activities_repository.dart';
 import '../repository/comments_repository.dart';
@@ -196,9 +197,10 @@ class Activity with Disposable {
   /// Returns a [Result] containing the updated [CommentData] or an error.
   Future<Result<CommentData>> updateComment(
     String commentId,
-    api.UpdateCommentRequest request,
+    ActivityUpdateCommentRequest request,
   ) async {
-    final result = await commentsRepository.updateComment(commentId, request);
+    final result =
+        await commentsRepository.updateComment(commentId, request.toRequest());
 
     result.onSuccess(_commentsList.notifier.onCommentUpdated);
 

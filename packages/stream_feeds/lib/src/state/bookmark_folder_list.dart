@@ -52,7 +52,8 @@ class BookmarkFolderList extends Disposable {
   /// Queries the initial list of bookmark folders based on the provided [BookmarkFoldersQuery].
   ///
   /// Returns a [Result] containing a list of [BookmarkFolderData] or an error.
-  Future<Result<List<BookmarkFolderData>>> get() => _queryBookmarkFolders(query);
+  Future<Result<List<BookmarkFolderData>>> get() =>
+      _queryBookmarkFolders(query);
 
   /// Loads more bookmark folders based on the current pagination state.
   ///

@@ -1,29 +1,26 @@
-//
-// Copyright © 2025 Stream.io Inc. All rights reserved.
-//
+enum DemoAppConfig {
+  staging(
+    apiKey: 'pd67s34fzpgw',
+    tokenForUser: _stagingTokenForUser,
+  ),
+  localhost(
+    apiKey: '892s22ypvt6m',
+    tokenForUser: _localhostTokenForUser,
+  ),
+  production(
+    apiKey: 'fa5xpkvxrdw4',
+    tokenForUser: _productionTokenForUser,
+  );
 
-class DemoAppConfig {
-  const DemoAppConfig({required this.apiKey, required this.tokenForUser});
+  const DemoAppConfig({
+    required this.apiKey,
+    required this.tokenForUser,
+  });
 
   final String apiKey;
   final String Function(String) tokenForUser;
 
   static const current = production;
-
-  static const staging = DemoAppConfig(
-    apiKey: 'pd67s34fzpgw',
-    tokenForUser: _stagingTokenForUser,
-  );
-
-  static const localhost = DemoAppConfig(
-    apiKey: '892s22ypvt6m',
-    tokenForUser: _localhostTokenForUser,
-  );
-
-  static const production = DemoAppConfig(
-    apiKey: 'fa5xpkvxrdw4',
-    tokenForUser: _productionTokenForUser,
-  );
 
   static String _stagingTokenForUser(String userId) {
     switch (userId) {
