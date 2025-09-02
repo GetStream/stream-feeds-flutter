@@ -5,6 +5,7 @@ import '../models/activity_data.dart';
 import '../models/feed_id.dart';
 import '../models/feeds_reaction_data.dart';
 import '../models/pagination_data.dart';
+import '../models/request/feed_add_activity_request.dart';
 import '../state/query/activities_query.dart';
 
 /// Repository for managing activities and activity-related operations.
@@ -16,12 +17,13 @@ import '../state/query/activities_query.dart';
 /// All methods return [Result] objects for explicit error handling.
 class ActivitiesRepository {
   /// Creates a new [ActivitiesRepository] instance.
-  ///
-  /// The [api] parameter is required for making API calls to the Stream Feeds service.
-  const ActivitiesRepository(this._api);
+  const ActivitiesRepository(this._api, this._uploader);
 
   // The API client used for making requests to the Stream Feeds service.
   final api.DefaultApi _api;
+
+  // The attachment uploader for handling file and image uploads.
+  final StreamAttachmentUploader _uploader;
 
   /// Adds a new activity.
   ///
@@ -29,13 +31,57 @@ class ActivitiesRepository {
   ///
   /// Returns a [Result] containing the created [ActivityData] or an error.
   Future<Result<ActivityData>> addActivity(
-    api.AddActivityRequest request,
+    FeedAddActivityRequest request,
   ) async {
+    final uploadedAttachments = await _uploadStreamAttachments(
+      request.attachmentUploads,
+    );
+
+    final currentAttachments = request.attachments ?? [];
+    final updatedAttachments = currentAttachments.merge(
+      uploadedAttachments,
+      key: (it) => (it.type, it.assetUrl, it.imageUrl),
+    );
+
+    final updatedRequest = request.copyWith(
+      attachments: updatedAttachments.takeIf((it) => it.isNotEmpty),
+    );
+
     final result = await _api.addActivity(
-      addActivityRequest: request,
+      addActivityRequest: updatedRequest.toRequest(),
     );
 
     return result.map((response) => response.activity.toModel());
+  }
+
+  // Uploads stream attachments and converts them to API attachment format.
+  //
+  // Processes the provided attachments by uploading them via the uploader
+  // and converting successful uploads to API attachment objects.
+  Future<List<api.Attachment>> _uploadStreamAttachments(
+    List<StreamAttachment> attachments,
+  ) async {
+    if (attachments.isEmpty) return <api.Attachment>[];
+
+    final batch = _uploader.uploadBatch(attachments);
+    final results = await batch.toList();
+
+    final successfulUploads = results.map(
+      (result) {
+        final uploaded = result.getOrNull();
+        if (uploaded == null) return null;
+
+        return api.Attachment(
+          custom: const {},
+          type: uploaded.type,
+          assetUrl: uploaded.remoteUrl,
+          imageUrl: uploaded.remoteUrl,
+          thumbUrl: uploaded.thumbnailUrl,
+        );
+      },
+    ).nonNulls;
+
+    return successfulUploads.toList();
   }
 
   /// Deletes an activity.

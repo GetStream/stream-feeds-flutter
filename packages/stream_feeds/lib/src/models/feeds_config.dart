@@ -1,3 +1,5 @@
+import 'package:stream_core/stream_core.dart';
+
 import 'push_notifications_config.dart';
 
 /// Configuration settings for the Stream Feeds SDK.
@@ -6,11 +8,11 @@ import 'push_notifications_config.dart';
 /// and other SDK-wide settings.
 class FeedsConfig {
   const FeedsConfig({
+    this.cdnClient,
     this.pushNotificationsConfig,
   });
 
-  // TODO: Add CDN client
-  // final FileUploader fileUploader;
+  final CdnClient? cdnClient;
 
   final PushNotificationsConfig? pushNotificationsConfig;
 }

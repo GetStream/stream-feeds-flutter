@@ -15,7 +15,10 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$ActivityAddCommentRequest {
+  String get activityId;
+  String get activityType;
   List<Attachment>? get attachments;
+  List<StreamAttachment> get attachmentUploads;
   String get comment;
   bool? get createNotificationActivity;
   List<String>? get mentionedUserIds;
@@ -35,8 +38,14 @@ mixin _$ActivityAddCommentRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ActivityAddCommentRequest &&
+            (identical(other.activityId, activityId) ||
+                other.activityId == activityId) &&
+            (identical(other.activityType, activityType) ||
+                other.activityType == activityType) &&
             const DeepCollectionEquality()
                 .equals(other.attachments, attachments) &&
+            const DeepCollectionEquality()
+                .equals(other.attachmentUploads, attachmentUploads) &&
             (identical(other.comment, comment) || other.comment == comment) &&
             (identical(other.createNotificationActivity,
                     createNotificationActivity) ||
@@ -52,7 +61,10 @@ mixin _$ActivityAddCommentRequest {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      activityId,
+      activityType,
       const DeepCollectionEquality().hash(attachments),
+      const DeepCollectionEquality().hash(attachmentUploads),
       comment,
       createNotificationActivity,
       const DeepCollectionEquality().hash(mentionedUserIds),
@@ -61,7 +73,7 @@ mixin _$ActivityAddCommentRequest {
 
   @override
   String toString() {
-    return 'ActivityAddCommentRequest(attachments: $attachments, comment: $comment, createNotificationActivity: $createNotificationActivity, mentionedUserIds: $mentionedUserIds, parentId: $parentId, custom: $custom)';
+    return 'ActivityAddCommentRequest(activityId: $activityId, activityType: $activityType, attachments: $attachments, attachmentUploads: $attachmentUploads, comment: $comment, createNotificationActivity: $createNotificationActivity, mentionedUserIds: $mentionedUserIds, parentId: $parentId, custom: $custom)';
   }
 }
 
@@ -72,8 +84,11 @@ abstract mixin class $ActivityAddCommentRequestCopyWith<$Res> {
       _$ActivityAddCommentRequestCopyWithImpl;
   @useResult
   $Res call(
-      {String comment,
+      {String activityId,
+      String comment,
+      String activityType,
       List<Attachment>? attachments,
+      List<StreamAttachment> attachmentUploads,
       bool? createNotificationActivity,
       List<String>? mentionedUserIds,
       String? parentId,
@@ -93,22 +108,37 @@ class _$ActivityAddCommentRequestCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? activityId = null,
     Object? comment = null,
+    Object? activityType = null,
     Object? attachments = freezed,
+    Object? attachmentUploads = null,
     Object? createNotificationActivity = freezed,
     Object? mentionedUserIds = freezed,
     Object? parentId = freezed,
     Object? custom = freezed,
   }) {
     return _then(ActivityAddCommentRequest(
+      activityId: null == activityId
+          ? _self.activityId
+          : activityId // ignore: cast_nullable_to_non_nullable
+              as String,
       comment: null == comment
           ? _self.comment
           : comment // ignore: cast_nullable_to_non_nullable
+              as String,
+      activityType: null == activityType
+          ? _self.activityType
+          : activityType // ignore: cast_nullable_to_non_nullable
               as String,
       attachments: freezed == attachments
           ? _self.attachments
           : attachments // ignore: cast_nullable_to_non_nullable
               as List<Attachment>?,
+      attachmentUploads: null == attachmentUploads
+          ? _self.attachmentUploads
+          : attachmentUploads // ignore: cast_nullable_to_non_nullable
+              as List<StreamAttachment>,
       createNotificationActivity: freezed == createNotificationActivity
           ? _self.createNotificationActivity
           : createNotificationActivity // ignore: cast_nullable_to_non_nullable

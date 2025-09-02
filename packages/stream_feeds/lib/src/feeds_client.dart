@@ -696,6 +696,12 @@ abstract interface class StreamFeedsClient {
   /// Provides access to moderation configurations, content moderation, and moderation-related
   /// queries.
   ModerationClient get moderation;
+
+  /// The attachment uploader for managing file and image uploads.
+  ///
+  /// Provides functionality for uploading files and images to the Stream CDN with
+  /// support for various file types, progress tracking, and upload configurations.
+  StreamAttachmentUploader get attachmentUploader;
 }
 
 /// Extension methods for the [StreamFeedsClient] to simplify feed creation.
