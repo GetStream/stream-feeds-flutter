@@ -111,7 +111,7 @@ class CommentsRepository {
 
   /// Adds multiple comments.
   ///
-  /// Creates multiple comments in a single batch operation using the provided [request] data.
+  /// Creates multiple comments in a single batch operation using the provided [requests] data.
   ///
   /// Returns a [Result] containing a list of [CommentData] or an error.
   Future<Result<List<CommentData>>> addCommentsBatch(
