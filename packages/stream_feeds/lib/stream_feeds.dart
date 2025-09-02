@@ -3,6 +3,7 @@ export 'package:stream_core/stream_core.dart';
 export 'src/feeds_client.dart';
 export 'src/generated/api/api.dart' hide User;
 export 'src/models/activity_data.dart';
+export 'src/models/feed_data.dart';
 export 'src/models/feed_id.dart';
 export 'src/models/feed_input_data.dart';
 export 'src/models/feed_member_request_data.dart';

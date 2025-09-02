@@ -32,6 +32,7 @@ class ThemeConfig {
         seedColor: appTheme.colorScheme.accentPrimary,
         brightness: brightness,
       ),
+      scaffoldBackgroundColor: appTheme.colorScheme.appBg,
 
       // Custom app theme extension - this is what we'll use throughout the app
       extensions: [appTheme],

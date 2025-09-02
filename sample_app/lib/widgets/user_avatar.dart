@@ -60,7 +60,7 @@ class UserAvatar extends StatelessWidget {
         _ => null,
       },
       child: switch (user.image) {
-        null => BackupGradientAvatar(username: user.name),
+        null => radius > 12 ? BackupGradientAvatar(username: user.name) : null,
         _ => null,
       },
     );
