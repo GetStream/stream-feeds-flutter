@@ -35,10 +35,7 @@ dependencies:
   state_notifier: ^1.0.0
   # TODO Replace with hosted version when published
   stream_core:
-    git:
-      url: https://github.com/GetStream/stream-core-flutter.git
-      ref: 3b59846b89070fdd542945dbc1228a0a472e9b37
-      path: packages/stream_core
+    path: /Users/xsahil03x/StudioProjects/stream-core-flutter/packages/stream_core
   uuid: ^4.5.1
 
 dev_dependencies:
