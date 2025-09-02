@@ -148,6 +148,8 @@ class Feed with Disposable {
   /// operation fails.
   Future<Result<ActivityData>> addActivity({
     required FeedAddActivityRequest request,
+    // TODO: Implement attachment upload progress
+    ProgressCallback? attachmentUploadProgress,
   }) async {
     return activitiesRepository.addActivity(request);
   }
