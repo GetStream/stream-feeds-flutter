@@ -103,8 +103,10 @@ class _UserFeedViewState extends State<UserFeedView> {
                                 _onCommentClick(context, activity),
                             onHeartClick: (isAdding) =>
                                 _onHeartClick(activity, isAdding),
-                            onRepostClick: (message) {},
-                            onBookmarkClick: () {},
+                            onRepostClick: (message) =>
+                                _onRepostClick(context, activity, message),
+                            onBookmarkClick: () =>
+                                _onBookmarkClick(context, activity),
                             onDeleteClick: () {},
                             onEditSave: (text) {},
                           ),
@@ -205,6 +207,19 @@ class _UserFeedViewState extends State<UserFeedView> {
         activityId: activity.id,
         type: 'heart',
       );
+    }
+  }
+
+  void _onRepostClick(
+      BuildContext context, ActivityData activity, String? message) {
+    feed.repost(activityId: activity.id, text: message);
+  }
+
+  void _onBookmarkClick(BuildContext context, ActivityData activity) {
+    if (activity.ownBookmarks.isNotEmpty) {
+      feed.deleteBookmark(activityId: activity.id);
+    } else {
+      feed.addBookmark(activityId: activity.id);
     }
   }
 }
