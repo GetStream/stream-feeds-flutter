@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:stream_core/stream_core.dart';
 
+import '../cdn/cdn_api.dart';
+import '../cdn/feeds_cdn_client.dart';
 import '../feeds_client.dart';
-import '../file/cdn_api.dart';
-import '../file/feeds_cdn_client.dart';
 import '../generated/api/api.dart' as api;
 import '../models/activity_data.dart';
 import '../models/app_data.dart';
