@@ -1,10 +1,14 @@
+import 'dart:ui';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:stream_feeds/stream_feeds.dart';
 
 import '../../app/content/auth_controller.dart';
 import '../../core/di/di_initializer.dart';
 import '../../theme/theme.dart';
 import '../../widgets/user_avatar.dart';
+import '../profile/profile_widget.dart';
 import 'widgets/user_feed_appbar.dart';
 import 'widgets/user_feed_view.dart';
 
@@ -21,29 +25,20 @@ class HomeScreen extends StatelessWidget {
       _ => throw Exception('User not authenticated'),
     };
 
-    return Scaffold(
-      backgroundColor: context.appColors.appBg,
-      appBar: UserFeedAppbar(
-        leading: Center(
-          child: UserAvatar.appBar(user: user),
-        ),
-        title: Text(
-          'Stream Feeds',
-          style: context.appTextStyles.headlineBold,
-        ),
-        actions: [
-          IconButton(
-            onPressed: authController.disconnect,
-            icon: Icon(
-              Icons.logout,
-              color: context.appColors.textLowEmphasis,
-            ),
-          ),
-        ],
+    final wideScreen = MediaQuery.sizeOf(context).width > 600;
+
+    return ScrollConfiguration(
+      behavior: ScrollConfiguration.of(context).copyWith(
+        dragDevices: {
+          PointerDeviceKind.touch,
+          PointerDeviceKind.mouse,
+        },
       ),
-      body: UserFeedView(
+      child: UserFeedView(
         client: client,
         currentUser: user,
+        wideScreen: wideScreen,
+        onLogout: authController.disconnect,
       ),
     );
   }
