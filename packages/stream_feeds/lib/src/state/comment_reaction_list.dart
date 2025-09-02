@@ -10,6 +10,7 @@ import '../repository/comments_repository.dart';
 import 'comment_reaction_list_state.dart';
 import 'event/comment_reaction_list_event_handler.dart';
 import 'query/comment_reactions_query.dart';
+import 'state_notifier_extentions.dart';
 
 /// Represents a list of comment reactions with a query and state.
 ///
@@ -69,7 +70,7 @@ class CommentReactionList with Disposable {
     int? limit,
   }) async {
     // Build the query with the current pagination state (with next page token)
-    final next = _stateNotifier.state.pagination?.next;
+    final next = _stateNotifier.value.pagination?.next;
 
     // Early return if no more reactions available
     if (next == null) return const Result.success([]);

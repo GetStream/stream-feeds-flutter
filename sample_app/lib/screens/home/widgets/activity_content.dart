@@ -68,7 +68,6 @@ class ActivityContent extends StatelessWidget {
 
 class _UserContent extends StatelessWidget {
   const _UserContent({
-    super.key,
     required this.user,
     required this.data,
     required this.text,
@@ -118,7 +117,6 @@ class _UserContent extends StatelessWidget {
 
 class _ActivityBody extends StatelessWidget {
   const _ActivityBody({
-    super.key,
     required this.user,
     required this.text,
     required this.attachments,
@@ -164,7 +162,6 @@ class _ActivityBody extends StatelessWidget {
 
 class _UserActions extends StatelessWidget {
   const _UserActions({
-    super.key,
     required this.user,
     required this.data,
     required this.currentUserId,

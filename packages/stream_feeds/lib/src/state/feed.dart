@@ -25,6 +25,7 @@ import 'feed_state.dart';
 import 'member_list.dart';
 import 'query/feed_query.dart';
 import 'query/members_query.dart';
+import 'state_notifier_extentions.dart';
 
 /// A feed represents a collection of activities and provides methods to interact with them.
 ///
@@ -408,7 +409,7 @@ class Feed with Disposable {
   /// if the operation fails.
   Future<Result<List<ActivityData>>> queryMoreActivities({int? limit}) async {
     // Build the query with the current pagination state (with next page token)
-    final next = _stateNotifier.state.activitiesPagination?.next;
+    final next = _stateNotifier.value.activitiesPagination?.next;
 
     // Early return if no more activities available
     if (next == null) return const Result.success([]);

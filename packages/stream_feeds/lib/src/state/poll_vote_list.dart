@@ -10,6 +10,7 @@ import '../repository/polls_repository.dart';
 import 'event/poll_vote_list_event_handler.dart';
 import 'poll_vote_list_state.dart';
 import 'query/poll_votes_query.dart';
+import 'state_notifier_extentions.dart';
 
 /// Represents a list of poll votes with a query and state.
 ///
@@ -69,7 +70,7 @@ class PollVoteList with Disposable {
   /// votes to return.
   Future<Result<List<PollVoteData>>> queryMorePollVotes({int? limit}) async {
     // Build the next query using the current pagination state
-    final next = _stateNotifier.state.pagination?.next;
+    final next = _stateNotifier.value.pagination?.next;
 
     // Early return if no more votes available
     if (next == null) return const Result.success([]);

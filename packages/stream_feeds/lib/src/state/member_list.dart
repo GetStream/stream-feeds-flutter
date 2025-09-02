@@ -10,6 +10,7 @@ import '../repository/feeds_repository.dart';
 import 'event/member_list_event_handler.dart';
 import 'member_list_state.dart';
 import 'query/members_query.dart';
+import 'state_notifier_extentions.dart';
 
 /// Represents a list of feed members with a query and state.
 ///
@@ -66,7 +67,7 @@ class MemberList extends Disposable {
   /// members to return.
   Future<Result<List<FeedMemberData>>> queryMoreMembers({int? limit}) async {
     // Build the query with the current pagination state (with next page token)
-    final next = _stateNotifier.state.pagination?.next;
+    final next = _stateNotifier.value.pagination?.next;
 
     // Early return if no more members available
     if (next == null) return const Result.success([]);
