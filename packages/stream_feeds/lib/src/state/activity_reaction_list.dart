@@ -10,6 +10,7 @@ import '../repository/activities_repository.dart';
 import 'activity_reaction_list_state.dart';
 import 'event/activity_reaction_list_event_handler.dart';
 import 'query/activity_reactions_query.dart';
+import 'state_notifier_extentions.dart';
 
 /// Represents a list of activity reactions with a query and state.
 ///
@@ -68,7 +69,7 @@ class ActivityReactionList extends Disposable {
     int? limit,
   }) async {
     // Build the query with the current pagination state (with next page token)
-    final next = _stateNotifier.state.pagination?.next;
+    final next = _stateNotifier.value.pagination?.next;
 
     // Early return if no more reactions available
     if (next == null) return const Result.success([]);

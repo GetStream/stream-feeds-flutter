@@ -9,6 +9,7 @@ import '../models/query_configuration.dart';
 import '../repository/moderation_repository.dart';
 import 'moderation_config_list_state.dart';
 import 'query/moderation_configs_query.dart';
+import 'state_notifier_extentions.dart';
 
 /// Represents a list of moderation configurations with a query and state.
 ///
@@ -57,7 +58,7 @@ class ModerationConfigList extends Disposable {
     int? limit,
   }) async {
     // Build the query with the current pagination state (with next page token)
-    final next = _stateNotifier.state.pagination?.next;
+    final next = _stateNotifier.value.pagination?.next;
 
     // Early return if no more configs available
     if (next == null) return const Result.success([]);

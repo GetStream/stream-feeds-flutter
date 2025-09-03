@@ -9,6 +9,7 @@ import '../repository/comments_repository.dart';
 import 'comment_list_state.dart';
 import 'event/comment_list_event_handler.dart';
 import 'query/comments_query.dart';
+import 'state_notifier_extentions.dart';
 
 /// A list of comments with a query and state.
 ///
@@ -57,7 +58,7 @@ class CommentList extends Disposable {
   /// Returns a [Result] containing additional [CommentData] or an error.
   Future<Result<List<CommentData>>> queryMoreComments({int? limit}) async {
     // Build the query with the current pagination state (with next page token)
-    final next = _stateNotifier.state.pagination?.next;
+    final next = _stateNotifier.value.pagination?.next;
 
     // Early return if no more comments available
     if (next == null) return const Result.success([]);

@@ -10,6 +10,7 @@ import '../repository/activities_repository.dart';
 import 'activity_list_state.dart';
 import 'event/activity_list_event_handler.dart';
 import 'query/activities_query.dart';
+import 'state_notifier_extentions.dart';
 
 /// Represents a list of activities with a query and state.
 ///
@@ -69,7 +70,7 @@ class ActivityList with Disposable {
   /// activities to return.
   Future<Result<List<ActivityData>>> queryMoreActivities({int? limit}) async {
     // Build the query with the current pagination state (with next page token)
-    final next = _stateNotifier.state.pagination?.next;
+    final next = _stateNotifier.value.pagination?.next;
 
     // Early return if no more activities available
     if (next == null) return const Result.success([]);
