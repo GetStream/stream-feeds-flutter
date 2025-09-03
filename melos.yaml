@@ -44,7 +44,7 @@ command:
       stream_core:
         git:
           url: https://github.com/GetStream/stream-core-flutter.git
-          ref: 3b59846b89070fdd542945dbc1228a0a472e9b37
+          ref: 47329234bddbc0ccc11f48175a8cd032cf6a2d88
           path: packages/stream_core
 
     # List of all the dev_dependencies used in the project.
