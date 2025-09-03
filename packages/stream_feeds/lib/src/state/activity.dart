@@ -79,7 +79,8 @@ class Activity with Disposable {
 
   late final ActivityCommentList _commentsList;
 
-  StateNotifier<ActivityState> get state => _stateNotifier;
+  ActivityState get state => _stateNotifier.value;
+  StateNotifier<ActivityState> get notifier => _stateNotifier;
   Stream<ActivityState> get stream => _stateNotifier.stream;
   late final ActivityStateNotifier _stateNotifier;
 

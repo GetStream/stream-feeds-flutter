@@ -62,7 +62,7 @@ class _ActivityCommentsViewState extends State<ActivityCommentsView> {
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: StateNotifierBuilder(
-          stateNotifier: activity.state,
+          stateNotifier: activity.notifier,
           builder: (context, state, child) {
             return CommentsList(
               totalComments: state.activity?.commentCount ?? 0,

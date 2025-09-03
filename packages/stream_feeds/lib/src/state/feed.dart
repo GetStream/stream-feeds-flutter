@@ -59,7 +59,7 @@ class Feed with Disposable {
     _stateNotifier = FeedStateNotifier(
       initialState: FeedState(fid: fid, feedQuery: query),
       currentUserId: currentUserId,
-      memberList: _memberList.notifier,
+      memberList: _memberList.stateNotifier,
     );
 
     // Attach event handlers for the feed events
@@ -79,7 +79,7 @@ class Feed with Disposable {
 
   late final MemberList _memberList;
 
-  FeedState get state => _stateNotifier.state;
+  FeedState get state => _stateNotifier.value;
   StateNotifier<FeedState> get notifier => _stateNotifier;
   Stream<FeedState> get stream => _stateNotifier.stream;
   late final FeedStateNotifier _stateNotifier;
@@ -357,7 +357,7 @@ class Feed with Disposable {
   }) async {
     final result = await feedsRepository.updateFeedMembers(query.fid, request);
 
-    return result.onSuccess(_memberList.notifier.onMembersUpdated);
+    return result.onSuccess(_memberList.stateNotifier.onMembersUpdated);
   }
 
   /// Accepts a feed member invitation.

@@ -43,11 +43,12 @@ class ActivityReactionList extends Disposable {
   final ActivityReactionsQuery query;
   final ActivitiesRepository activitiesRepository;
 
-  StateNotifier<ActivityReactionListState> get state => notifier;
-  Stream<ActivityReactionListState> get stream => notifier.stream;
+  ActivityReactionListState get state => stateNotifier.value;
+  StateNotifier<ActivityReactionListState> get notifier => stateNotifier;
+  Stream<ActivityReactionListState> get stream => stateNotifier.stream;
 
   @internal
-  ActivityReactionListStateNotifier get notifier => _stateNotifier;
+  ActivityReactionListStateNotifier get stateNotifier => _stateNotifier;
   late final ActivityReactionListStateNotifier _stateNotifier;
 
   final SharedEmitter<WsEvent> eventsEmitter;

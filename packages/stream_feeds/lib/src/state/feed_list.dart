@@ -41,7 +41,7 @@ class FeedList with Disposable {
 
   late final FeedListStateNotifier _stateNotifier;
 
-FeedListState get state => notifier.state;
+  FeedListState get state => notifier.value;
   StateNotifier<FeedListState> get notifier => _stateNotifier;
   Stream<FeedListState> get stream => _stateNotifier.stream;
 
