@@ -299,7 +299,7 @@ abstract interface class StreamFeedsClient {
   /// ```
   ///
   /// Returns an [Activity] instance that can be used to interact with the specified activity.
-  Activity activity(String activityId, FeedId fid);
+  Activity activity({required String activityId, required FeedId fid});
 
   /// Creates an activity list instance based on the provided [query].
   ///
@@ -724,7 +724,7 @@ extension StreamFeedsClientHelpers on StreamFeedsClient {
   /// ```
   ///
   /// Returns a [Feed] instance that can be used to interact with the specified feed.
-  Feed feed(String group, String id) {
+  Feed feed({required String group, required String id}) {
     final fid = FeedId(group: group, id: id);
     return feedFromId(fid);
   }

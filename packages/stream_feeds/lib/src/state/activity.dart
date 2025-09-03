@@ -211,10 +211,10 @@ class Activity with Disposable {
   /// Adds a reaction to a comment.
   ///
   /// Returns a [Result] containing the created [FeedsReactionData] or an error.
-  Future<Result<FeedsReactionData>> addCommentReaction(
-    String commentId,
-    api.AddCommentReactionRequest request,
-  ) async {
+  Future<Result<FeedsReactionData>> addCommentReaction({
+    required String commentId,
+    required api.AddCommentReactionRequest request,
+  }) async {
     final result = await commentsRepository.addCommentReaction(
       commentId,
       request,

@@ -1,7 +1,12 @@
 name: stream_feeds_flutter_workspace
 
 environment:
-  sdk: ^3.6.2
+  sdk: ^3.8.0
+
+dependencies:
+  flutter_state_notifier: ^1.0.0
+  stream_feeds:
+    path: ./packages/stream_feeds
 
 dev_dependencies:
-  melos: ^6.2.0
+  melos: ^7.1.0

@@ -53,7 +53,7 @@ class _UserFeedViewState extends State<UserFeedView> {
   @override
   Widget build(BuildContext context) {
     return StateNotifierBuilder(
-      stateNotifier: feed.state,
+      stateNotifier: feed.notifier,
       builder: (context, state, child) {
         final activities = state.activities;
         final canLoadMore = state.canLoadMoreActivities;

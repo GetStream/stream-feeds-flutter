@@ -48,7 +48,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
   @override
   Widget build(BuildContext context) {
     return StateNotifierBuilder(
-      stateNotifier: widget.feed.state,
+      stateNotifier: widget.feed.notifier,
       builder: (context, state, child) {
         final feedMembers = state.members;
         final following = state.following;

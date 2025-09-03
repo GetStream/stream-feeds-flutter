@@ -41,7 +41,8 @@ class FeedList with Disposable {
 
   late final FeedListStateNotifier _stateNotifier;
 
-  StateNotifier<FeedListState> get state => _stateNotifier;
+FeedListState get state => notifier.state;
+  StateNotifier<FeedListState> get notifier => _stateNotifier;
   Stream<FeedListState> get stream => _stateNotifier.stream;
 
   final SharedEmitter<WsEvent> eventsEmitter;
