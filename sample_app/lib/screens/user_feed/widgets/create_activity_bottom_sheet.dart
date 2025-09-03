@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 
 import '../../../theme/extensions/theme_extensions.dart';
-import '../../../widgets/user_avatar.dart';
 import '../../../widgets/attachments/attachments.dart';
+import '../../../widgets/user_avatar.dart';
 
 /// A bottom sheet for creating new activities with text and attachments.
 ///

@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:stream_core/stream_core.dart';
 
 import '../generated/api/api.dart' as api;

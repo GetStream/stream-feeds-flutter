@@ -112,7 +112,9 @@ class FeedAddActivityRequest
     List<StreamAttachment>? attachmentUploads,
   }) {
     return copyWith(
-        attachments: attachments, attachmentUploads: attachmentUploads);
+      attachments: attachments,
+      attachmentUploads: attachmentUploads,
+    );
   }
 }
 

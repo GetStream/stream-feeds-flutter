@@ -6,9 +6,8 @@ import 'package:stream_feeds/stream_feeds.dart';
 
 import '../../../theme/extensions/theme_extensions.dart';
 import '../../../utils/date_time_extensions.dart';
-import '../../../widgets/user_avatar.dart';
 import '../../../widgets/action_button.dart';
-import 'activity_content.dart';
+import '../../../widgets/user_avatar.dart';
 
 class ActivityCommentsView extends StatefulWidget {
   const ActivityCommentsView({

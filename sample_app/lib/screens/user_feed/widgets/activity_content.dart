@@ -3,9 +3,9 @@ import 'package:stream_feeds/stream_feeds.dart';
 
 import '../../../theme/extensions/theme_extensions.dart';
 import '../../../utils/date_time_extensions.dart';
-import '../../../widgets/user_avatar.dart';
-import '../../../widgets/attachments/attachments.dart';
 import '../../../widgets/action_button.dart';
+import '../../../widgets/attachments/attachments.dart';
+import '../../../widgets/user_avatar.dart';
 
 class ActivityContent extends StatelessWidget {
   const ActivityContent({
@@ -65,7 +65,6 @@ class ActivityContent extends StatelessWidget {
 
 class _UserContent extends StatelessWidget {
   const _UserContent({
-    super.key,
     required this.user,
     required this.data,
     required this.text,
@@ -115,7 +114,6 @@ class _UserContent extends StatelessWidget {
 
 class _ActivityBody extends StatelessWidget {
   const _ActivityBody({
-    super.key,
     required this.user,
     required this.text,
     required this.attachments,
@@ -150,7 +148,6 @@ class _ActivityBody extends StatelessWidget {
 
 class _UserActions extends StatelessWidget {
   const _UserActions({
-    super.key,
     required this.user,
     required this.data,
     required this.currentUserId,
@@ -215,5 +212,3 @@ class _UserActions extends StatelessWidget {
     );
   }
 }
-
-

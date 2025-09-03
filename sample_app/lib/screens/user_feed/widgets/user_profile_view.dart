@@ -59,7 +59,8 @@ class _UserProfileViewState extends State<UserProfileView> {
             Container(
               alignment: Alignment.center,
               padding: const EdgeInsets.all(16),
-              child: Text('User Profile', style: context.appTextStyles.headlineBold),
+              child: Text('User Profile',
+                  style: context.appTextStyles.headlineBold),
             ),
             ProfileItem.text(
               title: 'Feed members',
@@ -118,7 +119,7 @@ class _UserProfileViewState extends State<UserProfileView> {
                   });
                 },
               ),
-            ]
+            ],
           ],
         );
       },
@@ -128,7 +129,6 @@ class _UserProfileViewState extends State<UserProfileView> {
 
 class _FollowerItem extends StatelessWidget {
   const _FollowerItem({
-    super.key,
     required this.follower,
     required this.buttonText,
     required this.onButtonPressed,
@@ -180,7 +180,6 @@ class _FollowSuggestionsWidget extends StatelessWidget {
 
 class _FollowSuggestionWidget extends StatelessWidget {
   const _FollowSuggestionWidget({
-    super.key,
     required this.owner,
     required this.followedFeed,
     required this.onFollowPressed,

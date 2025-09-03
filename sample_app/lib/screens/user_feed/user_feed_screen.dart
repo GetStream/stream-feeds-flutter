@@ -117,31 +117,31 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
                 ),
               );
 
-         if (!wideScreen) {
-           return _buildScaffold(
-             context,
-             feedWidget,
-             onLogout: _onLogout,
-             onProfileTap: () {
-               _showProfileBottomSheet(context, context.client, feed);
-             },
-           );
-         }
+        if (!wideScreen) {
+          return _buildScaffold(
+            context,
+            feedWidget,
+            onLogout: _onLogout,
+            onProfileTap: () {
+              _showProfileBottomSheet(context, context.client, feed);
+            },
+          );
+        }
 
-         return _buildScaffold(
-           context,
-           Row(
-             children: [
-               SizedBox(
-                 width: 250,
-                 child: UserProfileView(feedsClient: context.client, feed: feed),
-               ),
-               const SizedBox(width: 16),
-               Expanded(child: feedWidget),
-             ],
-           ),
-           onLogout: _onLogout,
-         );
+        return _buildScaffold(
+          context,
+          Row(
+            children: [
+              SizedBox(
+                width: 250,
+                child: UserProfileView(feedsClient: context.client, feed: feed),
+              ),
+              const SizedBox(width: 16),
+              Expanded(child: feedWidget),
+            ],
+          ),
+          onLogout: _onLogout,
+        );
       },
     );
   }

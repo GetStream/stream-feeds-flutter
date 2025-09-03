@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flex_grid_view/flex_grid_view.dart';
 import 'package:flutter/material.dart';
 import 'package:stream_feeds/stream_feeds.dart';
@@ -192,7 +190,9 @@ class AttachmentGrid extends StatelessWidget {
   }
 
   Widget _buildForFourOrMore(
-      BuildContext context, List<Attachment> attachments) {
+    BuildContext context,
+    List<Attachment> attachments,
+  ) {
     final pattern = <List<int>>[];
     final children = <Widget>[];
 
@@ -236,34 +236,6 @@ class AttachmentGrid extends StatelessWidget {
       ),
     );
   }
-
-  double _getAspectRatio(Attachment attachment) {
-    final width = attachment.originalWidth?.toDouble();
-    final height = attachment.originalHeight?.toDouble();
-
-    if (width != null && height != null && height > 0) {
-      return width / height;
-    }
-
-    // Default to square aspect ratio if dimensions are unknown
-    return 1;
-  }
-
-  double _calculateConstrainedAspectRatio(
-    double originalAspectRatio,
-    BoxConstraints constraints,
-  ) {
-    // Calculate the aspect ratio range based on constraints
-    final minAspectRatio = constraints.minWidth / constraints.maxHeight;
-    final maxAspectRatio = constraints.maxWidth / constraints.minHeight;
-
-    // Clamp the original aspect ratio within the constraint bounds
-    return originalAspectRatio.clamp(minAspectRatio, maxAspectRatio);
-  }
-
-  void _onAttachmentTap(BuildContext context, Attachment attachment) {
-    onAttachmentTap?.call(attachment);
-  }
 }
 
 extension on Attachment {
@@ -273,17 +245,5 @@ extension on Attachment {
 
     if (width == null || height == null) return null;
     return Size(width.toDouble(), height.toDouble());
-  }
-}
-
-extension on BoxConstraints {
-  /// Returns new box constraints that tightens the max width and max height
-  /// to the given [size].
-  BoxConstraints tightenMaxSize(Size? size) {
-    if (size == null) return this;
-    return copyWith(
-      maxWidth: clampDouble(size.width, minWidth, maxWidth),
-      maxHeight: clampDouble(size.height, minHeight, maxHeight),
-    );
   }
 }

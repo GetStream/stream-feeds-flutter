@@ -1,7 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:stream_feeds/stream_feeds.dart';
 
 import '../screens/choose_user/choose_user_screen.dart';
 import '../screens/home/home_screen.dart';
