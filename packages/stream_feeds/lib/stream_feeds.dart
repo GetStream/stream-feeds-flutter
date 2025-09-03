@@ -12,6 +12,8 @@ export 'src/models/request/activity_add_comment_request.dart'
     show ActivityAddCommentRequest;
 export 'src/models/request/activity_update_comment_request.dart'
     show ActivityUpdateCommentRequest;
+export 'src/models/request/feed_add_activity_request.dart'
+    show FeedAddActivityRequest;
 export 'src/models/threaded_comment_data.dart';
 export 'src/models/user_data.dart';
 export 'src/state/activity.dart';

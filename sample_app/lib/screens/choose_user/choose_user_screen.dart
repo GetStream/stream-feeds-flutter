@@ -15,40 +15,42 @@ class ChooseUserScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const SizedBox(height: 34),
-          Center(
-            child: SvgPicture.asset(
-              'assets/images/app_logo.svg',
-              height: 40,
-              colorFilter: ColorFilter.mode(
-                context.appColors.accentPrimary,
-                BlendMode.srcIn,
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(height: 34),
+            Center(
+              child: SvgPicture.asset(
+                'assets/images/app_logo.svg',
+                height: 40,
+                colorFilter: ColorFilter.mode(
+                  context.appColors.accentPrimary,
+                  BlendMode.srcIn,
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 20),
-          Text(
-            'Welcome to Stream Feeds',
-            style: context.appTextStyles.title,
-          ),
-          const SizedBox(height: 12),
-          Text(
-            'Select a user to try the Flutter SDK:',
-            style: context.appTextStyles.body,
-          ),
-          const SizedBox(height: 32),
-          Expanded(
-            child: UserSelectionList(
-              onUserSelected: (credentials) {
-                final authController = locator<AuthController>();
-                return authController.connect(credentials).ignore();
-              },
+            const SizedBox(height: 20),
+            Text(
+              'Welcome to Stream Feeds',
+              style: context.appTextStyles.title,
             ),
-          ),
-        ],
+            const SizedBox(height: 12),
+            Text(
+              'Select a user to try the Flutter SDK:',
+              style: context.appTextStyles.body,
+            ),
+            const SizedBox(height: 32),
+            Expanded(
+              child: UserSelectionList(
+                onUserSelected: (credentials) {
+                  final authController = locator<AuthController>();
+                  return authController.connect(credentials).ignore();
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 
-import '../../theme/extensions/theme_extensions.dart';
-import '../../widgets/user_avatar.dart';
+import '../../../theme/extensions/theme_extensions.dart';
+import '../../../widgets/user_avatar.dart';
 
-class ProfileWidget extends StatefulWidget {
-  const ProfileWidget({
+class UserProfileView extends StatefulWidget {
+  const UserProfileView({
     super.key,
     required this.feedsClient,
     required this.feed,
@@ -16,10 +16,10 @@ class ProfileWidget extends StatefulWidget {
   final Feed feed;
 
   @override
-  State<ProfileWidget> createState() => _ProfileWidgetState();
+  State<UserProfileView> createState() => _UserProfileViewState();
 }
 
-class _ProfileWidgetState extends State<ProfileWidget> {
+class _UserProfileViewState extends State<UserProfileView> {
   List<FeedData>? followSuggestions;
 
   @override
@@ -30,7 +30,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
   }
 
   @override
-  void didUpdateWidget(covariant ProfileWidget oldWidget) {
+  void didUpdateWidget(covariant UserProfileView oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.feed != widget.feed) {
       _queryFollowSuggestions();
@@ -59,7 +59,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
             Container(
               alignment: Alignment.center,
               padding: const EdgeInsets.all(16),
-              child: Text('Profile', style: context.appTextStyles.headlineBold),
+              child: Text('User Profile', style: context.appTextStyles.headlineBold),
             ),
             ProfileItem.text(
               title: 'Feed members',

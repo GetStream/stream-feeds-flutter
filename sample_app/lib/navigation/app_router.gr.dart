@@ -14,7 +14,7 @@ part of 'app_router.dart';
 /// [ChooseUserScreen]
 class ChooseUserRoute extends PageRouteInfo<void> {
   const ChooseUserRoute({List<PageRouteInfo>? children})
-      : super(ChooseUserRoute.name, initialChildren: children);
+    : super(ChooseUserRoute.name, initialChildren: children);
 
   static const String name = 'ChooseUserRoute';
 
@@ -30,7 +30,7 @@ class ChooseUserRoute extends PageRouteInfo<void> {
 /// [HomeScreen]
 class HomeRoute extends PageRouteInfo<void> {
   const HomeRoute({List<PageRouteInfo>? children})
-      : super(HomeRoute.name, initialChildren: children);
+    : super(HomeRoute.name, initialChildren: children);
 
   static const String name = 'HomeRoute';
 
@@ -38,6 +38,22 @@ class HomeRoute extends PageRouteInfo<void> {
     name,
     builder: (data) {
       return const HomeScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [UserFeedScreen]
+class UserFeedRoute extends PageRouteInfo<void> {
+  const UserFeedRoute({List<PageRouteInfo>? children})
+    : super(UserFeedRoute.name, initialChildren: children);
+
+  static const String name = 'UserFeedRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const UserFeedScreen();
     },
   );
 }
