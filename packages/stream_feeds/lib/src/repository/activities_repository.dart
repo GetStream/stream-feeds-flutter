@@ -7,6 +7,7 @@ import '../models/feeds_reaction_data.dart';
 import '../models/pagination_data.dart';
 import '../models/request/feed_add_activity_request.dart';
 import '../state/query/activities_query.dart';
+import '../utils/uploader.dart';
 
 /// Repository for managing activities and activity-related operations.
 ///
@@ -33,55 +34,15 @@ class ActivitiesRepository {
   Future<Result<ActivityData>> addActivity(
     FeedAddActivityRequest request,
   ) async {
-    final uploadedAttachments = await _uploadStreamAttachments(
-      request.attachmentUploads,
-    );
+    final processedRequest = await _uploader.processRequest(request);
 
-    final currentAttachments = request.attachments ?? [];
-    final updatedAttachments = currentAttachments.merge(
-      uploadedAttachments,
-      key: (it) => (it.type, it.assetUrl, it.imageUrl),
-    );
+    return processedRequest.flatMapAsync((updatedRequest) async {
+      final result = await _api.addActivity(
+        addActivityRequest: updatedRequest.toRequest(),
+      );
 
-    final updatedRequest = request.copyWith(
-      attachments: updatedAttachments.takeIf((it) => it.isNotEmpty),
-    );
-
-    final result = await _api.addActivity(
-      addActivityRequest: updatedRequest.toRequest(),
-    );
-
-    return result.map((response) => response.activity.toModel());
-  }
-
-  // Uploads stream attachments and converts them to API attachment format.
-  //
-  // Processes the provided attachments by uploading them via the uploader
-  // and converting successful uploads to API attachment objects.
-  Future<List<api.Attachment>> _uploadStreamAttachments(
-    List<StreamAttachment> attachments,
-  ) async {
-    if (attachments.isEmpty) return <api.Attachment>[];
-
-    final batch = _uploader.uploadBatch(attachments);
-    final results = await batch.toList();
-
-    final successfulUploads = results.map(
-      (result) {
-        final uploaded = result.getOrNull();
-        if (uploaded == null) return null;
-
-        return api.Attachment(
-          type: uploaded.type,
-          custom: {...?uploaded.custom},
-          assetUrl: uploaded.remoteUrl,
-          imageUrl: uploaded.remoteUrl,
-          thumbUrl: uploaded.thumbnailUrl,
-        );
-      },
-    ).nonNulls;
-
-    return successfulUploads.toList();
+      return result.map((response) => response.activity.toModel());
+    });
   }
 
   /// Deletes an activity.

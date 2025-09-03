@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$FeedAddActivityRequest {
   List<Attachment>? get attachments;
-  List<StreamAttachment> get attachmentUploads;
+  List<StreamAttachment>? get attachmentUploads;
   Map<String, Object>? get custom;
   String? get expiresAt;
   List<String> get feeds;
@@ -113,7 +113,7 @@ abstract mixin class $FeedAddActivityRequestCopyWith<$Res> {
       {String type,
       List<String> feeds,
       List<Attachment>? attachments,
-      List<StreamAttachment> attachmentUploads,
+      List<StreamAttachment>? attachmentUploads,
       Map<String, Object>? custom,
       String? expiresAt,
       List<String>? filterTags,
@@ -145,7 +145,7 @@ class _$FeedAddActivityRequestCopyWithImpl<$Res>
     Object? type = null,
     Object? feeds = null,
     Object? attachments = freezed,
-    Object? attachmentUploads = null,
+    Object? attachmentUploads = freezed,
     Object? custom = freezed,
     Object? expiresAt = freezed,
     Object? filterTags = freezed,
@@ -173,10 +173,10 @@ class _$FeedAddActivityRequestCopyWithImpl<$Res>
           ? _self.attachments
           : attachments // ignore: cast_nullable_to_non_nullable
               as List<Attachment>?,
-      attachmentUploads: null == attachmentUploads
+      attachmentUploads: freezed == attachmentUploads
           ? _self.attachmentUploads
           : attachmentUploads // ignore: cast_nullable_to_non_nullable
-              as List<StreamAttachment>,
+              as List<StreamAttachment>?,
       custom: freezed == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable

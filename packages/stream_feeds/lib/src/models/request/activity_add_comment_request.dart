@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:stream_core/stream_core.dart';
 
 import '../../generated/api/models.dart';
+import '../../utils/uploader.dart';
 
 part 'activity_add_comment_request.freezed.dart';
 
@@ -10,14 +11,16 @@ part 'activity_add_comment_request.freezed.dart';
 /// Contains comment content, attachments, mentions, and custom metadata
 /// needed to create a new comment on an activity.
 @freezed
-class ActivityAddCommentRequest with _$ActivityAddCommentRequest {
+class ActivityAddCommentRequest
+    with _$ActivityAddCommentRequest
+    implements HasAttachments<ActivityAddCommentRequest> {
   /// Creates a new [ActivityAddCommentRequest] instance.
   const ActivityAddCommentRequest({
     required this.activityId,
     required this.comment,
     this.activityType = 'activity',
     this.attachments,
-    this.attachmentUploads = const [],
+    this.attachmentUploads,
     this.createNotificationActivity,
     this.mentionedUserIds,
     this.parentId,
@@ -39,7 +42,7 @@ class ActivityAddCommentRequest with _$ActivityAddCommentRequest {
   /// Optional list of stream attachments to be uploaded before adding the
   /// comment to the activity.
   @override
-  final List<StreamAttachment> attachmentUploads;
+  final List<StreamAttachment>? attachmentUploads;
 
   /// The content of the comment to be added.
   @override
@@ -60,6 +63,18 @@ class ActivityAddCommentRequest with _$ActivityAddCommentRequest {
   /// Optional custom data to include with the comment.
   @override
   final Map<String, Object?>? custom;
+
+  /// Creates a copy of this request with updated attachments and uploads.
+  @override
+  ActivityAddCommentRequest withAttachments({
+    List<Attachment>? attachments,
+    List<StreamAttachment>? attachmentUploads,
+  }) {
+    return copyWith(
+      attachments: attachments,
+      attachmentUploads: attachmentUploads,
+    );
+  }
 }
 
 /// Extension function to convert an [ActivityAddCommentRequest] to an API request.

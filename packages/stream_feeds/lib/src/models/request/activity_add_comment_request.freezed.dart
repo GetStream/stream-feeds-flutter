@@ -18,7 +18,7 @@ mixin _$ActivityAddCommentRequest {
   String get activityId;
   String get activityType;
   List<Attachment>? get attachments;
-  List<StreamAttachment> get attachmentUploads;
+  List<StreamAttachment>? get attachmentUploads;
   String get comment;
   bool? get createNotificationActivity;
   List<String>? get mentionedUserIds;
@@ -88,7 +88,7 @@ abstract mixin class $ActivityAddCommentRequestCopyWith<$Res> {
       String comment,
       String activityType,
       List<Attachment>? attachments,
-      List<StreamAttachment> attachmentUploads,
+      List<StreamAttachment>? attachmentUploads,
       bool? createNotificationActivity,
       List<String>? mentionedUserIds,
       String? parentId,
@@ -112,7 +112,7 @@ class _$ActivityAddCommentRequestCopyWithImpl<$Res>
     Object? comment = null,
     Object? activityType = null,
     Object? attachments = freezed,
-    Object? attachmentUploads = null,
+    Object? attachmentUploads = freezed,
     Object? createNotificationActivity = freezed,
     Object? mentionedUserIds = freezed,
     Object? parentId = freezed,
@@ -135,10 +135,10 @@ class _$ActivityAddCommentRequestCopyWithImpl<$Res>
           ? _self.attachments
           : attachments // ignore: cast_nullable_to_non_nullable
               as List<Attachment>?,
-      attachmentUploads: null == attachmentUploads
+      attachmentUploads: freezed == attachmentUploads
           ? _self.attachmentUploads
           : attachmentUploads // ignore: cast_nullable_to_non_nullable
-              as List<StreamAttachment>,
+              as List<StreamAttachment>?,
       createNotificationActivity: freezed == createNotificationActivity
           ? _self.createNotificationActivity
           : createNotificationActivity // ignore: cast_nullable_to_non_nullable

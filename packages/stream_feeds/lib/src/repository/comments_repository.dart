@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:stream_core/stream_core.dart';
 
 import '../generated/api/api.dart' as api;
@@ -10,6 +11,7 @@ import '../state/query/activity_comments_query.dart';
 import '../state/query/comment_reactions_query.dart';
 import '../state/query/comment_replies_query.dart';
 import '../state/query/comments_query.dart';
+import '../utils/uploader.dart';
 
 /// Repository for managing comments and comment-related operations.
 ///
@@ -88,25 +90,15 @@ class CommentsRepository {
   Future<Result<CommentData>> addComment(
     ActivityAddCommentRequest request,
   ) async {
-    final uploadedAttachments = await _uploadStreamAttachments(
-      request.attachmentUploads,
-    );
+    final processedRequest = await _uploader.processRequest(request);
 
-    final currentAttachments = request.attachments ?? [];
-    final updatedAttachments = currentAttachments.merge(
-      uploadedAttachments,
-      key: (it) => (it.type, it.assetUrl, it.imageUrl),
-    );
+    return processedRequest.flatMapAsync((updatedRequest) async {
+      final result = await _api.addComment(
+        addCommentRequest: updatedRequest.toRequest(),
+      );
 
-    final updatedRequest = request.copyWith(
-      attachments: updatedAttachments.takeIf((it) => it.isNotEmpty),
-    );
-
-    final result = await _api.addComment(
-      addCommentRequest: updatedRequest.toRequest(),
-    );
-
-    return result.map((response) => response.comment.toModel());
+      return result.map((response) => response.comment.toModel());
+    });
   }
 
   /// Adds multiple comments.
@@ -117,65 +109,20 @@ class CommentsRepository {
   Future<Result<List<CommentData>>> addCommentsBatch(
     List<ActivityAddCommentRequest> requests,
   ) async {
-    final batch = await requests.map(
-      (request) async {
-        final uploadedAttachments = await _uploadStreamAttachments(
-          request.attachmentUploads,
-        );
+    final processedBatch = await _uploader.processRequestsBatch(requests);
 
-        final currentAttachments = request.attachments ?? [];
-        final updatedAttachments = currentAttachments.merge(
-          uploadedAttachments,
-          key: (it) => (it.type, it.assetUrl, it.imageUrl),
-        );
+    return processedBatch.flatMapAsync((batch) async {
+      final comments = batch.map((r) => r.toRequest()).toList();
+      final batchRequest = api.AddCommentsBatchRequest(comments: comments);
 
-        return request.copyWith(
-          attachments: updatedAttachments.takeIf((it) => it.isNotEmpty),
-        );
-      },
-    ).wait;
+      final result = await _api.addCommentsBatch(
+        addCommentsBatchRequest: batchRequest,
+      );
 
-    final batchRequest = api.AddCommentsBatchRequest(
-      comments: batch.map((r) => r.toRequest()).toList(),
-    );
-
-    final result = await _api.addCommentsBatch(
-      addCommentsBatchRequest: batchRequest,
-    );
-
-    return result.map(
-      (response) => response.comments.map((c) => c.toModel()).toList(),
-    );
-  }
-
-  // Uploads stream attachments and converts them to API attachment format.
-  //
-  // Processes the provided attachments by uploading them via the uploader
-  // and converting successful uploads to API attachment objects.
-  Future<List<api.Attachment>> _uploadStreamAttachments(
-    List<StreamAttachment> attachments,
-  ) async {
-    if (attachments.isEmpty) return <api.Attachment>[];
-
-    final batch = _uploader.uploadBatch(attachments);
-    final results = await batch.toList();
-
-    final successfulUploads = results.map(
-      (result) {
-        final uploaded = result.getOrNull();
-        if (uploaded == null) return null;
-
-        return api.Attachment(
-          type: uploaded.type,
-          custom: {...?uploaded.custom},
-          assetUrl: uploaded.remoteUrl,
-          imageUrl: uploaded.remoteUrl,
-          thumbUrl: uploaded.thumbnailUrl,
-        );
-      },
-    ).nonNulls;
-
-    return successfulUploads.toList();
+      return result.map(
+        (response) => response.comments.map((c) => c.toModel()).toList(),
+      );
+    });
   }
 
   /// Deletes a comment.
