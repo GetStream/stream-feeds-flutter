@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_constructors_over_static_methods
+
 import 'package:flutter/material.dart';
 
 import '../tokens/color_tokens.dart';

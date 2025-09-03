@@ -10,6 +10,7 @@ import '../repository/bookmarks_repository.dart';
 import 'bookmark_list_state.dart';
 import 'event/bookmark_list_event_handler.dart';
 import 'query/bookmarks_query.dart';
+import 'state_notifier_extentions.dart';
 
 /// Represents a list of bookmarks with a query and state.
 ///
@@ -66,7 +67,7 @@ class BookmarkList with Disposable {
   /// bookmarks to return.
   Future<Result<List<BookmarkData>>> queryMoreBookmarks({int? limit}) async {
     // Build the query with the current pagination state (with next page token)
-    final next = _stateNotifier.state.pagination?.next;
+    final next = _stateNotifier.value.pagination?.next;
 
     // Early return if no more bookmarks available
     if (next == null) return const Result.success([]);

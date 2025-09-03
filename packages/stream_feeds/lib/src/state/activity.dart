@@ -22,6 +22,7 @@ import 'activity_comment_list.dart';
 import 'activity_state.dart';
 import 'event/activity_event_handler.dart';
 import 'query/activity_comments_query.dart';
+import 'state_notifier_extentions.dart';
 
 /// Represents a single activity with its data and state.
 ///
@@ -407,7 +408,7 @@ class Activity with Disposable {
   // region Internal helper methods
 
   Future<Result<ActivityData>> _ensureActivityLoaded() async {
-    final activity = _stateNotifier.state.activity;
+    final activity = _stateNotifier.value.activity;
     if (activity != null) return Result.success(activity);
     return get();
   }

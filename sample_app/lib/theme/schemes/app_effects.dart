@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_redundant_argument_values
+// ignore_for_file: avoid_redundant_argument_values, prefer_constructors_over_static_methods
 
 import 'package:flutter/material.dart';
 

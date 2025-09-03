@@ -10,6 +10,7 @@ import '../repository/bookmarks_repository.dart';
 import 'bookmark_folder_list_state.dart';
 import 'event/bookmark_folder_list_event_handler.dart';
 import 'query/bookmark_folders_query.dart';
+import 'state_notifier_extentions.dart';
 
 /// Represents a list of bookmark folders with a query and state.
 ///
@@ -65,7 +66,7 @@ class BookmarkFolderList extends Disposable {
     int? limit,
   }) async {
     // Build the query with the current pagination state (with next page token)
-    final next = _stateNotifier.state.pagination?.next;
+    final next = _stateNotifier.value.pagination?.next;
 
     // Early return if no more folders available
     if (next == null) return const Result.success([]);

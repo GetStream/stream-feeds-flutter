@@ -9,6 +9,7 @@ import '../repository/comments_repository.dart';
 import 'activity_comment_list_state.dart';
 import 'event/activity_comment_list_event_handler.dart';
 import 'query/activity_comments_query.dart';
+import 'state_notifier_extentions.dart';
 
 /// Represents a list of activity comments with a query and state.
 ///
@@ -70,7 +71,7 @@ class ActivityCommentList extends Disposable {
     int? limit,
   }) async {
     // Build the query with the current pagination state (with next page token)
-    final next = _stateNotifier.state.pagination?.next;
+    final next = _stateNotifier.value.pagination?.next;
 
     // Early return if no more comments available
     if (next == null) return const Result.success([]);

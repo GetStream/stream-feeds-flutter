@@ -10,6 +10,7 @@ import '../repository/feeds_repository.dart';
 import 'event/feed_list_event_handler.dart';
 import 'feed_list_state.dart';
 import 'query/feeds_query.dart';
+import 'state_notifier_extentions.dart';
 
 /// Represents a list of feeds with a query and state.
 ///
@@ -66,7 +67,7 @@ class FeedList with Disposable {
   /// feeds to return.
   Future<Result<List<FeedData>>> queryMoreFeeds({int? limit}) async {
     // Build the query with the current pagination state (with next page token)
-    final next = _stateNotifier.state.pagination?.next;
+    final next = _stateNotifier.value.pagination?.next;
 
     // Early return if no more feeds available
     if (next == null) return const Result.success([]);

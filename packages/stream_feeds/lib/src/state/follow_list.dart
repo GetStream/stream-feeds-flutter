@@ -10,6 +10,7 @@ import '../repository/feeds_repository.dart';
 import 'event/follow_list_event_handler.dart';
 import 'follow_list_state.dart';
 import 'query/follows_query.dart';
+import 'state_notifier_extentions.dart';
 
 /// Represents a list of follows with a query and state.
 ///
@@ -66,7 +67,7 @@ class FollowList with Disposable {
   /// follows to return.
   Future<Result<List<FollowData>>> queryMoreFollows({int? limit}) async {
     // Build the next query using the current pagination state
-    final next = _stateNotifier.state.pagination?.next;
+    final next = _stateNotifier.value.pagination?.next;
 
     // Early return if no more follows available
     if (next == null) return const Result.success([]);

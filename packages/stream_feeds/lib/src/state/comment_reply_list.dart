@@ -9,6 +9,7 @@ import '../repository/comments_repository.dart';
 import 'comment_reply_list_state.dart';
 import 'event/comment_reply_list_event_handler.dart';
 import 'query/comment_replies_query.dart';
+import 'state_notifier_extentions.dart';
 
 /// Represents a list of comment replies with a query and state.
 ///
@@ -68,7 +69,7 @@ class CommentReplyList with Disposable {
     int? limit,
   }) async {
     // Build the query with the current pagination state (with next page token)
-    final next = _stateNotifier.state.pagination?.next;
+    final next = _stateNotifier.value.pagination?.next;
 
     // Early return if no more replies available
     if (next == null) return const Result.success([]);
