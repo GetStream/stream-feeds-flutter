@@ -41,7 +41,8 @@ class FollowList with Disposable {
 
   late final FollowListStateNotifier _stateNotifier;
 
-  StateNotifier<FollowListState> get state => _stateNotifier;
+  FollowListState get state => _stateNotifier.value;
+  StateNotifier<FollowListState> get notifier => _stateNotifier;
   Stream<FollowListState> get stream => _stateNotifier.stream;
 
   final SharedEmitter<WsEvent> eventsEmitter;

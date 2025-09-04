@@ -42,8 +42,9 @@ class CommentReplyList with Disposable {
   final CommentsRepository commentsRepository;
 
   late final CommentReplyListStateNotifier _stateNotifier;
-
-  StateNotifier<CommentReplyListState> get state => _stateNotifier;
+  
+  CommentReplyListState get state => _stateNotifier.value;
+  StateNotifier<CommentReplyListState> get notifier => _stateNotifier;
   Stream<CommentReplyListState> get stream => _stateNotifier.stream;
 
   final SharedEmitter<WsEvent> eventsEmitter;

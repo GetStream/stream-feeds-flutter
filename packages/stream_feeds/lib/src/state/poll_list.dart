@@ -41,7 +41,8 @@ class PollList with Disposable {
 
   late final PollListStateNotifier _stateNotifier;
 
-  StateNotifier<PollListState> get state => _stateNotifier;
+  PollListState get state => _stateNotifier.value;
+  StateNotifier<PollListState> get notifier => _stateNotifier;
   Stream<PollListState> get stream => _stateNotifier.stream;
 
   final SharedEmitter<WsEvent> eventsEmitter;

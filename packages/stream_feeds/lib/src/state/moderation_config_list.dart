@@ -33,11 +33,12 @@ class ModerationConfigList extends Disposable {
   final ModerationConfigsQuery query;
   final ModerationRepository moderationRepository;
 
-  StateNotifier<ModerationConfigListState> get state => notifier;
-  Stream<ModerationConfigListState> get stream => notifier.stream;
+  ModerationConfigListState get state => stateNotifier.value;
+  StateNotifier<ModerationConfigListState> get notifier => stateNotifier;
+  Stream<ModerationConfigListState> get stream => stateNotifier.stream;
 
   @internal
-  ModerationConfigListStateNotifier get notifier => _stateNotifier;
+  ModerationConfigListStateNotifier get stateNotifier => _stateNotifier;
   late final ModerationConfigListStateNotifier _stateNotifier;
 
   final SharedEmitter<WsEvent> eventsEmitter;

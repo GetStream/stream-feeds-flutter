@@ -62,7 +62,7 @@ class _ActivityCommentsViewState extends State<ActivityCommentsView> {
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: StateNotifierBuilder(
-          stateNotifier: activity.state,
+          stateNotifier: activity.notifier,
           builder: (context, state, child) {
             return CommentsList(
               totalComments: state.activity?.commentCount ?? 0,
@@ -86,7 +86,7 @@ class _ActivityCommentsViewState extends State<ActivityCommentsView> {
 
   void _observeFeedCapabilities() {
     _removeFeedListener?.call();
-    _removeFeedListener = widget.feed.state.addListener(_onFeedStateChange);
+    _removeFeedListener = widget.feed.notifier.addListener(_onFeedStateChange);
   }
 
   void _onFeedStateChange(FeedState state) {
@@ -94,7 +94,10 @@ class _ActivityCommentsViewState extends State<ActivityCommentsView> {
   }
 
   Future<void> _getActivity() async {
-    activity = widget.client.activity(widget.activityId, widget.feed.fid);
+    activity = widget.client.activity(
+      activityId: widget.activityId,
+      fid: widget.feed.fid,
+    );
     await activity.get();
   }
 
@@ -103,8 +106,8 @@ class _ActivityCommentsViewState extends State<ActivityCommentsView> {
 
     if (isAdding) {
       activity.addCommentReaction(
-        comment.id,
-        const AddCommentReactionRequest(type: type),
+        commentId: comment.id,
+        request: const AddCommentReactionRequest(type: type),
       );
     } else {
       activity.deleteCommentReaction(
