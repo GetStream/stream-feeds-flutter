@@ -188,7 +188,7 @@ class _CreateActivityBottomSheetState extends State<CreateActivityBottomSheet> {
     final text = _textController.text.trim();
 
     final request = FeedAddActivityRequest(
-      type: 'activity',
+      type: 'post',
       feeds: [widget.feedId.rawValue],
       text: text.takeIf((it) => it.isNotEmpty),
       attachmentUploads: _attachments.isNotEmpty ? _attachments : null,

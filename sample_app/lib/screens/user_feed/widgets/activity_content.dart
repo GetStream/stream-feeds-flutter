@@ -179,7 +179,7 @@ class _UserActions extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         ActionButton(
-          icon: const Icon(Icons.comment),
+          icon: const Icon(Icons.comment_outlined),
           count: data.commentCount,
           onTap: onCommentClick,
         ),
@@ -187,14 +187,14 @@ class _UserActions extends StatelessWidget {
           icon: Icon(
             hasOwnHeart
                 ? Icons.favorite_rounded
-                : Icons.favorite_border_rounded,
+                : Icons.favorite_outline_rounded,
           ),
           count: heartsCount,
           color: hasOwnHeart ? context.appColors.accentError : null,
           onTap: () => onHeartClick?.call(!hasOwnHeart),
         ),
         ActionButton(
-          icon: const Icon(Icons.share_rounded),
+          icon: const Icon(Icons.repeat_rounded),
           count: data.shareCount,
           onTap: () => onRepostClick?.call(null),
         ),
@@ -202,7 +202,7 @@ class _UserActions extends StatelessWidget {
           icon: Icon(
             hasOwnBookmark
                 ? Icons.bookmark_rounded
-                : Icons.bookmark_border_rounded,
+                : Icons.bookmark_outline_rounded,
           ),
           count: data.bookmarkCount,
           color: hasOwnBookmark ? context.appColors.accentPrimary : null,

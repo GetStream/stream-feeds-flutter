@@ -19,6 +19,7 @@ Future<void> creatingAFeed() async {
       visibility: FeedVisibility.public,
     ),
   );
+
   final feed2 = client.feedFromQuery(query);
   await feed2.getOrCreate();
 }
@@ -29,31 +30,37 @@ Future<void> readingAFeed() async {
   final feedData = feed.state.feed;
   final activities = feed.state.activities;
   final members = feed.state.members;
-  // Always dispose the feed when you are done with it
+
+  // Note: Always dispose the feed when you are done with it
   feed.dispose();
 }
 
 Future<void> readingAFeedMoreOptions() async {
   final query = FeedQuery(
     fid: const FeedId(group: 'user', id: 'john'),
-    activityFilter: Filter.in_(ActivitiesFilterField.filterTags, const [
-      'green',
-    ]), // filter activities with filter tag green
+    // filter activities with filter tag green
+    activityFilter: Filter.in_(
+      ActivitiesFilterField.filterTags,
+      const ['green'],
+    ),
     activityLimit: 10,
-    externalRanking: {'user_score': 0.8}, // additional data used for ranking
+    // additional data used for ranking
+    externalRanking: {'user_score': 0.8},
     followerLimit: 10,
     followingLimit: 10,
     memberLimit: 10,
-    view:
-        'myview', // overwrite the default ranking or aggregation logic for this feed. good for split testing
-    watch: true, // receive web-socket events with real-time updates
+    // overwrite the default ranking or aggregation logic for this feed. good for split testing
+    view: 'myview',
+    // receive web-socket events with real-time updates
+    watch: true,
   );
 
   final feed = client.feedFromQuery(query);
   await feed.getOrCreate();
   final activities = feed.state.activities;
   final feedData = feed.state.feed;
-  // Always dispose the feed when you are done with it
+
+  // Note: Always dispose the feed when you are done with it
   feed.dispose();
 }
 
@@ -64,6 +71,7 @@ Future<void> feedPagination() async {
       activityLimit: 10,
     ),
   );
+
   // Page 1
   await feed.getOrCreate();
   final activities = feed.state.activities; // First 10 activities
@@ -97,6 +105,7 @@ Future<void> filteringExamples() async {
       type: 'activity',
     ),
   ]);
+
   // Now read the feed, this will fetch activity 1 and 2
   final query = FeedQuery(
     fid: feedId,
@@ -104,9 +113,11 @@ Future<void> filteringExamples() async {
       'blue',
     ]),
   );
+
   final feed = client.feedFromQuery(query);
   await feed.getOrCreate();
-  final activities = feed.state.activities; // contains first and second
+  // contains first and second
+  final activities = feed.state.activities;
 }
 
 Future<void> moreComplexFilterExamples() async {
@@ -124,6 +135,7 @@ Future<void> moreComplexFilterExamples() async {
       ]),
     ]),
   );
+
   await feed.getOrCreate();
   final activities = feed.state.activities;
 }
@@ -191,6 +203,7 @@ Future<void> queryMyFeeds() async {
     limit: 10,
     watch: true,
   );
+
   final feedList = client.feedList(query);
 
   // Page 1
@@ -217,14 +230,17 @@ Future<void> queryFeedsByNameOrVisibility() async {
       Filter.query(FeedsFilterField.name, 'Sports'),
     ]),
   );
+
   final sportsFeedList = client.feedList(sportsQuery);
   final sportsFeeds = await sportsFeedList.get();
+
   final techQuery = FeedsQuery(
     filter: Filter.and([
       Filter.equal(FeedsFilterField.visibility, 'public'),
       Filter.autoComplete(FeedsFilterField.description, 'tech'),
     ]),
   );
+
   final techFeedList = client.feedList(techQuery);
   final techFeeds = await techFeedList.get();
 }
@@ -236,6 +252,7 @@ Future<void> queryFeedsByCreatorName() async {
       Filter.query(FeedsFilterField.createdByName, 'Thompson'),
     ]),
   );
+
   final feedList = client.feedList(query);
   final feeds = await feedList.get();
 }

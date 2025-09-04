@@ -238,7 +238,6 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
       feed.addBookmark(activityId: activity.id);
     }
   }
-}
 
   Future<void> _showCreateActivityBottomSheet() async {
     final request = await showModalBottomSheet<FeedAddActivityRequest>(

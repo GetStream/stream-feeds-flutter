@@ -138,9 +138,9 @@ class Activity with Disposable {
   /// Adds a comment to this activity.
   ///
   /// Returns a [Result] containing the created [CommentData] or an error.
-  Future<Result<CommentData>> addComment(
-    ActivityAddCommentRequest request,
-  ) async {
+  Future<Result<CommentData>> addComment({
+    required ActivityAddCommentRequest request,
+  }) async {
     final result = await commentsRepository.addComment(request);
 
     result.onSuccess(
