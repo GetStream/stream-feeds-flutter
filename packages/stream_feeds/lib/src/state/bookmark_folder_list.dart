@@ -40,11 +40,12 @@ class BookmarkFolderList extends Disposable {
   final BookmarkFoldersQuery query;
   final BookmarksRepository bookmarksRepository;
 
-  StateNotifier<BookmarkFolderListState> get state => notifier;
-  Stream<BookmarkFolderListState> get stream => notifier.stream;
+  BookmarkFolderListState get state => stateNotifier.value;
+  StateNotifier<BookmarkFolderListState> get notifier => stateNotifier;
+  Stream<BookmarkFolderListState> get stream => stateNotifier.stream;
 
   @internal
-  BookmarkFolderListStateNotifier get notifier => _stateNotifier;
+  BookmarkFolderListStateNotifier get stateNotifier => _stateNotifier;
   late final BookmarkFolderListStateNotifier _stateNotifier;
 
   final SharedEmitter<WsEvent> eventsEmitter;

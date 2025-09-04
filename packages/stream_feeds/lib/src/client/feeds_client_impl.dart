@@ -292,9 +292,9 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
   }
 
   @override
-  Activity activity(
-    String activityId,
-    FeedId fid, {
+  Activity activity({
+    required String activityId,
+    required FeedId fid, 
     ActivityData? initialData,
   }) {
     return Activity(

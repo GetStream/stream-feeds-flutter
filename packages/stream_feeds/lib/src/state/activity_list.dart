@@ -44,7 +44,8 @@ class ActivityList with Disposable {
 
   late final ActivityListStateNotifier _stateNotifier;
 
-  StateNotifier<ActivityListState> get state => _stateNotifier;
+  ActivityListState get state => notifier.value;
+  StateNotifier<ActivityListState> get notifier => _stateNotifier;
   Stream<ActivityListState> get stream => _stateNotifier.stream;
 
   final SharedEmitter<WsEvent> eventsEmitter;

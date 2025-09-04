@@ -44,11 +44,12 @@ class MemberList extends Disposable {
   final MembersQuery query;
   final FeedsRepository feedsRepository;
 
-  StateNotifier<MemberListState> get state => notifier;
-  Stream<MemberListState> get stream => notifier.stream;
+  MemberListState get state => stateNotifier.value;
+  StateNotifier<MemberListState> get notifier => stateNotifier;
+  Stream<MemberListState> get stream => stateNotifier.stream;
 
   @internal
-  MemberListStateNotifier get notifier => _stateNotifier;
+  MemberListStateNotifier get stateNotifier => _stateNotifier;
   late final MemberListStateNotifier _stateNotifier;
 
   final SharedEmitter<WsEvent> eventsEmitter;

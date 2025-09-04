@@ -60,7 +60,7 @@ class Feed with Disposable {
     _stateNotifier = FeedStateNotifier(
       initialState: FeedState(fid: fid, feedQuery: query),
       currentUserId: currentUserId,
-      memberList: _memberList.notifier,
+      memberList: _memberList.stateNotifier,
     );
 
     // Attach event handlers for the feed events
@@ -80,7 +80,8 @@ class Feed with Disposable {
 
   late final MemberList _memberList;
 
-  StateNotifier<FeedState> get state => _stateNotifier;
+  FeedState get state => _stateNotifier.value;
+  StateNotifier<FeedState> get notifier => _stateNotifier;
   Stream<FeedState> get stream => _stateNotifier.stream;
   late final FeedStateNotifier _stateNotifier;
 
@@ -156,16 +157,16 @@ class Feed with Disposable {
 
   /// Updates an existing activity in the feed.
   ///
-  /// The [activityId] is the unique identifier of the activity to update.
+  /// The [id] is the unique identifier of the activity to update.
   /// The [request] contains the updated activity data.
   /// Returns a [Result] containing the updated [ActivityData] if successful, or an error if the
   /// operation fails.
   Future<Result<ActivityData>> updateActivity({
-    required String activityId,
+    required String id,
     required api.UpdateActivityRequest request,
   }) async {
     final result = await activitiesRepository.updateActivity(
-      activityId,
+      id,
       request,
     );
 
@@ -174,21 +175,21 @@ class Feed with Disposable {
 
   /// Deletes an activity from the feed.
   ///
-  /// The [activityId] is the unique identifier of the activity to delete.
+  /// The [id] is the unique identifier of the activity to delete.
   /// If [hardDelete] is `true`, the activity will be permanently deleted. If `false`, it will be
   /// soft deleted. (default is `false`)
   /// Returns a [Result] indicating success or failure of the deletion operation.
   Future<Result<void>> deleteActivity({
-    required String activityId,
+    required String id,
     bool hardDelete = false,
   }) async {
     final result = await activitiesRepository.deleteActivity(
-      activityId,
+      id,
       hardDelete: hardDelete,
     );
 
     return result.onSuccess(
-      (_) => _stateNotifier.onActivityDeleted(activityId),
+      (_) => _stateNotifier.onActivityDeleted(id),
     );
   }
 
@@ -326,7 +327,7 @@ class Feed with Disposable {
   ///
   /// This method loads the first page of members according to the query's filters, sorting, and
   /// limit parameters. The results are stored in the state and can be accessed through the
-  /// [state] property.
+  /// [notifier] property.
   ///
   /// Returns a [Result] containing a list of [FeedMemberData] if successful, or an error if the
   /// operation fails.
@@ -355,7 +356,7 @@ class Feed with Disposable {
   }) async {
     final result = await feedsRepository.updateFeedMembers(query.fid, request);
 
-    return result.onSuccess(_memberList.notifier.onMembersUpdated);
+    return result.onSuccess(_memberList.stateNotifier.onMembersUpdated);
   }
 
   /// Accepts a feed member invitation.

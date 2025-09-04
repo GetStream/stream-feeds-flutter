@@ -38,11 +38,12 @@ class CommentList extends Disposable {
   final CommentsQuery query;
   final CommentsRepository commentsRepository;
 
-  StateNotifier<CommentListState> get state => notifier;
-  Stream<CommentListState> get stream => notifier.stream;
+  CommentListState get state => stateNotifier.value;
+  StateNotifier<CommentListState> get notifier => stateNotifier;
+  Stream<CommentListState> get stream => stateNotifier.stream;
 
   @internal
-  CommentListStateNotifier get notifier => _stateNotifier;
+  CommentListStateNotifier get stateNotifier => _stateNotifier;
   late final CommentListStateNotifier _stateNotifier;
 
   final SharedEmitter<WsEvent> eventsEmitter;

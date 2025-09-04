@@ -58,7 +58,7 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
     final wideScreen = MediaQuery.sizeOf(context).width > 600;
 
     return StateNotifierBuilder(
-      stateNotifier: feed.state,
+      stateNotifier: feed.notifier,
       builder: (context, state, child) {
         final activities = state.activities;
         final canLoadMore = state.canLoadMoreActivities;
@@ -108,8 +108,10 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
                                 _onCommentClick(context, activity),
                             onHeartClick: (isAdding) =>
                                 _onHeartClick(activity, isAdding),
-                            onRepostClick: (message) {},
-                            onBookmarkClick: () {},
+                            onRepostClick: (message) =>
+                                _onRepostClick(context, activity, message),
+                            onBookmarkClick: () =>
+                                _onBookmarkClick(context, activity),
                             onDeleteClick: () {},
                             onEditSave: (text) {},
                           ),
@@ -223,6 +225,20 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
       );
     }
   }
+
+  void _onRepostClick(
+      BuildContext context, ActivityData activity, String? message) {
+    feed.repost(activityId: activity.id, text: message);
+  }
+
+  void _onBookmarkClick(BuildContext context, ActivityData activity) {
+    if (activity.ownBookmarks.isNotEmpty) {
+      feed.deleteBookmark(activityId: activity.id);
+    } else {
+      feed.addBookmark(activityId: activity.id);
+    }
+  }
+}
 
   Future<void> _showCreateActivityBottomSheet() async {
     final request = await showModalBottomSheet<FeedAddActivityRequest>(

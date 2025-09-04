@@ -40,8 +40,9 @@ class BookmarkList with Disposable {
   final BookmarksRepository bookmarksRepository;
 
   late final BookmarkListStateNotifier _stateNotifier;
-
-  StateNotifier<BookmarkListState> get state => _stateNotifier;
+  
+  BookmarkListState get state => _stateNotifier.value;
+  StateNotifier<BookmarkListState> get notifier => _stateNotifier;
   Stream<BookmarkListState> get stream => _stateNotifier.stream;
 
   final SharedEmitter<WsEvent> eventsEmitter;

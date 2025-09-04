@@ -79,7 +79,8 @@ class Activity with Disposable {
 
   late final ActivityCommentList _commentsList;
 
-  StateNotifier<ActivityState> get state => _stateNotifier;
+  ActivityState get state => _stateNotifier.value;
+  StateNotifier<ActivityState> get notifier => _stateNotifier;
   Stream<ActivityState> get stream => _stateNotifier.stream;
   late final ActivityStateNotifier _stateNotifier;
 
@@ -204,10 +205,10 @@ class Activity with Disposable {
   /// Adds a reaction to a comment.
   ///
   /// Returns a [Result] containing the created [FeedsReactionData] or an error.
-  Future<Result<FeedsReactionData>> addCommentReaction(
-    String commentId,
-    api.AddCommentReactionRequest request,
-  ) async {
+  Future<Result<FeedsReactionData>> addCommentReaction({
+    required String commentId,
+    required api.AddCommentReactionRequest request,
+  }) async {
     final result = await commentsRepository.addCommentReaction(
       commentId,
       request,
