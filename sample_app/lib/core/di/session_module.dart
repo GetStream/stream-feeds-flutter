@@ -6,7 +6,7 @@ import '../../app/content/auth_controller.dart';
 @module
 abstract class SessionModule {
   @Singleton(scope: 'session')
-  StreamFeedsClient authenticatedFeeds(AuthController auth) {
+  StreamFeedsClient authenticatedFeedsClient(AuthController auth) {
     return (auth.value as Authenticated).client;
   }
 }
