@@ -44,3 +44,4 @@ class AppRouter extends RootStackRouter {
     ];
   }
 }
+

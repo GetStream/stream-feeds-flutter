@@ -7,7 +7,6 @@ import '../../../theme/extensions/theme_extensions.dart';
 import '../../../widgets/user_avatar.dart';
 import '../../app/content/auth_controller.dart';
 import '../../core/di/di_initializer.dart';
-import '../home/session_scope.dart';
 import 'widgets/activity_comments_view.dart';
 import 'widgets/activity_content.dart';
 import 'widgets/create_activity_bottom_sheet.dart';
@@ -23,19 +22,21 @@ class UserFeedScreen extends StatefulWidget {
 }
 
 class _UserFeedScreenState extends State<UserFeedScreen> {
-  late final feed = context.client.feedFromQuery(
+  StreamFeedsClient get client => locator<StreamFeedsClient>();
+
+  late final feed = client.feedFromQuery(
     FeedQuery(
-      fid: FeedId(group: 'user', id: context.currentUser.id),
+      fid: FeedId(group: 'user', id: client.user.id),
       data: FeedInputData(
         visibility: FeedVisibility.public,
-        members: [FeedMemberRequestData(userId: context.currentUser.id)],
+        members: [FeedMemberRequestData(userId: client.user.id)],
       ),
     ),
   );
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
     feed.getOrCreate();
   }
 
@@ -52,6 +53,8 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final currentUser = client.user;
+
     final wideScreen = MediaQuery.sizeOf(context).width > 600;
 
     return StateNotifierBuilder(
@@ -100,7 +103,7 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
                             text: baseActivity.text ?? '',
                             attachments: baseActivity.attachments,
                             data: activity,
-                            currentUserId: context.currentUser.id,
+                            currentUserId: currentUser.id,
                             onCommentClick: () =>
                                 _onCommentClick(context, activity),
                             onHeartClick: (isAdding) =>
@@ -123,7 +126,7 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
             feedWidget,
             onLogout: _onLogout,
             onProfileTap: () {
-              _showProfileBottomSheet(context, context.client, feed);
+              _showProfileBottomSheet(context, client, feed);
             },
           );
         }
@@ -134,7 +137,7 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
             children: [
               SizedBox(
                 width: 250,
-                child: UserProfileView(feedsClient: context.client, feed: feed),
+                child: UserProfileView(feedsClient: client, feed: feed),
               ),
               const SizedBox(width: 16),
               Expanded(child: feedWidget),
@@ -157,7 +160,7 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
         leading: GestureDetector(
           onTap: onProfileTap,
           child: Center(
-            child: UserAvatar.appBar(user: context.currentUser),
+            child: UserAvatar.appBar(user: client.user),
           ),
         ),
         title: Text(
@@ -202,7 +205,7 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
       builder: (context) => ActivityCommentsView(
         activityId: activity.id,
         feed: feed,
-        client: context.client,
+        client: client,
       ),
     );
   }
@@ -227,7 +230,7 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => CreateActivityBottomSheet(
-        currentUser: context.currentUser,
+        currentUser: client.user,
         feedId: feed.query.fid,
       ),
     );

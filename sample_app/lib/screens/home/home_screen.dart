@@ -1,27 +1,30 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../../app/content/auth_controller.dart';
+import '../../core/di/di_initializer.config.dart';
 import '../../core/di/di_initializer.dart';
-import 'session_scope.dart';
 
 @RoutePage()
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final authController = locator<AuthController>();
-    final state = authController.value;
-    final (user, client) = switch (state) {
-      Authenticated(:final user, :final client) => (user, client),
-      _ => throw Exception('User not authenticated'),
-    };
+  State<HomeScreen> createState() => _HomeScreenState();
+}
 
-    return SessionScope(
-      user: user,
-      client: client,
-      child: const AutoRouter(),
-    );
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    locator.initSessionScope();
   }
+
+  @override
+  void dispose() {
+    locator.popScope();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => const AutoRouter();
 }

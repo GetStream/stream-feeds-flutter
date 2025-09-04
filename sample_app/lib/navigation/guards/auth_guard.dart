@@ -14,12 +14,8 @@ class AuthGuard extends AutoRouteGuard {
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) {
     final isAuthenticated = _authController.value is Authenticated;
-    debugPrint('AuthGuard: isAuthenticated = $isAuthenticated');
-
     // If the user is authenticated, allow navigation to the requested route.
     if (isAuthenticated) return resolver.next();
-
-    print('AuthGuard: User is not authenticated, redirecting to login.');
     // Otherwise, redirect to the Choose user page.
     resolver.redirectUntil(const ChooseUserRoute(), replace: true);
   }
