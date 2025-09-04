@@ -2,6 +2,7 @@
 
 import 'package:stream_feeds/stream_feeds.dart';
 
+late StreamFeedsClient client;
 late Feed feed;
 late Activity activity;
 late StreamAttachmentUploader attachmentUploader;
@@ -77,6 +78,14 @@ Future<void> howToUploadAFileOrImageStep4() async {
       comment: 'look at NYC',
     ),
   );
+}
+
+Future<void> howToDeleteAFileOrImage() async {
+  // Delete an image from the CDN
+  await client.deleteImage(url: 'https://mycdn.com/image.png');
+
+  // Delete a file from the CDN
+  await client.deleteFile(url: 'https://mycdn.com/file.pdf');
 }
 
 // Your custom implementation of CdnClient

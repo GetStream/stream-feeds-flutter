@@ -667,7 +667,7 @@ abstract interface class StreamFeedsClient {
   /// ```
   ///
   /// Returns a [Result] indicating success or failure of the deletion operation.
-  Future<Result<void>> deleteFile(String url);
+  Future<Result<void>> deleteFile({required String url});
 
   /// Deletes a previously uploaded image from the CDN.
   ///
@@ -689,7 +689,7 @@ abstract interface class StreamFeedsClient {
   /// ```
   ///
   /// Returns a [Result] indicating success or failure of the deletion operation.
-  Future<Result<void>> deleteImage(String url);
+  Future<Result<void>> deleteImage({required String url});
 
   /// The moderation client for managing moderation-related operations.
   ///

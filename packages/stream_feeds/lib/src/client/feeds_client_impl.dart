@@ -294,7 +294,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
   @override
   Activity activity({
     required String activityId,
-    required FeedId fid, 
+    required FeedId fid,
     ActivityData? initialData,
   }) {
     return Activity(
@@ -442,8 +442,12 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
   }
 
   @override
-  Future<Result<void>> deleteFile(String url) => _cdnClient.deleteFile(url);
+  Future<Result<void>> deleteFile({required String url}) {
+    return _cdnClient.deleteFile(url);
+  }
 
   @override
-  Future<Result<void>> deleteImage(String url) => _cdnClient.deleteImage(url);
+  Future<Result<void>> deleteImage({required String url}) {
+    return _cdnClient.deleteImage(url);
+  }
 }
