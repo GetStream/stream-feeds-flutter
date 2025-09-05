@@ -43,7 +43,7 @@ class FollowsQuery with _$FollowsQuery {
   ///
   /// Use [FollowsFilterField] for type-safe field references.
   @override
-  final Filter? filter;
+  final Filter<FollowsFilterField>? filter;
 
   /// Array of sorting criteria for this query.
   ///
@@ -82,7 +82,7 @@ class FollowsQuery with _$FollowsQuery {
 ///
 /// This extension type provides a type-safe way to specify which field should be used
 /// when creating filters for follows queries.
-extension type const FollowsFilterField(String field) implements String {
+extension type const FollowsFilterField(String _) implements FilterField {
   /// Filter by the source feed ID (the feed that is following).
   ///
   /// **Supported operators:** `.equal`, `.in`
@@ -130,7 +130,7 @@ class FollowsSort extends Sort<FollowData> {
 /// Defines the fields by which follows can be sorted.
 ///
 /// This extension type provides specific fields for sorting follow data.
-extension type const FollowsSortField(SortField<FollowData> field)
+extension type const FollowsSortField(SortField<FollowData> _)
     implements SortField<FollowData> {
   /// Sort by the creation timestamp of the follow relationship.
   /// This field allows sorting follows by when they were created (newest/oldest first).

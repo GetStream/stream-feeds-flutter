@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$PollsQuery {
-  Filter? get filter;
+  Filter<PollsFilterField>? get filter;
   List<PollsSort>? get sort;
   int? get limit;
   String? get next;
@@ -58,7 +58,7 @@ abstract mixin class $PollsQueryCopyWith<$Res> {
       _$PollsQueryCopyWithImpl;
   @useResult
   $Res call(
-      {Filter? filter,
+      {Filter<PollsFilterField>? filter,
       List<PollsSort>? sort,
       int? limit,
       String? next,
@@ -87,7 +87,7 @@ class _$PollsQueryCopyWithImpl<$Res> implements $PollsQueryCopyWith<$Res> {
       filter: freezed == filter
           ? _self.filter
           : filter // ignore: cast_nullable_to_non_nullable
-              as Filter?,
+              as Filter<PollsFilterField>?,
       sort: freezed == sort
           ? _self.sort
           : sort // ignore: cast_nullable_to_non_nullable

@@ -45,7 +45,7 @@ class ActivityReactionsQuery with _$ActivityReactionsQuery {
   ///
   /// Use [ActivityReactionsFilterField] for type-safe field references.
   @override
-  final Filter? filter;
+  final Filter<ActivityReactionsFilterField>? filter;
 
   /// Array of sorting criteria for this query.
   ///
@@ -80,8 +80,8 @@ class ActivityReactionsQuery with _$ActivityReactionsQuery {
 ///
 /// This extension type provides a type-safe way to specify which field should be used
 /// when creating filters for activity reactions queries.
-extension type const ActivityReactionsFilterField(String field)
-    implements String {
+extension type const ActivityReactionsFilterField(String _)
+    implements FilterField {
   /// Filter by the reaction type (e.g., "like", "love", "angry").
   ///
   /// **Supported operators:** `.equal`, `.in`
@@ -124,8 +124,7 @@ class ActivityReactionsSort extends Sort<FeedsReactionData> {
 /// Defines the fields by which activity reactions can be sorted.
 ///
 /// This extension type provides specific fields for sorting activity reaction data.
-extension type const ActivityReactionsSortField(
-        SortField<FeedsReactionData> field)
+extension type const ActivityReactionsSortField(SortField<FeedsReactionData> _)
     implements SortField<FeedsReactionData> {
   /// Sort by the creation timestamp of the reaction.
   /// This field allows sorting reactions by when they were created (newest/oldest first).

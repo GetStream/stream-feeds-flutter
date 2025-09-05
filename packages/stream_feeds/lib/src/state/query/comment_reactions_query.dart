@@ -48,7 +48,7 @@ class CommentReactionsQuery with _$CommentReactionsQuery {
   ///
   /// Use [CommentReactionsFilterField] for type-safe field references.
   @override
-  final Filter? filter;
+  final Filter<CommentReactionsFilterField>? filter;
 
   /// Array of sorting criteria for this query.
   ///
@@ -78,8 +78,8 @@ class CommentReactionsQuery with _$CommentReactionsQuery {
 ///
 /// This extension type provides a type-safe way to specify which field should be used
 /// when creating filters for comment reactions queries.
-extension type const CommentReactionsFilterField(String field)
-    implements String {
+extension type const CommentReactionsFilterField(String _)
+    implements FilterField {
   /// Filter by the reaction type (e.g., "like", "love", "angry").
   ///
   /// **Supported operators:** `.equal`, `.in`
@@ -122,8 +122,7 @@ class CommentReactionsSort extends Sort<FeedsReactionData> {
 /// Defines the fields by which comment reactions can be sorted.
 ///
 /// This extension type provides specific fields for sorting comment reaction data.
-extension type const CommentReactionsSortField(
-        SortField<FeedsReactionData> field)
+extension type const CommentReactionsSortField(SortField<FeedsReactionData> _)
     implements SortField<FeedsReactionData> {
   /// Sort by the creation timestamp of the reaction.
   /// This field allows sorting reactions by when they were created (newest/oldest first).

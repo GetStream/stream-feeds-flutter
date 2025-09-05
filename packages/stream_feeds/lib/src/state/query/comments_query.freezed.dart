@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$CommentsQuery {
-  Filter? get filter;
+  Filter<CommentsFilterField>? get filter;
   CommentsSort? get sort;
   int? get limit;
   String? get next;
@@ -59,7 +59,7 @@ abstract mixin class $CommentsQueryCopyWith<$Res> {
       _$CommentsQueryCopyWithImpl;
   @useResult
   $Res call(
-      {Filter? filter,
+      {Filter<CommentsFilterField>? filter,
       CommentsSort? sort,
       int? limit,
       String? next,
@@ -89,7 +89,7 @@ class _$CommentsQueryCopyWithImpl<$Res>
       filter: freezed == filter
           ? _self.filter
           : filter // ignore: cast_nullable_to_non_nullable
-              as Filter?,
+              as Filter<CommentsFilterField>?,
       sort: freezed == sort
           ? _self.sort
           : sort // ignore: cast_nullable_to_non_nullable

@@ -39,7 +39,7 @@ class BookmarkFoldersQuery with _$BookmarkFoldersQuery {
   ///
   /// Use [BookmarkFoldersFilterField] for type-safe field references.
   @override
-  final Filter? filter;
+  final Filter<BookmarkFoldersFilterField>? filter;
 
   /// Array of sorting criteria for this query.
   ///
@@ -69,8 +69,8 @@ class BookmarkFoldersQuery with _$BookmarkFoldersQuery {
 ///
 /// This extension type provides a type-safe way to specify which field should be used
 /// when creating filters for bookmark folders queries.
-extension type const BookmarkFoldersFilterField(String field)
-    implements String {
+extension type const BookmarkFoldersFilterField(String _)
+    implements FilterField {
   /// Filter by the unique identifier of the bookmark folder.
   ///
   /// **Supported operators:** `.equal`, `.in`
@@ -123,8 +123,7 @@ class BookmarkFoldersSort extends Sort<BookmarkFolderData> {
 /// Defines the fields by which bookmark folders can be sorted.
 ///
 /// This extension type provides specific fields for sorting bookmark folder data.
-extension type const BookmarkFoldersSortField(
-        SortField<BookmarkFolderData> field)
+extension type const BookmarkFoldersSortField(SortField<BookmarkFolderData> _)
     implements SortField<BookmarkFolderData> {
   /// Sort by the creation timestamp of the bookmark folder.
   /// This field allows sorting bookmark folders by when they were created (newest/oldest first).

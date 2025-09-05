@@ -38,7 +38,7 @@ class CommentsQuery with _$CommentsQuery {
   ///
   /// Use [CommentsFilterField] for type-safe field references.
   @override
-  final Filter? filter;
+  final Filter<CommentsFilterField>? filter;
 
   /// The sorting strategy for this query.
   ///
@@ -71,7 +71,7 @@ class CommentsQuery with _$CommentsQuery {
 ///
 /// This extension type provides a type-safe way to specify which field should be used
 /// when creating filters for comments queries.
-extension type const CommentsFilterField(String field) implements String {
+extension type const CommentsFilterField(String _) implements FilterField {
   /// Filter by the unique identifier of the comment.
   ///
   /// **Supported operators:** `.equal`, `.in`
@@ -157,7 +157,7 @@ abstract interface class CommentsSortDataFields {
   int get score;
 }
 
-extension type const CommentsSortField(SortField<CommentsSortDataFields> field)
+extension type const CommentsSortField(SortField<CommentsSortDataFields> _)
     implements SortField<CommentsSortDataFields> {
   /// Sort by the score of the comment.
   static final score = CommentsSortField(

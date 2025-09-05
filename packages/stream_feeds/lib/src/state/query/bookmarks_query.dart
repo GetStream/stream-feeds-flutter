@@ -38,7 +38,7 @@ class BookmarksQuery with _$BookmarksQuery {
   ///
   /// Use [BookmarksFilterField] for type-safe field references.
   @override
-  final Filter? filter;
+  final Filter<BookmarksFilterField>? filter;
 
   /// The sorting criteria for this query.
   ///
@@ -73,7 +73,7 @@ class BookmarksQuery with _$BookmarksQuery {
 ///
 /// This extension type provides a type-safe way to specify which field should be used
 /// when creating filters for bookmarks queries.
-extension type const BookmarksFilterField(String field) implements String {
+extension type const BookmarksFilterField(String _) implements FilterField {
   /// Filter by the unique identifier of the activity that was bookmarked.
   ///
   /// **Supported operators:** `.equal`, `.in`
@@ -126,7 +126,7 @@ class BookmarksSort extends Sort<BookmarkData> {
 /// Defines the fields by which bookmarks can be sorted.
 ///
 /// This extension type provides specific fields for sorting bookmark data.
-extension type const BookmarksSortField(SortField<BookmarkData> field)
+extension type const BookmarksSortField(SortField<BookmarkData> _)
     implements SortField<BookmarkData> {
   /// Sort by the creation timestamp of the bookmark.
   /// This field allows sorting bookmarks by when they were created (newest/oldest first).

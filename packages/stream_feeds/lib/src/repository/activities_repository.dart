@@ -109,7 +109,7 @@ class ActivitiesRepository {
 
   /// Deletes multiple activities.
   ///
-  /// Deletes the provided [deleteActivitiesRequest.ids] in a single batch operation.
+  /// Deletes the provided [deleteActivitiesRequest] in a single batch operation.
   ///
   /// Returns a [Result] containing the list of deleted activity ids or an error.
   Future<Result<api.DeleteActivitiesResponse>> deleteActivities({

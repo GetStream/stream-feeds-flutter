@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$ActivitiesQuery {
-  Filter? get filter;
+  Filter<ActivitiesFilterField>? get filter;
   List<ActivitiesSort>? get sort;
   int? get limit;
   String? get next;
@@ -59,7 +59,7 @@ abstract mixin class $ActivitiesQueryCopyWith<$Res> {
       _$ActivitiesQueryCopyWithImpl;
   @useResult
   $Res call(
-      {Filter? filter,
+      {Filter<ActivitiesFilterField>? filter,
       List<ActivitiesSort>? sort,
       int? limit,
       String? next,
@@ -89,7 +89,7 @@ class _$ActivitiesQueryCopyWithImpl<$Res>
       filter: freezed == filter
           ? _self.filter
           : filter // ignore: cast_nullable_to_non_nullable
-              as Filter?,
+              as Filter<ActivitiesFilterField>?,
       sort: freezed == sort
           ? _self.sort
           : sort // ignore: cast_nullable_to_non_nullable
