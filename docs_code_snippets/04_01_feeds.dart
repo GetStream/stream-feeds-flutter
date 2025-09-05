@@ -85,27 +85,28 @@ Future<void> feedPagination() async {
 Future<void> filteringExamples() async {
   // Add a few activities
   const feedId = FeedId(group: 'user', id: 'john');
-  await client.upsertActivities([
-    ActivityRequest(
-      feeds: [feedId.rawValue],
-      filterTags: const ['green', 'blue'],
-      text: 'first',
-      type: 'post',
-    ),
-    ActivityRequest(
-      feeds: [feedId.rawValue],
-      filterTags: const ['yellow', 'blue'],
-      text: 'second',
-      type: 'post',
-    ),
-    ActivityRequest(
-      feeds: [feedId.rawValue],
-      filterTags: const ['orange'],
-      text: 'third',
-      type: 'activity',
-    ),
-  ]);
-
+  await client.upsertActivities(
+    activities: [
+      ActivityRequest(
+        feeds: [feedId.rawValue],
+        filterTags: const ['green', 'blue'],
+        text: 'first',
+        type: 'post',
+      ),
+      ActivityRequest(
+        feeds: [feedId.rawValue],
+        filterTags: const ['yellow', 'blue'],
+        text: 'second',
+        type: 'post',
+      ),
+      ActivityRequest(
+        feeds: [feedId.rawValue],
+        filterTags: const ['orange'],
+        text: 'third',
+        type: 'activity',
+      ),
+    ],
+  );
   // Now read the feed, this will fetch activity 1 and 2
   final query = FeedQuery(
     fid: feedId,
