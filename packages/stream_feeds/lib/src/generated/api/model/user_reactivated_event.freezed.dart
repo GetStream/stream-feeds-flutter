@@ -32,7 +32,6 @@ mixin _$UserReactivatedEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is UserReactivatedEvent &&
-            super == other &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.type, type) || other.type == type) &&
@@ -40,8 +39,7 @@ mixin _$UserReactivatedEvent {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, super.hashCode, createdAt, type, user);
+  int get hashCode => Object.hash(runtimeType, createdAt, type, user);
 
   @override
   String toString() {

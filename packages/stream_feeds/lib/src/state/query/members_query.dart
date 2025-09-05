@@ -46,7 +46,7 @@ class MembersQuery with _$MembersQuery {
   ///
   /// Use [MembersFilterField] for type-safe field references.
   @override
-  final Filter? filter;
+  final Filter<MembersFilterField>? filter;
 
   /// The sorting criteria for this query.
   ///
@@ -81,7 +81,7 @@ class MembersQuery with _$MembersQuery {
 ///
 /// This extension type provides a type-safe way to specify which field should be used
 /// when creating filters for members queries.
-extension type const MembersFilterField(String field) implements String {
+extension type const MembersFilterField(String _) implements FilterField {
   /// Filter by the creation timestamp of the member.
   ///
   /// **Supported operators:** `.equal`, `.greaterThan`, `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`
@@ -153,7 +153,7 @@ class MembersSort extends Sort<FeedMemberData> {
 /// This extension type provides specific fields for sorting feed member data.
 /// Each field corresponds to a property of the FeedMemberData model, allowing for flexible
 /// sorting options when querying members.
-extension type const MembersSortField(SortField<FeedMemberData> field)
+extension type const MembersSortField(SortField<FeedMemberData> _)
     implements SortField<FeedMemberData> {
   /// Sort by the creation timestamp of the member.
   /// This field allows sorting members by when they were added to the feed (newest/oldest first).

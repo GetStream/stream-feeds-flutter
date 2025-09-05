@@ -59,8 +59,10 @@ class _UserProfileViewState extends State<UserProfileView> {
             Container(
               alignment: Alignment.center,
               padding: const EdgeInsets.all(16),
-              child: Text('User Profile',
-                  style: context.appTextStyles.headlineBold),
+              child: Text(
+                'User Profile',
+                style: context.appTextStyles.headlineBold,
+              ),
             ),
             ProfileItem.text(
               title: 'Feed members',

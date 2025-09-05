@@ -51,7 +51,7 @@ class PollVotesQuery with _$PollVotesQuery {
   ///
   /// Use [PollVotesFilterField] for type-safe field references.
   @override
-  final Filter? filter;
+  final Filter<PollVotesFilterField>? filter;
 
   /// Array of sorting criteria for this query.
   ///
@@ -81,7 +81,7 @@ class PollVotesQuery with _$PollVotesQuery {
 ///
 /// This extension type provides a type-safe way to specify which field should be used
 /// when creating filters for poll votes queries.
-extension type const PollVotesFilterField(String field) implements String {
+extension type const PollVotesFilterField(String _) implements FilterField {
   /// Filter by the creation timestamp of the poll vote.
   ///
   /// **Supported operators:** `.equal`, `.greaterThan`, `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`
@@ -144,7 +144,7 @@ class PollVotesSort extends Sort<PollVoteData> {
 /// Defines the fields by which poll votes can be sorted.
 ///
 /// This extension type provides specific fields for sorting poll vote data.
-extension type const PollVotesSortField(SortField<PollVoteData> field)
+extension type const PollVotesSortField(SortField<PollVoteData> _)
     implements SortField<PollVoteData> {
   /// Sort by the answer text of the poll option.
   /// This field allows sorting poll votes by the text content of the selected option.

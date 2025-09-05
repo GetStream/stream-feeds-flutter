@@ -227,7 +227,10 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
   }
 
   void _onRepostClick(
-      BuildContext context, ActivityData activity, String? message) {
+    BuildContext context,
+    ActivityData activity,
+    String? message,
+  ) {
     feed.repost(activityId: activity.id, text: message);
   }
 

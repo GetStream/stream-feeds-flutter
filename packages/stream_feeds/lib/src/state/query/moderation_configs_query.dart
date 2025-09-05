@@ -39,7 +39,7 @@ class ModerationConfigsQuery with _$ModerationConfigsQuery {
   ///
   /// Use [ModerationConfigsFilterField] for type-safe field references.
   @override
-  final Filter? filter;
+  final Filter<ModerationConfigsFilterField>? filter;
 
   /// Array of sorting criteria for this query.
   ///
@@ -69,8 +69,8 @@ class ModerationConfigsQuery with _$ModerationConfigsQuery {
 ///
 /// This extension type provides a type-safe way to specify which field should be used
 /// when creating filters for moderation configs queries.
-extension type const ModerationConfigsFilterField(String field)
-    implements String {
+extension type const ModerationConfigsFilterField(String _)
+    implements FilterField {
   /// Filter by the unique identifier of the moderation config.
   ///
   /// **Supported operators:** `.equal`, `.in`
@@ -134,7 +134,7 @@ class ModerationConfigsSort extends Sort<ModerationConfigData> {
 /// Each field corresponds to a property of the [ModerationConfigData] model, allowing for
 /// flexible sorting options when querying moderation configs.
 extension type const ModerationConfigsSortField(
-        SortField<ModerationConfigData> field)
+        SortField<ModerationConfigData> _)
     implements SortField<ModerationConfigData> {
   /// Sort by the unique key of the moderation config.
   ///

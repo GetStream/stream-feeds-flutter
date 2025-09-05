@@ -471,8 +471,8 @@ packages:
     dependency: transitive
     description:
       path: "packages/stream_core"
-      ref: "5acdcb8e378548372f7dbb6326c518edcf832d10"
-      resolved-ref: "5acdcb8e378548372f7dbb6326c518edcf832d10"
+      ref: "280b1045e39388668fd060439259831611b51b5a"
+      resolved-ref: "280b1045e39388668fd060439259831611b51b5a"
       url: "https://github.com/GetStream/stream-core-flutter.git"
     source: git
     version: "0.0.1"

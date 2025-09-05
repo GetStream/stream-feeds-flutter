@@ -37,7 +37,7 @@ class FeedsQuery with _$FeedsQuery {
   ///
   /// Use [FeedsFilterField] for type-safe field references.
   @override
-  final Filter? filter;
+  final Filter<FeedsFilterField>? filter;
 
   /// The sorting criteria for this query.
   @override
@@ -66,7 +66,7 @@ class FeedsQuery with _$FeedsQuery {
 ///
 /// This type provides a type-safe way to specify which field should be used
 /// when creating filters for feeds queries.
-extension type const FeedsFilterField(String field) implements String {
+extension type const FeedsFilterField(String _) implements FilterField {
   /// Filter by the unique identifier of the feed.
   ///
   /// **Supported operators:** `.equal`, `.in`
@@ -189,7 +189,7 @@ class FeedsSort extends Sort<FeedData> {
 ///
 /// Each field corresponds to a property of the [FeedData] model, allowing for
 /// flexible sorting options when querying feeds.
-extension type const FeedsSortField(SortField<FeedData> field)
+extension type const FeedsSortField(SortField<FeedData> _)
     implements SortField<FeedData> {
   /// Sort by the creation timestamp of the feed.
   ///

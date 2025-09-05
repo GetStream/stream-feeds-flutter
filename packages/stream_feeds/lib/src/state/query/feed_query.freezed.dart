@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$FeedQuery {
   FeedId get fid;
-  Filter? get activityFilter;
+  Filter<ActivitiesFilterField>? get activityFilter;
   int? get activityLimit;
   String? get activityNext;
   String? get activityPrevious;
@@ -99,7 +99,7 @@ abstract mixin class $FeedQueryCopyWith<$Res> {
   @useResult
   $Res call(
       {FeedId fid,
-      Filter? activityFilter,
+      Filter<ActivitiesFilterField>? activityFilter,
       int? activityLimit,
       String? activityNext,
       String? activityPrevious,
@@ -149,7 +149,7 @@ class _$FeedQueryCopyWithImpl<$Res> implements $FeedQueryCopyWith<$Res> {
       activityFilter: freezed == activityFilter
           ? _self.activityFilter
           : activityFilter // ignore: cast_nullable_to_non_nullable
-              as Filter?,
+              as Filter<ActivitiesFilterField>?,
       activityLimit: freezed == activityLimit
           ? _self.activityLimit
           : activityLimit // ignore: cast_nullable_to_non_nullable

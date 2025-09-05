@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$BookmarkFoldersQuery {
-  Filter? get filter;
+  Filter<BookmarkFoldersFilterField>? get filter;
   List<BookmarkFoldersSort>? get sort;
   int? get limit;
   String? get next;
@@ -59,7 +59,7 @@ abstract mixin class $BookmarkFoldersQueryCopyWith<$Res> {
       _$BookmarkFoldersQueryCopyWithImpl;
   @useResult
   $Res call(
-      {Filter? filter,
+      {Filter<BookmarkFoldersFilterField>? filter,
       List<BookmarkFoldersSort>? sort,
       int? limit,
       String? next,
@@ -89,7 +89,7 @@ class _$BookmarkFoldersQueryCopyWithImpl<$Res>
       filter: freezed == filter
           ? _self.filter
           : filter // ignore: cast_nullable_to_non_nullable
-              as Filter?,
+              as Filter<BookmarkFoldersFilterField>?,
       sort: freezed == sort
           ? _self.sort
           : sort // ignore: cast_nullable_to_non_nullable

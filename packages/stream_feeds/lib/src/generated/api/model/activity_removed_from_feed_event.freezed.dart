@@ -38,7 +38,6 @@ mixin _$ActivityRemovedFromFeedEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ActivityRemovedFromFeedEvent &&
-            super == other &&
             (identical(other.activity, activity) ||
                 other.activity == activity) &&
             (identical(other.createdAt, createdAt) ||
@@ -56,7 +55,6 @@ mixin _$ActivityRemovedFromFeedEvent {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      super.hashCode,
       activity,
       createdAt,
       const DeepCollectionEquality().hash(custom),

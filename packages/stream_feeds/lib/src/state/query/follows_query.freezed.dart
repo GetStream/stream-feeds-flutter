@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$FollowsQuery {
-  Filter? get filter;
+  Filter<FollowsFilterField>? get filter;
   List<FollowsSort>? get sort;
   int? get limit;
   String? get next;
@@ -59,7 +59,7 @@ abstract mixin class $FollowsQueryCopyWith<$Res> {
       _$FollowsQueryCopyWithImpl;
   @useResult
   $Res call(
-      {Filter? filter,
+      {Filter<FollowsFilterField>? filter,
       List<FollowsSort>? sort,
       int? limit,
       String? next,
@@ -88,7 +88,7 @@ class _$FollowsQueryCopyWithImpl<$Res> implements $FollowsQueryCopyWith<$Res> {
       filter: freezed == filter
           ? _self.filter
           : filter // ignore: cast_nullable_to_non_nullable
-              as Filter?,
+              as Filter<FollowsFilterField>?,
       sort: freezed == sort
           ? _self.sort
           : sort // ignore: cast_nullable_to_non_nullable

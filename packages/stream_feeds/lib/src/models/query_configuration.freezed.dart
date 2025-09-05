@@ -51,7 +51,7 @@ abstract mixin class $QueryConfigurationCopyWith<S extends Sort<Object>, $Res> {
           $Res Function(QueryConfiguration<S>) _then) =
       _$QueryConfigurationCopyWithImpl;
   @useResult
-  $Res call({Filter? filter, List<S>? sort});
+  $Res call({Filter<FilterField>? filter, List<S>? sort});
 }
 
 /// @nodoc
@@ -74,7 +74,7 @@ class _$QueryConfigurationCopyWithImpl<S extends Sort<Object>, $Res>
       filter: freezed == filter
           ? _self.filter
           : filter // ignore: cast_nullable_to_non_nullable
-              as Filter?,
+              as Filter<FilterField>?,
       sort: freezed == sort
           ? _self.sort
           : sort // ignore: cast_nullable_to_non_nullable

@@ -1,4 +1,4 @@
-// ignore_for_file: unused_local_variable, file_names
+// ignore_for_file: unused_local_variable, file_names, avoid_redundant_argument_values
 
 import 'package:stream_feeds/stream_feeds.dart';
 
@@ -7,7 +7,7 @@ late Feed feed;
 
 Future<void> activitySearchAndQueries() async {
   final query = ActivitiesQuery(
-    filter: Filter.equal(ActivitiesFilterField.type, 'post'),
+    filter: const Filter.equal(ActivitiesFilterField.type, 'post'),
     sort: [ActivitiesSort.desc(ActivitiesSortField.createdAt)],
     limit: 10,
   );
@@ -18,7 +18,7 @@ Future<void> activitySearchAndQueries() async {
 
 Future<void> queryActivitiesByText() async {
   // search for activities where the text includes the word 'popularity'.
-  final query = ActivitiesQuery(
+  const query = ActivitiesQuery(
     filter: Filter.equal(ActivitiesFilterField.text, 'popularity'),
   );
 
@@ -28,7 +28,10 @@ Future<void> queryActivitiesByText() async {
 
 Future<void> queryActivitiesBySearchData() async {
   // search for activities associated with the campaign ID 'spring-sale-2025'
-  final searchValue = {'campaign': {'id': 'spring-sale-2025'}};
+  final searchValue = {
+    'campaign': {'id': 'spring-sale-2025'},
+  };
+
   final query = ActivitiesQuery(
     filter: Filter.contains(ActivitiesFilterField.searchData, searchValue),
   );
@@ -37,8 +40,11 @@ Future<void> queryActivitiesBySearchData() async {
   final activities = await activityList.get();
 
   // search for activities where the campaign took place in a mall
-  final query2 = ActivitiesQuery(
-    filter: Filter.pathExists(ActivitiesFilterField.searchData, 'campaign.location.mall'),
+  const query2 = ActivitiesQuery(
+    filter: Filter.pathExists(
+      ActivitiesFilterField.searchData,
+      'campaign.location.mall',
+    ),
   );
 
   final activityList2 = client.activityList(query2);

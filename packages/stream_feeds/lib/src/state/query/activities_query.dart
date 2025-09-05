@@ -35,7 +35,7 @@ class ActivitiesQuery with _$ActivitiesQuery {
   ///
   /// Use [ActivitiesFilterField] for type-safe field references.
   @override
-  final Filter? filter;
+  final Filter<ActivitiesFilterField>? filter;
 
   /// The sorting criteria for this query.
   @override
@@ -57,7 +57,7 @@ class ActivitiesQuery with _$ActivitiesQuery {
 // region Filter
 
 /// Represents a field that can be used in activities filtering.
-extension type const ActivitiesFilterField(String field) implements String {
+extension type const ActivitiesFilterField(String _) implements FilterField {
   /// Filter by the creation timestamp of the activity.
   ///
   /// **Supported operators:** `.equal`, `.greaterThan`, `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`
@@ -134,7 +134,7 @@ class ActivitiesSort extends Sort<ActivityData> {
 /// This extension type provides specific fields for sorting activity data.
 /// Each field corresponds to a property of the ActivityData model, allowing for flexible
 /// sorting options when querying activities.
-extension type const ActivitiesSortField(SortField<ActivityData> field)
+extension type const ActivitiesSortField(SortField<ActivityData> _)
     implements SortField<ActivityData> {
   /// Sort by the creation timestamp of the activity.
   /// This field allows sorting activities by when they were created (newest/oldest first).

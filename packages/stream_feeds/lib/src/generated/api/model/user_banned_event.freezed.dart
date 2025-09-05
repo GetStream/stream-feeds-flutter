@@ -40,7 +40,6 @@ mixin _$UserBannedEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is UserBannedEvent &&
-            super == other &&
             (identical(other.channelId, channelId) ||
                 other.channelId == channelId) &&
             (identical(other.channelType, channelType) ||
@@ -60,20 +59,8 @@ mixin _$UserBannedEvent {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      super.hashCode,
-      channelId,
-      channelType,
-      cid,
-      createdAt,
-      createdBy,
-      expiration,
-      reason,
-      shadow,
-      team,
-      type,
-      user);
+  int get hashCode => Object.hash(runtimeType, channelId, channelType, cid,
+      createdAt, createdBy, expiration, reason, shadow, team, type, user);
 
   @override
   String toString() {

@@ -35,7 +35,6 @@ mixin _$ModerationMarkReviewedEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ModerationMarkReviewedEvent &&
-            super == other &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.item, item) || other.item == item) &&
@@ -45,8 +44,8 @@ mixin _$ModerationMarkReviewedEvent {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, super.hashCode, createdAt, item, message, type, user);
+  int get hashCode =>
+      Object.hash(runtimeType, createdAt, item, message, type, user);
 
   @override
   String toString() {

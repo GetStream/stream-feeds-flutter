@@ -40,7 +40,7 @@ class PollsQuery with _$PollsQuery {
   ///
   /// Use [PollsFilterField] for type-safe field references.
   @override
-  final Filter? filter;
+  final Filter<PollsFilterField>? filter;
 
   /// Array of sorting criteria for this query.
   ///
@@ -70,7 +70,7 @@ class PollsQuery with _$PollsQuery {
 ///
 /// This extension type provides a type-safe way to specify which field should be used
 /// when creating filters for polls queries.
-extension type const PollsFilterField(String field) implements String {
+extension type const PollsFilterField(String _) implements FilterField {
   /// Filter by whether the poll allows answers.
   ///
   /// **Supported operators:** `.equal`
@@ -149,7 +149,7 @@ class PollsSort extends Sort<PollData> {
 /// Defines the fields by which polls can be sorted.
 ///
 /// This extension type provides specific fields for sorting poll data.
-extension type const PollsSortField(SortField<PollData> field)
+extension type const PollsSortField(SortField<PollData> _)
     implements SortField<PollData> {
   /// Sort by the creation timestamp of the poll.
   /// This field allows sorting polls by when they were created (newest/oldest first).
