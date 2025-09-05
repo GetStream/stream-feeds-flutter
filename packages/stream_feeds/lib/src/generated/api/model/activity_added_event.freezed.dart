@@ -37,7 +37,6 @@ mixin _$ActivityAddedEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ActivityAddedEvent &&
-            super == other &&
             (identical(other.activity, activity) ||
                 other.activity == activity) &&
             (identical(other.createdAt, createdAt) ||
@@ -55,7 +54,6 @@ mixin _$ActivityAddedEvent {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      super.hashCode,
       activity,
       createdAt,
       const DeepCollectionEquality().hash(custom),
