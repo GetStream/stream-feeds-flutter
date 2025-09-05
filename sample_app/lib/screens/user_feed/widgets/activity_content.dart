@@ -3,6 +3,8 @@ import 'package:stream_feeds/stream_feeds.dart';
 
 import '../../../theme/extensions/theme_extensions.dart';
 import '../../../utils/date_time_extensions.dart';
+import '../../../widgets/action_button.dart';
+import '../../../widgets/attachments/attachments.dart';
 import '../../../widgets/user_avatar.dart';
 
 class ActivityContent extends StatelessWidget {
@@ -46,19 +48,14 @@ class ActivityContent extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(
-              maxWidth: 500,
-            ),
-            child: _UserActions(
-              user: user,
-              data: data,
-              currentUserId: currentUserId,
-              onCommentClick: onCommentClick,
-              onHeartClick: onHeartClick,
-              onRepostClick: onRepostClick,
-              onBookmarkClick: onBookmarkClick,
-            ),
+          child: _UserActions(
+            user: user,
+            data: data,
+            currentUserId: currentUserId,
+            onCommentClick: onCommentClick,
+            onHeartClick: onHeartClick,
+            onRepostClick: onRepostClick,
+            onBookmarkClick: onBookmarkClick,
           ),
         ),
       ],
@@ -82,12 +79,12 @@ class _UserContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      spacing: 8,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         UserAvatar.appBar(
           user: User(id: user.id, name: user.name, image: user.image),
         ),
-        const SizedBox(width: 8),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,28 +128,17 @@ class _ActivityBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 12,
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (text.isNotEmpty) Text(text),
         if (attachments.isNotEmpty) ...[
-          const SizedBox(height: 8),
-          SizedBox(
-            height: 100,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemCount: attachments.length,
-              separatorBuilder: (_, __) => const SizedBox(width: 8),
-              itemBuilder: (context, index) {
-                final attachment = attachments[index];
-                return Image.network(
-                  attachment.imageUrl ?? attachment.assetUrl!,
-                  width: 100,
-                  height: 100,
-                  fit: BoxFit.cover,
-                );
-              },
-            ),
+          AttachmentGrid(
+            attachments: attachments,
+            onAttachmentTap: (attachment) {
+              // TODO: Implement fullscreen attachment view
+            },
           ),
         ],
       ],
@@ -190,10 +176,10 @@ class _UserActions extends StatelessWidget {
     final hasOwnBookmark = data.ownReactions.any((it) => it.type == 'bookmark');
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         ActionButton(
-          icon: const Icon(Icons.comment, size: 16),
+          icon: const Icon(Icons.comment_outlined),
           count: data.commentCount,
           onTap: onCommentClick,
         ),
@@ -201,15 +187,14 @@ class _UserActions extends StatelessWidget {
           icon: Icon(
             hasOwnHeart
                 ? Icons.favorite_rounded
-                : Icons.favorite_border_rounded,
-            size: 16,
-            color: hasOwnHeart ? Colors.red : null,
+                : Icons.favorite_outline_rounded,
           ),
           count: heartsCount,
+          color: hasOwnHeart ? context.appColors.accentError : null,
           onTap: () => onHeartClick?.call(!hasOwnHeart),
         ),
         ActionButton(
-          icon: const Icon(Icons.share_rounded, size: 16),
+          icon: const Icon(Icons.repeat_rounded),
           count: data.shareCount,
           onTap: () => onRepostClick?.call(null),
         ),
@@ -217,39 +202,13 @@ class _UserActions extends StatelessWidget {
           icon: Icon(
             hasOwnBookmark
                 ? Icons.bookmark_rounded
-                : Icons.bookmark_border_rounded,
-            size: 16,
-            color: hasOwnBookmark ? Colors.blue : null,
+                : Icons.bookmark_outline_rounded,
           ),
           count: data.bookmarkCount,
+          color: hasOwnBookmark ? context.appColors.accentPrimary : null,
           onTap: onBookmarkClick,
         ),
       ],
-    );
-  }
-}
-
-class ActionButton extends StatelessWidget {
-  const ActionButton({
-    super.key,
-    this.icon,
-    required this.count,
-    this.onTap,
-  });
-
-  final Widget? icon;
-  final int count;
-  final VoidCallback? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextButton.icon(
-      onPressed: onTap,
-      label: Text(
-        count > 0 ? count.toString() : '',
-        style: context.appTextStyles.footnote,
-      ),
-      icon: icon,
     );
   }
 }

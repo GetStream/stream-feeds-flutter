@@ -16,6 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$FeedAddActivityRequest {
   List<Attachment>? get attachments;
+  List<StreamAttachment>? get attachmentUploads;
   Map<String, Object>? get custom;
   String? get expiresAt;
   List<String> get feeds;
@@ -47,6 +48,8 @@ mixin _$FeedAddActivityRequest {
             other is FeedAddActivityRequest &&
             const DeepCollectionEquality()
                 .equals(other.attachments, attachments) &&
+            const DeepCollectionEquality()
+                .equals(other.attachmentUploads, attachmentUploads) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
             (identical(other.expiresAt, expiresAt) ||
                 other.expiresAt == expiresAt) &&
@@ -77,6 +80,7 @@ mixin _$FeedAddActivityRequest {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(attachments),
+      const DeepCollectionEquality().hash(attachmentUploads),
       const DeepCollectionEquality().hash(custom),
       expiresAt,
       const DeepCollectionEquality().hash(feeds),
@@ -95,7 +99,7 @@ mixin _$FeedAddActivityRequest {
 
   @override
   String toString() {
-    return 'FeedAddActivityRequest(attachments: $attachments, custom: $custom, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, id: $id, interestTags: $interestTags, location: $location, mentionedUserIds: $mentionedUserIds, parentId: $parentId, pollId: $pollId, searchData: $searchData, text: $text, type: $type, visibility: $visibility, visibilityTag: $visibilityTag)';
+    return 'FeedAddActivityRequest(attachments: $attachments, attachmentUploads: $attachmentUploads, custom: $custom, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, id: $id, interestTags: $interestTags, location: $location, mentionedUserIds: $mentionedUserIds, parentId: $parentId, pollId: $pollId, searchData: $searchData, text: $text, type: $type, visibility: $visibility, visibilityTag: $visibilityTag)';
   }
 }
 
@@ -109,6 +113,7 @@ abstract mixin class $FeedAddActivityRequestCopyWith<$Res> {
       {String type,
       List<String> feeds,
       List<Attachment>? attachments,
+      List<StreamAttachment>? attachmentUploads,
       Map<String, Object>? custom,
       String? expiresAt,
       List<String>? filterTags,
@@ -140,6 +145,7 @@ class _$FeedAddActivityRequestCopyWithImpl<$Res>
     Object? type = null,
     Object? feeds = null,
     Object? attachments = freezed,
+    Object? attachmentUploads = freezed,
     Object? custom = freezed,
     Object? expiresAt = freezed,
     Object? filterTags = freezed,
@@ -167,6 +173,10 @@ class _$FeedAddActivityRequestCopyWithImpl<$Res>
           ? _self.attachments
           : attachments // ignore: cast_nullable_to_non_nullable
               as List<Attachment>?,
+      attachmentUploads: freezed == attachmentUploads
+          ? _self.attachmentUploads
+          : attachmentUploads // ignore: cast_nullable_to_non_nullable
+              as List<StreamAttachment>?,
       custom: freezed == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable

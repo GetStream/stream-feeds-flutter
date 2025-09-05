@@ -1,6 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:stream_core/stream_core.dart';
 
 import '../../generated/api/models.dart';
+import '../../utils/uploader.dart';
 
 part 'activity_add_comment_request.freezed.dart';
 
@@ -9,20 +11,38 @@ part 'activity_add_comment_request.freezed.dart';
 /// Contains comment content, attachments, mentions, and custom metadata
 /// needed to create a new comment on an activity.
 @freezed
-class ActivityAddCommentRequest with _$ActivityAddCommentRequest {
+class ActivityAddCommentRequest
+    with _$ActivityAddCommentRequest
+    implements HasAttachments<ActivityAddCommentRequest> {
   /// Creates a new [ActivityAddCommentRequest] instance.
   const ActivityAddCommentRequest({
+    required this.activityId,
     required this.comment,
+    this.activityType = 'activity',
     this.attachments,
+    this.attachmentUploads,
     this.createNotificationActivity,
     this.mentionedUserIds,
     this.parentId,
     this.custom,
   });
 
+  /// The unique identifier of the activity to comment on.
+  @override
+  final String activityId;
+
+  /// The type of the activity being commented on.
+  @override
+  final String activityType;
+
   /// Optional list of attachments to include with the comment.
   @override
   final List<Attachment>? attachments;
+
+  /// Optional list of stream attachments to be uploaded before adding the
+  /// comment to the activity.
+  @override
+  final List<StreamAttachment>? attachmentUploads;
 
   /// The content of the comment to be added.
   @override
@@ -43,6 +63,18 @@ class ActivityAddCommentRequest with _$ActivityAddCommentRequest {
   /// Optional custom data to include with the comment.
   @override
   final Map<String, Object?>? custom;
+
+  /// Creates a copy of this request with updated attachments and uploads.
+  @override
+  ActivityAddCommentRequest withAttachments({
+    List<Attachment>? attachments,
+    List<StreamAttachment>? attachmentUploads,
+  }) {
+    return copyWith(
+      attachments: attachments,
+      attachmentUploads: attachmentUploads,
+    );
+  }
 }
 
 /// Extension function to convert an [ActivityAddCommentRequest] to an API request.
@@ -51,10 +83,7 @@ extension ActivityAddCommentRequestMapper on ActivityAddCommentRequest {
   ///
   /// Returns an [AddCommentRequest] containing all the necessary
   /// information to add a comment to an activity.
-  AddCommentRequest toRequest({
-    required String activityId,
-    String activityType = 'activity',
-  }) {
+  AddCommentRequest toRequest() {
     return AddCommentRequest(
       comment: comment,
       attachments: attachments,

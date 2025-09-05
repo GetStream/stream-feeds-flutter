@@ -14,6 +14,7 @@ import '../models/feed_member_data.dart';
 import '../models/feeds_reaction_data.dart';
 import '../models/follow_data.dart';
 import '../models/model_updates.dart';
+import '../models/request/activity_add_comment_request.dart';
 import '../models/request/feed_add_activity_request.dart';
 import '../repository/activities_repository.dart';
 import '../repository/bookmarks_repository.dart';
@@ -145,15 +146,13 @@ class Feed with Disposable {
   /// Adds a new activity to the feed.
   ///
   /// The [request] contains the activity data to add.
-  /// The [attachmentUploadProgress] callback provides upload progress updates for any attachments.
+  ///
   /// Returns a [Result] containing the added [ActivityData] if successful, or an error if the
   /// operation fails.
   Future<Result<ActivityData>> addActivity({
     required FeedAddActivityRequest request,
-    // TODO: Implement attachment upload progress
-    ProgressCallback? attachmentUploadProgress,
   }) async {
-    return activitiesRepository.addActivity(request.toRequest());
+    return activitiesRepository.addActivity(request);
   }
 
   /// Updates an existing activity in the feed.
@@ -291,7 +290,7 @@ class Feed with Disposable {
   /// Returns a [Result] containing the added [CommentData] if successful, or an error if the
   /// operation fails.
   Future<Result<CommentData>> addComment({
-    required api.AddCommentRequest request,
+    required ActivityAddCommentRequest request,
   }) {
     return commentsRepository.addComment(request);
   }
@@ -390,7 +389,7 @@ class Feed with Disposable {
     required String activityId,
     String? text,
   }) async {
-    final request = api.AddActivityRequest(
+    final request = FeedAddActivityRequest(
       type: 'post',
       text: text,
       feeds: [query.fid.rawValue],
@@ -618,7 +617,7 @@ class Feed with Disposable {
     final result = await pollsRepository.createPoll(request);
 
     return result.flatMapAsync((poll) {
-      final request = api.AddActivityRequest(
+      final request = FeedAddActivityRequest(
         feeds: [query.fid.rawValue],
         pollId: poll.id,
         type: activityType,

@@ -6,8 +6,8 @@ import 'package:stream_feeds/stream_feeds.dart';
 
 import '../../../theme/extensions/theme_extensions.dart';
 import '../../../utils/date_time_extensions.dart';
+import '../../../widgets/action_button.dart';
 import '../../../widgets/user_avatar.dart';
-import 'activity_content.dart';
 
 class ActivityCommentsView extends StatefulWidget {
   const ActivityCommentsView({
@@ -79,6 +79,8 @@ class _ActivityCommentsViewState extends State<ActivityCommentsView> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _reply(context, null),
+        backgroundColor: context.appColors.accentPrimary,
+        foregroundColor: context.appColors.appBg,
         child: const Icon(Icons.add),
       ),
     );
@@ -125,7 +127,11 @@ class _ActivityCommentsViewState extends State<ActivityCommentsView> {
     if (text == null) return;
 
     await activity.addComment(
-      ActivityAddCommentRequest(comment: text, parentId: parentComment?.id),
+      request: ActivityAddCommentRequest(
+        comment: text,
+        parentId: parentComment?.id,
+        activityId: activity.activityId,
+      ),
     );
   }
 
@@ -333,17 +339,27 @@ class CommentWidget extends StatelessWidget {
           children: [
             TextButton(
               onPressed: () => onReplyClick(comment),
-              child: const Text('Reply'),
+              style: TextButton.styleFrom(
+                foregroundColor: context.appColors.textLowEmphasis,
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                minimumSize: Size.zero,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
+              child: Text(
+                'Reply',
+                style: context.appTextStyles.footnote.copyWith(
+                  color: context.appColors.textLowEmphasis,
+                ),
+              ),
             ),
             ActionButton(
               icon: Icon(
                 hasOwnHeart
                     ? Icons.favorite_rounded
                     : Icons.favorite_border_rounded,
-                size: 16,
-                color: hasOwnHeart ? Colors.red : null,
               ),
               count: heartsCount,
+              color: hasOwnHeart ? context.appColors.accentError : null,
               onTap: () => onHeartClick(comment, !hasOwnHeart),
             ),
           ],

@@ -138,12 +138,10 @@ class Activity with Disposable {
   /// Adds a comment to this activity.
   ///
   /// Returns a [Result] containing the created [CommentData] or an error.
-  Future<Result<CommentData>> addComment(
-    ActivityAddCommentRequest request,
-  ) async {
-    final result = await commentsRepository.addComment(
-      request.toRequest(activityId: activityId),
-    );
+  Future<Result<CommentData>> addComment({
+    required ActivityAddCommentRequest request,
+  }) async {
+    final result = await commentsRepository.addComment(request);
 
     result.onSuccess(
       (comment) => _commentsList.notifier.onCommentAdded(
@@ -160,12 +158,7 @@ class Activity with Disposable {
   Future<Result<List<CommentData>>> addCommentsBatch(
     List<ActivityAddCommentRequest> requests,
   ) async {
-    final addCommentRequests = requests.map((request) {
-      return request.toRequest(activityId: activityId);
-    }).toList();
-
-    final request = api.AddCommentsBatchRequest(comments: addCommentRequests);
-    final result = await commentsRepository.addCommentsBatch(request);
+    final result = await commentsRepository.addCommentsBatch(requests);
 
     result.onSuccess((comments) {
       final threadedComments = comments.map(ThreadedCommentData.fromComment);

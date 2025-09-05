@@ -1,39 +1,35 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 
 import '../../../theme/extensions/theme_extensions.dart';
 import '../../../widgets/user_avatar.dart';
-import '../../profile/profile_widget.dart';
-import 'activity_comments_view.dart';
-import 'activity_content.dart';
-import 'user_feed_appbar.dart';
+import '../../app/content/auth_controller.dart';
+import '../../core/di/di_initializer.dart';
+import 'widgets/activity_comments_view.dart';
+import 'widgets/activity_content.dart';
+import 'widgets/create_activity_bottom_sheet.dart';
+import 'widgets/user_feed_appbar.dart';
+import 'widgets/user_profile_view.dart';
 
-class UserFeedView extends StatefulWidget {
-  const UserFeedView({
-    super.key,
-    required this.client,
-    required this.currentUser,
-    required this.wideScreen,
-    required this.onLogout,
-  });
-
-  final User currentUser;
-  final StreamFeedsClient client;
-  final bool wideScreen;
-  final VoidCallback onLogout;
+@RoutePage()
+class UserFeedScreen extends StatefulWidget {
+  const UserFeedScreen({super.key});
 
   @override
-  State<UserFeedView> createState() => _UserFeedViewState();
+  State<UserFeedScreen> createState() => _UserFeedScreenState();
 }
 
-class _UserFeedViewState extends State<UserFeedView> {
-  late final feed = widget.client.feedFromQuery(
+class _UserFeedScreenState extends State<UserFeedScreen> {
+  StreamFeedsClient get client => locator<StreamFeedsClient>();
+
+  late final feed = client.feedFromQuery(
     FeedQuery(
-      fid: FeedId(group: 'user', id: widget.currentUser.id),
+      fid: FeedId(group: 'user', id: client.user.id),
       data: FeedInputData(
         visibility: FeedVisibility.public,
-        members: [FeedMemberRequestData(userId: widget.currentUser.id)],
+        members: [FeedMemberRequestData(userId: client.user.id)],
       ),
     ),
   );
@@ -50,8 +46,17 @@ class _UserFeedViewState extends State<UserFeedView> {
     super.dispose();
   }
 
+  Future<void> _onLogout() {
+    final authController = locator<AuthController>();
+    return authController.disconnect();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final currentUser = client.user;
+
+    final wideScreen = MediaQuery.sizeOf(context).width > 600;
+
     return StateNotifierBuilder(
       stateNotifier: feed.notifier,
       builder: (context, state, child) {
@@ -98,7 +103,7 @@ class _UserFeedViewState extends State<UserFeedView> {
                             text: baseActivity.text ?? '',
                             attachments: baseActivity.attachments,
                             data: activity,
-                            currentUserId: widget.client.user.id,
+                            currentUserId: currentUser.id,
                             onCommentClick: () =>
                                 _onCommentClick(context, activity),
                             onHeartClick: (isAdding) =>
@@ -117,27 +122,30 @@ class _UserFeedViewState extends State<UserFeedView> {
                 ),
               );
 
-        if (!widget.wideScreen) {
+        if (!wideScreen) {
           return _buildScaffold(
             context,
             feedWidget,
+            onLogout: _onLogout,
             onProfileTap: () {
-              _showProfileBottomSheet(context, widget.client, feed);
+              _showProfileBottomSheet(context, client, feed);
             },
           );
         }
+
         return _buildScaffold(
           context,
           Row(
             children: [
               SizedBox(
                 width: 250,
-                child: ProfileWidget(feedsClient: widget.client, feed: feed),
+                child: UserProfileView(feedsClient: client, feed: feed),
               ),
               const SizedBox(width: 16),
               Expanded(child: feedWidget),
             ],
           ),
+          onLogout: _onLogout,
         );
       },
     );
@@ -146,6 +154,7 @@ class _UserFeedViewState extends State<UserFeedView> {
   Widget _buildScaffold(
     BuildContext context,
     Widget body, {
+    VoidCallback? onLogout,
     VoidCallback? onProfileTap,
   }) {
     return Scaffold(
@@ -153,7 +162,7 @@ class _UserFeedViewState extends State<UserFeedView> {
         leading: GestureDetector(
           onTap: onProfileTap,
           child: Center(
-            child: UserAvatar.appBar(user: widget.currentUser),
+            child: UserAvatar.appBar(user: client.user),
           ),
         ),
         title: Text(
@@ -162,7 +171,7 @@ class _UserFeedViewState extends State<UserFeedView> {
         ),
         actions: [
           IconButton(
-            onPressed: widget.onLogout,
+            onPressed: onLogout,
             icon: Icon(
               Icons.logout,
               color: context.appColors.textLowEmphasis,
@@ -171,6 +180,13 @@ class _UserFeedViewState extends State<UserFeedView> {
         ],
       ),
       body: body,
+      floatingActionButton: FloatingActionButton(
+        elevation: 4,
+        onPressed: _showCreateActivityBottomSheet,
+        backgroundColor: context.appColors.accentPrimary,
+        foregroundColor: context.appColors.appBg,
+        child: const Icon(Icons.add),
+      ),
     );
   }
 
@@ -181,7 +197,7 @@ class _UserFeedViewState extends State<UserFeedView> {
   ) {
     showModalBottomSheet<void>(
       context: context,
-      builder: (context) => ProfileWidget(feedsClient: client, feed: feed),
+      builder: (context) => UserProfileView(feedsClient: client, feed: feed),
     );
   }
 
@@ -191,7 +207,7 @@ class _UserFeedViewState extends State<UserFeedView> {
       builder: (context) => ActivityCommentsView(
         activityId: activity.id,
         feed: feed,
-        client: widget.client,
+        client: client,
       ),
     );
   }
@@ -222,14 +238,41 @@ class _UserFeedViewState extends State<UserFeedView> {
       feed.addBookmark(activityId: activity.id);
     }
   }
-}
 
-class _FeedWidget extends StatelessWidget {
-  const _FeedWidget({super.key});
+  Future<void> _showCreateActivityBottomSheet() async {
+    final request = await showModalBottomSheet<FeedAddActivityRequest>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => CreateActivityBottomSheet(
+        currentUser: client.user,
+        feedId: feed.query.fid,
+      ),
+    );
 
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
+    if (request == null) return;
+    final result = await feed.addActivity(request: request);
+
+    switch (result) {
+      case Success():
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: const Text('Activity created successfully!'),
+              backgroundColor: context.appColors.accentPrimary,
+            ),
+          );
+        }
+      case Failure(error: final error):
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Failed to create activity: $error'),
+              backgroundColor: context.appColors.accentError,
+            ),
+          );
+        }
+    }
   }
 }
 

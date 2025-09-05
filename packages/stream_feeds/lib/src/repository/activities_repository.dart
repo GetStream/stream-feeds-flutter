@@ -5,7 +5,9 @@ import '../models/activity_data.dart';
 import '../models/feed_id.dart';
 import '../models/feeds_reaction_data.dart';
 import '../models/pagination_data.dart';
+import '../models/request/feed_add_activity_request.dart';
 import '../state/query/activities_query.dart';
+import '../utils/uploader.dart';
 
 /// Repository for managing activities and activity-related operations.
 ///
@@ -16,12 +18,13 @@ import '../state/query/activities_query.dart';
 /// All methods return [Result] objects for explicit error handling.
 class ActivitiesRepository {
   /// Creates a new [ActivitiesRepository] instance.
-  ///
-  /// The [api] parameter is required for making API calls to the Stream Feeds service.
-  const ActivitiesRepository(this._api);
+  const ActivitiesRepository(this._api, this._uploader);
 
   // The API client used for making requests to the Stream Feeds service.
   final api.DefaultApi _api;
+
+  // The attachment uploader for handling file and image uploads.
+  final StreamAttachmentUploader _uploader;
 
   /// Adds a new activity.
   ///
@@ -29,13 +32,17 @@ class ActivitiesRepository {
   ///
   /// Returns a [Result] containing the created [ActivityData] or an error.
   Future<Result<ActivityData>> addActivity(
-    api.AddActivityRequest request,
+    FeedAddActivityRequest request,
   ) async {
-    final result = await _api.addActivity(
-      addActivityRequest: request,
-    );
+    final processedRequest = await _uploader.processRequest(request);
 
-    return result.map((response) => response.activity.toModel());
+    return processedRequest.flatMapAsync((updatedRequest) async {
+      final result = await _api.addActivity(
+        addActivityRequest: updatedRequest.toRequest(),
+      );
+
+      return result.map((response) => response.activity.toModel());
+    });
   }
 
   /// Deletes an activity.

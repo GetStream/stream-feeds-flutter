@@ -14,18 +14,32 @@ abstract interface class CdnApi {
 
   @MultiPart()
   @POST('/api/v2/uploads/file')
-  Future<Result<FileUploadResponse>> sendFile({
+  Future<Result<FileUploadResponse>> uploadFile({
     // TODO: change to single file upload once upgrade to retrofit ^4.7.0
     @Part(name: 'file') required List<MultipartFile> file,
-    @SendProgress() ProgressCallback? onSendProgress,
+    @SendProgress() ProgressCallback? onUploadProgress,
+    @CancelRequest() CancelToken? cancelToken,
   });
 
   @MultiPart()
   @POST('/api/v2/uploads/image')
-  Future<Result<FileUploadResponse>> sendImage({
+  Future<Result<ImageUploadResponse>> uploadImage({
     // TODO: change to single file upload once upgrade to retrofit ^4.7.0
     @Part(name: 'file') required List<MultipartFile> file,
-    @SendProgress() ProgressCallback? onSendProgress,
+    @SendProgress() ProgressCallback? onUploadProgress,
+    @CancelRequest() CancelToken? cancelToken,
+  });
+
+  @DELETE('/api/v2/uploads/file')
+  Future<Result<DurationResponse>> deleteFile({
+    @Query('url') String? url,
+    @CancelRequest() CancelToken? cancelToken,
+  });
+
+  @DELETE('/api/v2/uploads/image')
+  Future<Result<DurationResponse>> deleteImage({
+    @Query('url') String? url,
+    @CancelRequest() CancelToken? cancelToken,
   });
 }
 

@@ -28,10 +28,12 @@ command:
       freezed_annotation: ^3.0.0
       get_it: ^8.0.3
       google_fonts: ^6.3.0
+      file_picker: ^8.1.4
+      flex_grid_view: ^0.1.0
       injectable: ^2.5.1
       http: ^1.1.0
       intl: ">=0.18.1 <=0.21.0"
-      jiffy: ^6.4.3
+      jiffy: ^6.3.2
       json_annotation: ^4.9.0
       meta: ^1.9.1
       retrofit: ^4.6.0
@@ -44,7 +46,7 @@ command:
       stream_core:
         git:
           url: https://github.com/GetStream/stream-core-flutter.git
-          ref: 47329234bddbc0ccc11f48175a8cd032cf6a2d88
+          ref: 5acdcb8e378548372f7dbb6326c518edcf832d10
           path: packages/stream_core
 
     # List of all the dev_dependencies used in the project.

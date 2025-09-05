@@ -42,10 +42,9 @@ Future<void> socialMediaFeed() async {
 
   // Add a comment to activity
   await timeline.addComment(
-    request: AddCommentRequest(
+    request: ActivityAddCommentRequest(
       comment: 'Great post!',
-      objectId: 'activity_123',
-      objectType: 'activity',
+      activityId: 'activity_123',
     ),
   );
 
@@ -54,6 +53,7 @@ Future<void> socialMediaFeed() async {
     activityId: 'activity_123',
     fid: FeedId(group: 'timeline', id: 'john'),
   );
+
   await activity.addCommentReaction(
     commentId: 'commentId',
     request: AddCommentReactionRequest(type: 'like'),

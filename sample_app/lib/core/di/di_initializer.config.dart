@@ -14,6 +14,7 @@ import 'package:injectable/injectable.dart' as _i526;
 import 'package:sample/app/app_state.dart' as _i870;
 import 'package:sample/app/content/auth_controller.dart' as _i27;
 import 'package:sample/core/di/di_module.dart' as _i238;
+import 'package:sample/core/di/session_module.dart' as _i514;
 import 'package:sample/core/models/user_credentials.dart' as _i845;
 import 'package:sample/navigation/app_router.dart' as _i701;
 import 'package:sample/navigation/guards/auth_guard.dart' as _i1031;
@@ -53,6 +54,21 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i701.AppRouter(gh<_i1031.AuthGuard>()));
     return this;
   }
+
+// initializes the registration of session-scope dependencies inside of GetIt
+  _i174.GetIt initSessionScope({_i174.ScopeDisposeFunc? dispose}) {
+    return _i526.GetItHelper(this).initScope(
+      'session',
+      dispose: dispose,
+      init: (_i526.GetItHelper gh) {
+        final sessionModule = _$SessionModule();
+        gh.singleton<_i250.StreamFeedsClient>(() =>
+            sessionModule.authenticatedFeedsClient(gh<_i27.AuthController>()));
+      },
+    );
+  }
 }
 
 class _$AppModule extends _i238.AppModule {}
+
+class _$SessionModule extends _i514.SessionModule {}

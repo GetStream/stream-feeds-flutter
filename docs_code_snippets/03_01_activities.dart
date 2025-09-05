@@ -25,7 +25,11 @@ Future<void> imageAndVideo() async {
   final imageActivity = await feed.addActivity(
     request: const FeedAddActivityRequest(
       attachments: [
-        Attachment(imageUrl: 'https://example.com/image.jpg', type: 'image'),
+        Attachment(
+          imageUrl: 'https://example.com/image.jpg',
+          type: 'image',
+          custom: {'width': 600, 'height': 400},
+        ),
       ],
       text: 'look at NYC',
       type: 'post',
@@ -41,10 +45,12 @@ Future<void> stories() async {
         const Attachment(
           imageUrl: 'https://example.com/image1.jpg',
           type: 'image',
+          custom: {'width': 600, 'height': 400},
         ),
         const Attachment(
           assetUrl: 'https://example.com/video1.mp4',
           type: 'video',
+          custom: {'width': 1920, 'height': 1080, 'duration': 12},
         ),
       ],
       expiresAt: tomorrow.toIso8601String(),
@@ -69,6 +75,7 @@ Future<void> addManyActivities() async {
       type: 'post',
     ),
   ];
+
   final upsertedActivities = await client.upsertActivities(
     activities: activities,
   );
@@ -83,11 +90,14 @@ Future<void> updatingAndDeletingActivities() async {
       custom: {'custom': 'custom'},
     ),
   );
-  // Delete an activity
 
-  const hardDelete =
-      false; // Soft delete sets deleted at but retains the data, hard delete fully removes it
-  await feed.deleteActivity(id: '123', hardDelete: hardDelete);
+  // Delete an activity
+  await feed.deleteActivity(
+    id: '123',
+    // Soft delete sets deleted at but retains the data, hard delete fully removes it
+    hardDelete: false,
+  );
+
   // Batch delete activities
   await client.deleteActivities(
     request: const DeleteActivitiesRequest(

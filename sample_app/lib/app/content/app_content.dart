@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/di/di_initializer.dart';
@@ -43,6 +44,18 @@ class _StreamFeedsSampleAppContentState
       debugShowCheckedModeBanner: false,
       theme: ThemeConfig.fromBrightness(Brightness.light),
       darkTheme: ThemeConfig.fromBrightness(Brightness.dark),
+      scrollBehavior: const MaterialScrollBehavior().copyWith(
+        dragDevices: {
+          PointerDeviceKind.touch,
+          PointerDeviceKind.stylus,
+          PointerDeviceKind.invertedStylus,
+          PointerDeviceKind.trackpad,
+          PointerDeviceKind.mouse,
+          // The VoiceAccess sends pointer events with unknown type when scrolling
+          // scrollables.
+          PointerDeviceKind.unknown,
+        },
+      ),
       routerConfig: _appRouter.config(
         reevaluateListenable: _authController,
       ),

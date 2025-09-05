@@ -4,11 +4,13 @@ import '../generated/api/api.dart' as api;
 import '../models/comment_data.dart';
 import '../models/feeds_reaction_data.dart';
 import '../models/pagination_data.dart';
+import '../models/request/activity_add_comment_request.dart';
 import '../models/threaded_comment_data.dart';
 import '../state/query/activity_comments_query.dart';
 import '../state/query/comment_reactions_query.dart';
 import '../state/query/comment_replies_query.dart';
 import '../state/query/comments_query.dart';
+import '../utils/uploader.dart';
 
 /// Repository for managing comments and comment-related operations.
 ///
@@ -18,12 +20,13 @@ import '../state/query/comments_query.dart';
 /// All methods return [Result] objects for explicit error handling.
 class CommentsRepository {
   /// Creates a new [CommentsRepository] instance.
-  ///
-  /// The [api] parameter is required for making API calls to the Stream Feeds service.
-  const CommentsRepository(this._api);
+  const CommentsRepository(this._api, this._uploader);
 
   // The API client used for making requests to the Stream Feeds service.
   final api.DefaultApi _api;
+
+  // The attachment uploader for handling file and image uploads.
+  final StreamAttachmentUploader _uploader;
 
   /// Queries comments.
   ///
@@ -83,27 +86,42 @@ class CommentsRepository {
   /// Creates a new comment using the provided [request] data.
   ///
   /// Returns a [Result] containing the newly created [CommentData] or an error.
-  Future<Result<CommentData>> addComment(api.AddCommentRequest request) async {
-    final result = await _api.addComment(addCommentRequest: request);
+  Future<Result<CommentData>> addComment(
+    ActivityAddCommentRequest request,
+  ) async {
+    final processedRequest = await _uploader.processRequest(request);
 
-    return result.map((response) => response.comment.toModel());
+    return processedRequest.flatMapAsync((updatedRequest) async {
+      final result = await _api.addComment(
+        addCommentRequest: updatedRequest.toRequest(),
+      );
+
+      return result.map((response) => response.comment.toModel());
+    });
   }
 
   /// Adds multiple comments.
   ///
-  /// Creates multiple comments in a single batch operation using the provided [request] data.
+  /// Creates multiple comments in a single batch operation using the provided [requests] data.
   ///
   /// Returns a [Result] containing a list of [CommentData] or an error.
   Future<Result<List<CommentData>>> addCommentsBatch(
-    api.AddCommentsBatchRequest request,
+    List<ActivityAddCommentRequest> requests,
   ) async {
-    final result = await _api.addCommentsBatch(
-      addCommentsBatchRequest: request,
-    );
+    final processedBatch = await _uploader.processRequestsBatch(requests);
 
-    return result.map(
-      (response) => response.comments.map((c) => c.toModel()).toList(),
-    );
+    return processedBatch.flatMapAsync((batch) async {
+      final comments = batch.map((r) => r.toRequest()).toList();
+      final batchRequest = api.AddCommentsBatchRequest(comments: comments);
+
+      final result = await _api.addCommentsBatch(
+        addCommentsBatchRequest: batchRequest,
+      );
+
+      return result.map(
+        (response) => response.comments.map((c) => c.toModel()).toList(),
+      );
+    });
   }
 
   /// Deletes a comment.

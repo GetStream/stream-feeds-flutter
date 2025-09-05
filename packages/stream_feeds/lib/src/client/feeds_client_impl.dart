@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:stream_core/stream_core.dart';
 
+import '../cdn/cdn_api.dart';
+import '../cdn/feeds_cdn_client.dart';
 import '../feeds_client.dart';
 import '../generated/api/api.dart' as api;
 import '../models/activity_data.dart';
@@ -143,20 +145,23 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
       ]),
     );
 
-    final apiClient = api.DefaultApi(httpClient);
-
     // endregion
 
     // region Initialize repositories
 
-    _activitiesRepository = ActivitiesRepository(apiClient);
-    _appRepository = AppRepository(apiClient);
-    _bookmarksRepository = BookmarksRepository(apiClient);
-    _commentsRepository = CommentsRepository(apiClient);
-    _devicesRepository = DevicesRepository(apiClient);
-    _feedsRepository = FeedsRepository(apiClient);
-    _moderationRepository = ModerationRepository(apiClient);
-    _pollsRepository = PollsRepository(apiClient);
+    _cdnClient = config.cdnClient ?? FeedsCdnClient(CdnApi(httpClient));
+    attachmentUploader = StreamAttachmentUploader(cdn: _cdnClient);
+
+    final feedsApi = api.DefaultApi(httpClient);
+
+    _activitiesRepository = ActivitiesRepository(feedsApi, attachmentUploader);
+    _appRepository = AppRepository(feedsApi);
+    _bookmarksRepository = BookmarksRepository(feedsApi);
+    _commentsRepository = CommentsRepository(feedsApi, attachmentUploader);
+    _devicesRepository = DevicesRepository(feedsApi);
+    _feedsRepository = FeedsRepository(feedsApi);
+    _moderationRepository = ModerationRepository(feedsApi);
+    _pollsRepository = PollsRepository(feedsApi);
 
     moderation = ModerationClient(_moderationRepository);
 
@@ -173,6 +178,11 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
   late final TokenManager _tokenManager;
   late final StreamWebSocketClient _ws;
   late final ConnectionRecoveryHandler _connectionRecoveryHandler;
+
+  late final CdnClient _cdnClient;
+
+  @override
+  late final StreamAttachmentUploader attachmentUploader;
 
   late final ActivitiesRepository _activitiesRepository;
   late final AppRepository _appRepository;
@@ -284,7 +294,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
   @override
   Activity activity({
     required String activityId,
-    required FeedId fid, 
+    required FeedId fid,
     ActivityData? initialData,
   }) {
     return Activity(
@@ -432,14 +442,12 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
   }
 
   @override
-  Future<Result<void>> deleteFile(String url) {
-    // TODO: implement deleteFile
-    throw UnimplementedError();
+  Future<Result<void>> deleteFile({required String url}) {
+    return _cdnClient.deleteFile(url);
   }
 
   @override
-  Future<Result<void>> deleteImage(String url) {
-    // TODO: implement deleteImage
-    throw UnimplementedError();
+  Future<Result<void>> deleteImage({required String url}) {
+    return _cdnClient.deleteImage(url);
   }
 }

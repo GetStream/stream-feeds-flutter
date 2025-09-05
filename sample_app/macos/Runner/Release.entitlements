@@ -6,5 +6,17 @@
 	<true/>
 	<key>com.apple.security.network.client</key>
     <true/>
+	<!-- Camera and photo library access -->
+	<key>com.apple.security.device.camera</key>
+	<true/>
+	<key>com.apple.security.personal-information.photos-library</key>
+	<true/>
+	<key>com.apple.security.device.microphone</key>
+	<true/>
+	<!-- File access for file picker -->
+	<key>com.apple.security.files.user-selected.read-only</key>
+	<true/>
+	<key>com.apple.security.files.downloads.read-only</key>
+	<true/>
 </dict>
 </plist>

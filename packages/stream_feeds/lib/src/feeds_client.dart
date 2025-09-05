@@ -667,7 +667,7 @@ abstract interface class StreamFeedsClient {
   /// ```
   ///
   /// Returns a [Result] indicating success or failure of the deletion operation.
-  Future<Result<void>> deleteFile(String url);
+  Future<Result<void>> deleteFile({required String url});
 
   /// Deletes a previously uploaded image from the CDN.
   ///
@@ -689,13 +689,19 @@ abstract interface class StreamFeedsClient {
   /// ```
   ///
   /// Returns a [Result] indicating success or failure of the deletion operation.
-  Future<Result<void>> deleteImage(String url);
+  Future<Result<void>> deleteImage({required String url});
 
   /// The moderation client for managing moderation-related operations.
   ///
   /// Provides access to moderation configurations, content moderation, and moderation-related
   /// queries.
   ModerationClient get moderation;
+
+  /// The attachment uploader for managing file and image uploads.
+  ///
+  /// Provides functionality for uploading files and images to the Stream CDN with
+  /// support for various file types, progress tracking, and upload configurations.
+  StreamAttachmentUploader get attachmentUploader;
 }
 
 /// Extension methods for the [StreamFeedsClient] to simplify feed creation.

@@ -1,6 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:stream_core/stream_core.dart';
 
 import '../../generated/api/models.dart';
+import '../../utils/uploader.dart';
 
 part 'feed_add_activity_request.freezed.dart';
 
@@ -10,12 +12,15 @@ part 'feed_add_activity_request.freezed.dart';
 /// needed to create a new activity across multiple feeds. Supports advanced
 /// features like location data, visibility controls, and file attachments.
 @freezed
-class FeedAddActivityRequest with _$FeedAddActivityRequest {
+class FeedAddActivityRequest
+    with _$FeedAddActivityRequest
+    implements HasAttachments<FeedAddActivityRequest> {
   /// Creates a new [FeedAddActivityRequest] instance.
   const FeedAddActivityRequest({
     required this.type,
     this.feeds = const [],
     this.attachments,
+    this.attachmentUploads,
     this.custom,
     this.expiresAt,
     this.filterTags,
@@ -34,6 +39,11 @@ class FeedAddActivityRequest with _$FeedAddActivityRequest {
   /// List of file attachments to include with the activity.
   @override
   final List<Attachment>? attachments;
+
+  /// Optional list of stream attachments to be uploaded before adding the
+  /// activity to the feeds.
+  @override
+  final List<StreamAttachment>? attachmentUploads;
 
   /// Custom data associated with the activity.
   @override
@@ -94,6 +104,18 @@ class FeedAddActivityRequest with _$FeedAddActivityRequest {
   /// Optional visibility tag for custom visibility rules.
   @override
   final String? visibilityTag;
+
+  /// Creates a copy of this request with updated attachments and uploads.
+  @override
+  FeedAddActivityRequest withAttachments({
+    List<Attachment>? attachments,
+    List<StreamAttachment>? attachmentUploads,
+  }) {
+    return copyWith(
+      attachments: attachments,
+      attachmentUploads: attachmentUploads,
+    );
+  }
 }
 
 /// Extension function to convert a [FeedAddActivityRequest] to an API request.
