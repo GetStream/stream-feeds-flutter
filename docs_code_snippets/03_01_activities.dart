@@ -100,9 +100,7 @@ Future<void> updatingAndDeletingActivities() async {
 
   // Batch delete activities
   await client.deleteActivities(
-    request: const DeleteActivitiesRequest(
-      ids: ['123', '456'],
-      hardDelete: false,
-    ),
+    ids: ['123', '456'],
+    hardDelete: false,
   );
 }

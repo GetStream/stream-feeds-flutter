@@ -107,6 +107,19 @@ class ActivitiesRepository {
     );
   }
 
+  /// Deletes multiple activities.
+  ///
+  /// Deletes the provided [deleteActivitiesRequest.ids] in a single batch operation.
+  ///
+  /// Returns a [Result] containing the list of deleted activity ids or an error.
+  Future<Result<api.DeleteActivitiesResponse>> deleteActivities({
+    required api.DeleteActivitiesRequest deleteActivitiesRequest,
+  }) {
+    return _api.deleteActivities(
+      deleteActivitiesRequest: deleteActivitiesRequest,
+    );
+  }
+
   /// Pins an activity to a feed.
   ///
   /// Pins the activity with [activityId] to the specified [fid] feed.

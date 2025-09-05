@@ -319,6 +319,26 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
   }
 
   @override
+  Future<Result<List<ActivityData>>> upsertActivities({
+    required List<api.ActivityRequest> activities,
+  }) {
+    return _activitiesRepository.upsertActivities(activities);
+  }
+
+  @override
+  Future<Result<api.DeleteActivitiesResponse>> deleteActivities({
+    required List<String> ids,
+    bool? hardDelete,
+  }) {
+    return _activitiesRepository.deleteActivities(
+      deleteActivitiesRequest: api.DeleteActivitiesRequest(
+        ids: ids,
+        hardDelete: hardDelete,
+      ),
+    );
+  }
+
+  @override
   ActivityReactionList activityReactionList(ActivityReactionsQuery query) {
     return ActivityReactionList(
       query: query,

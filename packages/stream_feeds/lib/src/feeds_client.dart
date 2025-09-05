@@ -3,6 +3,7 @@ import 'package:stream_core/stream_core.dart';
 import 'client/feeds_client_impl.dart';
 import 'client/moderation_client.dart';
 import 'generated/api/api.dart' as api;
+import 'models/activity_data.dart';
 import 'models/app_data.dart';
 import 'models/feed_id.dart';
 import 'models/feeds_config.dart';
@@ -326,6 +327,51 @@ abstract interface class StreamFeedsClient {
   /// Returns an [ActivityList] instance that can be used to interact with the collection of
   /// activities.
   ActivityList activityList(ActivitiesQuery query);
+
+  /// Upserts (inserts or updates) multiple activities.
+  ///
+  /// Creates or updates the provided [activities] in a single batch operation.
+  ///
+  /// Example:
+  /// ```dart
+  /// final upsertedActivities = await client.upsertActivities(
+  ///   activities: [
+  ///     const ActivityRequest(
+  ///       feeds: ['user:123'],
+  ///       id: '1',
+  ///       text: 'hi',
+  ///       type: 'post',
+  ///     ),
+  ///     const ActivityRequest(
+  ///       feeds: ['user:456'],
+  ///       id: '2',
+  ///       text: 'hi',
+  ///       type: 'post',
+  ///     ),
+  ///   ],
+  /// );
+  ///```
+  ///
+  /// Returns a [Result] containing the list of upserted [ActivityData] or an error.
+  Future<Result<List<ActivityData>>> upsertActivities({
+    required List<api.ActivityRequest> activities,
+  });
+
+  /// Deletes multiple activities.
+  ///
+  /// Deletes the provided [ids] in a single batch operation.
+  ///
+  ///```dart
+  ///await client.deleteActivities(
+  ///  ids: ['123', '456'],
+  ///  hardDelete: false,
+  ///);
+  ///
+  /// Returns a [Result] containing the list of deleted activity ids or an error.
+  Future<Result<api.DeleteActivitiesResponse>> deleteActivities({
+    required List<String> ids,
+    bool? hardDelete,
+  });
 
   /// Creates an activity reaction list instance based on the provided [query].
   ///
