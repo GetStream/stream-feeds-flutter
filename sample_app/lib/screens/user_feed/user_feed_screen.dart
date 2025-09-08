@@ -8,11 +8,11 @@ import '../../../widgets/user_avatar.dart';
 import '../../app/content/auth_controller.dart';
 import '../../core/di/di_initializer.dart';
 import 'notification/notification_feed.dart';
+import 'profile/user_profile_view.dart';
 import 'widgets/activity_comments_view.dart';
 import 'widgets/activity_content.dart';
 import 'widgets/create_activity_bottom_sheet.dart';
 import 'widgets/user_feed_appbar.dart';
-import 'widgets/user_profile_view.dart';
 
 @RoutePage()
 class UserFeedScreen extends StatefulWidget {
@@ -147,7 +147,7 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
             children: [
               SizedBox(
                 width: 250,
-                child: UserProfileView(feedsClient: client, feed: feed),
+                child: UserProfileView(feed: feed),
               ),
               const SizedBox(width: 16),
               Expanded(child: feedWidget),
@@ -222,7 +222,26 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
   ) {
     showModalBottomSheet<void>(
       context: context,
-      builder: (context) => UserProfileView(feedsClient: client, feed: feed),
+      useSafeArea: true,
+      isScrollControlled: true,
+      backgroundColor: context.appColors.appBg,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
+        ),
+      ),
+      builder: (context) => DraggableScrollableSheet(
+        snap: true,
+        expand: false,
+        snapSizes: const [0.5, 1],
+        builder: (context, scrollController) {
+          return UserProfileView(
+            feed: feed,
+            scrollController: scrollController,
+          );
+        },
+      ),
     );
   }
 
@@ -296,8 +315,15 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
   Future<void> _showCreateActivityBottomSheet() async {
     final request = await showModalBottomSheet<FeedAddActivityRequest>(
       context: context,
+      useSafeArea: true,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: context.appColors.appBg,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
+        ),
+      ),
       builder: (context) => CreateActivityBottomSheet(
         currentUser: client.user,
         feedId: feed.query.fid,

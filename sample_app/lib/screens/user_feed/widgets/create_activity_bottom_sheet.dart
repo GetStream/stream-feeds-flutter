@@ -50,12 +50,9 @@ class _CreateActivityBottomSheetState extends State<CreateActivityBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: context.appColors.appBg,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-      ),
-      child: SafeArea(
+    return SafeArea(
+      child: Padding(
+        padding: MediaQuery.of(context).viewInsets,
         child: Column(
           spacing: 16,
           mainAxisSize: MainAxisSize.min,
@@ -77,8 +74,8 @@ class _CreateActivityBottomSheetState extends State<CreateActivityBottomSheet> {
               onAttachmentsSelected: _addAttachments,
             ),
 
-            // Spacing at the bottom
-            const SizedBox(height: 16),
+            // Bottom padding to avoid being too close to screen edge
+            const SizedBox(height: 8),
           ],
         ),
       ),
