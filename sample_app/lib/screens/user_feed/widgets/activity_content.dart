@@ -167,9 +167,6 @@ class _UserActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //val heartsCount = activity.reactionGroups["heart"]?.count ?: 0
-    //         val hasOwnHeart = activity.ownReactions.any { it.type == "heart" }
-
     final heartsCount = data.reactionGroups['heart']?.count ?? 0;
     final hasOwnHeart = data.ownReactions.any((it) => it.type == 'heart');
 
@@ -185,9 +182,10 @@ class _UserActions extends StatelessWidget {
         ),
         ActionButton(
           icon: Icon(
-            hasOwnHeart
-                ? Icons.favorite_rounded
-                : Icons.favorite_outline_rounded,
+            switch (hasOwnHeart) {
+              true => Icons.favorite_rounded,
+              false => Icons.favorite_outline_rounded,
+            },
           ),
           count: heartsCount,
           color: hasOwnHeart ? context.appColors.accentError : null,
@@ -200,9 +198,10 @@ class _UserActions extends StatelessWidget {
         ),
         ActionButton(
           icon: Icon(
-            hasOwnBookmark
-                ? Icons.bookmark_rounded
-                : Icons.bookmark_outline_rounded,
+            switch (hasOwnBookmark) {
+              true => Icons.bookmark_rounded,
+              false => Icons.bookmark_outline_rounded,
+            },
           ),
           count: data.bookmarkCount,
           color: hasOwnBookmark ? context.appColors.accentPrimary : null,

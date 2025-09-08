@@ -25,7 +25,6 @@ class ActionButton extends StatelessWidget {
     this.disabledColor,
     this.iconSize = kDefaultActionButtonIconSize,
     this.padding = const EdgeInsets.all(kDefaultActionButtonPadding),
-    this.showCountWhenZero = false,
   });
 
   /// The icon to display inside the button.
@@ -57,45 +56,21 @@ class ActionButton extends StatelessWidget {
   /// Defaults to EdgeInsets.all(8.0).
   final EdgeInsetsGeometry padding;
 
-  /// Whether to show the count even when it's zero.
-  ///
-  /// Defaults to false.
-  final bool showCountWhenZero;
-
   @override
   Widget build(BuildContext context) {
-    final shouldShowCount = showCountWhenZero || count > 0;
-
-    if (shouldShowCount) {
-      return TextButton.icon(
-        onPressed: onTap,
-        icon: icon,
-        label: Text(
-          count.toString(),
-          style: context.appTextStyles.footnote,
-        ),
-        style: TextButton.styleFrom(
-          foregroundColor: color,
-          iconColor: color,
-          disabledForegroundColor: disabledColor,
-          disabledIconColor: disabledColor,
-          iconSize: iconSize,
-          padding: padding,
-          minimumSize: Size.zero,
-          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        ),
-      );
-    }
-
-    return IconButton(
-      onPressed: onTap,
+    return TextButton.icon(
       icon: icon,
-      color: color,
-      disabledColor: disabledColor,
-      iconSize: iconSize,
-      padding: padding,
-      style: IconButton.styleFrom(
+      onPressed: onTap,
+      label: Text(count.toString()),
+      style: TextButton.styleFrom(
+        foregroundColor: color,
+        iconColor: color,
+        disabledForegroundColor: disabledColor,
+        disabledIconColor: disabledColor,
+        iconSize: iconSize,
+        padding: padding,
         minimumSize: Size.zero,
+        textStyle: context.appTextStyles.footnote,
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       ),
     );

@@ -45,6 +45,39 @@ class MarkActivityData with _$MarkActivityData {
   final List<String>? markWatched;
 }
 
+extension MarkActivityDataHandler<R> on MarkActivityData {
+  R handle({
+    R Function()? markAllRead,
+    R Function()? markAllSeen,
+    R Function(Set<String> read)? markRead,
+    R Function(Set<String> seen)? markSeen,
+    R Function(Set<String> watched)? markWatched,
+    required R Function(MarkActivityData data) orElse,
+  }) {
+    if (this.markAllRead case true) {
+      return markAllRead?.call() ?? orElse(this);
+    }
+
+    if (this.markAllSeen case true) {
+      return markAllSeen?.call() ?? orElse(this);
+    }
+
+    if (this.markRead case final read?) {
+      return markRead?.call(read.toSet()) ?? orElse(this);
+    }
+
+    if (this.markSeen case final seen?) {
+      return markSeen?.call(seen.toSet()) ?? orElse(this);
+    }
+
+    if (this.markWatched case final watched?) {
+      return markWatched?.call(watched.toSet()) ?? orElse(this);
+    }
+
+    return orElse(this);
+  }
+}
+
 /// Extension function to convert an [ActivityMarkEvent] to a [MarkActivityData] model.
 extension ActivityMarkEventMapper on ActivityMarkEvent {
   /// Converts this API activity mark event to a domain [MarkActivityData] instance.

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:state_notifier/state_notifier.dart';
@@ -177,14 +179,19 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
 
   /// Handles updates to the feed state when an activity is marked read or seen.
   void onActivityMarked(MarkActivityData markData) {
-    // TODO: Handle activity marking (read/seen/watched) operations
-
-    // Note: The mark data contains information about:
-    // - markAllRead: Whether all activities should be marked as read
-    // - markAllSeen: Whether all activities should be marked as seen
-    // - markRead: List of specific activity IDs marked as read
-    // - markSeen: List of specific activity IDs marked as seen
-    // - markWatched: List of specific activity IDs marked as watched
+    // Update the state based on the type of mark operation
+    state = markData.handle(
+      // If markAllRead is true, mark all activities as read
+      markAllRead: () => _markAllRead(state),
+      // If markAllSeen is true, mark all activities as seen
+      markAllSeen: () => _markAllSeen(state),
+      // If markRead contains specific IDs, mark those as read
+      markRead: (read) => _markRead(read, state),
+      // If markSeen contains specific IDs, mark those as seen
+      markSeen: (seen) => _markSeen(seen, state),
+      // For other cases, return the current state without changes
+      orElse: (MarkActivityData data) => state,
+    );
   }
 
   /// Handles updates to the feed state when a bookmark is added or removed.
@@ -374,6 +381,68 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
   FeedState _updateFollow(FollowData follow, FeedState state) {
     final removedFollowState = _removeFollow(follow, state);
     return _addFollow(follow, removedFollowState);
+  }
+
+  FeedState _markAllRead(FeedState state) {
+    final aggregatedActivities = state.aggregatedActivities;
+    final readActivities = aggregatedActivities.map((it) => it.group).toList();
+
+    // Set unread count to 0 and update read activities
+    final updatedNotificationStatus = state.notificationStatus?.copyWith(
+      unread: 0,
+      readActivities: readActivities,
+      lastReadAt: DateTime.timestamp(),
+    );
+
+    return state.copyWith(notificationStatus: updatedNotificationStatus);
+  }
+
+  FeedState _markAllSeen(FeedState state) {
+    final aggregatedActivities = state.aggregatedActivities;
+    final seenActivities = aggregatedActivities.map((it) => it.group).toList();
+
+    // Set unseen count to 0 and update seen activities
+    final updatedNotificationStatus = state.notificationStatus?.copyWith(
+      unseen: 0,
+      seenActivities: seenActivities,
+      lastSeenAt: DateTime.timestamp(),
+    );
+
+    return state.copyWith(notificationStatus: updatedNotificationStatus);
+  }
+
+  FeedState _markRead(Set<String> readIds, FeedState state) {
+    final readActivities = state.notificationStatus?.readActivities?.toSet();
+    final updatedReadActivities = readActivities?.union(readIds).toList();
+
+    // Decrease unread count by the number of newly read activities
+    final unreadCount = state.notificationStatus?.unread ?? 0;
+    final updatedUnreadCount = max(unreadCount - readIds.length, 0);
+
+    final updatedNotificationStatus = state.notificationStatus?.copyWith(
+      unread: updatedUnreadCount,
+      readActivities: updatedReadActivities,
+      lastReadAt: DateTime.timestamp(),
+    );
+
+    return state.copyWith(notificationStatus: updatedNotificationStatus);
+  }
+
+  FeedState _markSeen(Set<String> seenIds, FeedState state) {
+    final seenActivities = state.notificationStatus?.seenActivities?.toSet();
+    final updatedSeenActivities = seenActivities?.union(seenIds).toList();
+
+    // Decrease unseen count by the number of newly seen activities
+    final unseenCount = state.notificationStatus?.unseen ?? 0;
+    final updatedUnseenCount = max(unseenCount - seenIds.length, 0);
+
+    final updatedNotificationStatus = state.notificationStatus?.copyWith(
+      unseen: updatedUnseenCount,
+      seenActivities: updatedSeenActivities,
+      lastSeenAt: DateTime.timestamp(),
+    );
+
+    return state.copyWith(notificationStatus: updatedNotificationStatus);
   }
 
   @override
