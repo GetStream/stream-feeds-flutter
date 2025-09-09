@@ -76,6 +76,7 @@ class UserSelectionList extends StatelessWidget {
         final credential = UserCredentials.builtIn[index];
 
         return ListTile(
+          key: Key(credential.user.id),
           onTap: () => onUserSelected?.call(credential),
           visualDensity: VisualDensity.compact,
           leading: UserAvatar.listTile(user: credential.user),
