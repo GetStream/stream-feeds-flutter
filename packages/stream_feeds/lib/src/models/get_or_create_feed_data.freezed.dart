@@ -17,7 +17,8 @@ T _$identity<T>(T value) => value;
 mixin _$GetOrCreateFeedData {
   PaginationResult<ActivityData> get activities;
   List<AggregatedActivityData> get aggregatedActivities;
-  QueryConfiguration<ActivitiesSort> get activitiesQueryConfig;
+  QueryConfiguration<ActivitiesSort, ActivitiesFilterField>
+      get activitiesQueryConfig;
   FeedData get feed;
   List<FollowData> get followers;
   List<FollowData> get following;
@@ -89,7 +90,8 @@ abstract mixin class $GetOrCreateFeedDataCopyWith<$Res> {
   @useResult
   $Res call(
       {PaginationResult<ActivityData> activities,
-      QueryConfiguration<ActivitiesSort> activitiesQueryConfig,
+      QueryConfiguration<ActivitiesSort, ActivitiesFilterField>
+          activitiesQueryConfig,
       FeedData feed,
       List<FollowData> followers,
       List<FollowData> following,
@@ -134,7 +136,7 @@ class _$GetOrCreateFeedDataCopyWithImpl<$Res>
       activitiesQueryConfig: null == activitiesQueryConfig
           ? _self.activitiesQueryConfig
           : activitiesQueryConfig // ignore: cast_nullable_to_non_nullable
-              as QueryConfiguration<ActivitiesSort>,
+              as QueryConfiguration<ActivitiesSort, ActivitiesFilterField>,
       feed: null == feed
           ? _self.feed
           : feed // ignore: cast_nullable_to_non_nullable
