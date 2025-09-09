@@ -468,7 +468,7 @@ packages:
     source: hosted
     version: "2.1.4"
   stream_core:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "packages/stream_core"
       ref: "280b1045e39388668fd060439259831611b51b5a"
