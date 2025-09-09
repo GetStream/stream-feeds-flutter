@@ -58,10 +58,11 @@ Future<void> getBlockedUsers() async {
 
 Future<void> flagContent() async {
   const flagRequest = FlagRequest(
-      entityId: 'activity-123',
-      entityType: 'activity',
-      reason: 'Inappropriate content',
-      entityCreatorId: 'user-456');
+    entityId: 'activity-123',
+    entityType: 'activity',
+    reason: 'Inappropriate content',
+    entityCreatorId: 'user-456',
+  );
 
   final response = await client.moderation.flag(flagRequest: flagRequest);
 }
