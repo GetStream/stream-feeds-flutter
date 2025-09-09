@@ -14,23 +14,23 @@ part of 'query_configuration.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$QueryConfiguration<S extends Sort<Object>> {
-  Filter? get filter;
+mixin _$QueryConfiguration<S extends Sort<Object>, T extends FilterField> {
+  Filter<T>? get filter;
   List<S>? get sort;
 
   /// Create a copy of QueryConfiguration
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $QueryConfigurationCopyWith<S, QueryConfiguration<S>> get copyWith =>
-      _$QueryConfigurationCopyWithImpl<S, QueryConfiguration<S>>(
-          this as QueryConfiguration<S>, _$identity);
+  $QueryConfigurationCopyWith<S, T, QueryConfiguration<S, T>> get copyWith =>
+      _$QueryConfigurationCopyWithImpl<S, T, QueryConfiguration<S, T>>(
+          this as QueryConfiguration<S, T>, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is QueryConfiguration<S> &&
+            other is QueryConfiguration<S, T> &&
             (identical(other.filter, filter) || other.filter == filter) &&
             const DeepCollectionEquality().equals(other.sort, sort));
   }
@@ -41,26 +41,29 @@ mixin _$QueryConfiguration<S extends Sort<Object>> {
 
   @override
   String toString() {
-    return 'QueryConfiguration<$S>(filter: $filter, sort: $sort)';
+    return 'QueryConfiguration<$S, $T>(filter: $filter, sort: $sort)';
   }
 }
 
 /// @nodoc
-abstract mixin class $QueryConfigurationCopyWith<S extends Sort<Object>, $Res> {
-  factory $QueryConfigurationCopyWith(QueryConfiguration<S> value,
-          $Res Function(QueryConfiguration<S>) _then) =
+abstract mixin class $QueryConfigurationCopyWith<S extends Sort<Object>,
+    T extends FilterField, $Res> {
+  factory $QueryConfigurationCopyWith(QueryConfiguration<S, T> value,
+          $Res Function(QueryConfiguration<S, T>) _then) =
       _$QueryConfigurationCopyWithImpl;
   @useResult
-  $Res call({Filter<FilterField>? filter, List<S>? sort});
+  $Res call({Filter<T>? filter, List<S>? sort});
 }
 
 /// @nodoc
-class _$QueryConfigurationCopyWithImpl<S extends Sort<Object>, $Res>
-    implements $QueryConfigurationCopyWith<S, $Res> {
+class _$QueryConfigurationCopyWithImpl<
+    S extends Sort<Object>,
+    T extends FilterField,
+    $Res> implements $QueryConfigurationCopyWith<S, T, $Res> {
   _$QueryConfigurationCopyWithImpl(this._self, this._then);
 
-  final QueryConfiguration<S> _self;
-  final $Res Function(QueryConfiguration<S>) _then;
+  final QueryConfiguration<S, T> _self;
+  final $Res Function(QueryConfiguration<S, T>) _then;
 
   /// Create a copy of QueryConfiguration
   /// with the given fields replaced by the non-null parameter values.
@@ -74,7 +77,7 @@ class _$QueryConfigurationCopyWithImpl<S extends Sort<Object>, $Res>
       filter: freezed == filter
           ? _self.filter
           : filter // ignore: cast_nullable_to_non_nullable
-              as Filter<FilterField>?,
+              as Filter<T>?,
       sort: freezed == sort
           ? _self.sort
           : sort // ignore: cast_nullable_to_non_nullable
