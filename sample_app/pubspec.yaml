@@ -1,4 +1,4 @@
-name: sample
+name: sample_app
 description: "A demo app for the Stream Feeds SDK"
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 

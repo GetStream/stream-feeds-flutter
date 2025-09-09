@@ -5,6 +5,6 @@ import 'di_initializer.config.dart';
 
 final locator = GetIt.instance;
 
-@injectableInit
+@InjectableInit(preferRelativeImports: true)
 Future<void> initDI({String? env}) => locator.init(environment: env);
 Future<void> resetDI({bool dispose = true}) => locator.reset(dispose: dispose);
