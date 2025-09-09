@@ -61,12 +61,12 @@ class NotificationItem extends StatelessWidget {
     final notificationType = activity.notificationType;
 
     final iconData = switch (notificationType) {
-      'follow' => Icons.person_add,
-      'comment' => Icons.chat_bubble_outline,
-      'reaction' => Icons.favorite_outline,
-      'comment_reaction' => Icons.thumb_up,
-      'mention' => Icons.alternate_email,
-      _ => Icons.notifications_outlined,
+      'follow' => Icons.person_add_rounded,
+      'comment' => Icons.chat_bubble_rounded,
+      'reaction' => Icons.favorite_rounded,
+      'comment_reaction' => Icons.thumb_up_rounded,
+      'mention' => Icons.alternate_email_rounded,
+      _ => Icons.notifications_rounded,
     };
 
     final iconColor = switch (notificationType) {

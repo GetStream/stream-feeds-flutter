@@ -14,21 +14,21 @@ int _sortFeedsByCreatorName(FeedData a, FeedData b) {
   return nameA.toLowerCase().compareTo(nameB.toLowerCase());
 }
 
-class UserProfileView extends StatefulWidget {
-  const UserProfileView({
+class UserProfile extends StatefulWidget {
+  const UserProfile({
     super.key,
-    required this.feed,
+    required this.userFeed,
     this.scrollController,
   });
 
-  final Feed feed;
+  final Feed userFeed;
   final ScrollController? scrollController;
 
   @override
-  State<UserProfileView> createState() => _UserProfileViewState();
+  State<UserProfile> createState() => _UserProfileState();
 }
 
-class _UserProfileViewState extends State<UserProfileView> {
+class _UserProfileState extends State<UserProfile> {
   StreamFeedsClient get client => locator<StreamFeedsClient>();
 
   List<FeedData>? followSuggestions;
@@ -40,13 +40,13 @@ class _UserProfileViewState extends State<UserProfileView> {
   }
 
   @override
-  void didUpdateWidget(covariant UserProfileView oldWidget) {
+  void didUpdateWidget(covariant UserProfile oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.feed != widget.feed) _queryFollowSuggestions();
+    if (oldWidget.userFeed != widget.userFeed) _queryFollowSuggestions();
   }
 
   Future<void> _queryFollowSuggestions() async {
-    final result = await widget.feed.queryFollowSuggestions();
+    final result = await widget.userFeed.queryFollowSuggestions();
     if (mounted) _updateFollowSuggestions(result.getOrNull());
   }
 
@@ -58,7 +58,7 @@ class _UserProfileViewState extends State<UserProfileView> {
   @override
   Widget build(BuildContext context) {
     return StateNotifierBuilder(
-      stateNotifier: widget.feed.notifier,
+      stateNotifier: widget.userFeed.notifier,
       builder: (context, state, child) {
         final feedMembers = state.members;
         final followRequests = state.followRequests;
@@ -96,10 +96,10 @@ class _UserProfileViewState extends State<UserProfileView> {
                 emptyMessage: 'No pending requests',
                 itemBuilder: (followRequest) => FollowRequestListItem(
                   followRequest: followRequest,
-                  onAcceptPressed: () => widget.feed.acceptFollow(
+                  onAcceptPressed: () => widget.userFeed.acceptFollow(
                     sourceFid: followRequest.sourceFeed.fid,
                   ),
-                  onRejectPressed: () => widget.feed.rejectFollow(
+                  onRejectPressed: () => widget.userFeed.rejectFollow(
                     sourceFid: followRequest.sourceFeed.fid,
                   ),
                 ),
@@ -113,7 +113,7 @@ class _UserProfileViewState extends State<UserProfileView> {
                 itemBuilder: (follow) => FollowingListItem(
                   follow: follow,
                   onUnfollowPressed: () async {
-                    final result = await widget.feed.unfollow(
+                    final result = await widget.userFeed.unfollow(
                       targetFid: follow.targetFeed.fid,
                     );
 
@@ -135,7 +135,7 @@ class _UserProfileViewState extends State<UserProfileView> {
                 itemBuilder: (suggestion) => SuggestionListItem(
                   suggestion: suggestion,
                   onFollowPressed: () async {
-                    final result = await widget.feed.follow(
+                    final result = await widget.userFeed.follow(
                       targetFid: suggestion.fid,
                     );
 

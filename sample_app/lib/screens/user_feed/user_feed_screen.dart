@@ -3,16 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 
-import '../../../theme/extensions/theme_extensions.dart';
-import '../../../widgets/user_avatar.dart';
 import '../../app/content/auth_controller.dart';
 import '../../core/di/di_initializer.dart';
+import '../../theme/extensions/theme_extensions.dart';
+import '../../widgets/breakpoint.dart';
+import '../../widgets/user_avatar.dart';
+import 'feed/user_feed.dart';
 import 'notification/notification_feed.dart';
-import 'profile/user_profile_view.dart';
-import 'widgets/activity_comments_view.dart';
-import 'widgets/activity_content.dart';
+import 'profile/user_profile.dart';
 import 'widgets/create_activity_bottom_sheet.dart';
-import 'widgets/user_feed_appbar.dart';
 
 @RoutePage()
 class UserFeedScreen extends StatefulWidget {
@@ -30,7 +29,7 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
     id: client.user.id,
   );
 
-  late final feed = client.feedFromQuery(
+  late final userFeed = client.feedFromQuery(
     FeedQuery(
       fid: FeedId(group: 'user', id: client.user.id),
       data: FeedInputData(
@@ -43,13 +42,13 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
   @override
   void initState() {
     super.initState();
-    feed.getOrCreate();
+    userFeed.getOrCreate();
     notificationFeed.getOrCreate();
   }
 
   @override
   void dispose() {
-    feed.dispose();
+    userFeed.dispose();
     notificationFeed.dispose();
     super.dispose();
   }
@@ -61,129 +60,30 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final currentUser = client.user;
+    final breakpoint = Breakpoint.fromContext(context);
 
-    final wideScreen = MediaQuery.sizeOf(context).width > 600;
-
-    return StateNotifierBuilder(
-      stateNotifier: feed.notifier,
-      builder: (context, state, child) {
-        final activities = state.activities;
-        final canLoadMore = state.canLoadMoreActivities;
-
-        final feedWidget = activities.isEmpty
-            ? const EmptyActivities()
-            : RefreshIndicator(
-                onRefresh: () => feed.getOrCreate(),
-                child: ListView.separated(
-                  itemCount: activities.length + 1,
-                  separatorBuilder: (context, index) => Divider(
-                    height: 1,
-                    color: context.appColors.borders,
-                  ),
-                  itemBuilder: (context, index) {
-                    if (index == activities.length) {
-                      return canLoadMore
-                          ? TextButton(
-                              onPressed: () => feed.queryMoreActivities(),
-                              child: const Text('Load more...'),
-                            )
-                          : const Text('End of feed');
-                    }
-
-                    final activity = activities[index];
-                    final parentActivity = activity.parent;
-                    final baseActivity = activity.parent ?? activity;
-
-                    return Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Column(
-                        children: [
-                          if (parentActivity != null) ...[
-                            ActivityRepostIndicator(
-                              user: activity.user,
-                              data: parentActivity,
-                            ),
-                            const SizedBox(height: 8),
-                          ],
-                          ActivityContent(
-                            user: baseActivity.user,
-                            text: baseActivity.text ?? '',
-                            attachments: baseActivity.attachments,
-                            data: activity,
-                            currentUserId: currentUser.id,
-                            onCommentClick: () =>
-                                _onCommentClick(context, activity),
-                            onHeartClick: (isAdding) =>
-                                _onHeartClick(activity, isAdding),
-                            onRepostClick: (message) =>
-                                _onRepostClick(context, activity, message),
-                            onBookmarkClick: () =>
-                                _onBookmarkClick(context, activity),
-                            onDeleteClick: () {},
-                            onEditSave: (text) {},
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              );
-
-        if (!wideScreen) {
-          return _buildScaffold(
-            context,
-            feedWidget,
-            onLogout: _onLogout,
-            onProfileTap: () {
-              _showProfileBottomSheet(context, client, feed);
-            },
-          );
-        }
-
-        return _buildScaffold(
-          context,
-          Row(
-            children: [
-              SizedBox(
-                width: 250,
-                child: UserProfileView(feed: feed),
-              ),
-              const SizedBox(width: 16),
-              Expanded(child: feedWidget),
-            ],
-          ),
-          onLogout: _onLogout,
-        );
-      },
-    );
-  }
-
-  Widget _buildScaffold(
-    BuildContext context,
-    Widget body, {
-    VoidCallback? onLogout,
-    VoidCallback? onProfileTap,
-  }) {
     return Scaffold(
-      appBar: UserFeedAppbar(
-        leading: GestureDetector(
-          onTap: onProfileTap,
-          child: Center(
-            child: UserAvatar.appBar(user: client.user),
-          ),
-        ),
+      appBar: AppBar(
         title: Text(
           'Stream Feeds',
           style: context.appTextStyles.headlineBold,
         ),
+        leading: switch (breakpoint) {
+          Breakpoint.compact => GestureDetector(
+              onTap: () => _showUserProfile(context),
+              child: Center(
+                child: UserAvatar.appBar(user: client.user),
+              ),
+            ),
+          _ => null,
+        },
         actions: [
           StateNotifierBuilder(
             stateNotifier: notificationFeed.notifier,
             builder: (context, notificationState, _) {
               final status = notificationState.notificationStatus;
               return IconButton(
-                onPressed: _showNotificationFeedModal,
+                onPressed: _showNotificationFeed,
                 icon: Badge(
                   isLabelVisible: (status?.unseen ?? 0) > 0,
                   backgroundColor: context.appColors.accentError,
@@ -196,7 +96,7 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
             },
           ),
           IconButton(
-            onPressed: onLogout,
+            onPressed: _onLogout,
             icon: Icon(
               Icons.logout,
               color: context.appColors.textLowEmphasis,
@@ -204,7 +104,29 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
           ),
         ],
       ),
-      body: body,
+      body: Row(
+        children: <Widget?>[
+          ...?switch (breakpoint) {
+            Breakpoint.compact => null,
+            _ => [
+                Flexible(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      minWidth: 280,
+                      maxWidth: 420,
+                    ),
+                    child: UserProfile(userFeed: userFeed),
+                  ),
+                ),
+                VerticalDivider(
+                  width: 8,
+                  color: context.appColors.borders,
+                ),
+              ],
+          },
+          Flexible(child: UserFeed(userFeed: userFeed)),
+        ].nonNulls.toList(),
+      ),
       floatingActionButton: FloatingActionButton(
         elevation: 4,
         onPressed: _showCreateActivityBottomSheet,
@@ -215,12 +137,8 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
     );
   }
 
-  void _showProfileBottomSheet(
-    BuildContext context,
-    StreamFeedsClient client,
-    Feed feed,
-  ) {
-    showModalBottomSheet<void>(
+  Future<void> _showUserProfile(BuildContext context) {
+    return showModalBottomSheet(
       context: context,
       useSafeArea: true,
       isScrollControlled: true,
@@ -236,8 +154,8 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
         expand: false,
         snapSizes: const [0.5, 1],
         builder: (context, scrollController) {
-          return UserProfileView(
-            feed: feed,
+          return UserProfile(
+            userFeed: userFeed,
             scrollController: scrollController,
           );
         },
@@ -245,49 +163,8 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
     );
   }
 
-  void _onCommentClick(BuildContext context, ActivityData activity) {
-    showModalBottomSheet<void>(
-      context: context,
-      builder: (context) => ActivityCommentsView(
-        activityId: activity.id,
-        feed: feed,
-        client: client,
-      ),
-    );
-  }
-
-  void _onHeartClick(ActivityData activity, bool isAdding) {
-    if (isAdding) {
-      feed.addReaction(
-        activityId: activity.id,
-        request: const AddReactionRequest(type: 'heart'),
-      );
-    } else {
-      feed.deleteReaction(
-        activityId: activity.id,
-        type: 'heart',
-      );
-    }
-  }
-
-  void _onRepostClick(
-    BuildContext context,
-    ActivityData activity,
-    String? message,
-  ) {
-    feed.repost(activityId: activity.id, text: message);
-  }
-
-  void _onBookmarkClick(BuildContext context, ActivityData activity) {
-    if (activity.ownBookmarks.isNotEmpty) {
-      feed.deleteBookmark(activityId: activity.id);
-    } else {
-      feed.addBookmark(activityId: activity.id);
-    }
-  }
-
-  Future<void> _showNotificationFeedModal() {
-    return showModalBottomSheet<void>(
+  Future<void> _showNotificationFeed() {
+    return showModalBottomSheet(
       context: context,
       useSafeArea: true,
       isScrollControlled: true,
@@ -326,12 +203,12 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
       ),
       builder: (context) => CreateActivityBottomSheet(
         currentUser: client.user,
-        feedId: feed.query.fid,
+        feedId: userFeed.query.fid,
       ),
     );
 
     if (request == null) return;
-    final result = await feed.addActivity(request: request);
+    final result = await userFeed.addActivity(request: request);
 
     switch (result) {
       case Success():
@@ -353,41 +230,5 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
           );
         }
     }
-  }
-}
-
-class ActivityRepostIndicator extends StatelessWidget {
-  const ActivityRepostIndicator({
-    super.key,
-    required this.user,
-    required this.data,
-  });
-
-  final UserData user;
-  final ActivityData data;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        const Icon(
-          Icons.repeat,
-          size: 16,
-        ),
-        const SizedBox(width: 4),
-        Text('${user.name} reposted'),
-      ],
-    );
-  }
-}
-
-class EmptyActivities extends StatelessWidget {
-  const EmptyActivities({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('No activities yet. Start by creating a post!'),
-    );
   }
 }
