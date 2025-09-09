@@ -19,7 +19,8 @@ class BookmarkFolderListStateNotifier
     required BookmarkFolderListState initialState,
   }) : super(initialState);
 
-  QueryConfiguration<BookmarkFoldersSort>? _queryConfig;
+  QueryConfiguration<BookmarkFoldersSort, BookmarkFoldersFilterField>?
+      _queryConfig;
   List<BookmarkFoldersSort> get foldersSort {
     return _queryConfig?.sort ?? BookmarkFoldersSort.defaultSort;
   }
@@ -27,7 +28,8 @@ class BookmarkFolderListStateNotifier
   /// Handles the result of a query for more bookmark folders.
   void onQueryMoreBookmarkFolders(
     PaginationResult<BookmarkFolderData> result,
-    QueryConfiguration<BookmarkFoldersSort> queryConfig,
+    QueryConfiguration<BookmarkFoldersSort, BookmarkFoldersFilterField>
+        queryConfig,
   ) {
     _queryConfig = queryConfig;
 

@@ -18,13 +18,13 @@ class FeedListStateNotifier extends StateNotifier<FeedListState> {
     required FeedListState initialState,
   }) : super(initialState);
 
-  QueryConfiguration<FeedsSort>? _queryConfig;
+  QueryConfiguration<FeedsSort, FeedsFilterField>? _queryConfig;
   List<FeedsSort> get feedsSort => _queryConfig?.sort ?? FeedsSort.defaultSort;
 
   /// Handles the result of a query for more feeds.
   void onQueryMoreFeeds(
     PaginationResult<FeedData> result,
-    QueryConfiguration<FeedsSort> queryConfig,
+    QueryConfiguration<FeedsSort, FeedsFilterField> queryConfig,
   ) {
     _queryConfig = queryConfig;
 

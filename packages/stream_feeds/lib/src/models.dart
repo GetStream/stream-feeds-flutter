@@ -1,9 +1,12 @@
 export 'models/activity_data.dart';
+export 'models/aggregated_activity_data.dart';
 export 'models/feed_data.dart';
 export 'models/feed_id.dart';
 export 'models/feed_input_data.dart';
+export 'models/feed_member_data.dart';
 export 'models/feed_member_request_data.dart';
 export 'models/feeds_config.dart';
+export 'models/follow_data.dart';
 export 'models/poll_data.dart';
 export 'models/request/activity_add_comment_request.dart'
     show ActivityAddCommentRequest;

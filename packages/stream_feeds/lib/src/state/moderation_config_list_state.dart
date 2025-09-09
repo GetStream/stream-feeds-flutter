@@ -19,7 +19,8 @@ class ModerationConfigListStateNotifier
     required ModerationConfigListState initialState,
   }) : super(initialState);
 
-  QueryConfiguration<ModerationConfigsSort>? _queryConfig;
+  QueryConfiguration<ModerationConfigsSort, ModerationConfigsFilterField>?
+      _queryConfig;
   List<ModerationConfigsSort> get configsSort {
     return _queryConfig?.sort ?? ModerationConfigsSort.defaultSort;
   }
@@ -27,7 +28,8 @@ class ModerationConfigListStateNotifier
   /// Handles the result of a query for more moderation configs.
   void onQueryMoreConfigs(
     PaginationResult<ModerationConfigData> result,
-    QueryConfiguration<ModerationConfigsSort> queryConfig,
+    QueryConfiguration<ModerationConfigsSort, ModerationConfigsFilterField>
+        queryConfig,
   ) {
     _queryConfig = queryConfig;
 

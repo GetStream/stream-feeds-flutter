@@ -19,7 +19,8 @@ class CommentReactionListStateNotifier
     required CommentReactionListState initialState,
   }) : super(initialState);
 
-  QueryConfiguration<CommentReactionsSort>? _queryConfig;
+  QueryConfiguration<CommentReactionsSort, CommentReactionsFilterField>?
+      _queryConfig;
   List<CommentReactionsSort> get reactionSort {
     return _queryConfig?.sort ?? CommentReactionsSort.defaultSort;
   }
@@ -27,7 +28,8 @@ class CommentReactionListStateNotifier
   /// Handles the result of a query for more reactions.
   void onQueryMoreReactions(
     PaginationResult<FeedsReactionData> result,
-    QueryConfiguration<CommentReactionsSort> queryConfig,
+    QueryConfiguration<CommentReactionsSort, CommentReactionsFilterField>
+        queryConfig,
   ) {
     _queryConfig = queryConfig;
 

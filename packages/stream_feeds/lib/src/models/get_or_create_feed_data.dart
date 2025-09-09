@@ -44,7 +44,8 @@ class GetOrCreateFeedData with _$GetOrCreateFeedData {
 
   /// The configuration used to query activities.
   @override
-  final QueryConfiguration<ActivitiesSort> activitiesQueryConfig;
+  final QueryConfiguration<ActivitiesSort, ActivitiesFilterField>
+      activitiesQueryConfig;
 
   /// The feed data associated with the feed.
   @override
