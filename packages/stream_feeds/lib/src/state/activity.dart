@@ -338,7 +338,7 @@ class Activity with Disposable {
   /// Deletes a poll option by its ID.
   ///
   /// Returns a [Result] containing void or an error.
-  Future<Result<void>> deletePollOption(String optionId) async {
+  Future<Result<void>> deletePollOption({required String optionId}) async {
     final pollIdResult = await _pollId();
     final result = await pollIdResult.flatMapAsync((pollId) {
       return pollsRepository.deletePollOption(pollId, optionId);
@@ -390,7 +390,7 @@ class Activity with Disposable {
   /// Deletes a poll vote by its ID.
   ///
   /// Returns a [Result] containing the deleted [PollVoteData] or an error.
-  Future<Result<PollVoteData?>> deletePollVote(String voteId) async {
+  Future<Result<PollVoteData?>> deletePollVote({required String voteId}) async {
     final pollIdResult = await _pollId();
     final result = await pollIdResult.flatMapAsync((pollId) {
       return pollsRepository.deletePollVote(activityId, pollId, voteId);

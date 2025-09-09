@@ -1,4 +1,4 @@
-// ignore_for_file: unused_local_variable, avoid_redundant_argument_values
+// ignore_for_file: file_names, unused_local_variable, avoid_redundant_argument_values
 
 import 'package:stream_feeds/stream_feeds.dart';
 

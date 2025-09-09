@@ -1,5 +1,6 @@
 import 'package:stream_core/stream_core.dart';
 
+import '../../stream_feeds.dart' show ModerationConfigsQuery;
 import '../generated/api/api.dart' as api;
 import '../repository/moderation_repository.dart';
 
@@ -41,7 +42,7 @@ class ModerationClient {
   /// Prohibits the user specified in [banRequest] from accessing platform features.
   ///
   /// Returns a [Result] containing a [api.BanResponse] or an error.
-  Future<Result<api.BanResponse>> ban(api.BanRequest banRequest) {
+  Future<Result<api.BanResponse>> ban({required api.BanRequest banRequest}) {
     return _moderationRepository.ban(banRequest);
   }
 
@@ -50,30 +51,32 @@ class ModerationClient {
   /// Restricts communication for the users specified in [muteRequest].
   ///
   /// Returns a [Result] containing a [api.MuteResponse] or an error.
-  Future<Result<api.MuteResponse>> mute(api.MuteRequest muteRequest) {
+  Future<Result<api.MuteResponse>> mute({
+    required api.MuteRequest muteRequest,
+  }) {
     return _moderationRepository.mute(muteRequest);
   }
 
   /// Blocks a user.
   ///
-  /// Prevents interaction with the user specified in [blockUserRequest].
+  /// Prevents interaction with the user specified in [blockUsersRequest].
   ///
   /// Returns a [Result] containing a [api.BlockUsersResponse] or an error.
-  Future<Result<api.BlockUsersResponse>> blockUser(
-    api.BlockUsersRequest blockUserRequest,
-  ) {
-    return _moderationRepository.blockUsers(blockUserRequest);
+  Future<Result<api.BlockUsersResponse>> blockUsers({
+    required api.BlockUsersRequest blockUsersRequest,
+  }) {
+    return _moderationRepository.blockUsers(blockUsersRequest);
   }
 
   /// Unblocks a user.
   ///
-  /// Restores interaction capabilities with the user specified in [unblockUserRequest].
+  /// Restores interaction capabilities with the user specified in [unblockUsersRequest].
   ///
   /// Returns a [Result] containing a [api.UnblockUsersResponse] or an error.
-  Future<Result<api.UnblockUsersResponse>> unblockUser(
-    api.UnblockUsersRequest unblockUserRequest,
-  ) {
-    return _moderationRepository.unblockUsers(unblockUserRequest);
+  Future<Result<api.UnblockUsersResponse>> unblockUsers({
+    required api.UnblockUsersRequest unblockUsersRequest,
+  }) {
+    return _moderationRepository.unblockUsers(unblockUsersRequest);
   }
 
   /// Gets the list of blocked users.
@@ -90,7 +93,9 @@ class ModerationClient {
   /// Reports inappropriate content specified in [flagRequest] for review.
   ///
   /// Returns a [Result] containing a [api.FlagResponse] or an error.
-  Future<Result<api.FlagResponse>> flag(api.FlagRequest flagRequest) {
+  Future<Result<api.FlagResponse>> flag({
+    required api.FlagRequest flagRequest,
+  }) {
     return _moderationRepository.flag(flagRequest);
   }
 
@@ -99,9 +104,9 @@ class ModerationClient {
   /// Executes a moderation decision using the data in [submitActionRequest].
   ///
   /// Returns a [Result] containing a [api.SubmitActionResponse] or an error.
-  Future<Result<api.SubmitActionResponse>> submitAction(
-    api.SubmitActionRequest submitActionRequest,
-  ) {
+  Future<Result<api.SubmitActionResponse>> submitAction({
+    required api.SubmitActionRequest submitActionRequest,
+  }) {
     return _moderationRepository.submitAction(submitActionRequest);
   }
 
@@ -110,9 +115,9 @@ class ModerationClient {
   /// Retrieves pending moderation items using the specified [queryReviewQueueRequest] filters and pagination.
   ///
   /// Returns a [Result] containing a [api.QueryReviewQueueResponse] or an error.
-  Future<Result<api.QueryReviewQueueResponse>> queryReviewQueue(
-    api.QueryReviewQueueRequest queryReviewQueueRequest,
-  ) {
+  Future<Result<api.QueryReviewQueueResponse>> queryReviewQueue({
+    required api.QueryReviewQueueRequest queryReviewQueueRequest,
+  }) {
     return _moderationRepository.queryReviewQueue(queryReviewQueueRequest);
   }
 
@@ -132,8 +137,8 @@ class ModerationClient {
   /// Removes the configuration identified by [key] and optional [team].
   ///
   /// Returns a [Result] containing a [api.DeleteModerationConfigResponse] or an error.
-  Future<Result<api.DeleteModerationConfigResponse>> deleteConfig(
-    String key, {
+  Future<Result<api.DeleteModerationConfigResponse>> deleteConfig({
+    required String key,
     String? team,
   }) {
     return _moderationRepository.deleteConfig(key, team: team);
@@ -144,10 +149,22 @@ class ModerationClient {
   /// Retrieves the configuration identified by [key] and optional [team].
   ///
   /// Returns a [Result] containing a [api.GetConfigResponse] or an error.
-  Future<Result<api.GetConfigResponse>> getConfig(
-    String key, {
+  Future<Result<api.GetConfigResponse>> getConfig({
+    required String key,
     String? team,
   }) {
     return _moderationRepository.getConfig(key, team: team);
+  }
+
+  /// Queries the moderation configurations.
+  ///
+  /// Retrieves moderation configurations using the specified [queryModerationConfigsRequest] filters and pagination.
+  ///
+  /// Returns a [Result] containing a [api.QueryModerationConfigsResponse] or an error.
+  Future<void> queryModerationConfigs({
+    required ModerationConfigsQuery queryModerationConfigsRequest,
+  }) {
+    return _moderationRepository
+        .queryModerationConfigs(queryModerationConfigsRequest);
   }
 }
