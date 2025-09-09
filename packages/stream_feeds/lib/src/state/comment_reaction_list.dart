@@ -40,7 +40,7 @@ class CommentReactionList with Disposable {
   final CommentsRepository commentsRepository;
 
   late final CommentReactionListStateNotifier _stateNotifier;
-  
+
   CommentReactionListState get state => _stateNotifier.value;
   StateNotifier<CommentReactionListState> get notifier => _stateNotifier;
   Stream<CommentReactionListState> get stream => _stateNotifier.stream;
