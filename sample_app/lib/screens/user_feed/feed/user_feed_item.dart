@@ -7,8 +7,8 @@ import '../../../widgets/action_button.dart';
 import '../../../widgets/attachments/attachments.dart';
 import '../../../widgets/user_avatar.dart';
 
-class ActivityContent extends StatelessWidget {
-  const ActivityContent({
+class UserFeedItem extends StatelessWidget {
+  const UserFeedItem({
     super.key,
     required this.user,
     required this.text,
@@ -176,7 +176,7 @@ class _UserActions extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         ActionButton(
-          icon: const Icon(Icons.comment_outlined),
+          icon: const Icon(Icons.chat_bubble_outline_rounded),
           count: data.commentCount,
           onTap: onCommentClick,
         ),
