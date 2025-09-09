@@ -20,20 +20,20 @@ Future<void> creatingNotificationActivities() async {
 // Eric comments on Jane's activity
   await ericFeed.addComment(
     request: ActivityAddCommentRequest(
-        comment: 'Agree!',
-        activityId: janeActivity.activityId,
-        createNotificationActivity:
-            true, // When true Jane's notification feed will be updated with comment activity
-        ),
+      comment: 'Agree!',
+      activityId: janeActivity.activityId,
+      createNotificationActivity:
+          true, // When true Jane's notification feed will be updated with comment activity
+    ),
   );
 // Eric reacts to Jane's activity
   await ericFeed.addReaction(
     activityId: janeActivity.activityId,
     request: const AddReactionRequest(
-        type: 'like',
-        createNotificationActivity:
-            true, // When true Jane's notification feed will be updated with reaction activity
-        ),
+      type: 'like',
+      createNotificationActivity:
+          true, // When true Jane's notification feed will be updated with reaction activity
+    ),
   );
 // Eric reacts to a comment posted to Jane's activity by Sara
   await ericFeed.addCommentReaction(

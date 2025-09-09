@@ -23,7 +23,7 @@ Future<void> followsAndUnfollows() async {
 
 Future<void> queryFollows() async {
   // Do I follow a list of feeds
-// My feed is timeline:john
+  // My feed is timeline:john
   const followQuery = FollowsQuery(
     filter: Filter.and([
       Filter.equal(FollowsFilterField.sourceFeed, 'timeline:john'),
@@ -34,8 +34,8 @@ Future<void> queryFollows() async {
   final page1 = await followList.get();
   final page2 = await followList.queryMoreFollows();
   final page1And2 = followList.state.follows;
-// Paginating through followers for a feed
-// My feed is timeline:john
+  // Paginating through followers for a feed
+  // My feed is timeline:john
   const followerQuery = FollowsQuery(
     filter: Filter.equal(FollowsFilterField.targetFeed, 'timeline:john'),
   );
@@ -52,17 +52,17 @@ Future<void> followRequests() async {
   final saraFeed = saraClient.feedFromQuery(saraFeedQuery);
   await saraFeed.getOrCreate();
 
-// Adam requesting to follow the feed
+  // Adam requesting to follow the feed
   final adamTimeline = adamClient.feed(group: 'timeline', id: 'adam');
   await adamTimeline.getOrCreate();
   final followRequest =
       await adamTimeline.follow(targetFid: saraFeed.fid); // user:sara
   print(followRequest.getOrNull()?.status); // .pending
-// Sara accepting
+  // Sara accepting
   await saraFeed.acceptFollow(
     sourceFid: adamTimeline.fid, // timeline:adam
     role: 'feed_member', // optional
   );
-// or rejecting the request
+  // or rejecting the request
   await saraFeed.rejectFollow(sourceFid: adamTimeline.fid); // timeline:adam
 }
