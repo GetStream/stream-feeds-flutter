@@ -7,6 +7,7 @@ import '../../../theme/extensions/theme_extensions.dart';
 import '../../../widgets/user_avatar.dart';
 import '../../app/content/auth_controller.dart';
 import '../../core/di/di_initializer.dart';
+import 'notification/notification_feed.dart';
 import 'widgets/activity_comments_view.dart';
 import 'widgets/activity_content.dart';
 import 'widgets/create_activity_bottom_sheet.dart';
@@ -24,6 +25,11 @@ class UserFeedScreen extends StatefulWidget {
 class _UserFeedScreenState extends State<UserFeedScreen> {
   StreamFeedsClient get client => locator<StreamFeedsClient>();
 
+  late final notificationFeed = client.feed(
+    group: 'notification',
+    id: client.user.id,
+  );
+
   late final feed = client.feedFromQuery(
     FeedQuery(
       fid: FeedId(group: 'user', id: client.user.id),
@@ -38,11 +44,13 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
   void initState() {
     super.initState();
     feed.getOrCreate();
+    notificationFeed.getOrCreate();
   }
 
   @override
   void dispose() {
     feed.dispose();
+    notificationFeed.dispose();
     super.dispose();
   }
 
@@ -170,6 +178,23 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
           style: context.appTextStyles.headlineBold,
         ),
         actions: [
+          StateNotifierBuilder(
+            stateNotifier: notificationFeed.notifier,
+            builder: (context, notificationState, _) {
+              final status = notificationState.notificationStatus;
+              return IconButton(
+                onPressed: _showNotificationFeedModal,
+                icon: Badge(
+                  isLabelVisible: (status?.unseen ?? 0) > 0,
+                  backgroundColor: context.appColors.accentError,
+                  child: Icon(
+                    Icons.notifications_outlined,
+                    color: context.appColors.textLowEmphasis,
+                  ),
+                ),
+              );
+            },
+          ),
           IconButton(
             onPressed: onLogout,
             icon: Icon(
@@ -240,6 +265,32 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
     } else {
       feed.addBookmark(activityId: activity.id);
     }
+  }
+
+  Future<void> _showNotificationFeedModal() {
+    return showModalBottomSheet<void>(
+      context: context,
+      useSafeArea: true,
+      isScrollControlled: true,
+      backgroundColor: context.appColors.appBg,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
+        ),
+      ),
+      builder: (context) => DraggableScrollableSheet(
+        snap: true,
+        expand: false,
+        snapSizes: const [0.5, 1],
+        builder: (context, scrollController) {
+          return NotificationFeed(
+            notificationFeed: notificationFeed,
+            scrollController: scrollController,
+          );
+        },
+      ),
+    );
   }
 
   Future<void> _showCreateActivityBottomSheet() async {

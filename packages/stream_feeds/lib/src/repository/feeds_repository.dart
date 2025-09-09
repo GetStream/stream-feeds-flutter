@@ -1,8 +1,10 @@
+import 'package:collection/collection.dart';
 import 'package:stream_core/stream_core.dart';
 
 import '../generated/api/api.dart' as api;
 import '../models/activity_data.dart';
 import '../models/activity_pin_data.dart';
+import '../models/aggregated_activity_data.dart';
 import '../models/feed_data.dart';
 import '../models/feed_id.dart';
 import '../models/feed_member_data.dart';
@@ -54,7 +56,9 @@ class FeedsRepository {
 
       return GetOrCreateFeedData(
         activities: PaginationResult(
-          items: response.activities.map((a) => a.toModel()).toList(),
+          items: response.activities
+              .map((a) => a.toModel())
+              .sorted(ActivitiesSort.defaultSort.compare),
           pagination: PaginationData(
             next: response.next,
             previous: response.prev,
@@ -78,6 +82,9 @@ class FeedsRepository {
         ownCapabilities: response.ownCapabilities,
         pinnedActivities:
             response.pinnedActivities.map((a) => a.toModel()).toList(),
+        aggregatedActivities:
+            response.aggregatedActivities.map((a) => a.toModel()).toList(),
+        notificationStatus: response.notificationStatus,
       );
     });
   }
