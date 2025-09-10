@@ -1,39 +1,127 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# StreamFeeds (Flutter)
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
+This is the official Flutter SDK for StreamFeeds, a platform for building apps with activity feeds support. The repository includes a low-level SDK that communicates with Stream's backend, as well as a demo app that showcases how to use it.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
+For detailed examples and supported features, please check out our [docs](https://getstream.io/activity-feeds/docs/flutter/).
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+Note: Activity Feeds V3 is in closed alpha — do not use it in production (just yet).
 
-## Features
+## What is Stream?
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+Stream allows developers to rapidly deploy scalable feeds, chat messaging and video with an industry leading 99.999% uptime SLA guarantee.
 
-## Getting started
+Stream lets you build **activity feeds at scale**. The largest apps on Stream have over **100 M+ users**.
+V3 keeps that scalability while giving you more flexibility over the content shown in your feed.
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+## What’s new in Feeds V3
 
-## Usage
+- **For-You feed**: Most modern apps combine a “For You” feed with a regular “Following” feed. V3 introduces **activity selectors** so you can:
+  - surface popular activities
+  - show activities near the user
+  - match activities to a user’s interests
+  - mix-and-match these selectors to build an engaging personalized feed.
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+- **Performance**: 20–30 % faster flat feeds. Major speedups for aggregation & ranking (full benchmarks coming soon)
 
-```dart
-const like = 'sample';
+- **Client-side SDKs**
+
+- **Activity filtering**: Filter activity feeds with almost no hit to performance
+
+- **Comments**: Voting, ranking, threading, images, URL previews, @mentions & notifications. Basically all the features of Reddit style commenting systems.
+
+- **Advanced feed features**:
+  - Activity expiration
+  - visibility controls
+  - feed visibility levels
+  - feed members
+  - bookmarking
+  - follow-approval flow
+  - stories support.
+
+- **Search & queries**: Activity search, **query activities**, and **query feeds** endpoints.
+
+- **Modern essentials**:
+  - Permissions
+  - OpenAPI spec
+  - GDPR endpoints
+  - realtime WebSocket events
+  - push notifications
+  - “own capabilities” API.
+
+## 🚀 Getting Started
+
+### Installation
+
+The Flutter SDK for Stream Feeds is distributed through [pub.dev](https://pub.dev).
+
+Currently we only have a package for the low level Feeds client: [stream_feeds](https://pub.dev/packages/stream_feeds).
+Releases and changes are published on the [GitHub releases page](https://github.com/GetStream/stream-feeds-flutter/releases).
+
+### Adding the SDK to your project
+
+To add the Flutter SDK, you can add the latest dependencies for the SDK to your `pubspec.yaml` file:
+
+```yaml
+dependencies:
+stream_feeds: ^latest
+```
+Additionally, you can also run the `flutter pub add` command in the terminal to do this:
+
+```shell
+flutter pub add stream_feed
 ```
 
-## Additional information
+This command will automatically install the latest versions of the Stream SDK package from pub.dev to the dependencies section of your `pubspec.yaml`.
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+### Basic Usage
+
+To get started, you need to create a `StreamFeedsClient` with your API key and a token.
+
+Afterwards, it's pretty straightforward to start adding feeds and activities.
+
+Check our docs for more details.
+
+```dart
+// Import the package
+import 'package:stream_feeds/stream_feeds.dart';
+
+// Initialize the client
+final client = StreamFeedsClient(
+  apiKey: '<your_api_key>',
+  user: User(id: 'john'),
+  tokenProvider: TokenProvider.static(UserToken('<user_token>')),
+);
+
+await client.connect();
+
+// Create a feed (or get its data if exists)
+final feed = client.feed(group: 'user', id: 'john');
+final result = await feed.getOrCreate();
+
+// Add activity
+final activity = await feed.addActivity(
+  request: FeedAddActivityRequest(type: 'post', text: 'Hello, Stream Feeds!'),
+);
+```
+
+## 📖 Key Concepts
+
+### Activities
+
+Activities are the core content units in Stream Feeds. They can represent posts, photos, videos, polls, and any custom content type you define.
+
+### Feeds
+
+Feeds are collections of activities. They can be personal feeds, timeline feeds, notification feeds, or custom feeds for your specific use case.
+
+### Real-time Updates
+
+Stream Feeds provides real-time updates through WebSocket connections, ensuring your app stays synchronized with the latest content.
+
+### Social Features
+
+Built-in support for reactions, comments, bookmarks, and polls makes it easy to build engaging social experiences.
+
+## 👩‍💻 Free for Makers 👨‍💻
+
+Stream is free for most side and hobby projects. To qualify, your project/company needs to have < 5 team members and < $10k in monthly revenue. Makers get $100 in monthly credit for video for free.
