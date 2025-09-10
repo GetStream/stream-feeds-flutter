@@ -21,22 +21,38 @@ class UserCredentials {
 
   // region Individual user credentials
 
-  static final luke = UserCredentials(
+  static final sahil = UserCredentials(
     user: const User(
-      id: 'luke_skywalker',
-      name: 'Luke Skywalker',
-      image:
-          'https://vignette.wikia.nocookie.net/starwars/images/2/20/LukeTLJ.jpg',
+      id: 'sahil',
+      name: 'Sahil Kumar',
+      image: 'https://avatars.githubusercontent.com/u/25670178',
     ),
-    token: _tokenForUser('luke_skywalker'),
+    token: _tokenForUser('sahil'),
+  );
+
+  static final rene = UserCredentials(
+    user: const User(
+      id: 'rene',
+      name: 'Rene Floor',
+      image: 'https://avatars.githubusercontent.com/u/15101411',
+    ),
+    token: _tokenForUser('rene'),
+  );
+
+  static final maciej = UserCredentials(
+    user: const User(
+      id: 'maciej',
+      name: 'Maciej Brażewicz',
+      image: 'https://avatars.githubusercontent.com/u/5622717',
+    ),
+    token: _tokenForUser('maciej'),
   );
 
   static final martin = UserCredentials(
     user: const User(
       id: 'martin',
-      name: 'Martin',
-      image:
-          'https://getstream.io/static/2796a305dd07651fcceb4721a94f4505/802d2/martin-mitrevski.webp',
+      name: 'Martin Mitrevski',
+      image: 'https://avatars.githubusercontent.com/u/2971717',
     ),
     token: _tokenForUser('martin'),
   );
@@ -44,9 +60,8 @@ class UserCredentials {
   static final tommaso = UserCredentials(
     user: const User(
       id: 'tommaso',
-      name: 'Tommaso',
-      image:
-          'https://getstream.io/static/712bb5c0bd5ed8d3fa6e5842f6cfbeed/c59de/tommaso.webp',
+      name: 'Tommaso Barbugli',
+      image: 'https://avatars.githubusercontent.com/u/88735',
     ),
     token: _tokenForUser('tommaso'),
   );
@@ -54,9 +69,8 @@ class UserCredentials {
   static final thierry = UserCredentials(
     user: const User(
       id: 'thierry',
-      name: 'Thierry',
-      image:
-          'https://getstream.io/static/237f45f28690696ad8fff92726f45106/c59de/thierry.webp',
+      name: 'Thierry Schellenbach',
+      image: 'https://avatars.githubusercontent.com/u/265409',
     ),
     token: _tokenForUser('thierry'),
   );
@@ -64,20 +78,27 @@ class UserCredentials {
   static final marcelo = UserCredentials(
     user: const User(
       id: 'marcelo',
-      name: 'Marcelo',
-      image:
-          'https://getstream.io/static/aaf5fb17dcfd0a3dd885f62bd21b325a/802d2/marcelo-pires.webp',
+      name: 'Marcelo Pires',
+      image: 'https://avatars.githubusercontent.com/u/916501',
     ),
     token: _tokenForUser('marcelo'),
   );
 
   static final kanat = UserCredentials(
-    user: const User(id: 'kanat', name: 'Kanat'),
+    user: const User(
+      id: 'kanat',
+      name: 'Kanat Kiialbaev',
+      image: 'https://avatars.githubusercontent.com/u/1286516',
+    ),
     token: _tokenForUser('kanat'),
   );
 
   static final toomas = UserCredentials(
-    user: const User(id: 'toomas', name: 'Toomas'),
+    user: const User(
+      id: 'toomas',
+      name: 'Toomas Vahter',
+      image: 'https://avatars.githubusercontent.com/u/1469907',
+    ),
     token: _tokenForUser('toomas'),
   );
 
@@ -85,10 +106,19 @@ class UserCredentials {
 
   // Built-in list sorted by name
   static List<UserCredentials> get builtIn {
-    final users = [luke, martin, tommaso, thierry, marcelo, kanat, toomas];
-    return users.sorted(
-      (a, b) => a.user.name.toLowerCase().compareTo(b.user.name.toLowerCase()),
-    );
+    final users = [
+      sahil,
+      rene,
+      maciej,
+      martin,
+      tommaso,
+      thierry,
+      marcelo,
+      kanat,
+      toomas,
+    ];
+
+    return users;
   }
 
   // Helper method to get credentials by ID
