@@ -63,7 +63,6 @@ class _UserProfileState extends State<UserProfile> {
         final feedMembers = state.members;
         final followRequests = state.followRequests;
         final following = state.following;
-        final followers = state.followers;
         final currentUser = client.user;
 
         return SingleChildScrollView(
