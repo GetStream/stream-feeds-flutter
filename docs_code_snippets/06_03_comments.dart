@@ -6,7 +6,7 @@ late StreamFeedsClient client;
 late Feed feed;
 
 Future<void> addingComments() async {
-// Adding a comment to an activity
+  // Adding a comment to an activity
   final comment = await feed.addComment(
     request: const ActivityAddCommentRequest(
       comment: 'So great!',
@@ -15,7 +15,7 @@ Future<void> addingComments() async {
       activityType: 'activity',
     ),
   );
-// Adding a reply to a comment
+  // Adding a reply to a comment
   final reply = await feed.addComment(
     request: const ActivityAddCommentRequest(
       comment: 'I agree!',
