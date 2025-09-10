@@ -5,11 +5,7 @@ environment:
 
 dependencies:
   flutter_state_notifier: ^1.0.0
-  stream_core:
-    git:
-      url: https://github.com/GetStream/stream-core-flutter.git
-      ref: 280b1045e39388668fd060439259831611b51b5a
-      path: packages/stream_core
+  stream_core: ^0.1.0
   stream_feeds:
     path: ./packages/stream_feeds
 

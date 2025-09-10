@@ -6,14 +6,14 @@ late StreamFeedsClient client;
 late Feed feed;
 
 Future<void> addingBookmarks() async {
-// Adding a bookmark to a new folder
+  // Adding a bookmark to a new folder
   final bookmark = await feed.addBookmark(activityId: 'activity_123');
-// Adding to an existing folder
+  // Adding to an existing folder
   final bookmarkWithFolder = await feed.addBookmark(
     activityId: 'activity_123',
     request: const AddBookmarkRequest(folderId: 'folder_456'),
   );
-// Update a bookmark (without a folder initially) - add custom data and move it to a new folder
+  // Update a bookmark (without a folder initially) - add custom data and move it to a new folder
   final updatedBookmark = await feed.updateBookmark(
     activityId: 'activity_123',
     request: const UpdateBookmarkRequest(
@@ -24,7 +24,7 @@ Future<void> addingBookmarks() async {
       ),
     ),
   );
-// Update a bookmark - move it from one existing folder to another existing folder
+  // Update a bookmark - move it from one existing folder to another existing folder
   final movedBookmark = await feed.updateBookmark(
     activityId: 'activity_123',
     request: const UpdateBookmarkRequest(
