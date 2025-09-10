@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stream_feeds/stream_feeds.dart';
+import 'package:stream_feed/stream_feed.dart';
 
 import '../theme/extensions/theme_extensions.dart';
 

@@ -83,7 +83,7 @@ Check our docs for more details.
 
 ```dart
 // Import the package
-import 'package:stream_feeds/stream_feeds.dart';
+import 'package:stream_feed/stream_feed.dart';
 
 // Initialize the client
 final client = StreamFeedsClient(

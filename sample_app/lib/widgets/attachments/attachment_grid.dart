@@ -1,6 +1,6 @@
 import 'package:flex_grid_view/flex_grid_view.dart';
 import 'package:flutter/material.dart';
-import 'package:stream_feeds/stream_feeds.dart';
+import 'package:stream_feed/stream_feed.dart';
 
 import '../../theme/theme.dart';
 import 'attachment_widget.dart';
