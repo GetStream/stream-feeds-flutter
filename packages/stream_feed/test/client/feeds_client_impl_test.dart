@@ -1,5 +1,5 @@
-import 'package:stream_feeds/src/client/feeds_client_impl.dart';
-import 'package:stream_feeds/stream_feeds.dart';
+import 'package:stream_feed/src/client/feeds_client_impl.dart';
+import 'package:stream_feed/stream_feed.dart';
 import 'package:test/test.dart';
 
 const testToken =

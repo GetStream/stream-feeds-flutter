@@ -1,7 +1,7 @@
 import 'package:mocktail/mocktail.dart';
-import 'package:stream_feeds/src/client/feeds_client_impl.dart';
-import 'package:stream_feeds/src/repository/feeds_repository.dart';
-import 'package:stream_feeds/stream_feeds.dart';
+import 'package:stream_feed/src/client/feeds_client_impl.dart';
+import 'package:stream_feed/src/repository/feeds_repository.dart';
+import 'package:stream_feed/stream_feed.dart';
 
 class MockFeedsRepository extends Mock implements FeedsRepository {}
 

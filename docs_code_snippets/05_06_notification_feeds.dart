@@ -1,6 +1,6 @@
 // ignore_for_file: file_names, unused_local_variable, avoid_redundant_argument_values
 
-import 'package:stream_feeds/stream_feeds.dart';
+import 'package:stream_feed/stream_feed.dart';
 
 late StreamFeedsClient client;
 late Feed feed;
