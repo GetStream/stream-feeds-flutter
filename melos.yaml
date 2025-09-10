@@ -29,7 +29,11 @@ command:
       get_it: ^8.0.3
       google_fonts: ^6.3.0
       file_picker: ^8.1.4
+      firebase_core: ^3.0.0
+      firebase_messaging: ^15.0.0
       flex_grid_view: ^0.1.0
+      flutter_app_badger: ^1.5.0
+      flutter_local_notifications: ^18.0.1
       injectable: ^2.5.1
       http: ^1.1.0
       intl: ">=0.18.1 <=0.21.0"

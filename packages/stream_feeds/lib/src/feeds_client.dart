@@ -653,9 +653,9 @@ abstract interface class StreamFeedsClient {
   /// Example:
   /// ```dart
   /// final result = await client.createDevice(
-  ///   'firebase-token-123',
-  ///   PushNotificationsProvider.firebase,
-  ///   'MyApp Firebase Config',
+  ///   id: 'firebase-token-123',
+  ///   pushProvider: PushNotificationsProvider.firebase,
+  ///   pushProviderName: 'MyApp Firebase Config',
   /// );
   ///
   /// switch (result) {
@@ -667,11 +667,11 @@ abstract interface class StreamFeedsClient {
   /// ```
   ///
   /// Returns a [Result] indicating success or failure of the device creation operation.
-  Future<Result<void>> createDevice(
-    String id,
-    PushNotificationsProvider pushProvider,
-    String pushProviderName,
-  );
+  Future<Result<void>> createDevice({
+    required String id,
+    required PushNotificationsProvider pushProvider,
+    required String pushProviderName,
+  });
 
   /// Deletes a device by its unique identifier.
   ///
@@ -680,7 +680,7 @@ abstract interface class StreamFeedsClient {
   ///
   /// Example:
   /// ```dart
-  /// final result = await client.deleteDevice('firebase-token-123');
+  /// final result = await client.deleteDevice(id: 'firebase-token-123');
   ///
   /// switch (result) {
   ///   case Success():
@@ -691,7 +691,7 @@ abstract interface class StreamFeedsClient {
   /// ```
   ///
   /// Returns a [Result] indicating success or failure of the deletion operation.
-  Future<Result<void>> deleteDevice(String id);
+  Future<Result<void>> deleteDevice({required String id});
 
   /// Deletes a previously uploaded file from the CDN.
   ///

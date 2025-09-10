@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 
 import '../../config/demo_app_config.dart';
