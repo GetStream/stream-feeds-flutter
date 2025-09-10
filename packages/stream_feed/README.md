@@ -54,7 +54,7 @@ V3 keeps that scalability while giving you more flexibility over the content sho
 
 The Flutter SDK for Stream Feeds is distributed through [pub.dev](https://pub.dev).
 
-Currently we only have a package for the low level Feeds client: [stream_feeds](https://pub.dev/packages/stream_feeds).
+Currently we only have a package for the low level Feeds client: [stream_feed](https://pub.dev/packages/stream_feed).
 Releases and changes are published on the [GitHub releases page](https://github.com/GetStream/stream-feeds-flutter/releases).
 
 ### Adding the SDK to your project
@@ -63,7 +63,7 @@ To add the Flutter SDK, you can add the latest dependencies for the SDK to your 
 
 ```yaml
 dependencies:
-stream_feeds: ^latest
+stream_feed: ^latest
 ```
 Additionally, you can also run the `flutter pub add` command in the terminal to do this:
 

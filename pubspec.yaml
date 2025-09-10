@@ -1,4 +1,4 @@
-name: stream_feeds_flutter_workspace
+name: stream_feed_flutter_workspace
 
 environment:
   sdk: ^3.6.2
