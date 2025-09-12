@@ -21,8 +21,19 @@
           "projectId": "stream-chat-internal",
           "configurations": {
             "android": "1:674907137625:android:d563721ebce8e225d7f348",
-            "ios": "1:674907137625:ios:7e49095a31b0e6fdd7f348"
+            "ios": "1:674907137625:ios:7e49095a31b0e6fdd7f348",
+            "macos": "1:674907137625:ios:7e49095a31b0e6fdd7f348",
+            "web": "1:674907137625:web:a4b97e5d080ec165d7f348",
+            "windows": "1:674907137625:web:7a93c02445f2585ad7f348"
           }
+        }
+      },
+      "macos": {
+        "default": {
+          "projectId": "stream-chat-internal",
+          "appId": "1:674907137625:ios:7e49095a31b0e6fdd7f348",
+          "uploadDebugSymbols": false,
+          "fileOutput": "macos/Runner/GoogleService-Info.plist"
         }
       }
     }

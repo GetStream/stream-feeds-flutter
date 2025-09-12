@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -28,15 +25,9 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -68,6 +59,40 @@ class DefaultFirebaseOptions {
     androidClientId: '674907137625-0aa50j6b2i35ef9c52lsbk1v16otl492.apps.googleusercontent.com',
     iosClientId: '674907137625-50j7ectb3k4c1o0tal8nvc3upnhucgmv.apps.googleusercontent.com',
     iosBundleId: 'io.getstream.feeds.flutter.sample',
+  );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyA4Obi2paSQ1IZZ88OcMC98DJlpV16DAzE',
+    appId: '1:674907137625:web:a4b97e5d080ec165d7f348',
+    messagingSenderId: '674907137625',
+    projectId: 'stream-chat-internal',
+    authDomain: 'stream-chat-internal.firebaseapp.com',
+    databaseURL: 'https://stream-chat-internal.firebaseio.com',
+    storageBucket: 'stream-chat-internal.appspot.com',
+    measurementId: 'G-F2RV4P139L',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyBTAsaKFUPLAJqfsLiz0yPUVzwrgJkOwSE',
+    appId: '1:674907137625:ios:7e49095a31b0e6fdd7f348',
+    messagingSenderId: '674907137625',
+    projectId: 'stream-chat-internal',
+    databaseURL: 'https://stream-chat-internal.firebaseio.com',
+    storageBucket: 'stream-chat-internal.appspot.com',
+    androidClientId: '674907137625-0aa50j6b2i35ef9c52lsbk1v16otl492.apps.googleusercontent.com',
+    iosClientId: '674907137625-50j7ectb3k4c1o0tal8nvc3upnhucgmv.apps.googleusercontent.com',
+    iosBundleId: 'io.getstream.feeds.flutter.sample',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyAAz5GWLv7UzWJx0QYNBNk2bowXDju6jMU',
+    appId: '1:674907137625:web:7a93c02445f2585ad7f348',
+    messagingSenderId: '674907137625',
+    projectId: 'stream-chat-internal',
+    authDomain: 'stream-chat-internal.firebaseapp.com',
+    databaseURL: 'https://stream-chat-internal.firebaseio.com',
+    storageBucket: 'stream-chat-internal.appspot.com',
+    measurementId: 'G-L0JLRVLDZL',
   );
 
 }
