@@ -2,14 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:injectable/injectable.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 
 import '../core/di/di_initializer.dart';
 import '../core/models/user_credentials.dart';
 import '../services/app_preferences.dart';
 
-@singleton
 class AppStateNotifier extends ValueNotifier<AppState> {
   AppStateNotifier() : super(const AppStateLoading());
 
@@ -33,6 +31,12 @@ class AppStateNotifier extends ValueNotifier<AppState> {
       onSuccess: AppStateInitialized.new,
       onFailure: AppStateFailed.new,
     );
+  }
+
+  @override
+  Future<void> dispose() async {
+    await resetDI();
+    super.dispose();
   }
 }
 

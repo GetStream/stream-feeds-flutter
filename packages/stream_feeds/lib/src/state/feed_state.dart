@@ -195,6 +195,20 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
     );
   }
 
+  /// Handles updates to the feed state when the notification feed is updated.
+  void onNotificationFeedUpdated(
+    List<AggregatedActivityData>? aggregatedActivities,
+    NotificationStatusResponse? notificationStatus,
+  ) {
+    // Update the aggregated activities and notification status in the state
+    final updatedAggregatedActivities = [...?aggregatedActivities];
+
+    state = state.copyWith(
+      aggregatedActivities: updatedAggregatedActivities,
+      notificationStatus: notificationStatus,
+    );
+  }
+
   /// Handles updates to the feed state when a bookmark is added or removed.
   void onBookmarkAdded(BookmarkData bookmark) {
     // Add or update the bookmark in the activity

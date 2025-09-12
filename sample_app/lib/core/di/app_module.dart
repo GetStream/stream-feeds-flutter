@@ -11,8 +11,8 @@ typedef LocalNotification = FlutterLocalNotificationsPlugin;
 
 @module
 abstract class AppModule {
-  @singleton
   @preResolve
+  @lazySingleton
   Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
 
   @Named('apn')
@@ -21,13 +21,13 @@ abstract class AppModule {
   @Named('firebase')
   PushProvider get androidPush => const PushProvider.firebase(name: 'firebase');
 
-  @singleton
   @preResolve
+  @lazySingleton
   Future<FirebaseApp> get firebaseApp async {
     final options = DefaultFirebaseOptions.currentPlatform;
     return Firebase.initializeApp(options: options);
   }
 
-  @singleton
+  @lazySingleton
   LocalNotification get localNotifications => LocalNotification();
 }

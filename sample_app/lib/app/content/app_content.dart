@@ -1,14 +1,12 @@
 import 'dart:async';
 
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:stream_feeds/stream_feeds.dart';
 
 import '../../core/di/di_initializer.dart';
 import '../../core/models/user_credentials.dart';
 import '../../navigation/app_router.dart';
-import '../../services/notification_service.dart';
+import '../../notification/notification_service.dart';
 import '../../theme/theme.dart';
 import 'auth_controller.dart';
 
@@ -28,20 +26,24 @@ class _StreamFeedsSampleAppContentState
   late final _authController = locator<AuthController>();
   late final _notificationService = locator<NotificationService>();
 
-  Future<void> _initPushNotifications() async {
-    // Initialize Firebase Messaging
-    final result = await _notificationService.requestPermission();
+  void _onNotificationTap(NotificationInfo info) {
+    final notification = info.notification;
+    // Handle only notifications from Stream Feeds.
+    if (notification.sender != 'stream.feeds') return;
 
-    final isNotificationEnabled = result.getOrDefault(false);
-    if (!isNotificationEnabled) return;
+    debugPrint('📱 Notification tapped: ${notification.type}');
+    debugPrint('📱 Device state: ${info.deviceState}');
+    debugPrint('📱 Title: ${notification.title}');
+    debugPrint('📱 Body: ${notification.body}');
 
-    unawaited(_notificationService.setupMessageHandlers());
+    // Navigate to the relevant screen based on notification type.
   }
 
   @override
   void initState() {
     super.initState();
-    _initPushNotifications();
+    _notificationService.onNotificationTap = _onNotificationTap;
+    _notificationService.initialize();
 
     // If credentials are provided, connect the user automatically.
     if (widget.credentials case final credentials?) {

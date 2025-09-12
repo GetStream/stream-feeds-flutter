@@ -9,25 +9,24 @@ environment:
 
 dependencies:
   auto_route: ^10.0.0
-  cached_network_image: ^3.4.1
   collection: ^1.18.0
   file_picker: ^8.1.4
-  flex_color_scheme: ^8.1.1
+  firebase_core: ^3.0.0
+  firebase_messaging: ^15.0.0
   flex_grid_view: ^0.1.0
   flutter:
     sdk: flutter
+  flutter_local_notifications: ^18.0.1
   flutter_state_notifier: ^1.0.0
   flutter_svg: ^2.2.0
   get_it: ^8.0.3
   google_fonts: ^6.3.0
   injectable: ^2.5.1
   jiffy: ^6.3.2
+  json_annotation: ^4.9.0
   shared_preferences: ^2.5.3
   stream_feeds:
     path: ../packages/stream_feeds
-  firebase_core: ^3.0.0
-  firebase_messaging: ^15.0.0
-  flutter_local_notifications: ^18.0.1
 
 dev_dependencies:
   auto_route_generator: ^10.0.0
@@ -36,9 +35,11 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   injectable_generator: ^2.7.0
+  json_serializable: ^6.9.5
 
 flutter:
   uses-material-design: true
 
   assets:
     - assets/
+    - assets/images/
