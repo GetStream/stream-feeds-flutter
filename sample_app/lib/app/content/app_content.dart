@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/di/di_initializer.dart';
 import '../../core/models/user_credentials.dart';
 import '../../navigation/app_router.dart';
+import '../../notification/notification_service.dart';
 import '../../theme/theme.dart';
 import 'auth_controller.dart';
 
@@ -21,10 +24,27 @@ class _StreamFeedsSampleAppContentState
     extends State<StreamFeedsSampleAppContent> {
   late final _appRouter = locator<AppRouter>();
   late final _authController = locator<AuthController>();
+  late final _notificationService = locator<NotificationService>();
+
+  void _onNotificationTap(NotificationInfo info) {
+    final notification = info.notification;
+    // Handle only notifications from Stream Feeds.
+    if (notification.sender != 'stream.feeds') return;
+
+    debugPrint('📱 Notification tapped: ${notification.type}');
+    debugPrint('📱 Device state: ${info.deviceState}');
+    debugPrint('📱 Title: ${notification.title}');
+    debugPrint('📱 Body: ${notification.body}');
+
+    // Navigate to the relevant screen based on notification type.
+  }
 
   @override
   void initState() {
     super.initState();
+    _notificationService.onNotificationTap = _onNotificationTap;
+    _notificationService.initialize();
+
     // If credentials are provided, connect the user automatically.
     if (widget.credentials case final credentials?) {
       _authController.connect(credentials).ignore();
@@ -33,8 +53,9 @@ class _StreamFeedsSampleAppContentState
 
   @override
   void dispose() {
-    _authController.disconnect().ignore();
+    _appRouter.dispose();
     _authController.dispose();
+    _notificationService.dispose();
     super.dispose();
   }
 

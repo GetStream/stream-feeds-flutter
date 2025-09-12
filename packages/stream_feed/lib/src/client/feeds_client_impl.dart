@@ -448,16 +448,20 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
   }
 
   @override
-  Future<Result<void>> createDevice(
-    String id,
-    PushNotificationsProvider pushProvider,
-    String pushProviderName,
-  ) {
-    return _devicesRepository.createDevice(id, pushProvider, pushProviderName);
+  Future<Result<void>> createDevice({
+    required String id,
+    required PushNotificationsProvider pushProvider,
+    required String pushProviderName,
+  }) {
+    return _devicesRepository.createDevice(
+      id,
+      pushProvider,
+      pushProviderName,
+    );
   }
 
   @override
-  Future<Result<void>> deleteDevice(String id) {
+  Future<Result<void>> deleteDevice({required String id}) {
     return _devicesRepository.deleteDevice(id);
   }
 

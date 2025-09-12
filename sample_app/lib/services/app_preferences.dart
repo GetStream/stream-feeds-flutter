@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/models/user_credentials.dart';
 
-@singleton
+@lazySingleton
 class AppPreferences {
   const AppPreferences(this._prefs);
 

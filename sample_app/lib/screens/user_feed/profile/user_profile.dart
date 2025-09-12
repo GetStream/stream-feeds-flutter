@@ -136,6 +136,7 @@ class _UserProfileState extends State<UserProfile> {
                   onFollowPressed: () async {
                     final result = await widget.userFeed.follow(
                       targetFid: suggestion.fid,
+                      createNotificationActivity: true,
                     );
 
                     // Remove the followed user from suggestions

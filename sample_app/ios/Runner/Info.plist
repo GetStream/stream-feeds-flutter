@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Sample</string>
+	<string>Stream Feeds</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -13,7 +13,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>sample</string>
+	<string>streamFeeds</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -45,12 +45,14 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-	<!-- Permissions for image picker -->
-	<key>NSCameraUsageDescription</key>
-	<string>This app needs access to camera to take photos and videos for posts.</string>
+	<!-- Background modes for notifications -->
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
+	<!-- Permissions for file picker -->
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app needs access to photo library to select images and videos for posts.</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>This app needs access to microphone to record videos.</string>
 </dict>
 </plist>
