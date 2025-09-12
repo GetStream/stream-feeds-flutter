@@ -81,11 +81,6 @@ sealed class FeedsNotification {
     'title',
     'body',
   ];
-
-  @override
-  String toString() {
-    return 'StreamFeedsNotification(sender: $sender, type: $type, fid: $fid, receiverId: $receiverId, title: $title, body: $body, custom: $custom)';
-  }
 }
 
 /// A new activity (post) was added to a feed.
