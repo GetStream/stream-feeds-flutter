@@ -19,7 +19,7 @@ or export it in your shell/profile.}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="${MELOS_ROOT_PATH:-$(cd "${SCRIPT_DIR}/.." && pwd)}"
 
-PKG_DIR="${REPO_ROOT}/packages/stream_feeds"
+PKG_DIR="${REPO_ROOT}/packages/stream_feed"
 OUTPUT_DIR_FEEDS="${PKG_DIR}/lib/src/generated/api"
 RENAMED_MODELS="${REPO_ROOT}/scripts/renamed-models.json"  # optional
 
@@ -73,7 +73,7 @@ mkdir -p "$OUTPUT_DIR_FEEDS"
     -output "$SPEC_DIR_REL/$SPEC_BASENAME" \
     "${RENAMED_MODELS_FLAG[@]}"
 
-  # Generate Dart client into stream_feeds generated folder
+  # Generate Dart client into stream_feed generated folder
   go run ./cmd/chat-manager openapi generate-client \
     --language dart \
     --spec "./$SPEC_PATH" \
@@ -105,7 +105,7 @@ fi
 section "✅ Post-generation fixes applied"
 
 # ---------- [3/4] build_runner (package only) ----------
-section "➡️ [3/4] Running build_runner in stream_feeds…"
+section "➡️ [3/4] Running build_runner in stream_feed…"
 
 (
   cd "$PKG_DIR"

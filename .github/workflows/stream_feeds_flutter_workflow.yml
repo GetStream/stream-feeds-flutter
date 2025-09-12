@@ -1,4 +1,4 @@
-name: stream_feeds_flutter_workflow
+name: stream_feed_flutter_workflow
 
 env:
   FLUTTER_CHANNEL: stable

@@ -1,12 +1,12 @@
 // ignore_for_file: file_names, unused_local_variable, avoid_redundant_argument_values
 
-import 'package:stream_feeds/stream_feeds.dart';
+import 'package:stream_feed/stream_feed.dart';
 
 late StreamFeedsClient client;
 late Feed feed;
 
 Future<void> addingComments() async {
-// Adding a comment to an activity
+  // Adding a comment to an activity
   final comment = await feed.addComment(
     request: const ActivityAddCommentRequest(
       comment: 'So great!',
@@ -15,7 +15,7 @@ Future<void> addingComments() async {
       activityType: 'activity',
     ),
   );
-// Adding a reply to a comment
+  // Adding a reply to a comment
   final reply = await feed.addComment(
     request: const ActivityAddCommentRequest(
       comment: 'I agree!',

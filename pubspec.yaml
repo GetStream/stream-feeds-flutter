@@ -1,17 +1,13 @@
-name: stream_feeds_flutter_workspace
+name: stream_feed_flutter_workspace
 
 environment:
   sdk: ^3.6.2
 
 dependencies:
   flutter_state_notifier: ^1.0.0
-  stream_core:
-    git:
-      url: https://github.com/GetStream/stream-core-flutter.git
-      ref: 280b1045e39388668fd060439259831611b51b5a
-      path: packages/stream_core
-  stream_feeds:
-    path: ./packages/stream_feeds
+  stream_core: ^0.1.0
+  stream_feed:
+    path: ./packages/stream_feed
 
 dev_dependencies:
   melos: ^6.2.0

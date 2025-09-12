@@ -1,6 +1,6 @@
 // ignore_for_file: file_names, unused_local_variable, avoid_redundant_argument_values
 
-import 'package:stream_feeds/stream_feeds.dart';
+import 'package:stream_feed/stream_feed.dart';
 
 late StreamFeedsClient client;
 late Feed feed;
@@ -17,8 +17,8 @@ Future<void> overview() async {
 
 Future<void> overviewRead() async {
   final feedData = await feed.getOrCreate();
-// Last 15 reactions on the first activity
+  // Last 15 reactions on the first activity
   print(feed.state.activities[0].latestReactions);
-// Count of reactions by type
+  // Count of reactions by type
   print(feed.state.activities[0].reactionGroups);
 }
