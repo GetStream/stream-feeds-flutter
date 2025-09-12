@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:stream_feeds/stream_feeds.dart';
+import 'package:stream_feed/stream_feed.dart';
 
 import 'push_provider.dart';
 
