@@ -63,7 +63,6 @@ class _UserProfileState extends State<UserProfile> {
         final feedMembers = state.members;
         final followRequests = state.followRequests;
         final following = state.following;
-        final followers = state.followers;
         final currentUser = client.user;
 
         return SingleChildScrollView(
@@ -76,9 +75,9 @@ class _UserProfileState extends State<UserProfile> {
               // Profile Header Section
               ProfileHeader(
                 user: currentUser,
-                membersCount: feedMembers.length,
-                followingCount: following.length,
-                followersCount: followers.length,
+                membersCount: state.feed?.memberCount ?? 0,
+                followingCount: state.feed?.followingCount ?? 0,
+                followersCount: state.feed?.followerCount ?? 0,
               ),
 
               // Members Section
