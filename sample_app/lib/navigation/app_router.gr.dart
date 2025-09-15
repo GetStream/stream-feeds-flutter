@@ -20,15 +20,15 @@ class AttachmentGalleryRoute extends PageRouteInfo<AttachmentGalleryRouteArgs> {
     int initialIndex = 0,
     List<PageRouteInfo>? children,
   }) : super(
-         AttachmentGalleryRoute.name,
-         args: AttachmentGalleryRouteArgs(
-           key: key,
-           attachments: attachments,
-           metadata: metadata,
-           initialIndex: initialIndex,
-         ),
-         initialChildren: children,
-       );
+          AttachmentGalleryRoute.name,
+          args: AttachmentGalleryRouteArgs(
+            key: key,
+            attachments: attachments,
+            metadata: metadata,
+            initialIndex: initialIndex,
+          ),
+          initialChildren: children,
+        );
 
   static const String name = 'AttachmentGalleryRoute';
 
@@ -89,7 +89,7 @@ class AttachmentGalleryRouteArgs {
 /// [ChooseUserScreen]
 class ChooseUserRoute extends PageRouteInfo<void> {
   const ChooseUserRoute({List<PageRouteInfo>? children})
-    : super(ChooseUserRoute.name, initialChildren: children);
+      : super(ChooseUserRoute.name, initialChildren: children);
 
   static const String name = 'ChooseUserRoute';
 
@@ -105,7 +105,7 @@ class ChooseUserRoute extends PageRouteInfo<void> {
 /// [HomeScreen]
 class HomeRoute extends PageRouteInfo<void> {
   const HomeRoute({List<PageRouteInfo>? children})
-    : super(HomeRoute.name, initialChildren: children);
+      : super(HomeRoute.name, initialChildren: children);
 
   static const String name = 'HomeRoute';
 
@@ -121,7 +121,7 @@ class HomeRoute extends PageRouteInfo<void> {
 /// [UserFeedScreen]
 class UserFeedRoute extends PageRouteInfo<void> {
   const UserFeedRoute({List<PageRouteInfo>? children})
-    : super(UserFeedRoute.name, initialChildren: children);
+      : super(UserFeedRoute.name, initialChildren: children);
 
   static const String name = 'UserFeedRoute';
 
