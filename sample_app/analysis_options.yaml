@@ -1,5 +1,12 @@
 include: ../analysis_options.yaml
 
+analyzer:
+  # TODO: not working if added on the root analysis file
+  exclude:
+    # exclude all the generated files
+    - lib/**/*.g.dart
+    - lib/**/*.freezed.dart
+
 linter:
   rules:
     cascade_invocations: false
