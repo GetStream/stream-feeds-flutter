@@ -120,18 +120,12 @@ Future<void> filteringExamples() async {
 }
 
 Future<void> moreComplexFilterExamples() async {
-  // Get all the activities where tags contain "green" and type is "post" or tag contains "orange" and type is "activity"
+  // Get all the activities where filter tags contain both "green" and "orange"
   const query = FeedQuery(
     fid: FeedId(group: 'user', id: 'john'),
-    activityFilter: Filter.or([
-      Filter.and([
-        Filter.in_(ActivitiesFilterField.filterTags, ['green']),
-        Filter.equal(ActivitiesFilterField.type, 'post'),
-      ]),
-      Filter.and([
-        Filter.in_(ActivitiesFilterField.filterTags, ['orange']),
-        Filter.equal(ActivitiesFilterField.type, 'activity'),
-      ]),
+    activityFilter: Filter.and([
+      Filter.in_(ActivitiesFilterField.filterTags, ['green']),
+      Filter.in_(ActivitiesFilterField.filterTags, ['orange']),
     ]),
   );
 

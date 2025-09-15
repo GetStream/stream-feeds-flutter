@@ -36,6 +36,9 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
         visibility: FeedVisibility.public,
         members: [FeedMemberRequestData(userId: client.user.id)],
       ),
+      followerLimit: 10,
+      followingLimit: 10,
+      memberLimit: 10,
     ),
   );
 
