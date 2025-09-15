@@ -4,8 +4,8 @@ import 'package:stream_feed/stream_feed.dart';
 
 import 'push_provider.dart';
 
-class PushManager extends Disposable {
-  PushManager({
+class PushTokenManager extends Disposable {
+  PushTokenManager({
     required this.client,
     required this.iosPushProvider,
     required this.androidPushProvider,
@@ -61,8 +61,8 @@ class PushManager extends Disposable {
   }
 
   @override
-  FutureOr<void> dispose() {
-    _tokenSubscription?.cancel();
+  Future<void> dispose() async {
+    await _tokenSubscription?.cancel();
     return super.dispose();
   }
 }

@@ -4,8 +4,8 @@ import 'package:stream_feed/stream_feed.dart';
 
 import '../../config/demo_app_config.dart';
 import '../../core/models/user_credentials.dart';
-import '../../push/push_manager.dart';
 import '../../push/push_provider.dart';
+import '../../push/push_token_manager.dart';
 import '../../services/app_preferences.dart';
 
 @lazySingleton
@@ -20,7 +20,7 @@ class AuthController extends ValueNotifier<AuthState> {
   final PushProvider _iosPushProvider;
   final PushProvider _androidPushProvider;
 
-  PushManager? _pushManager;
+  PushTokenManager? _pushTokenManager;
 
   Future<void> connect(UserCredentials credentials) async {
     final token = UserToken(credentials.token);
@@ -36,14 +36,14 @@ class AuthController extends ValueNotifier<AuthState> {
       _appPreferences.storeUserCredentials(credentials);
 
       // Initialize the push manager if not already initialized
-      _pushManager ??= PushManager(
+      _pushTokenManager ??= PushTokenManager(
         client: client,
         iosPushProvider: _iosPushProvider,
         androidPushProvider: _androidPushProvider,
       );
 
       // Register the device for push notifications
-      _pushManager?.registerDevice();
+      _pushTokenManager?.registerDevice();
     });
 
     value = result.fold(
@@ -59,8 +59,8 @@ class AuthController extends ValueNotifier<AuthState> {
     final client = authState.client;
 
     // Unregister the device from push notifications
-    _pushManager?.unregisterDevice().ignore();
-    _pushManager = null;
+    _pushTokenManager?.unregisterDevice().ignore();
+    _pushTokenManager = null;
 
     client.disconnect().ignore();
     await _appPreferences.clearUserCredentials();

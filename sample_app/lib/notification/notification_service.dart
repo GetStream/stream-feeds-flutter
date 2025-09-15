@@ -148,7 +148,7 @@ class NotificationService extends Disposable {
 
   Future<RemoteMessage?> _getInitialLocalMessage() async {
     final isInitialized = await initLocalNotifications();
-    if (isInitialized != true) return null;
+    if (!isInitialized) return null;
 
     final details = await _localNotification.getNotificationAppLaunchDetails();
     if (details == null || !details.didNotificationLaunchApp) return null;
@@ -239,9 +239,9 @@ class NotificationService extends Disposable {
 
   @override
   @disposeMethod
-  FutureOr<void> dispose() {
-    _onMessageSubscription?.cancel();
-    _onMessageOpenedSubscription?.cancel();
+  Future<void> dispose() async {
+    await _onMessageSubscription?.cancel();
+    await _onMessageOpenedSubscription?.cancel();
     return super.dispose();
   }
 }
