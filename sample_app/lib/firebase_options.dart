@@ -56,8 +56,10 @@ class DefaultFirebaseOptions {
     projectId: 'stream-chat-internal',
     databaseURL: 'https://stream-chat-internal.firebaseio.com',
     storageBucket: 'stream-chat-internal.appspot.com',
-    androidClientId: '674907137625-0aa50j6b2i35ef9c52lsbk1v16otl492.apps.googleusercontent.com',
-    iosClientId: '674907137625-50j7ectb3k4c1o0tal8nvc3upnhucgmv.apps.googleusercontent.com',
+    androidClientId:
+        '674907137625-0aa50j6b2i35ef9c52lsbk1v16otl492.apps.googleusercontent.com',
+    iosClientId:
+        '674907137625-50j7ectb3k4c1o0tal8nvc3upnhucgmv.apps.googleusercontent.com',
     iosBundleId: 'io.getstream.feeds.flutter.sample',
   );
 
@@ -79,8 +81,10 @@ class DefaultFirebaseOptions {
     projectId: 'stream-chat-internal',
     databaseURL: 'https://stream-chat-internal.firebaseio.com',
     storageBucket: 'stream-chat-internal.appspot.com',
-    androidClientId: '674907137625-0aa50j6b2i35ef9c52lsbk1v16otl492.apps.googleusercontent.com',
-    iosClientId: '674907137625-50j7ectb3k4c1o0tal8nvc3upnhucgmv.apps.googleusercontent.com',
+    androidClientId:
+        '674907137625-0aa50j6b2i35ef9c52lsbk1v16otl492.apps.googleusercontent.com',
+    iosClientId:
+        '674907137625-50j7ectb3k4c1o0tal8nvc3upnhucgmv.apps.googleusercontent.com',
     iosBundleId: 'io.getstream.feeds.flutter.sample',
   );
 
@@ -94,5 +98,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'stream-chat-internal.appspot.com',
     measurementId: 'G-L0JLRVLDZL',
   );
-
 }
