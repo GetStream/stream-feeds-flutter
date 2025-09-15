@@ -35,7 +35,7 @@ class DevicesRepository {
     String id,
     PushNotificationsProvider pushProvider,
     String pushProviderName,
-  ) async {
+  ) {
     final request = api.CreateDeviceRequest(
       id: id,
       pushProvider: pushProvider.toRequest(),

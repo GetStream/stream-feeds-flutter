@@ -24,7 +24,7 @@ class AppFailure extends StatefulWidget {
 }
 
 class _AppFailureState extends State<AppFailure> {
-  bool _showDetails = false;
+  var _showDetails = false;
 
   String get _errorMessage {
     return widget.error.toString().replaceFirst('Exception: ', '');

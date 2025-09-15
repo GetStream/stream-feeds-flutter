@@ -294,7 +294,7 @@ class _UserCommentsState extends State<UserComments> {
     required String title,
     String? initialText,
     String positiveAction = 'Add',
-  }) async {
+  }) {
     final textFieldController = TextEditingController();
     textFieldController.text = initialText ?? '';
     return showDialog<String>(

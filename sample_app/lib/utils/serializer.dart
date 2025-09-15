@@ -1,7 +1,7 @@
 /// Helper class for serialization to and from JSON with configurable extra data handling
 mixin Serializer {
   /// Default key for storing extra/unknown fields
-  static const String defaultExtraDataKey = 'custom';
+  static const defaultExtraDataKey = 'custom';
 
   /// Moves unknown JSON keys to a configurable extra data field
   ///

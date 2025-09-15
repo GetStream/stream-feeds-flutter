@@ -116,7 +116,7 @@ class ActivityReactionsSort extends Sort<FeedsReactionData> {
 
   /// The default sorting criteria for activity reactions queries.
   /// Sorts by creation date in descending order (newest first).
-  static final List<ActivityReactionsSort> defaultSort = [
+  static final defaultSort = <ActivityReactionsSort>[
     ActivityReactionsSort.desc(ActivityReactionsSortField.createdAt),
   ];
 }

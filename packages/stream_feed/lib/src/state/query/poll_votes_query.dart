@@ -136,7 +136,7 @@ class PollVotesSort extends Sort<PollVoteData> {
 
   /// The default sorting criteria for poll votes queries.
   /// Sorts by creation date in descending order (newest first).
-  static final List<PollVotesSort> defaultSort = [
+  static final defaultSort = <PollVotesSort>[
     PollVotesSort.desc(PollVotesSortField.createdAt),
   ];
 }

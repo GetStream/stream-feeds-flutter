@@ -12,8 +12,8 @@ analyzer:
     included_file_warning: ignore
   exclude:
     # exclude all the generated files
-    - packages/*/lib/**/*.g.dart
-    - packages/*/lib/**/*.freezed.dart
+    - packages/*/lib/**/*.*.dart
+    - packages/stream_feed/lib/src/generated/**
 
 linter:
   rules:
@@ -98,6 +98,9 @@ linter:
     # Conflicts with `omit_local_variable_types`
     specify_nonobvious_local_variable_types: false
     specify_nonobvious_property_types: false
+
+    # False positives
+    unsafe_variance: false
 
     # TODO: Temporarily disabled to find more important issues
     public_member_api_docs: false

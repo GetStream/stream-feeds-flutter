@@ -151,7 +151,7 @@ class Feed with Disposable {
   /// operation fails.
   Future<Result<ActivityData>> addActivity({
     required FeedAddActivityRequest request,
-  }) async {
+  }) {
     return activitiesRepository.addActivity(request);
   }
 

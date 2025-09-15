@@ -33,7 +33,7 @@ class _CreateActivityBottomSheetState extends State<CreateActivityBottomSheet> {
   final _focusNode = FocusNode();
   final List<StreamAttachment> _attachments = [];
 
-  static const int _maxCharacters = 280;
+  static const _maxCharacters = 280;
 
   @override
   void initState() {

@@ -121,7 +121,7 @@ class ModerationConfigsSort extends Sort<ModerationConfigData> {
   /// The default sorting criteria for moderation configs queries.
   ///
   /// Sorts feeds by creation date in descending order (newest first).
-  static final List<ModerationConfigsSort> defaultSort = [
+  static final defaultSort = <ModerationConfigsSort>[
     ModerationConfigsSort.desc(ModerationConfigsSortField.createdAt),
   ];
 }

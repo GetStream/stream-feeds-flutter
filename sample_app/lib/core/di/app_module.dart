@@ -23,7 +23,7 @@ abstract class AppModule {
 
   @preResolve
   @lazySingleton
-  Future<FirebaseApp> get firebaseApp async {
+  Future<FirebaseApp> get firebaseApp {
     final options = DefaultFirebaseOptions.currentPlatform;
     return Firebase.initializeApp(options: options);
   }

@@ -177,7 +177,7 @@ class FeedsSort extends Sort<FeedData> {
   /// The default sorting criteria for feeds queries.
   ///
   /// Sorts feeds by creation date in ascending order (oldest first).
-  static final List<FeedsSort> defaultSort = [
+  static final defaultSort = <FeedsSort>[
     FeedsSort.asc(FeedsSortField.createdAt),
   ];
 }

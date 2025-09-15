@@ -51,7 +51,7 @@ class NotificationService extends Disposable {
     return enabled;
   }
 
-  bool _isLocalNotificationsInitialized = false;
+  var _isLocalNotificationsInitialized = false;
   Future<bool> initLocalNotifications() async {
     if (_isLocalNotificationsInitialized) return true;
 
@@ -99,7 +99,7 @@ class NotificationService extends Disposable {
 
   Future<void> showLocalNotification(
     FeedsNotification notification,
-  ) async {
+  ) {
     const androidDetails = AndroidNotificationDetails(
       notificationChannelId,
       notificationChannelName,

@@ -114,7 +114,7 @@ class CommentReactionsSort extends Sort<FeedsReactionData> {
 
   /// The default sorting criteria for comment reactions queries.
   /// Sorts by creation date in descending order (newest first).
-  static final List<CommentReactionsSort> defaultSort = [
+  static final defaultSort = <CommentReactionsSort>[
     CommentReactionsSort.desc(CommentReactionsSortField.createdAt),
   ];
 }
