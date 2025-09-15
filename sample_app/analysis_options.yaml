@@ -4,8 +4,8 @@ analyzer:
   # TODO: not working if added on the root analysis file
   exclude:
     # exclude all the generated files
-    - lib/**/*.g.dart
-    - lib/**/*.freezed.dart
+    - lib/**/*.*.dart
+    - lib/firebase_options.dart
 
 linter:
   rules:
