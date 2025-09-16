@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, unused_local_variable, file_names, depend_on_referenced_packages
-
 import 'package:flutter/widgets.dart';
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:stream_feed/stream_feed.dart';
@@ -14,7 +12,7 @@ Future<void> gettingStarted() async {
   // Initialize the client
   final client = StreamFeedsClient(
     apiKey: '<your_api_key>',
-    user: User(id: 'john'),
+    user: const User(id: 'john'),
     tokenProvider: TokenProvider.static(UserToken('<user_token>')),
   );
   await client.connect();
@@ -25,7 +23,10 @@ Future<void> gettingStarted() async {
 
   // Add activity
   final activity = await feed.addActivity(
-    request: FeedAddActivityRequest(type: 'post', text: 'Hello, Stream Feeds!'),
+    request: const FeedAddActivityRequest(
+      type: 'post',
+      text: 'Hello, Stream Feeds!',
+    ),
   );
 }
 
@@ -37,12 +38,12 @@ Future<void> socialMediaFeed() async {
   // Add a reaction to activity
   await timeline.addReaction(
     activityId: 'activity_123',
-    request: AddReactionRequest(type: 'like'),
+    request: const AddReactionRequest(type: 'like'),
   );
 
   // Add a comment to activity
   await timeline.addComment(
-    request: ActivityAddCommentRequest(
+    request: const ActivityAddCommentRequest(
       comment: 'Great post!',
       activityId: 'activity_123',
     ),
@@ -51,12 +52,12 @@ Future<void> socialMediaFeed() async {
   // Add a reaction to comment
   final activity = client.activity(
     activityId: 'activity_123',
-    fid: FeedId(group: 'timeline', id: 'john'),
+    fid: const FeedId(group: 'timeline', id: 'john'),
   );
 
   await activity.addCommentReaction(
     commentId: 'commentId',
-    request: AddCommentReactionRequest(type: 'like'),
+    request: const AddCommentReactionRequest(type: 'like'),
   );
 }
 
@@ -67,18 +68,18 @@ Future<void> notificationFeed() async {
 
   // Mark notifications as read
   await notifications.markActivity(
-    request: MarkActivityRequest(markAllRead: true),
+    request: const MarkActivityRequest(markAllRead: true),
   );
 }
 
 Future<void> polls() async {
   // Create a poll
-  final feedId = FeedId(group: 'timeline', id: 'john');
+  const feedId = FeedId(group: 'timeline', id: 'john');
   final feed = client.feedFromId(feedId);
   final result = await feed.createPoll(
-    request: CreatePollRequest(
+    request: const CreatePollRequest(
       name: "What's your favorite color?",
-      options: const [
+      options: [
         PollOptionInput(text: 'Red'),
         PollOptionInput(text: 'Blue'),
         PollOptionInput(text: 'Green'),
@@ -91,13 +92,13 @@ Future<void> polls() async {
   final activityData = result.getOrThrow();
   final activity = client.activity(activityId: activityData.id, fid: feedId);
   await activity.castPollVote(
-    CastPollVoteRequest(vote: VoteData(optionId: 'option_456')),
+    const CastPollVoteRequest(vote: VoteData(optionId: 'option_456')),
   );
 }
 
 Future<void> customActivityTypes() async {
   final workoutActivity = await feed.addActivity(
-    request: FeedAddActivityRequest(
+    request: const FeedAddActivityRequest(
       text: 'Just finished my run',
       custom: {'distance': 5.2, 'duration': 1800, 'calories': 450},
       type: 'workout',

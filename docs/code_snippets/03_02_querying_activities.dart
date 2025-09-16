@@ -1,5 +1,3 @@
-// ignore_for_file: unused_local_variable, file_names, avoid_redundant_argument_values
-
 import 'package:stream_feed/stream_feed.dart';
 
 late StreamFeedsClient client;
