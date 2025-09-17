@@ -5,6 +5,7 @@ versioning:
   mode: independent
 
 packages:
+  - docs
   - sample_app
   - packages/*
   - packages/*/example

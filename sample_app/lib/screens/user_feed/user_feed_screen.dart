@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
-import 'package:stream_feed/stream_feed.dart';
+import 'package:stream_feeds/stream_feeds.dart';
 
 import '../../app/content/auth_controller.dart';
 import '../../core/di/di_initializer.dart';
