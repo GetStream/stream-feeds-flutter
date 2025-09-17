@@ -25,8 +25,7 @@ dependencies:
   jiffy: ^6.3.2
   photo_view: ^0.15.0
   shared_preferences: ^2.5.3
-  stream_feeds:
-    path: ../packages/stream_feeds
+  stream_feeds: ^0.1.0
   video_player: ^2.10.0
 
 dev_dependencies:
