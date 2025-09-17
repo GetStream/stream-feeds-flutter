@@ -122,7 +122,7 @@ class FollowsSort extends Sort<FollowData> {
 
   /// The default sorting criteria for follows queries.
   /// Sorts by creation date in descending order (newest first).
-  static final defaultSort = <FollowsSort>[
+  static final List<FollowsSort> defaultSort = [
     FollowsSort.desc(FollowsSortField.createdAt),
   ];
 }

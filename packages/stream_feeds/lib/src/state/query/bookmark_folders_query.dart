@@ -115,7 +115,7 @@ class BookmarkFoldersSort extends Sort<BookmarkFolderData> {
 
   /// The default sorting criteria for bookmark folders queries.
   /// Sorts by creation date in descending order (newest first).
-  static final defaultSort = <BookmarkFoldersSort>[
+  static final List<BookmarkFoldersSort> defaultSort = [
     BookmarkFoldersSort.desc(BookmarkFoldersSortField.createdAt),
   ];
 }

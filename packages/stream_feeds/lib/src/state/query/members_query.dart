@@ -143,7 +143,7 @@ class MembersSort extends Sort<FeedMemberData> {
   ///
   /// This uses the `createdAt` field in reverse order, meaning the most recently added
   /// members will appear first.
-  static final defaultSort = <MembersSort>[
+  static final List<MembersSort> defaultSort = [
     MembersSort.desc(MembersSortField.createdAt),
   ];
 }

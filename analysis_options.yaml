@@ -102,5 +102,8 @@ linter:
     # False positives
     unsafe_variance: false
 
+    # TODO: Remove once we remove support for flutter 3.27.4
+    omit_obvious_property_types: false
+
     # TODO: Temporarily disabled to find more important issues
     public_member_api_docs: false

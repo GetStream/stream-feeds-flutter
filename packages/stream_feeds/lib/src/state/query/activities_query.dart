@@ -124,7 +124,7 @@ class ActivitiesSort extends Sort<ActivityData> {
   ///
   /// This uses the `createdAt` field in reverse order, meaning the most recent activities
   /// will appear first.
-  static final defaultSort = <ActivitiesSort>[
+  static final List<ActivitiesSort> defaultSort = [
     ActivitiesSort.desc(ActivitiesSortField.createdAt),
   ];
 }
