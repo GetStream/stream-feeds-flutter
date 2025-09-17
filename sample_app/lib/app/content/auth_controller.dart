@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
-import 'package:stream_feed/stream_feed.dart';
+import 'package:stream_feeds/stream_feeds.dart';
 
 import '../../config/demo_app_config.dart';
 import '../../core/models/user_credentials.dart';

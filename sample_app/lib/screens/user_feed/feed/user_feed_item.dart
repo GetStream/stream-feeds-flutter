@@ -1,9 +1,12 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:stream_feed/stream_feed.dart';
+import 'package:stream_feeds/stream_feeds.dart';
 
+import '../../../navigation/app_router.dart';
 import '../../../theme/extensions/theme_extensions.dart';
 import '../../../utils/date_time_extensions.dart';
 import '../../../widgets/action_button.dart';
+import '../../../widgets/attachment_gallery/attachment_metadata.dart';
 import '../../../widgets/attachments/attachments.dart';
 import '../../../widgets/user_avatar.dart';
 
@@ -137,7 +140,19 @@ class _ActivityBody extends StatelessWidget {
           AttachmentGrid(
             attachments: attachments,
             onAttachmentTap: (attachment) {
-              // TODO: Implement fullscreen attachment view
+              final initialIndex = attachments.indexOf(attachment);
+
+              context.pushRoute(
+                AttachmentGalleryRoute(
+                  attachments: attachments,
+                  initialIndex: initialIndex >= 0 ? initialIndex : 0,
+                  metadata: AttachmentMetadata(
+                    author: data.user,
+                    createdAt: data.createdAt,
+                    caption: data.text,
+                  ),
+                ),
+              );
             },
           ),
         ],

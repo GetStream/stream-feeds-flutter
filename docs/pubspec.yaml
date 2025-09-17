@@ -1,0 +1,10 @@
+name: docs
+
+environment:
+  sdk: ^3.6.2
+
+dev_dependencies:
+  flutter:
+    sdk: flutter
+  flutter_state_notifier: ^1.0.0
+  stream_feeds: ^0.1.0

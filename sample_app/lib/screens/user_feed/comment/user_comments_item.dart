@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_positional_boolean_parameters
 
 import 'package:flutter/material.dart';
-import 'package:stream_feed/stream_feed.dart';
+import 'package:stream_feeds/stream_feeds.dart';
 
 import '../../../theme/extensions/theme_extensions.dart';
 import '../../../utils/date_time_extensions.dart';

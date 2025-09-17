@@ -19,7 +19,7 @@ or export it in your shell/profile.}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="${MELOS_ROOT_PATH:-$(cd "${SCRIPT_DIR}/.." && pwd)}"
 
-PKG_DIR="${REPO_ROOT}/packages/stream_feed"
+PKG_DIR="${REPO_ROOT}/packages/stream_feeds"
 OUTPUT_DIR_FEEDS="${PKG_DIR}/lib/src/generated/api"
 RENAMED_MODELS="${REPO_ROOT}/scripts/renamed-models.json"  # optional
 

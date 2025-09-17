@@ -34,7 +34,7 @@ jobs:
         with:
           scopes: |
             {
-              "llc": "packages/stream_feed"
+              "llc": "packages/stream_feeds"
             }
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
