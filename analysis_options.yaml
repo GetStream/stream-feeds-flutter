@@ -13,7 +13,7 @@ analyzer:
   exclude:
     # exclude all the generated files
     - packages/*/lib/**/*.*.dart
-    - packages/stream_feed/lib/src/generated/**
+    - packages/stream_feeds/lib/src/generated/**
 
 linter:
   rules:
