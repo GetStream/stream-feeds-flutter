@@ -1,6 +1,6 @@
 import 'package:stream_core/stream_core.dart';
 
-import '../../stream_feed.dart' show ModerationConfigsQuery;
+import '../../stream_feeds.dart' show ModerationConfigsQuery;
 import '../generated/api/api.dart' as api;
 import '../repository/moderation_repository.dart';
 

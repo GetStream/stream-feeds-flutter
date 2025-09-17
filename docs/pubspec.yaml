@@ -7,4 +7,5 @@ dev_dependencies:
   flutter:
     sdk: flutter
   flutter_state_notifier: ^1.0.0
-  stream_feed: ^0.7.0
+  stream_feeds: 
+    path: ../packages/stream_feeds

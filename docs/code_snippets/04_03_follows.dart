@@ -1,4 +1,4 @@
-import 'package:stream_feed/stream_feed.dart';
+import 'package:stream_feeds/stream_feeds.dart';
 
 late StreamFeedsClient client;
 late StreamFeedsClient saraClient;
