@@ -17,4 +17,4 @@ runs:
     # all supported legacy version.
     - name: "Stream Feeds Analyze"
       shell: bash
-      run: cd packages/stream_feed/lib && dart analyze --fatal-warnings . && cd .. && flutter test --exclude-tags golden
+      run: cd packages/stream_feeds/lib && dart analyze --fatal-warnings . && cd .. && flutter test --exclude-tags golden
