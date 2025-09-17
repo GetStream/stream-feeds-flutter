@@ -1,5 +1,5 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:stream_feed/stream_feed.dart';
+import 'package:stream_feeds/stream_feeds.dart';
 
 /// Signature for a function that creates a [Stream] of push tokens.
 typedef TokenStreamProvider = Stream<String> Function();
