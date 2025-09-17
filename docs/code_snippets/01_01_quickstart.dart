@@ -1,13 +1,13 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
-import 'package:stream_feed/stream_feed.dart';
+import 'package:stream_feeds/stream_feeds.dart';
 
 late StreamFeedsClient client;
 late Feed feed;
 
 Future<void> gettingStarted() async {
   // Import the package
-  // import 'package:stream_feed/stream_feed.dart';
+  // import 'package:stream_feeds/stream_feeds.dart';
 
   // Initialize the client
   final client = StreamFeedsClient(
@@ -111,7 +111,7 @@ Future<void> customActivityTypes() async {
 // imports
 // import 'package:flutter/widgets.dart';
 // import 'package:flutter_state_notifier/flutter_state_notifier.dart';
-// import 'package:stream_feed/stream_feed.dart';
+// import 'package:stream_feeds/stream_feeds.dart';
 class FeedView extends StatefulWidget {
   const FeedView({super.key, required this.feed});
   final Feed feed;

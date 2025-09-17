@@ -23,8 +23,8 @@ dependencies:
   injectable: ^2.5.1
   jiffy: ^6.3.2
   shared_preferences: ^2.5.3
-  stream_feed:
-    path: ../packages/stream_feed
+  stream_feeds:
+    path: ../packages/stream_feeds
 
 dev_dependencies:
   auto_route_generator: ^10.0.0

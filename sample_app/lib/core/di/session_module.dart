@@ -1,5 +1,5 @@
 import 'package:injectable/injectable.dart';
-import 'package:stream_feed/stream_feed.dart';
+import 'package:stream_feeds/stream_feeds.dart';
 
 import '../../app/content/auth_controller.dart';
 

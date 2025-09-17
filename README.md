@@ -63,12 +63,12 @@ To add the Flutter SDK, you can add the latest dependencies for the SDK to your 
 
 ```yaml
 dependencies:
-stream_feed: ^latest
+stream_feeds: ^latest
 ```
 Additionally, you can also run the `flutter pub add` command in the terminal to do this:
 
 ```shell
-flutter pub add stream_feed
+flutter pub add stream_feeds
 ```
 
 This command will automatically install the latest versions of the Stream SDK package from pub.dev to the dependencies section of your `pubspec.yaml`.
@@ -83,7 +83,7 @@ Check our docs for more details.
 
 ```dart
 // Import the package
-import 'package:stream_feed/stream_feed.dart';
+import 'package:stream_feeds/stream_feeds.dart';
 
 // Initialize the client
 final client = StreamFeedsClient(

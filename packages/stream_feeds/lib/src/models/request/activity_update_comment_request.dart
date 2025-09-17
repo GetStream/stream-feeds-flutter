@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../stream_feed.dart' as api;
+import '../../../stream_feeds.dart' as api;
 
 part 'activity_update_comment_request.freezed.dart';
 
