@@ -17,8 +17,8 @@ G_DEFINE_TYPE(MyApplication, my_application, GTK_TYPE_APPLICATION)
 // Implements GApplication::activate.
 static void my_application_activate(GApplication* application) {
   MyApplication* self = MY_APPLICATION(application);
-  GtkWindow* window =
-      GTK_WINDOW(gtk_application_window_new(GTK_APPLICATION(application)));
+  GtkWindow* window = GTK_WINDOW(gtk_application_window_new(GTK_APPLICATION(application)));
+  gtk_window_set_icon_from_file(GTK_WINDOW(window), "assets/ic_launcher.png", NULL);
 
   // Use a header bar when running in GNOME as this is the common style used
   // by applications and is the setup most users will be using (e.g. Ubuntu
@@ -40,11 +40,11 @@ static void my_application_activate(GApplication* application) {
   if (use_header_bar) {
     GtkHeaderBar* header_bar = GTK_HEADER_BAR(gtk_header_bar_new());
     gtk_widget_show(GTK_WIDGET(header_bar));
-    gtk_header_bar_set_title(header_bar, "sample");
+    gtk_header_bar_set_title(header_bar, "Stream Feeds");
     gtk_header_bar_set_show_close_button(header_bar, TRUE);
     gtk_window_set_titlebar(window, GTK_WIDGET(header_bar));
   } else {
-    gtk_window_set_title(window, "sample");
+    gtk_window_set_title(window, "Stream Feeds");
   }
 
   gtk_window_set_default_size(window, 1280, 720);
@@ -128,3 +128,4 @@ MyApplication* my_application_new() {
                                      "flags", G_APPLICATION_NON_UNIQUE,
                                      nullptr));
 }
+gtk_window_set_icon_from_file(GTK_WINDOW(window),"assets/images/logo.png",NULL);

@@ -4,14 +4,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/models/user_credentials.dart';
 
-@singleton
+@lazySingleton
 class AppPreferences {
   const AppPreferences(this._prefs);
 
   final SharedPreferences _prefs;
 
-  static const String _themeModeKey = 'theme_mode';
-  static const String _loggedUserId = 'logged_user_id';
+  static const _themeModeKey = 'theme_mode';
+  static const _loggedUserId = 'logged_user_id';
 
   int getThemeMode() => _prefs.getInt(_themeModeKey) ?? 0;
 

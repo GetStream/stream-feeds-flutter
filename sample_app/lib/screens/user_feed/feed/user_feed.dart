@@ -131,7 +131,10 @@ class UserFeed extends StatelessWidget {
     if (isAdding) {
       userFeed.addReaction(
         activityId: activity.id,
-        request: const AddReactionRequest(type: 'heart'),
+        request: const AddReactionRequest(
+          type: 'heart',
+          createNotificationActivity: true,
+        ),
       );
     } else {
       userFeed.deleteReaction(

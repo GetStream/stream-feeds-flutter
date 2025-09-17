@@ -2,23 +2,49 @@ import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 
-import '../../core/di/di_initializer.dart';
+import '../../config/demo_app_config.dart';
 import '../../core/models/user_credentials.dart';
+import '../../push/push_provider.dart';
+import '../../push/push_token_manager.dart';
 import '../../services/app_preferences.dart';
 
 @lazySingleton
 class AuthController extends ValueNotifier<AuthState> {
   AuthController(
     this._appPreferences,
+    @Named('apn') this._iosPushProvider,
+    @Named('firebase') this._androidPushProvider,
   ) : super(const Unauthenticated());
 
   final AppPreferences _appPreferences;
+  final PushProvider _iosPushProvider;
+  final PushProvider _androidPushProvider;
+
+  PushTokenManager? _pushTokenManager;
 
   Future<void> connect(UserCredentials credentials) async {
-    final client = locator<StreamFeedsClient>(param1: credentials);
+    final token = UserToken(credentials.token);
+
+    final client = StreamFeedsClient(
+      user: credentials.user,
+      apiKey: DemoAppConfig.current.apiKey,
+      tokenProvider: TokenProvider.static(token),
+    );
 
     final result = await runSafely(client.connect);
-    result.onSuccess((_) => _appPreferences.storeUserCredentials(credentials));
+    result.onSuccess((_) {
+      _appPreferences.storeUserCredentials(credentials);
+
+      // Initialize the push manager if not already initialized
+      _pushTokenManager ??= PushTokenManager(
+        client: client,
+        iosPushProvider: _iosPushProvider,
+        androidPushProvider: _androidPushProvider,
+      );
+
+      // Register the device for push notifications
+      _pushTokenManager?.registerDevice();
+    });
 
     value = result.fold(
       onSuccess: (_) => Authenticated(credentials.user, client),
@@ -31,6 +57,10 @@ class AuthController extends ValueNotifier<AuthState> {
     if (authState is! Authenticated) return;
 
     final client = authState.client;
+
+    // Unregister the device from push notifications
+    _pushTokenManager?.unregisterDevice().ignore();
+    _pushTokenManager = null;
 
     client.disconnect().ignore();
     await _appPreferences.clearUserCredentials();

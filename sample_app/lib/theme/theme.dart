@@ -5,7 +5,7 @@
 ///
 /// ## Directory Structure
 ///
-/// ```
+/// ```dart
 /// theme/
 /// ├── tokens/          # Design tokens (raw values)
 /// ├── schemes/         # Semantic theme definitions

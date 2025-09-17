@@ -3,6 +3,7 @@ import 'package:stream_core/stream_core.dart';
 import '../../generated/api/models.dart' as api;
 import '../../models/activity_data.dart';
 import '../../models/activity_pin_data.dart';
+import '../../models/aggregated_activity_data.dart';
 import '../../models/bookmark_data.dart';
 import '../../models/comment_data.dart';
 import '../../models/feed_data.dart';
@@ -63,6 +64,14 @@ class FeedEventHandler implements StateEventHandler {
     if (event is api.ActivityMarkEvent) {
       if (event.fid != fid.rawValue) return;
       return state.onActivityMarked(event.toModel());
+    }
+
+    if (event is api.NotificationFeedUpdatedEvent) {
+      if (event.fid != fid.rawValue) return;
+      return state.onNotificationFeedUpdated(
+        event.aggregatedActivities?.map((it) => it.toModel()).toList(),
+        event.notificationStatus,
+      );
     }
 
     if (event is api.BookmarkAddedEvent) {

@@ -210,13 +210,13 @@ class _UserCommentsState extends State<UserComments> {
     if (isAdding) {
       activity.addCommentReaction(
         commentId: comment.id,
-        request: const AddCommentReactionRequest(type: type),
+        request: const AddCommentReactionRequest(
+          type: type,
+          createNotificationActivity: true,
+        ),
       );
     } else {
-      activity.deleteCommentReaction(
-        comment.id,
-        type,
-      );
+      activity.deleteCommentReaction(comment.id, type);
     }
   }
 
@@ -229,6 +229,7 @@ class _UserCommentsState extends State<UserComments> {
         comment: text,
         parentId: parentComment?.id,
         activityId: activity.activityId,
+        createNotificationActivity: true,
       ),
     );
   }
@@ -293,7 +294,7 @@ class _UserCommentsState extends State<UserComments> {
     required String title,
     String? initialText,
     String positiveAction = 'Add',
-  }) async {
+  }) {
     final textFieldController = TextEditingController();
     textFieldController.text = initialText ?? '';
     return showDialog<String>(
