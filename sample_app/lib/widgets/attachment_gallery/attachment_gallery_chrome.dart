@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stream_feed/stream_feed.dart';
+import 'package:stream_feeds/stream_feeds.dart';
 
 import 'attachment_gallery_footer.dart';
 import 'attachment_gallery_header.dart';
