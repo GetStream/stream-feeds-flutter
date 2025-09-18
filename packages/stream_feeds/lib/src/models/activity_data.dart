@@ -132,7 +132,7 @@ class ActivityData with _$ActivityData {
 
   /// Contextual data for notifications related to this activity.
   @override
-  final Map<String, Object?>? notificationContext;
+  final NotificationContext? notificationContext;
 
   /// All the bookmarks from the current user for this activity.
   @override

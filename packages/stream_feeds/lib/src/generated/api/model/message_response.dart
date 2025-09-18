@@ -50,6 +50,7 @@ class MessageResponse with _$MessageResponse {
     required this.id,
     this.imageLabels,
     required this.latestReactions,
+    this.member,
     required this.mentionedUsers,
     this.messageTextUpdatedAt,
     this.mml,
@@ -124,6 +125,9 @@ class MessageResponse with _$MessageResponse {
 
   @override
   final List<ReactionResponse> latestReactions;
+
+  @override
+  final ChannelMemberResponse? member;
 
   @override
   final List<UserResponse> mentionedUsers;

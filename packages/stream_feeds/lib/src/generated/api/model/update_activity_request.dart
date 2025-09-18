@@ -21,6 +21,7 @@ class UpdateActivityRequest with _$UpdateActivityRequest {
     this.attachments,
     this.custom,
     this.expiresAt,
+    this.feeds,
     this.filterTags,
     this.interestTags,
     this.location,
@@ -38,6 +39,9 @@ class UpdateActivityRequest with _$UpdateActivityRequest {
   @override
   @EpochDateTimeConverter()
   final DateTime? expiresAt;
+
+  @override
+  final List<String>? feeds;
 
   @override
   final List<String>? filterTags;

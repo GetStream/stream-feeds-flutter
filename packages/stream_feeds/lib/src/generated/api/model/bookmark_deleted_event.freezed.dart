@@ -35,6 +35,7 @@ mixin _$BookmarkDeletedEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is BookmarkDeletedEvent &&
+            super == other &&
             (identical(other.bookmark, bookmark) ||
                 other.bookmark == bookmark) &&
             (identical(other.createdAt, createdAt) ||
@@ -47,8 +48,15 @@ mixin _$BookmarkDeletedEvent {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, bookmark, createdAt,
-      const DeepCollectionEquality().hash(custom), receivedAt, type, user);
+  int get hashCode => Object.hash(
+      runtimeType,
+      super.hashCode,
+      bookmark,
+      createdAt,
+      const DeepCollectionEquality().hash(custom),
+      receivedAt,
+      type,
+      user);
 
   @override
   String toString() {

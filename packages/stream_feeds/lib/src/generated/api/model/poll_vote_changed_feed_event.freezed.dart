@@ -37,6 +37,7 @@ mixin _$PollVoteChangedFeedEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is PollVoteChangedFeedEvent &&
+            super == other &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
@@ -54,6 +55,7 @@ mixin _$PollVoteChangedFeedEvent {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      super.hashCode,
       createdAt,
       const DeepCollectionEquality().hash(custom),
       feedVisibility,

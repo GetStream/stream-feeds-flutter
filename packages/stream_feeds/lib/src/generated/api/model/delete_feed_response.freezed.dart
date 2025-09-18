@@ -16,6 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$DeleteFeedResponse {
   String get duration;
+  String get taskId;
 
   /// Create a copy of DeleteFeedResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -31,15 +32,16 @@ mixin _$DeleteFeedResponse {
         (other.runtimeType == runtimeType &&
             other is DeleteFeedResponse &&
             (identical(other.duration, duration) ||
-                other.duration == duration));
+                other.duration == duration) &&
+            (identical(other.taskId, taskId) || other.taskId == taskId));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, duration);
+  int get hashCode => Object.hash(runtimeType, duration, taskId);
 
   @override
   String toString() {
-    return 'DeleteFeedResponse(duration: $duration)';
+    return 'DeleteFeedResponse(duration: $duration, taskId: $taskId)';
   }
 }
 
@@ -49,7 +51,7 @@ abstract mixin class $DeleteFeedResponseCopyWith<$Res> {
           DeleteFeedResponse value, $Res Function(DeleteFeedResponse) _then) =
       _$DeleteFeedResponseCopyWithImpl;
   @useResult
-  $Res call({String duration});
+  $Res call({String duration, String taskId});
 }
 
 /// @nodoc
@@ -66,11 +68,16 @@ class _$DeleteFeedResponseCopyWithImpl<$Res>
   @override
   $Res call({
     Object? duration = null,
+    Object? taskId = null,
   }) {
     return _then(DeleteFeedResponse(
       duration: null == duration
           ? _self.duration
           : duration // ignore: cast_nullable_to_non_nullable
+              as String,
+      taskId: null == taskId
+          ? _self.taskId
+          : taskId // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }

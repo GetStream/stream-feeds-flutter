@@ -42,6 +42,10 @@ Channel _$ChannelFromJson(Map<String, dynamic> json) => Channel(
       members: (json['members'] as List<dynamic>?)
           ?.map((e) => ChannelMember.fromJson(e as Map<String, dynamic>))
           .toList(),
+      membersLookup: (json['members_lookup'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(
+            k, ChannelMemberLookup.fromJson(e as Map<String, dynamic>)),
+      ),
       messageCount: (json['message_count'] as num?)?.toInt(),
       messageCountUpdatedAt: _$JsonConverterFromJson<int, DateTime>(
           json['message_count_updated_at'],
@@ -78,6 +82,8 @@ Map<String, dynamic> _$ChannelToJson(Channel instance) => <String, dynamic>{
           instance.lastMessageAt, const EpochDateTimeConverter().toJson),
       'member_count': instance.memberCount,
       'members': instance.members?.map((e) => e.toJson()).toList(),
+      'members_lookup':
+          instance.membersLookup?.map((k, e) => MapEntry(k, e.toJson())),
       'message_count': instance.messageCount,
       'message_count_updated_at': _$JsonConverterToJson<int, DateTime>(
           instance.messageCountUpdatedAt,

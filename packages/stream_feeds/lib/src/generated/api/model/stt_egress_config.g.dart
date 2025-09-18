@@ -14,6 +14,10 @@ STTEgressConfig _$STTEgressConfigFromJson(Map<String, dynamic> json) =>
           : ExternalStorage.fromJson(
               json['external_storage'] as Map<String, dynamic>),
       language: json['language'] as String?,
+      speechSegmentConfig: json['speech_segment_config'] == null
+          ? null
+          : SpeechSegmentConfig.fromJson(
+              json['speech_segment_config'] as Map<String, dynamic>),
       storageName: json['storage_name'] as String?,
       translationLanguages: (json['translation_languages'] as List<dynamic>?)
           ?.map((e) => e as String)
@@ -28,6 +32,7 @@ Map<String, dynamic> _$STTEgressConfigToJson(STTEgressConfig instance) =>
       'closed_captions_enabled': instance.closedCaptionsEnabled,
       'external_storage': instance.externalStorage?.toJson(),
       'language': instance.language,
+      'speech_segment_config': instance.speechSegmentConfig?.toJson(),
       'storage_name': instance.storageName,
       'translation_languages': instance.translationLanguages,
       'translations_enabled': instance.translationsEnabled,

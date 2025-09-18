@@ -38,6 +38,7 @@ mixin _$CommentAddedEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is CommentAddedEvent &&
+            super == other &&
             (identical(other.activity, activity) ||
                 other.activity == activity) &&
             (identical(other.comment, comment) || other.comment == comment) &&
@@ -56,6 +57,7 @@ mixin _$CommentAddedEvent {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      super.hashCode,
       activity,
       comment,
       createdAt,

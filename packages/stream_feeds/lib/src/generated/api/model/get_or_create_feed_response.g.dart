@@ -46,7 +46,8 @@ GetOrCreateFeedResponse _$GetOrCreateFeedResponseFromJson(
           : NotificationStatusResponse.fromJson(
               json['notification_status'] as Map<String, dynamic>),
       ownCapabilities: (json['own_capabilities'] as List<dynamic>)
-          .map((e) => $enumDecode(_$FeedOwnCapabilityEnumMap, e))
+          .map((e) => $enumDecode(_$FeedOwnCapabilityEnumMap, e,
+              unknownValue: FeedOwnCapability.unknown))
           .toList(),
       ownFollows: (json['own_follows'] as List<dynamic>?)
           ?.map((e) => FollowResponse.fromJson(e as Map<String, dynamic>))

@@ -39,6 +39,7 @@ class CallResponse with _$CallResponse {
     this.team,
     this.thumbnails,
     required this.transcribing,
+    required this.translating,
     required this.type,
     required this.updatedAt,
   });
@@ -108,6 +109,9 @@ class CallResponse with _$CallResponse {
 
   @override
   final bool transcribing;
+
+  @override
+  final bool translating;
 
   @override
   final String type;
