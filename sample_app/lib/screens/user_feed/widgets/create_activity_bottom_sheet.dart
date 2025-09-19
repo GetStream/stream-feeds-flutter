@@ -4,6 +4,7 @@ import 'package:stream_feeds/stream_feeds.dart';
 import '../../../theme/extensions/theme_extensions.dart';
 import '../../../widgets/attachments/attachments.dart';
 import '../../../widgets/user_avatar.dart';
+import '../polls/create_poll_state.dart';
 
 /// A bottom sheet for creating new activities with text and attachments.
 ///
@@ -72,6 +73,7 @@ class _CreateActivityBottomSheetState extends State<CreateActivityBottomSheet> {
             // Attachment picker
             AttachmentPicker(
               onAttachmentsSelected: _addAttachments,
+              onPollCreated: _createPoll,
             ),
 
             // Bottom padding to avoid being too close to screen edge
@@ -193,5 +195,29 @@ class _CreateActivityBottomSheetState extends State<CreateActivityBottomSheet> {
 
     // Return the request to the parent for handling
     Navigator.pop(context, request);
+  }
+
+  void _createPoll(CreatePollState poll) {
+    final request = poll.toCreatePollRequest();
+
+    // Return the request to the parent for handling
+    Navigator.pop(context, request);
+  }
+}
+
+extension on CreatePollState {
+  CreatePollRequest toCreatePollRequest() {
+    return CreatePollRequest(
+      name: name,
+      options: options.map((e) => e.toCreatePollOptionRequest()).toList(),
+    );
+  }
+}
+
+extension on PollOptionInputState {
+  PollOptionInput toCreatePollOptionRequest() {
+    return PollOptionInput(
+      text: text,
+    );
   }
 }
