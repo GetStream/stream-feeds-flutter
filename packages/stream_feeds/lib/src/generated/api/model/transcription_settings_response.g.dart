@@ -19,6 +19,14 @@ TranscriptionSettingsResponse _$TranscriptionSettingsResponseFromJson(
       mode: $enumDecode(
           _$TranscriptionSettingsResponseModeEnumMap, json['mode'],
           unknownValue: TranscriptionSettingsResponseMode.unknown),
+      speechSegmentConfig: json['speech_segment_config'] == null
+          ? null
+          : SpeechSegmentConfig.fromJson(
+              json['speech_segment_config'] as Map<String, dynamic>),
+      translation: json['translation'] == null
+          ? null
+          : TranslationSettings.fromJson(
+              json['translation'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$TranscriptionSettingsResponseToJson(
@@ -30,6 +38,8 @@ Map<String, dynamic> _$TranscriptionSettingsResponseToJson(
       'language':
           _$TranscriptionSettingsResponseLanguageEnumMap[instance.language]!,
       'mode': _$TranscriptionSettingsResponseModeEnumMap[instance.mode]!,
+      'speech_segment_config': instance.speechSegmentConfig?.toJson(),
+      'translation': instance.translation?.toJson(),
     };
 
 const _$TranscriptionSettingsResponseClosedCaptionModeEnumMap = {

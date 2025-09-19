@@ -32,6 +32,9 @@ Message _$MessageFromJson(Map<String, dynamic> json) => Message(
       latestReactions: (json['latest_reactions'] as List<dynamic>)
           .map((e) => Reaction.fromJson(e as Map<String, dynamic>))
           .toList(),
+      member: json['member'] == null
+          ? null
+          : ChannelMember.fromJson(json['member'] as Map<String, dynamic>),
       mentionedUsers: (json['mentioned_users'] as List<dynamic>)
           .map((e) => User.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -112,6 +115,7 @@ Map<String, dynamic> _$MessageToJson(Message instance) => <String, dynamic>{
       'image_labels': instance.imageLabels,
       'latest_reactions':
           instance.latestReactions.map((e) => e.toJson()).toList(),
+      'member': instance.member?.toJson(),
       'mentioned_users':
           instance.mentionedUsers.map((e) => e.toJson()).toList(),
       'message_text_updated_at': _$JsonConverterToJson<int, DateTime>(

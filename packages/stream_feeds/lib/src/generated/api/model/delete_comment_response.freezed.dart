@@ -15,6 +15,8 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$DeleteCommentResponse {
+  ActivityResponse get activity;
+  CommentResponse get comment;
   String get duration;
 
   /// Create a copy of DeleteCommentResponse
@@ -30,16 +32,19 @@ mixin _$DeleteCommentResponse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is DeleteCommentResponse &&
+            (identical(other.activity, activity) ||
+                other.activity == activity) &&
+            (identical(other.comment, comment) || other.comment == comment) &&
             (identical(other.duration, duration) ||
                 other.duration == duration));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, duration);
+  int get hashCode => Object.hash(runtimeType, activity, comment, duration);
 
   @override
   String toString() {
-    return 'DeleteCommentResponse(duration: $duration)';
+    return 'DeleteCommentResponse(activity: $activity, comment: $comment, duration: $duration)';
   }
 }
 
@@ -49,7 +54,8 @@ abstract mixin class $DeleteCommentResponseCopyWith<$Res> {
           $Res Function(DeleteCommentResponse) _then) =
       _$DeleteCommentResponseCopyWithImpl;
   @useResult
-  $Res call({String duration});
+  $Res call(
+      {ActivityResponse activity, CommentResponse comment, String duration});
 }
 
 /// @nodoc
@@ -65,9 +71,19 @@ class _$DeleteCommentResponseCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? activity = null,
+    Object? comment = null,
     Object? duration = null,
   }) {
     return _then(DeleteCommentResponse(
+      activity: null == activity
+          ? _self.activity
+          : activity // ignore: cast_nullable_to_non_nullable
+              as ActivityResponse,
+      comment: null == comment
+          ? _self.comment
+          : comment // ignore: cast_nullable_to_non_nullable
+              as CommentResponse,
       duration: null == duration
           ? _self.duration
           : duration // ignore: cast_nullable_to_non_nullable

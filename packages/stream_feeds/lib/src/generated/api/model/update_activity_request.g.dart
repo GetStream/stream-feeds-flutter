@@ -15,6 +15,8 @@ UpdateActivityRequest _$UpdateActivityRequestFromJson(
       custom: json['custom'] as Map<String, dynamic>?,
       expiresAt: _$JsonConverterFromJson<int, DateTime>(
           json['expires_at'], const EpochDateTimeConverter().fromJson),
+      feeds:
+          (json['feeds'] as List<dynamic>?)?.map((e) => e as String).toList(),
       filterTags: (json['filter_tags'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
@@ -36,6 +38,7 @@ Map<String, dynamic> _$UpdateActivityRequestToJson(
       'custom': instance.custom,
       'expires_at': _$JsonConverterToJson<int, DateTime>(
           instance.expiresAt, const EpochDateTimeConverter().toJson),
+      'feeds': instance.feeds,
       'filter_tags': instance.filterTags,
       'interest_tags': instance.interestTags,
       'location': instance.location?.toJson(),

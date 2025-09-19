@@ -34,6 +34,7 @@ mixin _$AppUpdatedEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is AppUpdatedEvent &&
+            super == other &&
             (identical(other.app, app) || other.app == app) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
@@ -44,7 +45,7 @@ mixin _$AppUpdatedEvent {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, app, createdAt,
+  int get hashCode => Object.hash(runtimeType, super.hashCode, app, createdAt,
       const DeepCollectionEquality().hash(custom), receivedAt, type);
 
   @override

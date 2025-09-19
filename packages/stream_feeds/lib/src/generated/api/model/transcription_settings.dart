@@ -125,6 +125,8 @@ class TranscriptionSettings with _$TranscriptionSettings {
     required this.closedCaptionMode,
     required this.language,
     required this.mode,
+    this.speechSegmentConfig,
+    this.translation,
   });
 
   @override
@@ -138,6 +140,12 @@ class TranscriptionSettings with _$TranscriptionSettings {
   @override
   @JsonKey(unknownEnumValue: TranscriptionSettingsMode.unknown)
   final TranscriptionSettingsMode mode;
+
+  @override
+  final SpeechSegmentConfig? speechSegmentConfig;
+
+  @override
+  final TranslationSettings? translation;
 
   Map<String, dynamic> toJson() => _$TranscriptionSettingsToJson(this);
 

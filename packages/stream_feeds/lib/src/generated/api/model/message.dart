@@ -32,6 +32,7 @@ class Message with _$Message {
     required this.id,
     this.imageLabels,
     required this.latestReactions,
+    this.member,
     required this.mentionedUsers,
     this.messageTextUpdatedAt,
     this.mml,
@@ -106,6 +107,9 @@ class Message with _$Message {
 
   @override
   final List<Reaction> latestReactions;
+
+  @override
+  final ChannelMember? member;
 
   @override
   final List<User> mentionedUsers;

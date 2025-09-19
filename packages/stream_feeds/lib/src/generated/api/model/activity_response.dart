@@ -130,7 +130,7 @@ class ActivityResponse with _$ActivityResponse {
   final ModerationV2Response? moderation;
 
   @override
-  final Map<String, Object?>? notificationContext;
+  final NotificationContext? notificationContext;
 
   @override
   final List<BookmarkResponse> ownBookmarks;

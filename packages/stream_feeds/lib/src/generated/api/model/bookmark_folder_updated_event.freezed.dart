@@ -36,6 +36,7 @@ mixin _$BookmarkFolderUpdatedEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is BookmarkFolderUpdatedEvent &&
+            super == other &&
             (identical(other.bookmarkFolder, bookmarkFolder) ||
                 other.bookmarkFolder == bookmarkFolder) &&
             (identical(other.createdAt, createdAt) ||
@@ -48,8 +49,15 @@ mixin _$BookmarkFolderUpdatedEvent {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, bookmarkFolder, createdAt,
-      const DeepCollectionEquality().hash(custom), receivedAt, type, user);
+  int get hashCode => Object.hash(
+      runtimeType,
+      super.hashCode,
+      bookmarkFolder,
+      createdAt,
+      const DeepCollectionEquality().hash(custom),
+      receivedAt,
+      type,
+      user);
 
   @override
   String toString() {

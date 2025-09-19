@@ -37,6 +37,7 @@ class Channel with _$Channel {
     this.lastMessageAt,
     this.memberCount,
     this.members,
+    this.membersLookup,
     this.messageCount,
     this.messageCountUpdatedAt,
     this.team,
@@ -104,6 +105,9 @@ class Channel with _$Channel {
 
   @override
   final List<ChannelMember>? members;
+
+  @override
+  final Map<String, ChannelMemberLookup>? membersLookup;
 
   @override
   final int? messageCount;

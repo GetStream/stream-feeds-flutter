@@ -537,6 +537,12 @@ abstract interface class DefaultApi {
     @Body() UpdatePollPartialRequest? updatePollPartialRequest,
   });
 
+  @POST('/api/v2/push_preferences')
+  Future<Result<UpsertPushPreferencesResponse>>
+      updatePushNotificationPreferences({
+    @Body() required UpsertPushPreferencesRequest upsertPushPreferencesRequest,
+  });
+
   @POST('/api/v2/users')
   Future<Result<UpdateUsersResponse>> updateUsers({
     @Body() required UpdateUsersRequest updateUsersRequest,

@@ -18,15 +18,15 @@ part 'push_notification_config.freezed.dart';
 @JsonSerializable()
 class PushNotificationConfig with _$PushNotificationConfig {
   const PushNotificationConfig({
-    this.activityTypes,
-    this.enabled,
+    this.enablePush,
+    this.pushTypes,
   });
 
   @override
-  final List<String>? activityTypes;
+  final bool? enablePush;
 
   @override
-  final bool? enabled;
+  final List<String>? pushTypes;
 
   Map<String, dynamic> toJson() => _$PushNotificationConfigToJson(this);
 

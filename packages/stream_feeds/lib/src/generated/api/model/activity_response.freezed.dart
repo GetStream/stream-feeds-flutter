@@ -34,7 +34,7 @@ mixin _$ActivityResponse {
   ActivityLocation? get location;
   List<UserResponse> get mentionedUsers;
   ModerationV2Response? get moderation;
-  Map<String, Object?>? get notificationContext;
+  NotificationContext? get notificationContext;
   List<BookmarkResponse> get ownBookmarks;
   List<FeedsReactionResponse> get ownReactions;
   ActivityResponse? get parent;
@@ -98,8 +98,8 @@ mixin _$ActivityResponse {
                 .equals(other.mentionedUsers, mentionedUsers) &&
             (identical(other.moderation, moderation) ||
                 other.moderation == moderation) &&
-            const DeepCollectionEquality()
-                .equals(other.notificationContext, notificationContext) &&
+            (identical(other.notificationContext, notificationContext) ||
+                other.notificationContext == notificationContext) &&
             const DeepCollectionEquality()
                 .equals(other.ownBookmarks, ownBookmarks) &&
             const DeepCollectionEquality()
@@ -150,7 +150,7 @@ mixin _$ActivityResponse {
         location,
         const DeepCollectionEquality().hash(mentionedUsers),
         moderation,
-        const DeepCollectionEquality().hash(notificationContext),
+        notificationContext,
         const DeepCollectionEquality().hash(ownBookmarks),
         const DeepCollectionEquality().hash(ownReactions),
         parent,
@@ -201,7 +201,7 @@ abstract mixin class $ActivityResponseCopyWith<$Res> {
       ActivityLocation? location,
       List<UserResponse> mentionedUsers,
       ModerationV2Response? moderation,
-      Map<String, Object?>? notificationContext,
+      NotificationContext? notificationContext,
       List<BookmarkResponse> ownBookmarks,
       List<FeedsReactionResponse> ownReactions,
       ActivityResponse? parent,
@@ -350,7 +350,7 @@ class _$ActivityResponseCopyWithImpl<$Res>
       notificationContext: freezed == notificationContext
           ? _self.notificationContext
           : notificationContext // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object?>?,
+              as NotificationContext?,
       ownBookmarks: null == ownBookmarks
           ? _self.ownBookmarks
           : ownBookmarks // ignore: cast_nullable_to_non_nullable

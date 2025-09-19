@@ -18,6 +18,7 @@ mixin _$STTEgressConfig {
   bool? get closedCaptionsEnabled;
   ExternalStorage? get externalStorage;
   String? get language;
+  SpeechSegmentConfig? get speechSegmentConfig;
   String? get storageName;
   List<String>? get translationLanguages;
   bool? get translationsEnabled;
@@ -43,6 +44,8 @@ mixin _$STTEgressConfig {
                 other.externalStorage == externalStorage) &&
             (identical(other.language, language) ||
                 other.language == language) &&
+            (identical(other.speechSegmentConfig, speechSegmentConfig) ||
+                other.speechSegmentConfig == speechSegmentConfig) &&
             (identical(other.storageName, storageName) ||
                 other.storageName == storageName) &&
             const DeepCollectionEquality()
@@ -61,6 +64,7 @@ mixin _$STTEgressConfig {
       closedCaptionsEnabled,
       externalStorage,
       language,
+      speechSegmentConfig,
       storageName,
       const DeepCollectionEquality().hash(translationLanguages),
       translationsEnabled,
@@ -69,7 +73,7 @@ mixin _$STTEgressConfig {
 
   @override
   String toString() {
-    return 'STTEgressConfig(closedCaptionsEnabled: $closedCaptionsEnabled, externalStorage: $externalStorage, language: $language, storageName: $storageName, translationLanguages: $translationLanguages, translationsEnabled: $translationsEnabled, uploadTranscriptions: $uploadTranscriptions, whisperServerBaseUrl: $whisperServerBaseUrl)';
+    return 'STTEgressConfig(closedCaptionsEnabled: $closedCaptionsEnabled, externalStorage: $externalStorage, language: $language, speechSegmentConfig: $speechSegmentConfig, storageName: $storageName, translationLanguages: $translationLanguages, translationsEnabled: $translationsEnabled, uploadTranscriptions: $uploadTranscriptions, whisperServerBaseUrl: $whisperServerBaseUrl)';
   }
 }
 
@@ -83,6 +87,7 @@ abstract mixin class $STTEgressConfigCopyWith<$Res> {
       {bool? closedCaptionsEnabled,
       ExternalStorage? externalStorage,
       String? language,
+      SpeechSegmentConfig? speechSegmentConfig,
       String? storageName,
       List<String>? translationLanguages,
       bool? translationsEnabled,
@@ -106,6 +111,7 @@ class _$STTEgressConfigCopyWithImpl<$Res>
     Object? closedCaptionsEnabled = freezed,
     Object? externalStorage = freezed,
     Object? language = freezed,
+    Object? speechSegmentConfig = freezed,
     Object? storageName = freezed,
     Object? translationLanguages = freezed,
     Object? translationsEnabled = freezed,
@@ -125,6 +131,10 @@ class _$STTEgressConfigCopyWithImpl<$Res>
           ? _self.language
           : language // ignore: cast_nullable_to_non_nullable
               as String?,
+      speechSegmentConfig: freezed == speechSegmentConfig
+          ? _self.speechSegmentConfig
+          : speechSegmentConfig // ignore: cast_nullable_to_non_nullable
+              as SpeechSegmentConfig?,
       storageName: freezed == storageName
           ? _self.storageName
           : storageName // ignore: cast_nullable_to_non_nullable

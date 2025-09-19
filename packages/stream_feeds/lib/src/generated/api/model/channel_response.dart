@@ -116,6 +116,7 @@ class ChannelResponse with _$ChannelResponse {
   final bool? muted;
 
   @override
+  @JsonKey(unknownEnumValue: ChannelOwnCapability.unknown)
   final List<ChannelOwnCapability>? ownCapabilities;
 
   @override

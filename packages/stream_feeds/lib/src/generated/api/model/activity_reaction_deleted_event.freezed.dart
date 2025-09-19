@@ -39,6 +39,7 @@ mixin _$ActivityReactionDeletedEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ActivityReactionDeletedEvent &&
+            super == other &&
             (identical(other.activity, activity) ||
                 other.activity == activity) &&
             (identical(other.createdAt, createdAt) ||
@@ -58,6 +59,7 @@ mixin _$ActivityReactionDeletedEvent {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      super.hashCode,
       activity,
       createdAt,
       const DeepCollectionEquality().hash(custom),

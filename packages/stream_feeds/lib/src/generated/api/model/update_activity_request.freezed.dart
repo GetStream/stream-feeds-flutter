@@ -18,6 +18,7 @@ mixin _$UpdateActivityRequest {
   List<Attachment>? get attachments;
   Map<String, Object?>? get custom;
   DateTime? get expiresAt;
+  List<String>? get feeds;
   List<String>? get filterTags;
   List<String>? get interestTags;
   ActivityLocation? get location;
@@ -43,6 +44,7 @@ mixin _$UpdateActivityRequest {
             const DeepCollectionEquality().equals(other.custom, custom) &&
             (identical(other.expiresAt, expiresAt) ||
                 other.expiresAt == expiresAt) &&
+            const DeepCollectionEquality().equals(other.feeds, feeds) &&
             const DeepCollectionEquality()
                 .equals(other.filterTags, filterTags) &&
             const DeepCollectionEquality()
@@ -61,6 +63,7 @@ mixin _$UpdateActivityRequest {
       const DeepCollectionEquality().hash(attachments),
       const DeepCollectionEquality().hash(custom),
       expiresAt,
+      const DeepCollectionEquality().hash(feeds),
       const DeepCollectionEquality().hash(filterTags),
       const DeepCollectionEquality().hash(interestTags),
       location,
@@ -70,7 +73,7 @@ mixin _$UpdateActivityRequest {
 
   @override
   String toString() {
-    return 'UpdateActivityRequest(attachments: $attachments, custom: $custom, expiresAt: $expiresAt, filterTags: $filterTags, interestTags: $interestTags, location: $location, pollId: $pollId, text: $text, visibility: $visibility)';
+    return 'UpdateActivityRequest(attachments: $attachments, custom: $custom, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, interestTags: $interestTags, location: $location, pollId: $pollId, text: $text, visibility: $visibility)';
   }
 }
 
@@ -84,6 +87,7 @@ abstract mixin class $UpdateActivityRequestCopyWith<$Res> {
       {List<Attachment>? attachments,
       Map<String, Object?>? custom,
       DateTime? expiresAt,
+      List<String>? feeds,
       List<String>? filterTags,
       List<String>? interestTags,
       ActivityLocation? location,
@@ -108,6 +112,7 @@ class _$UpdateActivityRequestCopyWithImpl<$Res>
     Object? attachments = freezed,
     Object? custom = freezed,
     Object? expiresAt = freezed,
+    Object? feeds = freezed,
     Object? filterTags = freezed,
     Object? interestTags = freezed,
     Object? location = freezed,
@@ -128,6 +133,10 @@ class _$UpdateActivityRequestCopyWithImpl<$Res>
           ? _self.expiresAt
           : expiresAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      feeds: freezed == feeds
+          ? _self.feeds
+          : feeds // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       filterTags: freezed == filterTags
           ? _self.filterTags
           : filterTags // ignore: cast_nullable_to_non_nullable

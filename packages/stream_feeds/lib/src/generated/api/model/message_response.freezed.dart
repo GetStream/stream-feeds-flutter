@@ -29,6 +29,7 @@ mixin _$MessageResponse {
   String get id;
   Map<String, List<String>>? get imageLabels;
   List<ReactionResponse> get latestReactions;
+  ChannelMemberResponse? get member;
   List<UserResponse> get mentionedUsers;
   DateTime? get messageTextUpdatedAt;
   String? get mml;
@@ -93,6 +94,7 @@ mixin _$MessageResponse {
                 .equals(other.imageLabels, imageLabels) &&
             const DeepCollectionEquality()
                 .equals(other.latestReactions, latestReactions) &&
+            (identical(other.member, member) || other.member == member) &&
             const DeepCollectionEquality()
                 .equals(other.mentionedUsers, mentionedUsers) &&
             (identical(other.messageTextUpdatedAt, messageTextUpdatedAt) ||
@@ -162,6 +164,7 @@ mixin _$MessageResponse {
         id,
         const DeepCollectionEquality().hash(imageLabels),
         const DeepCollectionEquality().hash(latestReactions),
+        member,
         const DeepCollectionEquality().hash(mentionedUsers),
         messageTextUpdatedAt,
         mml,
@@ -195,7 +198,7 @@ mixin _$MessageResponse {
 
   @override
   String toString() {
-    return 'MessageResponse(attachments: $attachments, cid: $cid, command: $command, createdAt: $createdAt, custom: $custom, deletedAt: $deletedAt, deletedForMe: $deletedForMe, deletedReplyCount: $deletedReplyCount, draft: $draft, html: $html, i18n: $i18n, id: $id, imageLabels: $imageLabels, latestReactions: $latestReactions, mentionedUsers: $mentionedUsers, messageTextUpdatedAt: $messageTextUpdatedAt, mml: $mml, moderation: $moderation, ownReactions: $ownReactions, parentId: $parentId, pinExpires: $pinExpires, pinned: $pinned, pinnedAt: $pinnedAt, pinnedBy: $pinnedBy, poll: $poll, pollId: $pollId, quotedMessage: $quotedMessage, quotedMessageId: $quotedMessageId, reactionCounts: $reactionCounts, reactionGroups: $reactionGroups, reactionScores: $reactionScores, reminder: $reminder, replyCount: $replyCount, restrictedVisibility: $restrictedVisibility, shadowed: $shadowed, sharedLocation: $sharedLocation, showInChannel: $showInChannel, silent: $silent, text: $text, threadParticipants: $threadParticipants, type: $type, updatedAt: $updatedAt, user: $user)';
+    return 'MessageResponse(attachments: $attachments, cid: $cid, command: $command, createdAt: $createdAt, custom: $custom, deletedAt: $deletedAt, deletedForMe: $deletedForMe, deletedReplyCount: $deletedReplyCount, draft: $draft, html: $html, i18n: $i18n, id: $id, imageLabels: $imageLabels, latestReactions: $latestReactions, member: $member, mentionedUsers: $mentionedUsers, messageTextUpdatedAt: $messageTextUpdatedAt, mml: $mml, moderation: $moderation, ownReactions: $ownReactions, parentId: $parentId, pinExpires: $pinExpires, pinned: $pinned, pinnedAt: $pinnedAt, pinnedBy: $pinnedBy, poll: $poll, pollId: $pollId, quotedMessage: $quotedMessage, quotedMessageId: $quotedMessageId, reactionCounts: $reactionCounts, reactionGroups: $reactionGroups, reactionScores: $reactionScores, reminder: $reminder, replyCount: $replyCount, restrictedVisibility: $restrictedVisibility, shadowed: $shadowed, sharedLocation: $sharedLocation, showInChannel: $showInChannel, silent: $silent, text: $text, threadParticipants: $threadParticipants, type: $type, updatedAt: $updatedAt, user: $user)';
   }
 }
 
@@ -220,6 +223,7 @@ abstract mixin class $MessageResponseCopyWith<$Res> {
       String id,
       Map<String, List<String>>? imageLabels,
       List<ReactionResponse> latestReactions,
+      ChannelMemberResponse? member,
       List<UserResponse> mentionedUsers,
       DateTime? messageTextUpdatedAt,
       String? mml,
@@ -278,6 +282,7 @@ class _$MessageResponseCopyWithImpl<$Res>
     Object? id = null,
     Object? imageLabels = freezed,
     Object? latestReactions = null,
+    Object? member = freezed,
     Object? mentionedUsers = null,
     Object? messageTextUpdatedAt = freezed,
     Object? mml = freezed,
@@ -365,6 +370,10 @@ class _$MessageResponseCopyWithImpl<$Res>
           ? _self.latestReactions
           : latestReactions // ignore: cast_nullable_to_non_nullable
               as List<ReactionResponse>,
+      member: freezed == member
+          ? _self.member
+          : member // ignore: cast_nullable_to_non_nullable
+              as ChannelMemberResponse?,
       mentionedUsers: null == mentionedUsers
           ? _self.mentionedUsers
           : mentionedUsers // ignore: cast_nullable_to_non_nullable
