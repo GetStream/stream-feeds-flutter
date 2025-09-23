@@ -17,6 +17,7 @@ T _$identity<T>(T value) => value;
 mixin _$AddReactionRequest {
   bool? get createNotificationActivity;
   Map<String, Object?>? get custom;
+  bool? get enforceUnique;
   bool? get skipPush;
   String get type;
 
@@ -38,18 +39,25 @@ mixin _$AddReactionRequest {
                 other.createNotificationActivity ==
                     createNotificationActivity) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
+            (identical(other.enforceUnique, enforceUnique) ||
+                other.enforceUnique == enforceUnique) &&
             (identical(other.skipPush, skipPush) ||
                 other.skipPush == skipPush) &&
             (identical(other.type, type) || other.type == type));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, createNotificationActivity,
-      const DeepCollectionEquality().hash(custom), skipPush, type);
+  int get hashCode => Object.hash(
+      runtimeType,
+      createNotificationActivity,
+      const DeepCollectionEquality().hash(custom),
+      enforceUnique,
+      skipPush,
+      type);
 
   @override
   String toString() {
-    return 'AddReactionRequest(createNotificationActivity: $createNotificationActivity, custom: $custom, skipPush: $skipPush, type: $type)';
+    return 'AddReactionRequest(createNotificationActivity: $createNotificationActivity, custom: $custom, enforceUnique: $enforceUnique, skipPush: $skipPush, type: $type)';
   }
 }
 
@@ -62,6 +70,7 @@ abstract mixin class $AddReactionRequestCopyWith<$Res> {
   $Res call(
       {bool? createNotificationActivity,
       Map<String, Object?>? custom,
+      bool? enforceUnique,
       bool? skipPush,
       String type});
 }
@@ -81,6 +90,7 @@ class _$AddReactionRequestCopyWithImpl<$Res>
   $Res call({
     Object? createNotificationActivity = freezed,
     Object? custom = freezed,
+    Object? enforceUnique = freezed,
     Object? skipPush = freezed,
     Object? type = null,
   }) {
@@ -93,6 +103,10 @@ class _$AddReactionRequestCopyWithImpl<$Res>
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
               as Map<String, Object?>?,
+      enforceUnique: freezed == enforceUnique
+          ? _self.enforceUnique
+          : enforceUnique // ignore: cast_nullable_to_non_nullable
+              as bool?,
       skipPush: freezed == skipPush
           ? _self.skipPush
           : skipPush // ignore: cast_nullable_to_non_nullable

@@ -20,6 +20,7 @@ AggregatedActivityResponse _$AggregatedActivityResponseFromJson(
       updatedAt: const EpochDateTimeConverter()
           .fromJson((json['updated_at'] as num).toInt()),
       userCount: (json['user_count'] as num).toInt(),
+      userCountTruncated: json['user_count_truncated'] as bool,
     );
 
 Map<String, dynamic> _$AggregatedActivityResponseToJson(
@@ -32,4 +33,5 @@ Map<String, dynamic> _$AggregatedActivityResponseToJson(
       'score': instance.score,
       'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
       'user_count': instance.userCount,
+      'user_count_truncated': instance.userCountTruncated,
     };

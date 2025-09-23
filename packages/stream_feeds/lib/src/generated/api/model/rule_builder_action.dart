@@ -19,9 +19,7 @@ part 'rule_builder_action.freezed.dart';
 class RuleBuilderAction with _$RuleBuilderAction {
   const RuleBuilderAction({
     this.banOptions,
-    this.flagContentOptions,
     this.flagUserOptions,
-    this.removeContentOptions,
     this.type,
   });
 
@@ -29,13 +27,7 @@ class RuleBuilderAction with _$RuleBuilderAction {
   final BanOptions? banOptions;
 
   @override
-  final FlagContentOptions? flagContentOptions;
-
-  @override
   final FlagUserOptions? flagUserOptions;
-
-  @override
-  final BlockContentOptions? removeContentOptions;
 
   @override
   final String? type;

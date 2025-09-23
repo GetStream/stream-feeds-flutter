@@ -18,11 +18,19 @@ part 'video_call_rule_config.freezed.dart';
 @JsonSerializable()
 class VideoCallRuleConfig with _$VideoCallRuleConfig {
   const VideoCallRuleConfig({
+    required this.flagAllLabels,
+    required this.flaggedLabels,
     required this.rules,
   });
 
   @override
-  final Map<String, HarmConfig> rules;
+  final bool flagAllLabels;
+
+  @override
+  final List<String> flaggedLabels;
+
+  @override
+  final List<HarmConfig> rules;
 
   Map<String, dynamic> toJson() => _$VideoCallRuleConfigToJson(this);
 

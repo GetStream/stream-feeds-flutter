@@ -16,9 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$RuleBuilderAction {
   BanOptions? get banOptions;
-  FlagContentOptions? get flagContentOptions;
   FlagUserOptions? get flagUserOptions;
-  BlockContentOptions? get removeContentOptions;
   String? get type;
 
   /// Create a copy of RuleBuilderAction
@@ -36,22 +34,18 @@ mixin _$RuleBuilderAction {
             other is RuleBuilderAction &&
             (identical(other.banOptions, banOptions) ||
                 other.banOptions == banOptions) &&
-            (identical(other.flagContentOptions, flagContentOptions) ||
-                other.flagContentOptions == flagContentOptions) &&
             (identical(other.flagUserOptions, flagUserOptions) ||
                 other.flagUserOptions == flagUserOptions) &&
-            (identical(other.removeContentOptions, removeContentOptions) ||
-                other.removeContentOptions == removeContentOptions) &&
             (identical(other.type, type) || other.type == type));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, banOptions, flagContentOptions,
-      flagUserOptions, removeContentOptions, type);
+  int get hashCode =>
+      Object.hash(runtimeType, banOptions, flagUserOptions, type);
 
   @override
   String toString() {
-    return 'RuleBuilderAction(banOptions: $banOptions, flagContentOptions: $flagContentOptions, flagUserOptions: $flagUserOptions, removeContentOptions: $removeContentOptions, type: $type)';
+    return 'RuleBuilderAction(banOptions: $banOptions, flagUserOptions: $flagUserOptions, type: $type)';
   }
 }
 
@@ -62,11 +56,7 @@ abstract mixin class $RuleBuilderActionCopyWith<$Res> {
       _$RuleBuilderActionCopyWithImpl;
   @useResult
   $Res call(
-      {BanOptions? banOptions,
-      FlagContentOptions? flagContentOptions,
-      FlagUserOptions? flagUserOptions,
-      BlockContentOptions? removeContentOptions,
-      String? type});
+      {BanOptions? banOptions, FlagUserOptions? flagUserOptions, String? type});
 }
 
 /// @nodoc
@@ -83,9 +73,7 @@ class _$RuleBuilderActionCopyWithImpl<$Res>
   @override
   $Res call({
     Object? banOptions = freezed,
-    Object? flagContentOptions = freezed,
     Object? flagUserOptions = freezed,
-    Object? removeContentOptions = freezed,
     Object? type = freezed,
   }) {
     return _then(RuleBuilderAction(
@@ -93,18 +81,10 @@ class _$RuleBuilderActionCopyWithImpl<$Res>
           ? _self.banOptions
           : banOptions // ignore: cast_nullable_to_non_nullable
               as BanOptions?,
-      flagContentOptions: freezed == flagContentOptions
-          ? _self.flagContentOptions
-          : flagContentOptions // ignore: cast_nullable_to_non_nullable
-              as FlagContentOptions?,
       flagUserOptions: freezed == flagUserOptions
           ? _self.flagUserOptions
           : flagUserOptions // ignore: cast_nullable_to_non_nullable
               as FlagUserOptions?,
-      removeContentOptions: freezed == removeContentOptions
-          ? _self.removeContentOptions
-          : removeContentOptions // ignore: cast_nullable_to_non_nullable
-              as BlockContentOptions?,
       type: freezed == type
           ? _self.type
           : type // ignore: cast_nullable_to_non_nullable

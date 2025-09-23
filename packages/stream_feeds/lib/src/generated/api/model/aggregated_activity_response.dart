@@ -25,6 +25,7 @@ class AggregatedActivityResponse with _$AggregatedActivityResponse {
     required this.score,
     required this.updatedAt,
     required this.userCount,
+    required this.userCountTruncated,
   });
 
   @override
@@ -49,6 +50,9 @@ class AggregatedActivityResponse with _$AggregatedActivityResponse {
 
   @override
   final int userCount;
+
+  @override
+  final bool userCountTruncated;
 
   Map<String, dynamic> toJson() => _$AggregatedActivityResponseToJson(this);
 

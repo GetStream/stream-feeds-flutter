@@ -15,7 +15,9 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$VideoCallRuleConfig {
-  Map<String, HarmConfig> get rules;
+  bool get flagAllLabels;
+  List<String> get flaggedLabels;
+  List<HarmConfig> get rules;
 
   /// Create a copy of VideoCallRuleConfig
   /// with the given fields replaced by the non-null parameter values.
@@ -30,16 +32,23 @@ mixin _$VideoCallRuleConfig {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is VideoCallRuleConfig &&
+            (identical(other.flagAllLabels, flagAllLabels) ||
+                other.flagAllLabels == flagAllLabels) &&
+            const DeepCollectionEquality()
+                .equals(other.flaggedLabels, flaggedLabels) &&
             const DeepCollectionEquality().equals(other.rules, rules));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(rules));
+  int get hashCode => Object.hash(
+      runtimeType,
+      flagAllLabels,
+      const DeepCollectionEquality().hash(flaggedLabels),
+      const DeepCollectionEquality().hash(rules));
 
   @override
   String toString() {
-    return 'VideoCallRuleConfig(rules: $rules)';
+    return 'VideoCallRuleConfig(flagAllLabels: $flagAllLabels, flaggedLabels: $flaggedLabels, rules: $rules)';
   }
 }
 
@@ -49,7 +58,8 @@ abstract mixin class $VideoCallRuleConfigCopyWith<$Res> {
           VideoCallRuleConfig value, $Res Function(VideoCallRuleConfig) _then) =
       _$VideoCallRuleConfigCopyWithImpl;
   @useResult
-  $Res call({Map<String, HarmConfig> rules});
+  $Res call(
+      {bool flagAllLabels, List<String> flaggedLabels, List<HarmConfig> rules});
 }
 
 /// @nodoc
@@ -65,13 +75,23 @@ class _$VideoCallRuleConfigCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? flagAllLabels = null,
+    Object? flaggedLabels = null,
     Object? rules = null,
   }) {
     return _then(VideoCallRuleConfig(
+      flagAllLabels: null == flagAllLabels
+          ? _self.flagAllLabels
+          : flagAllLabels // ignore: cast_nullable_to_non_nullable
+              as bool,
+      flaggedLabels: null == flaggedLabels
+          ? _self.flaggedLabels
+          : flaggedLabels // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       rules: null == rules
           ? _self.rules
           : rules // ignore: cast_nullable_to_non_nullable
-              as Map<String, HarmConfig>,
+              as List<HarmConfig>,
     ));
   }
 }

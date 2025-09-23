@@ -19,14 +19,26 @@ part 'harm_config.freezed.dart';
 class HarmConfig with _$HarmConfig {
   const HarmConfig({
     required this.actionSequences,
+    required this.cooldownPeriod,
+    required this.harmTypes,
     required this.severity,
+    required this.threshold,
   });
 
   @override
   final List<ActionSequence> actionSequences;
 
   @override
+  final int cooldownPeriod;
+
+  @override
+  final List<String> harmTypes;
+
+  @override
   final int severity;
+
+  @override
+  final int threshold;
 
   Map<String, dynamic> toJson() => _$HarmConfigToJson(this);
 
