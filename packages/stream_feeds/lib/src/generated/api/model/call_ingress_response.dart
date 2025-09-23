@@ -19,10 +19,18 @@ part 'call_ingress_response.freezed.dart';
 class CallIngressResponse with _$CallIngressResponse {
   const CallIngressResponse({
     required this.rtmp,
+    required this.srt,
+    required this.whip,
   });
 
   @override
   final RTMPIngress rtmp;
+
+  @override
+  final SRTIngress srt;
+
+  @override
+  final WHIPIngress whip;
 
   Map<String, dynamic> toJson() => _$CallIngressResponseToJson(this);
 

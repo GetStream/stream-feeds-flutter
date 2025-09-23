@@ -78,6 +78,7 @@ class GetOrCreateFeedResponse with _$GetOrCreateFeedResponse {
   final NotificationStatusResponse? notificationStatus;
 
   @override
+  @JsonKey(unknownEnumValue: FeedOwnCapability.unknown)
   final List<FeedOwnCapability> ownCapabilities;
 
   @override

@@ -16,6 +16,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$CallIngressResponse {
   RTMPIngress get rtmp;
+  SRTIngress get srt;
+  WHIPIngress get whip;
 
   /// Create a copy of CallIngressResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -30,15 +32,17 @@ mixin _$CallIngressResponse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is CallIngressResponse &&
-            (identical(other.rtmp, rtmp) || other.rtmp == rtmp));
+            (identical(other.rtmp, rtmp) || other.rtmp == rtmp) &&
+            (identical(other.srt, srt) || other.srt == srt) &&
+            (identical(other.whip, whip) || other.whip == whip));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, rtmp);
+  int get hashCode => Object.hash(runtimeType, rtmp, srt, whip);
 
   @override
   String toString() {
-    return 'CallIngressResponse(rtmp: $rtmp)';
+    return 'CallIngressResponse(rtmp: $rtmp, srt: $srt, whip: $whip)';
   }
 }
 
@@ -48,7 +52,7 @@ abstract mixin class $CallIngressResponseCopyWith<$Res> {
           CallIngressResponse value, $Res Function(CallIngressResponse) _then) =
       _$CallIngressResponseCopyWithImpl;
   @useResult
-  $Res call({RTMPIngress rtmp});
+  $Res call({RTMPIngress rtmp, SRTIngress srt, WHIPIngress whip});
 }
 
 /// @nodoc
@@ -65,12 +69,22 @@ class _$CallIngressResponseCopyWithImpl<$Res>
   @override
   $Res call({
     Object? rtmp = null,
+    Object? srt = null,
+    Object? whip = null,
   }) {
     return _then(CallIngressResponse(
       rtmp: null == rtmp
           ? _self.rtmp
           : rtmp // ignore: cast_nullable_to_non_nullable
               as RTMPIngress,
+      srt: null == srt
+          ? _self.srt
+          : srt // ignore: cast_nullable_to_non_nullable
+              as SRTIngress,
+      whip: null == whip
+          ? _self.whip
+          : whip // ignore: cast_nullable_to_non_nullable
+              as WHIPIngress,
     ));
   }
 }

@@ -43,7 +43,8 @@ ChannelResponse _$ChannelResponseFromJson(Map<String, dynamic> json) =>
           json['mute_expires_at'], const EpochDateTimeConverter().fromJson),
       muted: json['muted'] as bool?,
       ownCapabilities: (json['own_capabilities'] as List<dynamic>?)
-          ?.map((e) => $enumDecode(_$ChannelOwnCapabilityEnumMap, e))
+          ?.map((e) => $enumDecode(_$ChannelOwnCapabilityEnumMap, e,
+              unknownValue: ChannelOwnCapability.unknown))
           .toList(),
       team: json['team'] as String?,
       truncatedAt: _$JsonConverterFromJson<int, DateTime>(

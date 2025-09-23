@@ -36,6 +36,7 @@ mixin _$CallResponse {
   String? get team;
   ThumbnailResponse? get thumbnails;
   bool get transcribing;
+  bool get translating;
   String get type;
   DateTime get updatedAt;
 
@@ -86,6 +87,8 @@ mixin _$CallResponse {
                 other.thumbnails == thumbnails) &&
             (identical(other.transcribing, transcribing) ||
                 other.transcribing == transcribing) &&
+            (identical(other.translating, translating) ||
+                other.translating == translating) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt));
@@ -115,13 +118,14 @@ mixin _$CallResponse {
         team,
         thumbnails,
         transcribing,
+        translating,
         type,
         updatedAt
       ]);
 
   @override
   String toString() {
-    return 'CallResponse(backstage: $backstage, blockedUserIds: $blockedUserIds, captioning: $captioning, channelCid: $channelCid, cid: $cid, createdAt: $createdAt, createdBy: $createdBy, currentSessionId: $currentSessionId, custom: $custom, egress: $egress, endedAt: $endedAt, id: $id, ingress: $ingress, joinAheadTimeSeconds: $joinAheadTimeSeconds, recording: $recording, session: $session, settings: $settings, startsAt: $startsAt, team: $team, thumbnails: $thumbnails, transcribing: $transcribing, type: $type, updatedAt: $updatedAt)';
+    return 'CallResponse(backstage: $backstage, blockedUserIds: $blockedUserIds, captioning: $captioning, channelCid: $channelCid, cid: $cid, createdAt: $createdAt, createdBy: $createdBy, currentSessionId: $currentSessionId, custom: $custom, egress: $egress, endedAt: $endedAt, id: $id, ingress: $ingress, joinAheadTimeSeconds: $joinAheadTimeSeconds, recording: $recording, session: $session, settings: $settings, startsAt: $startsAt, team: $team, thumbnails: $thumbnails, transcribing: $transcribing, translating: $translating, type: $type, updatedAt: $updatedAt)';
   }
 }
 
@@ -153,6 +157,7 @@ abstract mixin class $CallResponseCopyWith<$Res> {
       String? team,
       ThumbnailResponse? thumbnails,
       bool transcribing,
+      bool translating,
       String type,
       DateTime updatedAt});
 }
@@ -190,6 +195,7 @@ class _$CallResponseCopyWithImpl<$Res> implements $CallResponseCopyWith<$Res> {
     Object? team = freezed,
     Object? thumbnails = freezed,
     Object? transcribing = null,
+    Object? translating = null,
     Object? type = null,
     Object? updatedAt = null,
   }) {
@@ -277,6 +283,10 @@ class _$CallResponseCopyWithImpl<$Res> implements $CallResponseCopyWith<$Res> {
       transcribing: null == transcribing
           ? _self.transcribing
           : transcribing // ignore: cast_nullable_to_non_nullable
+              as bool,
+      translating: null == translating
+          ? _self.translating
+          : translating // ignore: cast_nullable_to_non_nullable
               as bool,
       type: null == type
           ? _self.type

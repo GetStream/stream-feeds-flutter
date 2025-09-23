@@ -42,6 +42,7 @@ CallResponse _$CallResponseFromJson(Map<String, dynamic> json) => CallResponse(
           : ThumbnailResponse.fromJson(
               json['thumbnails'] as Map<String, dynamic>),
       transcribing: json['transcribing'] as bool,
+      translating: json['translating'] as bool,
       type: json['type'] as String,
       updatedAt: const EpochDateTimeConverter()
           .fromJson((json['updated_at'] as num).toInt()),
@@ -72,6 +73,7 @@ Map<String, dynamic> _$CallResponseToJson(CallResponse instance) =>
       'team': instance.team,
       'thumbnails': instance.thumbnails?.toJson(),
       'transcribing': instance.transcribing,
+      'translating': instance.translating,
       'type': instance.type,
       'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
     };

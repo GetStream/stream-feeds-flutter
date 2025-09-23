@@ -19,10 +19,14 @@ part 'delete_feed_response.freezed.dart';
 class DeleteFeedResponse with _$DeleteFeedResponse {
   const DeleteFeedResponse({
     required this.duration,
+    required this.taskId,
   });
 
   @override
   final String duration;
+
+  @override
+  final String taskId;
 
   Map<String, dynamic> toJson() => _$DeleteFeedResponseToJson(this);
 

@@ -15,8 +15,8 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$PushNotificationConfig {
-  List<String>? get activityTypes;
-  bool? get enabled;
+  bool? get enablePush;
+  List<String>? get pushTypes;
 
   /// Create a copy of PushNotificationConfig
   /// with the given fields replaced by the non-null parameter values.
@@ -31,18 +31,18 @@ mixin _$PushNotificationConfig {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is PushNotificationConfig &&
-            const DeepCollectionEquality()
-                .equals(other.activityTypes, activityTypes) &&
-            (identical(other.enabled, enabled) || other.enabled == enabled));
+            (identical(other.enablePush, enablePush) ||
+                other.enablePush == enablePush) &&
+            const DeepCollectionEquality().equals(other.pushTypes, pushTypes));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(activityTypes), enabled);
+      runtimeType, enablePush, const DeepCollectionEquality().hash(pushTypes));
 
   @override
   String toString() {
-    return 'PushNotificationConfig(activityTypes: $activityTypes, enabled: $enabled)';
+    return 'PushNotificationConfig(enablePush: $enablePush, pushTypes: $pushTypes)';
   }
 }
 
@@ -52,7 +52,7 @@ abstract mixin class $PushNotificationConfigCopyWith<$Res> {
           $Res Function(PushNotificationConfig) _then) =
       _$PushNotificationConfigCopyWithImpl;
   @useResult
-  $Res call({List<String>? activityTypes, bool? enabled});
+  $Res call({bool? enablePush, List<String>? pushTypes});
 }
 
 /// @nodoc
@@ -68,18 +68,18 @@ class _$PushNotificationConfigCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? activityTypes = freezed,
-    Object? enabled = freezed,
+    Object? enablePush = freezed,
+    Object? pushTypes = freezed,
   }) {
     return _then(PushNotificationConfig(
-      activityTypes: freezed == activityTypes
-          ? _self.activityTypes
-          : activityTypes // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-      enabled: freezed == enabled
-          ? _self.enabled
-          : enabled // ignore: cast_nullable_to_non_nullable
+      enablePush: freezed == enablePush
+          ? _self.enablePush
+          : enablePush // ignore: cast_nullable_to_non_nullable
               as bool?,
+      pushTypes: freezed == pushTypes
+          ? _self.pushTypes
+          : pushTypes // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ));
   }
 }

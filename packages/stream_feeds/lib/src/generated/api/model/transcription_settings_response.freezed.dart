@@ -18,6 +18,8 @@ mixin _$TranscriptionSettingsResponse {
   TranscriptionSettingsResponseClosedCaptionMode get closedCaptionMode;
   TranscriptionSettingsResponseLanguage get language;
   TranscriptionSettingsResponseMode get mode;
+  SpeechSegmentConfig? get speechSegmentConfig;
+  TranslationSettings? get translation;
 
   /// Create a copy of TranscriptionSettingsResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -37,16 +39,20 @@ mixin _$TranscriptionSettingsResponse {
                 other.closedCaptionMode == closedCaptionMode) &&
             (identical(other.language, language) ||
                 other.language == language) &&
-            (identical(other.mode, mode) || other.mode == mode));
+            (identical(other.mode, mode) || other.mode == mode) &&
+            (identical(other.speechSegmentConfig, speechSegmentConfig) ||
+                other.speechSegmentConfig == speechSegmentConfig) &&
+            (identical(other.translation, translation) ||
+                other.translation == translation));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, closedCaptionMode, language, mode);
+  int get hashCode => Object.hash(runtimeType, closedCaptionMode, language,
+      mode, speechSegmentConfig, translation);
 
   @override
   String toString() {
-    return 'TranscriptionSettingsResponse(closedCaptionMode: $closedCaptionMode, language: $language, mode: $mode)';
+    return 'TranscriptionSettingsResponse(closedCaptionMode: $closedCaptionMode, language: $language, mode: $mode, speechSegmentConfig: $speechSegmentConfig, translation: $translation)';
   }
 }
 
@@ -60,7 +66,9 @@ abstract mixin class $TranscriptionSettingsResponseCopyWith<$Res> {
   $Res call(
       {TranscriptionSettingsResponseClosedCaptionMode closedCaptionMode,
       TranscriptionSettingsResponseLanguage language,
-      TranscriptionSettingsResponseMode mode});
+      TranscriptionSettingsResponseMode mode,
+      SpeechSegmentConfig? speechSegmentConfig,
+      TranslationSettings? translation});
 }
 
 /// @nodoc
@@ -79,6 +87,8 @@ class _$TranscriptionSettingsResponseCopyWithImpl<$Res>
     Object? closedCaptionMode = null,
     Object? language = null,
     Object? mode = null,
+    Object? speechSegmentConfig = freezed,
+    Object? translation = freezed,
   }) {
     return _then(TranscriptionSettingsResponse(
       closedCaptionMode: null == closedCaptionMode
@@ -93,6 +103,14 @@ class _$TranscriptionSettingsResponseCopyWithImpl<$Res>
           ? _self.mode
           : mode // ignore: cast_nullable_to_non_nullable
               as TranscriptionSettingsResponseMode,
+      speechSegmentConfig: freezed == speechSegmentConfig
+          ? _self.speechSegmentConfig
+          : speechSegmentConfig // ignore: cast_nullable_to_non_nullable
+              as SpeechSegmentConfig?,
+      translation: freezed == translation
+          ? _self.translation
+          : translation // ignore: cast_nullable_to_non_nullable
+              as TranslationSettings?,
     ));
   }
 }

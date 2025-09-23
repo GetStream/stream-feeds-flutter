@@ -3638,6 +3638,47 @@ class _DefaultApi implements DefaultApi {
     );
   }
 
+  Future<UpsertPushPreferencesResponse> _updatePushNotificationPreferences({
+    required UpsertPushPreferencesRequest upsertPushPreferencesRequest,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(upsertPushPreferencesRequest.toJson());
+    final _options = _setStreamType<Result<UpsertPushPreferencesResponse>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/push_preferences',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late UpsertPushPreferencesResponse _value;
+    try {
+      _value = UpsertPushPreferencesResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<UpsertPushPreferencesResponse>>
+      updatePushNotificationPreferences({
+    required UpsertPushPreferencesRequest upsertPushPreferencesRequest,
+  }) {
+    return _ResultCallAdapter<UpsertPushPreferencesResponse>().adapt(
+      () => _updatePushNotificationPreferences(
+        upsertPushPreferencesRequest: upsertPushPreferencesRequest,
+      ),
+    );
+  }
+
   Future<UpdateUsersResponse> _updateUsers({
     required UpdateUsersRequest updateUsersRequest,
   }) async {

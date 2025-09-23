@@ -18,8 +18,16 @@ part 'delete_comment_response.freezed.dart';
 @JsonSerializable()
 class DeleteCommentResponse with _$DeleteCommentResponse {
   const DeleteCommentResponse({
+    required this.activity,
+    required this.comment,
     required this.duration,
   });
+
+  @override
+  final ActivityResponse activity;
+
+  @override
+  final CommentResponse comment;
 
   @override
   final String duration;

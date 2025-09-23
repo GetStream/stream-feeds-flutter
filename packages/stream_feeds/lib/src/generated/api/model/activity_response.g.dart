@@ -50,8 +50,10 @@ ActivityResponse _$ActivityResponseFromJson(Map<String, dynamic> json) =>
           ? null
           : ModerationV2Response.fromJson(
               json['moderation'] as Map<String, dynamic>),
-      notificationContext:
-          json['notification_context'] as Map<String, dynamic>?,
+      notificationContext: json['notification_context'] == null
+          ? null
+          : NotificationContext.fromJson(
+              json['notification_context'] as Map<String, dynamic>),
       ownBookmarks: (json['own_bookmarks'] as List<dynamic>)
           .map((e) => BookmarkResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -110,7 +112,7 @@ Map<String, dynamic> _$ActivityResponseToJson(ActivityResponse instance) =>
       'mentioned_users':
           instance.mentionedUsers.map((e) => e.toJson()).toList(),
       'moderation': instance.moderation?.toJson(),
-      'notification_context': instance.notificationContext,
+      'notification_context': instance.notificationContext?.toJson(),
       'own_bookmarks': instance.ownBookmarks.map((e) => e.toJson()).toList(),
       'own_reactions': instance.ownReactions.map((e) => e.toJson()).toList(),
       'parent': instance.parent?.toJson(),

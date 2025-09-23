@@ -21,6 +21,7 @@ class STTEgressConfig with _$STTEgressConfig {
     this.closedCaptionsEnabled,
     this.externalStorage,
     this.language,
+    this.speechSegmentConfig,
     this.storageName,
     this.translationLanguages,
     this.translationsEnabled,
@@ -36,6 +37,9 @@ class STTEgressConfig with _$STTEgressConfig {
 
   @override
   final String? language;
+
+  @override
+  final SpeechSegmentConfig? speechSegmentConfig;
 
   @override
   final String? storageName;
