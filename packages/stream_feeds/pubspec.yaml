@@ -1,6 +1,6 @@
 name: stream_feeds
 description: The official Dart client for Stream Feeds, a service for building applications with activity feeds.
-version: 0.1.0
+version: 0.1.1
 repository: https://github.com/GetStream/stream-feeds-flutter
 
 # Note: The environment configuration and dependency versions are managed by Melos.
