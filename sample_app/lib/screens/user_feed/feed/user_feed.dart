@@ -25,6 +25,7 @@ class UserFeed extends StatelessWidget {
       stateNotifier: userFeed.notifier,
       builder: (context, state, child) {
         final activities = state.activities;
+        final capabilities = state.ownCapabilities;
         final canLoadMore = state.canLoadMoreActivities;
 
         if (activities.isEmpty) return const EmptyActivities();
@@ -58,43 +59,92 @@ class UserFeed extends StatelessWidget {
               final parentActivity = activity.parent;
               final baseActivity = activity.parent ?? activity;
 
-              return Padding(
-                padding: const EdgeInsets.all(8),
-                child: Column(
-                  spacing: 8,
-                  children: [
-                    if (parentActivity != null) ...[
-                      ActivityRepostIndicator(
-                        user: activity.user,
-                        data: parentActivity,
+              return GestureDetector(
+                onLongPress: () => _onLongPressActivity(
+                  context,
+                  client,
+                  capabilities,
+                  activity,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Column(
+                    spacing: 8,
+                    children: [
+                      if (parentActivity != null) ...[
+                        ActivityRepostIndicator(
+                          user: activity.user,
+                          data: parentActivity,
+                        ),
+                      ],
+                      UserFeedItem(
+                        data: activity,
+                        user: baseActivity.user,
+                        text: baseActivity.text ?? '',
+                        attachments: baseActivity.attachments,
+                        currentUserId: client.user.id,
+                        onCommentClick: () {
+                          _onCommentClick(context, activity);
+                        },
+                        onHeartClick: (isAdding) {
+                          _onHeartClick(activity, isAdding);
+                        },
+                        onRepostClick: (message) {
+                          _onRepostClick(context, activity, message);
+                        },
+                        onBookmarkClick: () {
+                          _onBookmarkClick(context, activity);
+                        },
+                        onDeleteClick: () {},
+                        onEditSave: (text) {},
                       ),
                     ],
-                    UserFeedItem(
-                      data: activity,
-                      user: baseActivity.user,
-                      text: baseActivity.text ?? '',
-                      attachments: baseActivity.attachments,
-                      currentUserId: client.user.id,
-                      onCommentClick: () {
-                        _onCommentClick(context, activity);
-                      },
-                      onHeartClick: (isAdding) {
-                        _onHeartClick(activity, isAdding);
-                      },
-                      onRepostClick: (message) {
-                        _onRepostClick(context, activity, message);
-                      },
-                      onBookmarkClick: () {
-                        _onBookmarkClick(context, activity);
-                      },
-                      onDeleteClick: () {},
-                      onEditSave: (text) {},
-                    ),
-                  ],
+                  ),
                 ),
               );
             },
           ),
+        );
+      },
+    );
+  }
+
+  void _onLongPressActivity(
+    BuildContext context,
+    StreamFeedsClient client,
+    List<FeedOwnCapability> capabilities,
+    ActivityData activity,
+  ) {
+    final isOwnActivity = activity.user.id == client.user.id;
+    if (!isOwnActivity) return;
+    final canEdit =
+        capabilities.contains(FeedOwnCapability.updateActivity);
+    final canDelete =
+        capabilities.contains(FeedOwnCapability.removeActivity);
+    if (!canEdit && !canDelete) return;
+
+    showDialog<void>(
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+          children: [
+            if (canEdit)
+              SimpleDialogOption(
+                child: const Text('Edit'),
+                onPressed: () {
+                  Navigator.pop(context);
+                  // TODO: Implement edit activity
+                },
+              ),
+            if (canDelete)
+              SimpleDialogOption(
+                child: const Text('Delete'),
+                onPressed: () {
+                  userFeed.deleteActivity(id: activity.id);
+                  Navigator.pop(context);
+                },
+              ),
+          ],
         );
       },
     );
