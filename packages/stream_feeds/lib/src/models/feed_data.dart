@@ -27,6 +27,7 @@ class FeedData with _$FeedData {
     required this.id,
     required this.memberCount,
     required this.name,
+    required this.ownCapabilities,
     required this.pinCount,
     required this.updatedAt,
     this.visibility,
@@ -81,6 +82,10 @@ class FeedData with _$FeedData {
   @override
   final String name;
 
+  /// The capabilities that the current user has on the feed.
+  @override
+  final List<FeedOwnCapability> ownCapabilities;
+
   /// The number of pinned items in the feed.
   @override
   final int pinCount;
@@ -118,6 +123,7 @@ extension FeedResponseMapper on FeedResponse {
       id: id,
       memberCount: memberCount,
       name: name,
+      ownCapabilities: ownCapabilities ?? const [],
       pinCount: pinCount,
       updatedAt: updatedAt,
       visibility: visibility,

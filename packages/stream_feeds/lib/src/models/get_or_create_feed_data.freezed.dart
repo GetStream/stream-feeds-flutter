@@ -24,7 +24,6 @@ mixin _$GetOrCreateFeedData {
   List<FollowData> get following;
   List<FollowData> get followRequests;
   PaginationResult<FeedMemberData> get members;
-  List<FeedOwnCapability> get ownCapabilities;
   List<ActivityPinData> get pinnedActivities;
   NotificationStatusResponse? get notificationStatus;
 
@@ -54,8 +53,6 @@ mixin _$GetOrCreateFeedData {
                 .equals(other.followRequests, followRequests) &&
             (identical(other.members, members) || other.members == members) &&
             const DeepCollectionEquality()
-                .equals(other.ownCapabilities, ownCapabilities) &&
-            const DeepCollectionEquality()
                 .equals(other.pinnedActivities, pinnedActivities) &&
             (identical(other.notificationStatus, notificationStatus) ||
                 other.notificationStatus == notificationStatus));
@@ -72,13 +69,12 @@ mixin _$GetOrCreateFeedData {
       const DeepCollectionEquality().hash(following),
       const DeepCollectionEquality().hash(followRequests),
       members,
-      const DeepCollectionEquality().hash(ownCapabilities),
       const DeepCollectionEquality().hash(pinnedActivities),
       notificationStatus);
 
   @override
   String toString() {
-    return 'GetOrCreateFeedData(activities: $activities, aggregatedActivities: $aggregatedActivities, activitiesQueryConfig: $activitiesQueryConfig, feed: $feed, followers: $followers, following: $following, followRequests: $followRequests, members: $members, ownCapabilities: $ownCapabilities, pinnedActivities: $pinnedActivities, notificationStatus: $notificationStatus)';
+    return 'GetOrCreateFeedData(activities: $activities, aggregatedActivities: $aggregatedActivities, activitiesQueryConfig: $activitiesQueryConfig, feed: $feed, followers: $followers, following: $following, followRequests: $followRequests, members: $members, pinnedActivities: $pinnedActivities, notificationStatus: $notificationStatus)';
   }
 }
 
@@ -97,7 +93,6 @@ abstract mixin class $GetOrCreateFeedDataCopyWith<$Res> {
       List<FollowData> following,
       List<FollowData> followRequests,
       PaginationResult<FeedMemberData> members,
-      List<FeedOwnCapability> ownCapabilities,
       List<ActivityPinData> pinnedActivities,
       List<AggregatedActivityData> aggregatedActivities,
       NotificationStatusResponse? notificationStatus});
@@ -123,7 +118,6 @@ class _$GetOrCreateFeedDataCopyWithImpl<$Res>
     Object? following = null,
     Object? followRequests = null,
     Object? members = null,
-    Object? ownCapabilities = null,
     Object? pinnedActivities = null,
     Object? aggregatedActivities = null,
     Object? notificationStatus = freezed,
@@ -157,10 +151,6 @@ class _$GetOrCreateFeedDataCopyWithImpl<$Res>
           ? _self.members
           : members // ignore: cast_nullable_to_non_nullable
               as PaginationResult<FeedMemberData>,
-      ownCapabilities: null == ownCapabilities
-          ? _self.ownCapabilities
-          : ownCapabilities // ignore: cast_nullable_to_non_nullable
-              as List<FeedOwnCapability>,
       pinnedActivities: null == pinnedActivities
           ? _self.pinnedActivities
           : pinnedActivities // ignore: cast_nullable_to_non_nullable

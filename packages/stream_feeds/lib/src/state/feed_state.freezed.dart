@@ -24,7 +24,6 @@ mixin _$FeedState {
   List<FollowData> get following;
   List<FollowData> get followRequests;
   List<FeedMemberData> get members;
-  List<FeedOwnCapability> get ownCapabilities;
   List<ActivityPinData> get pinnedActivities;
   NotificationStatusResponse? get notificationStatus;
   PaginationData? get activitiesPagination;
@@ -55,8 +54,6 @@ mixin _$FeedState {
                 .equals(other.followRequests, followRequests) &&
             const DeepCollectionEquality().equals(other.members, members) &&
             const DeepCollectionEquality()
-                .equals(other.ownCapabilities, ownCapabilities) &&
-            const DeepCollectionEquality()
                 .equals(other.pinnedActivities, pinnedActivities) &&
             (identical(other.notificationStatus, notificationStatus) ||
                 other.notificationStatus == notificationStatus) &&
@@ -76,14 +73,13 @@ mixin _$FeedState {
       const DeepCollectionEquality().hash(following),
       const DeepCollectionEquality().hash(followRequests),
       const DeepCollectionEquality().hash(members),
-      const DeepCollectionEquality().hash(ownCapabilities),
       const DeepCollectionEquality().hash(pinnedActivities),
       notificationStatus,
       activitiesPagination);
 
   @override
   String toString() {
-    return 'FeedState(fid: $fid, feedQuery: $feedQuery, activities: $activities, aggregatedActivities: $aggregatedActivities, feed: $feed, followers: $followers, following: $following, followRequests: $followRequests, members: $members, ownCapabilities: $ownCapabilities, pinnedActivities: $pinnedActivities, notificationStatus: $notificationStatus, activitiesPagination: $activitiesPagination)';
+    return 'FeedState(fid: $fid, feedQuery: $feedQuery, activities: $activities, aggregatedActivities: $aggregatedActivities, feed: $feed, followers: $followers, following: $following, followRequests: $followRequests, members: $members, pinnedActivities: $pinnedActivities, notificationStatus: $notificationStatus, activitiesPagination: $activitiesPagination)';
   }
 }
 
@@ -102,7 +98,6 @@ abstract mixin class $FeedStateCopyWith<$Res> {
       List<FollowData> following,
       List<FollowData> followRequests,
       List<FeedMemberData> members,
-      List<FeedOwnCapability> ownCapabilities,
       List<ActivityPinData> pinnedActivities,
       NotificationStatusResponse? notificationStatus,
       PaginationData? activitiesPagination});
@@ -129,7 +124,6 @@ class _$FeedStateCopyWithImpl<$Res> implements $FeedStateCopyWith<$Res> {
     Object? following = null,
     Object? followRequests = null,
     Object? members = null,
-    Object? ownCapabilities = null,
     Object? pinnedActivities = null,
     Object? notificationStatus = freezed,
     Object? activitiesPagination = freezed,
@@ -171,10 +165,6 @@ class _$FeedStateCopyWithImpl<$Res> implements $FeedStateCopyWith<$Res> {
           ? _self.members
           : members // ignore: cast_nullable_to_non_nullable
               as List<FeedMemberData>,
-      ownCapabilities: null == ownCapabilities
-          ? _self.ownCapabilities
-          : ownCapabilities // ignore: cast_nullable_to_non_nullable
-              as List<FeedOwnCapability>,
       pinnedActivities: null == pinnedActivities
           ? _self.pinnedActivities
           : pinnedActivities // ignore: cast_nullable_to_non_nullable

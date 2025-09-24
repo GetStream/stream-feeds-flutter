@@ -192,7 +192,7 @@ class _UserCommentsState extends State<UserComments> {
   }
 
   void _onFeedStateChange(FeedState state) {
-    capabilities = state.ownCapabilities;
+    capabilities = state.feed?.ownCapabilities ?? [];
   }
 
   Future<void> _getActivity() async {

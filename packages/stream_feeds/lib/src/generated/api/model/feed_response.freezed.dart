@@ -28,7 +28,9 @@ mixin _$FeedResponse {
   String get id;
   int get memberCount;
   String get name;
+  List<FeedOwnCapability>? get ownCapabilities;
   List<FollowResponse>? get ownFollows;
+  FeedMemberResponse? get ownMembership;
   int get pinCount;
   DateTime get updatedAt;
   String? get visibility;
@@ -68,7 +70,11 @@ mixin _$FeedResponse {
                 other.memberCount == memberCount) &&
             (identical(other.name, name) || other.name == name) &&
             const DeepCollectionEquality()
+                .equals(other.ownCapabilities, ownCapabilities) &&
+            const DeepCollectionEquality()
                 .equals(other.ownFollows, ownFollows) &&
+            (identical(other.ownMembership, ownMembership) ||
+                other.ownMembership == ownMembership) &&
             (identical(other.pinCount, pinCount) ||
                 other.pinCount == pinCount) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -78,29 +84,32 @@ mixin _$FeedResponse {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      createdAt,
-      createdBy,
-      const DeepCollectionEquality().hash(custom),
-      deletedAt,
-      description,
-      feed,
-      const DeepCollectionEquality().hash(filterTags),
-      followerCount,
-      followingCount,
-      groupId,
-      id,
-      memberCount,
-      name,
-      const DeepCollectionEquality().hash(ownFollows),
-      pinCount,
-      updatedAt,
-      visibility);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        createdAt,
+        createdBy,
+        const DeepCollectionEquality().hash(custom),
+        deletedAt,
+        description,
+        feed,
+        const DeepCollectionEquality().hash(filterTags),
+        followerCount,
+        followingCount,
+        groupId,
+        id,
+        memberCount,
+        name,
+        const DeepCollectionEquality().hash(ownCapabilities),
+        const DeepCollectionEquality().hash(ownFollows),
+        ownMembership,
+        pinCount,
+        updatedAt,
+        visibility
+      ]);
 
   @override
   String toString() {
-    return 'FeedResponse(createdAt: $createdAt, createdBy: $createdBy, custom: $custom, deletedAt: $deletedAt, description: $description, feed: $feed, filterTags: $filterTags, followerCount: $followerCount, followingCount: $followingCount, groupId: $groupId, id: $id, memberCount: $memberCount, name: $name, ownFollows: $ownFollows, pinCount: $pinCount, updatedAt: $updatedAt, visibility: $visibility)';
+    return 'FeedResponse(createdAt: $createdAt, createdBy: $createdBy, custom: $custom, deletedAt: $deletedAt, description: $description, feed: $feed, filterTags: $filterTags, followerCount: $followerCount, followingCount: $followingCount, groupId: $groupId, id: $id, memberCount: $memberCount, name: $name, ownCapabilities: $ownCapabilities, ownFollows: $ownFollows, ownMembership: $ownMembership, pinCount: $pinCount, updatedAt: $updatedAt, visibility: $visibility)';
   }
 }
 
@@ -124,7 +133,9 @@ abstract mixin class $FeedResponseCopyWith<$Res> {
       String id,
       int memberCount,
       String name,
+      List<FeedOwnCapability>? ownCapabilities,
       List<FollowResponse>? ownFollows,
+      FeedMemberResponse? ownMembership,
       int pinCount,
       DateTime updatedAt,
       String? visibility});
@@ -155,7 +166,9 @@ class _$FeedResponseCopyWithImpl<$Res> implements $FeedResponseCopyWith<$Res> {
     Object? id = null,
     Object? memberCount = null,
     Object? name = null,
+    Object? ownCapabilities = freezed,
     Object? ownFollows = freezed,
+    Object? ownMembership = freezed,
     Object? pinCount = null,
     Object? updatedAt = null,
     Object? visibility = freezed,
@@ -213,10 +226,18 @@ class _$FeedResponseCopyWithImpl<$Res> implements $FeedResponseCopyWith<$Res> {
           ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      ownCapabilities: freezed == ownCapabilities
+          ? _self.ownCapabilities
+          : ownCapabilities // ignore: cast_nullable_to_non_nullable
+              as List<FeedOwnCapability>?,
       ownFollows: freezed == ownFollows
           ? _self.ownFollows
           : ownFollows // ignore: cast_nullable_to_non_nullable
               as List<FollowResponse>?,
+      ownMembership: freezed == ownMembership
+          ? _self.ownMembership
+          : ownMembership // ignore: cast_nullable_to_non_nullable
+              as FeedMemberResponse?,
       pinCount: null == pinCount
           ? _self.pinCount
           : pinCount // ignore: cast_nullable_to_non_nullable

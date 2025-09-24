@@ -28,9 +28,6 @@ mixin _$GetOrCreateFeedResponse {
   List<FeedMemberResponse> get members;
   String? get next;
   NotificationStatusResponse? get notificationStatus;
-  List<FeedOwnCapability> get ownCapabilities;
-  List<FollowResponse>? get ownFollows;
-  FeedMemberResponse? get ownMembership;
   List<ActivityPinResponse> get pinnedActivities;
   String? get prev;
 
@@ -68,12 +65,6 @@ mixin _$GetOrCreateFeedResponse {
             (identical(other.notificationStatus, notificationStatus) ||
                 other.notificationStatus == notificationStatus) &&
             const DeepCollectionEquality()
-                .equals(other.ownCapabilities, ownCapabilities) &&
-            const DeepCollectionEquality()
-                .equals(other.ownFollows, ownFollows) &&
-            (identical(other.ownMembership, ownMembership) ||
-                other.ownMembership == ownMembership) &&
-            const DeepCollectionEquality()
                 .equals(other.pinnedActivities, pinnedActivities) &&
             (identical(other.prev, prev) || other.prev == prev));
   }
@@ -94,15 +85,12 @@ mixin _$GetOrCreateFeedResponse {
       const DeepCollectionEquality().hash(members),
       next,
       notificationStatus,
-      const DeepCollectionEquality().hash(ownCapabilities),
-      const DeepCollectionEquality().hash(ownFollows),
-      ownMembership,
       const DeepCollectionEquality().hash(pinnedActivities),
       prev);
 
   @override
   String toString() {
-    return 'GetOrCreateFeedResponse(activities: $activities, aggregatedActivities: $aggregatedActivities, created: $created, duration: $duration, feed: $feed, followers: $followers, followersPagination: $followersPagination, following: $following, followingPagination: $followingPagination, memberPagination: $memberPagination, members: $members, next: $next, notificationStatus: $notificationStatus, ownCapabilities: $ownCapabilities, ownFollows: $ownFollows, ownMembership: $ownMembership, pinnedActivities: $pinnedActivities, prev: $prev)';
+    return 'GetOrCreateFeedResponse(activities: $activities, aggregatedActivities: $aggregatedActivities, created: $created, duration: $duration, feed: $feed, followers: $followers, followersPagination: $followersPagination, following: $following, followingPagination: $followingPagination, memberPagination: $memberPagination, members: $members, next: $next, notificationStatus: $notificationStatus, pinnedActivities: $pinnedActivities, prev: $prev)';
   }
 }
 
@@ -126,9 +114,6 @@ abstract mixin class $GetOrCreateFeedResponseCopyWith<$Res> {
       List<FeedMemberResponse> members,
       String? next,
       NotificationStatusResponse? notificationStatus,
-      List<FeedOwnCapability> ownCapabilities,
-      List<FollowResponse>? ownFollows,
-      FeedMemberResponse? ownMembership,
       List<ActivityPinResponse> pinnedActivities,
       String? prev});
 }
@@ -159,9 +144,6 @@ class _$GetOrCreateFeedResponseCopyWithImpl<$Res>
     Object? members = null,
     Object? next = freezed,
     Object? notificationStatus = freezed,
-    Object? ownCapabilities = null,
-    Object? ownFollows = freezed,
-    Object? ownMembership = freezed,
     Object? pinnedActivities = null,
     Object? prev = freezed,
   }) {
@@ -218,18 +200,6 @@ class _$GetOrCreateFeedResponseCopyWithImpl<$Res>
           ? _self.notificationStatus
           : notificationStatus // ignore: cast_nullable_to_non_nullable
               as NotificationStatusResponse?,
-      ownCapabilities: null == ownCapabilities
-          ? _self.ownCapabilities
-          : ownCapabilities // ignore: cast_nullable_to_non_nullable
-              as List<FeedOwnCapability>,
-      ownFollows: freezed == ownFollows
-          ? _self.ownFollows
-          : ownFollows // ignore: cast_nullable_to_non_nullable
-              as List<FollowResponse>?,
-      ownMembership: freezed == ownMembership
-          ? _self.ownMembership
-          : ownMembership // ignore: cast_nullable_to_non_nullable
-              as FeedMemberResponse?,
       pinnedActivities: null == pinnedActivities
           ? _self.pinnedActivities
           : pinnedActivities // ignore: cast_nullable_to_non_nullable

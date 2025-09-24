@@ -31,7 +31,9 @@ class FeedResponse with _$FeedResponse {
     required this.id,
     required this.memberCount,
     required this.name,
+    this.ownCapabilities,
     this.ownFollows,
+    this.ownMembership,
     required this.pinCount,
     required this.updatedAt,
     this.visibility,
@@ -79,7 +81,14 @@ class FeedResponse with _$FeedResponse {
   final String name;
 
   @override
+  @JsonKey(unknownEnumValue: FeedOwnCapability.unknown)
+  final List<FeedOwnCapability>? ownCapabilities;
+
+  @override
   final List<FollowResponse>? ownFollows;
+
+  @override
+  final FeedMemberResponse? ownMembership;
 
   @override
   final int pinCount;

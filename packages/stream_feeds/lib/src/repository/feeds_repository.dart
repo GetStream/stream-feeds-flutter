@@ -79,7 +79,6 @@ class FeedsRepository {
             _ => PaginationData.empty,
           },
         ),
-        ownCapabilities: response.ownCapabilities,
         pinnedActivities:
             response.pinnedActivities.map((a) => a.toModel()).toList(),
         aggregatedActivities:

@@ -27,6 +27,7 @@ mixin _$FeedData {
   String get id;
   int get memberCount;
   String get name;
+  List<FeedOwnCapability> get ownCapabilities;
   int get pinCount;
   DateTime get updatedAt;
   String? get visibility;
@@ -64,6 +65,8 @@ mixin _$FeedData {
             (identical(other.memberCount, memberCount) ||
                 other.memberCount == memberCount) &&
             (identical(other.name, name) || other.name == name) &&
+            const DeepCollectionEquality()
+                .equals(other.ownCapabilities, ownCapabilities) &&
             (identical(other.pinCount, pinCount) ||
                 other.pinCount == pinCount) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -88,6 +91,7 @@ mixin _$FeedData {
       id,
       memberCount,
       name,
+      const DeepCollectionEquality().hash(ownCapabilities),
       pinCount,
       updatedAt,
       visibility,
@@ -95,7 +99,7 @@ mixin _$FeedData {
 
   @override
   String toString() {
-    return 'FeedData(createdAt: $createdAt, createdBy: $createdBy, deletedAt: $deletedAt, description: $description, fid: $fid, filterTags: $filterTags, followerCount: $followerCount, followingCount: $followingCount, groupId: $groupId, id: $id, memberCount: $memberCount, name: $name, pinCount: $pinCount, updatedAt: $updatedAt, visibility: $visibility, custom: $custom)';
+    return 'FeedData(createdAt: $createdAt, createdBy: $createdBy, deletedAt: $deletedAt, description: $description, fid: $fid, filterTags: $filterTags, followerCount: $followerCount, followingCount: $followingCount, groupId: $groupId, id: $id, memberCount: $memberCount, name: $name, ownCapabilities: $ownCapabilities, pinCount: $pinCount, updatedAt: $updatedAt, visibility: $visibility, custom: $custom)';
   }
 }
 
@@ -117,6 +121,7 @@ abstract mixin class $FeedDataCopyWith<$Res> {
       String id,
       int memberCount,
       String name,
+      List<FeedOwnCapability> ownCapabilities,
       int pinCount,
       DateTime updatedAt,
       String? visibility,
@@ -147,6 +152,7 @@ class _$FeedDataCopyWithImpl<$Res> implements $FeedDataCopyWith<$Res> {
     Object? id = null,
     Object? memberCount = null,
     Object? name = null,
+    Object? ownCapabilities = null,
     Object? pinCount = null,
     Object? updatedAt = null,
     Object? visibility = freezed,
@@ -201,6 +207,10 @@ class _$FeedDataCopyWithImpl<$Res> implements $FeedDataCopyWith<$Res> {
           ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      ownCapabilities: null == ownCapabilities
+          ? _self.ownCapabilities
+          : ownCapabilities // ignore: cast_nullable_to_non_nullable
+              as List<FeedOwnCapability>,
       pinCount: null == pinCount
           ? _self.pinCount
           : pinCount // ignore: cast_nullable_to_non_nullable

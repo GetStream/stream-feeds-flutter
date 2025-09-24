@@ -31,9 +31,6 @@ class GetOrCreateFeedResponse with _$GetOrCreateFeedResponse {
     required this.members,
     this.next,
     this.notificationStatus,
-    required this.ownCapabilities,
-    this.ownFollows,
-    this.ownMembership,
     required this.pinnedActivities,
     this.prev,
   });
@@ -76,16 +73,6 @@ class GetOrCreateFeedResponse with _$GetOrCreateFeedResponse {
 
   @override
   final NotificationStatusResponse? notificationStatus;
-
-  @override
-  @JsonKey(unknownEnumValue: FeedOwnCapability.unknown)
-  final List<FeedOwnCapability> ownCapabilities;
-
-  @override
-  final List<FollowResponse>? ownFollows;
-
-  @override
-  final FeedMemberResponse? ownMembership;
 
   @override
   final List<ActivityPinResponse> pinnedActivities;
