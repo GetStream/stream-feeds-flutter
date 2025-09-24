@@ -4,7 +4,7 @@ import 'package:stream_feeds/stream_feeds.dart';
 import '../../../theme/extensions/theme_extensions.dart';
 import '../../../widgets/attachments/attachments.dart';
 import '../../../widgets/user_avatar.dart';
-import '../polls/create_poll_state.dart';
+import '../polls/create_poll/create_poll_state.dart';
 
 /// A bottom sheet for creating new activities with text and attachments.
 ///
@@ -210,6 +210,13 @@ extension on CreatePollState {
     return CreatePollRequest(
       name: name,
       options: options.map((e) => e.toCreatePollOptionRequest()).toList(),
+      enforceUniqueVote: enforceUniqueVote,
+      maxVotesAllowed: maxVotesAllowed,
+      allowUserSuggestedOptions: allowUserSuggestedOptions,
+      votingVisibility: votingVisibility?.toRequest(),
+      allowAnswers: allowAnswers,
+      description: description,
+      isClosed: isClosed,
     );
   }
 }
@@ -219,5 +226,14 @@ extension on PollOptionInputState {
     return PollOptionInput(
       text: text,
     );
+  }
+}
+
+extension on VotingVisibility {
+  CreatePollRequestVotingVisibility toRequest() {
+    return switch (this) {
+      VotingVisibility.public => CreatePollRequestVotingVisibility.public,
+      VotingVisibility.anonymous => CreatePollRequestVotingVisibility.anonymous,
+    };
   }
 }

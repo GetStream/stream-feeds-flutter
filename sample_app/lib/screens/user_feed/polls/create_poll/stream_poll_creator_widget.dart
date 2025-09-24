@@ -86,7 +86,7 @@ class StreamPollCreatorWidget extends StatelessWidget {
               const SizedBox(height: 32),
               PollSwitchListTile(
                 title: 'Multiple answers',
-                value: poll.enforceUniqueVote == false,
+                value: !poll.enforceUniqueVote,
                 onChanged: (value) {
                   controller.enforceUniqueVote = !value;
                   // We also need to reset maxVotesAllowed if disabled.

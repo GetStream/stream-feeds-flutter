@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../../theme/extensions/theme_extensions.dart';
+import '../../../../theme/extensions/theme_extensions.dart';
 
 const _kTransitionDuration = Duration(milliseconds: 167);
 

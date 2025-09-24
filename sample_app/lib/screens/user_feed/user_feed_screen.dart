@@ -111,15 +111,17 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
         children: <Widget?>[
           ...?switch (breakpoint) {
             Breakpoint.compact => null,
+            Breakpoint.medium => [
+                Flexible(child: UserProfile(userFeed: userFeed)),
+                VerticalDivider(
+                  width: 8,
+                  color: context.appColors.borders,
+                ),
+              ],
             _ => [
-                Flexible(
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(
-                      minWidth: 280,
-                      maxWidth: 420,
-                    ),
-                    child: UserProfile(userFeed: userFeed),
-                  ),
+                SizedBox(
+                  width: 420,
+                  child: UserProfile(userFeed: userFeed),
                 ),
                 VerticalDivider(
                   width: 8,

@@ -9,10 +9,13 @@ import '../../../widgets/action_button.dart';
 import '../../../widgets/attachment_gallery/attachment_metadata.dart';
 import '../../../widgets/attachments/attachments.dart';
 import '../../../widgets/user_avatar.dart';
+import '../polls/show_poll/poll_message.dart';
+import '../polls/show_poll/show_poll_widget.dart';
 
 class UserFeedItem extends StatelessWidget {
   const UserFeedItem({
     super.key,
+    required this.feed,
     required this.user,
     required this.text,
     required this.attachments,
@@ -37,6 +40,7 @@ class UserFeedItem extends StatelessWidget {
   final VoidCallback? onBookmarkClick;
   final VoidCallback? onDeleteClick;
   final ValueChanged<String>? onEditSave;
+  final Feed feed;
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +52,7 @@ class UserFeedItem extends StatelessWidget {
           data: data,
           text: text,
           attachments: attachments,
+          feed: feed,
         ),
         const SizedBox(height: 8),
         Center(
@@ -72,12 +77,14 @@ class _UserContent extends StatelessWidget {
     required this.data,
     required this.text,
     required this.attachments,
+    required this.feed,
   });
 
   final UserData user;
   final ActivityData data;
   final String text;
   final List<Attachment> attachments;
+  final Feed feed;
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +109,8 @@ class _UserContent extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               _ActivityBody(
+                feed: feed,
+                activity: data,
                 user: user,
                 text: text,
                 attachments: attachments,
@@ -117,12 +126,16 @@ class _UserContent extends StatelessWidget {
 
 class _ActivityBody extends StatelessWidget {
   const _ActivityBody({
+    required this.activity,
     required this.user,
     required this.text,
     required this.attachments,
     required this.data,
+    required this.feed,
   });
 
+  final Feed feed;
+  final ActivityData activity;
   final UserData user;
   final String text;
   final List<Attachment> attachments;
@@ -136,6 +149,8 @@ class _ActivityBody extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (text.isNotEmpty) Text(text),
+        if (data.poll case final poll?)
+          ShowPollWidget(poll: poll, activity: activity, feed: feed),
         if (attachments.isNotEmpty) ...[
           AttachmentGrid(
             attachments: attachments,

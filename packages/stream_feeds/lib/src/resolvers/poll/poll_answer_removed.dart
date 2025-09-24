@@ -7,7 +7,7 @@ import '../../generated/api/models.dart';
 core.WsEvent? pollAnswerRemovedFeedEventResolver(core.WsEvent event) {
   if (event is PollVoteRemovedFeedEvent) {
     final pollVote = event.pollVote;
-    if (pollVote.isAnswer ?? false) return null;
+    if (!(pollVote.isAnswer ?? false)) return null;
 
     // If the event is a PollVoteRemovedFeedEvent and the poll vote indicates an
     // answer was removed, we can resolve it to a PollAnswerRemovedFeedEvent.

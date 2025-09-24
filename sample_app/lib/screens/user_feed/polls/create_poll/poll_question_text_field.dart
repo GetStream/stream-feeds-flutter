@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
-import '../../../theme/extensions/theme_extensions.dart';
+import '../../../../theme/extensions/theme_extensions.dart';
 import 'poll_config.dart';
 import 'poll_text_field.dart' show StreamPollTextField;
 

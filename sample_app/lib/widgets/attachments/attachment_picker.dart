@@ -2,8 +2,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 
-import '../../screens/user_feed/polls/create_poll_state.dart';
-import '../../screens/user_feed/polls/stream_poll_creator_dialog.dart';
+import '../../screens/user_feed/polls/create_poll/create_poll_state.dart';
+import '../../screens/user_feed/polls/create_poll/stream_poll_creator_dialog.dart';
 import '../../theme/extensions/theme_extensions.dart';
 
 /// A widget that provides attachment selection functionality.
