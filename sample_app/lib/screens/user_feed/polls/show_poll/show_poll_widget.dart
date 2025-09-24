@@ -20,9 +20,13 @@ class ShowPollWidget extends StatefulWidget {
   State<ShowPollWidget> createState() => _ShowPollWidgetState();
 }
 
-class _ShowPollWidgetState extends State<ShowPollWidget> {
+class _ShowPollWidgetState extends State<ShowPollWidget>
+    with AutomaticKeepAliveClientMixin {
   StreamFeedsClient get client => locator<StreamFeedsClient>();
   late Activity activity;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -55,12 +59,12 @@ class _ShowPollWidgetState extends State<ShowPollWidget> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return StateNotifierBuilder(
       stateNotifier: activity.notifier,
       builder: (context, state, child) {
-        final poll = state.poll;
-        if (poll == null) return const SizedBox.shrink();
-
+        final poll = state.poll ?? widget.poll;
         return PollMessage(
           poll: poll,
           activity: activity,
