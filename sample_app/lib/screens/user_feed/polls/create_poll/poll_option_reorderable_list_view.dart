@@ -205,7 +205,9 @@ class _PollOptionReorderableListViewState
   }
 
   void _disposeOptions() {
-    _focusNodes.values.forEach((it) => it.dispose());
+    for (final it in _focusNodes.values) {
+      it.dispose();
+    }
     _focusNodes.clear();
     _options.clear();
   }
@@ -462,7 +464,7 @@ class SeparatedReorderableListView extends ReorderableListView {
 
             // Ideally should never happen as separators are wrapped in the
             // IgnorePointer widget. This is just a safety check.
-            if (oldIndex % 2 == 1) return;
+            if (oldIndex.isOdd) return;
 
             // The item moved behind the top/bottom separator we should not
             // reorder it.
@@ -470,7 +472,7 @@ class SeparatedReorderableListView extends ReorderableListView {
 
             // Calculate the updated indexes
             final updatedOldIndex = oldIndex ~/ 2;
-            final updatedNewIndex = oldIndex > newIndex && newIndex % 2 == 1
+            final updatedNewIndex = oldIndex > newIndex && newIndex.isOdd
                 ? (newIndex + 1) ~/ 2
                 : newIndex ~/ 2;
 

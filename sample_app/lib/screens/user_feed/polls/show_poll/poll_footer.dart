@@ -3,14 +3,7 @@ import 'package:stream_feeds/stream_feeds.dart';
 
 import '../../../../theme/extensions/theme_extensions.dart';
 
-/// {@template pollFooter}
-/// A widget used as the footer of a poll.
-///
-/// Used in [StreamPollInteractor] to display various actions the user can take
-/// on the poll.
-/// {@endtemplate}
 class PollFooter extends StatelessWidget {
-  /// {@macro pollFooter}
   const PollFooter({
     super.key,
     required this.poll,

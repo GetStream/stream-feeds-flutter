@@ -1,5 +1,4 @@
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 
@@ -299,7 +298,7 @@ class PollVotesByOptionItem extends StatelessWidget {
                 const SizedBox(width: 8),
               ],
               Text(
-                '${pollVotesCount} votes',
+                '$pollVotesCount votes',
                 style: isOptionWinner ? textTheme.bodyBold : textTheme.body,
               ),
             ],
@@ -328,7 +327,7 @@ class PollVotesByOptionItem extends StatelessWidget {
                 foregroundColor: colorTheme.appBg,
               ),
               child: Text(
-                'Show all votes (${pollVotesCount})',
+                'Show all votes ($pollVotesCount)',
               ),
             ),
         ],
@@ -338,7 +337,7 @@ class PollVotesByOptionItem extends StatelessWidget {
 }
 
 extension IterableExtension<T> on Iterable<T> {
-  /// Insert any item<T> inBetween the list items
+  /// Insert any item inBetween the list items
   List<T> insertBetween(T item) => expand((e) sync* {
         yield item;
         yield e;

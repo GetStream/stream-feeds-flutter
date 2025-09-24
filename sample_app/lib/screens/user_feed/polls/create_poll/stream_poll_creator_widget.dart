@@ -70,9 +70,10 @@ class StreamPollCreatorWidget extends StatelessWidget {
                 initialOptions: [
                   for (final option in poll.options)
                     PollOptionItem(
-                        key: option.key,
-                        originalId: option.originalId,
-                        text: option.text),
+                      key: option.key,
+                      originalId: option.originalId,
+                      text: option.text,
+                    ),
                 ],
                 onOptionsChanged: (options) => controller.options = [
                   for (final option in options)

@@ -3,13 +3,7 @@ import 'package:stream_feeds/stream_feeds.dart';
 
 import '../../../../theme/extensions/theme_extensions.dart';
 
-/// {@template pollHeader}
-/// A widget used as the header of a poll.
-///
-/// Used in [StreamPollInteractor] to display the poll question and voting mode.
-/// {@endtemplate}
 class PollHeader extends StatelessWidget {
-  /// {@macro pollHeader}
   const PollHeader({
     super.key,
     required this.poll,

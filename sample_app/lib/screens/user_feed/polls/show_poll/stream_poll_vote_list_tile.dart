@@ -111,7 +111,7 @@ class StreamPollVoteListTile extends StatelessWidget {
                   dateTime: pollVote.updatedAt.toLocal(),
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),

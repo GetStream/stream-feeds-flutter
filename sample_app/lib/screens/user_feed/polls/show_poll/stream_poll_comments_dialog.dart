@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 
@@ -32,9 +31,11 @@ Future<T?> showStreamPollCommentsDialog<T extends Object?>({
           );
 
           if (commentText == null) return;
-          activity.castPollVote(
-            CastPollVoteRequest(vote: VoteData(answerText: commentText)),
-          );
+          activity
+              .castPollVote(
+                CastPollVoteRequest(vote: VoteData(answerText: commentText)),
+              )
+              .ignore();
         }
 
         return StreamPollCommentsDialog(
@@ -103,10 +104,12 @@ class StreamPollCommentsDialog extends StatelessWidget {
                     foregroundColor: colorTheme.accentPrimary,
                     disabledForegroundColor: colorTheme.disabled,
                   ),
-                  child: Text(switch (poll.ownAnswers.isEmpty) {
-                    true => 'Add a comment',
-                    false => 'Update your comment',
-                  }),
+                  child: Text(
+                    switch (poll.ownAnswers.isEmpty) {
+                      true => 'Add a comment',
+                      false => 'Update your comment',
+                    },
+                  ),
                 ),
               ),
             ),

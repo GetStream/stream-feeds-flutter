@@ -9,7 +9,6 @@ import '../../../widgets/action_button.dart';
 import '../../../widgets/attachment_gallery/attachment_metadata.dart';
 import '../../../widgets/attachments/attachments.dart';
 import '../../../widgets/user_avatar.dart';
-import '../polls/show_poll/poll_message.dart';
 import '../polls/show_poll/show_poll_widget.dart';
 
 class UserFeedItem extends StatelessWidget {

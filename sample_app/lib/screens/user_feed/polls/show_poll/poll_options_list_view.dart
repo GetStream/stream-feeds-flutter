@@ -6,13 +6,7 @@ import '../../../../theme/extensions/theme_extensions.dart';
 import '../../../../widgets/user_avatar.dart';
 import 'poll_header.dart';
 
-/// {@template pollOptionsListView}
-/// A widget that displays the list of poll options.
-///
-/// Used in [StreamPollInteractor] to display the poll options to interact with.
-/// {@endtemplate}
 class PollOptionsListView extends StatelessWidget {
-  /// {@macro pollOptionsListView}
   const PollOptionsListView({
     super.key,
     required this.poll,
@@ -215,7 +209,7 @@ class PollOptionItem extends StatelessWidget {
                     ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

@@ -75,7 +75,8 @@ class PollMessage extends StatelessWidget {
         visibleOptionCount: _maxVisibleOptionCount,
         onEndVote: onEndVote,
         onCastVote: (option) => activity.castPollVote(
-            CastPollVoteRequest(vote: VoteData(optionId: option.id))),
+          CastPollVoteRequest(vote: VoteData(optionId: option.id)),
+        ),
         onRemoveVote: (vote) => activity.deletePollVote(voteId: vote.id),
         onAddComment: onAddComment,
         onSuggestOption: onSuggestOption,

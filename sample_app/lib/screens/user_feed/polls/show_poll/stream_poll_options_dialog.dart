@@ -22,7 +22,8 @@ Future<T?> showStreamPollOptionsDialog<T extends Object?>({
       builder: (_) {
         void onCastVote(PollOptionData option) {
           activity.castPollVote(
-              CastPollVoteRequest(vote: VoteData(optionId: option.id)));
+            CastPollVoteRequest(vote: VoteData(optionId: option.id)),
+          );
         }
 
         void onRemoveVote(PollVoteData vote) {
