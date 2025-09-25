@@ -65,6 +65,8 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
     NetworkStateProvider? networkStateProvider,
     AppLifecycleStateProvider? appLifecycleStateProvider,
     List<AutomaticReconnectionPolicy>? reconnectionPolicies,
+    WebSocketProvider? wsProvider,
+    api.DefaultApi? feedsRestApi,
   }) {
     // TODO: Make this configurable
     const endpointConfig = EndpointConfig.production;
@@ -105,6 +107,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
         event_resolvers.pollAnswerCastedFeedEventResolver,
         event_resolvers.pollAnswerRemovedFeedEventResolver,
       ],
+      wsProvider: wsProvider,
     );
 
     _connectionRecoveryHandler = ConnectionRecoveryHandler(
@@ -152,7 +155,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
     _cdnClient = config.cdnClient ?? FeedsCdnClient(CdnApi(httpClient));
     attachmentUploader = StreamAttachmentUploader(cdn: _cdnClient);
 
-    final feedsApi = api.DefaultApi(httpClient);
+    final feedsApi = feedsRestApi ?? api.DefaultApi(httpClient);
 
     _activitiesRepository = ActivitiesRepository(feedsApi, attachmentUploader);
     _appRepository = AppRepository(feedsApi);

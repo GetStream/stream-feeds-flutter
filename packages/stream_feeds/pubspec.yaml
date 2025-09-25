@@ -42,3 +42,4 @@ dev_dependencies:
   mocktail: ^1.0.4
   retrofit_generator: ^9.6.0
   test: ^1.26.3
+  web_socket_channel: ^3.0.3
