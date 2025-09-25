@@ -111,15 +111,17 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
         children: <Widget?>[
           ...?switch (breakpoint) {
             Breakpoint.compact => null,
+            Breakpoint.medium => [
+                Flexible(child: UserProfile(userFeed: userFeed)),
+                VerticalDivider(
+                  width: 8,
+                  color: context.appColors.borders,
+                ),
+              ],
             _ => [
-                Flexible(
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(
-                      minWidth: 280,
-                      maxWidth: 420,
-                    ),
-                    child: UserProfile(userFeed: userFeed),
-                  ),
+                SizedBox(
+                  width: 420,
+                  child: UserProfile(userFeed: userFeed),
                 ),
                 VerticalDivider(
                   width: 8,
@@ -193,7 +195,7 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
   }
 
   Future<void> _showCreateActivityBottomSheet() async {
-    final request = await showModalBottomSheet<FeedAddActivityRequest>(
+    final request = await showModalBottomSheet<Object>(
       context: context,
       useSafeArea: true,
       isScrollControlled: true,
@@ -211,9 +213,18 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
     );
 
     if (request == null) return;
-    final result = await userFeed.addActivity(request: request);
 
-    switch (result) {
+    late Result<ActivityData> activityResult;
+    if (request is FeedAddActivityRequest) {
+      activityResult = await userFeed.addActivity(request: request);
+    } else if (request is CreatePollRequest) {
+      activityResult =
+          await userFeed.createPoll(request: request, activityType: 'poll');
+    } else {
+      return;
+    }
+
+    switch (activityResult) {
       case Success():
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(

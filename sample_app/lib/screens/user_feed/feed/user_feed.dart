@@ -70,6 +70,7 @@ class UserFeed extends StatelessWidget {
                       ),
                     ],
                     UserFeedItem(
+                      feed: userFeed,
                       data: activity,
                       user: baseActivity.user,
                       text: baseActivity.text ?? '',

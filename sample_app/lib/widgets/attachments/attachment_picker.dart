@@ -2,6 +2,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 
+import '../../screens/user_feed/polls/create_poll/create_poll_state.dart';
+import '../../screens/user_feed/polls/create_poll/stream_poll_creator_dialog.dart';
 import '../../theme/extensions/theme_extensions.dart';
 
 /// A widget that provides attachment selection functionality.
@@ -12,10 +14,12 @@ class AttachmentPicker extends StatelessWidget {
   const AttachmentPicker({
     super.key,
     required this.onAttachmentsSelected,
+    required this.onPollCreated,
   });
 
   /// Callback when attachments are selected by the user.
   final void Function(List<StreamAttachment> attachments) onAttachmentsSelected;
+  final void Function(CreatePollState) onPollCreated;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +37,11 @@ class AttachmentPicker extends StatelessWidget {
             icon: Icons.videocam,
             label: 'Videos',
             onTap: () => _pickVideos(context),
+          ),
+          _AttachmentButton(
+            icon: Icons.poll,
+            label: 'Polls',
+            onTap: () => _createPoll(context),
           ),
         ],
       ),
@@ -82,6 +91,13 @@ class AttachmentPicker extends StatelessWidget {
       if (context.mounted) {
         _showErrorSnackBar(context, 'Failed to select videos: $e');
       }
+    }
+  }
+
+  Future<void> _createPoll(BuildContext context) async {
+    final result = await showStreamPollCreatorDialog(context: context);
+    if (result != null) {
+      onPollCreated(result);
     }
   }
 

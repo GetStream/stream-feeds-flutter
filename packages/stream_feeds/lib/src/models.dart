@@ -8,6 +8,8 @@ export 'models/feed_member_request_data.dart';
 export 'models/feeds_config.dart';
 export 'models/follow_data.dart';
 export 'models/poll_data.dart';
+export 'models/poll_option_data.dart';
+export 'models/poll_vote_data.dart';
 export 'models/push_notifications_config.dart';
 export 'models/request/activity_add_comment_request.dart'
     show ActivityAddCommentRequest;

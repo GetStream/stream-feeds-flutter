@@ -7,7 +7,7 @@ import '../../generated/api/models.dart';
 core.WsEvent? pollAnswerCastedFeedEventResolver(core.WsEvent event) {
   if (event is PollVoteCastedFeedEvent) {
     final pollVote = event.pollVote;
-    if (pollVote.isAnswer ?? false) return null;
+    if (!(pollVote.isAnswer ?? false)) return null;
 
     // If the event is a PollVoteCastedFeedEvent and the pollVote indicates
     // an answer was casted, we can resolve it to a PollAnswerCastedFeedEvent.
@@ -24,7 +24,7 @@ core.WsEvent? pollAnswerCastedFeedEventResolver(core.WsEvent event) {
 
   if (event is PollVoteChangedFeedEvent) {
     final pollVote = event.pollVote;
-    if (pollVote.isAnswer ?? false) return null;
+    if (!(pollVote.isAnswer ?? false)) return null;
 
     // If the event is a PollVoteChangedFeedEvent and the pollVote indicates
     // an answer was casted, we can resolve it to a PollAnswerCastedFeedEvent.
