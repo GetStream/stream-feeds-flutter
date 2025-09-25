@@ -60,6 +60,7 @@ command:
       json_serializable: ^6.9.5
       mocktail: ^1.0.4
       retrofit_generator: ^9.6.0
+      stream_feeds: ^0.2.0
       test: ^1.26.3
 
 scripts:
