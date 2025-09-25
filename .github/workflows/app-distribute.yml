@@ -21,7 +21,7 @@ on:
         default: true
 
 env:
-  FLUTTER_VERSION: "3.35.2"
+  FLUTTER_VERSION: "3.x"
   FLUTTER_CHANNEL: stable
 
 concurrency:
@@ -44,6 +44,13 @@ jobs:
           cache: true
           channel: ${{ env.FLUTTER_CHANNEL }}
           flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache-key: flutter-:os:-:channel:-:version:-:arch:-:hash:-${{ hashFiles('**/pubspec.lock') }}
+
+      - name: Install Tools
+        run: flutter pub global activate melos
+
+      - name: Bootstrap Workspace
+        run: melos bootstrap
 
       - name: Build and Deploy
         uses: bluefireteam/flutter-gh-pages@v9
