@@ -3,7 +3,7 @@ name: docs
 environment:
   sdk: ^3.6.2
 
-dev_dependencies:
+dependencies:
   flutter:
     sdk: flutter
   flutter_state_notifier: ^1.0.0
