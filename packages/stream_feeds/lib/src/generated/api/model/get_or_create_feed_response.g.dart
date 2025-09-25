@@ -45,17 +45,6 @@ GetOrCreateFeedResponse _$GetOrCreateFeedResponseFromJson(
           ? null
           : NotificationStatusResponse.fromJson(
               json['notification_status'] as Map<String, dynamic>),
-      ownCapabilities: (json['own_capabilities'] as List<dynamic>)
-          .map((e) => $enumDecode(_$FeedOwnCapabilityEnumMap, e,
-              unknownValue: FeedOwnCapability.unknown))
-          .toList(),
-      ownFollows: (json['own_follows'] as List<dynamic>?)
-          ?.map((e) => FollowResponse.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      ownMembership: json['own_membership'] == null
-          ? null
-          : FeedMemberResponse.fromJson(
-              json['own_membership'] as Map<String, dynamic>),
       pinnedActivities: (json['pinned_activities'] as List<dynamic>)
           .map((e) => ActivityPinResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -79,46 +68,7 @@ Map<String, dynamic> _$GetOrCreateFeedResponseToJson(
       'members': instance.members.map((e) => e.toJson()).toList(),
       'next': instance.next,
       'notification_status': instance.notificationStatus?.toJson(),
-      'own_capabilities': instance.ownCapabilities
-          .map((e) => _$FeedOwnCapabilityEnumMap[e]!)
-          .toList(),
-      'own_follows': instance.ownFollows?.map((e) => e.toJson()).toList(),
-      'own_membership': instance.ownMembership?.toJson(),
       'pinned_activities':
           instance.pinnedActivities.map((e) => e.toJson()).toList(),
       'prev': instance.prev,
     };
-
-const _$FeedOwnCapabilityEnumMap = {
-  FeedOwnCapability.addActivity: 'add-activity',
-  FeedOwnCapability.addActivityReaction: 'add-activity-reaction',
-  FeedOwnCapability.addComment: 'add-comment',
-  FeedOwnCapability.addCommentReaction: 'add-comment-reaction',
-  FeedOwnCapability.bookmarkActivity: 'bookmark-activity',
-  FeedOwnCapability.createFeed: 'create-feed',
-  FeedOwnCapability.deleteBookmark: 'delete-bookmark',
-  FeedOwnCapability.deleteComment: 'delete-comment',
-  FeedOwnCapability.deleteFeed: 'delete-feed',
-  FeedOwnCapability.editBookmark: 'edit-bookmark',
-  FeedOwnCapability.follow: 'follow',
-  FeedOwnCapability.inviteFeed: 'invite-feed',
-  FeedOwnCapability.joinFeed: 'join-feed',
-  FeedOwnCapability.leaveFeed: 'leave-feed',
-  FeedOwnCapability.manageFeedGroup: 'manage-feed-group',
-  FeedOwnCapability.markActivity: 'mark-activity',
-  FeedOwnCapability.pinActivity: 'pin-activity',
-  FeedOwnCapability.queryFeedMembers: 'query-feed-members',
-  FeedOwnCapability.queryFollows: 'query-follows',
-  FeedOwnCapability.readActivities: 'read-activities',
-  FeedOwnCapability.readFeed: 'read-feed',
-  FeedOwnCapability.removeActivity: 'remove-activity',
-  FeedOwnCapability.removeActivityReaction: 'remove-activity-reaction',
-  FeedOwnCapability.removeCommentReaction: 'remove-comment-reaction',
-  FeedOwnCapability.unfollow: 'unfollow',
-  FeedOwnCapability.updateActivity: 'update-activity',
-  FeedOwnCapability.updateComment: 'update-comment',
-  FeedOwnCapability.updateFeed: 'update-feed',
-  FeedOwnCapability.updateFeedFollowers: 'update-feed-followers',
-  FeedOwnCapability.updateFeedMembers: 'update-feed-members',
-  FeedOwnCapability.unknown: '_unknown',
-};

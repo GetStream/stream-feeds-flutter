@@ -1,4 +1,6 @@
-## NEXT RELEASE
+## 0.2.0
+- [BREAKING] Update API client code, specifically the FeedOwnCapability enum.
+- Fix unknown enums for `List<FeedOwnCapability>` in `GetOrCreateFeedResponse` to be `FeedOwnCapability.unknown`.
 - Fix for updating poll votes from web socket events.
 
 ## 0.1.0

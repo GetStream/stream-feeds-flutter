@@ -73,7 +73,6 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
       //
       // members: result.members.items,
       followRequests: result.followRequests,
-      ownCapabilities: result.ownCapabilities,
       pinnedActivities: result.pinnedActivities,
       aggregatedActivities: result.aggregatedActivities,
       notificationStatus: result.notificationStatus,
@@ -263,7 +262,6 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
       followers: [],
       following: [],
       followRequests: [],
-      ownCapabilities: [],
       pinnedActivities: [],
       notificationStatus: null,
       activitiesPagination: null,
@@ -483,7 +481,6 @@ class FeedState with _$FeedState {
     this.following = const [],
     this.followRequests = const [],
     this.members = const [],
-    this.ownCapabilities = const [],
     this.pinnedActivities = const [],
     this.notificationStatus,
     this.activitiesPagination,
@@ -524,10 +521,6 @@ class FeedState with _$FeedState {
   /// The list of members in this feed.
   @override
   final List<FeedMemberData> members;
-
-  /// The capabilities that the current user has for this feed.
-  @override
-  final List<FeedOwnCapability> ownCapabilities;
 
   /// The list of pinned activities and its pinning state.
   @override

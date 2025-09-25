@@ -12,36 +12,34 @@ part 'feed_own_capability.g.dart';
 enum FeedOwnCapability {
   @JsonValue('add-activity')
   addActivity,
+  @JsonValue('add-activity-bookmark')
+  addActivityBookmark,
   @JsonValue('add-activity-reaction')
   addActivityReaction,
   @JsonValue('add-comment')
   addComment,
   @JsonValue('add-comment-reaction')
   addCommentReaction,
-  @JsonValue('bookmark-activity')
-  bookmarkActivity,
   @JsonValue('create-feed')
   createFeed,
-  @JsonValue('delete-bookmark')
-  deleteBookmark,
-  @JsonValue('delete-comment')
-  deleteComment,
+  @JsonValue('delete-any-activity')
+  deleteAnyActivity,
+  @JsonValue('delete-any-comment')
+  deleteAnyComment,
   @JsonValue('delete-feed')
   deleteFeed,
-  @JsonValue('edit-bookmark')
-  editBookmark,
+  @JsonValue('delete-own-activity')
+  deleteOwnActivity,
+  @JsonValue('delete-own-activity-bookmark')
+  deleteOwnActivityBookmark,
+  @JsonValue('delete-own-activity-reaction')
+  deleteOwnActivityReaction,
+  @JsonValue('delete-own-comment')
+  deleteOwnComment,
+  @JsonValue('delete-own-comment-reaction')
+  deleteOwnCommentReaction,
   @JsonValue('follow')
   follow,
-  @JsonValue('invite-feed')
-  inviteFeed,
-  @JsonValue('join-feed')
-  joinFeed,
-  @JsonValue('leave-feed')
-  leaveFeed,
-  @JsonValue('manage-feed-group')
-  manageFeedGroup,
-  @JsonValue('mark-activity')
-  markActivity,
   @JsonValue('pin-activity')
   pinActivity,
   @JsonValue('query-feed-members')
@@ -52,24 +50,24 @@ enum FeedOwnCapability {
   readActivities,
   @JsonValue('read-feed')
   readFeed,
-  @JsonValue('remove-activity')
-  removeActivity,
-  @JsonValue('remove-activity-reaction')
-  removeActivityReaction,
-  @JsonValue('remove-comment-reaction')
-  removeCommentReaction,
   @JsonValue('unfollow')
   unfollow,
-  @JsonValue('update-activity')
-  updateActivity,
-  @JsonValue('update-comment')
-  updateComment,
+  @JsonValue('update-any-activity')
+  updateAnyActivity,
+  @JsonValue('update-any-comment')
+  updateAnyComment,
   @JsonValue('update-feed')
   updateFeed,
   @JsonValue('update-feed-followers')
   updateFeedFollowers,
   @JsonValue('update-feed-members')
   updateFeedMembers,
+  @JsonValue('update-own-activity')
+  updateOwnActivity,
+  @JsonValue('update-own-activity-bookmark')
+  updateOwnActivityBookmark,
+  @JsonValue('update-own-comment')
+  updateOwnComment,
   @JsonValue('_unknown')
   unknown;
 }

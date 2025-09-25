@@ -22,6 +22,7 @@ mixin _$AggregatedActivityResponse {
   double get score;
   DateTime get updatedAt;
   int get userCount;
+  bool get userCountTruncated;
 
   /// Create a copy of AggregatedActivityResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -48,7 +49,9 @@ mixin _$AggregatedActivityResponse {
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
             (identical(other.userCount, userCount) ||
-                other.userCount == userCount));
+                other.userCount == userCount) &&
+            (identical(other.userCountTruncated, userCountTruncated) ||
+                other.userCountTruncated == userCountTruncated));
   }
 
   @override
@@ -60,11 +63,12 @@ mixin _$AggregatedActivityResponse {
       group,
       score,
       updatedAt,
-      userCount);
+      userCount,
+      userCountTruncated);
 
   @override
   String toString() {
-    return 'AggregatedActivityResponse(activities: $activities, activityCount: $activityCount, createdAt: $createdAt, group: $group, score: $score, updatedAt: $updatedAt, userCount: $userCount)';
+    return 'AggregatedActivityResponse(activities: $activities, activityCount: $activityCount, createdAt: $createdAt, group: $group, score: $score, updatedAt: $updatedAt, userCount: $userCount, userCountTruncated: $userCountTruncated)';
   }
 }
 
@@ -81,7 +85,8 @@ abstract mixin class $AggregatedActivityResponseCopyWith<$Res> {
       String group,
       double score,
       DateTime updatedAt,
-      int userCount});
+      int userCount,
+      bool userCountTruncated});
 }
 
 /// @nodoc
@@ -104,6 +109,7 @@ class _$AggregatedActivityResponseCopyWithImpl<$Res>
     Object? score = null,
     Object? updatedAt = null,
     Object? userCount = null,
+    Object? userCountTruncated = null,
   }) {
     return _then(AggregatedActivityResponse(
       activities: null == activities
@@ -134,6 +140,10 @@ class _$AggregatedActivityResponseCopyWithImpl<$Res>
           ? _self.userCount
           : userCount // ignore: cast_nullable_to_non_nullable
               as int,
+      userCountTruncated: null == userCountTruncated
+          ? _self.userCountTruncated
+          : userCountTruncated // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }

@@ -192,7 +192,7 @@ class _UserCommentsState extends State<UserComments> {
   }
 
   void _onFeedStateChange(FeedState state) {
-    capabilities = state.ownCapabilities;
+    capabilities = state.feed?.ownCapabilities ?? [];
   }
 
   Future<void> _getActivity() async {
@@ -237,8 +237,8 @@ class _UserCommentsState extends State<UserComments> {
   void _onLongPressComment(ThreadedCommentData comment) {
     final isOwnComment = comment.user.id == client.user.id;
     if (!isOwnComment) return;
-    final canEdit = capabilities.contains(FeedOwnCapability.updateComment);
-    final canDelete = capabilities.contains(FeedOwnCapability.deleteComment);
+    final canEdit = capabilities.contains(FeedOwnCapability.updateOwnComment);
+    final canDelete = capabilities.contains(FeedOwnCapability.deleteOwnComment);
     if (!canEdit && !canDelete) return;
 
     final chooseActionDialog = SimpleDialog(

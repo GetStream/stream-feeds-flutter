@@ -15,6 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$BanOptions {
+  BanOptionsDeleteMessages? get deleteMessages;
   int? get duration;
   bool? get ipBan;
   String? get reason;
@@ -32,6 +33,8 @@ mixin _$BanOptions {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is BanOptions &&
+            (identical(other.deleteMessages, deleteMessages) ||
+                other.deleteMessages == deleteMessages) &&
             (identical(other.duration, duration) ||
                 other.duration == duration) &&
             (identical(other.ipBan, ipBan) || other.ipBan == ipBan) &&
@@ -41,12 +44,12 @@ mixin _$BanOptions {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, duration, ipBan, reason, shadowBan);
+  int get hashCode => Object.hash(
+      runtimeType, deleteMessages, duration, ipBan, reason, shadowBan);
 
   @override
   String toString() {
-    return 'BanOptions(duration: $duration, ipBan: $ipBan, reason: $reason, shadowBan: $shadowBan)';
+    return 'BanOptions(deleteMessages: $deleteMessages, duration: $duration, ipBan: $ipBan, reason: $reason, shadowBan: $shadowBan)';
   }
 }
 
@@ -56,7 +59,12 @@ abstract mixin class $BanOptionsCopyWith<$Res> {
           BanOptions value, $Res Function(BanOptions) _then) =
       _$BanOptionsCopyWithImpl;
   @useResult
-  $Res call({int? duration, bool? ipBan, String? reason, bool? shadowBan});
+  $Res call(
+      {BanOptionsDeleteMessages? deleteMessages,
+      int? duration,
+      bool? ipBan,
+      String? reason,
+      bool? shadowBan});
 }
 
 /// @nodoc
@@ -71,12 +79,17 @@ class _$BanOptionsCopyWithImpl<$Res> implements $BanOptionsCopyWith<$Res> {
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? deleteMessages = freezed,
     Object? duration = freezed,
     Object? ipBan = freezed,
     Object? reason = freezed,
     Object? shadowBan = freezed,
   }) {
     return _then(BanOptions(
+      deleteMessages: freezed == deleteMessages
+          ? _self.deleteMessages
+          : deleteMessages // ignore: cast_nullable_to_non_nullable
+              as BanOptionsDeleteMessages?,
       duration: freezed == duration
           ? _self.duration
           : duration // ignore: cast_nullable_to_non_nullable

@@ -300,7 +300,11 @@ abstract interface class StreamFeedsClient {
   /// ```
   ///
   /// Returns an [Activity] instance that can be used to interact with the specified activity.
-  Activity activity({required String activityId, required FeedId fid});
+  Activity activity({
+    required String activityId,
+    required FeedId fid,
+    ActivityData? initialData,
+  });
 
   /// Creates an activity list instance based on the provided [query].
   ///

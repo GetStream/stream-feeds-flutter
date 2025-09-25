@@ -13,16 +13,33 @@ import '../models.dart';
 part 'ban_options.g.dart';
 part 'ban_options.freezed.dart';
 
+@JsonEnum(alwaysCreate: true)
+enum BanOptionsDeleteMessages {
+  @JsonValue('hard')
+  hard,
+  @JsonValue('pruning')
+  pruning,
+  @JsonValue('soft')
+  soft,
+  @JsonValue('_unknown')
+  unknown;
+}
+
 @freezed
 @immutable
 @JsonSerializable()
 class BanOptions with _$BanOptions {
   const BanOptions({
+    this.deleteMessages,
     this.duration,
     this.ipBan,
     this.reason,
     this.shadowBan,
   });
+
+  @override
+  @JsonKey(unknownEnumValue: BanOptionsDeleteMessages.unknown)
+  final BanOptionsDeleteMessages? deleteMessages;
 
   @override
   final int? duration;

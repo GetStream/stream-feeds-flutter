@@ -26,6 +26,7 @@ mixin _$ConfigResponse {
   DateTime get createdAt;
   String get key;
   LLMConfig? get llmConfig;
+  List<String> get supportedVideoCallHarmTypes;
   String get team;
   DateTime get updatedAt;
   VelocityFilterConfig? get velocityFilterConfig;
@@ -68,6 +69,9 @@ mixin _$ConfigResponse {
             (identical(other.key, key) || other.key == key) &&
             (identical(other.llmConfig, llmConfig) ||
                 other.llmConfig == llmConfig) &&
+            const DeepCollectionEquality().equals(
+                other.supportedVideoCallHarmTypes,
+                supportedVideoCallHarmTypes) &&
             (identical(other.team, team) || other.team == team) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
@@ -91,6 +95,7 @@ mixin _$ConfigResponse {
       createdAt,
       key,
       llmConfig,
+      const DeepCollectionEquality().hash(supportedVideoCallHarmTypes),
       team,
       updatedAt,
       velocityFilterConfig,
@@ -98,7 +103,7 @@ mixin _$ConfigResponse {
 
   @override
   String toString() {
-    return 'ConfigResponse(aiImageConfig: $aiImageConfig, aiTextConfig: $aiTextConfig, aiVideoConfig: $aiVideoConfig, async: $async, automodPlatformCircumventionConfig: $automodPlatformCircumventionConfig, automodSemanticFiltersConfig: $automodSemanticFiltersConfig, automodToxicityConfig: $automodToxicityConfig, blockListConfig: $blockListConfig, createdAt: $createdAt, key: $key, llmConfig: $llmConfig, team: $team, updatedAt: $updatedAt, velocityFilterConfig: $velocityFilterConfig, videoCallRuleConfig: $videoCallRuleConfig)';
+    return 'ConfigResponse(aiImageConfig: $aiImageConfig, aiTextConfig: $aiTextConfig, aiVideoConfig: $aiVideoConfig, async: $async, automodPlatformCircumventionConfig: $automodPlatformCircumventionConfig, automodSemanticFiltersConfig: $automodSemanticFiltersConfig, automodToxicityConfig: $automodToxicityConfig, blockListConfig: $blockListConfig, createdAt: $createdAt, key: $key, llmConfig: $llmConfig, supportedVideoCallHarmTypes: $supportedVideoCallHarmTypes, team: $team, updatedAt: $updatedAt, velocityFilterConfig: $velocityFilterConfig, videoCallRuleConfig: $videoCallRuleConfig)';
   }
 }
 
@@ -120,6 +125,7 @@ abstract mixin class $ConfigResponseCopyWith<$Res> {
       DateTime createdAt,
       String key,
       LLMConfig? llmConfig,
+      List<String> supportedVideoCallHarmTypes,
       String team,
       DateTime updatedAt,
       VelocityFilterConfig? velocityFilterConfig,
@@ -150,6 +156,7 @@ class _$ConfigResponseCopyWithImpl<$Res>
     Object? createdAt = null,
     Object? key = null,
     Object? llmConfig = freezed,
+    Object? supportedVideoCallHarmTypes = null,
     Object? team = null,
     Object? updatedAt = null,
     Object? velocityFilterConfig = freezed,
@@ -201,6 +208,10 @@ class _$ConfigResponseCopyWithImpl<$Res>
           ? _self.llmConfig
           : llmConfig // ignore: cast_nullable_to_non_nullable
               as LLMConfig?,
+      supportedVideoCallHarmTypes: null == supportedVideoCallHarmTypes
+          ? _self.supportedVideoCallHarmTypes
+          : supportedVideoCallHarmTypes // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       team: null == team
           ? _self.team
           : team // ignore: cast_nullable_to_non_nullable

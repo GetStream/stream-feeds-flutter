@@ -28,7 +28,6 @@ class GetOrCreateFeedData with _$GetOrCreateFeedData {
     this.following = const [],
     this.followRequests = const [],
     required this.members,
-    this.ownCapabilities = const [],
     this.pinnedActivities = const [],
     this.aggregatedActivities = const [],
     this.notificationStatus,
@@ -66,10 +65,6 @@ class GetOrCreateFeedData with _$GetOrCreateFeedData {
   /// A paginated result of members in the feed.
   @override
   final PaginationResult<FeedMemberData> members;
-
-  /// The capabilities that the current user has on the feed.
-  @override
-  final List<FeedOwnCapability> ownCapabilities;
 
   /// A list of activities that are pinned in the feed.
   @override

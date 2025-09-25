@@ -53,7 +53,9 @@ class _ShowPollWidgetState extends State<ShowPollWidget>
     activity = client.activity(
       activityId: widget.activity.id,
       fid: widget.feed.fid,
+      initialData: widget.activity,
     );
+
     activity.get().ignore();
   }
 

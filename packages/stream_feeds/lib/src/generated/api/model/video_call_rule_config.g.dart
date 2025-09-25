@@ -8,13 +8,19 @@ part of 'video_call_rule_config.dart';
 
 VideoCallRuleConfig _$VideoCallRuleConfigFromJson(Map<String, dynamic> json) =>
     VideoCallRuleConfig(
-      rules: (json['rules'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, HarmConfig.fromJson(e as Map<String, dynamic>)),
-      ),
+      flagAllLabels: json['flag_all_labels'] as bool,
+      flaggedLabels: (json['flagged_labels'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
+      rules: (json['rules'] as List<dynamic>)
+          .map((e) => HarmConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$VideoCallRuleConfigToJson(
         VideoCallRuleConfig instance) =>
     <String, dynamic>{
-      'rules': instance.rules.map((k, e) => MapEntry(k, e.toJson())),
+      'flag_all_labels': instance.flagAllLabels,
+      'flagged_labels': instance.flaggedLabels,
+      'rules': instance.rules.map((e) => e.toJson()).toList(),
     };

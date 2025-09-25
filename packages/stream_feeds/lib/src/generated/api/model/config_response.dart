@@ -29,6 +29,7 @@ class ConfigResponse with _$ConfigResponse {
     required this.createdAt,
     required this.key,
     this.llmConfig,
+    required this.supportedVideoCallHarmTypes,
     required this.team,
     required this.updatedAt,
     this.velocityFilterConfig,
@@ -68,6 +69,9 @@ class ConfigResponse with _$ConfigResponse {
 
   @override
   final LLMConfig? llmConfig;
+
+  @override
+  final List<String> supportedVideoCallHarmTypes;
 
   @override
   final String team;
