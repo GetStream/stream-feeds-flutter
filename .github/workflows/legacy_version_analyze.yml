@@ -10,13 +10,13 @@ on:
     branches:
       - main
       - develop
+    paths:
+      - "packages/**"
+      - ".github/workflows/legacy_version_analyze.yml"
   pull_request:
     branches:
       - main
       - develop
-    paths:
-      - "packages/**"
-      - ".github/workflows/legacy_version_analyze.yml"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
