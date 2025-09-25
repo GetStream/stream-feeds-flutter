@@ -264,10 +264,9 @@ class _StreamPollCreatorFullScreenDialogState
           ),
         ],
       ),
-      body: StreamPollCreatorFullScreenDialog(
+      body: StreamPollCreatorWidget(
         padding: widget.padding,
-        poll: _controller.value,
-        config: widget.config,
+        controller: _controller,
       ),
     );
   }
