@@ -15,6 +15,12 @@ class AuthGuard extends AutoRouteGuard {
     final isAuthenticated = _authController.value is Authenticated;
     // If the user is authenticated, allow navigation to the requested route.
     if (isAuthenticated) return resolver.next();
+
+    // If the user is being authenticated, show the splash screen.
+    if (_authController.value is Authenticating) {
+      resolver.redirectUntil(const AppSplashRoute(), replace: true);
+    }
+
     // Otherwise, redirect to the Choose user page.
     resolver.redirectUntil(const ChooseUserRoute(), replace: true);
   }
