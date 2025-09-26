@@ -23,6 +23,8 @@ class AuthController extends ValueNotifier<AuthState> {
   PushTokenManager? _pushTokenManager;
 
   Future<void> connect(UserCredentials credentials) async {
+    value = const Authenticating();
+
     final token = UserToken(credentials.token);
 
     final client = StreamFeedsClient(
@@ -82,4 +84,8 @@ final class Authenticated extends AuthState {
 
 final class Unauthenticated extends AuthState {
   const Unauthenticated();
+}
+
+final class Authenticating extends AuthState {
+  const Authenticating();
 }

@@ -11,6 +11,22 @@
 part of 'app_router.dart';
 
 /// generated route for
+/// [AppSplash]
+class AppSplashRoute extends PageRouteInfo<void> {
+  const AppSplashRoute({List<PageRouteInfo>? children})
+      : super(AppSplashRoute.name, initialChildren: children);
+
+  static const String name = 'AppSplashRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const AppSplash();
+    },
+  );
+}
+
+/// generated route for
 /// [AttachmentGalleryPage]
 class AttachmentGalleryRoute extends PageRouteInfo<AttachmentGalleryRouteArgs> {
   AttachmentGalleryRoute({

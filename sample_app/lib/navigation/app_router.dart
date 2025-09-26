@@ -7,6 +7,7 @@ import 'package:stream_feeds/stream_feeds.dart';
 import '../screens/choose_user/choose_user_screen.dart';
 import '../screens/home/home_screen.dart';
 import '../screens/user_feed/user_feed_screen.dart';
+import '../widgets/app_splash.dart';
 import '../widgets/attachment_gallery/attachment_gallery.dart';
 import '../widgets/attachment_gallery/attachment_metadata.dart';
 import 'guards/auth_guard.dart';
@@ -43,6 +44,11 @@ class AppRouter extends RootStackRouter {
       AutoRoute(
         path: '/choose_user',
         page: ChooseUserRoute.page,
+        keepHistory: false,
+      ),
+      AutoRoute(
+        path: '/loading',
+        page: AppSplashRoute.page,
         keepHistory: false,
       ),
       AutoRoute(
