@@ -1,3 +1,6 @@
+## NEXT
+- Re-watch websocket events for feeds when the websocket reconnects.
+
 ## 0.2.0
 - [BREAKING] Update API client code, specifically the FeedOwnCapability enum.
 - Fix unknown enums for `List<FeedOwnCapability>` in `GetOrCreateFeedResponse` to be `FeedOwnCapability.unknown`.
