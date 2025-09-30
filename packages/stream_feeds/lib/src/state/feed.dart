@@ -5,7 +5,6 @@ import 'package:rxdart/rxdart.dart';
 import 'package:state_notifier/state_notifier.dart';
 import 'package:stream_core/stream_core.dart';
 
-import '../../stream_feeds.dart';
 import '../generated/api/api.dart' as api;
 import '../models/activity_data.dart';
 import '../models/bookmark_data.dart';
