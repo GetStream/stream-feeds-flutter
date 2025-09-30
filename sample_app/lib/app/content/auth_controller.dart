@@ -14,11 +14,15 @@ class AuthController extends ValueNotifier<AuthState> {
     this._appPreferences,
     @Named('apn') this._iosPushProvider,
     @Named('firebase') this._androidPushProvider,
+    this._networkStateProvider,
+    this._lifecycleStateProvider,
   ) : super(const Unauthenticated());
 
   final AppPreferences _appPreferences;
   final PushProvider _iosPushProvider;
   final PushProvider _androidPushProvider;
+  final NetworkStateProvider _networkStateProvider;
+  final LifecycleStateProvider _lifecycleStateProvider;
 
   PushTokenManager? _pushTokenManager;
 
@@ -31,6 +35,8 @@ class AuthController extends ValueNotifier<AuthState> {
       user: credentials.user,
       apiKey: DemoAppConfig.current.apiKey,
       tokenProvider: TokenProvider.static(token),
+      networkStateProvider: _networkStateProvider,
+      lifecycleStateProvider: _lifecycleStateProvider,
     );
 
     final result = await runSafely(client.connect);
