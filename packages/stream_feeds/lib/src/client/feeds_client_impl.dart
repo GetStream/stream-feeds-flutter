@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:rxdart/rxdart.dart';
 import 'package:stream_core/stream_core.dart';
 
 import '../cdn/cdn_api.dart';
@@ -270,6 +271,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
       feedsRepository: _feedsRepository,
       pollsRepository: _pollsRepository,
       eventsEmitter: events,
+      onReconnectEmitter: onReconnectEmitter,
     );
   }
 
@@ -473,5 +475,26 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
   @override
   Future<Result<void>> deleteImage({required String url}) {
     return _cdnClient.deleteImage(url);
+  }
+
+  Stream<void> get onReconnectEmitter {
+    return connectionState.stream.scan(
+      (state, connectionStatus, i) => switch (connectionStatus) {
+        Initialized() || Connecting() => (
+            wasDisconnected: state.wasDisconnected,
+            reconnected: false,
+          ),
+        Disconnecting() || Disconnected() => (
+            wasDisconnected: true,
+            reconnected: false,
+          ),
+        Connected() => (
+            wasDisconnected: false,
+            reconnected: state.wasDisconnected,
+          ),
+        _ => state,
+      },
+      (wasDisconnected: false, reconnected: false),
+    ).mapNotNull((state) => state.reconnected ? () : null);
   }
 }

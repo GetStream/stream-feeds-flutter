@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:state_notifier/state_notifier.dart';
 import 'package:stream_core/stream_core.dart';
 
+import '../../stream_feeds.dart';
 import '../generated/api/api.dart' as api;
 import '../models/activity_data.dart';
 import '../models/bookmark_data.dart';
@@ -48,6 +50,7 @@ class Feed with Disposable {
     required this.feedsRepository,
     required this.pollsRepository,
     required this.eventsEmitter,
+    required Stream<void> onReconnectEmitter,
   }) {
     final fid = query.fid;
 
@@ -65,7 +68,12 @@ class Feed with Disposable {
 
     // Attach event handlers for the feed events
     final handler = FeedEventHandler(fid: fid, state: _stateNotifier);
-    _eventsSubscription = eventsEmitter.listen(handler.handleEvent);
+    _feedSubscriptions.add(eventsEmitter.listen(handler.handleEvent));
+
+    // Automatically refetch data on reconnection
+    if (query.watch) {
+      _subscribeToReconnectionUpdates(onReconnectEmitter: onReconnectEmitter);
+    }
   }
 
   FeedId get fid => query.fid;
@@ -86,11 +94,11 @@ class Feed with Disposable {
   late final FeedStateNotifier _stateNotifier;
 
   final SharedEmitter<WsEvent> eventsEmitter;
-  StreamSubscription<WsEvent>? _eventsSubscription;
+  final CompositeSubscription _feedSubscriptions = CompositeSubscription();
 
   @override
   void dispose() {
-    _eventsSubscription?.cancel();
+    _feedSubscriptions.cancel();
     _stateNotifier.dispose();
     _memberList.dispose();
     super.dispose();
@@ -628,4 +636,14 @@ class Feed with Disposable {
   }
 
   // endregion
+
+  void _subscribeToReconnectionUpdates({
+    required Stream<void> onReconnectEmitter,
+  }) {
+    _feedSubscriptions.add(
+      onReconnectEmitter.listen((_) {
+        getOrCreate();
+      }),
+    );
+  }
 }
