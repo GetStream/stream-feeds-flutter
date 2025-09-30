@@ -151,6 +151,238 @@ void main() {
         ),
       );
     });
+
+    test('poll answer casted', () async {
+      final poll = createDefaultPollResponseData();
+      setupMockActivity(
+        activity: createDefaultActivityResponse(poll: poll),
+      );
+
+      final activity = client.activity(
+        activityId: 'id',
+        fid: const FeedId(group: 'group', id: 'id'),
+      );
+      await activity.get();
+
+      activity.notifier.stream.listen(
+        expectAsync1(
+          (event) {
+            expect(event, isA<ActivityState>());
+            expect(event.poll?.id, 'id');
+            expect(event.poll?.answersCount, 1);
+            expect(event.poll?.latestAnswers.length, 1);
+          },
+        ),
+      );
+
+      wsStreamController.add(
+        jsonEncode(
+          PollVoteCastedFeedEvent(
+            createdAt: DateTime.now(),
+            custom: const {},
+            fid: 'fid',
+            poll: poll.copyWith(answersCount: 1),
+            pollVote: PollVoteResponseData(
+              createdAt: DateTime.now(),
+              updatedAt: DateTime.now(),
+              id: 'voteId1',
+              answerText: 'answerText1',
+              isAnswer: true,
+              optionId: 'optionId1',
+              pollId: 'pollId1',
+            ),
+            type: 'feeds.poll.vote_casted',
+          ),
+        ),
+      );
+    });
+
+    test('poll answer removed', () async {
+      final poll = createDefaultPollResponseData(
+        latestAnswers: [
+          PollVoteResponseData(
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now(),
+            id: 'voteId1',
+            answerText: 'answerText1',
+            isAnswer: true,
+            optionId: 'optionId1',
+            pollId: 'pollId1',
+          ),
+        ],
+      );
+      setupMockActivity(
+        activity: createDefaultActivityResponse(poll: poll),
+      );
+
+      final activity = client.activity(
+        activityId: 'id',
+        fid: const FeedId(group: 'group', id: 'id'),
+      );
+      await activity.get();
+
+      expect(poll.answersCount, 1);
+      expect(poll.latestAnswers.length, 1);
+
+      activity.notifier.stream.listen(
+        expectAsync1(
+          (event) {
+            expect(event, isA<ActivityState>());
+            expect(event.poll?.id, 'id');
+            expect(event.poll?.answersCount, 0);
+            expect(event.poll?.latestAnswers.length, 0);
+          },
+        ),
+      );
+
+      wsStreamController.add(
+        jsonEncode(
+          PollVoteRemovedFeedEvent(
+            createdAt: DateTime.now(),
+            custom: const {},
+            fid: 'fid',
+            poll: poll.copyWith(answersCount: 0),
+            pollVote: PollVoteResponseData(
+              createdAt: DateTime.now(),
+              updatedAt: DateTime.now(),
+              id: 'voteId1',
+              answerText: 'answerText1',
+              isAnswer: true,
+              optionId: 'optionId1',
+              pollId: 'pollId1',
+            ),
+            type: 'feeds.poll.vote_removed',
+          ),
+        ),
+      );
+    });
+
+    test('poll vote removed', () async {
+      final poll = createDefaultPollResponseData(
+        latestVotesByOption: {
+          'optionId1': [
+            PollVoteResponseData(
+              createdAt: DateTime.now(),
+              updatedAt: DateTime.now(),
+              id: 'voteId1',
+              optionId: 'optionId1',
+              pollId: 'pollId1',
+            ),
+          ],
+        },
+      );
+      final pollId = poll.id;
+      setupMockActivity(
+        activity: createDefaultActivityResponse(poll: poll),
+      );
+
+      final activity = client.activity(
+        activityId: 'id',
+        fid: const FeedId(group: 'group', id: 'id'),
+      );
+      await activity.get();
+
+      expect(poll.voteCount, 1);
+      expect(poll.latestVotesByOption.length, 1);
+
+      activity.notifier.stream.listen(
+        expectAsync1(
+          (event) {
+            expect(event, isA<ActivityState>());
+            expect(event.poll?.id, 'id');
+            expect(event.poll?.voteCount, 0);
+            expect(event.poll?.latestVotesByOption.length, 0);
+          },
+        ),
+      );
+      wsStreamController.add(
+        jsonEncode(
+          PollVoteRemovedFeedEvent(
+            createdAt: DateTime.now(),
+            custom: const {},
+            fid: 'fid',
+            poll: poll.copyWith(voteCount: 0, latestVotesByOption: {}),
+            pollVote: PollVoteResponseData(
+              createdAt: DateTime.now(),
+              updatedAt: DateTime.now(),
+              id: 'voteId1',
+              optionId: 'optionId1',
+              pollId: pollId,
+            ),
+            type: 'feeds.poll.vote_removed',
+          ),
+        ),
+      );
+    });
+
+    test('poll closed', () async {
+      final poll = createDefaultPollResponseData();
+      setupMockActivity(
+        activity: createDefaultActivityResponse(poll: poll),
+      );
+
+      final activity = client.activity(
+        activityId: 'id',
+        fid: const FeedId(group: 'group', id: 'id'),
+      );
+      await activity.get();
+
+      activity.notifier.stream.listen(
+        expectAsync1(
+          (event) {
+            expect(event, isA<ActivityState>());
+            expect(event.poll?.id, 'id');
+            expect(event.poll?.isClosed, true);
+          },
+        ),
+      );
+
+      wsStreamController.add(
+        jsonEncode(
+          PollClosedFeedEvent(
+            createdAt: DateTime.now(),
+            custom: const {},
+            fid: 'fid',
+            poll: poll.copyWith(isClosed: true),
+            type: 'feeds.poll.closed',
+          ),
+        ),
+      );
+    });
+
+    test('poll deleted', () async {
+      final poll = createDefaultPollResponseData();
+      setupMockActivity(
+        activity: createDefaultActivityResponse(poll: poll),
+      );
+
+      final activity = client.activity(
+        activityId: 'id',
+        fid: const FeedId(group: 'group', id: 'id'),
+      );
+      await activity.get();
+
+      activity.notifier.stream.listen(
+        expectAsync1(
+          (event) {
+            expect(event, isA<ActivityState>());
+            expect(event.poll, null);
+          },
+        ),
+      );
+
+      wsStreamController.add(
+        jsonEncode(
+          PollDeletedFeedEvent(
+            createdAt: DateTime.now(),
+            custom: const {},
+            fid: 'fid',
+            poll: poll,
+            type: 'feeds.poll.deleted',
+          ),
+        ),
+      );
+    });
   });
 }
 
@@ -210,23 +442,31 @@ GetActivityResponse createDefaultActivityResponse({PollResponseData? poll}) =>
       duration: 'duration',
     );
 
-PollResponseData createDefaultPollResponseData() => PollResponseData(
+PollResponseData createDefaultPollResponseData({
+  List<PollVoteResponseData> latestAnswers = const [],
+  Map<String, List<PollVoteResponseData>> latestVotesByOption = const {},
+}) =>
+    PollResponseData(
       id: 'id',
       name: 'name',
       allowAnswers: true,
       allowUserSuggestedOptions: true,
-      answersCount: 0,
+      answersCount: latestAnswers.length,
       createdAt: DateTime.now(),
       createdById: 'id',
       custom: const {},
       description: 'description',
       enforceUniqueVote: true,
-      latestAnswers: const [],
-      latestVotesByOption: const {},
+      latestAnswers: latestAnswers,
+      latestVotesByOption: latestVotesByOption,
       ownVotes: const [],
       updatedAt: DateTime.now(),
-      voteCount: 0,
-      voteCountsByOption: const {},
+      voteCount: latestVotesByOption.values
+          .map((e) => e.length)
+          .fold(0, (v, e) => v + e),
+      voteCountsByOption: latestVotesByOption.map(
+        (k, e) => MapEntry(k, e.length),
+      ),
       votingVisibility: 'visibility',
       options: const [
         PollOptionResponseData(
