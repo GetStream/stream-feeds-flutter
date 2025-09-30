@@ -158,7 +158,7 @@ abstract interface class StreamFeedsClient {
     TokenProvider? tokenProvider,
     RetryStrategy? retryStrategy,
     NetworkStateProvider? networkStateProvider,
-    AppLifecycleStateProvider? appLifecycleStateProvider,
+    LifecycleStateProvider? lifecycleStateProvider,
     List<AutomaticReconnectionPolicy>? reconnectionPolicies,
   }) = StreamFeedsClientImpl;
 

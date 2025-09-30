@@ -63,7 +63,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
     TokenProvider? tokenProvider,
     RetryStrategy? retryStrategy,
     NetworkStateProvider? networkStateProvider,
-    AppLifecycleStateProvider? appLifecycleStateProvider,
+    LifecycleStateProvider? lifecycleStateProvider,
     List<AutomaticReconnectionPolicy>? reconnectionPolicies,
   }) {
     // TODO: Make this configurable
@@ -111,7 +111,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
       client: _ws,
       retryStrategy: retryStrategy,
       networkStateProvider: networkStateProvider,
-      appLifecycleStateProvider: appLifecycleStateProvider,
+      lifecycleStateProvider: lifecycleStateProvider,
       policies: reconnectionPolicies,
     );
 

@@ -6,6 +6,8 @@ import '../../config/demo_app_config.dart';
 import '../../core/models/user_credentials.dart';
 import '../../push/push_provider.dart';
 import '../../push/push_token_manager.dart';
+import '../../reconnect_providers/lifecycle_state_provider.dart';
+import '../../reconnect_providers/network_state_provider.dart';
 import '../../services/app_preferences.dart';
 
 @lazySingleton
@@ -14,11 +16,15 @@ class AuthController extends ValueNotifier<AuthState> {
     this._appPreferences,
     @Named('apn') this._iosPushProvider,
     @Named('firebase') this._androidPushProvider,
+    this._networkStateProvider,
+    this._lifecycleStateProvider,
   ) : super(const Unauthenticated());
 
   final AppPreferences _appPreferences;
   final PushProvider _iosPushProvider;
   final PushProvider _androidPushProvider;
+  final NetworkStateProvider _networkStateProvider;
+  final LifecycleStateProvider _lifecycleStateProvider;
 
   PushTokenManager? _pushTokenManager;
 
@@ -31,6 +37,8 @@ class AuthController extends ValueNotifier<AuthState> {
       user: credentials.user,
       apiKey: DemoAppConfig.current.apiKey,
       tokenProvider: TokenProvider.static(token),
+      networkStateProvider: _networkStateProvider,
+      lifecycleStateProvider: _lifecycleStateProvider,
     );
 
     final result = await runSafely(client.connect);

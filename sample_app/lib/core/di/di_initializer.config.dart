@@ -12,14 +12,18 @@
 import 'package:firebase_core/firebase_core.dart' as _i982;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart'
+    as _i161;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
-import 'package:stream_feeds/stream_feeds.dart' as _i844;
+import 'package:stream_feeds/stream_feeds.dart' as _i250;
 
 import '../../app/content/auth_controller.dart' as _i817;
 import '../../navigation/app_router.dart' as _i783;
 import '../../navigation/guards/auth_guard.dart' as _i253;
 import '../../notification/notification_service.dart' as _i902;
 import '../../push/push_provider.dart' as _i235;
+import '../../reconnect_providers/lifecycle_state_provider.dart' as _i615;
+import '../../reconnect_providers/network_state_provider.dart' as _i571;
 import '../../services/app_preferences.dart' as _i825;
 import 'app_module.dart' as _i460;
 import 'session_module.dart' as _i849;
@@ -46,6 +50,7 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i460.LocalNotification>(
         () => appModule.localNotifications);
+    gh.lazySingleton<_i161.InternetConnection>(() => appModule.internet);
     gh.lazySingleton<_i825.AppPreferences>(
         () => _i825.AppPreferences(gh<_i460.SharedPreferences>()));
     gh.factory<_i235.PushProvider>(
@@ -56,6 +61,10 @@ extension GetItInjectableX on _i174.GetIt {
       () => appModule.iosPush,
       instanceName: 'apn',
     );
+    gh.lazySingleton<_i250.NetworkStateProvider>(() =>
+        _i571.InternetStateProvider(checker: gh<_i161.InternetConnection>()));
+    gh.lazySingleton<_i250.LifecycleStateProvider>(
+        () => _i615.AppLifecycleStateProvider());
     gh.lazySingleton<_i902.NotificationService>(
       () => _i902.NotificationService(gh<_i460.LocalNotification>()),
       dispose: (i) => i.dispose(),
@@ -64,6 +73,8 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i825.AppPreferences>(),
           gh<_i235.PushProvider>(instanceName: 'apn'),
           gh<_i235.PushProvider>(instanceName: 'firebase'),
+          gh<_i250.NetworkStateProvider>(),
+          gh<_i250.LifecycleStateProvider>(),
         ));
     gh.factory<_i253.AuthGuard>(
         () => _i253.AuthGuard(gh<_i817.AuthController>()));
@@ -79,7 +90,7 @@ extension GetItInjectableX on _i174.GetIt {
       dispose: dispose,
       init: (_i526.GetItHelper gh) {
         final sessionModule = _$SessionModule();
-        gh.lazySingleton<_i844.StreamFeedsClient>(() =>
+        gh.lazySingleton<_i250.StreamFeedsClient>(() =>
             sessionModule.authenticatedFeedsClient(gh<_i817.AuthController>()));
       },
     );
