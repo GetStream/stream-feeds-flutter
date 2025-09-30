@@ -6,8 +6,6 @@ import '../../config/demo_app_config.dart';
 import '../../core/models/user_credentials.dart';
 import '../../push/push_provider.dart';
 import '../../push/push_token_manager.dart';
-import '../../reconnect_providers/lifecycle_state_provider.dart';
-import '../../reconnect_providers/network_state_provider.dart';
 import '../../services/app_preferences.dart';
 
 @lazySingleton
