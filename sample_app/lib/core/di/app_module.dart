@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:injectable/injectable.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../firebase_options.dart';
@@ -30,4 +31,7 @@ abstract class AppModule {
 
   @lazySingleton
   LocalNotification get localNotifications => LocalNotification();
+
+  @lazySingleton
+  InternetConnection get internet => InternetConnection.createInstance();
 }
