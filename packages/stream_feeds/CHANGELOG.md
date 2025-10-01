@@ -1,5 +1,6 @@
 ## Unreleased
 - [BREAKING] Renamed `AppLifecycleStateProvider` to `LifecycleStateProvider` and `AppLifecycleState` to `LifecycleState`.
+- Re-watch websocket events for feeds when the websocket reconnects.
 
 ## 0.2.0
 - [BREAKING] Update API client code, specifically the FeedOwnCapability enum.
