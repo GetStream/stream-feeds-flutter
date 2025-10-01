@@ -199,7 +199,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
     environment: const SystemEnvironment(
       sdkName: 'stream-feeds-dart',
       sdkIdentifier: 'dart',
-      sdkVersion: '0.1.0',
+      sdkVersion: '0.3.0',
     ),
   );
 
