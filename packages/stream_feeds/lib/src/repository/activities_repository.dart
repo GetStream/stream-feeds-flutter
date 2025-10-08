@@ -199,7 +199,7 @@ class ActivitiesRepository {
     String activityId,
     api.AddReactionRequest request,
   ) async {
-    final result = await _api.addReaction(
+    final result = await _api.addActivityReaction(
       activityId: activityId,
       addReactionRequest: request,
     );

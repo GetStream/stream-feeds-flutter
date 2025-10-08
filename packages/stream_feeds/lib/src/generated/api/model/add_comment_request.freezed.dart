@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AddCommentRequest {
   List<Attachment>? get attachments;
-  String get comment;
+  String? get comment;
   bool? get createNotificationActivity;
   Map<String, Object?>? get custom;
   List<String>? get mentionedUserIds;
@@ -85,7 +85,7 @@ abstract mixin class $AddCommentRequestCopyWith<$Res> {
   @useResult
   $Res call(
       {List<Attachment>? attachments,
-      String comment,
+      String? comment,
       bool? createNotificationActivity,
       Map<String, Object?>? custom,
       List<String>? mentionedUserIds,
@@ -109,7 +109,7 @@ class _$AddCommentRequestCopyWithImpl<$Res>
   @override
   $Res call({
     Object? attachments = freezed,
-    Object? comment = null,
+    Object? comment = freezed,
     Object? createNotificationActivity = freezed,
     Object? custom = freezed,
     Object? mentionedUserIds = freezed,
@@ -123,10 +123,10 @@ class _$AddCommentRequestCopyWithImpl<$Res>
           ? _self.attachments
           : attachments // ignore: cast_nullable_to_non_nullable
               as List<Attachment>?,
-      comment: null == comment
+      comment: freezed == comment
           ? _self.comment
           : comment // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       createNotificationActivity: freezed == createNotificationActivity
           ? _self.createNotificationActivity
           : createNotificationActivity // ignore: cast_nullable_to_non_nullable

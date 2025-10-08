@@ -18,6 +18,7 @@ part 'action_log_response.freezed.dart';
 @JsonSerializable()
 class ActionLogResponse with _$ActionLogResponse {
   const ActionLogResponse({
+    required this.aiProviders,
     required this.createdAt,
     required this.custom,
     required this.id,
@@ -29,6 +30,9 @@ class ActionLogResponse with _$ActionLogResponse {
     this.user,
     required this.userId,
   });
+
+  @override
+  final List<String> aiProviders;
 
   @override
   @EpochDateTimeConverter()

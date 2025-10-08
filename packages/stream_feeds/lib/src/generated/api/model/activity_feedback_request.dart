@@ -23,6 +23,7 @@ class ActivityFeedbackRequest with _$ActivityFeedbackRequest {
     this.reason,
     this.report,
     this.showLess,
+    this.showMore,
   });
 
   @override
@@ -39,6 +40,9 @@ class ActivityFeedbackRequest with _$ActivityFeedbackRequest {
 
   @override
   final bool? showLess;
+
+  @override
+  final bool? showMore;
 
   Map<String, dynamic> toJson() => _$ActivityFeedbackRequestToJson(this);
 

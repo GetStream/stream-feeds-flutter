@@ -16,10 +16,11 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ModerationMarkReviewedEvent {
   DateTime get createdAt;
-  ReviewQueueItem? get item;
-  Message? get message;
+  Map<String, Object?> get custom;
+  ReviewQueueItemResponse get item;
+  MessageResponse? get message;
+  DateTime? get receivedAt;
   String get type;
-  User? get user;
 
   /// Create a copy of ModerationMarkReviewedEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -38,19 +39,28 @@ mixin _$ModerationMarkReviewedEvent {
             super == other &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
+            const DeepCollectionEquality().equals(other.custom, custom) &&
             (identical(other.item, item) || other.item == item) &&
             (identical(other.message, message) || other.message == message) &&
-            (identical(other.type, type) || other.type == type) &&
-            (identical(other.user, user) || other.user == user));
+            (identical(other.receivedAt, receivedAt) ||
+                other.receivedAt == receivedAt) &&
+            (identical(other.type, type) || other.type == type));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, super.hashCode, createdAt, item, message, type, user);
+      runtimeType,
+      super.hashCode,
+      createdAt,
+      const DeepCollectionEquality().hash(custom),
+      item,
+      message,
+      receivedAt,
+      type);
 
   @override
   String toString() {
-    return 'ModerationMarkReviewedEvent(createdAt: $createdAt, item: $item, message: $message, type: $type, user: $user)';
+    return 'ModerationMarkReviewedEvent(createdAt: $createdAt, custom: $custom, item: $item, message: $message, receivedAt: $receivedAt, type: $type)';
   }
 }
 
@@ -63,10 +73,11 @@ abstract mixin class $ModerationMarkReviewedEventCopyWith<$Res> {
   @useResult
   $Res call(
       {DateTime createdAt,
-      ReviewQueueItem? item,
-      Message? message,
-      String type,
-      User? user});
+      Map<String, Object?> custom,
+      ReviewQueueItemResponse item,
+      MessageResponse? message,
+      DateTime? receivedAt,
+      String type});
 }
 
 /// @nodoc
@@ -83,32 +94,37 @@ class _$ModerationMarkReviewedEventCopyWithImpl<$Res>
   @override
   $Res call({
     Object? createdAt = null,
-    Object? item = freezed,
+    Object? custom = null,
+    Object? item = null,
     Object? message = freezed,
+    Object? receivedAt = freezed,
     Object? type = null,
-    Object? user = freezed,
   }) {
     return _then(ModerationMarkReviewedEvent(
       createdAt: null == createdAt
           ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      item: freezed == item
+      custom: null == custom
+          ? _self.custom
+          : custom // ignore: cast_nullable_to_non_nullable
+              as Map<String, Object?>,
+      item: null == item
           ? _self.item
           : item // ignore: cast_nullable_to_non_nullable
-              as ReviewQueueItem?,
+              as ReviewQueueItemResponse,
       message: freezed == message
           ? _self.message
           : message // ignore: cast_nullable_to_non_nullable
-              as Message?,
+              as MessageResponse?,
+      receivedAt: freezed == receivedAt
+          ? _self.receivedAt
+          : receivedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       type: null == type
           ? _self.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
-      user: freezed == user
-          ? _self.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as User?,
     ));
   }
 }

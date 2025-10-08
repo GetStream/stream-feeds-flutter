@@ -30,6 +30,7 @@ mixin _$ActivityResponse {
   bool? get hidden;
   String get id;
   List<String> get interestTags;
+  bool? get isWatched;
   List<FeedsReactionResponse> get latestReactions;
   ActivityLocation? get location;
   List<UserResponse> get mentionedUsers;
@@ -90,6 +91,8 @@ mixin _$ActivityResponse {
             (identical(other.id, id) || other.id == id) &&
             const DeepCollectionEquality()
                 .equals(other.interestTags, interestTags) &&
+            (identical(other.isWatched, isWatched) ||
+                other.isWatched == isWatched) &&
             const DeepCollectionEquality()
                 .equals(other.latestReactions, latestReactions) &&
             (identical(other.location, location) ||
@@ -146,6 +149,7 @@ mixin _$ActivityResponse {
         hidden,
         id,
         const DeepCollectionEquality().hash(interestTags),
+        isWatched,
         const DeepCollectionEquality().hash(latestReactions),
         location,
         const DeepCollectionEquality().hash(mentionedUsers),
@@ -171,7 +175,7 @@ mixin _$ActivityResponse {
 
   @override
   String toString() {
-    return 'ActivityResponse(attachments: $attachments, bookmarkCount: $bookmarkCount, commentCount: $commentCount, comments: $comments, createdAt: $createdAt, currentFeed: $currentFeed, custom: $custom, deletedAt: $deletedAt, editedAt: $editedAt, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, hidden: $hidden, id: $id, interestTags: $interestTags, latestReactions: $latestReactions, location: $location, mentionedUsers: $mentionedUsers, moderation: $moderation, notificationContext: $notificationContext, ownBookmarks: $ownBookmarks, ownReactions: $ownReactions, parent: $parent, poll: $poll, popularity: $popularity, reactionCount: $reactionCount, reactionGroups: $reactionGroups, score: $score, searchData: $searchData, shareCount: $shareCount, text: $text, type: $type, updatedAt: $updatedAt, user: $user, visibility: $visibility, visibilityTag: $visibilityTag)';
+    return 'ActivityResponse(attachments: $attachments, bookmarkCount: $bookmarkCount, commentCount: $commentCount, comments: $comments, createdAt: $createdAt, currentFeed: $currentFeed, custom: $custom, deletedAt: $deletedAt, editedAt: $editedAt, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, hidden: $hidden, id: $id, interestTags: $interestTags, isWatched: $isWatched, latestReactions: $latestReactions, location: $location, mentionedUsers: $mentionedUsers, moderation: $moderation, notificationContext: $notificationContext, ownBookmarks: $ownBookmarks, ownReactions: $ownReactions, parent: $parent, poll: $poll, popularity: $popularity, reactionCount: $reactionCount, reactionGroups: $reactionGroups, score: $score, searchData: $searchData, shareCount: $shareCount, text: $text, type: $type, updatedAt: $updatedAt, user: $user, visibility: $visibility, visibilityTag: $visibilityTag)';
   }
 }
 
@@ -197,6 +201,7 @@ abstract mixin class $ActivityResponseCopyWith<$Res> {
       bool? hidden,
       String id,
       List<String> interestTags,
+      bool? isWatched,
       List<FeedsReactionResponse> latestReactions,
       ActivityLocation? location,
       List<UserResponse> mentionedUsers,
@@ -248,6 +253,7 @@ class _$ActivityResponseCopyWithImpl<$Res>
     Object? hidden = freezed,
     Object? id = null,
     Object? interestTags = null,
+    Object? isWatched = freezed,
     Object? latestReactions = null,
     Object? location = freezed,
     Object? mentionedUsers = null,
@@ -331,6 +337,10 @@ class _$ActivityResponseCopyWithImpl<$Res>
           ? _self.interestTags
           : interestTags // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      isWatched: freezed == isWatched
+          ? _self.isWatched
+          : isWatched // ignore: cast_nullable_to_non_nullable
+              as bool?,
       latestReactions: null == latestReactions
           ? _self.latestReactions
           : latestReactions // ignore: cast_nullable_to_non_nullable

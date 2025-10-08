@@ -40,6 +40,12 @@ abstract interface class DefaultApi {
     @Body() required AddActivityRequest addActivityRequest,
   });
 
+  @POST('/api/v2/feeds/activities/{activity_id}/reactions')
+  Future<Result<AddReactionResponse>> addActivityReaction({
+    @Path('activity_id') required String activityId,
+    @Body() required AddReactionRequest addReactionRequest,
+  });
+
   @POST('/api/v2/feeds/activities/{activity_id}/bookmarks')
   Future<Result<AddBookmarkResponse>> addBookmark({
     @Path('activity_id') required String activityId,
@@ -60,12 +66,6 @@ abstract interface class DefaultApi {
   @POST('/api/v2/feeds/comments/batch')
   Future<Result<AddCommentsBatchResponse>> addCommentsBatch({
     @Body() required AddCommentsBatchRequest addCommentsBatchRequest,
-  });
-
-  @POST('/api/v2/feeds/activities/{activity_id}/reactions')
-  Future<Result<AddReactionResponse>> addReaction({
-    @Path('activity_id') required String activityId,
-    @Body() required AddReactionRequest addReactionRequest,
   });
 
   @POST('/api/v2/moderation/ban')
@@ -330,6 +330,11 @@ abstract interface class DefaultApi {
   @POST('/api/v2/moderation/mute')
   Future<Result<MuteResponse>> mute({
     @Body() required MuteRequest muteRequest,
+  });
+
+  @POST('/api/v2/feeds/feeds/own_capabilities/batch')
+  Future<Result<OwnCapabilitiesBatchResponse>> ownCapabilitiesBatch({
+    @Body() required OwnCapabilitiesBatchRequest ownCapabilitiesBatchRequest,
   });
 
   @POST(

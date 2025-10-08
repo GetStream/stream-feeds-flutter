@@ -11,6 +11,8 @@ BlockListResponse _$BlockListResponseFromJson(Map<String, dynamic> json) =>
       createdAt: _$JsonConverterFromJson<int, DateTime>(
           json['created_at'], const EpochDateTimeConverter().fromJson),
       id: json['id'] as String?,
+      isLeetCheckEnabled: json['is_leet_check_enabled'] as bool,
+      isPluralCheckEnabled: json['is_plural_check_enabled'] as bool,
       name: json['name'] as String,
       team: json['team'] as String?,
       type: json['type'] as String,
@@ -24,6 +26,8 @@ Map<String, dynamic> _$BlockListResponseToJson(BlockListResponse instance) =>
       'created_at': _$JsonConverterToJson<int, DateTime>(
           instance.createdAt, const EpochDateTimeConverter().toJson),
       'id': instance.id,
+      'is_leet_check_enabled': instance.isLeetCheckEnabled,
+      'is_plural_check_enabled': instance.isPluralCheckEnabled,
       'name': instance.name,
       'team': instance.team,
       'type': instance.type,

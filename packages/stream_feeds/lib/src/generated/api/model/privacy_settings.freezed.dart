@@ -15,6 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$PrivacySettings {
+  DeliveryReceipts? get deliveryReceipts;
   ReadReceipts? get readReceipts;
   TypingIndicators? get typingIndicators;
 
@@ -31,6 +32,8 @@ mixin _$PrivacySettings {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is PrivacySettings &&
+            (identical(other.deliveryReceipts, deliveryReceipts) ||
+                other.deliveryReceipts == deliveryReceipts) &&
             (identical(other.readReceipts, readReceipts) ||
                 other.readReceipts == readReceipts) &&
             (identical(other.typingIndicators, typingIndicators) ||
@@ -38,11 +41,12 @@ mixin _$PrivacySettings {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, readReceipts, typingIndicators);
+  int get hashCode => Object.hash(
+      runtimeType, deliveryReceipts, readReceipts, typingIndicators);
 
   @override
   String toString() {
-    return 'PrivacySettings(readReceipts: $readReceipts, typingIndicators: $typingIndicators)';
+    return 'PrivacySettings(deliveryReceipts: $deliveryReceipts, readReceipts: $readReceipts, typingIndicators: $typingIndicators)';
   }
 }
 
@@ -52,7 +56,10 @@ abstract mixin class $PrivacySettingsCopyWith<$Res> {
           PrivacySettings value, $Res Function(PrivacySettings) _then) =
       _$PrivacySettingsCopyWithImpl;
   @useResult
-  $Res call({ReadReceipts? readReceipts, TypingIndicators? typingIndicators});
+  $Res call(
+      {DeliveryReceipts? deliveryReceipts,
+      ReadReceipts? readReceipts,
+      TypingIndicators? typingIndicators});
 }
 
 /// @nodoc
@@ -68,10 +75,15 @@ class _$PrivacySettingsCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? deliveryReceipts = freezed,
     Object? readReceipts = freezed,
     Object? typingIndicators = freezed,
   }) {
     return _then(PrivacySettings(
+      deliveryReceipts: freezed == deliveryReceipts
+          ? _self.deliveryReceipts
+          : deliveryReceipts // ignore: cast_nullable_to_non_nullable
+              as DeliveryReceipts?,
       readReceipts: freezed == readReceipts
           ? _self.readReceipts
           : readReceipts // ignore: cast_nullable_to_non_nullable

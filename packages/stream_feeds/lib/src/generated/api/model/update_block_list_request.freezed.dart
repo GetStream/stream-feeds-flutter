@@ -15,6 +15,8 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$UpdateBlockListRequest {
+  bool? get isLeetCheckEnabled;
+  bool? get isPluralCheckEnabled;
   String? get team;
   List<String>? get words;
 
@@ -31,17 +33,21 @@ mixin _$UpdateBlockListRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is UpdateBlockListRequest &&
+            (identical(other.isLeetCheckEnabled, isLeetCheckEnabled) ||
+                other.isLeetCheckEnabled == isLeetCheckEnabled) &&
+            (identical(other.isPluralCheckEnabled, isPluralCheckEnabled) ||
+                other.isPluralCheckEnabled == isPluralCheckEnabled) &&
             (identical(other.team, team) || other.team == team) &&
             const DeepCollectionEquality().equals(other.words, words));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, team, const DeepCollectionEquality().hash(words));
+  int get hashCode => Object.hash(runtimeType, isLeetCheckEnabled,
+      isPluralCheckEnabled, team, const DeepCollectionEquality().hash(words));
 
   @override
   String toString() {
-    return 'UpdateBlockListRequest(team: $team, words: $words)';
+    return 'UpdateBlockListRequest(isLeetCheckEnabled: $isLeetCheckEnabled, isPluralCheckEnabled: $isPluralCheckEnabled, team: $team, words: $words)';
   }
 }
 
@@ -51,7 +57,11 @@ abstract mixin class $UpdateBlockListRequestCopyWith<$Res> {
           $Res Function(UpdateBlockListRequest) _then) =
       _$UpdateBlockListRequestCopyWithImpl;
   @useResult
-  $Res call({String? team, List<String>? words});
+  $Res call(
+      {bool? isLeetCheckEnabled,
+      bool? isPluralCheckEnabled,
+      String? team,
+      List<String>? words});
 }
 
 /// @nodoc
@@ -67,10 +77,20 @@ class _$UpdateBlockListRequestCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? isLeetCheckEnabled = freezed,
+    Object? isPluralCheckEnabled = freezed,
     Object? team = freezed,
     Object? words = freezed,
   }) {
     return _then(UpdateBlockListRequest(
+      isLeetCheckEnabled: freezed == isLeetCheckEnabled
+          ? _self.isLeetCheckEnabled
+          : isLeetCheckEnabled // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isPluralCheckEnabled: freezed == isPluralCheckEnabled
+          ? _self.isPluralCheckEnabled
+          : isPluralCheckEnabled // ignore: cast_nullable_to_non_nullable
+              as bool?,
       team: freezed == team
           ? _self.team
           : team // ignore: cast_nullable_to_non_nullable

@@ -19,6 +19,7 @@ mixin _$ChannelMemberLookup {
   DateTime? get archivedAt;
   DateTime? get banExpires;
   bool get banned;
+  bool get blocked;
   bool get hidden;
   bool get pinned;
   DateTime? get pinnedAt;
@@ -43,6 +44,7 @@ mixin _$ChannelMemberLookup {
             (identical(other.banExpires, banExpires) ||
                 other.banExpires == banExpires) &&
             (identical(other.banned, banned) || other.banned == banned) &&
+            (identical(other.blocked, blocked) || other.blocked == blocked) &&
             (identical(other.hidden, hidden) || other.hidden == hidden) &&
             (identical(other.pinned, pinned) || other.pinned == pinned) &&
             (identical(other.pinnedAt, pinnedAt) ||
@@ -51,11 +53,11 @@ mixin _$ChannelMemberLookup {
 
   @override
   int get hashCode => Object.hash(runtimeType, archived, archivedAt, banExpires,
-      banned, hidden, pinned, pinnedAt);
+      banned, blocked, hidden, pinned, pinnedAt);
 
   @override
   String toString() {
-    return 'ChannelMemberLookup(archived: $archived, archivedAt: $archivedAt, banExpires: $banExpires, banned: $banned, hidden: $hidden, pinned: $pinned, pinnedAt: $pinnedAt)';
+    return 'ChannelMemberLookup(archived: $archived, archivedAt: $archivedAt, banExpires: $banExpires, banned: $banned, blocked: $blocked, hidden: $hidden, pinned: $pinned, pinnedAt: $pinnedAt)';
   }
 }
 
@@ -70,6 +72,7 @@ abstract mixin class $ChannelMemberLookupCopyWith<$Res> {
       DateTime? archivedAt,
       DateTime? banExpires,
       bool banned,
+      bool blocked,
       bool hidden,
       bool pinned,
       DateTime? pinnedAt});
@@ -92,6 +95,7 @@ class _$ChannelMemberLookupCopyWithImpl<$Res>
     Object? archivedAt = freezed,
     Object? banExpires = freezed,
     Object? banned = null,
+    Object? blocked = null,
     Object? hidden = null,
     Object? pinned = null,
     Object? pinnedAt = freezed,
@@ -112,6 +116,10 @@ class _$ChannelMemberLookupCopyWithImpl<$Res>
       banned: null == banned
           ? _self.banned
           : banned // ignore: cast_nullable_to_non_nullable
+              as bool,
+      blocked: null == blocked
+          ? _self.blocked
+          : blocked // ignore: cast_nullable_to_non_nullable
               as bool,
       hidden: null == hidden
           ? _self.hidden

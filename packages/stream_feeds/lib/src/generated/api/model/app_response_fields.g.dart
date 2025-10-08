@@ -15,6 +15,8 @@ AppResponseFields _$AppResponseFieldsFromJson(Map<String, dynamic> json) =>
       imageUploadConfig: FileUploadConfig.fromJson(
           json['image_upload_config'] as Map<String, dynamic>),
       name: json['name'] as String,
+      region: json['region'] as String,
+      shard: json['shard'] as String,
     );
 
 Map<String, dynamic> _$AppResponseFieldsToJson(AppResponseFields instance) =>
@@ -24,4 +26,6 @@ Map<String, dynamic> _$AppResponseFieldsToJson(AppResponseFields instance) =>
       'file_upload_config': instance.fileUploadConfig.toJson(),
       'image_upload_config': instance.imageUploadConfig.toJson(),
       'name': instance.name,
+      'region': instance.region,
+      'shard': instance.shard,
     };

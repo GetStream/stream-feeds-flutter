@@ -20,10 +20,11 @@ class ModerationMarkReviewedEvent extends core.WsEvent
     with _$ModerationMarkReviewedEvent {
   const ModerationMarkReviewedEvent({
     required this.createdAt,
-    this.item,
+    required this.custom,
+    required this.item,
     this.message,
+    this.receivedAt,
     required this.type,
-    this.user,
   });
 
   @override
@@ -31,16 +32,20 @@ class ModerationMarkReviewedEvent extends core.WsEvent
   final DateTime createdAt;
 
   @override
-  final ReviewQueueItem? item;
+  final Map<String, Object?> custom;
 
   @override
-  final Message? message;
+  final ReviewQueueItemResponse item;
+
+  @override
+  final MessageResponse? message;
+
+  @override
+  @EpochDateTimeConverter()
+  final DateTime? receivedAt;
 
   @override
   final String type;
-
-  @override
-  final User? user;
 
   Map<String, dynamic> toJson() => _$ModerationMarkReviewedEventToJson(this);
 

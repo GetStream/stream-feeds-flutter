@@ -11,7 +11,7 @@ AddCommentRequest _$AddCommentRequestFromJson(Map<String, dynamic> json) =>
       attachments: (json['attachments'] as List<dynamic>?)
           ?.map((e) => Attachment.fromJson(e as Map<String, dynamic>))
           .toList(),
-      comment: json['comment'] as String,
+      comment: json['comment'] as String?,
       createNotificationActivity: json['create_notification_activity'] as bool?,
       custom: json['custom'] as Map<String, dynamic>?,
       mentionedUserIds: (json['mentioned_user_ids'] as List<dynamic>?)

@@ -13,6 +13,28 @@ import '../models.dart';
 part 'rule_builder_action.g.dart';
 part 'rule_builder_action.freezed.dart';
 
+@JsonEnum(alwaysCreate: true)
+enum RuleBuilderActionType {
+  @JsonValue('ban_user')
+  banUser,
+  @JsonValue('block_content')
+  blockContent,
+  @JsonValue('bounce_content')
+  bounceContent,
+  @JsonValue('bounce_flag_content')
+  bounceFlagContent,
+  @JsonValue('bounce_remove_content')
+  bounceRemoveContent,
+  @JsonValue('flag_content')
+  flagContent,
+  @JsonValue('flag_user')
+  flagUser,
+  @JsonValue('shadow_content')
+  shadowContent,
+  @JsonValue('_unknown')
+  unknown;
+}
+
 @freezed
 @immutable
 @JsonSerializable()
@@ -20,7 +42,7 @@ class RuleBuilderAction with _$RuleBuilderAction {
   const RuleBuilderAction({
     this.banOptions,
     this.flagUserOptions,
-    this.type,
+    required this.type,
   });
 
   @override
@@ -30,7 +52,8 @@ class RuleBuilderAction with _$RuleBuilderAction {
   final FlagUserOptions? flagUserOptions;
 
   @override
-  final String? type;
+  @JsonKey(unknownEnumValue: RuleBuilderActionType.unknown)
+  final RuleBuilderActionType type;
 
   Map<String, dynamic> toJson() => _$RuleBuilderActionToJson(this);
 

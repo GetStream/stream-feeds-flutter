@@ -19,6 +19,7 @@ mixin _$AggregatedActivityResponse {
   int get activityCount;
   DateTime get createdAt;
   String get group;
+  bool? get isWatched;
   double get score;
   DateTime get updatedAt;
   int get userCount;
@@ -45,6 +46,8 @@ mixin _$AggregatedActivityResponse {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.group, group) || other.group == group) &&
+            (identical(other.isWatched, isWatched) ||
+                other.isWatched == isWatched) &&
             (identical(other.score, score) || other.score == score) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
@@ -61,6 +64,7 @@ mixin _$AggregatedActivityResponse {
       activityCount,
       createdAt,
       group,
+      isWatched,
       score,
       updatedAt,
       userCount,
@@ -68,7 +72,7 @@ mixin _$AggregatedActivityResponse {
 
   @override
   String toString() {
-    return 'AggregatedActivityResponse(activities: $activities, activityCount: $activityCount, createdAt: $createdAt, group: $group, score: $score, updatedAt: $updatedAt, userCount: $userCount, userCountTruncated: $userCountTruncated)';
+    return 'AggregatedActivityResponse(activities: $activities, activityCount: $activityCount, createdAt: $createdAt, group: $group, isWatched: $isWatched, score: $score, updatedAt: $updatedAt, userCount: $userCount, userCountTruncated: $userCountTruncated)';
   }
 }
 
@@ -83,6 +87,7 @@ abstract mixin class $AggregatedActivityResponseCopyWith<$Res> {
       int activityCount,
       DateTime createdAt,
       String group,
+      bool? isWatched,
       double score,
       DateTime updatedAt,
       int userCount,
@@ -106,6 +111,7 @@ class _$AggregatedActivityResponseCopyWithImpl<$Res>
     Object? activityCount = null,
     Object? createdAt = null,
     Object? group = null,
+    Object? isWatched = freezed,
     Object? score = null,
     Object? updatedAt = null,
     Object? userCount = null,
@@ -128,6 +134,10 @@ class _$AggregatedActivityResponseCopyWithImpl<$Res>
           ? _self.group
           : group // ignore: cast_nullable_to_non_nullable
               as String,
+      isWatched: freezed == isWatched
+          ? _self.isWatched
+          : isWatched // ignore: cast_nullable_to_non_nullable
+              as bool?,
       score: null == score
           ? _self.score
           : score // ignore: cast_nullable_to_non_nullable

@@ -18,9 +18,13 @@ part 'privacy_settings_response.freezed.dart';
 @JsonSerializable()
 class PrivacySettingsResponse with _$PrivacySettingsResponse {
   const PrivacySettingsResponse({
+    this.deliveryReceipts,
     this.readReceipts,
     this.typingIndicators,
   });
+
+  @override
+  final DeliveryReceiptsResponse? deliveryReceipts;
 
   @override
   final ReadReceiptsResponse? readReceipts;

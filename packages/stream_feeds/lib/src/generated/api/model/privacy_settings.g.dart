@@ -8,6 +8,10 @@ part of 'privacy_settings.dart';
 
 PrivacySettings _$PrivacySettingsFromJson(Map<String, dynamic> json) =>
     PrivacySettings(
+      deliveryReceipts: json['delivery_receipts'] == null
+          ? null
+          : DeliveryReceipts.fromJson(
+              json['delivery_receipts'] as Map<String, dynamic>),
       readReceipts: json['read_receipts'] == null
           ? null
           : ReadReceipts.fromJson(
@@ -20,6 +24,7 @@ PrivacySettings _$PrivacySettingsFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$PrivacySettingsToJson(PrivacySettings instance) =>
     <String, dynamic>{
+      'delivery_receipts': instance.deliveryReceipts?.toJson(),
       'read_receipts': instance.readReceipts?.toJson(),
       'typing_indicators': instance.typingIndicators?.toJson(),
     };

@@ -37,6 +37,7 @@ ActivityResponse _$ActivityResponseFromJson(Map<String, dynamic> json) =>
       interestTags: (json['interest_tags'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
+      isWatched: json['is_watched'] as bool?,
       latestReactions: (json['latest_reactions'] as List<dynamic>)
           .map((e) => FeedsReactionResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -106,6 +107,7 @@ Map<String, dynamic> _$ActivityResponseToJson(ActivityResponse instance) =>
       'hidden': instance.hidden,
       'id': instance.id,
       'interest_tags': instance.interestTags,
+      'is_watched': instance.isWatched,
       'latest_reactions':
           instance.latestReactions.map((e) => e.toJson()).toList(),
       'location': instance.location?.toJson(),

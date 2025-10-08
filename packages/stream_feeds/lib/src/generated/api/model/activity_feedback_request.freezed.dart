@@ -20,6 +20,7 @@ mixin _$ActivityFeedbackRequest {
   String? get reason;
   bool? get report;
   bool? get showLess;
+  bool? get showMore;
 
   /// Create a copy of ActivityFeedbackRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -40,16 +41,18 @@ mixin _$ActivityFeedbackRequest {
             (identical(other.reason, reason) || other.reason == reason) &&
             (identical(other.report, report) || other.report == report) &&
             (identical(other.showLess, showLess) ||
-                other.showLess == showLess));
+                other.showLess == showLess) &&
+            (identical(other.showMore, showMore) ||
+                other.showMore == showMore));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, hide, muteUser, reason, report, showLess);
+  int get hashCode => Object.hash(
+      runtimeType, hide, muteUser, reason, report, showLess, showMore);
 
   @override
   String toString() {
-    return 'ActivityFeedbackRequest(hide: $hide, muteUser: $muteUser, reason: $reason, report: $report, showLess: $showLess)';
+    return 'ActivityFeedbackRequest(hide: $hide, muteUser: $muteUser, reason: $reason, report: $report, showLess: $showLess, showMore: $showMore)';
   }
 }
 
@@ -64,7 +67,8 @@ abstract mixin class $ActivityFeedbackRequestCopyWith<$Res> {
       bool? muteUser,
       String? reason,
       bool? report,
-      bool? showLess});
+      bool? showLess,
+      bool? showMore});
 }
 
 /// @nodoc
@@ -85,6 +89,7 @@ class _$ActivityFeedbackRequestCopyWithImpl<$Res>
     Object? reason = freezed,
     Object? report = freezed,
     Object? showLess = freezed,
+    Object? showMore = freezed,
   }) {
     return _then(ActivityFeedbackRequest(
       hide: freezed == hide
@@ -106,6 +111,10 @@ class _$ActivityFeedbackRequestCopyWithImpl<$Res>
       showLess: freezed == showLess
           ? _self.showLess
           : showLess // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      showMore: freezed == showMore
+          ? _self.showMore
+          : showMore // ignore: cast_nullable_to_non_nullable
               as bool?,
     ));
   }

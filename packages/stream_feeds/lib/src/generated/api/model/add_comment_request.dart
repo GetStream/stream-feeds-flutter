@@ -19,7 +19,7 @@ part 'add_comment_request.freezed.dart';
 class AddCommentRequest with _$AddCommentRequest {
   const AddCommentRequest({
     this.attachments,
-    required this.comment,
+    this.comment,
     this.createNotificationActivity,
     this.custom,
     this.mentionedUserIds,
@@ -33,7 +33,7 @@ class AddCommentRequest with _$AddCommentRequest {
   final List<Attachment>? attachments;
 
   @override
-  final String comment;
+  final String? comment;
 
   @override
   final bool? createNotificationActivity;
