@@ -25,7 +25,7 @@ Future<void> creatingNotificationActivities() async {
     ),
   );
   // Eric reacts to Jane's activity
-  await ericFeed.addReaction(
+  await ericFeed.addActivityReaction(
     activityId: janeActivity.activityId,
     request: const AddReactionRequest(
       type: 'like',

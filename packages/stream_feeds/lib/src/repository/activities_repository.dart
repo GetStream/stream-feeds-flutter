@@ -195,7 +195,7 @@ class ActivitiesRepository {
   /// Creates a new reaction on the activity with [activityId] using the provided [request] data.
   ///
   /// Returns a [Result] containing the [FeedsReactionData] or an error.
-  Future<Result<FeedsReactionData>> addReaction(
+  Future<Result<FeedsReactionData>> addActivityReaction(
     String activityId,
     api.AddReactionRequest request,
   ) async {
@@ -212,7 +212,7 @@ class ActivitiesRepository {
   /// Removes the reaction of [type] from the activity with [activityId].
   ///
   /// Returns a [Result] containing the deleted [FeedsReactionData] or an error.
-  Future<Result<FeedsReactionData>> deleteReaction(
+  Future<Result<FeedsReactionData>> deleteActivityReaction(
     String activityId,
     String type,
   ) async {

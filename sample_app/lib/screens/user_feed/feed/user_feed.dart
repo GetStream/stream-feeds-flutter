@@ -130,7 +130,7 @@ class UserFeed extends StatelessWidget {
 
   void _onHeartClick(ActivityData activity, bool isAdding) {
     if (isAdding) {
-      userFeed.addReaction(
+      userFeed.addActivityReaction(
         activityId: activity.id,
         request: const AddReactionRequest(
           type: 'heart',
@@ -138,7 +138,7 @@ class UserFeed extends StatelessWidget {
         ),
       );
     } else {
-      userFeed.deleteReaction(
+      userFeed.deleteActivityReaction(
         activityId: activity.id,
         type: 'heart',
       );

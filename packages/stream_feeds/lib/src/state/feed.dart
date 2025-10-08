@@ -545,18 +545,38 @@ class Feed with Disposable {
 
   // region Reaction Methods
 
+  @Deprecated('Use addActivityReaction instead')
+  Future<Result<FeedsReactionData>> addReaction({
+    required String activityId,
+    required api.AddReactionRequest request,
+  }) =>
+      addActivityReaction(
+        activityId: activityId,
+        request: request,
+      );
+
   /// Adds a reaction to an activity.
   ///
   /// [activityId] The unique identifier of the activity to react to.
   /// [request] The request containing the reaction data.
   /// Returns a [Result] containing the added [FeedsReactionData] if successful, or an error if the
   /// operation fails.
-  Future<Result<FeedsReactionData>> addReaction({
+  Future<Result<FeedsReactionData>> addActivityReaction({
     required String activityId,
     required api.AddReactionRequest request,
   }) {
-    return activitiesRepository.addReaction(activityId, request);
+    return activitiesRepository.addActivityReaction(activityId, request);
   }
+
+  @Deprecated('Use deleteActivityReaction instead')
+  Future<Result<FeedsReactionData>> deleteReaction({
+    required String activityId,
+    required String type,
+  }) =>
+      deleteActivityReaction(
+        activityId: activityId,
+        type: type,
+      );
 
   /// Deletes a reaction from an activity.
   ///
@@ -564,11 +584,11 @@ class Feed with Disposable {
   /// [type] The type of reaction to delete.
   /// Returns a [Result] containing the deleted [FeedsReactionData] if successful, or an error if
   /// the operation fails.
-  Future<Result<FeedsReactionData>> deleteReaction({
+  Future<Result<FeedsReactionData>> deleteActivityReaction({
     required String activityId,
     required String type,
   }) {
-    return activitiesRepository.deleteReaction(activityId, type);
+    return activitiesRepository.deleteActivityReaction(activityId, type);
   }
 
   /// Adds a reaction to a comment.

@@ -5,12 +5,17 @@ late Feed feed;
 
 Future<void> overview() async {
   // Add a reaction to an activity
-  final reaction = await feed.addReaction(
+  final reaction = await feed.addActivityReaction(
     activityId: 'activity_123',
-    request: const AddReactionRequest(custom: {'emoji': '❤️'}, type: 'like'),
+    request: const AddReactionRequest(
+      custom: {'emoji': '❤️'},
+      type: 'like',
+      // Optionally override existing reaction
+      enforceUnique: true,
+    ),
   );
   // Remove a reaction
-  await feed.deleteReaction(activityId: 'activity_123', type: 'like');
+  await feed.deleteActivityReaction(activityId: 'activity_123', type: 'like');
 }
 
 Future<void> overviewRead() async {
