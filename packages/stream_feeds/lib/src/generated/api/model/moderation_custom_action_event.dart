@@ -19,28 +19,41 @@ part 'moderation_custom_action_event.freezed.dart';
 class ModerationCustomActionEvent extends core.WsEvent
     with _$ModerationCustomActionEvent {
   const ModerationCustomActionEvent({
+    required this.actionId,
+    this.actionOptions,
     required this.createdAt,
-    this.item,
+    required this.custom,
     this.message,
+    this.receivedAt,
+    required this.reviewQueueItem,
     required this.type,
-    this.user,
   });
+
+  @override
+  final String actionId;
+
+  @override
+  final Map<String, Object?>? actionOptions;
 
   @override
   @EpochDateTimeConverter()
   final DateTime createdAt;
 
   @override
-  final ReviewQueueItem? item;
+  final Map<String, Object?> custom;
 
   @override
-  final Message? message;
+  final MessageResponse? message;
+
+  @override
+  @EpochDateTimeConverter()
+  final DateTime? receivedAt;
+
+  @override
+  final ReviewQueueItemResponse reviewQueueItem;
 
   @override
   final String type;
-
-  @override
-  final User? user;
 
   Map<String, dynamic> toJson() => _$ModerationCustomActionEventToJson(this);
 

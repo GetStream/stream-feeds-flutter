@@ -100,6 +100,12 @@ abstract class WSClientEvent<T extends core.WsEvent> {
         _PollVoteChangedFeedEvent(PollVoteChangedFeedEvent.fromJson(json)),
       "feeds.poll.vote_removed" =>
         _PollVoteRemovedFeedEvent(PollVoteRemovedFeedEvent.fromJson(json)),
+      "feeds.stories_feed.updated" =>
+        _StoriesFeedUpdatedEvent(StoriesFeedUpdatedEvent.fromJson(json)),
+      "moderation.custom_action" => _ModerationCustomActionEvent(
+          ModerationCustomActionEvent.fromJson(json)),
+      "moderation.mark_reviewed" => _ModerationMarkReviewedEvent(
+          ModerationMarkReviewedEvent.fromJson(json)),
       "user.updated" => _UserUpdatedEvent(UserUpdatedEvent.fromJson(json)),
       _ => _UnknownWSClientEvent(UnknownWSClientEvent(eventType, json)),
     };
@@ -393,6 +399,29 @@ class _PollVoteChangedFeedEvent
 class _PollVoteRemovedFeedEvent
     extends WSClientEvent<PollVoteRemovedFeedEvent> {
   const _PollVoteRemovedFeedEvent(super.wrapped);
+
+  @override
+  String get type => wrapped.type;
+}
+
+class _StoriesFeedUpdatedEvent extends WSClientEvent<StoriesFeedUpdatedEvent> {
+  const _StoriesFeedUpdatedEvent(super.wrapped);
+
+  @override
+  String get type => wrapped.type;
+}
+
+class _ModerationCustomActionEvent
+    extends WSClientEvent<ModerationCustomActionEvent> {
+  const _ModerationCustomActionEvent(super.wrapped);
+
+  @override
+  String get type => wrapped.type;
+}
+
+class _ModerationMarkReviewedEvent
+    extends WSClientEvent<ModerationMarkReviewedEvent> {
+  const _ModerationMarkReviewedEvent(super.wrapped);
 
   @override
   String get type => wrapped.type;

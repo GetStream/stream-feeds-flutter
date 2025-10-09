@@ -92,7 +92,11 @@ Future<void> commentReactions() async {
   // Add a reaction to a comment
   await feed.addCommentReaction(
     commentId: 'comment_123',
-    request: const AddCommentReactionRequest(type: 'like'),
+    request: const AddCommentReactionRequest(
+      type: 'like',
+      // Optionally override existing reaction
+      enforceUnique: true,
+    ),
   );
   // Remove a reaction from a comment
   await feed.deleteCommentReaction(commentId: 'comment_123', type: 'like');

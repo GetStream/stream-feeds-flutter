@@ -9,6 +9,8 @@ part of 'create_block_list_request.dart';
 CreateBlockListRequest _$CreateBlockListRequestFromJson(
         Map<String, dynamic> json) =>
     CreateBlockListRequest(
+      isLeetCheckEnabled: json['is_leet_check_enabled'] as bool?,
+      isPluralCheckEnabled: json['is_plural_check_enabled'] as bool?,
       name: json['name'] as String,
       team: json['team'] as String?,
       type: $enumDecodeNullable(
@@ -20,6 +22,8 @@ CreateBlockListRequest _$CreateBlockListRequestFromJson(
 Map<String, dynamic> _$CreateBlockListRequestToJson(
         CreateBlockListRequest instance) =>
     <String, dynamic>{
+      'is_leet_check_enabled': instance.isLeetCheckEnabled,
+      'is_plural_check_enabled': instance.isPluralCheckEnabled,
       'name': instance.name,
       'team': instance.team,
       'type': _$CreateBlockListRequestTypeEnumMap[instance.type],

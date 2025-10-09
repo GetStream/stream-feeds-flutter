@@ -30,6 +30,7 @@ class AudioSettingsResponse with _$AudioSettingsResponse {
   const AudioSettingsResponse({
     required this.accessRequestEnabled,
     required this.defaultDevice,
+    required this.hifiAudioEnabled,
     required this.micDefaultOn,
     this.noiseCancellation,
     required this.opusDtxEnabled,
@@ -43,6 +44,9 @@ class AudioSettingsResponse with _$AudioSettingsResponse {
   @override
   @JsonKey(unknownEnumValue: AudioSettingsResponseDefaultDevice.unknown)
   final AudioSettingsResponseDefaultDevice defaultDevice;
+
+  @override
+  final bool hifiAudioEnabled;
 
   @override
   final bool micDefaultOn;

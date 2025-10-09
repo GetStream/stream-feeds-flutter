@@ -15,6 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$ActionLogResponse {
+  List<String> get aiProviders;
   DateTime get createdAt;
   Map<String, Object?> get custom;
   String get id;
@@ -39,6 +40,8 @@ mixin _$ActionLogResponse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ActionLogResponse &&
+            const DeepCollectionEquality()
+                .equals(other.aiProviders, aiProviders) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
@@ -58,6 +61,7 @@ mixin _$ActionLogResponse {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      const DeepCollectionEquality().hash(aiProviders),
       createdAt,
       const DeepCollectionEquality().hash(custom),
       id,
@@ -71,7 +75,7 @@ mixin _$ActionLogResponse {
 
   @override
   String toString() {
-    return 'ActionLogResponse(createdAt: $createdAt, custom: $custom, id: $id, reason: $reason, reviewQueueItem: $reviewQueueItem, targetUser: $targetUser, targetUserId: $targetUserId, type: $type, user: $user, userId: $userId)';
+    return 'ActionLogResponse(aiProviders: $aiProviders, createdAt: $createdAt, custom: $custom, id: $id, reason: $reason, reviewQueueItem: $reviewQueueItem, targetUser: $targetUser, targetUserId: $targetUserId, type: $type, user: $user, userId: $userId)';
   }
 }
 
@@ -82,7 +86,8 @@ abstract mixin class $ActionLogResponseCopyWith<$Res> {
       _$ActionLogResponseCopyWithImpl;
   @useResult
   $Res call(
-      {DateTime createdAt,
+      {List<String> aiProviders,
+      DateTime createdAt,
       Map<String, Object?> custom,
       String id,
       String reason,
@@ -107,6 +112,7 @@ class _$ActionLogResponseCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? aiProviders = null,
     Object? createdAt = null,
     Object? custom = null,
     Object? id = null,
@@ -119,6 +125,10 @@ class _$ActionLogResponseCopyWithImpl<$Res>
     Object? userId = null,
   }) {
     return _then(ActionLogResponse(
+      aiProviders: null == aiProviders
+          ? _self.aiProviders
+          : aiProviders // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       createdAt: null == createdAt
           ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable

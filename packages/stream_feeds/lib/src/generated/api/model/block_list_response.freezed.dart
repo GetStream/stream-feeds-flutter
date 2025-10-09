@@ -17,6 +17,8 @@ T _$identity<T>(T value) => value;
 mixin _$BlockListResponse {
   DateTime? get createdAt;
   String? get id;
+  bool get isLeetCheckEnabled;
+  bool get isPluralCheckEnabled;
   String get name;
   String? get team;
   String get type;
@@ -39,6 +41,10 @@ mixin _$BlockListResponse {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.isLeetCheckEnabled, isLeetCheckEnabled) ||
+                other.isLeetCheckEnabled == isLeetCheckEnabled) &&
+            (identical(other.isPluralCheckEnabled, isPluralCheckEnabled) ||
+                other.isPluralCheckEnabled == isPluralCheckEnabled) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.team, team) || other.team == team) &&
             (identical(other.type, type) || other.type == type) &&
@@ -48,12 +54,21 @@ mixin _$BlockListResponse {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, createdAt, id, name, team, type,
-      updatedAt, const DeepCollectionEquality().hash(words));
+  int get hashCode => Object.hash(
+      runtimeType,
+      createdAt,
+      id,
+      isLeetCheckEnabled,
+      isPluralCheckEnabled,
+      name,
+      team,
+      type,
+      updatedAt,
+      const DeepCollectionEquality().hash(words));
 
   @override
   String toString() {
-    return 'BlockListResponse(createdAt: $createdAt, id: $id, name: $name, team: $team, type: $type, updatedAt: $updatedAt, words: $words)';
+    return 'BlockListResponse(createdAt: $createdAt, id: $id, isLeetCheckEnabled: $isLeetCheckEnabled, isPluralCheckEnabled: $isPluralCheckEnabled, name: $name, team: $team, type: $type, updatedAt: $updatedAt, words: $words)';
   }
 }
 
@@ -66,6 +81,8 @@ abstract mixin class $BlockListResponseCopyWith<$Res> {
   $Res call(
       {DateTime? createdAt,
       String? id,
+      bool isLeetCheckEnabled,
+      bool isPluralCheckEnabled,
       String name,
       String? team,
       String type,
@@ -88,6 +105,8 @@ class _$BlockListResponseCopyWithImpl<$Res>
   $Res call({
     Object? createdAt = freezed,
     Object? id = freezed,
+    Object? isLeetCheckEnabled = null,
+    Object? isPluralCheckEnabled = null,
     Object? name = null,
     Object? team = freezed,
     Object? type = null,
@@ -103,6 +122,14 @@ class _$BlockListResponseCopyWithImpl<$Res>
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
+      isLeetCheckEnabled: null == isLeetCheckEnabled
+          ? _self.isLeetCheckEnabled
+          : isLeetCheckEnabled // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isPluralCheckEnabled: null == isPluralCheckEnabled
+          ? _self.isPluralCheckEnabled
+          : isPluralCheckEnabled // ignore: cast_nullable_to_non_nullable
+              as bool,
       name: null == name
           ? _self.name
           : name // ignore: cast_nullable_to_non_nullable

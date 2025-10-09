@@ -15,11 +15,14 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$ModerationCustomActionEvent {
+  String get actionId;
+  Map<String, Object?>? get actionOptions;
   DateTime get createdAt;
-  ReviewQueueItem? get item;
-  Message? get message;
+  Map<String, Object?> get custom;
+  MessageResponse? get message;
+  DateTime? get receivedAt;
+  ReviewQueueItemResponse get reviewQueueItem;
   String get type;
-  User? get user;
 
   /// Create a copy of ModerationCustomActionEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -36,21 +39,37 @@ mixin _$ModerationCustomActionEvent {
         (other.runtimeType == runtimeType &&
             other is ModerationCustomActionEvent &&
             super == other &&
+            (identical(other.actionId, actionId) ||
+                other.actionId == actionId) &&
+            const DeepCollectionEquality()
+                .equals(other.actionOptions, actionOptions) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
-            (identical(other.item, item) || other.item == item) &&
+            const DeepCollectionEquality().equals(other.custom, custom) &&
             (identical(other.message, message) || other.message == message) &&
-            (identical(other.type, type) || other.type == type) &&
-            (identical(other.user, user) || other.user == user));
+            (identical(other.receivedAt, receivedAt) ||
+                other.receivedAt == receivedAt) &&
+            (identical(other.reviewQueueItem, reviewQueueItem) ||
+                other.reviewQueueItem == reviewQueueItem) &&
+            (identical(other.type, type) || other.type == type));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, super.hashCode, createdAt, item, message, type, user);
+      runtimeType,
+      super.hashCode,
+      actionId,
+      const DeepCollectionEquality().hash(actionOptions),
+      createdAt,
+      const DeepCollectionEquality().hash(custom),
+      message,
+      receivedAt,
+      reviewQueueItem,
+      type);
 
   @override
   String toString() {
-    return 'ModerationCustomActionEvent(createdAt: $createdAt, item: $item, message: $message, type: $type, user: $user)';
+    return 'ModerationCustomActionEvent(actionId: $actionId, actionOptions: $actionOptions, createdAt: $createdAt, custom: $custom, message: $message, receivedAt: $receivedAt, reviewQueueItem: $reviewQueueItem, type: $type)';
   }
 }
 
@@ -62,11 +81,14 @@ abstract mixin class $ModerationCustomActionEventCopyWith<$Res> {
       _$ModerationCustomActionEventCopyWithImpl;
   @useResult
   $Res call(
-      {DateTime createdAt,
-      ReviewQueueItem? item,
-      Message? message,
-      String type,
-      User? user});
+      {String actionId,
+      Map<String, Object?>? actionOptions,
+      DateTime createdAt,
+      Map<String, Object?> custom,
+      MessageResponse? message,
+      DateTime? receivedAt,
+      ReviewQueueItemResponse reviewQueueItem,
+      String type});
 }
 
 /// @nodoc
@@ -82,33 +104,48 @@ class _$ModerationCustomActionEventCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? actionId = null,
+    Object? actionOptions = freezed,
     Object? createdAt = null,
-    Object? item = freezed,
+    Object? custom = null,
     Object? message = freezed,
+    Object? receivedAt = freezed,
+    Object? reviewQueueItem = null,
     Object? type = null,
-    Object? user = freezed,
   }) {
     return _then(ModerationCustomActionEvent(
+      actionId: null == actionId
+          ? _self.actionId
+          : actionId // ignore: cast_nullable_to_non_nullable
+              as String,
+      actionOptions: freezed == actionOptions
+          ? _self.actionOptions
+          : actionOptions // ignore: cast_nullable_to_non_nullable
+              as Map<String, Object?>?,
       createdAt: null == createdAt
           ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      item: freezed == item
-          ? _self.item
-          : item // ignore: cast_nullable_to_non_nullable
-              as ReviewQueueItem?,
+      custom: null == custom
+          ? _self.custom
+          : custom // ignore: cast_nullable_to_non_nullable
+              as Map<String, Object?>,
       message: freezed == message
           ? _self.message
           : message // ignore: cast_nullable_to_non_nullable
-              as Message?,
+              as MessageResponse?,
+      receivedAt: freezed == receivedAt
+          ? _self.receivedAt
+          : receivedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      reviewQueueItem: null == reviewQueueItem
+          ? _self.reviewQueueItem
+          : reviewQueueItem // ignore: cast_nullable_to_non_nullable
+              as ReviewQueueItemResponse,
       type: null == type
           ? _self.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
-      user: freezed == user
-          ? _self.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as User?,
     ));
   }
 }

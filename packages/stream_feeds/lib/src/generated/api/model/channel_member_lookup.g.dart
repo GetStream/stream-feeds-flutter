@@ -14,6 +14,7 @@ ChannelMemberLookup _$ChannelMemberLookupFromJson(Map<String, dynamic> json) =>
       banExpires: _$JsonConverterFromJson<int, DateTime>(
           json['ban_expires'], const EpochDateTimeConverter().fromJson),
       banned: json['banned'] as bool,
+      blocked: json['blocked'] as bool,
       hidden: json['hidden'] as bool,
       pinned: json['pinned'] as bool,
       pinnedAt: _$JsonConverterFromJson<int, DateTime>(
@@ -29,6 +30,7 @@ Map<String, dynamic> _$ChannelMemberLookupToJson(
       'ban_expires': _$JsonConverterToJson<int, DateTime>(
           instance.banExpires, const EpochDateTimeConverter().toJson),
       'banned': instance.banned,
+      'blocked': instance.blocked,
       'hidden': instance.hidden,
       'pinned': instance.pinned,
       'pinned_at': _$JsonConverterToJson<int, DateTime>(

@@ -15,6 +15,8 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$CreateBlockListRequest {
+  bool? get isLeetCheckEnabled;
+  bool? get isPluralCheckEnabled;
   String get name;
   String? get team;
   CreateBlockListRequestType? get type;
@@ -33,6 +35,10 @@ mixin _$CreateBlockListRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is CreateBlockListRequest &&
+            (identical(other.isLeetCheckEnabled, isLeetCheckEnabled) ||
+                other.isLeetCheckEnabled == isLeetCheckEnabled) &&
+            (identical(other.isPluralCheckEnabled, isPluralCheckEnabled) ||
+                other.isPluralCheckEnabled == isPluralCheckEnabled) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.team, team) || other.team == team) &&
             (identical(other.type, type) || other.type == type) &&
@@ -40,12 +46,18 @@ mixin _$CreateBlockListRequest {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, name, team, type,
+  int get hashCode => Object.hash(
+      runtimeType,
+      isLeetCheckEnabled,
+      isPluralCheckEnabled,
+      name,
+      team,
+      type,
       const DeepCollectionEquality().hash(words));
 
   @override
   String toString() {
-    return 'CreateBlockListRequest(name: $name, team: $team, type: $type, words: $words)';
+    return 'CreateBlockListRequest(isLeetCheckEnabled: $isLeetCheckEnabled, isPluralCheckEnabled: $isPluralCheckEnabled, name: $name, team: $team, type: $type, words: $words)';
   }
 }
 
@@ -56,7 +68,9 @@ abstract mixin class $CreateBlockListRequestCopyWith<$Res> {
       _$CreateBlockListRequestCopyWithImpl;
   @useResult
   $Res call(
-      {String name,
+      {bool? isLeetCheckEnabled,
+      bool? isPluralCheckEnabled,
+      String name,
       String? team,
       CreateBlockListRequestType? type,
       List<String> words});
@@ -75,12 +89,22 @@ class _$CreateBlockListRequestCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? isLeetCheckEnabled = freezed,
+    Object? isPluralCheckEnabled = freezed,
     Object? name = null,
     Object? team = freezed,
     Object? type = freezed,
     Object? words = null,
   }) {
     return _then(CreateBlockListRequest(
+      isLeetCheckEnabled: freezed == isLeetCheckEnabled
+          ? _self.isLeetCheckEnabled
+          : isLeetCheckEnabled // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isPluralCheckEnabled: freezed == isPluralCheckEnabled
+          ? _self.isPluralCheckEnabled
+          : isPluralCheckEnabled // ignore: cast_nullable_to_non_nullable
+              as bool?,
       name: null == name
           ? _self.name
           : name // ignore: cast_nullable_to_non_nullable

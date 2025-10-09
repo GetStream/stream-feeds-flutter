@@ -36,7 +36,7 @@ Future<void> socialMediaFeed() async {
   await timeline.getOrCreate();
 
   // Add a reaction to activity
-  await timeline.addReaction(
+  await timeline.addActivityReaction(
     activityId: 'activity_123',
     request: const AddReactionRequest(type: 'like'),
   );

@@ -20,6 +20,8 @@ class BlockListResponse with _$BlockListResponse {
   const BlockListResponse({
     this.createdAt,
     this.id,
+    required this.isLeetCheckEnabled,
+    required this.isPluralCheckEnabled,
     required this.name,
     this.team,
     required this.type,
@@ -33,6 +35,12 @@ class BlockListResponse with _$BlockListResponse {
 
   @override
   final String? id;
+
+  @override
+  final bool isLeetCheckEnabled;
+
+  @override
+  final bool isPluralCheckEnabled;
 
   @override
   final String name;

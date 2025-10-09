@@ -17,7 +17,7 @@ T _$identity<T>(T value) => value;
 mixin _$RuleBuilderAction {
   BanOptions? get banOptions;
   FlagUserOptions? get flagUserOptions;
-  String? get type;
+  RuleBuilderActionType get type;
 
   /// Create a copy of RuleBuilderAction
   /// with the given fields replaced by the non-null parameter values.
@@ -56,7 +56,9 @@ abstract mixin class $RuleBuilderActionCopyWith<$Res> {
       _$RuleBuilderActionCopyWithImpl;
   @useResult
   $Res call(
-      {BanOptions? banOptions, FlagUserOptions? flagUserOptions, String? type});
+      {BanOptions? banOptions,
+      FlagUserOptions? flagUserOptions,
+      RuleBuilderActionType type});
 }
 
 /// @nodoc
@@ -74,7 +76,7 @@ class _$RuleBuilderActionCopyWithImpl<$Res>
   $Res call({
     Object? banOptions = freezed,
     Object? flagUserOptions = freezed,
-    Object? type = freezed,
+    Object? type = null,
   }) {
     return _then(RuleBuilderAction(
       banOptions: freezed == banOptions
@@ -85,10 +87,10 @@ class _$RuleBuilderActionCopyWithImpl<$Res>
           ? _self.flagUserOptions
           : flagUserOptions // ignore: cast_nullable_to_non_nullable
               as FlagUserOptions?,
-      type: freezed == type
+      type: null == type
           ? _self.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as RuleBuilderActionType,
     ));
   }
 }

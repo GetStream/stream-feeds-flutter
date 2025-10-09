@@ -16,6 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$IngressVideoEncodingResponse {
   List<IngressVideoLayerResponse> get layers;
+  IngressSourceResponse get source;
 
   /// Create a copy of IngressVideoEncodingResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -31,16 +32,17 @@ mixin _$IngressVideoEncodingResponse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is IngressVideoEncodingResponse &&
-            const DeepCollectionEquality().equals(other.layers, layers));
+            const DeepCollectionEquality().equals(other.layers, layers) &&
+            (identical(other.source, source) || other.source == source));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(layers));
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(layers), source);
 
   @override
   String toString() {
-    return 'IngressVideoEncodingResponse(layers: $layers)';
+    return 'IngressVideoEncodingResponse(layers: $layers, source: $source)';
   }
 }
 
@@ -51,7 +53,8 @@ abstract mixin class $IngressVideoEncodingResponseCopyWith<$Res> {
           $Res Function(IngressVideoEncodingResponse) _then) =
       _$IngressVideoEncodingResponseCopyWithImpl;
   @useResult
-  $Res call({List<IngressVideoLayerResponse> layers});
+  $Res call(
+      {List<IngressVideoLayerResponse> layers, IngressSourceResponse source});
 }
 
 /// @nodoc
@@ -68,12 +71,17 @@ class _$IngressVideoEncodingResponseCopyWithImpl<$Res>
   @override
   $Res call({
     Object? layers = null,
+    Object? source = null,
   }) {
     return _then(IngressVideoEncodingResponse(
       layers: null == layers
           ? _self.layers
           : layers // ignore: cast_nullable_to_non_nullable
               as List<IngressVideoLayerResponse>,
+      source: null == source
+          ? _self.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as IngressSourceResponse,
     ));
   }
 }

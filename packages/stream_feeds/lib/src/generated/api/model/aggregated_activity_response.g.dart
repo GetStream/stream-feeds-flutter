@@ -16,6 +16,7 @@ AggregatedActivityResponse _$AggregatedActivityResponseFromJson(
       createdAt: const EpochDateTimeConverter()
           .fromJson((json['created_at'] as num).toInt()),
       group: json['group'] as String,
+      isWatched: json['is_watched'] as bool?,
       score: (json['score'] as num).toDouble(),
       updatedAt: const EpochDateTimeConverter()
           .fromJson((json['updated_at'] as num).toInt()),
@@ -30,6 +31,7 @@ Map<String, dynamic> _$AggregatedActivityResponseToJson(
       'activity_count': instance.activityCount,
       'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
       'group': instance.group,
+      'is_watched': instance.isWatched,
       'score': instance.score,
       'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
       'user_count': instance.userCount,

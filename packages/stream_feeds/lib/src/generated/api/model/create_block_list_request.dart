@@ -34,11 +34,19 @@ enum CreateBlockListRequestType {
 @JsonSerializable()
 class CreateBlockListRequest with _$CreateBlockListRequest {
   const CreateBlockListRequest({
+    this.isLeetCheckEnabled,
+    this.isPluralCheckEnabled,
     required this.name,
     this.team,
     this.type,
     required this.words,
   });
+
+  @override
+  final bool? isLeetCheckEnabled;
+
+  @override
+  final bool? isPluralCheckEnabled;
 
   @override
   final String name;

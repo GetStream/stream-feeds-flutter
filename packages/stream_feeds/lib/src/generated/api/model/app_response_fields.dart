@@ -23,6 +23,8 @@ class AppResponseFields with _$AppResponseFields {
     required this.fileUploadConfig,
     required this.imageUploadConfig,
     required this.name,
+    required this.region,
+    required this.shard,
   });
 
   @override
@@ -39,6 +41,12 @@ class AppResponseFields with _$AppResponseFields {
 
   @override
   final String name;
+
+  @override
+  final String region;
+
+  @override
+  final String shard;
 
   Map<String, dynamic> toJson() => _$AppResponseFieldsToJson(this);
 

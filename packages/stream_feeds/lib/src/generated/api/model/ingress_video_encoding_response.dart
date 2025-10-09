@@ -19,10 +19,14 @@ part 'ingress_video_encoding_response.freezed.dart';
 class IngressVideoEncodingResponse with _$IngressVideoEncodingResponse {
   const IngressVideoEncodingResponse({
     required this.layers,
+    required this.source,
   });
 
   @override
   final List<IngressVideoLayerResponse> layers;
+
+  @override
+  final IngressSourceResponse source;
 
   Map<String, dynamic> toJson() => _$IngressVideoEncodingResponseToJson(this);
 

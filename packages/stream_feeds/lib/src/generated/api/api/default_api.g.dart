@@ -176,6 +176,49 @@ class _DefaultApi implements DefaultApi {
     );
   }
 
+  Future<AddReactionResponse> _addActivityReaction({
+    required String activityId,
+    required AddReactionRequest addReactionRequest,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(addReactionRequest.toJson());
+    final _options = _setStreamType<Result<AddReactionResponse>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/feeds/activities/${activityId}/reactions',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late AddReactionResponse _value;
+    try {
+      _value = AddReactionResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<AddReactionResponse>> addActivityReaction({
+    required String activityId,
+    required AddReactionRequest addReactionRequest,
+  }) {
+    return _ResultCallAdapter<AddReactionResponse>().adapt(
+      () => _addActivityReaction(
+        activityId: activityId,
+        addReactionRequest: addReactionRequest,
+      ),
+    );
+  }
+
   Future<AddBookmarkResponse> _addBookmark({
     required String activityId,
     AddBookmarkRequest? addBookmarkRequest,
@@ -336,49 +379,6 @@ class _DefaultApi implements DefaultApi {
   }) {
     return _ResultCallAdapter<AddCommentsBatchResponse>().adapt(
       () => _addCommentsBatch(addCommentsBatchRequest: addCommentsBatchRequest),
-    );
-  }
-
-  Future<AddReactionResponse> _addReaction({
-    required String activityId,
-    required AddReactionRequest addReactionRequest,
-  }) async {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(addReactionRequest.toJson());
-    final _options = _setStreamType<Result<AddReactionResponse>>(
-      Options(method: 'POST', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/api/v2/feeds/activities/${activityId}/reactions',
-            queryParameters: queryParameters,
-            data: _data,
-          )
-          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
-    );
-    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late AddReactionResponse _value;
-    try {
-      _value = AddReactionResponse.fromJson(_result.data!);
-    } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
-      rethrow;
-    }
-    return _value;
-  }
-
-  @override
-  Future<Result<AddReactionResponse>> addReaction({
-    required String activityId,
-    required AddReactionRequest addReactionRequest,
-  }) {
-    return _ResultCallAdapter<AddReactionResponse>().adapt(
-      () => _addReaction(
-        activityId: activityId,
-        addReactionRequest: addReactionRequest,
-      ),
     );
   }
 
@@ -2183,6 +2183,46 @@ class _DefaultApi implements DefaultApi {
   Future<Result<MuteResponse>> mute({required MuteRequest muteRequest}) {
     return _ResultCallAdapter<MuteResponse>().adapt(
       () => _mute(muteRequest: muteRequest),
+    );
+  }
+
+  Future<OwnCapabilitiesBatchResponse> _ownCapabilitiesBatch({
+    required OwnCapabilitiesBatchRequest ownCapabilitiesBatchRequest,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(ownCapabilitiesBatchRequest.toJson());
+    final _options = _setStreamType<Result<OwnCapabilitiesBatchResponse>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/feeds/feeds/own_capabilities/batch',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late OwnCapabilitiesBatchResponse _value;
+    try {
+      _value = OwnCapabilitiesBatchResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<OwnCapabilitiesBatchResponse>> ownCapabilitiesBatch({
+    required OwnCapabilitiesBatchRequest ownCapabilitiesBatchRequest,
+  }) {
+    return _ResultCallAdapter<OwnCapabilitiesBatchResponse>().adapt(
+      () => _ownCapabilitiesBatch(
+        ownCapabilitiesBatchRequest: ownCapabilitiesBatchRequest,
+      ),
     );
   }
 

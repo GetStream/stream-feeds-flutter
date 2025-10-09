@@ -15,8 +15,8 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$StoriesConfig {
-  StoriesConfigExpirationBehaviour? get expirationBehaviour;
   bool? get skipWatched;
+  bool? get trackWatched;
 
   /// Create a copy of StoriesConfig
   /// with the given fields replaced by the non-null parameter values.
@@ -31,19 +31,18 @@ mixin _$StoriesConfig {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is StoriesConfig &&
-            (identical(other.expirationBehaviour, expirationBehaviour) ||
-                other.expirationBehaviour == expirationBehaviour) &&
             (identical(other.skipWatched, skipWatched) ||
-                other.skipWatched == skipWatched));
+                other.skipWatched == skipWatched) &&
+            (identical(other.trackWatched, trackWatched) ||
+                other.trackWatched == trackWatched));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, expirationBehaviour, skipWatched);
+  int get hashCode => Object.hash(runtimeType, skipWatched, trackWatched);
 
   @override
   String toString() {
-    return 'StoriesConfig(expirationBehaviour: $expirationBehaviour, skipWatched: $skipWatched)';
+    return 'StoriesConfig(skipWatched: $skipWatched, trackWatched: $trackWatched)';
   }
 }
 
@@ -53,9 +52,7 @@ abstract mixin class $StoriesConfigCopyWith<$Res> {
           StoriesConfig value, $Res Function(StoriesConfig) _then) =
       _$StoriesConfigCopyWithImpl;
   @useResult
-  $Res call(
-      {StoriesConfigExpirationBehaviour? expirationBehaviour,
-      bool? skipWatched});
+  $Res call({bool? skipWatched, bool? trackWatched});
 }
 
 /// @nodoc
@@ -71,17 +68,17 @@ class _$StoriesConfigCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? expirationBehaviour = freezed,
     Object? skipWatched = freezed,
+    Object? trackWatched = freezed,
   }) {
     return _then(StoriesConfig(
-      expirationBehaviour: freezed == expirationBehaviour
-          ? _self.expirationBehaviour
-          : expirationBehaviour // ignore: cast_nullable_to_non_nullable
-              as StoriesConfigExpirationBehaviour?,
       skipWatched: freezed == skipWatched
           ? _self.skipWatched
           : skipWatched // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      trackWatched: freezed == trackWatched
+          ? _self.trackWatched
+          : trackWatched // ignore: cast_nullable_to_non_nullable
               as bool?,
     ));
   }

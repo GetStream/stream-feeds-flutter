@@ -17,6 +17,7 @@ T _$identity<T>(T value) => value;
 mixin _$AudioSettingsResponse {
   bool get accessRequestEnabled;
   AudioSettingsResponseDefaultDevice get defaultDevice;
+  bool get hifiAudioEnabled;
   bool get micDefaultOn;
   NoiseCancellationSettings? get noiseCancellation;
   bool get opusDtxEnabled;
@@ -40,6 +41,8 @@ mixin _$AudioSettingsResponse {
                 other.accessRequestEnabled == accessRequestEnabled) &&
             (identical(other.defaultDevice, defaultDevice) ||
                 other.defaultDevice == defaultDevice) &&
+            (identical(other.hifiAudioEnabled, hifiAudioEnabled) ||
+                other.hifiAudioEnabled == hifiAudioEnabled) &&
             (identical(other.micDefaultOn, micDefaultOn) ||
                 other.micDefaultOn == micDefaultOn) &&
             (identical(other.noiseCancellation, noiseCancellation) ||
@@ -57,6 +60,7 @@ mixin _$AudioSettingsResponse {
       runtimeType,
       accessRequestEnabled,
       defaultDevice,
+      hifiAudioEnabled,
       micDefaultOn,
       noiseCancellation,
       opusDtxEnabled,
@@ -65,7 +69,7 @@ mixin _$AudioSettingsResponse {
 
   @override
   String toString() {
-    return 'AudioSettingsResponse(accessRequestEnabled: $accessRequestEnabled, defaultDevice: $defaultDevice, micDefaultOn: $micDefaultOn, noiseCancellation: $noiseCancellation, opusDtxEnabled: $opusDtxEnabled, redundantCodingEnabled: $redundantCodingEnabled, speakerDefaultOn: $speakerDefaultOn)';
+    return 'AudioSettingsResponse(accessRequestEnabled: $accessRequestEnabled, defaultDevice: $defaultDevice, hifiAudioEnabled: $hifiAudioEnabled, micDefaultOn: $micDefaultOn, noiseCancellation: $noiseCancellation, opusDtxEnabled: $opusDtxEnabled, redundantCodingEnabled: $redundantCodingEnabled, speakerDefaultOn: $speakerDefaultOn)';
   }
 }
 
@@ -78,6 +82,7 @@ abstract mixin class $AudioSettingsResponseCopyWith<$Res> {
   $Res call(
       {bool accessRequestEnabled,
       AudioSettingsResponseDefaultDevice defaultDevice,
+      bool hifiAudioEnabled,
       bool micDefaultOn,
       NoiseCancellationSettings? noiseCancellation,
       bool opusDtxEnabled,
@@ -100,6 +105,7 @@ class _$AudioSettingsResponseCopyWithImpl<$Res>
   $Res call({
     Object? accessRequestEnabled = null,
     Object? defaultDevice = null,
+    Object? hifiAudioEnabled = null,
     Object? micDefaultOn = null,
     Object? noiseCancellation = freezed,
     Object? opusDtxEnabled = null,
@@ -115,6 +121,10 @@ class _$AudioSettingsResponseCopyWithImpl<$Res>
           ? _self.defaultDevice
           : defaultDevice // ignore: cast_nullable_to_non_nullable
               as AudioSettingsResponseDefaultDevice,
+      hifiAudioEnabled: null == hifiAudioEnabled
+          ? _self.hifiAudioEnabled
+          : hifiAudioEnabled // ignore: cast_nullable_to_non_nullable
+              as bool,
       micDefaultOn: null == micDefaultOn
           ? _self.micDefaultOn
           : micDefaultOn // ignore: cast_nullable_to_non_nullable

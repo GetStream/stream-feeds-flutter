@@ -22,6 +22,7 @@ class ChannelMemberLookup with _$ChannelMemberLookup {
     this.archivedAt,
     this.banExpires,
     required this.banned,
+    required this.blocked,
     required this.hidden,
     required this.pinned,
     this.pinnedAt,
@@ -40,6 +41,9 @@ class ChannelMemberLookup with _$ChannelMemberLookup {
 
   @override
   final bool banned;
+
+  @override
+  final bool blocked;
 
   @override
   final bool hidden;

@@ -45,6 +45,7 @@ class ActivityResponse with _$ActivityResponse {
     this.hidden,
     required this.id,
     required this.interestTags,
+    this.isWatched,
     required this.latestReactions,
     this.location,
     required this.mentionedUsers,
@@ -116,6 +117,9 @@ class ActivityResponse with _$ActivityResponse {
 
   @override
   final List<String> interestTags;
+
+  @override
+  final bool? isWatched;
 
   @override
   final List<FeedsReactionResponse> latestReactions;

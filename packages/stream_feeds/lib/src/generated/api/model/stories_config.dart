@@ -13,31 +13,20 @@ import '../models.dart';
 part 'stories_config.g.dart';
 part 'stories_config.freezed.dart';
 
-@JsonEnum(alwaysCreate: true)
-enum StoriesConfigExpirationBehaviour {
-  @JsonValue('hide_for_everyone')
-  hideForEveryone,
-  @JsonValue('visible_for_author')
-  visibleForAuthor,
-  @JsonValue('_unknown')
-  unknown;
-}
-
 @freezed
 @immutable
 @JsonSerializable()
 class StoriesConfig with _$StoriesConfig {
   const StoriesConfig({
-    this.expirationBehaviour,
     this.skipWatched,
+    this.trackWatched,
   });
 
   @override
-  @JsonKey(unknownEnumValue: StoriesConfigExpirationBehaviour.unknown)
-  final StoriesConfigExpirationBehaviour? expirationBehaviour;
+  final bool? skipWatched;
 
   @override
-  final bool? skipWatched;
+  final bool? trackWatched;
 
   Map<String, dynamic> toJson() => _$StoriesConfigToJson(this);
 
