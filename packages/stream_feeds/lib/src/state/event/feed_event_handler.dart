@@ -11,6 +11,7 @@ import '../../models/feed_id.dart';
 import '../../models/feeds_reaction_data.dart';
 import '../../models/follow_data.dart';
 import '../../models/mark_activity_data.dart';
+import '../../repository/capabilities_repository.dart';
 import '../feed_state.dart';
 
 import 'state_event_handler.dart';
@@ -19,16 +20,28 @@ class FeedEventHandler implements StateEventHandler {
   const FeedEventHandler({
     required this.fid,
     required this.state,
+    required this.capabilitiesRepository,
   });
 
   final FeedId fid;
   final FeedStateNotifier state;
+  final CapabilitiesRepository capabilitiesRepository;
 
   @override
-  void handleEvent(WsEvent event) {
+  Future<void> handleEvent(WsEvent event) async {
     if (event is api.ActivityAddedEvent) {
       if (event.fid != fid.rawValue) return;
-      return state.onActivityAdded(event.activity.toModel());
+      var activity = event.activity.toModel();
+      state.onActivityAdded(activity);
+      
+      final ownCapabilities =
+          await capabilitiesRepository.getCapabilities(fid.rawValue);
+      activity = activity.copyWith(
+        currentFeed: activity.currentFeed?.copyWith(
+          ownCapabilities: ownCapabilities ?? [],
+        ),
+      );
+      state.onActivityUpdated(activity);
     }
 
     if (event is api.ActivityDeletedEvent) {

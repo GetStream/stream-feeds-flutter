@@ -23,7 +23,7 @@ class OwnCapabilitiesBatchResponse with _$OwnCapabilitiesBatchResponse {
   });
 
   @override
-  final Map<String, List<String>> capabilities;
+  final Map<String, List<FeedOwnCapability>> capabilities;
 
   @override
   final String duration;
