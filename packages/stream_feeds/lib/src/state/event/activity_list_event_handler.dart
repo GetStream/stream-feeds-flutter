@@ -23,6 +23,7 @@ class ActivityListEventHandler
   });
 
   final ActivityListStateNotifier state;
+  @override
   final CapabilitiesRepository capabilitiesRepository;
 
   @override
