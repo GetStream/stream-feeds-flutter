@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:state_notifier/state_notifier.dart';
@@ -118,19 +119,12 @@ class Feed with Disposable {
     result.onSuccess((feedData) {
       _stateNotifier.onQueryFeed(feedData);
 
-      // TODO move and also do with fetchMore
-      capabilitiesRepository.addCapabilities(
-        feedData.feed.id,
-        feedData.feed.ownCapabilities,
-      );
-      for (final activity in feedData.activities.items) {
-        if (activity.currentFeed case final feed?) {
-          capabilitiesRepository.addCapabilities(
-            feed.id,
-            feed.ownCapabilities,
-          );
-        }
-      }
+      capabilitiesRepository.cacheCapabilitiesForFeeds([
+        feedData.feed,
+        ...feedData.activities.items
+            .map((activity) => activity.currentFeed)
+            .nonNulls,
+      ]);
     });
 
     return result.map((feedData) => feedData.feed);
@@ -454,10 +448,19 @@ class Feed with Disposable {
     final result = await feedsRepository.getOrCreateFeed(nextQuery);
 
     result.onSuccess(
-      (feedData) => _stateNotifier.onQueryMoreActivities(
-        feedData.activities,
-        feedData.activitiesQueryConfig,
-      ),
+      (feedData) {
+        _stateNotifier.onQueryMoreActivities(
+          feedData.activities,
+          feedData.activitiesQueryConfig,
+        );
+
+        capabilitiesRepository.cacheCapabilitiesForFeeds([
+          feedData.feed,
+          ...feedData.activities.items
+              .map((activity) => activity.currentFeed)
+              .nonNulls,
+        ]);
+      },
     );
 
     return result.map((feedData) => feedData.activities.items);
