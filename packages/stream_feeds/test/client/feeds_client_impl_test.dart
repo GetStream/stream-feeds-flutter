@@ -2,8 +2,8 @@ import 'package:stream_feeds/src/client/feeds_client_impl.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 import 'package:test/test.dart';
 
-const testToken =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoibHVrZV9za3l3YWxrZXIifQ.hZ59SWtp_zLKVV9ShkqkTsCGi_jdPHly7XNCf5T_Ev0';
+import '../mocks.dart';
+
 void main() {
   test('Create a feeds client', () {
     final client = StreamFeedsClient(
