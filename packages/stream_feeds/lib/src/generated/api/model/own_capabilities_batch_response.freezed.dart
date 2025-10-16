@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$OwnCapabilitiesBatchResponse {
-  Map<String, List<String>> get capabilities;
+  Map<String, List<FeedOwnCapability>> get capabilities;
   String get duration;
 
   /// Create a copy of OwnCapabilitiesBatchResponse
@@ -55,7 +55,8 @@ abstract mixin class $OwnCapabilitiesBatchResponseCopyWith<$Res> {
           $Res Function(OwnCapabilitiesBatchResponse) _then) =
       _$OwnCapabilitiesBatchResponseCopyWithImpl;
   @useResult
-  $Res call({Map<String, List<String>> capabilities, String duration});
+  $Res call(
+      {Map<String, List<FeedOwnCapability>> capabilities, String duration});
 }
 
 /// @nodoc
@@ -78,7 +79,7 @@ class _$OwnCapabilitiesBatchResponseCopyWithImpl<$Res>
       capabilities: null == capabilities
           ? _self.capabilities
           : capabilities // ignore: cast_nullable_to_non_nullable
-              as Map<String, List<String>>,
+              as Map<String, List<FeedOwnCapability>>,
       duration: null == duration
           ? _self.duration
           : duration // ignore: cast_nullable_to_non_nullable

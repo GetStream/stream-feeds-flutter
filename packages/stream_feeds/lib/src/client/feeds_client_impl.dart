@@ -15,6 +15,7 @@ import '../models/push_notifications_config.dart';
 import '../repository/activities_repository.dart';
 import '../repository/app_repository.dart';
 import '../repository/bookmarks_repository.dart';
+import '../repository/capabilities_repository.dart';
 import '../repository/comments_repository.dart';
 import '../repository/devices_repository.dart';
 import '../repository/feeds_repository.dart';
@@ -163,6 +164,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
     _feedsRepository = FeedsRepository(feedsApi);
     _moderationRepository = ModerationRepository(feedsApi);
     _pollsRepository = PollsRepository(feedsApi);
+    _capabilitiesRepository = CapabilitiesRepository(feedsApi);
 
     moderation = ModerationClient(_moderationRepository);
 
@@ -193,6 +195,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
   late final FeedsRepository _feedsRepository;
   late final ModerationRepository _moderationRepository;
   late final PollsRepository _pollsRepository;
+  late final CapabilitiesRepository _capabilitiesRepository;
 
   // TODO: Fill this with correct values
   late final _systemEnvironmentManager = SystemEnvironmentManager(
@@ -272,6 +275,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
       pollsRepository: _pollsRepository,
       eventsEmitter: events,
       onReconnectEmitter: onReconnectEmitter,
+      capabilitiesRepository: _capabilitiesRepository,
     );
   }
 
@@ -306,7 +310,9 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
       activitiesRepository: _activitiesRepository,
       commentsRepository: _commentsRepository,
       pollsRepository: _pollsRepository,
+      capabilitiesRepository: _capabilitiesRepository,
       eventsEmitter: events,
+      initialActivityData: initialData,
     );
   }
 
@@ -316,6 +322,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
       query: query,
       currentUserId: user.id,
       activitiesRepository: _activitiesRepository,
+      capabilitiesRepository: _capabilitiesRepository,
       eventsEmitter: events,
     );
   }

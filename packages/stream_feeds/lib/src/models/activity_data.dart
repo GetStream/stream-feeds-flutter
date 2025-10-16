@@ -201,6 +201,17 @@ class ActivityData with _$ActivityData {
   /// Custom data associated with the activity.
   @override
   final Map<String, Object?>? custom;
+
+  /// Creates a new [ActivityData] instance with the updated ownCapabilities on [currentFeed].
+  ActivityData copyWithCurrentFeedCapabilities({
+    required List<FeedOwnCapability> capabilities,
+  }) {
+    return copyWith(
+      currentFeed: currentFeed?.copyWith(
+        ownCapabilities: capabilities,
+      ),
+    );
+  }
 }
 
 /// Extension type for activity visibility settings.

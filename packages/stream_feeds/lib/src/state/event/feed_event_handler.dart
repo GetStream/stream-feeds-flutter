@@ -11,24 +11,44 @@ import '../../models/feed_id.dart';
 import '../../models/feeds_reaction_data.dart';
 import '../../models/follow_data.dart';
 import '../../models/mark_activity_data.dart';
+import '../../repository/capabilities_repository.dart';
 import '../feed_state.dart';
 
+import 'feed_capabilities_mixin.dart';
 import 'state_event_handler.dart';
 
-class FeedEventHandler implements StateEventHandler {
+class FeedEventHandler with FeedCapabilitiesMixin implements StateEventHandler {
   const FeedEventHandler({
     required this.fid,
     required this.state,
+    required this.capabilitiesRepository,
   });
 
   final FeedId fid;
   final FeedStateNotifier state;
+  @override
+  final CapabilitiesRepository capabilitiesRepository;
 
   @override
-  void handleEvent(WsEvent event) {
+  Future<void> handleEvent(WsEvent event) async {
     if (event is api.ActivityAddedEvent) {
       if (event.fid != fid.rawValue) return;
-      return state.onActivityAdded(event.activity.toModel());
+      final activity = event.activity.toModel();
+      state.onActivityAdded(activity);
+
+      final updatedActivity = await withUpdatedFeedCapabilities(activity);
+      if (updatedActivity != null) {
+        state.onActivityUpdated(updatedActivity);
+      }
+      return;
+    }
+
+    if (event is api.ActivityUpdatedEvent) {
+      if (event.fid != fid.rawValue) return;
+      final activity = event.activity.toModel();
+      final updatedActivity = await withUpdatedFeedCapabilities(activity);
+
+      return state.onActivityUpdated(updatedActivity ?? activity);
     }
 
     if (event is api.ActivityDeletedEvent) {
@@ -44,11 +64,6 @@ class FeedEventHandler implements StateEventHandler {
     if (event is api.ActivityReactionDeletedEvent) {
       if (event.fid != fid.rawValue) return;
       return state.onReactionRemoved(event.reaction.toModel());
-    }
-
-    if (event is api.ActivityUpdatedEvent) {
-      if (event.fid != fid.rawValue) return;
-      return state.onActivityUpdated(event.activity.toModel());
     }
 
     if (event is api.ActivityPinnedEvent) {

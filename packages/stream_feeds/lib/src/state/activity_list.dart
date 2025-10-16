@@ -7,6 +7,7 @@ import 'package:stream_core/stream_core.dart';
 import '../models/activity_data.dart';
 import '../models/query_configuration.dart';
 import '../repository/activities_repository.dart';
+import '../repository/capabilities_repository.dart';
 import 'activity_list_state.dart';
 import 'event/activity_list_event_handler.dart';
 import 'query/activities_query.dart';
@@ -26,6 +27,7 @@ class ActivityList with Disposable {
     required this.query,
     required this.currentUserId,
     required this.activitiesRepository,
+    required this.capabilitiesRepository,
     required this.eventsEmitter,
   }) {
     _stateNotifier = ActivityListStateNotifier(
@@ -34,13 +36,17 @@ class ActivityList with Disposable {
     );
 
     // Attach event handlers for real-time updates
-    final handler = ActivityListEventHandler(state: _stateNotifier);
+    final handler = ActivityListEventHandler(
+      state: _stateNotifier,
+      capabilitiesRepository: capabilitiesRepository,
+    );
     _eventsSubscription = eventsEmitter.listen(handler.handleEvent);
   }
 
   final ActivitiesQuery query;
   final String currentUserId;
   final ActivitiesRepository activitiesRepository;
+  final CapabilitiesRepository capabilitiesRepository;
 
   late final ActivityListStateNotifier _stateNotifier;
 
@@ -93,10 +99,19 @@ class ActivityList with Disposable {
     final result = await activitiesRepository.queryActivities(query);
 
     result.onSuccess(
-      (activitiesData) => _stateNotifier.onQueryMoreActivities(
-        activitiesData,
-        QueryConfiguration(filter: query.filter, sort: query.sort),
-      ),
+      (activitiesData) {
+        _stateNotifier.onQueryMoreActivities(
+          activitiesData,
+          QueryConfiguration(filter: query.filter, sort: query.sort),
+        );
+
+        capabilitiesRepository.cacheCapabilitiesForFeeds(
+          activitiesData.items
+              .map((activity) => activity.currentFeed)
+              .nonNulls
+              .toList(),
+        );
+      },
     );
 
     return result.map((activitiesData) => activitiesData.items);

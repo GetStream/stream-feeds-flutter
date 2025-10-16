@@ -16,6 +16,7 @@ import '../models/request/activity_add_comment_request.dart';
 import '../models/request/activity_update_comment_request.dart';
 import '../models/threaded_comment_data.dart';
 import '../repository/activities_repository.dart';
+import '../repository/capabilities_repository.dart';
 import '../repository/comments_repository.dart';
 import '../repository/polls_repository.dart';
 import 'activity_comment_list.dart';
@@ -40,6 +41,7 @@ class Activity with Disposable {
     required this.activitiesRepository,
     required this.commentsRepository,
     required this.pollsRepository,
+    required this.capabilitiesRepository,
     required this.eventsEmitter,
     ActivityData? initialActivityData,
   }) {
@@ -76,6 +78,7 @@ class Activity with Disposable {
   final ActivitiesRepository activitiesRepository;
   final CommentsRepository commentsRepository;
   final PollsRepository pollsRepository;
+  final CapabilitiesRepository capabilitiesRepository;
 
   late final ActivityCommentList _commentsList;
 
@@ -101,7 +104,12 @@ class Activity with Disposable {
   Future<Result<ActivityData>> get() async {
     final result = await activitiesRepository.getActivity(activityId);
 
-    result.onSuccess(_stateNotifier.onActivityUpdated);
+    result.onSuccess((activity) {
+      _stateNotifier.onActivityUpdated(activity);
+      if (activity.currentFeed case final feed?) {
+        capabilitiesRepository.cacheCapabilitiesForFeeds([feed]);
+      }
+    });
 
     // Query the comments as well (state will be updated automatically)
     await queryComments();

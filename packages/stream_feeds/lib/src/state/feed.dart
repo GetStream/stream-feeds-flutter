@@ -19,6 +19,7 @@ import '../models/request/activity_add_comment_request.dart';
 import '../models/request/feed_add_activity_request.dart';
 import '../repository/activities_repository.dart';
 import '../repository/bookmarks_repository.dart';
+import '../repository/capabilities_repository.dart';
 import '../repository/comments_repository.dart';
 import '../repository/feeds_repository.dart';
 import '../repository/polls_repository.dart';
@@ -48,6 +49,7 @@ class Feed with Disposable {
     required this.commentsRepository,
     required this.feedsRepository,
     required this.pollsRepository,
+    required this.capabilitiesRepository,
     required this.eventsEmitter,
     required Stream<void> onReconnectEmitter,
   }) {
@@ -66,7 +68,11 @@ class Feed with Disposable {
     );
 
     // Attach event handlers for the feed events
-    final handler = FeedEventHandler(fid: fid, state: _stateNotifier);
+    final handler = FeedEventHandler(
+      fid: fid,
+      state: _stateNotifier,
+      capabilitiesRepository: capabilitiesRepository,
+    );
     _feedSubscriptions.add(eventsEmitter.listen(handler.handleEvent));
 
     // Automatically refetch data on reconnection
@@ -84,6 +90,7 @@ class Feed with Disposable {
   final CommentsRepository commentsRepository;
   final FeedsRepository feedsRepository;
   final PollsRepository pollsRepository;
+  final CapabilitiesRepository capabilitiesRepository;
 
   late final MemberList _memberList;
 
@@ -108,7 +115,16 @@ class Feed with Disposable {
   /// Returns a [Result] containing the [FeedData] or an error.
   Future<Result<FeedData>> getOrCreate() async {
     final result = await feedsRepository.getOrCreateFeed(query);
-    result.onSuccess(_stateNotifier.onQueryFeed);
+    result.onSuccess((feedData) {
+      _stateNotifier.onQueryFeed(feedData);
+
+      capabilitiesRepository.cacheCapabilitiesForFeeds([
+        feedData.feed,
+        ...feedData.activities.items
+            .map((activity) => activity.currentFeed)
+            .nonNulls,
+      ]);
+    });
 
     return result.map((feedData) => feedData.feed);
   }
@@ -431,10 +447,19 @@ class Feed with Disposable {
     final result = await feedsRepository.getOrCreateFeed(nextQuery);
 
     result.onSuccess(
-      (feedData) => _stateNotifier.onQueryMoreActivities(
-        feedData.activities,
-        feedData.activitiesQueryConfig,
-      ),
+      (feedData) {
+        _stateNotifier.onQueryMoreActivities(
+          feedData.activities,
+          feedData.activitiesQueryConfig,
+        );
+
+        capabilitiesRepository.cacheCapabilitiesForFeeds([
+          feedData.feed,
+          ...feedData.activities.items
+              .map((activity) => activity.currentFeed)
+              .nonNulls,
+        ]);
+      },
     );
 
     return result.map((feedData) => feedData.activities.items);

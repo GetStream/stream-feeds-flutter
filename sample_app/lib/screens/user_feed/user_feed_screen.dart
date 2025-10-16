@@ -36,9 +36,20 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
         visibility: FeedVisibility.public,
         members: [FeedMemberRequestData(userId: client.user.id)],
       ),
+      activityLimit: 0,
       followerLimit: 10,
       followingLimit: 10,
       memberLimit: 10,
+    ),
+  );
+
+  late final timelineFeed = client.feedFromQuery(
+    FeedQuery(
+      fid: FeedId(group: 'timeline', id: client.user.id),
+      data: FeedInputData(
+        visibility: FeedVisibility.public,
+        members: [FeedMemberRequestData(userId: client.user.id)],
+      ),
     ),
   );
 
@@ -46,12 +57,14 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
   void initState() {
     super.initState();
     userFeed.getOrCreate();
+    timelineFeed.getOrCreate();
     notificationFeed.getOrCreate();
   }
 
   @override
   void dispose() {
     userFeed.dispose();
+    timelineFeed.dispose();
     notificationFeed.dispose();
     super.dispose();
   }
@@ -108,11 +121,17 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
         ],
       ),
       body: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget?>[
           ...?switch (breakpoint) {
             Breakpoint.compact => null,
             Breakpoint.medium => [
-                Flexible(child: UserProfile(userFeed: userFeed)),
+                Flexible(
+                  child: UserProfile(
+                    userFeed: userFeed,
+                    timelineFeed: timelineFeed,
+                  ),
+                ),
                 VerticalDivider(
                   width: 8,
                   color: context.appColors.borders,
@@ -121,7 +140,10 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
             _ => [
                 SizedBox(
                   width: 420,
-                  child: UserProfile(userFeed: userFeed),
+                  child: UserProfile(
+                    userFeed: userFeed,
+                    timelineFeed: timelineFeed,
+                  ),
                 ),
                 VerticalDivider(
                   width: 8,
@@ -129,7 +151,9 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
                 ),
               ],
           },
-          Flexible(child: UserFeed(userFeed: userFeed)),
+          Flexible(
+            child: UserFeed(timelineFeed: timelineFeed, userFeed: userFeed),
+          ),
         ].nonNulls.toList(),
       ),
       floatingActionButton: FloatingActionButton(
@@ -161,6 +185,7 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
         builder: (context, scrollController) {
           return UserProfile(
             userFeed: userFeed,
+            timelineFeed: timelineFeed,
             scrollController: scrollController,
           );
         },
