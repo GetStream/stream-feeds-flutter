@@ -1,4 +1,4 @@
-## Next release
+## 0.3.1
 - Update API client with renaming `addReaction` to `addActivityReaction` and `deleteReaction` to `deleteActivityReaction`.
 - Update `activity.currentFeed` capabilities when adding or updating activity from websocket events.
 
