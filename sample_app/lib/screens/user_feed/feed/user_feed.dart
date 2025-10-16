@@ -10,10 +10,15 @@ import 'user_feed_item.dart';
 class UserFeed extends StatelessWidget {
   const UserFeed({
     super.key,
+    required this.timelineFeed,
     required this.userFeed,
     this.scrollController,
   });
 
+  // Timeline feed shows what the user is following
+  final Feed timelineFeed;
+
+  // User feed is to post new activities to the user's feed
   final Feed userFeed;
   final ScrollController? scrollController;
 
@@ -22,7 +27,7 @@ class UserFeed extends StatelessWidget {
     final client = locator<StreamFeedsClient>();
 
     return StateNotifierBuilder(
-      stateNotifier: userFeed.notifier,
+      stateNotifier: timelineFeed.notifier,
       builder: (context, state, child) {
         final activities = state.activities;
         final canLoadMore = state.canLoadMoreActivities;
@@ -30,7 +35,7 @@ class UserFeed extends StatelessWidget {
         if (activities.isEmpty) return const EmptyActivities();
 
         return RefreshIndicator(
-          onRefresh: userFeed.getOrCreate,
+          onRefresh: timelineFeed.getOrCreate,
           child: ListView.separated(
             controller: scrollController,
             itemCount: activities.length + 1,
@@ -42,7 +47,7 @@ class UserFeed extends StatelessWidget {
               if (index == activities.length) {
                 return switch (canLoadMore) {
                   true => TextButton(
-                      onPressed: userFeed.queryMoreActivities,
+                      onPressed: timelineFeed.queryMoreActivities,
                       child: const Text('Load more...'),
                     ),
                   false => const Padding(
@@ -70,7 +75,7 @@ class UserFeed extends StatelessWidget {
                       ),
                     ],
                     UserFeedItem(
-                      feed: userFeed,
+                      feed: timelineFeed,
                       data: activity,
                       user: baseActivity.user,
                       text: baseActivity.text ?? '',
@@ -119,7 +124,7 @@ class UserFeed extends StatelessWidget {
         snapSizes: const [0.5, 1],
         builder: (context, scrollController) {
           return UserComments(
-            feed: userFeed,
+            feed: timelineFeed,
             activityId: activity.id,
             scrollController: scrollController,
           );

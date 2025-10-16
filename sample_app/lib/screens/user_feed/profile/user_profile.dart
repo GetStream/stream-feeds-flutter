@@ -18,10 +18,15 @@ class UserProfile extends StatefulWidget {
   const UserProfile({
     super.key,
     required this.userFeed,
+    required this.timelineFeed,
     this.scrollController,
   });
 
+  /// User feed is to post new activities to the user's feed
   final Feed userFeed;
+
+  /// Timeline feed shows what the user is following
+  final Feed timelineFeed;
   final ScrollController? scrollController;
 
   @override
@@ -42,7 +47,9 @@ class _UserProfileState extends State<UserProfile> {
   @override
   void didUpdateWidget(covariant UserProfile oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.userFeed != widget.userFeed) _queryFollowSuggestions();
+    if (oldWidget.userFeed != widget.userFeed) {
+      _queryFollowSuggestions();
+    }
   }
 
   Future<void> _queryFollowSuggestions() async {
@@ -58,12 +65,17 @@ class _UserProfileState extends State<UserProfile> {
   @override
   Widget build(BuildContext context) {
     return StateNotifierBuilder(
-      stateNotifier: widget.userFeed.notifier,
+      stateNotifier: widget.timelineFeed.notifier,
       builder: (context, state, child) {
         final feedMembers = state.members;
         final followRequests = state.followRequests;
         final following = state.following;
         final currentUser = client.user;
+
+        final followIncludesCurrentUser =
+            following.any((it) => it.targetFeed.id == currentUser.id) ||
+                (followSuggestions?.any((it) => it.fid.id == currentUser.id) ??
+                    false);
 
         return SingleChildScrollView(
           controller: widget.scrollController,
@@ -95,10 +107,10 @@ class _UserProfileState extends State<UserProfile> {
                 emptyMessage: 'No pending requests',
                 itemBuilder: (followRequest) => FollowRequestListItem(
                   followRequest: followRequest,
-                  onAcceptPressed: () => widget.userFeed.acceptFollow(
+                  onAcceptPressed: () => widget.timelineFeed.acceptFollow(
                     sourceFid: followRequest.sourceFeed.fid,
                   ),
-                  onRejectPressed: () => widget.userFeed.rejectFollow(
+                  onRejectPressed: () => widget.timelineFeed.rejectFollow(
                     sourceFid: followRequest.sourceFeed.fid,
                   ),
                 ),
@@ -112,7 +124,7 @@ class _UserProfileState extends State<UserProfile> {
                 itemBuilder: (follow) => FollowingListItem(
                   follow: follow,
                   onUnfollowPressed: () async {
-                    final result = await widget.userFeed.unfollow(
+                    final result = await widget.timelineFeed.unfollow(
                       targetFid: follow.targetFeed.fid,
                     );
 
@@ -129,12 +141,17 @@ class _UserProfileState extends State<UserProfile> {
               // Follow Suggestions Section
               ProfileSection<FeedData>(
                 title: 'Suggested',
-                items: followSuggestions ?? [],
+                items: [
+                  if (!followIncludesCurrentUser &&
+                      widget.userFeed.state.feed != null)
+                    widget.userFeed.state.feed!,
+                  ...(followSuggestions ?? []),
+                ],
                 emptyMessage: 'No suggestions available',
                 itemBuilder: (suggestion) => SuggestionListItem(
                   suggestion: suggestion,
                   onFollowPressed: () async {
-                    final result = await widget.userFeed.follow(
+                    final result = await widget.timelineFeed.follow(
                       targetFid: suggestion.fid,
                       createNotificationActivity: true,
                     );
