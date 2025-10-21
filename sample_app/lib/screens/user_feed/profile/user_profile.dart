@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
@@ -66,109 +68,172 @@ class _UserProfileState extends State<UserProfile> {
   Widget build(BuildContext context) {
     return StateNotifierBuilder(
       stateNotifier: widget.timelineFeed.notifier,
-      builder: (context, state, child) {
-        final feedMembers = state.members;
-        final followRequests = state.followRequests;
-        final following = state.following;
-        final currentUser = client.user;
-
-        final followIncludesCurrentUser =
-            following.any((it) => it.targetFeed.id == currentUser.id) ||
-                (followSuggestions?.any((it) => it.fid.id == currentUser.id) ??
-                    false);
-
-        return SingleChildScrollView(
-          controller: widget.scrollController,
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 24,
-            children: [
-              // Profile Header Section
-              ProfileHeader(
-                user: currentUser,
-                membersCount: state.feed?.memberCount ?? 0,
-                followingCount: state.feed?.followingCount ?? 0,
-                followersCount: state.feed?.followerCount ?? 0,
+      builder: (context, timelineState, child) {
+        return StateNotifierBuilder(
+          stateNotifier: widget.userFeed.notifier,
+          builder: (context, userState, child) {
+            return _UserProfileContent(
+              client: client,
+              timelineState: timelineState,
+              userState: userState,
+              followSuggestions: followSuggestions,
+              scrollController: widget.scrollController,
+              onAcceptFollow: (fid) => widget.userFeed.acceptFollow(
+                sourceFid: fid,
               ),
-
-              // Members Section
-              ProfileSection<FeedMemberData>(
-                title: 'Members',
-                items: feedMembers,
-                emptyMessage: 'No members yet',
-                itemBuilder: (member) => MemberListItem(member: member),
+              onRejectFollow: (fid) => widget.userFeed.rejectFollow(
+                sourceFid: fid,
               ),
+              onFollow: (targetFeed) async {
+                final result = await widget.timelineFeed.follow(
+                  targetFid: targetFeed.fid,
+                  createNotificationActivity: true,
+                );
 
-              // Follow Requests Section
-              ProfileSection<FollowData>(
-                title: 'Follow Requests',
-                items: followRequests,
-                emptyMessage: 'No pending requests',
-                itemBuilder: (followRequest) => FollowRequestListItem(
-                  followRequest: followRequest,
-                  onAcceptPressed: () => widget.timelineFeed.acceptFollow(
-                    sourceFid: followRequest.sourceFeed.fid,
+                // Remove the followed user from suggestions
+                result.onSuccess(
+                  (_) => _updateFollowSuggestions([
+                    ...?followSuggestions?.where((it) => it != targetFeed),
+                  ]),
+                );
+              },
+              onUnfollow: (targetFeed) async {
+                final result = await widget.timelineFeed.unfollow(
+                  targetFid: targetFeed.fid,
+                );
+
+                // Add the unfollowed user back to suggestions
+                result.onSuccess(
+                  (_) => _updateFollowSuggestions(
+                    [...?followSuggestions, targetFeed],
                   ),
-                  onRejectPressed: () => widget.timelineFeed.rejectFollow(
-                    sourceFid: followRequest.sourceFeed.fid,
-                  ),
-                ),
-              ),
-
-              // Following Section
-              ProfileSection<FollowData>(
-                title: 'Following',
-                items: following,
-                emptyMessage: 'Not following anyone yet',
-                itemBuilder: (follow) => FollowingListItem(
-                  follow: follow,
-                  onUnfollowPressed: () async {
-                    final result = await widget.timelineFeed.unfollow(
-                      targetFid: follow.targetFeed.fid,
-                    );
-
-                    // Add the unfollowed user back to suggestions
-                    result.onSuccess(
-                      (_) => _updateFollowSuggestions(
-                        [...?followSuggestions, follow.targetFeed],
-                      ),
-                    );
-                  },
-                ),
-              ),
-
-              // Follow Suggestions Section
-              ProfileSection<FeedData>(
-                title: 'Suggested',
-                items: [
-                  if (!followIncludesCurrentUser &&
-                      widget.userFeed.state.feed != null)
-                    widget.userFeed.state.feed!,
-                  ...(followSuggestions ?? []),
-                ],
-                emptyMessage: 'No suggestions available',
-                itemBuilder: (suggestion) => SuggestionListItem(
-                  suggestion: suggestion,
-                  onFollowPressed: () async {
-                    final result = await widget.timelineFeed.follow(
-                      targetFid: suggestion.fid,
-                      createNotificationActivity: true,
-                    );
-
-                    // Remove the followed user from suggestions
-                    result.onSuccess(
-                      (_) => _updateFollowSuggestions([
-                        ...?followSuggestions?.where((it) => it != suggestion),
-                      ]),
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
+                );
+              },
+            );
+          },
         );
       },
+    );
+  }
+}
+
+class _UserProfileContent extends StatelessWidget {
+  const _UserProfileContent({
+    required this.client,
+    required this.timelineState,
+    required this.userState,
+    required this.followSuggestions,
+    required this.scrollController,
+    required this.onAcceptFollow,
+    required this.onRejectFollow,
+    required this.onFollow,
+    required this.onUnfollow,
+  });
+
+  final StreamFeedsClient client;
+  final FeedState timelineState;
+  final FeedState userState;
+  final List<FeedData>? followSuggestions;
+  final ScrollController? scrollController;
+
+  final ValueSetter<FeedId> onAcceptFollow;
+  final ValueSetter<FeedId> onRejectFollow;
+  final ValueSetter<FeedData> onFollow;
+  final ValueSetter<FeedData> onUnfollow;
+
+  @override
+  Widget build(BuildContext context) {
+    final currentUser = client.user;
+    final feedMembers = timelineState.members;
+
+    // We always follow ourselves, so we don't need to show it in the following list
+    final following = timelineState.following
+        .where((it) => it.targetFeed.id != currentUser.id)
+        .toList();
+    final followingCount = math.max(
+      0,
+      (timelineState.feed?.followingCount ?? 0) - 1,
+    );
+    final followersCount = math.max(
+      0,
+      (userState.feed?.followerCount ?? 0) - 1,
+    );
+
+    final followRequests = userState.followRequests;
+
+    final followIncludesCurrentUser = following
+            .any((it) => it.targetFeed.id == currentUser.id) ||
+        (followSuggestions?.any((it) => it.fid.id == currentUser.id) ?? false);
+
+    return SingleChildScrollView(
+      controller: scrollController,
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 24,
+        children: [
+          // Profile Header Section
+          ProfileHeader(
+            user: currentUser,
+            membersCount: timelineState.feed?.memberCount ?? 0,
+            followingCount: followingCount,
+            followersCount: followersCount,
+          ),
+
+          // Members Section
+          ProfileSection<FeedMemberData>(
+            title: 'Members',
+            items: feedMembers,
+            emptyMessage: 'No members yet',
+            itemBuilder: (member) => MemberListItem(member: member),
+          ),
+
+          // Follow Requests Section
+          ProfileSection<FollowData>(
+            title: 'Follow Requests',
+            items: followRequests,
+            emptyMessage: 'No pending requests',
+            itemBuilder: (followRequest) => FollowRequestListItem(
+              followRequest: followRequest,
+              onAcceptPressed: () =>
+                  onAcceptFollow(followRequest.sourceFeed.fid),
+              onRejectPressed: () =>
+                  onRejectFollow(followRequest.sourceFeed.fid),
+            ),
+          ),
+
+          // Following Section
+          ProfileSection<FollowData>(
+            title: 'Following',
+            count: followingCount,
+            items: following,
+            emptyMessage: 'Not following anyone yet',
+            itemBuilder: (follow) => FollowingListItem(
+              follow: follow,
+              onUnfollowPressed: () {
+                onUnfollow(follow.targetFeed);
+              },
+            ),
+          ),
+
+          // Follow Suggestions Section
+          ProfileSection<FeedData>(
+            title: 'Suggested',
+            items: [
+              if (!followIncludesCurrentUser && userState.feed != null)
+                userState.feed!,
+              ...(followSuggestions ?? []),
+            ],
+            emptyMessage: 'No suggestions available',
+            itemBuilder: (suggestion) => SuggestionListItem(
+              suggestion: suggestion,
+              onFollowPressed: () {
+                onFollow(suggestion);
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
