@@ -9,8 +9,7 @@ import 'package:stream_feeds/src/state/activity_state.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 import 'package:test/test.dart';
 
-import '../mocks.dart';
-import '../ws_test_helpers.dart';
+import '../test_utils.dart';
 
 void main() {
   late StreamFeedsClientImpl client;
@@ -47,7 +46,7 @@ void main() {
           depth: 3,
         ),
       ).thenAnswer(
-        (_) async => const Result.success(defaultCommentsResponse),
+        (_) async => Result.success(createDefaultCommentsResponse()),
       );
 
       final activity = client.activity(
@@ -102,7 +101,7 @@ void main() {
           depth: 3,
         ),
       ).thenAnswer(
-        (_) async => const Result.success(defaultCommentsResponse),
+        (_) async => Result.success(createDefaultCommentsResponse()),
       );
     }
 
@@ -146,7 +145,7 @@ void main() {
               optionId: firstOptionId,
               pollId: pollId,
             ),
-            type: 'feeds.poll.vote_casted',
+            type: EventTypes.pollVoteCasted,
           ).toJson(),
         ),
       );
@@ -191,7 +190,7 @@ void main() {
               optionId: 'optionId1',
               pollId: 'pollId1',
             ),
-            type: 'feeds.poll.vote_casted',
+            type: EventTypes.pollVoteCasted,
           ),
         ),
       );
@@ -251,7 +250,7 @@ void main() {
               optionId: 'optionId1',
               pollId: 'pollId1',
             ),
-            type: 'feeds.poll.vote_removed',
+            type: EventTypes.pollVoteRemoved,
           ),
         ),
       );
@@ -309,7 +308,7 @@ void main() {
               optionId: 'optionId1',
               pollId: pollId,
             ),
-            type: 'feeds.poll.vote_removed',
+            type: EventTypes.pollVoteRemoved,
           ),
         ),
       );
@@ -344,7 +343,7 @@ void main() {
             custom: const {},
             fid: 'fid',
             poll: poll.copyWith(isClosed: true),
-            type: 'feeds.poll.closed',
+            type: EventTypes.pollClosed,
           ),
         ),
       );
@@ -378,106 +377,10 @@ void main() {
             custom: const {},
             fid: 'fid',
             poll: poll,
-            type: 'feeds.poll.deleted',
+            type: EventTypes.pollDeleted,
           ),
         ),
       );
     });
   });
 }
-
-const defaultCommentsResponse = GetCommentsResponse(
-  comments: [],
-  next: null,
-  prev: null,
-  duration: 'duration',
-);
-
-GetActivityResponse createDefaultActivityResponse({PollResponseData? poll}) =>
-    GetActivityResponse(
-      activity: ActivityResponse(
-        id: 'id',
-        attachments: const [],
-        bookmarkCount: 0,
-        commentCount: 0,
-        comments: const [],
-        createdAt: DateTime(2021, 1, 1),
-        custom: const {},
-        feeds: const [],
-        filterTags: const [],
-        interestTags: const [],
-        latestReactions: const [],
-        mentionedUsers: const [],
-        moderation: null,
-        notificationContext: null,
-        ownBookmarks: const [],
-        ownReactions: const [],
-        parent: null,
-        poll: poll,
-        popularity: 0,
-        reactionCount: 0,
-        reactionGroups: const {},
-        score: 0,
-        searchData: const {},
-        shareCount: 0,
-        text: null,
-        type: 'type',
-        updatedAt: DateTime(2021, 2, 1),
-        user: UserResponse(
-          id: 'id',
-          name: 'name',
-          banned: false,
-          blockedUserIds: const [],
-          createdAt: DateTime(2021, 1, 1),
-          custom: const {},
-          language: 'language',
-          online: false,
-          role: 'role',
-          teams: const [],
-          updatedAt: DateTime(2021, 2, 1),
-        ),
-        visibility: ActivityResponseVisibility.public,
-        visibilityTag: null,
-      ),
-      duration: 'duration',
-    );
-
-PollResponseData createDefaultPollResponseData({
-  List<PollVoteResponseData> latestAnswers = const [],
-  Map<String, List<PollVoteResponseData>> latestVotesByOption = const {},
-}) =>
-    PollResponseData(
-      id: 'id',
-      name: 'name',
-      allowAnswers: true,
-      allowUserSuggestedOptions: true,
-      answersCount: latestAnswers.length,
-      createdAt: DateTime.now(),
-      createdById: 'id',
-      custom: const {},
-      description: 'description',
-      enforceUniqueVote: true,
-      latestAnswers: latestAnswers,
-      latestVotesByOption: latestVotesByOption,
-      ownVotes: const [],
-      updatedAt: DateTime.now(),
-      voteCount: latestVotesByOption.values
-          .map((e) => e.length)
-          .fold(0, (v, e) => v + e),
-      voteCountsByOption: latestVotesByOption.map(
-        (k, e) => MapEntry(k, e.length),
-      ),
-      votingVisibility: 'visibility',
-      options: const [
-        PollOptionResponseData(
-          id: 'id1',
-          text: 'text1',
-          custom: {},
-        ),
-        PollOptionResponseData(
-          id: 'id2',
-          text: 'text2',
-          custom: {},
-        ),
-      ],
-    );

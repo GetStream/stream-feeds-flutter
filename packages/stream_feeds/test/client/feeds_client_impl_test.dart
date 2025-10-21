@@ -2,7 +2,7 @@ import 'package:stream_feeds/src/client/feeds_client_impl.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 import 'package:test/test.dart';
 
-import '../mocks.dart';
+import '../test_utils.dart';
 
 void main() {
   test('Create a feeds client', () {
