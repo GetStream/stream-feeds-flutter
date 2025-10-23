@@ -14,6 +14,21 @@ class FeedId with _$FeedId {
     required this.id,
   }) : rawValue = '$group:$id';
 
+  /// The user's timeline feed containing posts from followed users
+  const FeedId.timeline(String id) : this(group: 'timeline', id: id);
+
+  /// Notifications feed
+  const FeedId.notification(String id) : this(group: 'notification', id: id);
+
+  /// The user's feed containing stories from followed users
+  const FeedId.stories(String id) : this(group: 'stories', id: id);
+
+  /// The user's own stories
+  const FeedId.story(String id) : this(group: 'story', id: id);
+
+  /// TThe user's own posts
+  const FeedId.user(String id) : this(group: 'user', id: id);
+
   /// Creates a feed identifier from a raw string value.
   ///
   /// The string should be in the format `"group:id"`. If the string

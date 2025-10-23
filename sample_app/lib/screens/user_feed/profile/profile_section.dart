@@ -9,12 +9,14 @@ class ProfileSection<T> extends StatelessWidget {
     required this.items,
     required this.emptyMessage,
     required this.itemBuilder,
+    this.count,
   });
 
   final String title;
   final List<T> items;
   final String emptyMessage;
   final Widget Function(T item) itemBuilder;
+  final int? count;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class ProfileSection<T> extends StatelessWidget {
       children: [
         _SectionHeader(
           title: title,
-          count: items.length,
+          count: count ?? items.length,
         ),
         DecoratedBox(
           decoration: BoxDecoration(

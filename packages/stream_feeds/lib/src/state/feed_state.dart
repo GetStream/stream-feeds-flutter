@@ -349,21 +349,29 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
     }
 
     if (follow.isFollowingFeed(state.fid)) {
+      final updatedCount = follow.sourceFeed.followingCount;
       final updatedFollowing = state.following.upsert(
         follow,
         key: (it) => it.id,
       );
 
-      return state.copyWith(following: updatedFollowing);
+      return state.copyWith(
+        following: updatedFollowing,
+        feed: state.feed?.copyWith(followingCount: updatedCount),
+      );
     }
 
     if (follow.isFollowerOf(state.fid)) {
+      final updatedCount = follow.targetFeed.followerCount;
       final updatedFollowers = state.followers.upsert(
         follow,
         key: (it) => it.id,
       );
 
-      return state.copyWith(followers: updatedFollowers);
+      return state.copyWith(
+        followers: updatedFollowers,
+        feed: state.feed?.copyWith(followerCount: updatedCount),
+      );
     }
 
     // If the follow doesn't match any known categories,
@@ -372,6 +380,17 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
   }
 
   FeedState _removeFollow(FollowData follow, FeedState state) {
+    var feed = state.feed;
+
+    if (follow.isFollowerOf(state.fid)) {
+      final followerCount = follow.targetFeed.followerCount;
+      feed = feed?.copyWith(followerCount: followerCount);
+    }
+    if (follow.isFollowingFeed(state.fid)) {
+      final followingCount = follow.sourceFeed.followingCount;
+      feed = feed?.copyWith(followingCount: followingCount);
+    }
+
     final updatedFollowing = state.following.where((it) {
       return it.id != follow.id;
     }).toList();
@@ -385,6 +404,7 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
     }).toList();
 
     return state.copyWith(
+      feed: feed,
       following: updatedFollowing,
       followers: updatedFollowers,
       followRequests: updatedFollowRequests,

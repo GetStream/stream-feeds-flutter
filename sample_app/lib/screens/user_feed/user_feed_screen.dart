@@ -31,25 +31,25 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
 
   late final userFeed = client.feedFromQuery(
     FeedQuery(
-      fid: FeedId(group: 'user', id: client.user.id),
+      fid: FeedId.user(client.user.id),
       data: FeedInputData(
         visibility: FeedVisibility.public,
         members: [FeedMemberRequestData(userId: client.user.id)],
       ),
       activityLimit: 0,
-      followerLimit: 10,
-      followingLimit: 10,
-      memberLimit: 10,
     ),
   );
 
   late final timelineFeed = client.feedFromQuery(
     FeedQuery(
-      fid: FeedId(group: 'timeline', id: client.user.id),
+      fid: FeedId.timeline(client.user.id),
       data: FeedInputData(
         visibility: FeedVisibility.public,
         members: [FeedMemberRequestData(userId: client.user.id)],
       ),
+      followerLimit: 10,
+      followingLimit: 10,
+      memberLimit: 10,
     ),
   );
 
@@ -57,7 +57,9 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
   void initState() {
     super.initState();
     userFeed.getOrCreate();
-    timelineFeed.getOrCreate();
+    timelineFeed.getOrCreate().then((value) {
+      _followSelfIfNeeded(timelineFeed);
+    });
     notificationFeed.getOrCreate();
   }
 
@@ -67,6 +69,15 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
     timelineFeed.dispose();
     notificationFeed.dispose();
     super.dispose();
+  }
+
+  void _followSelfIfNeeded(Feed feed) {
+    if (feed.state.followers.isEmpty) {
+      feed.follow(
+        targetFid: FeedId.user(client.user.id),
+        createNotificationActivity: false,
+      );
+    }
   }
 
   Future<void> _onLogout() {
