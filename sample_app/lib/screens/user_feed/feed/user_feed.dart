@@ -5,6 +5,7 @@ import 'package:stream_feeds/stream_feeds.dart';
 import '../../../core/di/di_initializer.dart';
 import '../../../theme/theme.dart';
 import '../comment/user_comments.dart';
+import 'stories_bar.dart';
 import 'user_feed_item.dart';
 
 class UserFeed extends StatelessWidget {
@@ -12,6 +13,7 @@ class UserFeed extends StatelessWidget {
     super.key,
     required this.timelineFeed,
     required this.userFeed,
+    required this.storiesFeed,
     this.scrollController,
   });
 
@@ -20,6 +22,10 @@ class UserFeed extends StatelessWidget {
 
   // User feed is to post new activities to the user's feed
   final Feed userFeed;
+
+  /// Stories feed showing stories from followed users
+  final Feed storiesFeed;
+
   final ScrollController? scrollController;
 
   @override
@@ -35,16 +41,21 @@ class UserFeed extends StatelessWidget {
         if (activities.isEmpty) return const EmptyActivities();
 
         return RefreshIndicator(
-          onRefresh: timelineFeed.getOrCreate,
+          onRefresh: () async {
+            await Future.wait([
+              timelineFeed.getOrCreate(),
+              storiesFeed.getOrCreate(),
+            ]);
+          },
           child: ListView.separated(
             controller: scrollController,
-            itemCount: activities.length + 1,
+            itemCount: activities.length + 2,
             separatorBuilder: (context, index) => Divider(
               height: 1,
               color: context.appColors.borders,
             ),
             itemBuilder: (context, index) {
-              if (index == activities.length) {
+              if (index == activities.length + 1) {
                 return switch (canLoadMore) {
                   true => TextButton(
                       onPressed: timelineFeed.queryMoreActivities,
@@ -59,7 +70,11 @@ class UserFeed extends StatelessWidget {
                 };
               }
 
-              final activity = activities[index];
+              if (index == 0) {
+                return StoriesBar(storiesFeed);
+              }
+
+              final activity = activities[index - 1];
               final parentActivity = activity.parent;
               final baseActivity = activity.parent ?? activity;
 

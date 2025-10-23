@@ -180,7 +180,7 @@ class SuggestionListItem extends StatelessWidget {
         ),
       ),
       title: Text(
-        suggestion.createdBy.name ?? suggestion.createdBy.id,
+        '${suggestion.createdBy.name ?? suggestion.createdBy.id} (${suggestion.groupId})',
         style: context.appTextStyles.body,
       ),
       subtitle: Text(

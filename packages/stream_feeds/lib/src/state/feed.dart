@@ -450,6 +450,7 @@ class Feed with Disposable {
       (feedData) {
         _stateNotifier.onQueryMoreActivities(
           feedData.activities,
+          feedData.aggregatedActivities,
           feedData.activitiesQueryConfig,
         );
 

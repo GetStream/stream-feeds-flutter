@@ -24,9 +24,12 @@ class UserFeedScreen extends StatefulWidget {
 class _UserFeedScreenState extends State<UserFeedScreen> {
   StreamFeedsClient get client => locator<StreamFeedsClient>();
 
-  late final notificationFeed = client.feed(
-    group: 'notification',
-    id: client.user.id,
+  late final notificationFeed = client.feedFromId(
+    FeedId.notification(client.user.id),
+  );
+
+  late final storiesFeed = client.feedFromId(
+    FeedId.stories(client.user.id),
   );
 
   late final userFeed = client.feedFromQuery(
@@ -58,23 +61,37 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
     super.initState();
     userFeed.getOrCreate();
     timelineFeed.getOrCreate().then((value) {
-      _followSelfIfNeeded(timelineFeed);
+      _followSelfIfNeeded(timelineFeed, FeedId.user(client.user.id));
     });
     notificationFeed.getOrCreate();
+    storiesFeed.getOrCreate().then((value) {
+      _followSelfIfNeeded(storiesFeed, FeedId.story(client.user.id));
+    });
+
+    // need to make sure story feed is created, but we don't use it directly.
+    client
+        .feedFromQuery(
+          FeedQuery(
+            fid: FeedId.story(client.user.id),
+            watch: false,
+          ),
+        )
+        .getOrCreate();
   }
 
   @override
   void dispose() {
+    storiesFeed.dispose();
     userFeed.dispose();
     timelineFeed.dispose();
     notificationFeed.dispose();
     super.dispose();
   }
 
-  void _followSelfIfNeeded(Feed feed) {
-    if (feed.state.followers.isEmpty) {
+  void _followSelfIfNeeded(Feed feed, FeedId targetFid) {
+    if (feed.state.following.isEmpty) {
       feed.follow(
-        targetFid: FeedId.user(client.user.id),
+        targetFid: targetFid,
         createNotificationActivity: false,
       );
     }
@@ -163,7 +180,11 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
               ],
           },
           Flexible(
-            child: UserFeed(timelineFeed: timelineFeed, userFeed: userFeed),
+            child: UserFeed(
+              timelineFeed: timelineFeed,
+              userFeed: userFeed,
+              storiesFeed: storiesFeed,
+            ),
           ),
         ].nonNulls.toList(),
       ),
@@ -244,7 +265,8 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
       ),
       builder: (context) => CreateActivityBottomSheet(
         currentUser: client.user,
-        feedId: userFeed.query.fid,
+        userFeed: FeedId.user(client.user.id),
+        storyFeed: FeedId.story(client.user.id),
       ),
     );
 
@@ -262,6 +284,11 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
 
     switch (activityResult) {
       case Success():
+        if (activityResult.data.feeds
+            .any((feed) => feed == FeedId.story(client.user.id).rawValue)) {
+          await storiesFeed.getOrCreate();
+        }
+
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
