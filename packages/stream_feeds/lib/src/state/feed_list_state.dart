@@ -18,20 +18,22 @@ class FeedListStateNotifier extends StateNotifier<FeedListState> {
     required FeedListState initialState,
   }) : super(initialState);
 
-  QueryConfiguration<FeedsSort, FeedsFilterField>? _queryConfig;
-  List<FeedsSort> get feedsSort => _queryConfig?.sort ?? FeedsSort.defaultSort;
+  QueryConfiguration<FeedData>? _queryConfig;
+  List<Sort<FeedData>> get feedsSort {
+    return _queryConfig?.sort ?? FeedsSort.defaultSort;
+  }
 
   /// Handles the result of a query for more feeds.
   void onQueryMoreFeeds(
     PaginationResult<FeedData> result,
-    QueryConfiguration<FeedsSort, FeedsFilterField> queryConfig,
+    QueryConfiguration<FeedData> queryConfig,
   ) {
     _queryConfig = queryConfig;
 
     // Merge the new feeds with the existing ones (keeping the sort order)
     final updatedFeeds = state.feeds.merge(
       result.items,
-      key: (it) => it.fid.rawValue,
+      key: (it) => it.feed.rawValue,
       compare: feedsSort.compare,
     );
 
@@ -44,7 +46,7 @@ class FeedListStateNotifier extends StateNotifier<FeedListState> {
   /// Handles updates to a specific feed.
   void onFeedUpdated(FeedData feed) {
     final updatedFeeds = state.feeds.map((it) {
-      if (it.fid.rawValue != feed.fid.rawValue) return it;
+      if (it.feed.rawValue != feed.feed.rawValue) return it;
       return feed;
     }).toList();
 

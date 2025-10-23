@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$ModerationConfigsQuery {
-  Filter<ModerationConfigsFilterField>? get filter;
+  ModerationConfigsFilter? get filter;
   List<ModerationConfigsSort>? get sort;
   int? get limit;
   String? get next;
@@ -59,7 +59,7 @@ abstract mixin class $ModerationConfigsQueryCopyWith<$Res> {
       _$ModerationConfigsQueryCopyWithImpl;
   @useResult
   $Res call(
-      {Filter<ModerationConfigsFilterField>? filter,
+      {Filter<ModerationConfigData>? filter,
       List<ModerationConfigsSort>? sort,
       int? limit,
       String? next,
@@ -89,7 +89,7 @@ class _$ModerationConfigsQueryCopyWithImpl<$Res>
       filter: freezed == filter
           ? _self.filter
           : filter // ignore: cast_nullable_to_non_nullable
-              as Filter<ModerationConfigsFilterField>?,
+              as Filter<ModerationConfigData>?,
       sort: freezed == sort
           ? _self.sort
           : sort // ignore: cast_nullable_to_non_nullable

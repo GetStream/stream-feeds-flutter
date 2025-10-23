@@ -50,7 +50,7 @@ class FeedQuery with _$FeedQuery {
   ///
   /// Use [ActivitiesFilterField] for type-safe field references.
   @override
-  final Filter<ActivitiesFilterField>? activityFilter;
+  final ActivitiesFilter? activityFilter;
 
   /// The maximum number of activities to retrieve.
   @override

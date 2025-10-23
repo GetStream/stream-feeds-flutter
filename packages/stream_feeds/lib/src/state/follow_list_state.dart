@@ -18,15 +18,15 @@ class FollowListStateNotifier extends StateNotifier<FollowListState> {
     required FollowListState initialState,
   }) : super(initialState);
 
-  QueryConfiguration<FollowsSort, FollowsFilterField>? queryConfig;
-  List<FollowsSort> get followsSort {
+  QueryConfiguration<FollowData>? queryConfig;
+  List<Sort<FollowData>> get followsSort {
     return queryConfig?.sort ?? FollowsSort.defaultSort;
   }
 
   /// Handles the result of a query for more follows.
   void onQueryMoreFollows(
     PaginationResult<FollowData> result,
-    QueryConfiguration<FollowsSort, FollowsFilterField> queryConfig,
+    QueryConfiguration<FollowData> queryConfig,
   ) {
     this.queryConfig = queryConfig;
 

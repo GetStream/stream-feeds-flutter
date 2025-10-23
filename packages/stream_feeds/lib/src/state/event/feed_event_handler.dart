@@ -37,9 +37,8 @@ class FeedEventHandler with FeedCapabilitiesMixin implements StateEventHandler {
       state.onActivityAdded(activity);
 
       final updatedActivity = await withUpdatedFeedCapabilities(activity);
-      if (updatedActivity != null) {
-        state.onActivityUpdated(updatedActivity);
-      }
+      if (updatedActivity != null) state.onActivityUpdated(updatedActivity);
+
       return;
     }
 

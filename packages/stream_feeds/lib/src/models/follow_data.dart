@@ -72,8 +72,8 @@ class FollowData with _$FollowData {
   /// and the creation timestamp.
   /// Used for simpler identification of follow relationships.
   String get id {
-    final sourceFid = sourceFeed.fid;
-    final targetFid = targetFeed.fid;
+    final sourceFid = sourceFeed.feed;
+    final targetFid = targetFeed.feed;
     final createdAt = this.createdAt.millisecondsSinceEpoch;
     return '$sourceFid-$targetFid-$createdAt';
   }
@@ -92,14 +92,14 @@ class FollowData with _$FollowData {
   /// - Parameters:
   ///   - fid: The feed ID to check against.
   /// - Returns: true if this is an accepted follow relationship where the target feed matches the given ID.
-  bool isFollowerOf(FeedId fid) => isFollower && targetFeed.fid == fid;
+  bool isFollowerOf(FeedId feed) => isFollower && targetFeed.feed == feed;
 
   /// Checks if this follow relationship represents following the specified feed.
   ///
   /// - Parameters:
   ///   - fid: The feed ID to check against.
   /// - Returns: true if this is an accepted follow relationship where the source feed matches the given ID.
-  bool isFollowingFeed(FeedId fid) => isFollowing && sourceFeed.fid == fid;
+  bool isFollowingFeed(FeedId fid) => isFollowing && sourceFeed.feed == fid;
 }
 
 /// Extension type representing the status of a follow relationship.

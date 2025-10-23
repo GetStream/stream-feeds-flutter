@@ -19,17 +19,15 @@ class ActivityReactionListStateNotifier
     required ActivityReactionListState initialState,
   }) : super(initialState);
 
-  QueryConfiguration<ActivityReactionsSort, ActivityReactionsFilterField>?
-      _queryConfig;
-  List<ActivityReactionsSort> get reactionsSort {
+  QueryConfiguration<FeedsReactionData>? _queryConfig;
+  List<Sort<FeedsReactionData>> get reactionsSort {
     return _queryConfig?.sort ?? ActivityReactionsSort.defaultSort;
   }
 
   /// Handles the result of a query for more activity reactions.
   void onQueryMoreActivityReactions(
     PaginationResult<FeedsReactionData> result,
-    QueryConfiguration<ActivityReactionsSort, ActivityReactionsFilterField>
-        queryConfig,
+    QueryConfiguration<FeedsReactionData> queryConfig,
   ) {
     _queryConfig = queryConfig;
 

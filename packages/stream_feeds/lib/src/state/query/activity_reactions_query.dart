@@ -45,7 +45,7 @@ class ActivityReactionsQuery with _$ActivityReactionsQuery {
   ///
   /// Use [ActivityReactionsFilterField] for type-safe field references.
   @override
-  final Filter<ActivityReactionsFilterField>? filter;
+  final ActivityReactionsFilter? filter;
 
   /// Array of sorting criteria for this query.
   ///
@@ -76,26 +76,42 @@ class ActivityReactionsQuery with _$ActivityReactionsQuery {
 
 // region Filter
 
+/// Represents a filtering operation for activity reactions.
+///
+/// See [ActivityReactionsFilterField] for available fields to filter on.
+typedef ActivityReactionsFilter = Filter<FeedsReactionData>;
+
 /// Represents a field that can be used in activity reactions filtering.
 ///
 /// This extension type provides a type-safe way to specify which field should be used
 /// when creating filters for activity reactions queries.
-extension type const ActivityReactionsFilterField(String _)
-    implements FilterField {
+class ActivityReactionsFilterField extends FilterField<FeedsReactionData> {
+  /// Creates a new activity reactions filter field.
+  ActivityReactionsFilterField(super.remote, super.value);
+
   /// Filter by the reaction type (e.g., "like", "love", "angry").
   ///
   /// **Supported operators:** `.equal`, `.in`
-  static const reactionType = ActivityReactionsFilterField('reaction_type');
+  static final reactionType = ActivityReactionsFilterField(
+    'reaction_type',
+    (data) => data.type,
+  );
 
   /// Filter by the user ID who created the reaction.
   ///
   /// **Supported operators:** `.equal`, `.in`
-  static const userId = ActivityReactionsFilterField('user_id');
+  static final userId = ActivityReactionsFilterField(
+    'user_id',
+    (data) => data.user.id,
+  );
 
   /// Filter by the creation timestamp of the reaction.
   ///
   /// **Supported operators:** `.equal`, `.greaterThan`, `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`
-  static const createdAt = ActivityReactionsFilterField('created_at');
+  static final createdAt = ActivityReactionsFilterField(
+    'created_at',
+    (data) => data.createdAt,
+  );
 }
 
 // endregion
@@ -124,12 +140,15 @@ class ActivityReactionsSort extends Sort<FeedsReactionData> {
 /// Defines the fields by which activity reactions can be sorted.
 ///
 /// This extension type provides specific fields for sorting activity reaction data.
-extension type const ActivityReactionsSortField(SortField<FeedsReactionData> _)
-    implements SortField<FeedsReactionData> {
+class ActivityReactionsSortField extends SortField<FeedsReactionData> {
+  /// Creates a new activity reactions sort field.
+  ActivityReactionsSortField(super.remote, super.localValue);
+
   /// Sort by the creation timestamp of the reaction.
   /// This field allows sorting reactions by when they were created (newest/oldest first).
   static final createdAt = ActivityReactionsSortField(
-    SortField('created_at', (data) => data.createdAt),
+    'created_at',
+    (data) => data.createdAt,
   );
 }
 

@@ -19,15 +19,15 @@ class BookmarkListStateNotifier extends StateNotifier<BookmarkListState> {
     required BookmarkListState initialState,
   }) : super(initialState);
 
-  QueryConfiguration<BookmarksSort, BookmarksFilterField>? _queryConfig;
-  List<BookmarksSort> get bookmarkSort {
+  QueryConfiguration<BookmarkData>? _queryConfig;
+  List<Sort<BookmarkData>> get bookmarkSort {
     return _queryConfig?.sort ?? BookmarksSort.defaultSort;
   }
 
   /// Handles the result of a query for more bookmarks.
   void onQueryMoreBookmarks(
     PaginationResult<BookmarkData> result,
-    QueryConfiguration<BookmarksSort, BookmarksFilterField> queryConfig,
+    QueryConfiguration<BookmarkData> queryConfig,
   ) {
     _queryConfig = queryConfig;
 
