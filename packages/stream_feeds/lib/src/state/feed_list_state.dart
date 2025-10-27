@@ -52,6 +52,15 @@ class FeedListStateNotifier extends StateNotifier<FeedListState> {
 
     state = state.copyWith(feeds: updatedFeeds);
   }
+
+  /// Handles the removal of a specific feed.
+  void onFeedRemoved(String feed) {
+    final updatedFeeds = state.feeds.where((it) {
+      return it.feed.rawValue != feed;
+    }).toList();
+
+    state = state.copyWith(feeds: updatedFeeds);
+  }
 }
 
 /// An observable state object that manages the current state of a feed list.

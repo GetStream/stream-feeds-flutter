@@ -52,6 +52,15 @@ class PollListStateNotifier extends StateNotifier<PollListState> {
 
     state = state.copyWith(polls: updatedPolls);
   }
+
+  /// Handles the removal of a poll by ID.
+  void onPollRemoved(String pollId) {
+    final updatedPolls = state.polls.where((it) {
+      return it.id != pollId;
+    }).toList();
+
+    state = state.copyWith(polls: updatedPolls);
+  }
 }
 
 /// An observable state object that manages the current state of a poll list.

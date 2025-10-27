@@ -69,7 +69,7 @@ class Feed with Disposable {
 
     // Attach event handlers for the feed events
     final handler = FeedEventHandler(
-      fid: fid,
+      query: query,
       state: _stateNotifier,
       capabilitiesRepository: capabilitiesRepository,
     );

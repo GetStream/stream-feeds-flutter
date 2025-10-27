@@ -7,33 +7,45 @@ import '../../models/aggregated_activity_data.dart';
 import '../../models/bookmark_data.dart';
 import '../../models/comment_data.dart';
 import '../../models/feed_data.dart';
-import '../../models/feed_id.dart';
 import '../../models/feeds_reaction_data.dart';
 import '../../models/follow_data.dart';
 import '../../models/mark_activity_data.dart';
 import '../../repository/capabilities_repository.dart';
 import '../feed_state.dart';
 
+import '../query/feed_query.dart';
 import 'feed_capabilities_mixin.dart';
 import 'state_event_handler.dart';
 
 class FeedEventHandler with FeedCapabilitiesMixin implements StateEventHandler {
   const FeedEventHandler({
-    required this.fid,
+    required this.query,
     required this.state,
     required this.capabilitiesRepository,
   });
 
-  final FeedId fid;
+  final FeedQuery query;
   final FeedStateNotifier state;
+
   @override
   final CapabilitiesRepository capabilitiesRepository;
 
   @override
   Future<void> handleEvent(WsEvent event) async {
+    final fid = query.fid;
+
+    bool matchesQueryFilter(ActivityData activity) {
+      final filter = query.activityFilter;
+      if (filter == null) return true;
+      return filter.matches(activity);
+    }
+
     if (event is api.ActivityAddedEvent) {
       if (event.fid != fid.rawValue) return;
+
       final activity = event.activity.toModel();
+      if (!matchesQueryFilter(activity)) return;
+
       state.onActivityAdded(activity);
 
       final updatedActivity = await withUpdatedFeedCapabilities(activity);
@@ -44,9 +56,14 @@ class FeedEventHandler with FeedCapabilitiesMixin implements StateEventHandler {
 
     if (event is api.ActivityUpdatedEvent) {
       if (event.fid != fid.rawValue) return;
-      final activity = event.activity.toModel();
-      final updatedActivity = await withUpdatedFeedCapabilities(activity);
 
+      final activity = event.activity.toModel();
+      if (!matchesQueryFilter(activity)) {
+        // If the updated activity no longer matches the filter, remove it
+        return state.onActivityRemoved(activity);
+      }
+
+      final updatedActivity = await withUpdatedFeedCapabilities(activity);
       return state.onActivityUpdated(updatedActivity ?? activity);
     }
 
@@ -57,21 +74,49 @@ class FeedEventHandler with FeedCapabilitiesMixin implements StateEventHandler {
 
     if (event is api.ActivityReactionAddedEvent) {
       if (event.fid != fid.rawValue) return;
+
+      final activity = event.activity.toModel();
+      if (!matchesQueryFilter(activity)) {
+        // If the reaction's activity no longer matches the filter, remove it
+        return state.onActivityRemoved(activity);
+      }
+
       return state.onReactionAdded(event.reaction.toModel());
     }
 
     if (event is api.ActivityReactionDeletedEvent) {
       if (event.fid != fid.rawValue) return;
+
+      final activity = event.activity.toModel();
+      if (!matchesQueryFilter(activity)) {
+        // If the reaction's activity no longer matches the filter, remove it
+        return state.onActivityRemoved(activity);
+      }
+
       return state.onReactionRemoved(event.reaction.toModel());
     }
 
     if (event is api.ActivityPinnedEvent) {
       if (event.fid != fid.rawValue) return;
+
+      final activity = event.pinnedActivity.activity.toModel();
+      if (!matchesQueryFilter(activity)) {
+        // If the pinned activity no longer matches the filter, remove it
+        return state.onActivityRemoved(activity);
+      }
+
       return state.onActivityPinned(event.pinnedActivity.toModel());
     }
 
     if (event is api.ActivityUnpinnedEvent) {
       if (event.fid != fid.rawValue) return;
+
+      final activity = event.pinnedActivity.activity.toModel();
+      if (!matchesQueryFilter(activity)) {
+        // If the unpinned activity no longer matches the filter, remove it
+        return state.onActivityRemoved(activity);
+      }
+
       return state.onActivityUnpinned(event.pinnedActivity.activity.id);
     }
 
@@ -89,22 +134,44 @@ class FeedEventHandler with FeedCapabilitiesMixin implements StateEventHandler {
     }
 
     if (event is api.BookmarkAddedEvent) {
-      if (!event.bookmark.activity.feeds.contains(fid.rawValue)) return;
+      final activity = event.bookmark.activity.toModel();
+      if (!activity.feeds.contains(fid.rawValue)) return;
+
+      if (!matchesQueryFilter(activity)) {
+        // If the bookmark's activity no longer matches the filter, remove it
+        return state.onActivityRemoved(activity);
+      }
+
       return state.onBookmarkAdded(event.bookmark.toModel());
     }
 
     if (event is api.BookmarkDeletedEvent) {
-      if (!event.bookmark.activity.feeds.contains(fid.rawValue)) return;
+      final activity = event.bookmark.activity.toModel();
+      if (!activity.feeds.contains(fid.rawValue)) return;
+
+      if (!matchesQueryFilter(activity)) {
+        // If the bookmark's activity no longer matches the filter, remove it
+        return state.onActivityRemoved(activity);
+      }
+
       return state.onBookmarkRemoved(event.bookmark.toModel());
     }
 
     if (event is api.CommentAddedEvent) {
       if (event.fid != fid.rawValue) return;
+
+      final activity = event.activity.toModel();
+      if (!matchesQueryFilter(activity)) {
+        // If the comment's activity no longer matches the filter, remove it
+        return state.onActivityRemoved(activity);
+      }
+
       return state.onCommentAdded(event.comment.toModel());
     }
 
     if (event is api.CommentDeletedEvent) {
       if (event.fid != fid.rawValue) return;
+      // TODO: Match event activity against filter once available in the event
       return state.onCommentRemoved(event.comment.toModel());
     }
 

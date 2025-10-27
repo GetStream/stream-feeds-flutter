@@ -32,7 +32,10 @@ class BookmarkFolderList extends Disposable {
     );
 
     // Attach event handlers for real-time updates
-    final handler = BookmarkFolderListEventHandler(state: _stateNotifier);
+    final handler = BookmarkFolderListEventHandler(
+      query: query,
+      state: _stateNotifier,
+    );
 
     _eventsSubscription = eventsEmitter.listen(handler.handleEvent);
   }

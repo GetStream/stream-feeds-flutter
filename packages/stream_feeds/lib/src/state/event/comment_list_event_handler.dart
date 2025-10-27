@@ -4,6 +4,7 @@ import '../../generated/api/models.dart' as api;
 
 import '../../models/comment_data.dart';
 import '../comment_list_state.dart';
+import '../query/comments_query.dart';
 import 'state_event_handler.dart';
 
 /// Event handler for comment list real-time updates.
@@ -11,15 +12,29 @@ import 'state_event_handler.dart';
 /// Processes WebSocket events and updates the comment list state accordingly.
 class CommentListEventHandler implements StateEventHandler {
   const CommentListEventHandler({
+    required this.query,
     required this.state,
   });
 
+  final CommentsQuery query;
   final CommentListStateNotifier state;
 
   @override
   void handleEvent(WsEvent event) {
+    bool matchesQueryFilter(CommentData comment) {
+      final filter = query.filter;
+      if (filter == null) return true;
+      return filter.matches(comment);
+    }
+
     if (event is api.CommentUpdatedEvent) {
-      return state.onCommentUpdated(event.comment.toModel());
+      final comment = event.comment.toModel();
+      if (!matchesQueryFilter(comment)) {
+        // If the updated comment no longer matches the filter, remove it
+        return state.onCommentRemoved(comment.id);
+      }
+
+      return state.onCommentUpdated(comment);
     }
 
     if (event is api.CommentDeletedEvent) {

@@ -75,6 +75,15 @@ class BookmarkListStateNotifier extends StateNotifier<BookmarkListState> {
 
     state = state.copyWith(bookmarks: updatedBookmarks);
   }
+
+  /// Handles the removal of a bookmark by ID.
+  void onBookmarkRemoved(String bookmarkId) {
+    final updatedBookmarks = state.bookmarks.where((it) {
+      return it.id != bookmarkId;
+    }).toList();
+
+    state = state.copyWith(bookmarks: updatedBookmarks);
+  }
 }
 
 /// An observable state object that manages the current state of a bookmark list.

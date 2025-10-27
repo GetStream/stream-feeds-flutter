@@ -32,7 +32,11 @@ class FeedList with Disposable {
     );
 
     // Attach event handlers for the feed list events
-    final handler = FeedListEventHandler(state: _stateNotifier);
+    final handler = FeedListEventHandler(
+      query: query,
+      state: _stateNotifier,
+    );
+
     _eventsSubscription = eventsEmitter.listen(handler.handleEvent);
   }
 

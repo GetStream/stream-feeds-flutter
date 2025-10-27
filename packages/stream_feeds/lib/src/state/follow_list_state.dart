@@ -52,6 +52,15 @@ class FollowListStateNotifier extends StateNotifier<FollowListState> {
 
     state = state.copyWith(follows: updatedFollows);
   }
+
+  /// Handles the removal of a follow by ID.
+  void onFollowRemoved(String followId) {
+    final updatedFollows = state.follows.where((it) {
+      return it.id != followId;
+    }).toList();
+
+    state = state.copyWith(follows: updatedFollows);
+  }
 }
 
 /// An observable state object that manages the current state of a follow list.
