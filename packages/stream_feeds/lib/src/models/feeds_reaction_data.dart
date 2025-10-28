@@ -14,6 +14,7 @@ class FeedsReactionData with _$FeedsReactionData {
   /// Creates a new [FeedsReactionData] instance.
   const FeedsReactionData({
     required this.activityId,
+    this.commentId,
     required this.createdAt,
     required this.type,
     required this.updatedAt,
@@ -24,6 +25,8 @@ class FeedsReactionData with _$FeedsReactionData {
   /// The ID of the activity this reaction is associated with.
   @override
   final String activityId;
+
+  final String? commentId;
 
   /// The date and time when the reaction was created.
   @override
@@ -46,7 +49,8 @@ class FeedsReactionData with _$FeedsReactionData {
   final Map<String, Object?>? custom;
 
   /// Unique identifier for the reaction, generated from the activity ID and user ID.
-  String get id => '$activityId${user.id}';
+  String get id =>
+      '${user.id}-$type${commentId == null ? '' : '-$commentId'}-$activityId';
 }
 
 /// Extension function to convert a [FeedsReactionResponse] to a [FeedsReactionData] model.
@@ -55,6 +59,7 @@ extension FeedsReactionResponseMapper on FeedsReactionResponse {
   FeedsReactionData toModel() {
     return FeedsReactionData(
       activityId: activityId,
+      commentId: commentId,
       createdAt: createdAt,
       type: type,
       updatedAt: updatedAt,
