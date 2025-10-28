@@ -92,7 +92,7 @@ class FollowData with _$FollowData {
   /// - Parameters:
   ///   - fid: The feed ID to check against.
   /// - Returns: true if this is an accepted follow relationship where the target feed matches the given ID.
-  bool isFollowerOf(FeedId feed) => isFollower && targetFeed.fid == feed;
+  bool isFollowerOf(FeedId fid) => isFollower && targetFeed.fid == fid;
 
   /// Checks if this follow relationship represents following the specified feed.
   ///
