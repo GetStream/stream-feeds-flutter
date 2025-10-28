@@ -1,5 +1,6 @@
 ## unreleased
 - Update follower and following counts on the feed state when receiving follow websocket events.
+- Fix FeedsReactionData id for updating reactions in the feed state.
 
 ## 0.3.1
 - Update API client with renaming `addReaction` to `addActivityReaction` and `deleteReaction` to `deleteActivityReaction`.
