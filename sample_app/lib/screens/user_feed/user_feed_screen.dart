@@ -157,6 +157,7 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
                 Flexible(
                   child: UserProfile(
                     userFeed: userFeed,
+                    storiesFeed: storiesFeed,
                     timelineFeed: timelineFeed,
                   ),
                 ),
@@ -170,6 +171,7 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
                   width: 420,
                   child: UserProfile(
                     userFeed: userFeed,
+                    storiesFeed: storiesFeed,
                     timelineFeed: timelineFeed,
                   ),
                 ),
@@ -218,6 +220,7 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
           return UserProfile(
             userFeed: userFeed,
             timelineFeed: timelineFeed,
+            storiesFeed: storiesFeed,
             scrollController: scrollController,
           );
         },
