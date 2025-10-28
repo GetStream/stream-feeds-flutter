@@ -1,7 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../generated/api/models.dart';
-import '../state/query/activities_query.dart';
 import 'activity_data.dart';
 import 'activity_pin_data.dart';
 import 'aggregated_activity_data.dart';

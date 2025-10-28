@@ -1,7 +1,6 @@
 import 'package:stream_core/stream_core.dart';
 
 import '../../generated/api/models.dart' as api;
-import '../../models/feed_id.dart';
 import '../../models/feed_member_data.dart';
 import '../member_list_state.dart';
 
