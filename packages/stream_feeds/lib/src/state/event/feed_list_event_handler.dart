@@ -28,7 +28,7 @@ class FeedListEventHandler implements StateEventHandler {
       final feed = event.feed.toModel();
       if (!matchesQueryFilter(feed)) {
         // If the updated feed no longer matches the query filter, remove it
-        return state.onFeedRemoved(feed.feed.rawValue);
+        return state.onFeedRemoved(feed.fid.rawValue);
       }
 
       return state.onFeedUpdated(feed);

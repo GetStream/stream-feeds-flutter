@@ -19,7 +19,7 @@ mixin _$FeedData {
   UserData get createdBy;
   DateTime? get deletedAt;
   String get description;
-  FeedId get feed;
+  FeedId get fid;
   List<String> get filterTags;
   int get followerCount;
   int get followingCount;
@@ -53,7 +53,7 @@ mixin _$FeedData {
                 other.deletedAt == deletedAt) &&
             (identical(other.description, description) ||
                 other.description == description) &&
-            (identical(other.feed, feed) || other.feed == feed) &&
+            (identical(other.fid, fid) || other.fid == fid) &&
             const DeepCollectionEquality()
                 .equals(other.filterTags, filterTags) &&
             (identical(other.followerCount, followerCount) ||
@@ -83,7 +83,7 @@ mixin _$FeedData {
       createdBy,
       deletedAt,
       description,
-      feed,
+      fid,
       const DeepCollectionEquality().hash(filterTags),
       followerCount,
       followingCount,
@@ -99,7 +99,7 @@ mixin _$FeedData {
 
   @override
   String toString() {
-    return 'FeedData(createdAt: $createdAt, createdBy: $createdBy, deletedAt: $deletedAt, description: $description, feed: $feed, filterTags: $filterTags, followerCount: $followerCount, followingCount: $followingCount, groupId: $groupId, id: $id, memberCount: $memberCount, name: $name, ownCapabilities: $ownCapabilities, pinCount: $pinCount, updatedAt: $updatedAt, visibility: $visibility, custom: $custom)';
+    return 'FeedData(createdAt: $createdAt, createdBy: $createdBy, deletedAt: $deletedAt, description: $description, fid: $fid, filterTags: $filterTags, followerCount: $followerCount, followingCount: $followingCount, groupId: $groupId, id: $id, memberCount: $memberCount, name: $name, ownCapabilities: $ownCapabilities, pinCount: $pinCount, updatedAt: $updatedAt, visibility: $visibility, custom: $custom)';
   }
 }
 
@@ -113,7 +113,7 @@ abstract mixin class $FeedDataCopyWith<$Res> {
       UserData createdBy,
       DateTime? deletedAt,
       String description,
-      FeedId feed,
+      FeedId fid,
       List<String> filterTags,
       int followerCount,
       int followingCount,
@@ -144,7 +144,7 @@ class _$FeedDataCopyWithImpl<$Res> implements $FeedDataCopyWith<$Res> {
     Object? createdBy = null,
     Object? deletedAt = freezed,
     Object? description = null,
-    Object? feed = null,
+    Object? fid = null,
     Object? filterTags = null,
     Object? followerCount = null,
     Object? followingCount = null,
@@ -175,9 +175,9 @@ class _$FeedDataCopyWithImpl<$Res> implements $FeedDataCopyWith<$Res> {
           ? _self.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      feed: null == feed
-          ? _self.feed
-          : feed // ignore: cast_nullable_to_non_nullable
+      fid: null == fid
+          ? _self.fid
+          : fid // ignore: cast_nullable_to_non_nullable
               as FeedId,
       filterTags: null == filterTags
           ? _self.filterTags

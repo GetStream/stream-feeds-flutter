@@ -86,7 +86,7 @@ class _UserProfileState extends State<UserProfile> {
               ),
               onFollow: (targetFeed) async {
                 final result = await widget.timelineFeed.follow(
-                  targetFid: targetFeed.feed,
+                  targetFid: targetFeed.fid,
                   createNotificationActivity: true,
                 );
 
@@ -99,7 +99,7 @@ class _UserProfileState extends State<UserProfile> {
               },
               onUnfollow: (targetFeed) async {
                 final result = await widget.timelineFeed.unfollow(
-                  targetFid: targetFeed.feed,
+                  targetFid: targetFeed.fid,
                 );
 
                 // Add the unfollowed user back to suggestions
@@ -163,7 +163,7 @@ class _UserProfileContent extends StatelessWidget {
 
     final followIncludesCurrentUser = following
             .any((it) => it.targetFeed.id == currentUser.id) ||
-        (followSuggestions?.any((it) => it.feed.id == currentUser.id) ?? false);
+        (followSuggestions?.any((it) => it.fid.id == currentUser.id) ?? false);
 
     return SingleChildScrollView(
       controller: scrollController,
@@ -196,9 +196,9 @@ class _UserProfileContent extends StatelessWidget {
             itemBuilder: (followRequest) => FollowRequestListItem(
               followRequest: followRequest,
               onAcceptPressed: () =>
-                  onAcceptFollow(followRequest.sourceFeed.feed),
+                  onAcceptFollow(followRequest.sourceFeed.fid),
               onRejectPressed: () =>
-                  onRejectFollow(followRequest.sourceFeed.feed),
+                  onRejectFollow(followRequest.sourceFeed.fid),
             ),
           ),
 

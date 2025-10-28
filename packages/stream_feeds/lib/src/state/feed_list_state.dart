@@ -33,7 +33,7 @@ class FeedListStateNotifier extends StateNotifier<FeedListState> {
     // Merge the new feeds with the existing ones (keeping the sort order)
     final updatedFeeds = state.feeds.merge(
       result.items,
-      key: (it) => it.feed.rawValue,
+      key: (it) => it.fid.rawValue,
       compare: feedsSort.compare,
     );
 
@@ -46,7 +46,7 @@ class FeedListStateNotifier extends StateNotifier<FeedListState> {
   /// Handles updates to a specific feed.
   void onFeedUpdated(FeedData feed) {
     final updatedFeeds = state.feeds.map((it) {
-      if (it.feed.rawValue != feed.feed.rawValue) return it;
+      if (it.fid.rawValue != feed.fid.rawValue) return it;
       return feed;
     }).toList();
 
@@ -56,7 +56,7 @@ class FeedListStateNotifier extends StateNotifier<FeedListState> {
   /// Handles the removal of a specific feed.
   void onFeedRemoved(String feed) {
     final updatedFeeds = state.feeds.where((it) {
-      return it.feed.rawValue != feed;
+      return it.fid.rawValue != feed;
     }).toList();
 
     state = state.copyWith(feeds: updatedFeeds);

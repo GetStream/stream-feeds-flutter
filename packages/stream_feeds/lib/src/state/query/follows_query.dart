@@ -96,7 +96,7 @@ class FollowsFilterField extends FilterField<FollowData> {
   /// **Supported operators:** `.equal`, `.in`
   static final sourceFeed = FollowsFilterField(
     'source_feed',
-    (data) => data.sourceFeed.feed.rawValue,
+    (data) => data.sourceFeed.fid.rawValue,
   );
 
   /// Filter by the target feed ID (the feed being followed).
@@ -104,7 +104,7 @@ class FollowsFilterField extends FilterField<FollowData> {
   /// **Supported operators:** `.equal`, `.in`
   static final targetFeed = FollowsFilterField(
     'target_feed',
-    (data) => data.targetFeed.feed.rawValue,
+    (data) => data.targetFeed.fid.rawValue,
   );
 
   /// Filter by the status of the follow relationship (e.g., "accepted", "pending").

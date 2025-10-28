@@ -96,7 +96,7 @@ class FeedsFilterField extends FilterField<FeedData> {
   /// **Supported operators:** `.equal`, `.in`
   static final feed = FeedsFilterField(
     'feed',
-    (data) => data.feed.rawValue,
+    (data) => data.fid.rawValue,
   );
 
   /// Filter by the creation timestamp of the feed.

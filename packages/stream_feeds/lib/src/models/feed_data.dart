@@ -19,7 +19,7 @@ class FeedData with _$FeedData {
     required this.createdBy,
     this.deletedAt,
     required this.description,
-    required this.feed,
+    required this.fid,
     this.filterTags = const [],
     required this.followerCount,
     required this.followingCount,
@@ -52,7 +52,7 @@ class FeedData with _$FeedData {
 
   /// The unique identifier for the feed.
   @override
-  final FeedId feed;
+  final FeedId fid;
 
   /// A list of tags used to filter the feed.
   @override
@@ -115,7 +115,7 @@ extension FeedResponseMapper on FeedResponse {
       createdBy: createdBy.toModel(),
       deletedAt: deletedAt,
       description: description,
-      feed: FeedId.fromRawValue(feed),
+      fid: FeedId.fromRawValue(feed),
       filterTags: [...?filterTags],
       followerCount: followerCount,
       followingCount: followingCount,
