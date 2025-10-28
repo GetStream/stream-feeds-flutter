@@ -1,5 +1,6 @@
 ## unreleased
 - Update follower and following counts on the feed state when receiving follow websocket events.
+- Improvement for stories and minor updates to other AggregatedActivity state updates.
 
 ## 0.3.1
 - Update API client with renaming `addReaction` to `addActivityReaction` and `deleteReaction` to `deleteActivityReaction`.
