@@ -603,7 +603,7 @@ class FeedState with _$FeedState {
   @override
   final NotificationStatusResponse? notificationStatus;
 
-  /// Pagination information for activities queries.
+  /// Pagination information for [activities] and [aggregatedActivities] queries.
   @override
   final PaginationData? activitiesPagination;
 

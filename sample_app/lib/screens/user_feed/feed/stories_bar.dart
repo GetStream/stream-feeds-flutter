@@ -90,7 +90,6 @@ class _FullScreenStory extends StatefulWidget {
     ValueSetter<String> activityWatched,
   ) {
     showDialog<void>(
-      fullscreenDialog: true,
       context: context,
       builder: (context) => Dialog.fullscreen(
         child: _FullScreenStory(storyGroup, activityWatched),
