@@ -146,9 +146,8 @@ class ActivityItem extends StatelessWidget {
             width: 50,
             height: 50,
             child: CircleAvatar(
-              backgroundImage: userImage != null
-                  ? NetworkImage(userImage)
-                  : null,
+              backgroundImage:
+                  userImage != null ? NetworkImage(userImage) : null,
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.3),

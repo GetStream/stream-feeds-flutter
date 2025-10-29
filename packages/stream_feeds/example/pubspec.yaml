@@ -4,14 +4,14 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.9.0
+  sdk: ^3.6.2
 
 dependencies:
   collection: ^1.18.0
   flutter:
     sdk: flutter
   flutter_state_notifier: ^1.0.0
-  stream_feeds:
+  stream_feeds: 
     path: ../
 
 dev_dependencies:
