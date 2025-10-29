@@ -10,8 +10,6 @@ This is the **official Flutter/Dart SDK** for Stream Feeds API v3, a scalable ac
 - **Sample App** (`sample_app/`): Flutter demo application showcasing SDK usage
 - **Documentation** (`docs/`): Code snippets and examples
 
-**Important**: Activity Feeds V3 is currently in closed alpha - not recommended for production use yet.
-
 ## Repository Structure
 
 ```
