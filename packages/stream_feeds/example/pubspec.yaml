@@ -11,8 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_state_notifier: ^1.0.0
-  stream_feeds: 
-    path: ../
+  stream_feeds: ^0.3.1
 
 dev_dependencies:
   flutter_test:
