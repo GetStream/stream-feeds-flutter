@@ -7,15 +7,13 @@ import 'package:test/test.dart';
 
 import '../test_utils.dart';
 
-class FakeQueryCommentsRequest extends Fake implements QueryCommentsRequest {}
-
 void main() {
   late StreamFeedsClient client;
   late MockDefaultApi feedsApi;
   late MockWebSocketChannel webSocketChannel;
 
   setUpAll(() {
-    registerFallbackValue(FakeQueryCommentsRequest());
+    registerFallbackValue(const QueryCommentsRequest(filter: {}));
   });
 
   setUp(() {
