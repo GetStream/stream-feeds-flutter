@@ -1,3 +1,4 @@
+import 'package:meta/meta.dart';
 import 'package:stream_core/stream_core.dart';
 
 import 'client/feeds_client_impl.dart';
@@ -160,6 +161,8 @@ abstract interface class StreamFeedsClient {
     NetworkStateProvider? networkStateProvider,
     LifecycleStateProvider? lifecycleStateProvider,
     List<AutomaticReconnectionPolicy>? reconnectionPolicies,
+    @visibleForTesting WebSocketProvider? wsProvider,
+    @visibleForTesting api.DefaultApi? feedsRestApi,
   }) = StreamFeedsClientImpl;
 
   User get user;

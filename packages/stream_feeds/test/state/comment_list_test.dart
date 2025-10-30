@@ -2,8 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:mocktail/mocktail.dart';
-import 'package:stream_feeds/src/client/feeds_client_impl.dart';
-import 'package:stream_feeds/src/generated/api/model/comment_updated_event.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 import 'package:test/test.dart';
 
@@ -12,7 +10,7 @@ import '../test_utils.dart';
 class FakeQueryCommentsRequest extends Fake implements QueryCommentsRequest {}
 
 void main() {
-  late StreamFeedsClientImpl client;
+  late StreamFeedsClient client;
   late MockDefaultApi feedsApi;
   late MockWebSocketChannel webSocketChannel;
 
@@ -24,7 +22,7 @@ void main() {
     feedsApi = MockDefaultApi();
     webSocketChannel = MockWebSocketChannel();
 
-    client = StreamFeedsClientImpl(
+    client = StreamFeedsClient(
       apiKey: 'apiKey',
       user: const User(id: 'luke_skywalker'),
       tokenProvider: TokenProvider.static(UserToken(testToken)),
