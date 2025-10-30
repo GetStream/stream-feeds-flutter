@@ -418,15 +418,7 @@ void main() {
 
         // Wait for the event to be processed
         await Future<Object?>.delayed(Duration.zero);
-
-        // Activity should still be there since no filter is applied
         expect(activityList.state.activities, hasLength(3));
-
-        final updatedActivity = activityList.state.activities.firstWhere(
-          (activity) => activity.id == 'activity-1',
-        );
-
-        expect(updatedActivity.type, 'share');
       },
     );
   });

@@ -74,11 +74,12 @@ GetActivityResponse createDefaultActivityResponse({
 }
 
 PollResponseData createDefaultPollResponseData({
+  String id = 'poll-id',
   List<PollVoteResponseData> latestAnswers = const [],
   Map<String, List<PollVoteResponseData>> latestVotesByOption = const {},
 }) =>
     PollResponseData(
-      id: 'id',
+      id: id,
       name: 'name',
       allowAnswers: true,
       allowUserSuggestedOptions: true,
@@ -198,14 +199,72 @@ PinActivityResponse createDefaultPinActivityResponse({
 }
 
 BookmarkResponse createDefaultBookmarkResponse({
+  String userId = 'user-id',
   String activityId = 'activity-id',
+  String folderId = 'folder-id',
 }) {
   return BookmarkResponse(
     activity: createDefaultActivityResponse(id: activityId).activity,
     createdAt: DateTime(2021, 1, 1),
     custom: const {},
-    folder: null,
+    folder: createDefaultBookmarkFolderResponse(id: folderId),
     updatedAt: DateTime(2021, 2, 1),
-    user: createDefaultUserResponse(),
+    user: createDefaultUserResponse(id: userId),
+  );
+}
+
+FeedMemberResponse createDefaultFeedMemberResponse({
+  String id = 'member-id',
+  String role = 'member',
+}) {
+  return FeedMemberResponse(
+    createdAt: DateTime(2021, 1, 1),
+    custom: const {},
+    role: role,
+    status: FeedMemberResponseStatus.member,
+    updatedAt: DateTime(2021, 2, 1),
+    user: createDefaultUserResponse(id: id),
+  );
+}
+
+FollowResponse createDefaultFollowResponse({
+  String id = 'follow-id',
+  FollowResponseStatus status = FollowResponseStatus.accepted,
+}) {
+  return FollowResponse(
+    createdAt: DateTime(2021, 1, 1),
+    custom: const {},
+    followerRole: 'follower',
+    pushPreference: FollowResponsePushPreference.all,
+    sourceFeed: createDefaultFeedResponse(id: 'source-$id'),
+    status: status,
+    targetFeed: createDefaultFeedResponse(id: 'target-$id'),
+    updatedAt: DateTime(2021, 2, 1),
+  );
+}
+
+BookmarkFolderResponse createDefaultBookmarkFolderResponse({
+  String id = 'folder-id',
+}) {
+  return BookmarkFolderResponse(
+    createdAt: DateTime(2021, 1, 1),
+    custom: const {},
+    id: id,
+    name: 'My Folder',
+    updatedAt: DateTime(2021, 2, 1),
+  );
+}
+
+PollVoteResponseData createDefaultPollVoteResponse({
+  String id = 'vote-id',
+  String pollId = 'poll-id',
+  String optionId = 'option-1',
+}) {
+  return PollVoteResponseData(
+    createdAt: DateTime(2021, 1, 1),
+    id: id,
+    optionId: optionId,
+    pollId: pollId,
+    updatedAt: DateTime(2021, 2, 1),
   );
 }

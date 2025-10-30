@@ -31,7 +31,7 @@ class PollVoteListEventHandler implements StateEventHandler {
 
     if (event is api.PollVoteChangedFeedEvent) {
       // Only handle votes for this specific poll
-      if (event.poll.id != pollId) return;
+      if (event.pollVote.pollId != pollId) return;
 
       final pollVote = event.pollVote.toModel();
       if (!matchesQueryFilter(pollVote)) {

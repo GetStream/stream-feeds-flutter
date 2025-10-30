@@ -124,7 +124,7 @@ void main() {
         expectAsync1(
           (event) {
             expect(event, isA<ActivityState>());
-            expect(event.poll?.id, 'id');
+            expect(event.poll?.id, 'poll-id');
             expect(event.poll?.voteCount, 1);
           },
         ),
@@ -165,7 +165,7 @@ void main() {
         expectAsync1(
           (event) {
             expect(event, isA<ActivityState>());
-            expect(event.poll?.id, 'id');
+            expect(event.poll?.id, 'poll-id');
             expect(event.poll?.answersCount, 1);
             expect(event.poll?.latestAnswers.length, 1);
           },
@@ -225,7 +225,7 @@ void main() {
         expectAsync1(
           (event) {
             expect(event, isA<ActivityState>());
-            expect(event.poll?.id, 'id');
+            expect(event.poll?.id, 'poll-id');
             expect(event.poll?.answersCount, 0);
             expect(event.poll?.latestAnswers.length, 0);
           },
@@ -286,7 +286,7 @@ void main() {
         expectAsync1(
           (event) {
             expect(event, isA<ActivityState>());
-            expect(event.poll?.id, 'id');
+            expect(event.poll?.id, 'poll-id');
             expect(event.poll?.voteCount, 0);
             expect(event.poll?.latestVotesByOption.length, 0);
           },
@@ -328,7 +328,7 @@ void main() {
         expectAsync1(
           (event) {
             expect(event, isA<ActivityState>());
-            expect(event.poll?.id, 'id');
+            expect(event.poll?.id, 'poll-id');
             expect(event.poll?.isClosed, true);
           },
         ),
