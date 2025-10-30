@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:stream_core/stream_core.dart';
 
 import '../../generated/api/models.dart';
+import '../../models/activity_data.dart';
 import '../../models/feed_id.dart';
 import '../../models/feed_input_data.dart';
 import '../../utils/filter.dart';
@@ -50,7 +51,7 @@ class FeedQuery with _$FeedQuery {
   ///
   /// Use [ActivitiesFilterField] for type-safe field references.
   @override
-  final Filter<ActivitiesFilterField>? activityFilter;
+  final ActivitiesFilter? activityFilter;
 
   /// The maximum number of activities to retrieve.
   @override

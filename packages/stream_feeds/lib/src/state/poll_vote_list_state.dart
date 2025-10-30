@@ -18,15 +18,15 @@ class PollVoteListStateNotifier extends StateNotifier<PollVoteListState> {
     required PollVoteListState initialState,
   }) : super(initialState);
 
-  QueryConfiguration<PollVotesSort, PollVotesFilterField>? queryConfig;
-  List<PollVotesSort> get votesSort {
+  QueryConfiguration<PollVoteData>? queryConfig;
+  List<Sort<PollVoteData>> get votesSort {
     return queryConfig?.sort ?? PollVotesSort.defaultSort;
   }
 
   /// Handles the result of a query for more poll votes.
   void onQueryMorePollVotes(
     PaginationResult<PollVoteData> result,
-    QueryConfiguration<PollVotesSort, PollVotesFilterField> queryConfig,
+    QueryConfiguration<PollVoteData> queryConfig,
   ) {
     this.queryConfig = queryConfig;
 

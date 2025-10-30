@@ -9,8 +9,7 @@ part 'query_configuration.freezed.dart';
 /// database queries in the Stream Feeds system.
 @freezed
 @internal
-class QueryConfiguration<S extends Sort, F extends FilterField>
-    with _$QueryConfiguration {
+class QueryConfiguration<T extends Object> with _$QueryConfiguration {
   /// Creates a new [QueryConfiguration] instance.
   const QueryConfiguration({
     this.filter,
@@ -19,9 +18,9 @@ class QueryConfiguration<S extends Sort, F extends FilterField>
 
   /// The filter for the query.
   @override
-  final Filter<F>? filter;
+  final Filter<T>? filter;
 
   /// The list of sorting operations for the query.
   @override
-  final List<S>? sort;
+  final List<Sort<T>>? sort;
 }

@@ -37,6 +37,7 @@ class ActivityList with Disposable {
 
     // Attach event handlers for real-time updates
     final handler = ActivityListEventHandler(
+      query: query,
       state: _stateNotifier,
       capabilitiesRepository: capabilitiesRepository,
     );

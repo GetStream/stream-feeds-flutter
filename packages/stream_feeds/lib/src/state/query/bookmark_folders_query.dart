@@ -39,7 +39,7 @@ class BookmarkFoldersQuery with _$BookmarkFoldersQuery {
   ///
   /// Use [BookmarkFoldersFilterField] for type-safe field references.
   @override
-  final Filter<BookmarkFoldersFilterField>? filter;
+  final BookmarkFoldersFilter? filter;
 
   /// Array of sorting criteria for this query.
   ///
@@ -65,36 +65,58 @@ class BookmarkFoldersQuery with _$BookmarkFoldersQuery {
 
 // region Filter
 
+/// Represents a filtering operation for bookmark folders.
+///
+/// See [BookmarkFoldersFilterField] for available fields to filter on.
+typedef BookmarkFoldersFilter = Filter<BookmarkFolderData>;
+
 /// Represents a field that can be used in bookmark folders filtering.
 ///
 /// This extension type provides a type-safe way to specify which field should be used
 /// when creating filters for bookmark folders queries.
-extension type const BookmarkFoldersFilterField(String _)
-    implements FilterField {
+class BookmarkFoldersFilterField extends FilterField<BookmarkFolderData> {
+  /// Creates a new bookmark folders filter field.
+  BookmarkFoldersFilterField(super.remote, super.value);
+
   /// Filter by the unique identifier of the bookmark folder.
   ///
   /// **Supported operators:** `.equal`, `.in`
-  static const id = BookmarkFoldersFilterField('id');
+  static final folderId = BookmarkFoldersFilterField(
+    'folder_id',
+    (data) => data.id,
+  );
 
   /// Filter by the name of the bookmark folder.
   ///
   /// **Supported operators:** `.equal`, `.in`, `.q`, `.autocomplete`
-  static const name = BookmarkFoldersFilterField('name');
-
-  /// Filter by the user ID who created the bookmark folder.
-  ///
-  /// **Supported operators:** `.equal`, `.in`
-  static const userId = BookmarkFoldersFilterField('user_id');
+  static final folderName = BookmarkFoldersFilterField(
+    'folder_name',
+    (data) => data.name,
+  );
 
   /// Filter by the creation timestamp of the bookmark folder.
   ///
   /// **Supported operators:** `.equal`, `.greaterThan`, `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`
-  static const createdAt = BookmarkFoldersFilterField('created_at');
+  static final createdAt = BookmarkFoldersFilterField(
+    'created_at',
+    (data) => data.createdAt,
+  );
 
   /// Filter by the last update timestamp of the bookmark folder.
   ///
   /// **Supported operators:** `.equal`, `.greaterThan`, `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`
-  static const updatedAt = BookmarkFoldersFilterField('updated_at');
+  static final updatedAt = BookmarkFoldersFilterField(
+    'updated_at',
+    (data) => data.updatedAt,
+  );
+
+  /// Filter by the user ID who created the bookmark folder.
+  ///
+  /// **Supported operators:** `.equal`, `.in`
+  static final userId = BookmarkFoldersFilterField(
+    'user_id',
+    (_) => null, // local data unavailable (FEEDS-801)
+  );
 }
 
 // endregion
@@ -123,24 +145,29 @@ class BookmarkFoldersSort extends Sort<BookmarkFolderData> {
 /// Defines the fields by which bookmark folders can be sorted.
 ///
 /// This extension type provides specific fields for sorting bookmark folder data.
-extension type const BookmarkFoldersSortField(SortField<BookmarkFolderData> _)
-    implements SortField<BookmarkFolderData> {
+class BookmarkFoldersSortField extends SortField<BookmarkFolderData> {
+  /// Creates a new bookmark folders sort field.
+  BookmarkFoldersSortField(super.remote, super.localValue);
+
   /// Sort by the creation timestamp of the bookmark folder.
   /// This field allows sorting bookmark folders by when they were created (newest/oldest first).
   static final createdAt = BookmarkFoldersSortField(
-    SortField('created_at', (data) => data.createdAt),
+    'created_at',
+    (data) => data.createdAt,
   );
 
   /// Sort by the last update timestamp of the bookmark folder.
   /// This field allows sorting bookmark folders by when they were last updated (newest/oldest first).
   static final updatedAt = BookmarkFoldersSortField(
-    SortField('updated_at', (data) => data.updatedAt),
+    'updated_at',
+    (data) => data.updatedAt,
   );
 
   /// Sort by the name of the bookmark folder.
   /// This field allows sorting bookmark folders alphabetically by name.
   static final name = BookmarkFoldersSortField(
-    SortField('name', (data) => data.name),
+    'name',
+    (data) => data.name,
   );
 }
 

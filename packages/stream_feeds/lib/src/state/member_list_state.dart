@@ -20,15 +20,15 @@ class MemberListStateNotifier extends StateNotifier<MemberListState> {
     required MemberListState initialState,
   }) : super(initialState);
 
-  QueryConfiguration<MembersSort, MembersFilterField>? _queryConfig;
-  List<MembersSort> get membersSort {
+  QueryConfiguration<FeedMemberData>? _queryConfig;
+  List<Sort<FeedMemberData>> get membersSort {
     return _queryConfig?.sort ?? MembersSort.defaultSort;
   }
 
   /// Handles the result of a query for more members.
   void onQueryMoreMembers(
     PaginationResult<FeedMemberData> result,
-    QueryConfiguration<MembersSort, MembersFilterField> queryConfig,
+    QueryConfiguration<FeedMemberData> queryConfig,
   ) {
     _queryConfig = queryConfig;
 

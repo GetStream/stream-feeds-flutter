@@ -26,14 +26,12 @@ class MemberList extends Disposable {
     required this.feedsRepository,
     required this.eventsEmitter,
   }) {
-    final fid = query.fid;
-
     _stateNotifier = MemberListStateNotifier(
       initialState: const MemberListState(),
     );
 
     final eventHandler = MemberListEventHandler(
-      fid: fid,
+      query: query,
       state: _stateNotifier,
     );
 

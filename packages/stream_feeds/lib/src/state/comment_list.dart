@@ -31,7 +31,11 @@ class CommentList extends Disposable {
     );
 
     // Attach event handlers for real-time updates
-    final handler = CommentListEventHandler(state: _stateNotifier);
+    final handler = CommentListEventHandler(
+      query: query,
+      state: _stateNotifier,
+    );
+
     _eventsSubscription = eventsEmitter.listen(handler.handleEvent);
   }
 

@@ -39,7 +39,7 @@ class ModerationConfigsQuery with _$ModerationConfigsQuery {
   ///
   /// Use [ModerationConfigsFilterField] for type-safe field references.
   @override
-  final Filter<ModerationConfigsFilterField>? filter;
+  final ModerationConfigsFilter? filter;
 
   /// Array of sorting criteria for this query.
   ///
@@ -65,41 +65,50 @@ class ModerationConfigsQuery with _$ModerationConfigsQuery {
 
 // region Filter
 
+/// Represents filtering options for moderation configs.
+///
+/// See [ModerationConfigsFilterField] for available fields to filter on.
+typedef ModerationConfigsFilter = Filter<ModerationConfigData>;
+
 /// Represents a field that can be used in moderation configs filtering.
 ///
 /// This extension type provides a type-safe way to specify which field should be used
 /// when creating filters for moderation configs queries.
-extension type const ModerationConfigsFilterField(String _)
-    implements FilterField {
-  /// Filter by the unique identifier of the moderation config.
-  ///
-  /// **Supported operators:** `.equal`, `.in`
-  static const id = ModerationConfigsFilterField('id');
+class ModerationConfigsFilterField extends FilterField<ModerationConfigData> {
+  /// Creates a new moderation configs filter field.
+  ModerationConfigsFilterField(super.remote, super.value);
 
-  /// Filter by the name of the moderation config.
+  /// Filter by the unique key of the moderation config.
   ///
-  /// **Supported operators:** `.equal`, `.in`, `.q`, `.autocomplete`
-  static const name = ModerationConfigsFilterField('name');
-
-  /// Filter by whether the moderation config is active.
-  ///
-  /// **Supported operators:** `.equal`
-  static const isActive = ModerationConfigsFilterField('is_active');
+  /// **Supported operators:** `.equal`, `.in`, `autocomplete`
+  static final key = ModerationConfigsFilterField(
+    'key',
+    (data) => data.key,
+  );
 
   /// Filter by the creation timestamp of the moderation config.
   ///
   /// **Supported operators:** `.equal`, `.greaterThan`, `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`
-  static const createdAt = ModerationConfigsFilterField('created_at');
+  static final createdAt = ModerationConfigsFilterField(
+    'created_at',
+    (data) => data.createdAt,
+  );
 
   /// Filter by the last update timestamp of the moderation config.
   ///
   /// **Supported operators:** `.equal`, `.greaterThan`, `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`
-  static const updatedAt = ModerationConfigsFilterField('updated_at');
+  static final updatedAt = ModerationConfigsFilterField(
+    'updated_at',
+    (data) => data.updatedAt,
+  );
 
-  /// Filter by the type of moderation config.
+  /// Filter by the team associated with the configuration.
   ///
   /// **Supported operators:** `.equal`, `.in`
-  static const type = ModerationConfigsFilterField('type');
+  static final team = ModerationConfigsFilterField(
+    'team',
+    (data) => data.team,
+  );
 }
 
 // endregion
@@ -133,28 +142,32 @@ class ModerationConfigsSort extends Sort<ModerationConfigData> {
 ///
 /// Each field corresponds to a property of the [ModerationConfigData] model, allowing for
 /// flexible sorting options when querying moderation configs.
-extension type const ModerationConfigsSortField(
-        SortField<ModerationConfigData> _)
-    implements SortField<ModerationConfigData> {
+class ModerationConfigsSortField extends SortField<ModerationConfigData> {
+  /// Creates a new moderation configs sort field.
+  ModerationConfigsSortField(super.remote, super.localValue);
+
   /// Sort by the unique key of the moderation config.
   ///
   /// Allows sorting configs by their key (alphabetical order).
   static final key = ModerationConfigsSortField(
-    SortField('id', (data) => data.key),
+    'id',
+    (data) => data.key,
   );
 
   /// Sort by the creation timestamp of the moderation config.
   ///
   /// Allows sorting configs by when they were created (newest/oldest first).
   static final createdAt = ModerationConfigsSortField(
-    SortField('created_at', (data) => data.createdAt),
+    'created_at',
+    (data) => data.createdAt,
   );
 
   /// Sort by the update timestamp of the moderation config.
   ///
   /// Allows sorting configs by when they were last updated (newest/oldest first).
   static final updatedAt = ModerationConfigsSortField(
-    SortField('updated_at', (data) => data.updatedAt),
+    'updated_at',
+    (data) => data.updatedAt,
   );
 }
 

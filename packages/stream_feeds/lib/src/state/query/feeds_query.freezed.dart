@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$FeedsQuery {
-  Filter<FeedsFilterField>? get filter;
+  FeedsFilter? get filter;
   List<FeedsSort>? get sort;
   int? get limit;
   String? get next;
@@ -60,7 +60,7 @@ abstract mixin class $FeedsQueryCopyWith<$Res> {
       _$FeedsQueryCopyWithImpl;
   @useResult
   $Res call(
-      {Filter<FeedsFilterField>? filter,
+      {Filter<FeedData>? filter,
       List<FeedsSort>? sort,
       int? limit,
       String? next,
@@ -91,7 +91,7 @@ class _$FeedsQueryCopyWithImpl<$Res> implements $FeedsQueryCopyWith<$Res> {
       filter: freezed == filter
           ? _self.filter
           : filter // ignore: cast_nullable_to_non_nullable
-              as Filter<FeedsFilterField>?,
+              as Filter<FeedData>?,
       sort: freezed == sort
           ? _self.sort
           : sort // ignore: cast_nullable_to_non_nullable

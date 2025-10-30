@@ -5,7 +5,7 @@ late Feed feed;
 
 Future<void> activitySearchAndQueries() async {
   final query = ActivitiesQuery(
-    filter: const Filter.equal(ActivitiesFilterField.type, 'post'),
+    filter: Filter.equal(ActivitiesFilterField.type, 'post'),
     sort: [ActivitiesSort.desc(ActivitiesSortField.createdAt)],
     limit: 10,
   );
@@ -16,7 +16,7 @@ Future<void> activitySearchAndQueries() async {
 
 Future<void> queryActivitiesByText() async {
   // search for activities where the text includes the word 'popularity'.
-  const query = ActivitiesQuery(
+  final query = ActivitiesQuery(
     filter: Filter.equal(ActivitiesFilterField.text, 'popularity'),
   );
 
@@ -38,7 +38,7 @@ Future<void> queryActivitiesBySearchData() async {
   final activities = await activityList.get();
 
   // search for activities where the campaign took place in a mall
-  const query2 = ActivitiesQuery(
+  final query2 = ActivitiesQuery(
     filter: Filter.pathExists(
       ActivitiesFilterField.searchData,
       'campaign.location.mall',

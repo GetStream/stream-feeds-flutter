@@ -69,10 +69,11 @@ class Feed with Disposable {
 
     // Attach event handlers for the feed events
     final handler = FeedEventHandler(
-      fid: fid,
+      query: query,
       state: _stateNotifier,
       capabilitiesRepository: capabilitiesRepository,
     );
+
     _feedSubscriptions.add(eventsEmitter.listen(handler.handleEvent));
 
     // Automatically refetch data on reconnection

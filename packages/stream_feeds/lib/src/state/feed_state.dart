@@ -51,9 +51,8 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
     });
   }
 
-  QueryConfiguration<ActivitiesSort, ActivitiesFilterField>?
-      _activitiesQueryConfig;
-  List<ActivitiesSort> get activitiesSort {
+  QueryConfiguration<ActivityData>? _activitiesQueryConfig;
+  List<Sort<ActivityData>> get activitiesSort {
     return _activitiesQueryConfig?.sort ?? ActivitiesSort.defaultSort;
   }
 
@@ -85,7 +84,7 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
   /// Handles the result of a query for more activities.
   void onQueryMoreActivities(
     PaginationResult<ActivityData> result,
-    QueryConfiguration<ActivitiesSort, ActivitiesFilterField> queryConfig,
+    QueryConfiguration<ActivityData> queryConfig,
   ) {
     _activitiesQueryConfig = queryConfig;
 

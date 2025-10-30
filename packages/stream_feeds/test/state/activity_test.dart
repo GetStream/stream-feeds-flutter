@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:mocktail/mocktail.dart';
-import 'package:stream_feeds/src/client/feeds_client_impl.dart';
 import 'package:stream_feeds/src/state/activity_state.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 import 'package:test/test.dart';
@@ -10,7 +9,7 @@ import 'package:test/test.dart';
 import '../test_utils.dart';
 
 void main() {
-  late StreamFeedsClientImpl client;
+  late StreamFeedsClient client;
   late MockDefaultApi feedsApi;
   late MockWebSocketChannel webSocketChannel;
 
@@ -18,7 +17,7 @@ void main() {
     feedsApi = MockDefaultApi();
     webSocketChannel = MockWebSocketChannel();
 
-    client = StreamFeedsClientImpl(
+    client = StreamFeedsClient(
       apiKey: 'apiKey',
       user: const User(id: 'luke_skywalker'),
       tokenProvider: TokenProvider.static(UserToken(testToken)),
@@ -124,7 +123,7 @@ void main() {
         expectAsync1(
           (event) {
             expect(event, isA<ActivityState>());
-            expect(event.poll?.id, 'id');
+            expect(event.poll?.id, 'poll-id');
             expect(event.poll?.voteCount, 1);
           },
         ),
@@ -165,7 +164,7 @@ void main() {
         expectAsync1(
           (event) {
             expect(event, isA<ActivityState>());
-            expect(event.poll?.id, 'id');
+            expect(event.poll?.id, 'poll-id');
             expect(event.poll?.answersCount, 1);
             expect(event.poll?.latestAnswers.length, 1);
           },
@@ -225,7 +224,7 @@ void main() {
         expectAsync1(
           (event) {
             expect(event, isA<ActivityState>());
-            expect(event.poll?.id, 'id');
+            expect(event.poll?.id, 'poll-id');
             expect(event.poll?.answersCount, 0);
             expect(event.poll?.latestAnswers.length, 0);
           },
@@ -286,7 +285,7 @@ void main() {
         expectAsync1(
           (event) {
             expect(event, isA<ActivityState>());
-            expect(event.poll?.id, 'id');
+            expect(event.poll?.id, 'poll-id');
             expect(event.poll?.voteCount, 0);
             expect(event.poll?.latestVotesByOption.length, 0);
           },
@@ -328,7 +327,7 @@ void main() {
         expectAsync1(
           (event) {
             expect(event, isA<ActivityState>());
-            expect(event.poll?.id, 'id');
+            expect(event.poll?.id, 'poll-id');
             expect(event.poll?.isClosed, true);
           },
         ),

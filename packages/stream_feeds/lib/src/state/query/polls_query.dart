@@ -40,7 +40,7 @@ class PollsQuery with _$PollsQuery {
   ///
   /// Use [PollsFilterField] for type-safe field references.
   @override
-  final Filter<PollsFilterField>? filter;
+  final PollsFilter? filter;
 
   /// Array of sorting criteria for this query.
   ///
@@ -66,61 +66,98 @@ class PollsQuery with _$PollsQuery {
 
 // region Filter
 
+/// Represents filtering options for polls.
+///
+/// See [PollsFilterField] for available fields.
+typedef PollsFilter = Filter<PollData>;
+
 /// Represents a field that can be used in polls filtering.
 ///
 /// This extension type provides a type-safe way to specify which field should be used
 /// when creating filters for polls queries.
-extension type const PollsFilterField(String _) implements FilterField {
+class PollsFilterField extends FilterField<PollData> {
+  /// Creates a new polls filter field.
+  PollsFilterField(super.remote, super.value);
+
   /// Filter by whether the poll allows answers.
   ///
   /// **Supported operators:** `.equal`
-  static const allowAnswers = PollsFilterField('allow_answers');
+  static final allowAnswers = PollsFilterField(
+    'allow_answers',
+    (data) => data.allowAnswers,
+  );
 
   /// Filter by whether the poll allows user-suggested options.
   ///
   /// **Supported operators:** `.equal`
-  static const allowUserSuggestedOptions =
-      PollsFilterField('allow_user_suggested_options');
+  static final allowUserSuggestedOptions = PollsFilterField(
+    'allow_user_suggested_options',
+    (data) => data.allowUserSuggestedOptions,
+  );
 
   /// Filter by the creation timestamp of the poll.
   ///
   /// **Supported operators:** `.equal`, `.greaterThan`, `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`
-  static const createdAt = PollsFilterField('created_at');
+  static final createdAt = PollsFilterField(
+    'created_at',
+    (data) => data.createdAt,
+  );
 
   /// Filter by the ID of the user who created the poll.
   ///
   /// **Supported operators:** `.equal`, `.in`
-  static const createdById = PollsFilterField('created_by_id');
+  static final createdById = PollsFilterField(
+    'created_by_id',
+    (data) => data.createdById,
+  );
 
   /// Filter by the unique identifier of the poll.
   ///
   /// **Supported operators:** `.equal`, `.in`
-  static const id = PollsFilterField('id');
+  static final id = PollsFilterField(
+    'id',
+    (data) => data.id,
+  );
 
   /// Filter by whether the poll is closed.
   ///
   /// **Supported operators:** `.equal`
-  static const isClosed = PollsFilterField('is_closed');
+  static final isClosed = PollsFilterField(
+    'is_closed',
+    (data) => data.isClosed,
+  );
 
   /// Filter by the maximum number of votes allowed per user.
   ///
   /// **Supported operators:** `.equal`, `.notEqual`, `.greaterThan`, `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`
-  static const maxVotesAllowed = PollsFilterField('max_votes_allowed');
+  static final maxVotesAllowed = PollsFilterField(
+    'max_votes_allowed',
+    (data) => data.maxVotesAllowed,
+  );
 
   /// Filter by the name of the poll.
   ///
   /// **Supported operators:** `.equal`, `.in`
-  static const name = PollsFilterField('name');
+  static final name = PollsFilterField(
+    'name',
+    (data) => data.name,
+  );
 
   /// Filter by the last update timestamp of the poll.
   ///
   /// **Supported operators:** `.equal`, `.greaterThan`, `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`
-  static const updatedAt = PollsFilterField('updated_at');
+  static final updatedAt = PollsFilterField(
+    'updated_at',
+    (data) => data.updatedAt,
+  );
 
   /// Filter by the voting visibility setting of the poll.
   ///
   /// **Supported operators:** `.equal`
-  static const votingVisibility = PollsFilterField('voting_visibility');
+  static final votingVisibility = PollsFilterField(
+    'voting_visibility',
+    (data) => data.votingVisibility,
+  );
 }
 
 // endregion
@@ -149,42 +186,50 @@ class PollsSort extends Sort<PollData> {
 /// Defines the fields by which polls can be sorted.
 ///
 /// This extension type provides specific fields for sorting poll data.
-extension type const PollsSortField(SortField<PollData> _)
-    implements SortField<PollData> {
+class PollsSortField extends SortField<PollData> {
+  /// Creates a new polls sort field.
+  PollsSortField(super.remote, super.localValue);
+
   /// Sort by the creation timestamp of the poll.
   /// This field allows sorting polls by when they were created (newest/oldest first).
   static final createdAt = PollsSortField(
-    SortField('created_at', (data) => data.createdAt),
+    'created_at',
+    (data) => data.createdAt,
   );
 
   /// Sort by the last update timestamp of the poll.
   /// This field allows sorting polls by when they were last updated (newest/oldest first).
   static final updatedAt = PollsSortField(
-    SortField('updated_at', (data) => data.updatedAt),
+    'updated_at',
+    (data) => data.updatedAt,
   );
 
   /// Sort by the number of votes the poll has received.
   /// This field allows sorting polls by popularity (most/least voted).
   static final voteCount = PollsSortField(
-    SortField('vote_count', (data) => data.voteCount),
+    'vote_count',
+    (data) => data.voteCount,
   );
 
   /// Sort by the name of the poll.
   /// This field allows sorting polls alphabetically by name.
   static final name = PollsSortField(
-    SortField('name', (data) => data.name),
+    'name',
+    (data) => data.name,
   );
 
   /// Sort by the unique identifier of the poll.
   /// This field allows sorting polls by their unique ID.
   static final id = PollsSortField(
-    SortField('id', (data) => data.id),
+    'id',
+    (data) => data.id,
   );
 
   /// Sort by whether the poll is closed.
   /// This field allows sorting polls by their closed status.
   static final isClosed = PollsSortField(
-    SortField('is_closed', (data) => data.isClosed),
+    'is_closed',
+    (data) => data.isClosed,
   );
 }
 
