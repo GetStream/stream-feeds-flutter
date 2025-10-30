@@ -73,6 +73,7 @@ class Feed with Disposable {
       state: _stateNotifier,
       capabilitiesRepository: capabilitiesRepository,
     );
+
     _feedSubscriptions.add(eventsEmitter.listen(handler.handleEvent));
 
     // Automatically refetch data on reconnection

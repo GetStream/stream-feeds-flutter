@@ -54,8 +54,9 @@ class WsAuthenticationHelper {
   /// Returns true if the event is a [WsAuthMessageRequest].
   /// If it is, it will add a [HealthCheckEvent] to the stream.
   bool handleAuthentication(Invocation invocation) {
-    final Map<String, dynamic> event =
-        jsonDecode(invocation.positionalArguments.first as String);
+    final Map<String, dynamic> event = jsonDecode(
+      invocation.positionalArguments.first as String,
+    );
 
     if (event['token'] != null) {
       wsStreamController.add(
@@ -65,9 +66,10 @@ class WsAuthenticationHelper {
             createdAt: DateTime.now(),
             custom: const {},
             type: 'health.check',
-          ).toJson(),
+          ),
         ),
       );
+
       return true;
     }
 
