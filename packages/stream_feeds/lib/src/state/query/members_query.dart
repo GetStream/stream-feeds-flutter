@@ -46,7 +46,7 @@ class MembersQuery with _$MembersQuery {
   ///
   /// Use [MembersFilterField] for type-safe field references.
   @override
-  final Filter<MembersFilterField>? filter;
+  final MembersFilter? filter;
 
   /// The sorting criteria for this query.
   ///
@@ -77,45 +77,58 @@ class MembersQuery with _$MembersQuery {
 
 // region Filter
 
+/// Represents a filtering operation for feed members.
+///
+/// See [MembersFilterField] for available fields to filter on.
+typedef MembersFilter = Filter<FeedMemberData>;
+
 /// Represents a field that can be used in feed members filtering.
 ///
 /// This extension type provides a type-safe way to specify which field should be used
 /// when creating filters for members queries.
-extension type const MembersFilterField(String _) implements FilterField {
+class MembersFilterField extends FilterField<FeedMemberData> {
+  /// Creates a new members filter field.
+  MembersFilterField(super.remote, super.value);
+
   /// Filter by the creation timestamp of the member.
   ///
   /// **Supported operators:** `.equal`, `.greaterThan`, `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`
-  static const createdAt = MembersFilterField('created_at');
+  static final createdAt = MembersFilterField(
+    'created_at',
+    (data) => data.createdAt,
+  );
 
   /// Filter by the role of the member in the feed.
   ///
   /// **Supported operators:** `.equal`, `.in`
-  static const role = MembersFilterField('role');
+  static final role = MembersFilterField(
+    'role',
+    (data) => data.role,
+  );
 
   /// Filter by the status of the member (e.g., "accepted", "pending").
   ///
   /// **Supported operators:** `.equal`, `.in`
-  static const status = MembersFilterField('status');
+  static final status = MembersFilterField(
+    'status',
+    (data) => data.status,
+  );
 
   /// Filter by the last update timestamp of the member.
   ///
   /// **Supported operators:** `.equal`, `.greaterThan`, `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`
-  static const updatedAt = MembersFilterField('updated_at');
+  static final updatedAt = MembersFilterField(
+    'updated_at',
+    (data) => data.updatedAt,
+  );
 
   /// Filter by the user ID of the member.
   ///
   /// **Supported operators:** `.equal`, `.in`
-  static const userId = MembersFilterField('user_id');
-
-  /// Filter by the feed ID that the member belongs to.
-  ///
-  /// **Supported operators:** `.equal`, `.in`
-  static const fid = MembersFilterField('fid');
-
-  /// Filter by whether the member is a request (true/false).
-  ///
-  /// **Supported operators:** `.equal`
-  static const request = MembersFilterField('request');
+  static final userId = MembersFilterField(
+    'user_id',
+    (data) => data.user.id,
+  );
 }
 
 // endregion
@@ -153,24 +166,29 @@ class MembersSort extends Sort<FeedMemberData> {
 /// This extension type provides specific fields for sorting feed member data.
 /// Each field corresponds to a property of the FeedMemberData model, allowing for flexible
 /// sorting options when querying members.
-extension type const MembersSortField(SortField<FeedMemberData> _)
-    implements SortField<FeedMemberData> {
+class MembersSortField extends SortField<FeedMemberData> {
+  /// Creates a new members sort field.
+  MembersSortField(super.remote, super.localValue);
+
   /// Sort by the creation timestamp of the member.
   /// This field allows sorting members by when they were added to the feed (newest/oldest first).
   static final createdAt = MembersSortField(
-    SortField('created_at', (data) => data.createdAt),
+    'created_at',
+    (data) => data.createdAt,
   );
 
   /// Sort by the last update timestamp of the member.
   /// This field allows sorting members by when they were last updated (newest/oldest first).
   static final updatedAt = MembersSortField(
-    SortField('updated_at', (data) => data.updatedAt),
+    'updated_at',
+    (data) => data.updatedAt,
   );
 
   /// Sort by the user ID of the member.
   /// This field allows sorting members alphabetically by user ID.
   static final userId = MembersSortField(
-    SortField('user_id', (data) => data.user.id),
+    'user_id',
+    (data) => data.user.id,
   );
 }
 

@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:stream_core/stream_core.dart';
 
 import '../../generated/api/models.dart' as api;
+import '../../models/comment_data.dart';
 import '../../utils/filter.dart';
 
 part 'comments_query.freezed.dart';
@@ -38,7 +39,7 @@ class CommentsQuery with _$CommentsQuery {
   ///
   /// Use [CommentsFilterField] for type-safe field references.
   @override
-  final Filter<CommentsFilterField>? filter;
+  final CommentsFilter? filter;
 
   /// The sorting strategy for this query.
   ///
@@ -67,80 +68,130 @@ class CommentsQuery with _$CommentsQuery {
 
 // region Filter
 
+/// Represents filtering options for comments queries.
+///
+/// See [CommentsFilterField] for available fields to filter on.
+typedef CommentsFilter = Filter<CommentData>;
+
 /// Represents a field that can be used in comments filtering.
 ///
 /// This extension type provides a type-safe way to specify which field should be used
 /// when creating filters for comments queries.
-extension type const CommentsFilterField(String _) implements FilterField {
+class CommentsFilterField extends FilterField<CommentData> {
+  /// Creates a new comments filter field.
+  CommentsFilterField(super.remote, super.value);
+
   /// Filter by the unique identifier of the comment.
   ///
   /// **Supported operators:** `.equal`, `.in`
-  static const id = CommentsFilterField('id');
+  static final id = CommentsFilterField(
+    'id',
+    (data) => data.id,
+  );
 
   /// Filter by the user ID who created the comment.
   ///
   /// **Supported operators:** `.equal`, `.in`
-  static const userId = CommentsFilterField('user_id');
+  static final userId = CommentsFilterField(
+    'user_id',
+    (data) => data.user.id,
+  );
 
   /// Filter by the type of object the comment belongs to (e.g., "activity", "post").
   ///
   /// **Supported operators:** `.equal`, `.notEqual`, `.in`
-  static const objectType = CommentsFilterField('object_type');
+  static final objectType = CommentsFilterField(
+    'object_type',
+    (data) => data.objectType,
+  );
 
   /// Filter by the ID of the object the comment belongs to.
   ///
   /// **Supported operators:** `.equal`, `.in`
-  static const objectId = CommentsFilterField('object_id');
+  static final objectId = CommentsFilterField(
+    'object_id',
+    (data) => data.objectId,
+  );
 
   /// Filter by the ID of the parent comment (for replies).
   ///
   /// **Supported operators:** `.equal`, `.in`
-  static const parentId = CommentsFilterField('parent_id');
+  static final parentId = CommentsFilterField(
+    'parent_id',
+    (data) => data.parentId,
+  );
 
   /// Filter by the text content of the comment.
   ///
   /// **Supported operators:** `.q` (full-text search)
-  static const commentText = CommentsFilterField('comment_text');
+  static final commentText = CommentsFilterField(
+    'comment_text',
+    (data) => data.text,
+  );
 
   /// Filter by the status of the comment (e.g., "active", "deleted", "moderated").
   ///
   /// **Supported operators:** `.equal`, `.in`
-  static const status = CommentsFilterField('status');
+  static final status = CommentsFilterField(
+    'status',
+    (data) => data.status,
+  );
 
   /// Filter by the number of upvotes the comment has received.
   ///
   /// **Supported operators:** `.greaterThan`, `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`
-  static const upvoteCount = CommentsFilterField('upvote_count');
+  static final upvoteCount = CommentsFilterField(
+    'upvote_count',
+    (data) => data.upvoteCount,
+  );
 
   /// Filter by the number of downvotes the comment has received.
   ///
   /// **Supported operators:** `.greaterThan`, `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`
-  static const downvoteCount = CommentsFilterField('downvote_count');
+  static final downvoteCount = CommentsFilterField(
+    'downvote_count',
+    (data) => data.downvoteCount,
+  );
 
   /// Filter by the number of replies the comment has received.
   ///
   /// **Supported operators:** `.greaterThan`, `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`
-  static const replyCount = CommentsFilterField('reply_count');
+  static final replyCount = CommentsFilterField(
+    'reply_count',
+    (data) => data.replyCount,
+  );
 
   /// Filter by the score of the comment.
   ///
   /// **Supported operators:** `.greaterThan`, `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`
-  static const score = CommentsFilterField('score');
+  static final score = CommentsFilterField(
+    'score',
+    (data) => data.score,
+  );
 
   /// Filter by the confidence score of the comment.
   ///
   /// **Supported operators:** `.greaterThan`, `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`
-  static const confidenceScore = CommentsFilterField('confidence_score');
+  static final confidenceScore = CommentsFilterField(
+    'confidence_score',
+    (data) => data.confidenceScore,
+  );
 
   /// Filter by the controversy score of the comment.
   ///
   /// **Supported operators:** `.greaterThan`, `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`
-  static const controversyScore = CommentsFilterField('controversy_score');
+  static final controversyScore = CommentsFilterField(
+    'controversy_score',
+    (data) => data.controversyScore,
+  );
 
   /// Filter by the creation timestamp of the comment.
   ///
   /// **Supported operators:** `.equal`, `.greaterThan`, `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`
-  static const createdAt = CommentsFilterField('created_at');
+  static final createdAt = CommentsFilterField(
+    'created_at',
+    (data) => data.createdAt,
+  );
 }
 
 // endregion
@@ -157,26 +208,32 @@ abstract interface class CommentsSortDataFields {
   int get score;
 }
 
-extension type const CommentsSortField(SortField<CommentsSortDataFields> _)
-    implements SortField<CommentsSortDataFields> {
+class CommentsSortField extends SortField<CommentsSortDataFields> {
+  /// Creates a new comments sort field.
+  CommentsSortField(super.remote, super.localValue);
+
   /// Sort by the score of the comment.
   static final score = CommentsSortField(
-    SortField('score', (data) => data.score),
+    'score',
+    (data) => data.score,
   );
 
   /// Sort by the confidence score of the comment.
   static final confidenceScore = CommentsSortField(
-    SortField('confidence_score', (data) => data.confidenceScore),
+    'confidence_score',
+    (data) => data.confidenceScore,
   );
 
   /// Sort by the controversy score of the comment.
   static final controversyScore = CommentsSortField(
-    SortField('controversy_score', (data) => data.controversyScore),
+    'controversy_score',
+    (data) => data.controversyScore,
   );
 
   /// Sort by the creation timestamp of the comment.
   static final createdAt = CommentsSortField(
-    SortField('created_at', (data) => data.createdAt),
+    'created_at',
+    (data) => data.createdAt,
   );
 }
 

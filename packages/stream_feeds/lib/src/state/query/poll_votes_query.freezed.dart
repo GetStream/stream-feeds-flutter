@@ -17,7 +17,7 @@ T _$identity<T>(T value) => value;
 mixin _$PollVotesQuery {
   String get pollId;
   String? get userId;
-  Filter<PollVotesFilterField>? get filter;
+  PollVotesFilter? get filter;
   List<PollVotesSort>? get sort;
   int? get limit;
   String? get next;
@@ -65,7 +65,7 @@ abstract mixin class $PollVotesQueryCopyWith<$Res> {
   $Res call(
       {String pollId,
       String? userId,
-      Filter<PollVotesFilterField>? filter,
+      Filter<PollVoteData>? filter,
       List<PollVotesSort>? sort,
       int? limit,
       String? next,
@@ -105,7 +105,7 @@ class _$PollVotesQueryCopyWithImpl<$Res>
       filter: freezed == filter
           ? _self.filter
           : filter // ignore: cast_nullable_to_non_nullable
-              as Filter<PollVotesFilterField>?,
+              as Filter<PollVoteData>?,
       sort: freezed == sort
           ? _self.sort
           : sort // ignore: cast_nullable_to_non_nullable

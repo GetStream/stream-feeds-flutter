@@ -132,7 +132,7 @@ Future<void> deletePollOption() async {
 Future<void> queryingVotes() async {
   // Retrieve all votes on either option1Id or option2Id
   final pollVoteList = client.pollVoteList(
-    const PollVotesQuery(
+    PollVotesQuery(
       pollId: 'poll_456',
       filter: Filter.in_(
         PollVotesFilterField.optionId,
@@ -148,7 +148,7 @@ Future<void> queryingVotes() async {
 Future<void> queryingPolls() async {
   // Retrieve all polls that are closed for voting sorted by created_at
   final pollList = client.pollList(
-    const PollsQuery(
+    PollsQuery(
       filter: Filter.equal(PollsFilterField.isClosed, true),
     ),
   );

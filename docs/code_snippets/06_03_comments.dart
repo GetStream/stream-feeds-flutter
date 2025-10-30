@@ -54,7 +54,7 @@ Future<void> readingComments() async {
 Future<void> queryingComments() async {
   // Search in comment texts
   final list1 = client.commentList(
-    const CommentsQuery(
+    CommentsQuery(
       filter: Filter.query(CommentsFilterField.commentText, 'oat'),
     ),
   );
@@ -62,7 +62,7 @@ Future<void> queryingComments() async {
 
   // All comments for an activity
   final list2 = client.commentList(
-    const CommentsQuery(
+    CommentsQuery(
       filter: Filter.and([
         Filter.equal(CommentsFilterField.objectId, 'activity_123'),
         Filter.equal(CommentsFilterField.objectType, 'activity'),
@@ -73,7 +73,7 @@ Future<void> queryingComments() async {
 
   // Replies to a parent activity
   final list3 = client.commentList(
-    const CommentsQuery(
+    CommentsQuery(
       filter: Filter.equal(CommentsFilterField.parentId, 'parent_id'),
     ),
   );
@@ -81,7 +81,7 @@ Future<void> queryingComments() async {
 
   // Comments from an user
   final list4 = client.commentList(
-    const CommentsQuery(
+    CommentsQuery(
       filter: Filter.equal(CommentsFilterField.userId, 'jane'),
     ),
   );

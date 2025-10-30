@@ -32,7 +32,11 @@ class FollowList with Disposable {
     );
 
     // Attach event handlers for real-time updates
-    final handler = FollowListEventHandler(state: _stateNotifier);
+    final handler = FollowListEventHandler(
+      query: query,
+      state: _stateNotifier,
+    );
+
     _eventsSubscription = eventsEmitter.listen(handler.handleEvent);
   }
 

@@ -32,7 +32,11 @@ class PollList with Disposable {
     );
 
     // Attach event handlers for real-time updates
-    final handler = PollListEventHandler(state: _stateNotifier);
+    final handler = PollListEventHandler(
+      query: query,
+      state: _stateNotifier,
+    );
+
     _eventsSubscription = eventsEmitter.listen(handler.handleEvent);
   }
 

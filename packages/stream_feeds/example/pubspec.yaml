@@ -1,0 +1,22 @@
+name: example
+description: "Example for the Stream Feeds SDK"
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.6.2
+
+dependencies:
+  collection: ^1.18.0
+  flutter:
+    sdk: flutter
+  flutter_state_notifier: ^1.0.0
+  stream_feeds: ^0.3.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true

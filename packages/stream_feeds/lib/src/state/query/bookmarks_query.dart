@@ -38,7 +38,7 @@ class BookmarksQuery with _$BookmarksQuery {
   ///
   /// Use [BookmarksFilterField] for type-safe field references.
   @override
-  final Filter<BookmarksFilterField>? filter;
+  final BookmarksFilter? filter;
 
   /// The sorting criteria for this query.
   ///
@@ -69,35 +69,58 @@ class BookmarksQuery with _$BookmarksQuery {
 
 // region Filter
 
+/// Represents a filtering operation for bookmarks.
+///
+/// See [BookmarksFilterField] for available fields to filter on.
+typedef BookmarksFilter = Filter<BookmarkData>;
+
 /// Represents a field that can be used in bookmarks filtering.
 ///
 /// This extension type provides a type-safe way to specify which field should be used
 /// when creating filters for bookmarks queries.
-extension type const BookmarksFilterField(String _) implements FilterField {
+class BookmarksFilterField extends FilterField<BookmarkData> {
+  /// Creates a new bookmarks filter field.
+  BookmarksFilterField(super.remote, super.value);
+
   /// Filter by the unique identifier of the activity that was bookmarked.
   ///
   /// **Supported operators:** `.equal`, `.in`
-  static const activityId = BookmarksFilterField('activity_id');
+  static final activityId = BookmarksFilterField(
+    'activity_id',
+    (data) => data.activity.id,
+  );
 
   /// Filter by the unique identifier of the bookmark folder.
   ///
   /// **Supported operators:** `.equal`, `.in`, `.exists`
-  static const folderId = BookmarksFilterField('folder_id');
+  static final folderId = BookmarksFilterField(
+    'folder_id',
+    (data) => data.folder?.id,
+  );
 
   /// Filter by the user ID who created the bookmark.
   ///
   /// **Supported operators:** `.equal`, `.in`
-  static const userId = BookmarksFilterField('user_id');
+  static final userId = BookmarksFilterField(
+    'user_id',
+    (data) => data.user.id,
+  );
 
   /// Filter by the creation timestamp of the bookmark.
   ///
   /// **Supported operators:** `.equal`, `.greaterThan`, `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`
-  static const createdAt = BookmarksFilterField('created_at');
+  static final createdAt = BookmarksFilterField(
+    'created_at',
+    (data) => data.createdAt,
+  );
 
   /// Filter by the last update timestamp of the bookmark.
   ///
   /// **Supported operators:** `.equal`, `.greaterThan`, `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`
-  static const updatedAt = BookmarksFilterField('updated_at');
+  static final updatedAt = BookmarksFilterField(
+    'updated_at',
+    (data) => data.updatedAt,
+  );
 }
 
 // endregion
@@ -126,18 +149,22 @@ class BookmarksSort extends Sort<BookmarkData> {
 /// Defines the fields by which bookmarks can be sorted.
 ///
 /// This extension type provides specific fields for sorting bookmark data.
-extension type const BookmarksSortField(SortField<BookmarkData> _)
-    implements SortField<BookmarkData> {
+class BookmarksSortField extends SortField<BookmarkData> {
+  /// Creates a new bookmarks sort field.
+  BookmarksSortField(super.remote, super.localValue);
+
   /// Sort by the creation timestamp of the bookmark.
   /// This field allows sorting bookmarks by when they were created (newest/oldest first).
   static final createdAt = BookmarksSortField(
-    SortField('created_at', (data) => data.createdAt),
+    'created_at',
+    (data) => data.createdAt,
   );
 
   /// Sort by the last update timestamp of the bookmark.
   /// This field allows sorting bookmarks by when they were last updated (newest/oldest first).
   static final updatedAt = BookmarksSortField(
-    SortField('updated_at', (data) => data.updatedAt),
+    'updated_at',
+    (data) => data.updatedAt,
   );
 }
 

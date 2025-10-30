@@ -24,15 +24,15 @@ class ActivityListStateNotifier extends StateNotifier<ActivityListState> {
 
   final String currentUserId;
 
-  QueryConfiguration<ActivitiesSort, ActivitiesFilterField>? _queryConfig;
-  List<ActivitiesSort> get activitiesSort {
+  QueryConfiguration<ActivityData>? _queryConfig;
+  List<Sort<ActivityData>> get activitiesSort {
     return _queryConfig?.sort ?? ActivitiesSort.defaultSort;
   }
 
   /// Handles the result of a query for more activities.
   void onQueryMoreActivities(
     PaginationResult<ActivityData> result,
-    QueryConfiguration<ActivitiesSort, ActivitiesFilterField> queryConfig,
+    QueryConfiguration<ActivityData> queryConfig,
   ) {
     _queryConfig = queryConfig;
 

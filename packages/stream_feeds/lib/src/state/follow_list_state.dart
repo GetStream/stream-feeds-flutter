@@ -18,15 +18,15 @@ class FollowListStateNotifier extends StateNotifier<FollowListState> {
     required FollowListState initialState,
   }) : super(initialState);
 
-  QueryConfiguration<FollowsSort, FollowsFilterField>? queryConfig;
-  List<FollowsSort> get followsSort {
+  QueryConfiguration<FollowData>? queryConfig;
+  List<Sort<FollowData>> get followsSort {
     return queryConfig?.sort ?? FollowsSort.defaultSort;
   }
 
   /// Handles the result of a query for more follows.
   void onQueryMoreFollows(
     PaginationResult<FollowData> result,
-    QueryConfiguration<FollowsSort, FollowsFilterField> queryConfig,
+    QueryConfiguration<FollowData> queryConfig,
   ) {
     this.queryConfig = queryConfig;
 
@@ -48,6 +48,15 @@ class FollowListStateNotifier extends StateNotifier<FollowListState> {
     final updatedFollows = state.follows.map((it) {
       if (it.id != follow.id) return it;
       return follow;
+    }).toList();
+
+    state = state.copyWith(follows: updatedFollows);
+  }
+
+  /// Handles the removal of a follow by ID.
+  void onFollowRemoved(String followId) {
+    final updatedFollows = state.follows.where((it) {
+      return it.id != followId;
     }).toList();
 
     state = state.copyWith(follows: updatedFollows);

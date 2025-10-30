@@ -51,7 +51,7 @@ class PollVotesQuery with _$PollVotesQuery {
   ///
   /// Use [PollVotesFilterField] for type-safe field references.
   @override
-  final Filter<PollVotesFilterField>? filter;
+  final PollVotesFilter? filter;
 
   /// Array of sorting criteria for this query.
   ///
@@ -77,45 +77,74 @@ class PollVotesQuery with _$PollVotesQuery {
 
 // region Filter
 
+/// Represents filtering options for poll votes.
+///
+/// See [PollVotesFilterField] for available fields to filter on.
+typedef PollVotesFilter = Filter<PollVoteData>;
+
 /// Represents a field that can be used in poll votes filtering.
 ///
 /// This extension type provides a type-safe way to specify which field should be used
 /// when creating filters for poll votes queries.
-extension type const PollVotesFilterField(String _) implements FilterField {
+class PollVotesFilterField extends FilterField<PollVoteData> {
+  /// Creates a new poll votes filter field.
+  PollVotesFilterField(super.remote, super.value);
+
   /// Filter by the creation timestamp of the poll vote.
   ///
   /// **Supported operators:** `.equal`, `.greaterThan`, `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`
-  static const createdAt = PollVotesFilterField('created_at');
+  static final createdAt = PollVotesFilterField(
+    'created_at',
+    (data) => data.createdAt,
+  );
 
   /// Filter by the unique identifier of the poll vote.
   ///
   /// **Supported operators:** `.equal`, `.in`
-  static const id = PollVotesFilterField('id');
+  static final id = PollVotesFilterField(
+    'id',
+    (data) => data.id,
+  );
 
   /// Filter by whether the vote is an answer (true/false).
   ///
   /// **Supported operators:** `.equal`
-  static const isAnswer = PollVotesFilterField('is_answer');
+  static final isAnswer = PollVotesFilterField(
+    'is_answer',
+    (data) => data.isAnswer,
+  );
 
   /// Filter by the option ID that was voted for.
   ///
   /// **Supported operators:** `.equal`, `.in`, `.exists`
-  static const optionId = PollVotesFilterField('option_id');
+  static final optionId = PollVotesFilterField(
+    'option_id',
+    (data) => data.optionId,
+  );
 
   /// Filter by the user ID who cast the vote.
   ///
   /// **Supported operators:** `.equal`, `.in`
-  static const userId = PollVotesFilterField('user_id');
+  static final userId = PollVotesFilterField(
+    'user_id',
+    (data) => data.userId,
+  );
 
   /// Filter by the poll ID that the vote belongs to.
   ///
   /// **Supported operators:** `.equal`, `.in`
-  static const pollId = PollVotesFilterField('poll_id');
+  static final pollId = PollVotesFilterField(
+    'poll_id',
+    (data) => data.pollId,
+  );
 
   /// Filter by the last update timestamp of the poll vote.
   ///
   /// **Supported operators:** `.equal`, `.greaterThan`, `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`
-  static const updatedAt = PollVotesFilterField('updated_at');
+  static final updatedAt = PollVotesFilterField(
+    'updated_at',
+    (data) => data.updatedAt,
+  );
 }
 
 // endregion
@@ -144,30 +173,36 @@ class PollVotesSort extends Sort<PollVoteData> {
 /// Defines the fields by which poll votes can be sorted.
 ///
 /// This extension type provides specific fields for sorting poll vote data.
-extension type const PollVotesSortField(SortField<PollVoteData> _)
-    implements SortField<PollVoteData> {
+class PollVotesSortField extends SortField<PollVoteData> {
+  /// Creates a new poll votes sort field.
+  PollVotesSortField(super.remote, super.localValue);
+
   /// Sort by the answer text of the poll option.
   /// This field allows sorting poll votes by the text content of the selected option.
   static final answerText = PollVotesSortField(
-    SortField('answer_text', (data) => data.answerText ?? ''),
+    'answer_text',
+    (data) => data.answerText ?? '',
   );
 
   /// Sort by the unique identifier of the poll vote.
   /// This field allows sorting poll votes by their unique ID.
   static final id = PollVotesSortField(
-    SortField('id', (data) => data.id),
+    'id',
+    (data) => data.id,
   );
 
   /// Sort by the creation timestamp of the poll vote.
   /// This field allows sorting poll votes by when they were created (newest/oldest first).
   static final createdAt = PollVotesSortField(
-    SortField('created_at', (data) => data.createdAt),
+    'created_at',
+    (data) => data.createdAt,
   );
 
   /// Sort by the last update timestamp of the poll vote.
   /// This field allows sorting poll votes by when they were last updated (newest/oldest first).
   static final updatedAt = PollVotesSortField(
-    SortField('updated_at', (data) => data.updatedAt),
+    'updated_at',
+    (data) => data.updatedAt,
   );
 }
 

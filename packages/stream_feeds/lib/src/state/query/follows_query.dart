@@ -43,7 +43,7 @@ class FollowsQuery with _$FollowsQuery {
   ///
   /// Use [FollowsFilterField] for type-safe field references.
   @override
-  final Filter<FollowsFilterField>? filter;
+  final FollowsFilter? filter;
 
   /// Array of sorting criteria for this query.
   ///
@@ -78,30 +78,50 @@ class FollowsQuery with _$FollowsQuery {
 
 // region Filter
 
+/// Represents a filtering operation for follows.
+///
+/// See [FollowsFilterField] for available fields to filter on.
+typedef FollowsFilter = Filter<FollowData>;
+
 /// Represents a field that can be used in follows filtering.
 ///
 /// This extension type provides a type-safe way to specify which field should be used
 /// when creating filters for follows queries.
-extension type const FollowsFilterField(String _) implements FilterField {
+class FollowsFilterField extends FilterField<FollowData> {
+  /// Creates a new follows filter field.
+  FollowsFilterField(super.remote, super.value);
+
   /// Filter by the source feed ID (the feed that is following).
   ///
   /// **Supported operators:** `.equal`, `.in`
-  static const sourceFeed = FollowsFilterField('source_feed');
+  static final sourceFeed = FollowsFilterField(
+    'source_feed',
+    (data) => data.sourceFeed.fid.rawValue,
+  );
 
   /// Filter by the target feed ID (the feed being followed).
   ///
   /// **Supported operators:** `.equal`, `.in`
-  static const targetFeed = FollowsFilterField('target_feed');
+  static final targetFeed = FollowsFilterField(
+    'target_feed',
+    (data) => data.targetFeed.fid.rawValue,
+  );
 
   /// Filter by the status of the follow relationship (e.g., "accepted", "pending").
   ///
   /// **Supported operators:** `.equal`, `.in`
-  static const status = FollowsFilterField('status');
+  static final status = FollowsFilterField(
+    'status',
+    (data) => data.status,
+  );
 
   /// Filter by the creation timestamp of the follow relationship.
   ///
   /// **Supported operators:** `.equal`, `.greaterThan`, `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`
-  static const createdAt = FollowsFilterField('created_at');
+  static final createdAt = FollowsFilterField(
+    'created_at',
+    (data) => data.createdAt,
+  );
 }
 
 // endregion
@@ -130,12 +150,15 @@ class FollowsSort extends Sort<FollowData> {
 /// Defines the fields by which follows can be sorted.
 ///
 /// This extension type provides specific fields for sorting follow data.
-extension type const FollowsSortField(SortField<FollowData> _)
-    implements SortField<FollowData> {
+class FollowsSortField extends SortField<FollowData> {
+  /// Creates a new follows sort field.
+  FollowsSortField(super.remote, super.localValue);
+
   /// Sort by the creation timestamp of the follow relationship.
   /// This field allows sorting follows by when they were created (newest/oldest first).
   static final createdAt = FollowsSortField(
-    SortField('created_at', (data) => data.createdAt),
+    'created_at',
+    (data) => data.createdAt,
   );
 }
 

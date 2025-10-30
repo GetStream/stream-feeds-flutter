@@ -34,8 +34,8 @@ Future<void> readingAFeed() async {
 }
 
 Future<void> readingAFeedMoreOptions() async {
-  const query = FeedQuery(
-    fid: FeedId(group: 'user', id: 'john'),
+  final query = FeedQuery(
+    fid: const FeedId.user('john'),
     // filter activities with filter tag green
     activityFilter: Filter.in_(
       ActivitiesFilterField.filterTags,
@@ -106,7 +106,7 @@ Future<void> filteringExamples() async {
     ],
   );
   // Now read the feed, this will fetch activity 1 and 2
-  const query = FeedQuery(
+  final query = FeedQuery(
     fid: feedId,
     activityFilter: Filter.in_(ActivitiesFilterField.filterTags, ['blue']),
   );
@@ -119,8 +119,8 @@ Future<void> filteringExamples() async {
 
 Future<void> moreComplexFilterExamples() async {
   // Get all the activities where filter tags contain both "green" and "orange"
-  const query = FeedQuery(
-    fid: FeedId(group: 'user', id: 'john'),
+  final query = FeedQuery(
+    fid: const FeedId.user('john'),
     activityFilter: Filter.and([
       Filter.in_(ActivitiesFilterField.filterTags, ['green']),
       Filter.in_(ActivitiesFilterField.filterTags, ['orange']),
@@ -190,7 +190,7 @@ Future<void> memberInvites() async {
 
 Future<void> queryMyFeeds() async {
   final query = FeedsQuery(
-    filter: const Filter.equal(FeedsFilterField.createdById, 'john'),
+    filter: Filter.equal(FeedsFilterField.createdById, 'john'),
     sort: [FeedsSort.desc(FeedsSortField.createdAt)],
     limit: 10,
     watch: true,
@@ -208,7 +208,7 @@ Future<void> queryMyFeeds() async {
 }
 
 Future<void> queryFeedsWhereIAmAMember() async {
-  const query = FeedsQuery(
+  final query = FeedsQuery(
     filter: Filter.contains(FeedsFilterField.members, 'john'),
   );
   final feedList = client.feedList(query);
@@ -216,7 +216,7 @@ Future<void> queryFeedsWhereIAmAMember() async {
 }
 
 Future<void> queryFeedsByNameOrVisibility() async {
-  const sportsQuery = FeedsQuery(
+  final sportsQuery = FeedsQuery(
     filter: Filter.and([
       Filter.equal(FeedsFilterField.visibility, 'public'),
       Filter.query(FeedsFilterField.name, 'Sports'),
@@ -226,7 +226,7 @@ Future<void> queryFeedsByNameOrVisibility() async {
   final sportsFeedList = client.feedList(sportsQuery);
   final sportsFeeds = await sportsFeedList.get();
 
-  const techQuery = FeedsQuery(
+  final techQuery = FeedsQuery(
     filter: Filter.and([
       Filter.equal(FeedsFilterField.visibility, 'public'),
       Filter.autoComplete(FeedsFilterField.description, 'tech'),
@@ -238,7 +238,7 @@ Future<void> queryFeedsByNameOrVisibility() async {
 }
 
 Future<void> queryFeedsByCreatorName() async {
-  const query = FeedsQuery(
+  final query = FeedsQuery(
     filter: Filter.and([
       Filter.equal(FeedsFilterField.visibility, 'public'),
       Filter.query(FeedsFilterField.createdByName, 'Thompson'),

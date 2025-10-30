@@ -1,7 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../generated/api/models.dart';
-import '../state/query/activities_query.dart';
 import 'activity_data.dart';
 import 'activity_pin_data.dart';
 import 'aggregated_activity_data.dart';
@@ -43,8 +42,7 @@ class GetOrCreateFeedData with _$GetOrCreateFeedData {
 
   /// The configuration used to query activities.
   @override
-  final QueryConfiguration<ActivitiesSort, ActivitiesFilterField>
-      activitiesQueryConfig;
+  final QueryConfiguration<ActivityData> activitiesQueryConfig;
 
   /// The feed data associated with the feed.
   @override

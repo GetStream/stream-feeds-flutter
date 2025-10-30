@@ -22,7 +22,7 @@ Future<void> followsAndUnfollows() async {
 Future<void> queryFollows() async {
   // Do I follow a list of feeds
   // My feed is timeline:john
-  const followQuery = FollowsQuery(
+  final followQuery = FollowsQuery(
     filter: Filter.and([
       Filter.equal(FollowsFilterField.sourceFeed, 'timeline:john'),
       Filter.in_(FollowsFilterField.targetFeed, ['user:sara', 'user:adam']),
@@ -34,7 +34,7 @@ Future<void> queryFollows() async {
   final page1And2 = followList.state.follows;
   // Paginating through followers for a feed
   // My feed is timeline:john
-  const followerQuery = FollowsQuery(
+  final followerQuery = FollowsQuery(
     filter: Filter.equal(FollowsFilterField.targetFeed, 'timeline:john'),
   );
   final followerList = client.followList(followerQuery);

@@ -32,7 +32,11 @@ class BookmarkList with Disposable {
     );
 
     // Attach event handlers for real-time updates
-    final handler = BookmarkListEventHandler(state: _stateNotifier);
+    final handler = BookmarkListEventHandler(
+      query: query,
+      state: _stateNotifier,
+    );
+
     _eventsSubscription = eventsEmitter.listen(handler.handleEvent);
   }
 

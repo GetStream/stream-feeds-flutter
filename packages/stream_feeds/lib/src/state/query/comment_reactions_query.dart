@@ -48,7 +48,7 @@ class CommentReactionsQuery with _$CommentReactionsQuery {
   ///
   /// Use [CommentReactionsFilterField] for type-safe field references.
   @override
-  final Filter<CommentReactionsFilterField>? filter;
+  final CommentReactionsFilter? filter;
 
   /// Array of sorting criteria for this query.
   ///
@@ -74,26 +74,42 @@ class CommentReactionsQuery with _$CommentReactionsQuery {
 
 // region Filter
 
+/// Represents a filtering operation for comment reactions.
+///
+/// See [CommentReactionsFilterField] for available fields to filter on.
+typedef CommentReactionsFilter = Filter<FeedsReactionData>;
+
 /// Represents a field that can be used in comment reactions filtering.
 ///
 /// This extension type provides a type-safe way to specify which field should be used
 /// when creating filters for comment reactions queries.
-extension type const CommentReactionsFilterField(String _)
-    implements FilterField {
+class CommentReactionsFilterField extends FilterField<FeedsReactionData> {
+  /// Creates a new comment reactions filter field.
+  CommentReactionsFilterField(super.remote, super.value);
+
   /// Filter by the reaction type (e.g., "like", "love", "angry").
   ///
   /// **Supported operators:** `.equal`, `.in`
-  static const reactionType = CommentReactionsFilterField('reaction_type');
+  static final reactionType = CommentReactionsFilterField(
+    'reaction_type',
+    (data) => data.type,
+  );
 
   /// Filter by the user ID who created the reaction.
   ///
   /// **Supported operators:** `.equal`, `.in`
-  static const userId = CommentReactionsFilterField('user_id');
+  static final userId = CommentReactionsFilterField(
+    'user_id',
+    (data) => data.user.id,
+  );
 
   /// Filter by the creation timestamp of the reaction.
   ///
   /// **Supported operators:** `.equal`, `.greaterThan`, `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`
-  static const createdAt = CommentReactionsFilterField('created_at');
+  static final createdAt = CommentReactionsFilterField(
+    'created_at',
+    (data) => data.createdAt,
+  );
 }
 
 // endregion
@@ -122,12 +138,15 @@ class CommentReactionsSort extends Sort<FeedsReactionData> {
 /// Defines the fields by which comment reactions can be sorted.
 ///
 /// This extension type provides specific fields for sorting comment reaction data.
-extension type const CommentReactionsSortField(SortField<FeedsReactionData> _)
-    implements SortField<FeedsReactionData> {
+class CommentReactionsSortField extends SortField<FeedsReactionData> {
+  /// Creates a new comment reactions sort field.
+  CommentReactionsSortField(super.remote, super.localValue);
+
   /// Sort by the creation timestamp of the reaction.
   /// This field allows sorting reactions by when they were created (newest/oldest first).
   static final createdAt = CommentReactionsSortField(
-    SortField('created_at', (data) => data.createdAt),
+    'created_at',
+    (data) => data.createdAt,
   );
 }
 

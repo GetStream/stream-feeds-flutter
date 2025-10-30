@@ -37,7 +37,7 @@ class FeedsQuery with _$FeedsQuery {
   ///
   /// Use [FeedsFilterField] for type-safe field references.
   @override
-  final Filter<FeedsFilterField>? filter;
+  final FeedsFilter? filter;
 
   /// The sorting criteria for this query.
   @override
@@ -62,100 +62,151 @@ class FeedsQuery with _$FeedsQuery {
 
 // region Filter
 
+/// Represents filtering options for feeds.
+///
+/// See [FeedsFilterField] for available fields to filter on.
+typedef FeedsFilter = Filter<FeedData>;
+
 /// Represents a field that can be used in feeds filtering.
 ///
 /// This type provides a type-safe way to specify which field should be used
 /// when creating filters for feeds queries.
-extension type const FeedsFilterField(String _) implements FilterField {
+class FeedsFilterField extends FilterField<FeedData> {
+  /// Creates a new feeds filter field.
+  FeedsFilterField(super.remote, super.value);
+
   /// Filter by the unique identifier of the feed.
   ///
   /// **Supported operators:** `.equal`, `.in`
-  static const id = FeedsFilterField('id');
+  static final id = FeedsFilterField(
+    'id',
+    (data) => data.id,
+  );
 
   /// Filter by the group ID of the feed.
   ///
   /// **Supported operators:** `.equal`, `.in`
-  static const groupId = FeedsFilterField('group_id');
+  static final groupId = FeedsFilterField(
+    'group_id',
+    (data) => data.groupId,
+  );
 
-  /// Filter by the feed ID (fid) of the feed.
+  /// Filter by the feed ID (feed) of the feed.
   ///
   /// **Supported operators:** `.equal`, `.in`
-  static const fid = FeedsFilterField('fid');
+  static final feed = FeedsFilterField(
+    'feed',
+    (data) => data.fid.rawValue,
+  );
 
   /// Filter by the creation timestamp of the feed.
   ///
   /// **Supported operators:** `.equal`, `.greaterThan`, `.lessThan`,
   /// `.greaterThanOrEqual`, `.lessThanOrEqual`
-  static const createdAt = FeedsFilterField('created_at');
+  static final createdAt = FeedsFilterField(
+    'created_at',
+    (data) => data.createdAt,
+  );
 
   /// Filter by the ID of the user who created the feed.
   ///
   /// **Supported operators:** `.equal`, `.in`
-  static const createdById = FeedsFilterField('created_by_id');
+  static final createdById = FeedsFilterField(
+    'created_by_id',
+    (data) => data.createdBy.id,
+  );
 
   /// Filter by the name of the user who created the feed.
   ///
   /// **Supported operators:** `.equal`, `.customQ`, `.customAutocomplete`
-  static const createdByName = FeedsFilterField('created_by.name');
+  static final createdByName = FeedsFilterField(
+    'created_by.name',
+    (data) => data.createdBy.name,
+  );
 
   /// Filter by the description of the feed.
   ///
   /// **Supported operators:** `.equal`, `.customQ`, `.customAutocomplete`
-  static const description = FeedsFilterField('description');
+  static final description = FeedsFilterField(
+    'description',
+    (data) => data.description,
+  );
 
   /// Filter by the number of followers the feed has.
   ///
   /// **Supported operators:** `.equal`, `.notEqual`, `.greaterThan`,
   /// `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`
-  static const followerCount = FeedsFilterField('follower_count');
+  static final followerCount = FeedsFilterField(
+    'follower_count',
+    (data) => data.followerCount,
+  );
 
   /// Filter by the number of feeds this feed is following.
   ///
   /// **Supported operators:** `.equal`, `.notEqual`, `.greaterThan`,
   /// `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`
-  static const followingCount = FeedsFilterField('following_count');
+  static final followingCount = FeedsFilterField(
+    'following_count',
+    (data) => data.followingCount,
+  );
 
   /// Filter by the number of members in the feed.
   ///
   /// **Supported operators:** `.equal`, `.notEqual`, `.greaterThan`,
   /// `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`
-  static const memberCount = FeedsFilterField('member_count');
+  static final memberCount = FeedsFilterField(
+    'member_count',
+    (data) => data.memberCount,
+  );
 
   /// Filter by specific members in the feed.
   ///
   /// **Supported operators:** `.in`
-  static const members = FeedsFilterField('members');
+  static final members = FeedsFilterField(
+    'members',
+    (data) => <String>[], // Local data unavailable
+  );
 
   /// Filter by the name of the feed.
   ///
   /// **Supported operators:** `.equal`, `.customQ`, `.customAutocomplete`
-  static const name = FeedsFilterField('name');
+  static final name = FeedsFilterField(
+    'name',
+    (data) => data.name,
+  );
 
   /// Filter by the last update timestamp of the feed.
   ///
   /// **Supported operators:** `.equal`, `.greaterThan`, `.lessThan`,
   /// `.greaterThanOrEqual`, `.lessThanOrEqual`
-  static const updatedAt = FeedsFilterField('updated_at');
+  static final updatedAt = FeedsFilterField(
+    'updated_at',
+    (data) => data.updatedAt,
+  );
 
   /// Filter by the visibility setting of the feed.
   ///
   /// **Supported operators:** `.equal`, `.in`
-  static const visibility = FeedsFilterField('visibility');
-
-  /// Filter by users that the feed is following.
-  ///
-  /// **Supported operators:** `.in`
-  static const followingUsers = FeedsFilterField('following_users');
+  static final visibility = FeedsFilterField(
+    'visibility',
+    (data) => data.visibility,
+  );
 
   /// Filter by feeds that this feed is following.
   ///
   /// **Supported operators:** `.in`
-  static const followingFeeds = FeedsFilterField('following_feeds');
+  static final followingFeeds = FeedsFilterField(
+    'following_feeds',
+    (data) => <String>[], // Local data unavailable
+  );
 
   /// Filter by filter tags associated with the feed.
   ///
   /// **Supported operators:** `.equal`, `.in`, `.customContains`
-  static const filterTags = FeedsFilterField('filter_tags');
+  static final filterTags = FeedsFilterField(
+    'filter_tags',
+    (data) => data.filterTags,
+  );
 }
 
 // endregion
@@ -189,40 +240,47 @@ class FeedsSort extends Sort<FeedData> {
 ///
 /// Each field corresponds to a property of the [FeedData] model, allowing for
 /// flexible sorting options when querying feeds.
-extension type const FeedsSortField(SortField<FeedData> _)
-    implements SortField<FeedData> {
+class FeedsSortField extends SortField<FeedData> {
+  /// Creates a new feeds sort field.
+  FeedsSortField(super.remote, super.localValue);
+
   /// Sort by the creation timestamp of the feed.
   ///
   /// Allows sorting feeds by when they were created (newest/oldest first).
   static final createdAt = FeedsSortField(
-    SortField('created_at', (data) => data.createdAt),
+    'created_at',
+    (data) => data.createdAt,
   );
 
   /// Sort by the update timestamp of the feed.
   ///
   /// Allows sorting feeds by when they were last updated (newest/oldest first).
   static final updatedAt = FeedsSortField(
-    SortField('updated_at', (data) => data.updatedAt),
+    'updated_at',
+    (data) => data.updatedAt,
   );
 
   /// Sort by the number of members in the feed.
   /// Allows sorting feeds by member count (most/least members).
   static final memberCount = FeedsSortField(
-    SortField('member_count', (data) => data.memberCount),
+    'member_count',
+    (data) => data.memberCount,
   );
 
   /// Sort by the number of followers the feed has.
   ///
   /// Allows sorting feeds by popularity (most/least followed).
   static final followerCount = FeedsSortField(
-    SortField('follower_count', (data) => data.followerCount),
+    'follower_count',
+    (data) => data.followerCount,
   );
 
   /// Sort by the number of feeds this feed is following.
   ///
   /// Allows sorting feeds by how many feeds they follow.
   static final followingCount = FeedsSortField(
-    SortField('following_count', (data) => data.followingCount),
+    'following_count',
+    (data) => data.followingCount,
   );
 }
 

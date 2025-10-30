@@ -18,13 +18,15 @@ class FeedListStateNotifier extends StateNotifier<FeedListState> {
     required FeedListState initialState,
   }) : super(initialState);
 
-  QueryConfiguration<FeedsSort, FeedsFilterField>? _queryConfig;
-  List<FeedsSort> get feedsSort => _queryConfig?.sort ?? FeedsSort.defaultSort;
+  QueryConfiguration<FeedData>? _queryConfig;
+  List<Sort<FeedData>> get feedsSort {
+    return _queryConfig?.sort ?? FeedsSort.defaultSort;
+  }
 
   /// Handles the result of a query for more feeds.
   void onQueryMoreFeeds(
     PaginationResult<FeedData> result,
-    QueryConfiguration<FeedsSort, FeedsFilterField> queryConfig,
+    QueryConfiguration<FeedData> queryConfig,
   ) {
     _queryConfig = queryConfig;
 
@@ -46,6 +48,15 @@ class FeedListStateNotifier extends StateNotifier<FeedListState> {
     final updatedFeeds = state.feeds.map((it) {
       if (it.fid.rawValue != feed.fid.rawValue) return it;
       return feed;
+    }).toList();
+
+    state = state.copyWith(feeds: updatedFeeds);
+  }
+
+  /// Handles the removal of a specific feed.
+  void onFeedRemoved(String feed) {
+    final updatedFeeds = state.feeds.where((it) {
+      return it.fid.rawValue != feed;
     }).toList();
 
     state = state.copyWith(feeds: updatedFeeds);

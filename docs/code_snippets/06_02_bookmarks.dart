@@ -49,14 +49,14 @@ Future<void> queryingBookmarks() async {
   final page2 = await bookmarkList.queryMoreBookmarks(limit: 3);
   // Query by activity ID
   final activityBookmarkList = client.bookmarkList(
-    const BookmarksQuery(
+    BookmarksQuery(
       filter: Filter.equal(BookmarksFilterField.activityId, 'activity_123'),
     ),
   );
   final activityBookmarks = await activityBookmarkList.get();
   // Query by folder ID
   final folderBookmarkList = client.bookmarkList(
-    const BookmarksQuery(
+    BookmarksQuery(
       filter: Filter.equal(BookmarksFilterField.folderId, 'folder_456'),
     ),
   );
@@ -72,8 +72,8 @@ Future<void> queryingBookmarkFolders() async {
   final page2 = await bookmarkFolderList.queryMoreBookmarkFolders(limit: 3);
   // Query by folder name (partial matching)
   final projectFolderList = client.bookmarkFolderList(
-    const BookmarkFoldersQuery(
-      filter: Filter.contains(BookmarkFoldersFilterField.name, 'project'),
+    BookmarkFoldersQuery(
+      filter: Filter.contains(BookmarkFoldersFilterField.folderName, 'project'),
     ),
   );
   final projectFolders = await projectFolderList.get();

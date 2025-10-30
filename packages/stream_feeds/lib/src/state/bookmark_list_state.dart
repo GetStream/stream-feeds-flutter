@@ -19,15 +19,15 @@ class BookmarkListStateNotifier extends StateNotifier<BookmarkListState> {
     required BookmarkListState initialState,
   }) : super(initialState);
 
-  QueryConfiguration<BookmarksSort, BookmarksFilterField>? _queryConfig;
-  List<BookmarksSort> get bookmarkSort {
+  QueryConfiguration<BookmarkData>? _queryConfig;
+  List<Sort<BookmarkData>> get bookmarkSort {
     return _queryConfig?.sort ?? BookmarksSort.defaultSort;
   }
 
   /// Handles the result of a query for more bookmarks.
   void onQueryMoreBookmarks(
     PaginationResult<BookmarkData> result,
-    QueryConfiguration<BookmarksSort, BookmarksFilterField> queryConfig,
+    QueryConfiguration<BookmarkData> queryConfig,
   ) {
     _queryConfig = queryConfig;
 
@@ -71,6 +71,15 @@ class BookmarkListStateNotifier extends StateNotifier<BookmarkListState> {
     final updatedBookmarks = state.bookmarks.map((it) {
       if (it.id != bookmark.id) return it;
       return bookmark;
+    }).toList();
+
+    state = state.copyWith(bookmarks: updatedBookmarks);
+  }
+
+  /// Handles the removal of a bookmark by ID.
+  void onBookmarkRemoved(String bookmarkId) {
+    final updatedBookmarks = state.bookmarks.where((it) {
+      return it.id != bookmarkId;
     }).toList();
 
     state = state.copyWith(bookmarks: updatedBookmarks);
