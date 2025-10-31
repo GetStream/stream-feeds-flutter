@@ -4,9 +4,11 @@ import '../../generated/api/models.dart' as api;
 import '../../models/feed_id.dart';
 import '../../models/poll_data.dart';
 import '../../models/poll_vote_data.dart';
+import '../../repository/capabilities_repository.dart';
 import '../../resolvers/poll/poll_answer_casted.dart';
 import '../../resolvers/poll/poll_answer_removed.dart';
 import '../activity_state.dart';
+import 'partial_activity_event_handler.dart';
 import 'state_event_handler.dart';
 
 /// Event handler for activity real-time updates.
@@ -14,16 +16,26 @@ import 'state_event_handler.dart';
 /// Processes WebSocket events related to polls and their associated voting
 /// and updates the activity state accordingly.
 class ActivityEventHandler implements StateEventHandler {
-  const ActivityEventHandler({
+  ActivityEventHandler({
     required this.fid,
     required this.state,
+    required this.capabilitiesRepository,
   });
 
   final FeedId fid;
   final ActivityStateNotifier state;
+  final CapabilitiesRepository capabilitiesRepository;
+
+  late final PartialActivityEventHandler _partialActivityEventHandler =
+      PartialActivityEventHandler(
+    state: state,
+    capabilitiesRepository: capabilitiesRepository,
+    fid: fid,
+  );
 
   @override
-  void handleEvent(WsEvent event) {
+  Future<void> handleEvent(WsEvent event) async {
+    if(await _partialActivityEventHandler.handleEvent(event)) return;
     if (event is api.PollClosedFeedEvent) {
       return state.onPollClosed(event.poll.toModel());
     }

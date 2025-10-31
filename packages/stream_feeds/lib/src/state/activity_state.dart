@@ -3,11 +3,16 @@ import 'package:state_notifier/state_notifier.dart';
 import 'package:stream_core/stream_core.dart';
 
 import '../models/activity_data.dart';
+import '../models/activity_pin_data.dart';
+import '../models/comment_data.dart';
+import '../models/feeds_reaction_data.dart';
+import '../models/mark_activity_data.dart';
 import '../models/pagination_data.dart';
 import '../models/poll_data.dart';
 import '../models/poll_vote_data.dart';
 import '../models/threaded_comment_data.dart';
 import 'activity_comment_list_state.dart';
+import 'event/partial_activity_event_handler.dart';
 
 part 'activity_state.freezed.dart';
 
@@ -15,7 +20,7 @@ part 'activity_state.freezed.dart';
 ///
 /// Provides methods to update the activity state in response to data changes
 /// and real-time events from the Stream Feeds API.
-class ActivityStateNotifier extends StateNotifier<ActivityState> {
+class ActivityStateNotifier extends StateNotifier<ActivityState> implements StateWithUpdatableActivity {
   ActivityStateNotifier({
     required ActivityState initialState,
     required this.currentUserId,
@@ -166,6 +171,41 @@ class ActivityStateNotifier extends StateNotifier<ActivityState> {
   void dispose() {
     _removeCommentListListener?.call();
     super.dispose();
+  }
+
+  @override
+  void onActivityMarked(MarkActivityData activityMark) {
+    // TODO: implement onActivityMarked
+  }
+
+  @override
+  void onActivityPinned(ActivityPinData activityPin) {
+    // TODO: implement onActivityPinned
+  }
+
+  @override
+  void onActivityUnpinned(String activityId) {
+    // TODO: implement onActivityUnpinned
+  }
+
+  @override
+  void onCommentAdded(CommentData comment) {
+    // TODO: implement onCommentAdded
+  }
+
+  @override
+  void onCommentRemoved(CommentData comment) {
+    // TODO: implement onCommentRemoved
+  }
+
+  @override
+  void onReactionAdded(FeedsReactionData reaction) {
+    // TODO: implement onReactionAdded
+  }
+
+  @override
+  void onReactionRemoved(FeedsReactionData reaction) {
+    // TODO: implement onReactionRemoved
   }
 }
 
