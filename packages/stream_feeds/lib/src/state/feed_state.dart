@@ -19,7 +19,11 @@ import '../models/follow_data.dart';
 import '../models/get_or_create_feed_data.dart';
 import '../models/mark_activity_data.dart';
 import '../models/pagination_data.dart';
+import '../models/poll_data.dart';
+import '../models/poll_vote_data.dart';
 import '../models/query_configuration.dart';
+import 'event/partial_activity_event_handler.dart';
+import 'event/partial_activity_list_event_handler.dart';
 import 'member_list_state.dart';
 import 'query/activities_query.dart';
 import 'query/feed_query.dart';
@@ -30,7 +34,8 @@ part 'feed_state.freezed.dart';
 ///
 /// Provides methods to update the feed state in response to data changes,
 /// user interactions, and real-time events from the Stream Feeds API.
-class FeedStateNotifier extends StateNotifier<FeedState> {
+class FeedStateNotifier extends StateNotifier<FeedState>
+    implements StateWithListOfActivities, StateWithUpdatableActivity {
   FeedStateNotifier({
     required FeedState initialState,
     required this.currentUserId,
@@ -481,6 +486,46 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
   void dispose() {
     _removeMemberListListener?.call();
     super.dispose();
+  }
+
+  @override
+  void onPollAnswerCasted(PollVoteData answer, PollData poll) {
+    // TODO: implement onPollAnswerCasted
+  }
+
+  @override
+  void onPollAnswerRemoved(PollVoteData vote, PollData poll) {
+    // TODO: implement onPollAnswerRemoved
+  }
+
+  @override
+  void onPollClosed(PollData poll) {
+    // TODO: implement onPollClosed
+  }
+
+  @override
+  void onPollDeleted(String pollId) {
+    // TODO: implement onPollDeleted
+  }
+
+  @override
+  void onPollUpdated(PollData poll) {
+    // TODO: implement onPollUpdated
+  }
+
+  @override
+  void onPollVoteCasted(PollVoteData vote, PollData poll) {
+    // TODO: implement onPollVoteCasted
+  }
+
+  @override
+  void onPollVoteChanged(PollVoteData vote, PollData poll) {
+    // TODO: implement onPollVoteChanged
+  }
+
+  @override
+  void onPollVoteRemoved(PollVoteData vote, PollData poll) {
+    // TODO: implement onPollVoteRemoved
   }
 }
 
