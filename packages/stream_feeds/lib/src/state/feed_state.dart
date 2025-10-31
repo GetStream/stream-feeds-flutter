@@ -98,7 +98,6 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
     final updatedAggregatedActivities = state.aggregatedActivities.merge(
       aggregatedActivities,
       key: (it) => it.group,
-      compare: (a, b) => a.group.compareTo(b.group),
     );
 
     state = state.copyWith(

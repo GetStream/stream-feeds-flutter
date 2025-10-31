@@ -25,9 +25,14 @@ class StoriesBar extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             mainAxisSize: MainAxisSize.min,
-            children: stories
-                .map((story) => _StoryItem(story, _onActivityWatched))
-                .toList(),
+            children: [
+              ...stories.map((story) => _StoryItem(story, _onActivityWatched)),
+              if (state.canLoadMoreActivities)
+                TextButton(
+                  onPressed: storiesFeed.queryMoreActivities,
+                  child: const Text('Load more'),
+                ),
+            ],
           ),
         );
       },
