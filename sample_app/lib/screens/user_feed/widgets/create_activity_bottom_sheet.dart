@@ -15,14 +15,18 @@ class CreateActivityBottomSheet extends StatefulWidget {
   const CreateActivityBottomSheet({
     super.key,
     required this.currentUser,
-    required this.feedId,
+    required this.userFeed,
+    required this.storyFeed,
   });
 
   /// The current user creating the activity.
   final User currentUser;
 
   /// The feed ID where the activity will be posted.
-  final FeedId feedId;
+  final FeedId userFeed;
+
+  /// The feed ID where the story will be posted.
+  final FeedId storyFeed;
 
   @override
   State<CreateActivityBottomSheet> createState() =>
@@ -35,6 +39,7 @@ class _CreateActivityBottomSheetState extends State<CreateActivityBottomSheet> {
   final List<StreamAttachment> _attachments = [];
 
   static const _maxCharacters = 280;
+  bool _isStory = false;
 
   @override
   void initState() {
@@ -158,6 +163,21 @@ class _CreateActivityBottomSheetState extends State<CreateActivityBottomSheet> {
                     ),
                   ),
                 ),
+
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    spacing: 8,
+                    children: [
+                      const Text('Is story?'),
+                      Switch.adaptive(
+                        value: _isStory,
+                        onChanged: (value) => setState(() => _isStory = value),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -188,9 +208,17 @@ class _CreateActivityBottomSheetState extends State<CreateActivityBottomSheet> {
 
     final request = FeedAddActivityRequest(
       type: 'post',
-      feeds: [widget.feedId.rawValue],
+      feeds: [
+        if (_isStory) widget.storyFeed.rawValue else widget.userFeed.rawValue,
+      ],
       text: text.takeIf((it) => it.isNotEmpty),
       attachmentUploads: _attachments.isNotEmpty ? _attachments : null,
+      expiresAt: _isStory
+          ? DateTime.now()
+              .add(const Duration(days: 1))
+              .toUtc()
+              .toIso8601String()
+          : null,
     );
 
     // Return the request to the parent for handling

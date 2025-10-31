@@ -28,6 +28,7 @@ mixin _$ActivityData {
   List<String> get filterTags;
   String get id;
   List<String> get interestTags;
+  bool? get isWatched;
   List<FeedsReactionData> get latestReactions;
   ActivityLocation? get location;
   List<UserData> get mentionedUsers;
@@ -87,6 +88,8 @@ mixin _$ActivityData {
             (identical(other.id, id) || other.id == id) &&
             const DeepCollectionEquality()
                 .equals(other.interestTags, interestTags) &&
+            (identical(other.isWatched, isWatched) ||
+                other.isWatched == isWatched) &&
             const DeepCollectionEquality()
                 .equals(other.latestReactions, latestReactions) &&
             (identical(other.location, location) ||
@@ -142,6 +145,7 @@ mixin _$ActivityData {
         const DeepCollectionEquality().hash(filterTags),
         id,
         const DeepCollectionEquality().hash(interestTags),
+        isWatched,
         const DeepCollectionEquality().hash(latestReactions),
         location,
         const DeepCollectionEquality().hash(mentionedUsers),
@@ -168,7 +172,7 @@ mixin _$ActivityData {
 
   @override
   String toString() {
-    return 'ActivityData(attachments: $attachments, bookmarkCount: $bookmarkCount, commentCount: $commentCount, comments: $comments, createdAt: $createdAt, currentFeed: $currentFeed, deletedAt: $deletedAt, editedAt: $editedAt, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, id: $id, interestTags: $interestTags, latestReactions: $latestReactions, location: $location, mentionedUsers: $mentionedUsers, moderation: $moderation, notificationContext: $notificationContext, ownBookmarks: $ownBookmarks, ownReactions: $ownReactions, parent: $parent, poll: $poll, popularity: $popularity, reactionCount: $reactionCount, reactionGroups: $reactionGroups, score: $score, searchData: $searchData, shareCount: $shareCount, text: $text, type: $type, updatedAt: $updatedAt, user: $user, visibility: $visibility, visibilityTag: $visibilityTag, custom: $custom)';
+    return 'ActivityData(attachments: $attachments, bookmarkCount: $bookmarkCount, commentCount: $commentCount, comments: $comments, createdAt: $createdAt, currentFeed: $currentFeed, deletedAt: $deletedAt, editedAt: $editedAt, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, id: $id, interestTags: $interestTags, isWatched: $isWatched, latestReactions: $latestReactions, location: $location, mentionedUsers: $mentionedUsers, moderation: $moderation, notificationContext: $notificationContext, ownBookmarks: $ownBookmarks, ownReactions: $ownReactions, parent: $parent, poll: $poll, popularity: $popularity, reactionCount: $reactionCount, reactionGroups: $reactionGroups, score: $score, searchData: $searchData, shareCount: $shareCount, text: $text, type: $type, updatedAt: $updatedAt, user: $user, visibility: $visibility, visibilityTag: $visibilityTag, custom: $custom)';
   }
 }
 
@@ -192,6 +196,7 @@ abstract mixin class $ActivityDataCopyWith<$Res> {
       List<String> filterTags,
       String id,
       List<String> interestTags,
+      bool? isWatched,
       List<FeedsReactionData> latestReactions,
       ActivityLocation? location,
       List<UserData> mentionedUsers,
@@ -241,6 +246,7 @@ class _$ActivityDataCopyWithImpl<$Res> implements $ActivityDataCopyWith<$Res> {
     Object? filterTags = null,
     Object? id = null,
     Object? interestTags = null,
+    Object? isWatched = freezed,
     Object? latestReactions = null,
     Object? location = freezed,
     Object? mentionedUsers = null,
@@ -317,6 +323,10 @@ class _$ActivityDataCopyWithImpl<$Res> implements $ActivityDataCopyWith<$Res> {
           ? _self.interestTags
           : interestTags // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      isWatched: freezed == isWatched
+          ? _self.isWatched
+          : isWatched // ignore: cast_nullable_to_non_nullable
+              as bool?,
       latestReactions: null == latestReactions
           ? _self.latestReactions
           : latestReactions // ignore: cast_nullable_to_non_nullable

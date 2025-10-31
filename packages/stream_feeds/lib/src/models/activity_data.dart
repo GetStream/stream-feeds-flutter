@@ -38,6 +38,7 @@ class ActivityData with _$ActivityData {
     this.filterTags = const [],
     required this.id,
     this.interestTags = const [],
+    this.isWatched,
     this.latestReactions = const [],
     this.location,
     this.mentionedUsers = const [],
@@ -113,6 +114,10 @@ class ActivityData with _$ActivityData {
   /// Tags indicating user interests or content categories.
   @override
   final List<String> interestTags;
+
+  /// Whether the activity was watched by the current user. Relevant for stories.
+  @override
+  final bool? isWatched;
 
   /// The most recent reactions added to the activity.
   @override
@@ -254,6 +259,7 @@ extension ActivityResponseMapper on ActivityResponse {
       filterTags: filterTags,
       id: id,
       interestTags: interestTags,
+      isWatched: isWatched,
       latestReactions: [...latestReactions.map((r) => r.toModel())],
       location: location,
       mentionedUsers: [...mentionedUsers.map((u) => u.toModel())],

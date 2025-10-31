@@ -117,20 +117,26 @@ PollResponseData createDefaultPollResponseData({
 GetOrCreateFeedResponse createDefaultGetOrCreateFeedResponse({
   int followerCount = 0,
   int followingCount = 0,
+  List<AggregatedActivityResponse> aggregatedActivities = const [],
+  List<ActivityResponse> activities = const [],
+  String? prevPagination,
+  String? nextPagination,
 }) =>
     GetOrCreateFeedResponse(
       feed: createDefaultFeedResponse(
         followerCount: followerCount,
         followingCount: followingCount,
       ),
-      activities: const [],
-      aggregatedActivities: const [],
+      activities: activities,
+      aggregatedActivities: aggregatedActivities,
       created: true,
       duration: '',
       followers: const [],
       following: const [],
       members: const [],
       pinnedActivities: const [],
+      next: nextPagination,
+      prev: prevPagination,
     );
 
 FeedResponse createDefaultFeedResponse({
@@ -268,3 +274,21 @@ PollVoteResponseData createDefaultPollVoteResponse({
     updatedAt: DateTime(2021, 2, 1),
   );
 }
+
+AggregatedActivityResponse createDefaultAggregatedActivityResponse({
+  List<ActivityResponse>? activities,
+  String group = 'group',
+}) =>
+    AggregatedActivityResponse(
+      activities: activities ??
+          [
+            createDefaultActivityResponse().activity,
+          ],
+      activityCount: activities?.length ?? 1,
+      createdAt: DateTime(2021, 2, 1),
+      group: group,
+      score: 0,
+      updatedAt: DateTime(2021, 2, 1),
+      userCount: 1,
+      userCountTruncated: false,
+    );

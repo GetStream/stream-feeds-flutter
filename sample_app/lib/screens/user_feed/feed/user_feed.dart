@@ -5,6 +5,7 @@ import 'package:stream_feeds/stream_feeds.dart';
 import '../../../core/di/di_initializer.dart';
 import '../../../theme/theme.dart';
 import '../comment/user_comments.dart';
+import 'stories_bar.dart';
 import 'user_feed_item.dart';
 
 class UserFeed extends StatelessWidget {
@@ -12,6 +13,7 @@ class UserFeed extends StatelessWidget {
     super.key,
     required this.timelineFeed,
     required this.userFeed,
+    required this.storiesFeed,
     this.scrollController,
   });
 
@@ -20,6 +22,10 @@ class UserFeed extends StatelessWidget {
 
   // User feed is to post new activities to the user's feed
   final Feed userFeed;
+
+  /// Stories feed showing stories from followed users
+  final Feed storiesFeed;
+
   final ScrollController? scrollController;
 
   @override
@@ -32,74 +38,52 @@ class UserFeed extends StatelessWidget {
         final activities = state.activities;
         final canLoadMore = state.canLoadMoreActivities;
 
-        if (activities.isEmpty) return const EmptyActivities();
-
         return RefreshIndicator(
-          onRefresh: timelineFeed.getOrCreate,
-          child: ListView.separated(
+          onRefresh: () async {
+            await Future.wait([
+              timelineFeed.getOrCreate(),
+              storiesFeed.getOrCreate(),
+            ]);
+          },
+          child: CustomScrollView(
             controller: scrollController,
-            itemCount: activities.length + 1,
-            separatorBuilder: (context, index) => Divider(
-              height: 1,
-              color: context.appColors.borders,
-            ),
-            itemBuilder: (context, index) {
-              if (index == activities.length) {
-                return switch (canLoadMore) {
-                  true => TextButton(
-                      onPressed: timelineFeed.queryMoreActivities,
-                      child: const Text('Load more...'),
-                    ),
-                  false => const Padding(
-                      padding: EdgeInsets.all(16),
-                      child: Center(
-                        child: Text('End of feed'),
+            slivers: [
+              SliverToBoxAdapter(child: StoriesBar(storiesFeed)),
+              _TimelineFeedItemList(
+                activities: activities,
+                timelineFeed: timelineFeed,
+                currentUserId: client.user.id,
+                onCommentClick: (activity) {
+                  _onCommentClick(context, activity);
+                },
+                onHeartClick: (data) {
+                  _onHeartClick(data.activity, data.isAdding);
+                },
+                onRepostClick: (data) {
+                  _onRepostClick(context, data.activity, data.message);
+                },
+                onBookmarkClick: (activity) {
+                  _onBookmarkClick(context, activity);
+                },
+                onDeleteClick: (activity) {},
+                onEditSave: (data) {},
+              ),
+              if (activities.isNotEmpty || canLoadMore)
+                SliverToBoxAdapter(
+                  child: switch (canLoadMore) {
+                    true => TextButton(
+                        onPressed: timelineFeed.queryMoreActivities,
+                        child: const Text('Load more...'),
                       ),
-                    )
-                };
-              }
-
-              final activity = activities[index];
-              final parentActivity = activity.parent;
-              final baseActivity = activity.parent ?? activity;
-
-              return Padding(
-                padding: const EdgeInsets.all(8),
-                child: Column(
-                  spacing: 8,
-                  children: [
-                    if (parentActivity != null) ...[
-                      ActivityRepostIndicator(
-                        user: activity.user,
-                        data: parentActivity,
-                      ),
-                    ],
-                    UserFeedItem(
-                      feed: timelineFeed,
-                      data: activity,
-                      user: baseActivity.user,
-                      text: baseActivity.text ?? '',
-                      attachments: baseActivity.attachments,
-                      currentUserId: client.user.id,
-                      onCommentClick: () {
-                        _onCommentClick(context, activity);
-                      },
-                      onHeartClick: (isAdding) {
-                        _onHeartClick(activity, isAdding);
-                      },
-                      onRepostClick: (message) {
-                        _onRepostClick(context, activity, message);
-                      },
-                      onBookmarkClick: () {
-                        _onBookmarkClick(context, activity);
-                      },
-                      onDeleteClick: () {},
-                      onEditSave: (text) {},
-                    ),
-                  ],
+                    false => const Padding(
+                        padding: EdgeInsets.all(16),
+                        child: Center(
+                          child: Text('End of feed'),
+                        ),
+                      )
+                  },
                 ),
-              );
-            },
+            ],
           ),
         );
       },
@@ -164,6 +148,87 @@ class UserFeed extends StatelessWidget {
     } else {
       userFeed.addBookmark(activityId: activity.id);
     }
+  }
+}
+
+class _TimelineFeedItemList extends StatelessWidget {
+  const _TimelineFeedItemList({
+    required this.activities,
+    required this.timelineFeed,
+    required this.currentUserId,
+    required this.onCommentClick,
+    required this.onHeartClick,
+    required this.onRepostClick,
+    required this.onBookmarkClick,
+    required this.onDeleteClick,
+    required this.onEditSave,
+  });
+
+  final List<ActivityData> activities;
+  final Feed timelineFeed;
+  final String currentUserId;
+  final ValueSetter<ActivityData>? onCommentClick;
+  final ValueSetter<({ActivityData activity, bool isAdding})>? onHeartClick;
+  final ValueSetter<({ActivityData activity, String? message})>? onRepostClick;
+  final ValueSetter<ActivityData>? onBookmarkClick;
+  final ValueSetter<ActivityData>? onDeleteClick;
+  final ValueSetter<({ActivityData activity, String text})>? onEditSave;
+
+  @override
+  Widget build(BuildContext context) {
+    if (activities.isEmpty) {
+      return const SliverFillRemaining(
+        child: EmptyActivities(),
+      );
+    }
+
+    return SliverList.separated(
+      itemCount: activities.length,
+      separatorBuilder: (context, index) => Divider(
+        height: 1,
+        color: context.appColors.borders,
+      ),
+      itemBuilder: (context, index) {
+        final activity = activities[index];
+        final parentActivity = activity.parent;
+        final baseActivity = activity.parent ?? activity;
+
+        return Padding(
+          padding: const EdgeInsets.all(8),
+          child: Column(
+            spacing: 8,
+            children: [
+              if (parentActivity != null) ...[
+                ActivityRepostIndicator(
+                  user: activity.user,
+                  data: parentActivity,
+                ),
+              ],
+              UserFeedItem(
+                feed: timelineFeed,
+                data: activity,
+                user: baseActivity.user,
+                text: baseActivity.text ?? '',
+                attachments: baseActivity.attachments,
+                currentUserId: currentUserId,
+                onCommentClick: () => onCommentClick?.call(activity),
+                onHeartClick: (isAdding) => onHeartClick?.call(
+                  (activity: activity, isAdding: isAdding),
+                ),
+                onRepostClick: (message) => onRepostClick?.call(
+                  (activity: activity, message: message),
+                ),
+                onBookmarkClick: () => onBookmarkClick?.call(activity),
+                onDeleteClick: () => onDeleteClick?.call(activity),
+                onEditSave: (text) => onEditSave?.call(
+                  (activity: activity, text: text),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
 

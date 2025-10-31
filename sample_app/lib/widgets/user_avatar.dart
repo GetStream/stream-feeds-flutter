@@ -86,3 +86,9 @@ class BackupGradientAvatar extends StatelessWidget {
     return Text(initials);
   }
 }
+
+extension UserAvatarMapper on UserData {
+  User toUser() {
+    return User(id: id, name: name, image: image);
+  }
+}
