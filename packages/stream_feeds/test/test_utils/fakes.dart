@@ -274,6 +274,7 @@ PollVoteResponseData createDefaultPollVoteResponse({
     updatedAt: DateTime(2021, 2, 1),
   );
 }
+
 AggregatedActivityResponse createDefaultAggregatedActivityResponse({
   List<ActivityResponse>? activities,
   String group = 'group',
