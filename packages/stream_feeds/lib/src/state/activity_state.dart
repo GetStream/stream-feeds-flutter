@@ -163,7 +163,6 @@ class ActivityStateNotifier extends StateNotifier<ActivityState>
         ),
       );
     }
-    commentList.onCommentAdded(ThreadedCommentData.fromComment(comment));
   }
 
   @override
@@ -176,7 +175,6 @@ class ActivityStateNotifier extends StateNotifier<ActivityState>
         ),
       );
     }
-    commentList.onCommentRemoved(comment.id);
   }
 
   @override

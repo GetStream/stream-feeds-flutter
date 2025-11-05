@@ -2,9 +2,11 @@
 
 import 'package:stream_feeds/stream_feeds.dart';
 
-GetCommentsResponse createDefaultCommentsResponse() =>
-    const GetCommentsResponse(
-      comments: [],
+GetCommentsResponse createDefaultCommentsResponse({
+  List<ThreadedCommentResponse> comments = const [],
+}) =>
+    GetCommentsResponse(
+      comments: comments,
       next: null,
       prev: null,
       duration: 'duration',
@@ -35,14 +37,15 @@ GetActivityResponse createDefaultActivityResponse({
   String type = 'post',
   List<String> feeds = const [],
   PollResponseData? poll,
+  List<CommentResponse> comments = const [],
 }) {
   return GetActivityResponse(
     activity: ActivityResponse(
       id: id,
       attachments: const [],
       bookmarkCount: 0,
-      commentCount: 0,
-      comments: const [],
+      commentCount: comments.length,
+      comments: comments,
       createdAt: DateTime(2021, 1, 1),
       custom: const {},
       feeds: feeds,
@@ -77,6 +80,7 @@ PollResponseData createDefaultPollResponseData({
   String id = 'poll-id',
   List<PollVoteResponseData> latestAnswers = const [],
   Map<String, List<PollVoteResponseData>> latestVotesByOption = const {},
+  DateTime? updatedAt,
 }) =>
     PollResponseData(
       id: id,
@@ -92,7 +96,7 @@ PollResponseData createDefaultPollResponseData({
       latestAnswers: latestAnswers,
       latestVotesByOption: latestVotesByOption,
       ownVotes: const [],
-      updatedAt: DateTime.now(),
+      updatedAt: updatedAt ?? DateTime.now(),
       voteCount: latestVotesByOption.values
           .map((e) => e.length)
           .fold(0, (v, e) => v + e),
@@ -158,7 +162,7 @@ FeedResponse createDefaultFeedResponse({
 CommentResponse createDefaultCommentResponse({
   String id = 'id',
   required String objectId,
-  String objectType = 'post',
+  String objectType = 'activity',
   String? text,
 }) {
   return CommentResponse(

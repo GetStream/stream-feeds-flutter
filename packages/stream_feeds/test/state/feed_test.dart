@@ -927,6 +927,43 @@ void main() {
       );
     }
 
+    test('poll updated', () async {
+      final originalDate = DateTime(2021, 1, 1);
+      final updatedDate = DateTime(2021, 1, 2);
+      final poll = createDefaultPollResponseData(updatedAt: originalDate);
+      final pollId = poll.id;
+      setupMockFeed(
+        activities: [createDefaultActivityResponse(poll: poll).activity],
+      );
+
+      final feed = client.feedFromId(defaultFeedId);
+      await feed.getOrCreate();
+
+      expect(poll.updatedAt, originalDate);
+
+      feed.notifier.stream.listen(
+        expectAsync1(
+          (event) {
+            expect(event, isA<FeedState>());
+            expect(event.activities.first.poll?.id, pollId);
+            expect(event.activities.first.poll?.updatedAt, updatedDate);
+          },
+        ),
+      );
+
+      wsStreamController.add(
+        jsonEncode(
+          PollUpdatedFeedEvent(
+            createdAt: DateTime.now(),
+            custom: const {},
+            fid: 'fid',
+            poll: poll.copyWith(updatedAt: updatedDate),
+            type: EventTypes.pollUpdated,
+          ).toJson(),
+        ),
+      );
+    });
+
     test('poll vote casted', () async {
       final poll = createDefaultPollResponseData();
       final pollId = poll.id;
