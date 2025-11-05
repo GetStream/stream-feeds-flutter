@@ -2,6 +2,7 @@ import '../../../stream_feeds.dart';
 import '../../../stream_feeds.dart' as api;
 import '../../models/comment_data.dart';
 import '../../models/feeds_reaction_data.dart';
+import '../../models/poll_data.dart';
 import '../../repository/capabilities_repository.dart';
 import '../../resolvers/resolvers.dart';
 import 'feed_capabilities_mixin.dart';

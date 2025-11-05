@@ -2,7 +2,6 @@ import 'dart:math' as math;
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:state_notifier/state_notifier.dart';
-import 'package:stream_core/stream_core.dart';
 
 import '../models/activity_data.dart';
 import '../models/comment_data.dart';
@@ -76,12 +75,9 @@ class ActivityStateNotifier extends StateNotifier<ActivityState>
     final currentPoll = state.poll;
     if (currentPoll == null || currentPoll.id != poll.id) return;
 
-    final latestAnswers = currentPoll.latestAnswers;
-    final ownVotesAndAnswers = currentPoll.ownVotesAndAnswers;
-
     final updatedPoll = poll.copyWith(
-      latestAnswers: latestAnswers,
-      ownVotesAndAnswers: ownVotesAndAnswers,
+      latestAnswers: currentPoll.latestAnswers,
+      ownVotesAndAnswers: currentPoll.ownVotesAndAnswers,
     );
 
     state = state.copyWith(poll: updatedPoll);
@@ -93,18 +89,11 @@ class ActivityStateNotifier extends StateNotifier<ActivityState>
     final currentPoll = state.poll;
     if (currentPoll == null || currentPoll.id != poll.id) return;
 
-    final latestAnswers = currentPoll.latestAnswers.let((it) {
-      return it.upsert(answer, key: (it) => it.id == answer.id);
-    });
-
-    final ownVotesAndAnswers = currentPoll.ownVotesAndAnswers.let((it) {
-      if (answer.userId != currentUserId) return it;
-      return it.upsert(answer, key: (it) => it.id == answer.id);
-    });
-
-    final updatedPoll = poll.copyWith(
-      latestAnswers: latestAnswers,
-      ownVotesAndAnswers: ownVotesAndAnswers,
+    final updatedPoll = poll.castAnswer(
+      answer,
+      currentUserId,
+      currentLatestAnswers: currentPoll.latestAnswers,
+      currentOwnVotesAndAnswers: currentPoll.ownVotesAndAnswers,
     );
 
     state = state.copyWith(poll: updatedPoll);
@@ -122,15 +111,11 @@ class ActivityStateNotifier extends StateNotifier<ActivityState>
     final currentPoll = state.poll;
     if (currentPoll == null || currentPoll.id != poll.id) return;
 
-    final latestAnswers = currentPoll.latestAnswers;
-    final ownVotesAndAnswers = currentPoll.ownVotesAndAnswers.let((it) {
-      if (vote.userId != currentUserId) return it;
-      return it.upsert(vote, key: (it) => it.id == vote.id);
-    });
-
-    final updatedPoll = poll.copyWith(
-      latestAnswers: latestAnswers,
-      ownVotesAndAnswers: ownVotesAndAnswers,
+    final updatedPoll = poll.changeVote(
+      vote,
+      currentUserId,
+      currentLatestVotes: currentPoll.latestVotes,
+      currentOwnVotesAndAnswers: currentPoll.ownVotesAndAnswers,
     );
 
     state = state.copyWith(poll: updatedPoll);
@@ -142,17 +127,11 @@ class ActivityStateNotifier extends StateNotifier<ActivityState>
     final currentPoll = state.poll;
     if (currentPoll == null || currentPoll.id != poll.id) return;
 
-    final latestAnswers = currentPoll.latestAnswers.where((it) {
-      return it.id != answer.id;
-    }).toList();
-
-    final ownVotesAndAnswers = currentPoll.ownVotesAndAnswers.where((it) {
-      return it.id != answer.id;
-    }).toList();
-
-    final updatedPoll = poll.copyWith(
-      latestAnswers: latestAnswers,
-      ownVotesAndAnswers: ownVotesAndAnswers,
+    final updatedPoll = poll.removeAnswer(
+      answer,
+      currentUserId,
+      currentLatestAnswers: currentPoll.latestAnswers,
+      currentOwnVotesAndAnswers: currentPoll.ownVotesAndAnswers,
     );
 
     state = state.copyWith(poll: updatedPoll);
@@ -164,14 +143,11 @@ class ActivityStateNotifier extends StateNotifier<ActivityState>
     final currentPoll = state.poll;
     if (currentPoll == null || currentPoll.id != poll.id) return;
 
-    final latestAnswers = currentPoll.latestAnswers;
-    final ownVotesAndAnswers = currentPoll.ownVotesAndAnswers.where((it) {
-      return it.id != vote.id;
-    }).toList();
-
-    final updatedPoll = poll.copyWith(
-      latestAnswers: latestAnswers,
-      ownVotesAndAnswers: ownVotesAndAnswers,
+    final updatedPoll = poll.removeVote(
+      vote,
+      currentUserId,
+      currentLatestVotes: currentPoll.latestVotes,
+      currentOwnVotesAndAnswers: currentPoll.ownVotesAndAnswers,
     );
 
     state = state.copyWith(poll: updatedPoll);
