@@ -35,7 +35,7 @@ class ActivityEventHandler implements StateEventHandler {
 
   @override
   Future<void> handleEvent(WsEvent event) async {
-    if(await _partialActivityEventHandler.handleEvent(event)) return;
+    if (await _partialActivityEventHandler.handleEvent(event)) return;
     if (event is api.PollClosedFeedEvent) {
       return state.onPollClosed(event.poll.toModel());
     }
