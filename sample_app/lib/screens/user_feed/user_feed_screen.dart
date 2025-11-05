@@ -72,7 +72,7 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
   }
 
   void _followSelfIfNeeded(Feed feed) {
-    if (feed.state.followers.isEmpty) {
+    if (feed.state.following.isEmpty) {
       feed.follow(
         targetFid: FeedId.user(client.user.id),
         createNotificationActivity: false,

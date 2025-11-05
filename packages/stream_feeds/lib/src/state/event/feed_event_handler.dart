@@ -1,13 +1,9 @@
 import 'package:stream_core/stream_core.dart';
 
 import '../../generated/api/models.dart' as api;
-import '../../models/activity_data.dart';
 import '../../models/activity_pin_data.dart';
 import '../../models/aggregated_activity_data.dart';
-import '../../models/bookmark_data.dart';
-import '../../models/comment_data.dart';
 import '../../models/feed_data.dart';
-import '../../models/feeds_reaction_data.dart';
 import '../../models/follow_data.dart';
 import '../../models/mark_activity_data.dart';
 import '../../repository/capabilities_repository.dart';
@@ -53,6 +49,26 @@ class FeedEventHandler with FeedCapabilitiesMixin implements StateEventHandler {
     if (await _partialActivityEventHandler.handleEvent(event)) return;
 
     final fid = query.fid;
+
+    if (event is api.ActivityPinnedEvent) {
+      if (event.fid != fid.rawValue) return;
+
+      state.onActivityPinned(event.pinnedActivity.toModel());
+      return;
+    }
+
+    if (event is api.ActivityUnpinnedEvent) {
+      if (event.fid != fid.rawValue) return;
+
+      state.onActivityUnpinned(event.pinnedActivity.activity.id);
+      return;
+    }
+
+    if (event is api.ActivityMarkEvent) {
+      if (event.fid != fid.rawValue) return;
+      state.onActivityMarked(event.toModel());
+      return;
+    }
 
     if (event is api.NotificationFeedUpdatedEvent) {
       if (event.fid != fid.rawValue) return;

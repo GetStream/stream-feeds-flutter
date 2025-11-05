@@ -1,12 +1,12 @@
+import 'dart:math' as math;
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:state_notifier/state_notifier.dart';
 import 'package:stream_core/stream_core.dart';
 
 import '../models/activity_data.dart';
-import '../models/activity_pin_data.dart';
 import '../models/comment_data.dart';
 import '../models/feeds_reaction_data.dart';
-import '../models/mark_activity_data.dart';
 import '../models/pagination_data.dart';
 import '../models/poll_data.dart';
 import '../models/poll_vote_data.dart';
@@ -20,7 +20,8 @@ part 'activity_state.freezed.dart';
 ///
 /// Provides methods to update the activity state in response to data changes
 /// and real-time events from the Stream Feeds API.
-class ActivityStateNotifier extends StateNotifier<ActivityState> implements StateWithUpdatableActivity {
+class ActivityStateNotifier extends StateNotifier<ActivityState>
+    implements StateWithUpdatableActivity {
   ActivityStateNotifier({
     required ActivityState initialState,
     required this.currentUserId,
@@ -45,6 +46,7 @@ class ActivityStateNotifier extends StateNotifier<ActivityState> implements Stat
   }
 
   /// Handles the update of an activity.
+  @override
   void onActivityUpdated(ActivityData activity) {
     state = state.copyWith(
       activity: activity,
@@ -53,6 +55,7 @@ class ActivityStateNotifier extends StateNotifier<ActivityState> implements Stat
   }
 
   /// Handles when a poll is closed.
+  @override
   void onPollClosed(PollData poll) {
     if (state.poll?.id != poll.id) return;
 
@@ -61,12 +64,14 @@ class ActivityStateNotifier extends StateNotifier<ActivityState> implements Stat
   }
 
   /// Handles when a poll is deleted.
+  @override
   void onPollDeleted(String pollId) {
     if (state.poll?.id != pollId) return;
     state = state.copyWith(poll: null);
   }
 
   /// Handles when a poll is updated.
+  @override
   void onPollUpdated(PollData poll) {
     final currentPoll = state.poll;
     if (currentPoll == null || currentPoll.id != poll.id) return;
@@ -83,6 +88,7 @@ class ActivityStateNotifier extends StateNotifier<ActivityState> implements Stat
   }
 
   /// Handles when a poll answer is casted.
+  @override
   void onPollAnswerCasted(PollVoteData answer, PollData poll) {
     final currentPoll = state.poll;
     if (currentPoll == null || currentPoll.id != poll.id) return;
@@ -105,11 +111,13 @@ class ActivityStateNotifier extends StateNotifier<ActivityState> implements Stat
   }
 
   /// Handles when a poll vote is casted (with poll data).
+  @override
   void onPollVoteCasted(PollVoteData vote, PollData poll) {
     return onPollVoteChanged(vote, poll);
   }
 
   /// Handles when a poll vote is changed.
+  @override
   void onPollVoteChanged(PollVoteData vote, PollData poll) {
     final currentPoll = state.poll;
     if (currentPoll == null || currentPoll.id != poll.id) return;
@@ -129,6 +137,7 @@ class ActivityStateNotifier extends StateNotifier<ActivityState> implements Stat
   }
 
   /// Handles when a poll answer is removed (with poll data).
+  @override
   void onPollAnswerRemoved(PollVoteData answer, PollData poll) {
     final currentPoll = state.poll;
     if (currentPoll == null || currentPoll.id != poll.id) return;
@@ -150,6 +159,7 @@ class ActivityStateNotifier extends StateNotifier<ActivityState> implements Stat
   }
 
   /// Handles when a poll vote is removed (with poll data).
+  @override
   void onPollVoteRemoved(PollVoteData vote, PollData poll) {
     final currentPoll = state.poll;
     if (currentPoll == null || currentPoll.id != poll.id) return;
@@ -168,44 +178,62 @@ class ActivityStateNotifier extends StateNotifier<ActivityState> implements Stat
   }
 
   @override
-  void dispose() {
-    _removeCommentListListener?.call();
-    super.dispose();
-  }
-
-  @override
-  void onActivityMarked(MarkActivityData activityMark) {
-    // TODO: implement onActivityMarked
-  }
-
-  @override
-  void onActivityPinned(ActivityPinData activityPin) {
-    // TODO: implement onActivityPinned
-  }
-
-  @override
-  void onActivityUnpinned(String activityId) {
-    // TODO: implement onActivityUnpinned
-  }
-
-  @override
   void onCommentAdded(CommentData comment) {
-    // TODO: implement onCommentAdded
+    // The comments are stored in the comment list, but that doesn't contain the total count.
+    if (state.activity case final activity?) {
+      state = state.copyWith(
+        activity: activity.copyWith(
+          commentCount: math.max(0, activity.commentCount + 1),
+        ),
+      );
+    }
+    commentList.onCommentAdded(ThreadedCommentData.fromComment(comment));
   }
 
   @override
   void onCommentRemoved(CommentData comment) {
-    // TODO: implement onCommentRemoved
+    // The comments are stored in the comment list, but that doesn't contain the total count.
+    if (state.activity case final activity?) {
+      state = state.copyWith(
+        activity: activity.copyWith(
+          commentCount: math.max(0, activity.commentCount - 1),
+        ),
+      );
+    }
+    commentList.onCommentRemoved(comment.id);
   }
 
   @override
   void onReactionAdded(FeedsReactionData reaction) {
-    // TODO: implement onReactionAdded
+    final activity = state.activity;
+    if (activity == null || reaction.activityId != activity.id) return;
+    if (reaction.commentId case final commentId?) {
+      commentList.onCommentReactionAdded(commentId, reaction);
+    } else {
+      state = state.copyWith(
+        activity: activity.addReaction(reaction, currentUserId),
+      );
+    }
   }
 
   @override
   void onReactionRemoved(FeedsReactionData reaction) {
-    // TODO: implement onReactionRemoved
+    final activity = state.activity;
+    if (activity == null || reaction.activityId != activity.id) return;
+
+    if (reaction.commentId case final commentId?) {
+      commentList.onCommentReactionRemoved(commentId, reaction);
+    } else {
+      state = state.copyWith(
+        activity: activity.removeReaction(reaction, currentUserId),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _removeCommentListListener?.call();
+    super.dispose();
   }
 }
 

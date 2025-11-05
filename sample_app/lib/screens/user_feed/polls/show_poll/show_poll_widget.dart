@@ -20,13 +20,9 @@ class ShowPollWidget extends StatefulWidget {
   State<ShowPollWidget> createState() => _ShowPollWidgetState();
 }
 
-class _ShowPollWidgetState extends State<ShowPollWidget>
-    with AutomaticKeepAliveClientMixin {
+class _ShowPollWidgetState extends State<ShowPollWidget> {
   StreamFeedsClient get client => locator<StreamFeedsClient>();
   late Activity activity;
-
-  @override
-  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -50,19 +46,17 @@ class _ShowPollWidgetState extends State<ShowPollWidget>
   }
 
   void _getActivity() {
+    // Because we already have up to date initial data, we don't need to fetch it again.
+    // The activity is being updated in real-time while this widget lives.
     activity = client.activity(
       activityId: widget.activity.id,
       fid: widget.feed.fid,
       initialData: widget.activity,
     );
-
-    activity.get().ignore();
   }
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
-
     return StateNotifierBuilder(
       stateNotifier: activity.notifier,
       builder: (context, state, child) {

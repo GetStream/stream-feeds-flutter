@@ -1,9 +1,7 @@
 import '../../../stream_feeds.dart';
 import '../../../stream_feeds.dart' as api;
-import '../../models/activity_pin_data.dart';
 import '../../models/comment_data.dart';
 import '../../models/feeds_reaction_data.dart';
-import '../../models/mark_activity_data.dart';
 import '../../repository/capabilities_repository.dart';
 import '../../resolvers/resolvers.dart';
 import 'feed_capabilities_mixin.dart';
@@ -20,7 +18,6 @@ class PartialActivityEventHandler with FeedCapabilitiesMixin {
   @override
   final CapabilitiesRepository capabilitiesRepository;
 
-  @override
   Future<bool> handleEvent(WsEvent event) async {
     if (event is api.ActivityUpdatedEvent) {
       if (event.fid != fid.rawValue) return false;
@@ -41,25 +38,6 @@ class PartialActivityEventHandler with FeedCapabilitiesMixin {
       if (event.fid != fid.rawValue) return false;
 
       state.onReactionRemoved(event.reaction.toModel());
-      return true;
-    }
-    if (event is api.ActivityPinnedEvent) {
-      if (event.fid != fid.rawValue) return false;
-
-      state.onActivityPinned(event.pinnedActivity.toModel());
-      return true;
-    }
-
-    if (event is api.ActivityUnpinnedEvent) {
-      if (event.fid != fid.rawValue) return false;
-
-      state.onActivityUnpinned(event.pinnedActivity.activity.id);
-      return true;
-    }
-
-    if (event is api.ActivityMarkEvent) {
-      if (event.fid != fid.rawValue) return false;
-      state.onActivityMarked(event.toModel());
       return true;
     }
 
@@ -107,7 +85,6 @@ class PartialActivityEventHandler with FeedCapabilitiesMixin {
 
     if (event is api.PollVoteChangedFeedEvent) {
       // Only handle events for this specific feed
-      if (event.fid != fid.rawValue) return false;
       final vote = event.pollVote.toModel();
       final poll = event.poll.toModel();
       state.onPollVoteChanged(vote, poll);
@@ -136,9 +113,6 @@ abstract interface class StateWithUpdatableActivity {
   void onActivityUpdated(ActivityData activity);
   void onReactionAdded(FeedsReactionData reaction);
   void onReactionRemoved(FeedsReactionData reaction);
-  void onActivityPinned(ActivityPinData activityPin);
-  void onActivityUnpinned(String activityId);
-  void onActivityMarked(MarkActivityData activityMark);
   void onCommentAdded(CommentData comment);
   void onCommentRemoved(CommentData comment);
 
