@@ -180,14 +180,11 @@ class ActivityStateNotifier extends StateNotifier<ActivityState>
   @override
   void onReactionAdded(FeedsReactionData reaction) {
     final activity = state.activity;
-    if (activity == null || reaction.activityId != activity.id) return;
-    if (reaction.commentId case final commentId?) {
-      commentList.onCommentReactionAdded(commentId, reaction);
-    } else {
-      state = state.copyWith(
-        activity: activity.addReaction(reaction, currentUserId),
-      );
-    }
+    if (activity == null || activity.id != reaction.activityId) return;
+
+    state = state.copyWith(
+      activity: activity.addReaction(reaction, currentUserId),
+    );
   }
 
   @override
@@ -195,13 +192,9 @@ class ActivityStateNotifier extends StateNotifier<ActivityState>
     final activity = state.activity;
     if (activity == null || reaction.activityId != activity.id) return;
 
-    if (reaction.commentId case final commentId?) {
-      commentList.onCommentReactionRemoved(commentId, reaction);
-    } else {
-      state = state.copyWith(
-        activity: activity.removeReaction(reaction, currentUserId),
-      );
-    }
+    state = state.copyWith(
+      activity: activity.removeReaction(reaction, currentUserId),
+    );
   }
 
   @override
