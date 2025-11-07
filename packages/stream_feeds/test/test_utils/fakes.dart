@@ -165,6 +165,7 @@ CommentResponse createDefaultCommentResponse({
   required String objectId,
   String objectType = 'activity',
   String? text,
+  Map<String, ReactionGroupResponse> reactionGroups = const {},
 }) {
   return CommentResponse(
     id: id,
@@ -176,7 +177,8 @@ CommentResponse createDefaultCommentResponse({
     objectId: objectId,
     objectType: objectType,
     ownReactions: const [],
-    reactionCount: 0,
+    reactionCount: reactionGroups.values.fold(0, (v, e) => v + e.count),
+    reactionGroups: reactionGroups,
     replyCount: 0,
     score: 0,
     status: 'status',
