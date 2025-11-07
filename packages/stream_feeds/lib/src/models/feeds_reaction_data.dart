@@ -26,6 +26,8 @@ class FeedsReactionData with _$FeedsReactionData {
   @override
   final String activityId;
 
+  /// The ID of the comment this reaction is associated with.
+  @override
   final String? commentId;
 
   /// The date and time when the reaction was created.

@@ -619,5 +619,163 @@ void main() {
         ),
       );
     });
+
+    test('activity reaction added', () async {
+      const activityId = 'activity-id';
+      const fid = FeedId(group: 'group', id: 'id');
+
+      final activityResponse = createDefaultActivityResponse(id: activityId);
+
+      setupMockActivity(
+        activityId: activityId,
+        activity: activityResponse,
+      );
+
+      final activity = client.activity(
+        activityId: activityId,
+        fid: fid,
+      );
+      final activityData = await activity.get();
+      expect(activityData, isA<Result<ActivityData>>());
+      expect(activityData.getOrNull()?.id, activityId);
+      expect(activityData.getOrNull()?.reactionCount, 0);
+
+      activity.notifier.stream.listen(
+        expectAsync1(
+          (event) {
+            expect(event, isA<ActivityState>());
+            expect(event.activity?.reactionCount, 1);
+          },
+        ),
+      );
+
+      wsStreamController.add(
+        jsonEncode(
+          ActivityReactionAddedEvent(
+            type: EventTypes.activityReactionAdded,
+            createdAt: DateTime.now(),
+            custom: const {},
+            fid: fid.rawValue,
+            activity: activityResponse.activity,
+            reaction: FeedsReactionResponse(
+              activityId: activityId,
+              type: 'like',
+              createdAt: DateTime.now(),
+              updatedAt: DateTime.now(),
+              user: createDefaultUserResponse(),
+            ),
+          ),
+        ),
+      );
+    });
+
+    test('activity reaction not added when activity id does not match',
+        () async {
+      const activityId = 'activity-id';
+      const fid = FeedId(group: 'group', id: 'id');
+
+      final activityResponse = createDefaultActivityResponse(id: activityId);
+
+      setupMockActivity(
+        activityId: activityId,
+        activity: activityResponse,
+      );
+
+      final activity = client.activity(
+        activityId: activityId,
+        fid: fid,
+      );
+      final activityData = await activity.get();
+      expect(activityData, isA<Result<ActivityData>>());
+      expect(activityData.getOrNull()?.id, activityId);
+      expect(activityData.getOrNull()?.reactionCount, 0);
+
+      activity.notifier.stream.listen(
+        expectAsync1(
+          count: 0,
+          (event) {},
+        ),
+      );
+
+      wsStreamController.add(
+        jsonEncode(
+          ActivityReactionAddedEvent(
+            type: EventTypes.activityReactionAdded,
+            createdAt: DateTime.now(),
+            custom: const {},
+            fid: fid.rawValue,
+            activity: activityResponse.activity,
+            reaction: FeedsReactionResponse(
+              activityId: 'other-activity-id',
+              type: 'like',
+              createdAt: DateTime.now(),
+              updatedAt: DateTime.now(),
+              user: createDefaultUserResponse(),
+            ),
+          ),
+        ),
+      );
+    });
+
+    test('activity reaction deleted', () async {
+      const activityId = 'activity-id';
+      const fid = FeedId(group: 'group', id: 'id');
+      final dateReaction = DateTime(2025, 1, 1);
+
+      final activityResponse = createDefaultActivityResponse(
+        id: activityId,
+        reactionGroups: {
+          'like': ReactionGroupResponse(
+            count: 1,
+            firstReactionAt: dateReaction,
+            lastReactionAt: dateReaction,
+          ),
+        },
+      );
+
+      setupMockActivity(
+        activityId: activityId,
+        activity: activityResponse,
+      );
+      final activity = client.activity(
+        activityId: activityId,
+        fid: fid,
+      );
+
+      final activityData = await activity.get();
+      expect(activityData, isA<Result<ActivityData>>());
+      expect(activityData.getOrNull()?.id, activityId);
+      expect(activityData.getOrNull()?.reactionCount, 1);
+      expect(activityData.getOrNull()?.reactionGroups.length, 1);
+
+      activity.notifier.stream.listen(
+        expectAsync1(
+          (event) {
+            expect(event, isA<ActivityState>());
+            expect(event.activity?.reactionCount, 0);
+            expect(event.activity?.reactionGroups.length, 0);
+          },
+        ),
+      );
+
+      wsStreamController.add(
+        jsonEncode(
+          ActivityReactionDeletedEvent(
+            type: EventTypes.activityReactionDeleted,
+            createdAt: DateTime.now(),
+            custom: const {},
+            fid: fid.rawValue,
+            activity: activityResponse.activity,
+            reaction: FeedsReactionResponse(
+              activityId: activityId,
+              type: 'like',
+              createdAt: dateReaction,
+              updatedAt: DateTime.now(),
+              user: createDefaultUserResponse(),
+            ),
+          ),
+        ),
+      );
+    });
   });
 }

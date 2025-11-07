@@ -38,6 +38,7 @@ GetActivityResponse createDefaultActivityResponse({
   List<String> feeds = const [],
   PollResponseData? poll,
   List<CommentResponse> comments = const [],
+  Map<String, ReactionGroupResponse> reactionGroups = const {},
 }) {
   return GetActivityResponse(
     activity: ActivityResponse(
@@ -60,8 +61,8 @@ GetActivityResponse createDefaultActivityResponse({
       parent: null,
       poll: poll,
       popularity: 0,
-      reactionCount: 0,
-      reactionGroups: const {},
+      reactionCount: reactionGroups.values.fold(0, (v, e) => v + e.count),
+      reactionGroups: reactionGroups,
       score: 0,
       searchData: const {},
       shareCount: 0,

@@ -383,6 +383,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
       query: query,
       commentsRepository: _commentsRepository,
       eventsEmitter: events,
+      currentUserId: user.id,
     );
   }
 

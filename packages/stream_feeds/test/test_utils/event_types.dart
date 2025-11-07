@@ -1,4 +1,8 @@
 class EventTypes {
+  static const String activityReactionAdded = 'feeds.activity.reaction.added';
+  static const String activityReactionDeleted =
+      'feeds.activity.reaction.deleted';
+
   static const String commentAdded = 'feeds.comment.added';
   static const String commentUpdated = 'feeds.comment.updated';
   static const String commentDeleted = 'feeds.comment.deleted';
