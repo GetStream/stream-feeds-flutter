@@ -68,7 +68,11 @@ class Activity with Disposable {
     );
 
     // Attach event handlers for real-time updates
-    final handler = ActivityEventHandler(fid: fid, state: _stateNotifier);
+    final handler = ActivityEventHandler(
+      fid: fid,
+      state: _stateNotifier,
+      capabilitiesRepository: capabilitiesRepository,
+    );
     _eventsSubscription = eventsEmitter.listen(handler.handleEvent);
   }
 

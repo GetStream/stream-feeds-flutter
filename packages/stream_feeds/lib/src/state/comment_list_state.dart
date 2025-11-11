@@ -3,6 +3,7 @@ import 'package:state_notifier/state_notifier.dart';
 import 'package:stream_core/stream_core.dart';
 
 import '../models/comment_data.dart';
+import '../models/feeds_reaction_data.dart';
 import '../models/pagination_data.dart';
 import 'query/comments_query.dart';
 
@@ -15,8 +16,10 @@ part 'comment_list_state.freezed.dart';
 class CommentListStateNotifier extends StateNotifier<CommentListState> {
   CommentListStateNotifier({
     required CommentListState initialState,
+    required this.currentUserId,
   }) : super(initialState);
 
+  final String currentUserId;
   ({Filter? filter, CommentsSort? sort})? _queryConfig;
   CommentsSort get commentSort => _queryConfig?.sort ?? CommentsSort.last;
 
@@ -56,6 +59,32 @@ class CommentListStateNotifier extends StateNotifier<CommentListState> {
     final updatedComments = state.comments.where((it) {
       return it.id != commentId;
     }).toList();
+
+    state = state.copyWith(comments: updatedComments);
+  }
+
+  /// Handles the addition of a reaction to a comment.
+  void onCommentReactionAdded(String commentId, FeedsReactionData reaction) {
+    final updatedComments = state.comments.updateNested(
+      (comment) => comment.id == commentId,
+      children: (it) => it.replies ?? [],
+      update: (found) => found.addReaction(reaction, currentUserId),
+      updateChildren: (parent, replies) => parent.copyWith(replies: replies),
+      compare: commentSort.compare,
+    );
+
+    state = state.copyWith(comments: updatedComments);
+  }
+
+  /// Handles the removal of a reaction from a comment.
+  void onCommentReactionRemoved(String commentId, FeedsReactionData reaction) {
+    final updatedComments = state.comments.updateNested(
+      (comment) => comment.id == commentId,
+      children: (it) => it.replies ?? [],
+      update: (found) => found.removeReaction(reaction, currentUserId),
+      updateChildren: (parent, replies) => parent.copyWith(replies: replies),
+      compare: commentSort.compare,
+    );
 
     state = state.copyWith(comments: updatedComments);
   }

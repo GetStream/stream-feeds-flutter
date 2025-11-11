@@ -1,13 +1,17 @@
+import 'dart:math' as math;
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:state_notifier/state_notifier.dart';
-import 'package:stream_core/stream_core.dart';
 
 import '../models/activity_data.dart';
+import '../models/comment_data.dart';
+import '../models/feeds_reaction_data.dart';
 import '../models/pagination_data.dart';
 import '../models/poll_data.dart';
 import '../models/poll_vote_data.dart';
 import '../models/threaded_comment_data.dart';
 import 'activity_comment_list_state.dart';
+import 'event/partial_activity_event_handler.dart';
 
 part 'activity_state.freezed.dart';
 
@@ -15,7 +19,8 @@ part 'activity_state.freezed.dart';
 ///
 /// Provides methods to update the activity state in response to data changes
 /// and real-time events from the Stream Feeds API.
-class ActivityStateNotifier extends StateNotifier<ActivityState> {
+class ActivityStateNotifier extends StateNotifier<ActivityState>
+    implements StateWithUpdatableActivity {
   ActivityStateNotifier({
     required ActivityState initialState,
     required this.currentUserId,
@@ -40,6 +45,7 @@ class ActivityStateNotifier extends StateNotifier<ActivityState> {
   }
 
   /// Handles the update of an activity.
+  @override
   void onActivityUpdated(ActivityData activity) {
     state = state.copyWith(
       activity: activity,
@@ -48,6 +54,7 @@ class ActivityStateNotifier extends StateNotifier<ActivityState> {
   }
 
   /// Handles when a poll is closed.
+  @override
   void onPollClosed(PollData poll) {
     if (state.poll?.id != poll.id) return;
 
@@ -56,110 +63,138 @@ class ActivityStateNotifier extends StateNotifier<ActivityState> {
   }
 
   /// Handles when a poll is deleted.
+  @override
   void onPollDeleted(String pollId) {
     if (state.poll?.id != pollId) return;
     state = state.copyWith(poll: null);
   }
 
   /// Handles when a poll is updated.
+  @override
   void onPollUpdated(PollData poll) {
     final currentPoll = state.poll;
     if (currentPoll == null || currentPoll.id != poll.id) return;
 
-    final latestAnswers = currentPoll.latestAnswers;
-    final ownVotesAndAnswers = currentPoll.ownVotesAndAnswers;
-
     final updatedPoll = poll.copyWith(
-      latestAnswers: latestAnswers,
-      ownVotesAndAnswers: ownVotesAndAnswers,
+      latestAnswers: currentPoll.latestAnswers,
+      ownVotesAndAnswers: currentPoll.ownVotesAndAnswers,
     );
 
     state = state.copyWith(poll: updatedPoll);
   }
 
   /// Handles when a poll answer is casted.
+  @override
   void onPollAnswerCasted(PollVoteData answer, PollData poll) {
     final currentPoll = state.poll;
     if (currentPoll == null || currentPoll.id != poll.id) return;
 
-    final latestAnswers = currentPoll.latestAnswers.let((it) {
-      return it.upsert(answer, key: (it) => it.id == answer.id);
-    });
-
-    final ownVotesAndAnswers = currentPoll.ownVotesAndAnswers.let((it) {
-      if (answer.userId != currentUserId) return it;
-      return it.upsert(answer, key: (it) => it.id == answer.id);
-    });
-
-    final updatedPoll = poll.copyWith(
-      latestAnswers: latestAnswers,
-      ownVotesAndAnswers: ownVotesAndAnswers,
+    final updatedPoll = poll.castAnswer(
+      answer,
+      currentUserId,
+      currentLatestAnswers: currentPoll.latestAnswers,
+      currentOwnVotesAndAnswers: currentPoll.ownVotesAndAnswers,
     );
 
     state = state.copyWith(poll: updatedPoll);
   }
 
   /// Handles when a poll vote is casted (with poll data).
+  @override
   void onPollVoteCasted(PollVoteData vote, PollData poll) {
     return onPollVoteChanged(vote, poll);
   }
 
   /// Handles when a poll vote is changed.
+  @override
   void onPollVoteChanged(PollVoteData vote, PollData poll) {
     final currentPoll = state.poll;
     if (currentPoll == null || currentPoll.id != poll.id) return;
 
-    final latestAnswers = currentPoll.latestAnswers;
-    final ownVotesAndAnswers = currentPoll.ownVotesAndAnswers.let((it) {
-      if (vote.userId != currentUserId) return it;
-      return it.upsert(vote, key: (it) => it.id == vote.id);
-    });
-
-    final updatedPoll = poll.copyWith(
-      latestAnswers: latestAnswers,
-      ownVotesAndAnswers: ownVotesAndAnswers,
+    final updatedPoll = poll.changeVote(
+      vote,
+      currentUserId,
+      currentLatestVotes: currentPoll.latestVotes,
+      currentOwnVotesAndAnswers: currentPoll.ownVotesAndAnswers,
     );
 
     state = state.copyWith(poll: updatedPoll);
   }
 
   /// Handles when a poll answer is removed (with poll data).
+  @override
   void onPollAnswerRemoved(PollVoteData answer, PollData poll) {
     final currentPoll = state.poll;
     if (currentPoll == null || currentPoll.id != poll.id) return;
 
-    final latestAnswers = currentPoll.latestAnswers.where((it) {
-      return it.id != answer.id;
-    }).toList();
-
-    final ownVotesAndAnswers = currentPoll.ownVotesAndAnswers.where((it) {
-      return it.id != answer.id;
-    }).toList();
-
-    final updatedPoll = poll.copyWith(
-      latestAnswers: latestAnswers,
-      ownVotesAndAnswers: ownVotesAndAnswers,
+    final updatedPoll = poll.removeAnswer(
+      answer,
+      currentUserId,
+      currentLatestAnswers: currentPoll.latestAnswers,
+      currentOwnVotesAndAnswers: currentPoll.ownVotesAndAnswers,
     );
 
     state = state.copyWith(poll: updatedPoll);
   }
 
   /// Handles when a poll vote is removed (with poll data).
+  @override
   void onPollVoteRemoved(PollVoteData vote, PollData poll) {
     final currentPoll = state.poll;
     if (currentPoll == null || currentPoll.id != poll.id) return;
 
-    final latestAnswers = currentPoll.latestAnswers;
-    final ownVotesAndAnswers = currentPoll.ownVotesAndAnswers.where((it) {
-      return it.id != vote.id;
-    }).toList();
-
-    final updatedPoll = poll.copyWith(
-      latestAnswers: latestAnswers,
-      ownVotesAndAnswers: ownVotesAndAnswers,
+    final updatedPoll = poll.removeVote(
+      vote,
+      currentUserId,
+      currentLatestVotes: currentPoll.latestVotes,
+      currentOwnVotesAndAnswers: currentPoll.ownVotesAndAnswers,
     );
 
     state = state.copyWith(poll: updatedPoll);
+  }
+
+  @override
+  void onCommentAdded(CommentData comment) {
+    // The comments are stored in the comment list, but that doesn't contain the total count.
+    if (state.activity case final activity?) {
+      state = state.copyWith(
+        activity: activity.copyWith(
+          commentCount: math.max(0, activity.commentCount + 1),
+        ),
+      );
+    }
+  }
+
+  @override
+  void onCommentRemoved(CommentData comment) {
+    // The comments are stored in the comment list, but that doesn't contain the total count.
+    if (state.activity case final activity?) {
+      state = state.copyWith(
+        activity: activity.copyWith(
+          commentCount: math.max(0, activity.commentCount - 1),
+        ),
+      );
+    }
+  }
+
+  @override
+  void onReactionAdded(FeedsReactionData reaction) {
+    final activity = state.activity;
+    if (activity == null || activity.id != reaction.activityId) return;
+
+    state = state.copyWith(
+      activity: activity.addReaction(reaction, currentUserId),
+    );
+  }
+
+  @override
+  void onReactionRemoved(FeedsReactionData reaction) {
+    final activity = state.activity;
+    if (activity == null || reaction.activityId != activity.id) return;
+
+    state = state.copyWith(
+      activity: activity.removeReaction(reaction, currentUserId),
+    );
   }
 
   @override

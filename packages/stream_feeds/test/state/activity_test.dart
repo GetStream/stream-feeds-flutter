@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_redundant_argument_values
+
 import 'dart:async';
 import 'dart:convert';
 
@@ -64,7 +66,7 @@ void main() {
     });
   });
 
-  group('Poll events', () {
+  group('WS events', () {
     late StreamController<Object> wsStreamController;
     late MockWebSocketSink webSocketSink;
 
@@ -85,8 +87,11 @@ void main() {
       await wsStreamController.close();
     });
 
-    void setupMockActivity({GetActivityResponse? activity}) {
-      const activityId = 'id';
+    void setupMockActivity({
+      String activityId = 'id',
+      GetActivityResponse? activity,
+      GetCommentsResponse? comments,
+    }) {
       when(() => feedsApi.getActivity(id: activityId)).thenAnswer(
         (_) async =>
             Result.success(activity ?? createDefaultActivityResponse()),
@@ -98,9 +103,52 @@ void main() {
           depth: 3,
         ),
       ).thenAnswer(
-        (_) async => Result.success(createDefaultCommentsResponse()),
+        (_) async =>
+            Result.success(comments ?? createDefaultCommentsResponse()),
       );
     }
+
+    test('poll updated', () async {
+      final originalDate = DateTime(2021, 1, 1);
+      final updatedDate = DateTime(2021, 1, 2);
+
+      final poll = createDefaultPollResponseData(updatedAt: originalDate);
+      setupMockActivity(
+        activity: createDefaultActivityResponse(poll: poll),
+      );
+
+      final activity = client.activity(
+        activityId: 'id',
+        fid: const FeedId(group: 'group', id: 'id'),
+      );
+      await activity.get();
+
+      expect(poll.voteCount, 0);
+      expect(poll.updatedAt, originalDate);
+
+      activity.notifier.stream.listen(
+        expectAsync1(
+          (event) {
+            expect(event, isA<ActivityState>());
+            expect(event.poll?.id, 'poll-id');
+            expect(event.poll?.voteCount, 1);
+            expect(event.poll?.updatedAt, updatedDate);
+          },
+        ),
+      );
+
+      wsStreamController.add(
+        jsonEncode(
+          PollUpdatedFeedEvent(
+            createdAt: DateTime.now(),
+            custom: const {},
+            fid: 'fid',
+            poll: poll.copyWith(voteCount: 1, updatedAt: updatedDate),
+            type: EventTypes.pollUpdated,
+          ).toJson(),
+        ),
+      );
+    });
 
     test('poll vote casted', () async {
       final poll = createDefaultPollResponseData();
@@ -375,6 +423,356 @@ void main() {
             fid: 'fid',
             poll: poll,
             type: EventTypes.pollDeleted,
+          ),
+        ),
+      );
+    });
+
+    test('comment added', () async {
+      const activityId = 'activity-id';
+      const fid = FeedId(group: 'group', id: 'id');
+      final comment1 = createDefaultCommentResponse(
+        objectId: activityId,
+        id: 'comment-id-1',
+        text: 'comment-text-1',
+      );
+      final comment2 = createDefaultCommentResponse(
+        objectId: activityId,
+        id: 'comment-id-2',
+        text: 'comment-text-2',
+      );
+
+      final initialComments = createDefaultCommentsResponse(
+        comments: [ThreadedCommentResponse.fromJson(comment1.toJson())],
+      );
+
+      setupMockActivity(
+        activityId: activityId,
+        activity: createDefaultActivityResponse(
+          id: activityId,
+          comments: [comment1],
+        ),
+        comments: initialComments,
+      );
+
+      final activity = client.activity(
+        activityId: activityId,
+        fid: fid,
+      );
+      final activityData = await activity.get();
+      expect(activityData, isA<Result<ActivityData>>());
+      expect(activityData.getOrNull()?.id, activityId);
+      expect(activityData.getOrNull()?.comments.length, 1);
+
+      expect(activity.state.activity?.commentCount, 1);
+      expect(activity.state.comments.length, 1);
+
+      // The event will trigger twice, first with updated count and then with the new comment.
+      var count = 0;
+      activity.notifier.stream.listen(
+        expectAsync1(
+          count: 2,
+          (event) {
+            count++;
+            if (count == 1) {
+              expect(event, isA<ActivityState>());
+              expect(event.comments.length, 2);
+            }
+            if (count == 2) {
+              expect(event, isA<ActivityState>());
+              expect(event.activity?.commentCount, 2);
+            }
+          },
+        ),
+      );
+      wsStreamController.add(
+        jsonEncode(
+          CommentAddedEvent(
+            type: EventTypes.commentAdded,
+            activity: createDefaultActivityResponse().activity,
+            createdAt: DateTime.now(),
+            custom: const {},
+            fid: fid.rawValue,
+            comment: comment2,
+          ),
+        ),
+      );
+    });
+
+    test('comment updated', () async {
+      const activityId = 'activity-id';
+      const fid = FeedId(group: 'group', id: 'id');
+      final comment = createDefaultCommentResponse(
+        objectId: activityId,
+        id: 'comment-id',
+        text: 'comment-text',
+      );
+
+      final initialComments = createDefaultCommentsResponse(
+        comments: [ThreadedCommentResponse.fromJson(comment.toJson())],
+      );
+
+      setupMockActivity(
+        activityId: activityId,
+        activity: createDefaultActivityResponse(
+          id: activityId,
+          comments: [comment],
+        ),
+        comments: initialComments,
+      );
+
+      final activity = client.activity(
+        activityId: activityId,
+        fid: fid,
+      );
+      final activityData = await activity.get();
+      expect(activityData, isA<Result<ActivityData>>());
+      expect(activityData.getOrNull()?.id, activityId);
+      expect(activityData.getOrNull()?.comments.length, 1);
+
+      expect(activity.state.activity?.commentCount, 1);
+      expect(activity.state.comments.first.text, 'comment-text');
+
+      // The event will trigger twice, first with updated count and then with the new comment.
+      activity.notifier.stream.listen(
+        expectAsync1(
+          (event) {
+            expect(event, isA<ActivityState>());
+            expect(event.activity?.commentCount, 1);
+            expect(event.comments.first.text, 'comment-text-2');
+          },
+        ),
+      );
+      wsStreamController.add(
+        jsonEncode(
+          CommentUpdatedEvent(
+            type: EventTypes.commentUpdated,
+            createdAt: DateTime.now(),
+            custom: const {},
+            fid: fid.rawValue,
+            comment: comment.copyWith(text: 'comment-text-2'),
+          ),
+        ),
+      );
+    });
+
+    test('comment removed', () async {
+      const activityId = 'activity-id';
+      const fid = FeedId(group: 'group', id: 'id');
+      final comment = createDefaultCommentResponse(
+        objectId: activityId,
+        id: 'comment-id',
+        text: 'comment-text',
+      );
+
+      final initialComments = createDefaultCommentsResponse(
+        comments: [ThreadedCommentResponse.fromJson(comment.toJson())],
+      );
+
+      setupMockActivity(
+        activityId: activityId,
+        activity: createDefaultActivityResponse(
+          id: activityId,
+          comments: [comment],
+        ),
+        comments: initialComments,
+      );
+
+      final activity = client.activity(
+        activityId: activityId,
+        fid: fid,
+      );
+      final activityData = await activity.get();
+      expect(activityData, isA<Result<ActivityData>>());
+      expect(activityData.getOrNull()?.id, activityId);
+      expect(activityData.getOrNull()?.comments.length, 1);
+
+      expect(activity.state.activity?.commentCount, 1);
+      expect(activity.state.comments.length, 1);
+
+      // The event will trigger twice, first with updated count and then with the new comment.
+      var count = 0;
+      activity.notifier.stream.listen(
+        expectAsync1(
+          count: 2,
+          (event) {
+            count++;
+            if (count == 1) {
+              expect(event.comments, isEmpty);
+            }
+            if (count == 2) {
+              expect(event, isA<ActivityState>());
+              expect(event.activity?.commentCount, 0);
+            }
+          },
+        ),
+      );
+      wsStreamController.add(
+        jsonEncode(
+          CommentDeletedEvent(
+            type: EventTypes.commentDeleted,
+            createdAt: DateTime.now(),
+            custom: const {},
+            fid: fid.rawValue,
+            comment: comment,
+          ),
+        ),
+      );
+    });
+
+    test('activity reaction added', () async {
+      const activityId = 'activity-id';
+      const fid = FeedId(group: 'group', id: 'id');
+
+      final activityResponse = createDefaultActivityResponse(id: activityId);
+
+      setupMockActivity(
+        activityId: activityId,
+        activity: activityResponse,
+      );
+
+      final activity = client.activity(
+        activityId: activityId,
+        fid: fid,
+      );
+      final activityData = await activity.get();
+      expect(activityData, isA<Result<ActivityData>>());
+      expect(activityData.getOrNull()?.id, activityId);
+      expect(activityData.getOrNull()?.reactionCount, 0);
+
+      activity.notifier.stream.listen(
+        expectAsync1(
+          (event) {
+            expect(event, isA<ActivityState>());
+            expect(event.activity?.reactionCount, 1);
+          },
+        ),
+      );
+
+      wsStreamController.add(
+        jsonEncode(
+          ActivityReactionAddedEvent(
+            type: EventTypes.activityReactionAdded,
+            createdAt: DateTime.now(),
+            custom: const {},
+            fid: fid.rawValue,
+            activity: activityResponse.activity,
+            reaction: FeedsReactionResponse(
+              activityId: activityId,
+              type: 'like',
+              createdAt: DateTime.now(),
+              updatedAt: DateTime.now(),
+              user: createDefaultUserResponse(),
+            ),
+          ),
+        ),
+      );
+    });
+
+    test('activity reaction not added when activity id does not match',
+        () async {
+      const activityId = 'activity-id';
+      const fid = FeedId(group: 'group', id: 'id');
+
+      final activityResponse = createDefaultActivityResponse(id: activityId);
+
+      setupMockActivity(
+        activityId: activityId,
+        activity: activityResponse,
+      );
+
+      final activity = client.activity(
+        activityId: activityId,
+        fid: fid,
+      );
+      final activityData = await activity.get();
+      expect(activityData, isA<Result<ActivityData>>());
+      expect(activityData.getOrNull()?.id, activityId);
+      expect(activityData.getOrNull()?.reactionCount, 0);
+
+      activity.notifier.stream.listen(
+        expectAsync1(
+          count: 0,
+          (event) {},
+        ),
+      );
+
+      wsStreamController.add(
+        jsonEncode(
+          ActivityReactionAddedEvent(
+            type: EventTypes.activityReactionAdded,
+            createdAt: DateTime.now(),
+            custom: const {},
+            fid: fid.rawValue,
+            activity: activityResponse.activity,
+            reaction: FeedsReactionResponse(
+              activityId: 'other-activity-id',
+              type: 'like',
+              createdAt: DateTime.now(),
+              updatedAt: DateTime.now(),
+              user: createDefaultUserResponse(),
+            ),
+          ),
+        ),
+      );
+    });
+
+    test('activity reaction deleted', () async {
+      const activityId = 'activity-id';
+      const fid = FeedId(group: 'group', id: 'id');
+      final dateReaction = DateTime(2025, 1, 1);
+
+      final activityResponse = createDefaultActivityResponse(
+        id: activityId,
+        reactionGroups: {
+          'like': ReactionGroupResponse(
+            count: 1,
+            firstReactionAt: dateReaction,
+            lastReactionAt: dateReaction,
+          ),
+        },
+      );
+
+      setupMockActivity(
+        activityId: activityId,
+        activity: activityResponse,
+      );
+      final activity = client.activity(
+        activityId: activityId,
+        fid: fid,
+      );
+
+      final activityData = await activity.get();
+      expect(activityData, isA<Result<ActivityData>>());
+      expect(activityData.getOrNull()?.id, activityId);
+      expect(activityData.getOrNull()?.reactionCount, 1);
+      expect(activityData.getOrNull()?.reactionGroups.length, 1);
+
+      activity.notifier.stream.listen(
+        expectAsync1(
+          (event) {
+            expect(event, isA<ActivityState>());
+            expect(event.activity?.reactionCount, 0);
+            expect(event.activity?.reactionGroups.length, 0);
+          },
+        ),
+      );
+
+      wsStreamController.add(
+        jsonEncode(
+          ActivityReactionDeletedEvent(
+            type: EventTypes.activityReactionDeleted,
+            createdAt: DateTime.now(),
+            custom: const {},
+            fid: fid.rawValue,
+            activity: activityResponse.activity,
+            reaction: FeedsReactionResponse(
+              activityId: activityId,
+              type: 'like',
+              createdAt: dateReaction,
+              updatedAt: DateTime.now(),
+              user: createDefaultUserResponse(),
+            ),
           ),
         ),
       );

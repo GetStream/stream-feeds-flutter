@@ -3,6 +3,7 @@ import 'package:stream_core/stream_core.dart';
 import '../../generated/api/models.dart' as api;
 
 import '../../models/comment_data.dart';
+import '../../models/feeds_reaction_data.dart';
 import '../comment_list_state.dart';
 import '../query/comments_query.dart';
 import 'state_event_handler.dart';
@@ -39,6 +40,20 @@ class CommentListEventHandler implements StateEventHandler {
 
     if (event is api.CommentDeletedEvent) {
       return state.onCommentRemoved(event.comment.id);
+    }
+
+    if (event is api.CommentReactionAddedEvent) {
+      return state.onCommentReactionAdded(
+        event.comment.id,
+        event.reaction.toModel(),
+      );
+    }
+
+    if (event is api.CommentReactionDeletedEvent) {
+      return state.onCommentReactionRemoved(
+        event.comment.id,
+        event.reaction.toModel(),
+      );
     }
 
     // Handle other comment-related events if needed

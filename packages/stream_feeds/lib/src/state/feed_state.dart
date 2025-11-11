@@ -19,7 +19,11 @@ import '../models/follow_data.dart';
 import '../models/get_or_create_feed_data.dart';
 import '../models/mark_activity_data.dart';
 import '../models/pagination_data.dart';
+import '../models/poll_data.dart';
+import '../models/poll_vote_data.dart';
 import '../models/query_configuration.dart';
+import 'event/partial_activity_event_handler.dart';
+import 'event/partial_activity_list_event_handler.dart';
 import 'member_list_state.dart';
 import 'query/activities_query.dart';
 import 'query/feed_query.dart';
@@ -30,7 +34,8 @@ part 'feed_state.freezed.dart';
 ///
 /// Provides methods to update the feed state in response to data changes,
 /// user interactions, and real-time events from the Stream Feeds API.
-class FeedStateNotifier extends StateNotifier<FeedState> {
+class FeedStateNotifier extends StateNotifier<FeedState>
+    implements StateWithListOfActivities, StateWithUpdatableActivity {
   FeedStateNotifier({
     required FeedState initialState,
     required this.currentUserId,
@@ -108,6 +113,7 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
   }
 
   /// Handles updates to the feed state when a new activity is added.
+  @override
   void onActivityAdded(ActivityData activity) {
     // Upsert the new activity into the existing activities list
     final updatedActivities = state.activities.sortedUpsert(
@@ -120,6 +126,7 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
   }
 
   /// Handles updates to the feed state when an activity is updated.
+  @override
   void onActivityUpdated(ActivityData activity) {
     final updatedActivities = state.activities.sortedUpsert(
       activity,
@@ -139,6 +146,7 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
   }
 
   /// Handles updates to the feed state when activity is removed.
+  @override
   void onActivityRemoved(ActivityData activity) {
     return onActivityDeleted(activity.id);
   }
@@ -251,6 +259,7 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
   }
 
   /// Handles updates to the feed state when a comment is added or removed.
+  @override
   void onCommentAdded(CommentData comment) {
     // Add or update the comment in the activity
     final updatedActivities = state.activities.map((activity) {
@@ -262,6 +271,7 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
   }
 
   /// Handles updates to the feed state when a comment is removed.
+  @override
   void onCommentRemoved(CommentData comment) {
     // Remove the comment from the activity
     final updatedActivities = state.activities.map((activity) {
@@ -337,6 +347,7 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
   }
 
   /// Handles updates to the feed state when a reaction is added.
+  @override
   void onReactionAdded(FeedsReactionData reaction) {
     // Add or update the reaction in the activity
     final updatedActivities = state.activities.map((activity) {
@@ -348,6 +359,7 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
   }
 
   /// Handles updates to the feed state when a reaction is removed.
+  @override
   void onReactionRemoved(FeedsReactionData reaction) {
     // Remove the reaction from the activity
     final updatedActivities = state.activities.map((activity) {
@@ -533,6 +545,128 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
   void dispose() {
     _removeMemberListListener?.call();
     super.dispose();
+  }
+
+  ActivityData? _getActivityForPoll(String pollId) {
+    return state.activities.firstWhereOrNull((it) => it.poll?.id == pollId);
+  }
+
+  void _updateActivityInState(ActivityData activity) {
+    state = state.copyWith(
+      activities: state.activities.upsert(activity, key: (it) => it.id),
+    );
+  }
+
+  /// Handles when a poll is closed.
+  @override
+  void onPollClosed(PollData poll) {
+    final activity = _getActivityForPoll(poll.id);
+    if (activity == null) return;
+
+    final updatedPoll = activity.poll?.copyWith(isClosed: true);
+    _updateActivityInState(activity.copyWith(poll: updatedPoll));
+  }
+
+  /// Handles when a poll is deleted.
+  @override
+  void onPollDeleted(String pollId) {
+    final activity = _getActivityForPoll(pollId);
+    if (activity == null) return;
+    _updateActivityInState(activity.copyWith(poll: null));
+  }
+
+  /// Handles when a poll is updated.
+  @override
+  void onPollUpdated(PollData poll) {
+    final activity = _getActivityForPoll(poll.id);
+    if (activity == null) return;
+
+    final currentPoll = activity.poll!;
+
+    final updatedPoll = poll.copyWith(
+      latestAnswers: currentPoll.latestAnswers,
+      ownVotesAndAnswers: currentPoll.ownVotesAndAnswers,
+    );
+
+    _updateActivityInState(activity.copyWith(poll: updatedPoll));
+  }
+
+  /// Handles when a poll answer is casted.
+  @override
+  void onPollAnswerCasted(PollVoteData answer, PollData poll) {
+    final activity = _getActivityForPoll(poll.id);
+    if (activity == null) return;
+
+    final currentPoll = activity.poll!;
+
+    final updatedPoll = poll.castAnswer(
+      answer,
+      currentUserId,
+      currentLatestAnswers: currentPoll.latestAnswers,
+      currentOwnVotesAndAnswers: currentPoll.ownVotesAndAnswers,
+    );
+
+    _updateActivityInState(activity.copyWith(poll: updatedPoll));
+  }
+
+  /// Handles when a poll vote is casted (with poll data).
+  @override
+  void onPollVoteCasted(PollVoteData vote, PollData poll) {
+    return onPollVoteChanged(vote, poll);
+  }
+
+  /// Handles when a poll vote is changed.
+  @override
+  void onPollVoteChanged(PollVoteData vote, PollData poll) {
+    final activity = _getActivityForPoll(poll.id);
+    if (activity == null) return;
+
+    final currentPoll = activity.poll!;
+
+    final updatedPoll = poll.changeVote(
+      vote,
+      currentUserId,
+      currentLatestVotes: currentPoll.latestVotes,
+      currentOwnVotesAndAnswers: currentPoll.ownVotesAndAnswers,
+    );
+
+    _updateActivityInState(activity.copyWith(poll: updatedPoll));
+  }
+
+  /// Handles when a poll answer is removed (with poll data).
+  @override
+  void onPollAnswerRemoved(PollVoteData answer, PollData poll) {
+    final activity = _getActivityForPoll(poll.id);
+    if (activity == null) return;
+
+    final currentPoll = activity.poll!;
+
+    final updatedPoll = poll.removeAnswer(
+      answer,
+      currentUserId,
+      currentLatestAnswers: currentPoll.latestAnswers,
+      currentOwnVotesAndAnswers: currentPoll.ownVotesAndAnswers,
+    );
+
+    _updateActivityInState(activity.copyWith(poll: updatedPoll));
+  }
+
+  /// Handles when a poll vote is removed (with poll data).
+  @override
+  void onPollVoteRemoved(PollVoteData vote, PollData poll) {
+    final activity = _getActivityForPoll(poll.id);
+    if (activity == null) return;
+
+    final currentPoll = activity.poll!;
+
+    final updatedPoll = poll.removeVote(
+      vote,
+      currentUserId,
+      currentLatestVotes: currentPoll.latestVotes,
+      currentOwnVotesAndAnswers: currentPoll.ownVotesAndAnswers,
+    );
+
+    _updateActivityInState(activity.copyWith(poll: updatedPoll));
   }
 }
 

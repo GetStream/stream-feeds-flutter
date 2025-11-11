@@ -175,12 +175,19 @@ extension PollDataMutations on PollData {
     return copyWith(options: updatedOptions);
   }
 
-  PollData castAnswer(PollVoteData answer, String currentUserId) {
-    final updatedLatestAnswers = latestAnswers.let((it) {
+  PollData castAnswer(
+    PollVoteData answer,
+    String currentUserId, {
+    List<PollVoteData>? currentLatestAnswers,
+    List<PollVoteData>? currentOwnVotesAndAnswers,
+  }) {
+    final updatedLatestAnswers =
+        (currentLatestAnswers ?? latestAnswers).let((it) {
       return it.upsert(answer, key: (it) => it.id == answer.id);
     });
 
-    final updatedOwnVotesAndAnswers = ownVotesAndAnswers.let((it) {
+    final updatedOwnVotesAndAnswers =
+        (currentOwnVotesAndAnswers ?? ownVotesAndAnswers).let((it) {
       if (answer.userId != currentUserId) return it;
       return it.upsert(answer, key: (it) => it.id == answer.id);
     });
@@ -188,6 +195,65 @@ extension PollDataMutations on PollData {
     return copyWith(
       latestAnswers: updatedLatestAnswers,
       ownVotesAndAnswers: updatedOwnVotesAndAnswers,
+    );
+  }
+
+  PollData changeVote(
+    PollVoteData vote,
+    String currentUserId, {
+    List<PollVoteData>? currentLatestVotes,
+    List<PollVoteData>? currentOwnVotesAndAnswers,
+  }) {
+    final latestAnswers = currentLatestVotes ?? latestVotes;
+    final ownVotesAndAnswers =
+        (currentOwnVotesAndAnswers ?? this.ownVotesAndAnswers).let((it) {
+      if (vote.userId != currentUserId) return it;
+      return it.upsert(vote, key: (it) => it.id == vote.id);
+    });
+
+    return copyWith(
+      latestAnswers: latestAnswers,
+      ownVotesAndAnswers: ownVotesAndAnswers,
+    );
+  }
+
+  PollData removeAnswer(
+    PollVoteData answer,
+    String currentUserId, {
+    List<PollVoteData>? currentLatestAnswers,
+    List<PollVoteData>? currentOwnVotesAndAnswers,
+  }) {
+    final latestAnswers =
+        (currentLatestAnswers ?? this.latestAnswers).where((it) {
+      return it.id != answer.id;
+    }).toList();
+
+    final ownVotesAndAnswers =
+        (currentOwnVotesAndAnswers ?? this.ownVotesAndAnswers).where((it) {
+      return it.id != answer.id;
+    }).toList();
+
+    return copyWith(
+      latestAnswers: latestAnswers,
+      ownVotesAndAnswers: ownVotesAndAnswers,
+    );
+  }
+
+  PollData removeVote(
+    PollVoteData vote,
+    String currentUserId, {
+    List<PollVoteData>? currentLatestVotes,
+    List<PollVoteData>? currentOwnVotesAndAnswers,
+  }) {
+    final latestAnswers = currentLatestVotes ?? latestVotes;
+    final ownVotesAndAnswers =
+        (currentOwnVotesAndAnswers ?? this.ownVotesAndAnswers).where((it) {
+      return it.id != vote.id;
+    }).toList();
+
+    return copyWith(
+      latestAnswers: latestAnswers,
+      ownVotesAndAnswers: ownVotesAndAnswers,
     );
   }
 }

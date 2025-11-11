@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_redundant_argument_values
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:stream_core/stream_core.dart';
 
 import '../generated/api/models.dart';
 import '../state/query/comments_query.dart';
@@ -194,6 +195,102 @@ extension CommentResponseMapper on CommentResponse {
       updatedAt: updatedAt,
       upvoteCount: upvoteCount,
       user: user.toModel(),
+    );
+  }
+}
+
+extension CommentDataMutations on CommentData {
+  /// Adds a reaction to the comment, updating the latest reactions, reaction groups, reaction count,
+  /// and own reactions if applicable.
+  ///
+  /// @param reaction The reaction to add.
+  /// @param currentUserId The ID of the current user, used to update own reactions.
+  /// @return A new [CommentData] instance with the updated reaction data.
+  CommentData addReaction(
+    FeedsReactionData reaction,
+    String currentUserId,
+  ) {
+    final updatedOwnReactions = switch (reaction.user.id == currentUserId) {
+      true => ownReactions.upsert(reaction, key: (it) => it.id),
+      false => ownReactions,
+    };
+
+    final updatedLatestReactions = latestReactions.upsert(
+      reaction,
+      key: (reaction) => reaction.id,
+    );
+
+    final reactionGroup = switch (reactionGroups[reaction.type]) {
+      final existingGroup? => existingGroup,
+      _ => ReactionGroupData(
+          count: 1,
+          firstReactionAt: reaction.createdAt,
+          lastReactionAt: reaction.createdAt,
+        ),
+    };
+
+    final updatedReactionGroups = {
+      ...reactionGroups,
+      reaction.type: reactionGroup.increment(reaction.createdAt),
+    };
+
+    final updatedReactionCount = updatedReactionGroups.values.sumOf(
+      (group) => group.count,
+    );
+
+    return copyWith(
+      ownReactions: updatedOwnReactions,
+      latestReactions: updatedLatestReactions,
+      reactionGroups: updatedReactionGroups,
+      reactionCount: updatedReactionCount,
+    );
+  }
+
+  /// Removes a reaction from the comment, updating the latest reactions, reaction groups, reaction
+  /// count, and own reactions if applicable.
+  ///
+  /// @param reaction The reaction to remove.
+  /// @param currentUserId The ID of the current user, used to update own reactions.
+  /// @return A new [CommentData] instance with the updated reaction data.
+  CommentData removeReaction(
+    FeedsReactionData reaction,
+    String currentUserId,
+  ) {
+    final updatedOwnReactions = switch (reaction.user.id == currentUserId) {
+      true => ownReactions.where((it) => it.id != reaction.id).toList(),
+      false => ownReactions,
+    };
+
+    final updatedLatestReactions = latestReactions.where((it) {
+      return it.id != reaction.id;
+    }).toList(growable: false);
+
+    final updatedReactionGroups = {...reactionGroups};
+    final reactionGroup = updatedReactionGroups.remove(reaction.type);
+
+    if (reactionGroup == null) {
+      // If there is no reaction group for this type, just update latest and own reactions.
+      // Note: This is only a hypothetical case, as we should always have a reaction group.
+      return copyWith(
+        latestReactions: updatedLatestReactions,
+        ownReactions: updatedOwnReactions,
+      );
+    }
+
+    final updatedReactionGroup = reactionGroup.decrement(reaction.createdAt);
+    if (updatedReactionGroup.count > 0) {
+      updatedReactionGroups[reaction.type] = updatedReactionGroup;
+    }
+
+    final updatedReactionCount = updatedReactionGroups.values.sumOf(
+      (group) => group.count,
+    );
+
+    return copyWith(
+      ownReactions: updatedOwnReactions,
+      latestReactions: updatedLatestReactions,
+      reactionGroups: updatedReactionGroups,
+      reactionCount: updatedReactionCount,
     );
   }
 }

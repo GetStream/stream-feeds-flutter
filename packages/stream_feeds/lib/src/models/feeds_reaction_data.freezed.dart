@@ -16,6 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$FeedsReactionData {
   String get activityId;
+  String? get commentId;
   DateTime get createdAt;
   String get type;
   DateTime get updatedAt;
@@ -37,6 +38,8 @@ mixin _$FeedsReactionData {
             other is FeedsReactionData &&
             (identical(other.activityId, activityId) ||
                 other.activityId == activityId) &&
+            (identical(other.commentId, commentId) ||
+                other.commentId == commentId) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.type, type) || other.type == type) &&
@@ -47,12 +50,12 @@ mixin _$FeedsReactionData {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, activityId, createdAt, type,
-      updatedAt, user, const DeepCollectionEquality().hash(custom));
+  int get hashCode => Object.hash(runtimeType, activityId, commentId, createdAt,
+      type, updatedAt, user, const DeepCollectionEquality().hash(custom));
 
   @override
   String toString() {
-    return 'FeedsReactionData(activityId: $activityId, createdAt: $createdAt, type: $type, updatedAt: $updatedAt, user: $user, custom: $custom)';
+    return 'FeedsReactionData(activityId: $activityId, commentId: $commentId, createdAt: $createdAt, type: $type, updatedAt: $updatedAt, user: $user, custom: $custom)';
   }
 }
 
@@ -64,6 +67,7 @@ abstract mixin class $FeedsReactionDataCopyWith<$Res> {
   @useResult
   $Res call(
       {String activityId,
+      String? commentId,
       DateTime createdAt,
       String type,
       DateTime updatedAt,
@@ -85,6 +89,7 @@ class _$FeedsReactionDataCopyWithImpl<$Res>
   @override
   $Res call({
     Object? activityId = null,
+    Object? commentId = freezed,
     Object? createdAt = null,
     Object? type = null,
     Object? updatedAt = null,
@@ -96,6 +101,10 @@ class _$FeedsReactionDataCopyWithImpl<$Res>
           ? _self.activityId
           : activityId // ignore: cast_nullable_to_non_nullable
               as String,
+      commentId: freezed == commentId
+          ? _self.commentId
+          : commentId // ignore: cast_nullable_to_non_nullable
+              as String?,
       createdAt: null == createdAt
           ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
