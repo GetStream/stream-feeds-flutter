@@ -107,6 +107,14 @@ class FeedEventHandler with FeedCapabilitiesMixin implements StateEventHandler {
     if (event is api.FeedMemberRemovedEvent) return;
     if (event is api.FeedMemberUpdatedEvent) return;
 
+    if (event is api.StoriesFeedUpdatedEvent) {
+      if (event.fid != fid.rawValue) return;
+
+      return state.onAggregatedActivitiesUpdated(
+        event.aggregatedActivities?.map((it) => it.toModel()).toList(),
+      );
+    }
+
     // Handle other events if necessary
   }
 }

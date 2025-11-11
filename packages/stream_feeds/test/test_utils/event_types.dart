@@ -1,4 +1,5 @@
 class EventTypes {
+  static const String activityMarked = 'feeds.activity.marked';
   static const String activityReactionAdded = 'feeds.activity.reaction.added';
   static const String activityReactionDeleted =
       'feeds.activity.reaction.deleted';
@@ -18,4 +19,6 @@ class EventTypes {
   static const String pollUpdated = 'feeds.poll.updated';
   static const String pollVoteCasted = 'feeds.poll.vote_casted';
   static const String pollVoteRemoved = 'feeds.poll.vote_removed';
+
+  static const String storiesFeedUpdated = 'feeds.stories_feed.updated';
 }

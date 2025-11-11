@@ -88,21 +88,27 @@ class FeedStateNotifier extends StateNotifier<FeedState>
 
   /// Handles the result of a query for more activities.
   void onQueryMoreActivities(
-    PaginationResult<ActivityData> result,
+    PaginationResult<ActivityData> activities,
+    List<AggregatedActivityData> aggregatedActivities,
     QueryConfiguration<ActivityData> queryConfig,
   ) {
     _activitiesQueryConfig = queryConfig;
 
     // Merge the new activities with the existing ones
     final updatedActivities = state.activities.merge(
-      result.items,
+      activities.items,
       key: (it) => it.id,
       compare: activitiesSort.compare,
+    );
+    final updatedAggregatedActivities = state.aggregatedActivities.merge(
+      aggregatedActivities,
+      key: (it) => it.group,
     );
 
     state = state.copyWith(
       activities: updatedActivities,
-      activitiesPagination: result.pagination,
+      aggregatedActivities: updatedAggregatedActivities,
+      activitiesPagination: activities.pagination,
     );
   }
 
@@ -196,6 +202,8 @@ class FeedStateNotifier extends StateNotifier<FeedState>
       markRead: (read) => _markRead(read, state),
       // If markSeen contains specific IDs, mark those as seen
       markSeen: (seen) => _markSeen(seen, state),
+      // If markWatched contains specific IDs, mark those as watched
+      markWatched: (watched) => _markWatched(watched, state),
       // For other cases, return the current state without changes
       orElse: (MarkActivityData data) => state,
     );
@@ -207,12 +215,25 @@ class FeedStateNotifier extends StateNotifier<FeedState>
     NotificationStatusResponse? notificationStatus,
   ) {
     // Update the aggregated activities and notification status in the state
-    final updatedAggregatedActivities = [...?aggregatedActivities];
+    final updatedAggregatedActivities = state.aggregatedActivities.merge(
+      aggregatedActivities ?? [],
+      key: (it) => it.group,
+    );
 
     state = state.copyWith(
       aggregatedActivities: updatedAggregatedActivities,
       notificationStatus: notificationStatus,
     );
+  }
+
+  void onAggregatedActivitiesUpdated(
+    List<AggregatedActivityData>? aggregatedActivities,
+  ) {
+    final updatedAggregatedActivities = state.aggregatedActivities.merge(
+      aggregatedActivities ?? [],
+      key: (it) => it.group,
+    );
+    state = state.copyWith(aggregatedActivities: updatedAggregatedActivities);
   }
 
   /// Handles updates to the feed state when a bookmark is added or removed.
@@ -489,6 +510,37 @@ class FeedStateNotifier extends StateNotifier<FeedState>
     return state.copyWith(notificationStatus: updatedNotificationStatus);
   }
 
+  FeedState _markWatched(Set<String> watchedIds, FeedState state) {
+    final activities = _markWatchedActivities(watchedIds, state.activities);
+
+    final aggregatedActivities =
+        state.aggregatedActivities.map((aggregatedActivity) {
+      return aggregatedActivity.copyWith(
+        activities: _markWatchedActivities(
+          watchedIds,
+          aggregatedActivity.activities,
+        ),
+      );
+    }).toList();
+
+    return state.copyWith(
+      activities: activities,
+      aggregatedActivities: aggregatedActivities,
+    );
+  }
+
+  List<ActivityData> _markWatchedActivities(
+    Set<String> watchedIds,
+    List<ActivityData> activities,
+  ) {
+    return activities.map((activity) {
+      if (watchedIds.contains(activity.id)) {
+        return activity.copyWith(isWatched: true);
+      }
+      return activity;
+    }).toList();
+  }
+
   @override
   void dispose() {
     _removeMemberListListener?.call();
@@ -683,7 +735,7 @@ class FeedState with _$FeedState {
   @override
   final NotificationStatusResponse? notificationStatus;
 
-  /// Pagination information for activities queries.
+  /// Pagination information for [activities] and [aggregatedActivities] queries.
   @override
   final PaginationData? activitiesPagination;
 

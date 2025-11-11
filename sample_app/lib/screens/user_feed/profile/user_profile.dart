@@ -21,6 +21,7 @@ class UserProfile extends StatefulWidget {
     super.key,
     required this.userFeed,
     required this.timelineFeed,
+    required this.storiesFeed,
     this.scrollController,
   });
 
@@ -29,6 +30,10 @@ class UserProfile extends StatefulWidget {
 
   /// Timeline feed shows what the user is following
   final Feed timelineFeed;
+
+  /// Stories feed shows the user's stories
+  final Feed storiesFeed;
+
   final ScrollController? scrollController;
 
   @override
@@ -92,9 +97,16 @@ class _UserProfileState extends State<UserProfile> {
 
                 // Remove the followed user from suggestions
                 result.onSuccess(
-                  (_) => _updateFollowSuggestions([
-                    ...?followSuggestions?.where((it) => it != targetFeed),
-                  ]),
+                  (_) {
+                    // Also make `stories:user_id` follow `story:their_id` to follow stories.
+                    widget.storiesFeed.follow(
+                      targetFid: FeedId.story(targetFeed.fid.id),
+                    );
+
+                    _updateFollowSuggestions([
+                      ...?followSuggestions?.where((it) => it != targetFeed),
+                    ]);
+                  },
                 );
               },
               onUnfollow: (targetFeed) async {
