@@ -17,6 +17,7 @@ T _$identity<T>(T value) => value;
 mixin _$UpdateCommentRequest {
   String? get comment;
   Map<String, Object?>? get custom;
+  bool? get skipEnrichUrl;
   bool? get skipPush;
 
   /// Create a copy of UpdateCommentRequest
@@ -34,17 +35,19 @@ mixin _$UpdateCommentRequest {
             other is UpdateCommentRequest &&
             (identical(other.comment, comment) || other.comment == comment) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
+            (identical(other.skipEnrichUrl, skipEnrichUrl) ||
+                other.skipEnrichUrl == skipEnrichUrl) &&
             (identical(other.skipPush, skipPush) ||
                 other.skipPush == skipPush));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, comment,
-      const DeepCollectionEquality().hash(custom), skipPush);
+      const DeepCollectionEquality().hash(custom), skipEnrichUrl, skipPush);
 
   @override
   String toString() {
-    return 'UpdateCommentRequest(comment: $comment, custom: $custom, skipPush: $skipPush)';
+    return 'UpdateCommentRequest(comment: $comment, custom: $custom, skipEnrichUrl: $skipEnrichUrl, skipPush: $skipPush)';
   }
 }
 
@@ -54,7 +57,11 @@ abstract mixin class $UpdateCommentRequestCopyWith<$Res> {
           $Res Function(UpdateCommentRequest) _then) =
       _$UpdateCommentRequestCopyWithImpl;
   @useResult
-  $Res call({String? comment, Map<String, Object?>? custom, bool? skipPush});
+  $Res call(
+      {String? comment,
+      Map<String, Object?>? custom,
+      bool? skipEnrichUrl,
+      bool? skipPush});
 }
 
 /// @nodoc
@@ -72,6 +79,7 @@ class _$UpdateCommentRequestCopyWithImpl<$Res>
   $Res call({
     Object? comment = freezed,
     Object? custom = freezed,
+    Object? skipEnrichUrl = freezed,
     Object? skipPush = freezed,
   }) {
     return _then(UpdateCommentRequest(
@@ -83,6 +91,10 @@ class _$UpdateCommentRequestCopyWithImpl<$Res>
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
               as Map<String, Object?>?,
+      skipEnrichUrl: freezed == skipEnrichUrl
+          ? _self.skipEnrichUrl
+          : skipEnrichUrl // ignore: cast_nullable_to_non_nullable
+              as bool?,
       skipPush: freezed == skipPush
           ? _self.skipPush
           : skipPush // ignore: cast_nullable_to_non_nullable

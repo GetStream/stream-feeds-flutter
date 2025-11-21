@@ -18,9 +18,13 @@ part 'notification_config.freezed.dart';
 @JsonSerializable()
 class NotificationConfig with _$NotificationConfig {
   const NotificationConfig({
+    this.deduplicationWindow,
     this.trackRead,
     this.trackSeen,
   });
+
+  @override
+  final String? deduplicationWindow;
 
   @override
   final bool? trackRead;

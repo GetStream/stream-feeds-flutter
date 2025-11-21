@@ -39,6 +39,8 @@ mixin _$ActivityData {
   ActivityData? get parent;
   PollData? get poll;
   int get popularity;
+  bool get hidden;
+  bool get preview;
   int get reactionCount;
   Map<String, ReactionGroupData> get reactionGroups;
   double get score;
@@ -108,6 +110,8 @@ mixin _$ActivityData {
             (identical(other.poll, poll) || other.poll == poll) &&
             (identical(other.popularity, popularity) ||
                 other.popularity == popularity) &&
+            (identical(other.hidden, hidden) || other.hidden == hidden) &&
+            (identical(other.preview, preview) || other.preview == preview) &&
             (identical(other.reactionCount, reactionCount) ||
                 other.reactionCount == reactionCount) &&
             const DeepCollectionEquality()
@@ -156,6 +160,8 @@ mixin _$ActivityData {
         parent,
         poll,
         popularity,
+        hidden,
+        preview,
         reactionCount,
         const DeepCollectionEquality().hash(reactionGroups),
         score,
@@ -172,7 +178,7 @@ mixin _$ActivityData {
 
   @override
   String toString() {
-    return 'ActivityData(attachments: $attachments, bookmarkCount: $bookmarkCount, commentCount: $commentCount, comments: $comments, createdAt: $createdAt, currentFeed: $currentFeed, deletedAt: $deletedAt, editedAt: $editedAt, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, id: $id, interestTags: $interestTags, isWatched: $isWatched, latestReactions: $latestReactions, location: $location, mentionedUsers: $mentionedUsers, moderation: $moderation, notificationContext: $notificationContext, ownBookmarks: $ownBookmarks, ownReactions: $ownReactions, parent: $parent, poll: $poll, popularity: $popularity, reactionCount: $reactionCount, reactionGroups: $reactionGroups, score: $score, searchData: $searchData, shareCount: $shareCount, text: $text, type: $type, updatedAt: $updatedAt, user: $user, visibility: $visibility, visibilityTag: $visibilityTag, custom: $custom)';
+    return 'ActivityData(attachments: $attachments, bookmarkCount: $bookmarkCount, commentCount: $commentCount, comments: $comments, createdAt: $createdAt, currentFeed: $currentFeed, deletedAt: $deletedAt, editedAt: $editedAt, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, id: $id, interestTags: $interestTags, isWatched: $isWatched, latestReactions: $latestReactions, location: $location, mentionedUsers: $mentionedUsers, moderation: $moderation, notificationContext: $notificationContext, ownBookmarks: $ownBookmarks, ownReactions: $ownReactions, parent: $parent, poll: $poll, popularity: $popularity, hidden: $hidden, preview: $preview, reactionCount: $reactionCount, reactionGroups: $reactionGroups, score: $score, searchData: $searchData, shareCount: $shareCount, text: $text, type: $type, updatedAt: $updatedAt, user: $user, visibility: $visibility, visibilityTag: $visibilityTag, custom: $custom)';
   }
 }
 
@@ -207,6 +213,8 @@ abstract mixin class $ActivityDataCopyWith<$Res> {
       ActivityData? parent,
       PollData? poll,
       int popularity,
+      bool hidden,
+      bool preview,
       int reactionCount,
       Map<String, ReactionGroupData> reactionGroups,
       double score,
@@ -257,6 +265,8 @@ class _$ActivityDataCopyWithImpl<$Res> implements $ActivityDataCopyWith<$Res> {
     Object? parent = freezed,
     Object? poll = freezed,
     Object? popularity = null,
+    Object? hidden = null,
+    Object? preview = null,
     Object? reactionCount = null,
     Object? reactionGroups = null,
     Object? score = null,
@@ -367,6 +377,14 @@ class _$ActivityDataCopyWithImpl<$Res> implements $ActivityDataCopyWith<$Res> {
           ? _self.popularity
           : popularity // ignore: cast_nullable_to_non_nullable
               as int,
+      hidden: null == hidden
+          ? _self.hidden
+          : hidden // ignore: cast_nullable_to_non_nullable
+              as bool,
+      preview: null == preview
+          ? _self.preview
+          : preview // ignore: cast_nullable_to_non_nullable
+              as bool,
       reactionCount: null == reactionCount
           ? _self.reactionCount
           : reactionCount // ignore: cast_nullable_to_non_nullable

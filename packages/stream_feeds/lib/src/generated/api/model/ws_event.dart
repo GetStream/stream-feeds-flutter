@@ -26,6 +26,8 @@ abstract class WSEvent<T extends core.WsEvent> {
         _ActivityAddedEvent(ActivityAddedEvent.fromJson(json)),
       "feeds.activity.deleted" =>
         _ActivityDeletedEvent(ActivityDeletedEvent.fromJson(json)),
+      "feeds.activity.feedback" =>
+        _ActivityFeedbackEvent(ActivityFeedbackEvent.fromJson(json)),
       "feeds.activity.marked" =>
         _ActivityMarkEvent(ActivityMarkEvent.fromJson(json)),
       "feeds.activity.pinned" =>
@@ -136,6 +138,13 @@ class _ActivityAddedEvent extends WSEvent<ActivityAddedEvent> {
 
 class _ActivityDeletedEvent extends WSEvent<ActivityDeletedEvent> {
   const _ActivityDeletedEvent(super.wrapped);
+
+  @override
+  String get type => wrapped.type;
+}
+
+class _ActivityFeedbackEvent extends WSEvent<ActivityFeedbackEvent> {
+  const _ActivityFeedbackEvent(super.wrapped);
 
   @override
   String get type => wrapped.type;

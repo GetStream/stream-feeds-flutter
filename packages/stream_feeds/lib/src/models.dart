@@ -5,6 +5,7 @@ export 'models/feed_id.dart';
 export 'models/feed_input_data.dart';
 export 'models/feed_member_data.dart';
 export 'models/feed_member_request_data.dart';
+export 'models/feed_suggestion_data.dart';
 export 'models/feeds_config.dart';
 export 'models/follow_data.dart';
 export 'models/poll_data.dart';

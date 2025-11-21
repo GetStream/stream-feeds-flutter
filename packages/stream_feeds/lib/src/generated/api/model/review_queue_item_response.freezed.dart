@@ -30,10 +30,13 @@ mixin _$ReviewQueueItemResponse {
   String get entityType;
   EnrichedActivity? get feedsV2Activity;
   Reaction? get feedsV2Reaction;
+  ActivityResponse? get feedsV3Activity;
+  CommentResponse? get feedsV3Comment;
   List<ModerationFlagResponse> get flags;
   int get flagsCount;
   String get id;
   List<String> get languages;
+  String get latestModeratorAction;
   MessageResponse? get message;
   ModerationPayload? get moderationPayload;
   Reaction? get reaction;
@@ -85,11 +88,17 @@ mixin _$ReviewQueueItemResponse {
                 other.feedsV2Activity == feedsV2Activity) &&
             (identical(other.feedsV2Reaction, feedsV2Reaction) ||
                 other.feedsV2Reaction == feedsV2Reaction) &&
+            (identical(other.feedsV3Activity, feedsV3Activity) ||
+                other.feedsV3Activity == feedsV3Activity) &&
+            (identical(other.feedsV3Comment, feedsV3Comment) ||
+                other.feedsV3Comment == feedsV3Comment) &&
             const DeepCollectionEquality().equals(other.flags, flags) &&
             (identical(other.flagsCount, flagsCount) ||
                 other.flagsCount == flagsCount) &&
             (identical(other.id, id) || other.id == id) &&
             const DeepCollectionEquality().equals(other.languages, languages) &&
+            (identical(other.latestModeratorAction, latestModeratorAction) ||
+                other.latestModeratorAction == latestModeratorAction) &&
             (identical(other.message, message) || other.message == message) &&
             (identical(other.moderationPayload, moderationPayload) ||
                 other.moderationPayload == moderationPayload) &&
@@ -127,10 +136,13 @@ mixin _$ReviewQueueItemResponse {
         entityType,
         feedsV2Activity,
         feedsV2Reaction,
+        feedsV3Activity,
+        feedsV3Comment,
         const DeepCollectionEquality().hash(flags),
         flagsCount,
         id,
         const DeepCollectionEquality().hash(languages),
+        latestModeratorAction,
         message,
         moderationPayload,
         reaction,
@@ -145,7 +157,7 @@ mixin _$ReviewQueueItemResponse {
 
   @override
   String toString() {
-    return 'ReviewQueueItemResponse(actions: $actions, activity: $activity, aiTextSeverity: $aiTextSeverity, assignedTo: $assignedTo, bans: $bans, call: $call, completedAt: $completedAt, configKey: $configKey, createdAt: $createdAt, entityCreator: $entityCreator, entityCreatorId: $entityCreatorId, entityId: $entityId, entityType: $entityType, feedsV2Activity: $feedsV2Activity, feedsV2Reaction: $feedsV2Reaction, flags: $flags, flagsCount: $flagsCount, id: $id, languages: $languages, message: $message, moderationPayload: $moderationPayload, reaction: $reaction, recommendedAction: $recommendedAction, reviewedAt: $reviewedAt, reviewedBy: $reviewedBy, severity: $severity, status: $status, teams: $teams, updatedAt: $updatedAt)';
+    return 'ReviewQueueItemResponse(actions: $actions, activity: $activity, aiTextSeverity: $aiTextSeverity, assignedTo: $assignedTo, bans: $bans, call: $call, completedAt: $completedAt, configKey: $configKey, createdAt: $createdAt, entityCreator: $entityCreator, entityCreatorId: $entityCreatorId, entityId: $entityId, entityType: $entityType, feedsV2Activity: $feedsV2Activity, feedsV2Reaction: $feedsV2Reaction, feedsV3Activity: $feedsV3Activity, feedsV3Comment: $feedsV3Comment, flags: $flags, flagsCount: $flagsCount, id: $id, languages: $languages, latestModeratorAction: $latestModeratorAction, message: $message, moderationPayload: $moderationPayload, reaction: $reaction, recommendedAction: $recommendedAction, reviewedAt: $reviewedAt, reviewedBy: $reviewedBy, severity: $severity, status: $status, teams: $teams, updatedAt: $updatedAt)';
   }
 }
 
@@ -171,10 +183,13 @@ abstract mixin class $ReviewQueueItemResponseCopyWith<$Res> {
       String entityType,
       EnrichedActivity? feedsV2Activity,
       Reaction? feedsV2Reaction,
+      ActivityResponse? feedsV3Activity,
+      CommentResponse? feedsV3Comment,
       List<ModerationFlagResponse> flags,
       int flagsCount,
       String id,
       List<String> languages,
+      String latestModeratorAction,
       MessageResponse? message,
       ModerationPayload? moderationPayload,
       Reaction? reaction,
@@ -215,10 +230,13 @@ class _$ReviewQueueItemResponseCopyWithImpl<$Res>
     Object? entityType = null,
     Object? feedsV2Activity = freezed,
     Object? feedsV2Reaction = freezed,
+    Object? feedsV3Activity = freezed,
+    Object? feedsV3Comment = freezed,
     Object? flags = null,
     Object? flagsCount = null,
     Object? id = null,
     Object? languages = null,
+    Object? latestModeratorAction = null,
     Object? message = freezed,
     Object? moderationPayload = freezed,
     Object? reaction = freezed,
@@ -291,6 +309,14 @@ class _$ReviewQueueItemResponseCopyWithImpl<$Res>
           ? _self.feedsV2Reaction
           : feedsV2Reaction // ignore: cast_nullable_to_non_nullable
               as Reaction?,
+      feedsV3Activity: freezed == feedsV3Activity
+          ? _self.feedsV3Activity
+          : feedsV3Activity // ignore: cast_nullable_to_non_nullable
+              as ActivityResponse?,
+      feedsV3Comment: freezed == feedsV3Comment
+          ? _self.feedsV3Comment
+          : feedsV3Comment // ignore: cast_nullable_to_non_nullable
+              as CommentResponse?,
       flags: null == flags
           ? _self.flags
           : flags // ignore: cast_nullable_to_non_nullable
@@ -307,6 +333,10 @@ class _$ReviewQueueItemResponseCopyWithImpl<$Res>
           ? _self.languages
           : languages // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      latestModeratorAction: null == latestModeratorAction
+          ? _self.latestModeratorAction
+          : latestModeratorAction // ignore: cast_nullable_to_non_nullable
+              as String,
       message: freezed == message
           ? _self.message
           : message // ignore: cast_nullable_to_non_nullable

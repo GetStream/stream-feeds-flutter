@@ -18,31 +18,68 @@ part 'reaction.freezed.dart';
 @JsonSerializable()
 class Reaction with _$Reaction {
   const Reaction({
+    required this.activityId,
+    this.childrenCounts,
     required this.createdAt,
-    required this.custom,
-    required this.messageId,
-    required this.score,
-    required this.type,
+    this.data,
+    this.deletedAt,
+    this.id,
+    required this.kind,
+    this.latestChildren,
+    this.moderation,
+    this.ownChildren,
+    this.parent,
+    this.score,
+    this.targetFeeds,
+    this.targetFeedsExtraData,
     required this.updatedAt,
     this.user,
-    this.userId,
+    required this.userId,
   });
+
+  @override
+  final String activityId;
+
+  @override
+  final Map<String, Object?>? childrenCounts;
 
   @override
   @EpochDateTimeConverter()
   final DateTime createdAt;
 
   @override
-  final Map<String, Object?> custom;
+  final Map<String, Object?>? data;
 
   @override
-  final String messageId;
+  @EpochDateTimeConverter()
+  final DateTime? deletedAt;
 
   @override
-  final int score;
+  final String? id;
 
   @override
-  final String type;
+  final String kind;
+
+  @override
+  final Map<String, List<Reaction>>? latestChildren;
+
+  @override
+  final Map<String, Object?>? moderation;
+
+  @override
+  final Map<String, List<Reaction>>? ownChildren;
+
+  @override
+  final String? parent;
+
+  @override
+  final double? score;
+
+  @override
+  final List<String>? targetFeeds;
+
+  @override
+  final Map<String, Object?>? targetFeedsExtraData;
 
   @override
   @EpochDateTimeConverter()
@@ -52,7 +89,7 @@ class Reaction with _$Reaction {
   final User? user;
 
   @override
-  final String? userId;
+  final String userId;
 
   Map<String, dynamic> toJson() => _$ReactionToJson(this);
 

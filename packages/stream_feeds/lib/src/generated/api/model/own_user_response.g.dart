@@ -46,7 +46,7 @@ OwnUserResponse _$OwnUserResponseFromJson(Map<String, dynamic> json) =>
               json['privacy_settings'] as Map<String, dynamic>),
       pushPreferences: json['push_preferences'] == null
           ? null
-          : PushPreferences.fromJson(
+          : PushPreferencesResponse.fromJson(
               json['push_preferences'] as Map<String, dynamic>),
       revokeTokensIssuedBefore: _$JsonConverterFromJson<int, DateTime>(
           json['revoke_tokens_issued_before'],

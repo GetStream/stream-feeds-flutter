@@ -32,7 +32,6 @@ class FeedQuery with _$FeedQuery {
     this.activityLimit,
     this.activityNext,
     this.activityPrevious,
-    this.activitySelectorOptions,
     this.data,
     this.externalRanking,
     this.followerLimit,
@@ -64,10 +63,6 @@ class FeedQuery with _$FeedQuery {
   /// The previous page cursor for activity pagination.
   @override
   final String? activityPrevious;
-
-  /// Custom options for activity selection and processing.
-  @override
-  final Map<String, Object>? activitySelectorOptions;
 
   /// Additional data to associate with the feed.
   @override
@@ -111,7 +106,6 @@ extension FeedQueryRequest on FeedQuery {
       prev: activityPrevious,
       view: view,
       watch: watch,
-      activitySelectorOptions: activitySelectorOptions,
       data: data?.toRequest(),
       externalRanking: externalRanking,
       filter: activityFilter?.toRequest(),

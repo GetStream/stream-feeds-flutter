@@ -20,6 +20,7 @@ class QueryReviewQueueResponse with _$QueryReviewQueueResponse {
   const QueryReviewQueueResponse({
     required this.actionConfig,
     required this.duration,
+    this.filterConfig,
     required this.items,
     this.next,
     this.prev,
@@ -31,6 +32,9 @@ class QueryReviewQueueResponse with _$QueryReviewQueueResponse {
 
   @override
   final String duration;
+
+  @override
+  final FilterConfigResponse? filterConfig;
 
   @override
   final List<ReviewQueueItemResponse> items;

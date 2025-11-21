@@ -19,10 +19,12 @@ mixin _$AddCommentRequest {
   String? get comment;
   bool? get createNotificationActivity;
   Map<String, Object?>? get custom;
+  String? get id;
   List<String>? get mentionedUserIds;
-  String get objectId;
-  String get objectType;
+  String? get objectId;
+  String? get objectType;
   String? get parentId;
+  bool? get skipEnrichUrl;
   bool? get skipPush;
 
   /// Create a copy of AddCommentRequest
@@ -46,6 +48,7 @@ mixin _$AddCommentRequest {
                 other.createNotificationActivity ==
                     createNotificationActivity) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
+            (identical(other.id, id) || other.id == id) &&
             const DeepCollectionEquality()
                 .equals(other.mentionedUserIds, mentionedUserIds) &&
             (identical(other.objectId, objectId) ||
@@ -54,6 +57,8 @@ mixin _$AddCommentRequest {
                 other.objectType == objectType) &&
             (identical(other.parentId, parentId) ||
                 other.parentId == parentId) &&
+            (identical(other.skipEnrichUrl, skipEnrichUrl) ||
+                other.skipEnrichUrl == skipEnrichUrl) &&
             (identical(other.skipPush, skipPush) ||
                 other.skipPush == skipPush));
   }
@@ -65,15 +70,17 @@ mixin _$AddCommentRequest {
       comment,
       createNotificationActivity,
       const DeepCollectionEquality().hash(custom),
+      id,
       const DeepCollectionEquality().hash(mentionedUserIds),
       objectId,
       objectType,
       parentId,
+      skipEnrichUrl,
       skipPush);
 
   @override
   String toString() {
-    return 'AddCommentRequest(attachments: $attachments, comment: $comment, createNotificationActivity: $createNotificationActivity, custom: $custom, mentionedUserIds: $mentionedUserIds, objectId: $objectId, objectType: $objectType, parentId: $parentId, skipPush: $skipPush)';
+    return 'AddCommentRequest(attachments: $attachments, comment: $comment, createNotificationActivity: $createNotificationActivity, custom: $custom, id: $id, mentionedUserIds: $mentionedUserIds, objectId: $objectId, objectType: $objectType, parentId: $parentId, skipEnrichUrl: $skipEnrichUrl, skipPush: $skipPush)';
   }
 }
 
@@ -88,10 +95,12 @@ abstract mixin class $AddCommentRequestCopyWith<$Res> {
       String? comment,
       bool? createNotificationActivity,
       Map<String, Object?>? custom,
+      String? id,
       List<String>? mentionedUserIds,
-      String objectId,
-      String objectType,
+      String? objectId,
+      String? objectType,
       String? parentId,
+      bool? skipEnrichUrl,
       bool? skipPush});
 }
 
@@ -112,10 +121,12 @@ class _$AddCommentRequestCopyWithImpl<$Res>
     Object? comment = freezed,
     Object? createNotificationActivity = freezed,
     Object? custom = freezed,
+    Object? id = freezed,
     Object? mentionedUserIds = freezed,
-    Object? objectId = null,
-    Object? objectType = null,
+    Object? objectId = freezed,
+    Object? objectType = freezed,
     Object? parentId = freezed,
+    Object? skipEnrichUrl = freezed,
     Object? skipPush = freezed,
   }) {
     return _then(AddCommentRequest(
@@ -135,22 +146,30 @@ class _$AddCommentRequestCopyWithImpl<$Res>
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
               as Map<String, Object?>?,
+      id: freezed == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
       mentionedUserIds: freezed == mentionedUserIds
           ? _self.mentionedUserIds
           : mentionedUserIds // ignore: cast_nullable_to_non_nullable
               as List<String>?,
-      objectId: null == objectId
+      objectId: freezed == objectId
           ? _self.objectId
           : objectId // ignore: cast_nullable_to_non_nullable
-              as String,
-      objectType: null == objectType
+              as String?,
+      objectType: freezed == objectType
           ? _self.objectType
           : objectType // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       parentId: freezed == parentId
           ? _self.parentId
           : parentId // ignore: cast_nullable_to_non_nullable
               as String?,
+      skipEnrichUrl: freezed == skipEnrichUrl
+          ? _self.skipEnrichUrl
+          : skipEnrichUrl // ignore: cast_nullable_to_non_nullable
+              as bool?,
       skipPush: freezed == skipPush
           ? _self.skipPush
           : skipPush // ignore: cast_nullable_to_non_nullable

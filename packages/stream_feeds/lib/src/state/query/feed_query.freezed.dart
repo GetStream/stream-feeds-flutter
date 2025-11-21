@@ -20,7 +20,6 @@ mixin _$FeedQuery {
   int? get activityLimit;
   String? get activityNext;
   String? get activityPrevious;
-  Map<String, Object>? get activitySelectorOptions;
   FeedInputData? get data;
   Map<String, Object>? get externalRanking;
   int? get followerLimit;
@@ -51,8 +50,6 @@ mixin _$FeedQuery {
                 other.activityNext == activityNext) &&
             (identical(other.activityPrevious, activityPrevious) ||
                 other.activityPrevious == activityPrevious) &&
-            const DeepCollectionEquality().equals(
-                other.activitySelectorOptions, activitySelectorOptions) &&
             (identical(other.data, data) || other.data == data) &&
             const DeepCollectionEquality()
                 .equals(other.externalRanking, externalRanking) &&
@@ -76,7 +73,6 @@ mixin _$FeedQuery {
       activityLimit,
       activityNext,
       activityPrevious,
-      const DeepCollectionEquality().hash(activitySelectorOptions),
       data,
       const DeepCollectionEquality().hash(externalRanking),
       followerLimit,
@@ -88,7 +84,7 @@ mixin _$FeedQuery {
 
   @override
   String toString() {
-    return 'FeedQuery(fid: $fid, activityFilter: $activityFilter, activityLimit: $activityLimit, activityNext: $activityNext, activityPrevious: $activityPrevious, activitySelectorOptions: $activitySelectorOptions, data: $data, externalRanking: $externalRanking, followerLimit: $followerLimit, followingLimit: $followingLimit, interestWeights: $interestWeights, memberLimit: $memberLimit, view: $view, watch: $watch)';
+    return 'FeedQuery(fid: $fid, activityFilter: $activityFilter, activityLimit: $activityLimit, activityNext: $activityNext, activityPrevious: $activityPrevious, data: $data, externalRanking: $externalRanking, followerLimit: $followerLimit, followingLimit: $followingLimit, interestWeights: $interestWeights, memberLimit: $memberLimit, view: $view, watch: $watch)';
   }
 }
 
@@ -103,7 +99,6 @@ abstract mixin class $FeedQueryCopyWith<$Res> {
       int? activityLimit,
       String? activityNext,
       String? activityPrevious,
-      Map<String, Object>? activitySelectorOptions,
       FeedInputData? data,
       Map<String, Object>? externalRanking,
       int? followerLimit,
@@ -131,7 +126,6 @@ class _$FeedQueryCopyWithImpl<$Res> implements $FeedQueryCopyWith<$Res> {
     Object? activityLimit = freezed,
     Object? activityNext = freezed,
     Object? activityPrevious = freezed,
-    Object? activitySelectorOptions = freezed,
     Object? data = freezed,
     Object? externalRanking = freezed,
     Object? followerLimit = freezed,
@@ -162,10 +156,6 @@ class _$FeedQueryCopyWithImpl<$Res> implements $FeedQueryCopyWith<$Res> {
           ? _self.activityPrevious
           : activityPrevious // ignore: cast_nullable_to_non_nullable
               as String?,
-      activitySelectorOptions: freezed == activitySelectorOptions
-          ? _self.activitySelectorOptions
-          : activitySelectorOptions // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
       data: freezed == data
           ? _self.data
           : data // ignore: cast_nullable_to_non_nullable

@@ -17,13 +17,16 @@ T _$identity<T>(T value) => value;
 mixin _$SubmitActionRequest {
   SubmitActionRequestActionType get actionType;
   BanActionRequest? get ban;
+  BlockActionRequest? get block;
   CustomActionRequest? get custom;
   DeleteActivityRequest? get deleteActivity;
+  DeleteCommentRequest? get deleteComment;
   DeleteMessageRequest? get deleteMessage;
   DeleteReactionRequest? get deleteReaction;
   DeleteUserRequest? get deleteUser;
   String get itemId;
   MarkReviewedRequest? get markReviewed;
+  ShadowBlockActionRequest? get shadowBlock;
 
   /// Create a copy of SubmitActionRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -41,9 +44,12 @@ mixin _$SubmitActionRequest {
             (identical(other.actionType, actionType) ||
                 other.actionType == actionType) &&
             (identical(other.ban, ban) || other.ban == ban) &&
+            (identical(other.block, block) || other.block == block) &&
             (identical(other.custom, custom) || other.custom == custom) &&
             (identical(other.deleteActivity, deleteActivity) ||
                 other.deleteActivity == deleteActivity) &&
+            (identical(other.deleteComment, deleteComment) ||
+                other.deleteComment == deleteComment) &&
             (identical(other.deleteMessage, deleteMessage) ||
                 other.deleteMessage == deleteMessage) &&
             (identical(other.deleteReaction, deleteReaction) ||
@@ -52,7 +58,9 @@ mixin _$SubmitActionRequest {
                 other.deleteUser == deleteUser) &&
             (identical(other.itemId, itemId) || other.itemId == itemId) &&
             (identical(other.markReviewed, markReviewed) ||
-                other.markReviewed == markReviewed));
+                other.markReviewed == markReviewed) &&
+            (identical(other.shadowBlock, shadowBlock) ||
+                other.shadowBlock == shadowBlock));
   }
 
   @override
@@ -60,17 +68,20 @@ mixin _$SubmitActionRequest {
       runtimeType,
       actionType,
       ban,
+      block,
       custom,
       deleteActivity,
+      deleteComment,
       deleteMessage,
       deleteReaction,
       deleteUser,
       itemId,
-      markReviewed);
+      markReviewed,
+      shadowBlock);
 
   @override
   String toString() {
-    return 'SubmitActionRequest(actionType: $actionType, ban: $ban, custom: $custom, deleteActivity: $deleteActivity, deleteMessage: $deleteMessage, deleteReaction: $deleteReaction, deleteUser: $deleteUser, itemId: $itemId, markReviewed: $markReviewed)';
+    return 'SubmitActionRequest(actionType: $actionType, ban: $ban, block: $block, custom: $custom, deleteActivity: $deleteActivity, deleteComment: $deleteComment, deleteMessage: $deleteMessage, deleteReaction: $deleteReaction, deleteUser: $deleteUser, itemId: $itemId, markReviewed: $markReviewed, shadowBlock: $shadowBlock)';
   }
 }
 
@@ -83,13 +94,16 @@ abstract mixin class $SubmitActionRequestCopyWith<$Res> {
   $Res call(
       {SubmitActionRequestActionType actionType,
       BanActionRequest? ban,
+      BlockActionRequest? block,
       CustomActionRequest? custom,
       DeleteActivityRequest? deleteActivity,
+      DeleteCommentRequest? deleteComment,
       DeleteMessageRequest? deleteMessage,
       DeleteReactionRequest? deleteReaction,
       DeleteUserRequest? deleteUser,
       String itemId,
-      MarkReviewedRequest? markReviewed});
+      MarkReviewedRequest? markReviewed,
+      ShadowBlockActionRequest? shadowBlock});
 }
 
 /// @nodoc
@@ -107,13 +121,16 @@ class _$SubmitActionRequestCopyWithImpl<$Res>
   $Res call({
     Object? actionType = null,
     Object? ban = freezed,
+    Object? block = freezed,
     Object? custom = freezed,
     Object? deleteActivity = freezed,
+    Object? deleteComment = freezed,
     Object? deleteMessage = freezed,
     Object? deleteReaction = freezed,
     Object? deleteUser = freezed,
     Object? itemId = null,
     Object? markReviewed = freezed,
+    Object? shadowBlock = freezed,
   }) {
     return _then(SubmitActionRequest(
       actionType: null == actionType
@@ -124,6 +141,10 @@ class _$SubmitActionRequestCopyWithImpl<$Res>
           ? _self.ban
           : ban // ignore: cast_nullable_to_non_nullable
               as BanActionRequest?,
+      block: freezed == block
+          ? _self.block
+          : block // ignore: cast_nullable_to_non_nullable
+              as BlockActionRequest?,
       custom: freezed == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
@@ -132,6 +153,10 @@ class _$SubmitActionRequestCopyWithImpl<$Res>
           ? _self.deleteActivity
           : deleteActivity // ignore: cast_nullable_to_non_nullable
               as DeleteActivityRequest?,
+      deleteComment: freezed == deleteComment
+          ? _self.deleteComment
+          : deleteComment // ignore: cast_nullable_to_non_nullable
+              as DeleteCommentRequest?,
       deleteMessage: freezed == deleteMessage
           ? _self.deleteMessage
           : deleteMessage // ignore: cast_nullable_to_non_nullable
@@ -152,6 +177,10 @@ class _$SubmitActionRequestCopyWithImpl<$Res>
           ? _self.markReviewed
           : markReviewed // ignore: cast_nullable_to_non_nullable
               as MarkReviewedRequest?,
+      shadowBlock: freezed == shadowBlock
+          ? _self.shadowBlock
+          : shadowBlock // ignore: cast_nullable_to_non_nullable
+              as ShadowBlockActionRequest?,
     ));
   }
 }

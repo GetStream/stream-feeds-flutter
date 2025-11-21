@@ -14,6 +14,10 @@ RuleBuilderCondition _$RuleBuilderConditionFromJson(
           ? null
           : ContentCountRuleParameters.fromJson(
               json['content_count_rule_params'] as Map<String, dynamic>),
+      contentFlagCountRuleParams: json['content_flag_count_rule_params'] == null
+          ? null
+          : FlagCountRuleParameters.fromJson(
+              json['content_flag_count_rule_params'] as Map<String, dynamic>),
       imageContentParams: json['image_content_params'] == null
           ? null
           : ImageContentParameters.fromJson(
@@ -39,6 +43,10 @@ RuleBuilderCondition _$RuleBuilderConditionFromJson(
           ? null
           : UserCustomPropertyParameters.fromJson(
               json['user_custom_property_params'] as Map<String, dynamic>),
+      userFlagCountRuleParams: json['user_flag_count_rule_params'] == null
+          ? null
+          : FlagCountRuleParameters.fromJson(
+              json['user_flag_count_rule_params'] as Map<String, dynamic>),
       userRuleParams: json['user_rule_params'] == null
           ? null
           : UserRuleParameters.fromJson(
@@ -58,6 +66,8 @@ Map<String, dynamic> _$RuleBuilderConditionToJson(
     <String, dynamic>{
       'confidence': instance.confidence,
       'content_count_rule_params': instance.contentCountRuleParams?.toJson(),
+      'content_flag_count_rule_params':
+          instance.contentFlagCountRuleParams?.toJson(),
       'image_content_params': instance.imageContentParams?.toJson(),
       'image_rule_params': instance.imageRuleParams?.toJson(),
       'text_content_params': instance.textContentParams?.toJson(),
@@ -66,6 +76,7 @@ Map<String, dynamic> _$RuleBuilderConditionToJson(
       'user_created_within_params': instance.userCreatedWithinParams?.toJson(),
       'user_custom_property_params':
           instance.userCustomPropertyParams?.toJson(),
+      'user_flag_count_rule_params': instance.userFlagCountRuleParams?.toJson(),
       'user_rule_params': instance.userRuleParams?.toJson(),
       'video_content_params': instance.videoContentParams?.toJson(),
       'video_rule_params': instance.videoRuleParams?.toJson(),

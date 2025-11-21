@@ -45,6 +45,14 @@ ReviewQueueItemResponse _$ReviewQueueItemResponseFromJson(
           ? null
           : Reaction.fromJson(
               json['feeds_v2_reaction'] as Map<String, dynamic>),
+      feedsV3Activity: json['feeds_v3_activity'] == null
+          ? null
+          : ActivityResponse.fromJson(
+              json['feeds_v3_activity'] as Map<String, dynamic>),
+      feedsV3Comment: json['feeds_v3_comment'] == null
+          ? null
+          : CommentResponse.fromJson(
+              json['feeds_v3_comment'] as Map<String, dynamic>),
       flags: (json['flags'] as List<dynamic>)
           .map(
               (e) => ModerationFlagResponse.fromJson(e as Map<String, dynamic>))
@@ -53,6 +61,7 @@ ReviewQueueItemResponse _$ReviewQueueItemResponseFromJson(
       id: json['id'] as String,
       languages:
           (json['languages'] as List<dynamic>).map((e) => e as String).toList(),
+      latestModeratorAction: json['latest_moderator_action'] as String,
       message: json['message'] == null
           ? null
           : MessageResponse.fromJson(json['message'] as Map<String, dynamic>),
@@ -94,10 +103,13 @@ Map<String, dynamic> _$ReviewQueueItemResponseToJson(
       'entity_type': instance.entityType,
       'feeds_v2_activity': instance.feedsV2Activity?.toJson(),
       'feeds_v2_reaction': instance.feedsV2Reaction?.toJson(),
+      'feeds_v3_activity': instance.feedsV3Activity?.toJson(),
+      'feeds_v3_comment': instance.feedsV3Comment?.toJson(),
       'flags': instance.flags.map((e) => e.toJson()).toList(),
       'flags_count': instance.flagsCount,
       'id': instance.id,
       'languages': instance.languages,
+      'latest_moderator_action': instance.latestModeratorAction,
       'message': instance.message?.toJson(),
       'moderation_payload': instance.moderationPayload?.toJson(),
       'reaction': instance.reaction?.toJson(),

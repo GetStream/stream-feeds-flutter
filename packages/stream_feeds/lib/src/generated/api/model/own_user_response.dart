@@ -112,7 +112,7 @@ class OwnUserResponse with _$OwnUserResponse {
   final PrivacySettingsResponse? privacySettings;
 
   @override
-  final PushPreferences? pushPreferences;
+  final PushPreferencesResponse? pushPreferences;
 
   @override
   @EpochDateTimeConverter()

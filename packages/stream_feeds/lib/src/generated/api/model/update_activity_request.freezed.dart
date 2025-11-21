@@ -16,6 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$UpdateActivityRequest {
   List<Attachment>? get attachments;
+  List<String>? get collectionRefs;
   Map<String, Object?>? get custom;
   DateTime? get expiresAt;
   List<String>? get feeds;
@@ -23,6 +24,8 @@ mixin _$UpdateActivityRequest {
   List<String>? get interestTags;
   ActivityLocation? get location;
   String? get pollId;
+  UpdateActivityRequestRestrictReplies? get restrictReplies;
+  bool? get skipEnrichUrl;
   String? get text;
   String? get visibility;
 
@@ -41,6 +44,8 @@ mixin _$UpdateActivityRequest {
             other is UpdateActivityRequest &&
             const DeepCollectionEquality()
                 .equals(other.attachments, attachments) &&
+            const DeepCollectionEquality()
+                .equals(other.collectionRefs, collectionRefs) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
             (identical(other.expiresAt, expiresAt) ||
                 other.expiresAt == expiresAt) &&
@@ -52,6 +57,10 @@ mixin _$UpdateActivityRequest {
             (identical(other.location, location) ||
                 other.location == location) &&
             (identical(other.pollId, pollId) || other.pollId == pollId) &&
+            (identical(other.restrictReplies, restrictReplies) ||
+                other.restrictReplies == restrictReplies) &&
+            (identical(other.skipEnrichUrl, skipEnrichUrl) ||
+                other.skipEnrichUrl == skipEnrichUrl) &&
             (identical(other.text, text) || other.text == text) &&
             (identical(other.visibility, visibility) ||
                 other.visibility == visibility));
@@ -61,6 +70,7 @@ mixin _$UpdateActivityRequest {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(attachments),
+      const DeepCollectionEquality().hash(collectionRefs),
       const DeepCollectionEquality().hash(custom),
       expiresAt,
       const DeepCollectionEquality().hash(feeds),
@@ -68,12 +78,14 @@ mixin _$UpdateActivityRequest {
       const DeepCollectionEquality().hash(interestTags),
       location,
       pollId,
+      restrictReplies,
+      skipEnrichUrl,
       text,
       visibility);
 
   @override
   String toString() {
-    return 'UpdateActivityRequest(attachments: $attachments, custom: $custom, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, interestTags: $interestTags, location: $location, pollId: $pollId, text: $text, visibility: $visibility)';
+    return 'UpdateActivityRequest(attachments: $attachments, collectionRefs: $collectionRefs, custom: $custom, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, interestTags: $interestTags, location: $location, pollId: $pollId, restrictReplies: $restrictReplies, skipEnrichUrl: $skipEnrichUrl, text: $text, visibility: $visibility)';
   }
 }
 
@@ -85,6 +97,7 @@ abstract mixin class $UpdateActivityRequestCopyWith<$Res> {
   @useResult
   $Res call(
       {List<Attachment>? attachments,
+      List<String>? collectionRefs,
       Map<String, Object?>? custom,
       DateTime? expiresAt,
       List<String>? feeds,
@@ -92,6 +105,8 @@ abstract mixin class $UpdateActivityRequestCopyWith<$Res> {
       List<String>? interestTags,
       ActivityLocation? location,
       String? pollId,
+      UpdateActivityRequestRestrictReplies? restrictReplies,
+      bool? skipEnrichUrl,
       String? text,
       String? visibility});
 }
@@ -110,6 +125,7 @@ class _$UpdateActivityRequestCopyWithImpl<$Res>
   @override
   $Res call({
     Object? attachments = freezed,
+    Object? collectionRefs = freezed,
     Object? custom = freezed,
     Object? expiresAt = freezed,
     Object? feeds = freezed,
@@ -117,6 +133,8 @@ class _$UpdateActivityRequestCopyWithImpl<$Res>
     Object? interestTags = freezed,
     Object? location = freezed,
     Object? pollId = freezed,
+    Object? restrictReplies = freezed,
+    Object? skipEnrichUrl = freezed,
     Object? text = freezed,
     Object? visibility = freezed,
   }) {
@@ -125,6 +143,10 @@ class _$UpdateActivityRequestCopyWithImpl<$Res>
           ? _self.attachments
           : attachments // ignore: cast_nullable_to_non_nullable
               as List<Attachment>?,
+      collectionRefs: freezed == collectionRefs
+          ? _self.collectionRefs
+          : collectionRefs // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       custom: freezed == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
@@ -153,6 +175,14 @@ class _$UpdateActivityRequestCopyWithImpl<$Res>
           ? _self.pollId
           : pollId // ignore: cast_nullable_to_non_nullable
               as String?,
+      restrictReplies: freezed == restrictReplies
+          ? _self.restrictReplies
+          : restrictReplies // ignore: cast_nullable_to_non_nullable
+              as UpdateActivityRequestRestrictReplies?,
+      skipEnrichUrl: freezed == skipEnrichUrl
+          ? _self.skipEnrichUrl
+          : skipEnrichUrl // ignore: cast_nullable_to_non_nullable
+              as bool?,
       text: freezed == text
           ? _self.text
           : text // ignore: cast_nullable_to_non_nullable

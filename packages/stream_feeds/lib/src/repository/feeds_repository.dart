@@ -8,6 +8,7 @@ import '../models/aggregated_activity_data.dart';
 import '../models/feed_data.dart';
 import '../models/feed_id.dart';
 import '../models/feed_member_data.dart';
+import '../models/feed_suggestion_data.dart';
 import '../models/follow_data.dart';
 import '../models/get_or_create_feed_data.dart';
 import '../models/model_updates.dart';
@@ -173,8 +174,8 @@ class FeedsRepository {
   ///
   /// Retrieves suggested feeds to follow based on the specified [feedGroupId].
   ///
-  /// Returns a [Result] containing a list of suggested [FeedData] or an error.
-  Future<Result<List<FeedData>>> queryFollowSuggestions({
+  /// Returns a [Result] containing a list of [FeedSuggestionData] or an error.
+  Future<Result<List<FeedSuggestionData>>> queryFollowSuggestions({
     required String feedGroupId,
     int? limit,
   }) async {

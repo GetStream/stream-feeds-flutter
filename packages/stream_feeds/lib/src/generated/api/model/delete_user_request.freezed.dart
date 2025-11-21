@@ -19,6 +19,7 @@ mixin _$DeleteUserRequest {
   bool? get deleteFeedsContent;
   bool? get hardDelete;
   bool? get markMessagesDeleted;
+  String? get reason;
 
   /// Create a copy of DeleteUserRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -42,16 +43,17 @@ mixin _$DeleteUserRequest {
             (identical(other.hardDelete, hardDelete) ||
                 other.hardDelete == hardDelete) &&
             (identical(other.markMessagesDeleted, markMessagesDeleted) ||
-                other.markMessagesDeleted == markMessagesDeleted));
+                other.markMessagesDeleted == markMessagesDeleted) &&
+            (identical(other.reason, reason) || other.reason == reason));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, deleteConversationChannels,
-      deleteFeedsContent, hardDelete, markMessagesDeleted);
+      deleteFeedsContent, hardDelete, markMessagesDeleted, reason);
 
   @override
   String toString() {
-    return 'DeleteUserRequest(deleteConversationChannels: $deleteConversationChannels, deleteFeedsContent: $deleteFeedsContent, hardDelete: $hardDelete, markMessagesDeleted: $markMessagesDeleted)';
+    return 'DeleteUserRequest(deleteConversationChannels: $deleteConversationChannels, deleteFeedsContent: $deleteFeedsContent, hardDelete: $hardDelete, markMessagesDeleted: $markMessagesDeleted, reason: $reason)';
   }
 }
 
@@ -65,7 +67,8 @@ abstract mixin class $DeleteUserRequestCopyWith<$Res> {
       {bool? deleteConversationChannels,
       bool? deleteFeedsContent,
       bool? hardDelete,
-      bool? markMessagesDeleted});
+      bool? markMessagesDeleted,
+      String? reason});
 }
 
 /// @nodoc
@@ -85,6 +88,7 @@ class _$DeleteUserRequestCopyWithImpl<$Res>
     Object? deleteFeedsContent = freezed,
     Object? hardDelete = freezed,
     Object? markMessagesDeleted = freezed,
+    Object? reason = freezed,
   }) {
     return _then(DeleteUserRequest(
       deleteConversationChannels: freezed == deleteConversationChannels
@@ -103,6 +107,10 @@ class _$DeleteUserRequestCopyWithImpl<$Res>
           ? _self.markMessagesDeleted
           : markMessagesDeleted // ignore: cast_nullable_to_non_nullable
               as bool?,
+      reason: freezed == reason
+          ? _self.reason
+          : reason // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }

@@ -18,7 +18,6 @@ part 'get_or_create_feed_request.freezed.dart';
 @JsonSerializable()
 class GetOrCreateFeedRequest with _$GetOrCreateFeedRequest {
   const GetOrCreateFeedRequest({
-    this.activitySelectorOptions,
     this.data,
     this.externalRanking,
     this.filter,
@@ -32,9 +31,6 @@ class GetOrCreateFeedRequest with _$GetOrCreateFeedRequest {
     this.view,
     this.watch,
   });
-
-  @override
-  final Map<String, Object?>? activitySelectorOptions;
 
   @override
   final FeedInput? data;

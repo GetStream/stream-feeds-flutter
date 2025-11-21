@@ -22,10 +22,12 @@ class AddCommentRequest with _$AddCommentRequest {
     this.comment,
     this.createNotificationActivity,
     this.custom,
+    this.id,
     this.mentionedUserIds,
-    required this.objectId,
-    required this.objectType,
+    this.objectId,
+    this.objectType,
     this.parentId,
+    this.skipEnrichUrl,
     this.skipPush,
   });
 
@@ -42,16 +44,22 @@ class AddCommentRequest with _$AddCommentRequest {
   final Map<String, Object?>? custom;
 
   @override
+  final String? id;
+
+  @override
   final List<String>? mentionedUserIds;
 
   @override
-  final String objectId;
+  final String? objectId;
 
   @override
-  final String objectType;
+  final String? objectType;
 
   @override
   final String? parentId;
+
+  @override
+  final bool? skipEnrichUrl;
 
   @override
   final bool? skipPush;

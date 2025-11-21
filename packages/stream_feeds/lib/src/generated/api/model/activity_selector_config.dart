@@ -19,6 +19,7 @@ part 'activity_selector_config.freezed.dart';
 class ActivitySelectorConfig with _$ActivitySelectorConfig {
   const ActivitySelectorConfig({
     required this.cutoffTime,
+    this.cutoffWindow,
     this.filter,
     this.minPopularity,
     this.sort,
@@ -28,6 +29,9 @@ class ActivitySelectorConfig with _$ActivitySelectorConfig {
   @override
   @EpochDateTimeConverter()
   final DateTime cutoffTime;
+
+  @override
+  final String? cutoffWindow;
 
   @override
   final Map<String, Object?>? filter;

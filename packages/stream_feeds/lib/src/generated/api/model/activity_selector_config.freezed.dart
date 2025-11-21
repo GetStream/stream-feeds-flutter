@@ -16,6 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ActivitySelectorConfig {
   DateTime get cutoffTime;
+  String? get cutoffWindow;
   Map<String, Object?>? get filter;
   int? get minPopularity;
   List<SortParam>? get sort;
@@ -36,6 +37,8 @@ mixin _$ActivitySelectorConfig {
             other is ActivitySelectorConfig &&
             (identical(other.cutoffTime, cutoffTime) ||
                 other.cutoffTime == cutoffTime) &&
+            (identical(other.cutoffWindow, cutoffWindow) ||
+                other.cutoffWindow == cutoffWindow) &&
             const DeepCollectionEquality().equals(other.filter, filter) &&
             (identical(other.minPopularity, minPopularity) ||
                 other.minPopularity == minPopularity) &&
@@ -47,6 +50,7 @@ mixin _$ActivitySelectorConfig {
   int get hashCode => Object.hash(
       runtimeType,
       cutoffTime,
+      cutoffWindow,
       const DeepCollectionEquality().hash(filter),
       minPopularity,
       const DeepCollectionEquality().hash(sort),
@@ -54,7 +58,7 @@ mixin _$ActivitySelectorConfig {
 
   @override
   String toString() {
-    return 'ActivitySelectorConfig(cutoffTime: $cutoffTime, filter: $filter, minPopularity: $minPopularity, sort: $sort, type: $type)';
+    return 'ActivitySelectorConfig(cutoffTime: $cutoffTime, cutoffWindow: $cutoffWindow, filter: $filter, minPopularity: $minPopularity, sort: $sort, type: $type)';
   }
 }
 
@@ -66,6 +70,7 @@ abstract mixin class $ActivitySelectorConfigCopyWith<$Res> {
   @useResult
   $Res call(
       {DateTime cutoffTime,
+      String? cutoffWindow,
       Map<String, Object?>? filter,
       int? minPopularity,
       List<SortParam>? sort,
@@ -86,6 +91,7 @@ class _$ActivitySelectorConfigCopyWithImpl<$Res>
   @override
   $Res call({
     Object? cutoffTime = null,
+    Object? cutoffWindow = freezed,
     Object? filter = freezed,
     Object? minPopularity = freezed,
     Object? sort = freezed,
@@ -96,6 +102,10 @@ class _$ActivitySelectorConfigCopyWithImpl<$Res>
           ? _self.cutoffTime
           : cutoffTime // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      cutoffWindow: freezed == cutoffWindow
+          ? _self.cutoffWindow
+          : cutoffWindow // ignore: cast_nullable_to_non_nullable
+              as String?,
       filter: freezed == filter
           ? _self.filter
           : filter // ignore: cast_nullable_to_non_nullable
