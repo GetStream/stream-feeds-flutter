@@ -1,5 +1,6 @@
 ## unreleased
 - [BREAKING] Change `queryFollowSuggestions` return type to `List<FeedSuggestionData>`.
+- [BREAKING] Remove `activitySelectorOptions` from `FeedQuery`.
 - Add `hidden` and `preview` fields to `ActivityData`.
 - Update follower and following counts on the feed state when receiving follow websocket events.
 - Fix FeedsReactionData id for updating reactions in the feed state.
