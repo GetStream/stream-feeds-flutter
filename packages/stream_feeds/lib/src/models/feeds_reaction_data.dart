@@ -26,6 +26,8 @@ class FeedsReactionData with _$FeedsReactionData {
   @override
   final String activityId;
 
+  /// The ID of the comment this reaction is associated with.
+  @override
   final String? commentId;
 
   /// The date and time when the reaction was created.
@@ -49,8 +51,10 @@ class FeedsReactionData with _$FeedsReactionData {
   final Map<String, Object?>? custom;
 
   /// Unique identifier for the reaction, generated from the activity ID and user ID.
-  String get id =>
-      '${user.id}-$type${commentId == null ? '' : '-$commentId'}-$activityId';
+  String get id {
+    if (commentId case final id?) return '${user.id}-$type-$id-$activityId';
+    return '${user.id}-$type-$activityId';
+  }
 }
 
 /// Extension function to convert a [FeedsReactionResponse] to a [FeedsReactionData] model.

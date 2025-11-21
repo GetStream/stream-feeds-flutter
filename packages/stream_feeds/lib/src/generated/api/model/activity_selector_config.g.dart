@@ -11,6 +11,7 @@ ActivitySelectorConfig _$ActivitySelectorConfigFromJson(
     ActivitySelectorConfig(
       cutoffTime: const EpochDateTimeConverter()
           .fromJson((json['cutoff_time'] as num).toInt()),
+      cutoffWindow: json['cutoff_window'] as String?,
       filter: json['filter'] as Map<String, dynamic>?,
       minPopularity: (json['min_popularity'] as num?)?.toInt(),
       sort: (json['sort'] as List<dynamic>?)
@@ -23,6 +24,7 @@ Map<String, dynamic> _$ActivitySelectorConfigToJson(
         ActivitySelectorConfig instance) =>
     <String, dynamic>{
       'cutoff_time': const EpochDateTimeConverter().toJson(instance.cutoffTime),
+      'cutoff_window': instance.cutoffWindow,
       'filter': instance.filter,
       'min_popularity': instance.minPopularity,
       'sort': instance.sort?.map((e) => e.toJson()).toList(),

@@ -264,13 +264,14 @@ class _DefaultApi implements DefaultApi {
   }
 
   Future<AddCommentResponse> _addComment({
-    required AddCommentRequest addCommentRequest,
+    AddCommentRequest? addCommentRequest,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(addCommentRequest.toJson());
+    _data.addAll(addCommentRequest?.toJson() ?? <String, dynamic>{});
     final _options = _setStreamType<Result<AddCommentResponse>>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
@@ -294,7 +295,7 @@ class _DefaultApi implements DefaultApi {
 
   @override
   Future<Result<AddCommentResponse>> addComment({
-    required AddCommentRequest addCommentRequest,
+    AddCommentRequest? addCommentRequest,
   }) {
     return _ResultCallAdapter<AddCommentResponse>().adapt(
       () => _addComment(addCommentRequest: addCommentRequest),
@@ -536,6 +537,46 @@ class _DefaultApi implements DefaultApi {
   }) {
     return _ResultCallAdapter<CreateBlockListResponse>().adapt(
       () => _createBlockList(createBlockListRequest: createBlockListRequest),
+    );
+  }
+
+  Future<CreateCollectionsResponse> _createCollections({
+    required CreateCollectionsRequest createCollectionsRequest,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(createCollectionsRequest.toJson());
+    final _options = _setStreamType<Result<CreateCollectionsResponse>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/feeds/collections',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late CreateCollectionsResponse _value;
+    try {
+      _value = CreateCollectionsResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<CreateCollectionsResponse>> createCollections({
+    required CreateCollectionsRequest createCollectionsRequest,
+  }) {
+    return _ResultCallAdapter<CreateCollectionsResponse>().adapt(
+      () => _createCollections(
+        createCollectionsRequest: createCollectionsRequest,
+      ),
     );
   }
 
@@ -965,6 +1006,45 @@ class _DefaultApi implements DefaultApi {
   }) {
     return _ResultCallAdapter<DeleteBookmarkFolderResponse>().adapt(
       () => _deleteBookmarkFolder(folderId: folderId),
+    );
+  }
+
+  Future<DeleteCollectionsResponse> _deleteCollections({
+    required List<String> collectionRefs,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'collection_refs': collectionRefs,
+    };
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<Result<DeleteCollectionsResponse>>(
+      Options(method: 'DELETE', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/feeds/collections',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late DeleteCollectionsResponse _value;
+    try {
+      _value = DeleteCollectionsResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<DeleteCollectionsResponse>> deleteCollections({
+    required List<String> collectionRefs,
+  }) {
+    return _ResultCallAdapter<DeleteCollectionsResponse>().adapt(
+      () => _deleteCollections(collectionRefs: collectionRefs),
     );
   }
 
@@ -2847,6 +2927,45 @@ class _DefaultApi implements DefaultApi {
     );
   }
 
+  Future<ReadCollectionsResponse> _readCollections({
+    required List<String> collectionRefs,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'collection_refs': collectionRefs,
+    };
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<Result<ReadCollectionsResponse>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/feeds/collections',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ReadCollectionsResponse _value;
+    try {
+      _value = ReadCollectionsResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<ReadCollectionsResponse>> readCollections({
+    required List<String> collectionRefs,
+  }) {
+    return _ResultCallAdapter<ReadCollectionsResponse>().adapt(
+      () => _readCollections(collectionRefs: collectionRefs),
+    );
+  }
+
   Future<RejectFeedMemberInviteResponse> _rejectFeedMemberInvite({
     required String feedGroupId,
     required String feedId,
@@ -3337,6 +3456,46 @@ class _DefaultApi implements DefaultApi {
       () => _updateBookmarkFolder(
         folderId: folderId,
         updateBookmarkFolderRequest: updateBookmarkFolderRequest,
+      ),
+    );
+  }
+
+  Future<UpdateCollectionsResponse> _updateCollections({
+    required UpdateCollectionsRequest updateCollectionsRequest,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(updateCollectionsRequest.toJson());
+    final _options = _setStreamType<Result<UpdateCollectionsResponse>>(
+      Options(method: 'PATCH', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/feeds/collections',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late UpdateCollectionsResponse _value;
+    try {
+      _value = UpdateCollectionsResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<UpdateCollectionsResponse>> updateCollections({
+    required UpdateCollectionsRequest updateCollectionsRequest,
+  }) {
+    return _ResultCallAdapter<UpdateCollectionsResponse>().adapt(
+      () => _updateCollections(
+        updateCollectionsRequest: updateCollectionsRequest,
       ),
     );
   }

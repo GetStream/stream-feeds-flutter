@@ -27,6 +27,7 @@ mixin _$ChannelConfigWithInfo {
   bool get countMessages;
   DateTime get createdAt;
   bool get customEvents;
+  bool get deliveryEvents;
   Map<String, List<String>>? get grants;
   bool get markMessagesPending;
   int get maxMessageLength;
@@ -85,6 +86,8 @@ mixin _$ChannelConfigWithInfo {
                 other.createdAt == createdAt) &&
             (identical(other.customEvents, customEvents) ||
                 other.customEvents == customEvents) &&
+            (identical(other.deliveryEvents, deliveryEvents) ||
+                other.deliveryEvents == deliveryEvents) &&
             const DeepCollectionEquality().equals(other.grants, grants) &&
             (identical(other.markMessagesPending, markMessagesPending) ||
                 other.markMessagesPending == markMessagesPending) &&
@@ -140,6 +143,7 @@ mixin _$ChannelConfigWithInfo {
         countMessages,
         createdAt,
         customEvents,
+        deliveryEvents,
         const DeepCollectionEquality().hash(grants),
         markMessagesPending,
         maxMessageLength,
@@ -166,7 +170,7 @@ mixin _$ChannelConfigWithInfo {
 
   @override
   String toString() {
-    return 'ChannelConfigWithInfo(allowedFlagReasons: $allowedFlagReasons, automod: $automod, automodBehavior: $automodBehavior, automodThresholds: $automodThresholds, blocklist: $blocklist, blocklistBehavior: $blocklistBehavior, blocklists: $blocklists, commands: $commands, connectEvents: $connectEvents, countMessages: $countMessages, createdAt: $createdAt, customEvents: $customEvents, grants: $grants, markMessagesPending: $markMessagesPending, maxMessageLength: $maxMessageLength, mutes: $mutes, name: $name, partitionSize: $partitionSize, partitionTtl: $partitionTtl, polls: $polls, pushNotifications: $pushNotifications, quotes: $quotes, reactions: $reactions, readEvents: $readEvents, reminders: $reminders, replies: $replies, search: $search, sharedLocations: $sharedLocations, skipLastMsgUpdateForSystemMsgs: $skipLastMsgUpdateForSystemMsgs, typingEvents: $typingEvents, updatedAt: $updatedAt, uploads: $uploads, urlEnrichment: $urlEnrichment, userMessageReminders: $userMessageReminders)';
+    return 'ChannelConfigWithInfo(allowedFlagReasons: $allowedFlagReasons, automod: $automod, automodBehavior: $automodBehavior, automodThresholds: $automodThresholds, blocklist: $blocklist, blocklistBehavior: $blocklistBehavior, blocklists: $blocklists, commands: $commands, connectEvents: $connectEvents, countMessages: $countMessages, createdAt: $createdAt, customEvents: $customEvents, deliveryEvents: $deliveryEvents, grants: $grants, markMessagesPending: $markMessagesPending, maxMessageLength: $maxMessageLength, mutes: $mutes, name: $name, partitionSize: $partitionSize, partitionTtl: $partitionTtl, polls: $polls, pushNotifications: $pushNotifications, quotes: $quotes, reactions: $reactions, readEvents: $readEvents, reminders: $reminders, replies: $replies, search: $search, sharedLocations: $sharedLocations, skipLastMsgUpdateForSystemMsgs: $skipLastMsgUpdateForSystemMsgs, typingEvents: $typingEvents, updatedAt: $updatedAt, uploads: $uploads, urlEnrichment: $urlEnrichment, userMessageReminders: $userMessageReminders)';
   }
 }
 
@@ -189,6 +193,7 @@ abstract mixin class $ChannelConfigWithInfoCopyWith<$Res> {
       bool countMessages,
       DateTime createdAt,
       bool customEvents,
+      bool deliveryEvents,
       Map<String, List<String>>? grants,
       bool markMessagesPending,
       int maxMessageLength,
@@ -238,6 +243,7 @@ class _$ChannelConfigWithInfoCopyWithImpl<$Res>
     Object? countMessages = null,
     Object? createdAt = null,
     Object? customEvents = null,
+    Object? deliveryEvents = null,
     Object? grants = freezed,
     Object? markMessagesPending = null,
     Object? maxMessageLength = null,
@@ -309,6 +315,10 @@ class _$ChannelConfigWithInfoCopyWithImpl<$Res>
       customEvents: null == customEvents
           ? _self.customEvents
           : customEvents // ignore: cast_nullable_to_non_nullable
+              as bool,
+      deliveryEvents: null == deliveryEvents
+          ? _self.deliveryEvents
+          : deliveryEvents // ignore: cast_nullable_to_non_nullable
               as bool,
       grants: freezed == grants
           ? _self.grants

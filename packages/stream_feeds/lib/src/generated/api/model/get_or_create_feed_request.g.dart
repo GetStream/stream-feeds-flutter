@@ -9,8 +9,6 @@ part of 'get_or_create_feed_request.dart';
 GetOrCreateFeedRequest _$GetOrCreateFeedRequestFromJson(
         Map<String, dynamic> json) =>
     GetOrCreateFeedRequest(
-      activitySelectorOptions:
-          json['activity_selector_options'] as Map<String, dynamic>?,
       data: json['data'] == null
           ? null
           : FeedInput.fromJson(json['data'] as Map<String, dynamic>),
@@ -41,7 +39,6 @@ GetOrCreateFeedRequest _$GetOrCreateFeedRequestFromJson(
 Map<String, dynamic> _$GetOrCreateFeedRequestToJson(
         GetOrCreateFeedRequest instance) =>
     <String, dynamic>{
-      'activity_selector_options': instance.activitySelectorOptions,
       'data': instance.data?.toJson(),
       'external_ranking': instance.externalRanking,
       'filter': instance.filter,

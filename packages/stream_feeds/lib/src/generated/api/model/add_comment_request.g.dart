@@ -14,12 +14,14 @@ AddCommentRequest _$AddCommentRequestFromJson(Map<String, dynamic> json) =>
       comment: json['comment'] as String?,
       createNotificationActivity: json['create_notification_activity'] as bool?,
       custom: json['custom'] as Map<String, dynamic>?,
+      id: json['id'] as String?,
       mentionedUserIds: (json['mentioned_user_ids'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
-      objectId: json['object_id'] as String,
-      objectType: json['object_type'] as String,
+      objectId: json['object_id'] as String?,
+      objectType: json['object_type'] as String?,
       parentId: json['parent_id'] as String?,
+      skipEnrichUrl: json['skip_enrich_url'] as bool?,
       skipPush: json['skip_push'] as bool?,
     );
 
@@ -29,9 +31,11 @@ Map<String, dynamic> _$AddCommentRequestToJson(AddCommentRequest instance) =>
       'comment': instance.comment,
       'create_notification_activity': instance.createNotificationActivity,
       'custom': instance.custom,
+      'id': instance.id,
       'mentioned_user_ids': instance.mentionedUserIds,
       'object_id': instance.objectId,
       'object_type': instance.objectType,
       'parent_id': instance.parentId,
+      'skip_enrich_url': instance.skipEnrichUrl,
       'skip_push': instance.skipPush,
     };

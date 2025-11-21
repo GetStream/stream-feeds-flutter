@@ -49,6 +49,8 @@ class ActivityData with _$ActivityData {
     this.parent,
     this.poll,
     this.popularity = 0,
+    this.hidden = false,
+    this.preview = false,
     this.reactionCount = 0,
     this.reactionGroups = const {},
     this.score = 0.0,
@@ -158,6 +160,20 @@ class ActivityData with _$ActivityData {
   /// A popularity score for the activity, typically based on engagement metrics.
   @override
   final int popularity;
+
+  /// Whether the activity has been hidden by the current user.
+  ///
+  /// Hidden activities may be filtered from feed views depending on
+  /// application logic.
+  @override
+  final bool hidden;
+
+  /// Whether this activity is obfuscated for the current user.
+  ///
+  /// Used for premium content where you want to show a preview without
+  /// revealing full details.
+  @override
+  final bool preview;
 
   /// The total number of reactions on the activity across all reaction types.
   @override
@@ -270,6 +286,8 @@ extension ActivityResponseMapper on ActivityResponse {
       parent: parent?.toModel(),
       poll: poll?.toModel(),
       popularity: popularity,
+      hidden: hidden,
+      preview: preview,
       reactionCount: reactionCount,
       reactionGroups: {
         for (final entry in reactionGroups.entries)

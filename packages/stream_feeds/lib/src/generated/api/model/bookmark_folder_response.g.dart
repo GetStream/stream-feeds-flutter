@@ -16,6 +16,7 @@ BookmarkFolderResponse _$BookmarkFolderResponseFromJson(
       name: json['name'] as String,
       updatedAt: const EpochDateTimeConverter()
           .fromJson((json['updated_at'] as num).toInt()),
+      user: UserResponse.fromJson(json['user'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$BookmarkFolderResponseToJson(
@@ -26,4 +27,5 @@ Map<String, dynamic> _$BookmarkFolderResponseToJson(
       'id': instance.id,
       'name': instance.name,
       'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
+      'user': instance.user.toJson(),
     };

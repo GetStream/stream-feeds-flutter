@@ -17,7 +17,7 @@ ReminderResponseData _$ReminderResponseDataFromJson(
           .fromJson((json['created_at'] as num).toInt()),
       message: json['message'] == null
           ? null
-          : Message.fromJson(json['message'] as Map<String, dynamic>),
+          : MessageResponse.fromJson(json['message'] as Map<String, dynamic>),
       messageId: json['message_id'] as String,
       remindAt: _$JsonConverterFromJson<int, DateTime>(
           json['remind_at'], const EpochDateTimeConverter().fromJson),
@@ -25,7 +25,7 @@ ReminderResponseData _$ReminderResponseDataFromJson(
           .fromJson((json['updated_at'] as num).toInt()),
       user: json['user'] == null
           ? null
-          : User.fromJson(json['user'] as Map<String, dynamic>),
+          : UserResponse.fromJson(json['user'] as Map<String, dynamic>),
       userId: json['user_id'] as String,
     );
 

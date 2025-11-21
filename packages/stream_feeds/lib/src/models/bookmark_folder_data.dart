@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../generated/api/models.dart';
+import 'user_data.dart';
 
 part 'bookmark_folder_data.freezed.dart';
 
@@ -15,6 +16,7 @@ class BookmarkFolderData with _$BookmarkFolderData {
     required this.createdAt,
     required this.id,
     required this.name,
+    required this.user,
     required this.updatedAt,
     this.custom,
   });
@@ -30,6 +32,10 @@ class BookmarkFolderData with _$BookmarkFolderData {
   /// Name of the folder.
   @override
   final String name;
+
+  /// The user who created the folder.
+  @override
+  final UserData user;
 
   /// The date the folder was last updated.
   @override
@@ -51,6 +57,7 @@ extension BookmarkFolderResponseMapper on BookmarkFolderResponse {
       createdAt: createdAt,
       id: id,
       name: name,
+      user: user.toModel(),
       updatedAt: updatedAt,
       custom: custom,
     );

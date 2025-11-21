@@ -21,6 +21,8 @@ enum CreateBlockListRequestType {
   domainAllowlist,
   @JsonValue('email')
   email,
+  @JsonValue('email_allowlist')
+  emailAllowlist,
   @JsonValue('regex')
   regex,
   @JsonValue('word')

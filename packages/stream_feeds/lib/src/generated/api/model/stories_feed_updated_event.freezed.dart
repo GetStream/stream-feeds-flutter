@@ -15,6 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$StoriesFeedUpdatedEvent {
+  List<ActivityResponse>? get activities;
   List<AggregatedActivityResponse>? get aggregatedActivities;
   DateTime get createdAt;
   Map<String, Object?> get custom;
@@ -39,6 +40,8 @@ mixin _$StoriesFeedUpdatedEvent {
             other is StoriesFeedUpdatedEvent &&
             super == other &&
             const DeepCollectionEquality()
+                .equals(other.activities, activities) &&
+            const DeepCollectionEquality()
                 .equals(other.aggregatedActivities, aggregatedActivities) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
@@ -56,6 +59,7 @@ mixin _$StoriesFeedUpdatedEvent {
   int get hashCode => Object.hash(
       runtimeType,
       super.hashCode,
+      const DeepCollectionEquality().hash(activities),
       const DeepCollectionEquality().hash(aggregatedActivities),
       createdAt,
       const DeepCollectionEquality().hash(custom),
@@ -67,7 +71,7 @@ mixin _$StoriesFeedUpdatedEvent {
 
   @override
   String toString() {
-    return 'StoriesFeedUpdatedEvent(aggregatedActivities: $aggregatedActivities, createdAt: $createdAt, custom: $custom, feedVisibility: $feedVisibility, fid: $fid, receivedAt: $receivedAt, type: $type, user: $user)';
+    return 'StoriesFeedUpdatedEvent(activities: $activities, aggregatedActivities: $aggregatedActivities, createdAt: $createdAt, custom: $custom, feedVisibility: $feedVisibility, fid: $fid, receivedAt: $receivedAt, type: $type, user: $user)';
   }
 }
 
@@ -78,7 +82,8 @@ abstract mixin class $StoriesFeedUpdatedEventCopyWith<$Res> {
       _$StoriesFeedUpdatedEventCopyWithImpl;
   @useResult
   $Res call(
-      {List<AggregatedActivityResponse>? aggregatedActivities,
+      {List<ActivityResponse>? activities,
+      List<AggregatedActivityResponse>? aggregatedActivities,
       DateTime createdAt,
       Map<String, Object?> custom,
       String? feedVisibility,
@@ -101,6 +106,7 @@ class _$StoriesFeedUpdatedEventCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? activities = freezed,
     Object? aggregatedActivities = freezed,
     Object? createdAt = null,
     Object? custom = null,
@@ -111,6 +117,10 @@ class _$StoriesFeedUpdatedEventCopyWithImpl<$Res>
     Object? user = freezed,
   }) {
     return _then(StoriesFeedUpdatedEvent(
+      activities: freezed == activities
+          ? _self.activities
+          : activities // ignore: cast_nullable_to_non_nullable
+              as List<ActivityResponse>?,
       aggregatedActivities: freezed == aggregatedActivities
           ? _self.aggregatedActivities
           : aggregatedActivities // ignore: cast_nullable_to_non_nullable

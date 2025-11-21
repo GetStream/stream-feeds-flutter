@@ -14,6 +14,7 @@ const _$ChannelOwnCapabilityEnumMap = {
   ChannelOwnCapability.deleteAnyMessage: 'delete-any-message',
   ChannelOwnCapability.deleteChannel: 'delete-channel',
   ChannelOwnCapability.deleteOwnMessage: 'delete-own-message',
+  ChannelOwnCapability.deliveryEvents: 'delivery-events',
   ChannelOwnCapability.flagMessage: 'flag-message',
   ChannelOwnCapability.freezeChannel: 'freeze-channel',
   ChannelOwnCapability.joinChannel: 'join-channel',

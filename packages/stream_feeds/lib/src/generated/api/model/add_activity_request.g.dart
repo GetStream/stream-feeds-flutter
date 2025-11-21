@@ -11,6 +11,9 @@ AddActivityRequest _$AddActivityRequestFromJson(Map<String, dynamic> json) =>
       attachments: (json['attachments'] as List<dynamic>?)
           ?.map((e) => Attachment.fromJson(e as Map<String, dynamic>))
           .toList(),
+      collectionRefs: (json['collection_refs'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       custom: json['custom'] as Map<String, dynamic>?,
       expiresAt: json['expires_at'] as String?,
       feeds: (json['feeds'] as List<dynamic>).map((e) => e as String).toList(),
@@ -29,7 +32,11 @@ AddActivityRequest _$AddActivityRequestFromJson(Map<String, dynamic> json) =>
           .toList(),
       parentId: json['parent_id'] as String?,
       pollId: json['poll_id'] as String?,
+      restrictReplies: $enumDecodeNullable(
+          _$AddActivityRequestRestrictRepliesEnumMap, json['restrict_replies'],
+          unknownValue: AddActivityRequestRestrictReplies.unknown),
       searchData: json['search_data'] as Map<String, dynamic>?,
+      skipEnrichUrl: json['skip_enrich_url'] as bool?,
       text: json['text'] as String?,
       type: json['type'] as String,
       visibility: $enumDecodeNullable(
@@ -41,6 +48,7 @@ AddActivityRequest _$AddActivityRequestFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$AddActivityRequestToJson(AddActivityRequest instance) =>
     <String, dynamic>{
       'attachments': instance.attachments?.map((e) => e.toJson()).toList(),
+      'collection_refs': instance.collectionRefs,
       'custom': instance.custom,
       'expires_at': instance.expiresAt,
       'feeds': instance.feeds,
@@ -51,12 +59,22 @@ Map<String, dynamic> _$AddActivityRequestToJson(AddActivityRequest instance) =>
       'mentioned_user_ids': instance.mentionedUserIds,
       'parent_id': instance.parentId,
       'poll_id': instance.pollId,
+      'restrict_replies':
+          _$AddActivityRequestRestrictRepliesEnumMap[instance.restrictReplies],
       'search_data': instance.searchData,
+      'skip_enrich_url': instance.skipEnrichUrl,
       'text': instance.text,
       'type': instance.type,
       'visibility': _$AddActivityRequestVisibilityEnumMap[instance.visibility],
       'visibility_tag': instance.visibilityTag,
     };
+
+const _$AddActivityRequestRestrictRepliesEnumMap = {
+  AddActivityRequestRestrictReplies.everyone: 'everyone',
+  AddActivityRequestRestrictReplies.nobody: 'nobody',
+  AddActivityRequestRestrictReplies.peopleIFollow: 'people_i_follow',
+  AddActivityRequestRestrictReplies.unknown: '_unknown',
+};
 
 const _$AddActivityRequestVisibilityEnumMap = {
   AddActivityRequestVisibility.private: 'private',

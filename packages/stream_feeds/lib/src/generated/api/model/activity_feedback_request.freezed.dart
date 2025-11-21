@@ -16,9 +16,6 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ActivityFeedbackRequest {
   bool? get hide;
-  bool? get muteUser;
-  String? get reason;
-  bool? get report;
   bool? get showLess;
   bool? get showMore;
 
@@ -36,10 +33,6 @@ mixin _$ActivityFeedbackRequest {
         (other.runtimeType == runtimeType &&
             other is ActivityFeedbackRequest &&
             (identical(other.hide, hide) || other.hide == hide) &&
-            (identical(other.muteUser, muteUser) ||
-                other.muteUser == muteUser) &&
-            (identical(other.reason, reason) || other.reason == reason) &&
-            (identical(other.report, report) || other.report == report) &&
             (identical(other.showLess, showLess) ||
                 other.showLess == showLess) &&
             (identical(other.showMore, showMore) ||
@@ -47,12 +40,11 @@ mixin _$ActivityFeedbackRequest {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, hide, muteUser, reason, report, showLess, showMore);
+  int get hashCode => Object.hash(runtimeType, hide, showLess, showMore);
 
   @override
   String toString() {
-    return 'ActivityFeedbackRequest(hide: $hide, muteUser: $muteUser, reason: $reason, report: $report, showLess: $showLess, showMore: $showMore)';
+    return 'ActivityFeedbackRequest(hide: $hide, showLess: $showLess, showMore: $showMore)';
   }
 }
 
@@ -62,13 +54,7 @@ abstract mixin class $ActivityFeedbackRequestCopyWith<$Res> {
           $Res Function(ActivityFeedbackRequest) _then) =
       _$ActivityFeedbackRequestCopyWithImpl;
   @useResult
-  $Res call(
-      {bool? hide,
-      bool? muteUser,
-      String? reason,
-      bool? report,
-      bool? showLess,
-      bool? showMore});
+  $Res call({bool? hide, bool? showLess, bool? showMore});
 }
 
 /// @nodoc
@@ -85,9 +71,6 @@ class _$ActivityFeedbackRequestCopyWithImpl<$Res>
   @override
   $Res call({
     Object? hide = freezed,
-    Object? muteUser = freezed,
-    Object? reason = freezed,
-    Object? report = freezed,
     Object? showLess = freezed,
     Object? showMore = freezed,
   }) {
@@ -95,18 +78,6 @@ class _$ActivityFeedbackRequestCopyWithImpl<$Res>
       hide: freezed == hide
           ? _self.hide
           : hide // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      muteUser: freezed == muteUser
-          ? _self.muteUser
-          : muteUser // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      reason: freezed == reason
-          ? _self.reason
-          : reason // ignore: cast_nullable_to_non_nullable
-              as String?,
-      report: freezed == report
-          ? _self.report
-          : report // ignore: cast_nullable_to_non_nullable
               as bool?,
       showLess: freezed == showLess
           ? _self.showLess

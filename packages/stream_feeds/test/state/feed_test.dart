@@ -57,6 +57,57 @@ void main() {
     });
   });
 
+  group('Query follow suggestions', () {
+    test('should return list of FeedSuggestionData', () async {
+      const feedId = FeedId(group: 'user', id: 'john');
+      when(
+        () => feedsApi.getFollowSuggestions(
+          feedGroupId: feedId.group,
+          limit: any(named: 'limit'),
+        ),
+      ).thenAnswer(
+        (_) async => Result.success(
+          createDefaultGetFollowSuggestionsResponse(
+            suggestions: [
+              createDefaultFeedSuggestionResponse(
+                id: 'suggestion-1',
+                reason: 'Based on your interests',
+                recommendationScore: 0.95,
+                algorithmScores: {'relevance': 0.9, 'popularity': 0.85},
+              ),
+              createDefaultFeedSuggestionResponse(
+                id: 'suggestion-2',
+                reason: 'Popular in your network',
+                recommendationScore: 0.88,
+              ),
+            ],
+          ),
+        ),
+      );
+
+      final feed = client.feed(group: feedId.group, id: feedId.id);
+      final result = await feed.queryFollowSuggestions(limit: 10);
+
+      expect(result, isA<Result<List<FeedSuggestionData>>>());
+
+      final suggestions = result.getOrThrow();
+      expect(suggestions.length, 2);
+
+      final firstSuggestion = suggestions[0];
+      expect(firstSuggestion.feed.id, 'suggestion-1');
+      expect(firstSuggestion.reason, 'Based on your interests');
+      expect(firstSuggestion.recommendationScore, 0.95);
+      expect(firstSuggestion.algorithmScores, isNotNull);
+      expect(firstSuggestion.algorithmScores!['relevance'], 0.9);
+      expect(firstSuggestion.algorithmScores!['popularity'], 0.85);
+
+      final secondSuggestion = suggestions[1];
+      expect(secondSuggestion.feed.id, 'suggestion-2');
+      expect(secondSuggestion.reason, 'Popular in your network');
+      expect(secondSuggestion.recommendationScore, 0.88);
+    });
+  });
+
   group('Follow events', () {
     late StreamController<Object> wsStreamController;
     late MockWebSocketSink webSocketSink;

@@ -11,6 +11,7 @@ UpdateCommentRequest _$UpdateCommentRequestFromJson(
     UpdateCommentRequest(
       comment: json['comment'] as String?,
       custom: json['custom'] as Map<String, dynamic>?,
+      skipEnrichUrl: json['skip_enrich_url'] as bool?,
       skipPush: json['skip_push'] as bool?,
     );
 
@@ -19,5 +20,6 @@ Map<String, dynamic> _$UpdateCommentRequestToJson(
     <String, dynamic>{
       'comment': instance.comment,
       'custom': instance.custom,
+      'skip_enrich_url': instance.skipEnrichUrl,
       'skip_push': instance.skipPush,
     };

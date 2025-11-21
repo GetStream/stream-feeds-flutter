@@ -22,6 +22,7 @@ class DeleteUserRequest with _$DeleteUserRequest {
     this.deleteFeedsContent,
     this.hardDelete,
     this.markMessagesDeleted,
+    this.reason,
   });
 
   @override
@@ -35,6 +36,9 @@ class DeleteUserRequest with _$DeleteUserRequest {
 
   @override
   final bool? markMessagesDeleted;
+
+  @override
+  final String? reason;
 
   Map<String, dynamic> toJson() => _$DeleteUserRequestToJson(this);
 

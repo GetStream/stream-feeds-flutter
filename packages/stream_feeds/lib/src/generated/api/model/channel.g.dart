@@ -30,6 +30,9 @@ Channel _$ChannelFromJson(Map<String, dynamic> json) => Channel(
       deletedAt: _$JsonConverterFromJson<int, DateTime>(
           json['deleted_at'], const EpochDateTimeConverter().fromJson),
       disabled: json['disabled'] as bool,
+      filterTags: (json['filter_tags'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       frozen: json['frozen'] as bool,
       id: json['id'] as String,
       invites: (json['invites'] as List<dynamic>?)
@@ -74,6 +77,7 @@ Map<String, dynamic> _$ChannelToJson(Channel instance) => <String, dynamic>{
       'deleted_at': _$JsonConverterToJson<int, DateTime>(
           instance.deletedAt, const EpochDateTimeConverter().toJson),
       'disabled': instance.disabled,
+      'filter_tags': instance.filterTags,
       'frozen': instance.frozen,
       'id': instance.id,
       'invites': instance.invites?.map((e) => e.toJson()).toList(),

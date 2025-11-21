@@ -54,7 +54,7 @@ abstract interface class DefaultApi {
 
   @POST('/api/v2/feeds/comments')
   Future<Result<AddCommentResponse>> addComment({
-    @Body() required AddCommentRequest addCommentRequest,
+    @Body() AddCommentRequest? addCommentRequest,
   });
 
   @POST('/api/v2/feeds/comments/{id}/reactions')
@@ -88,6 +88,11 @@ abstract interface class DefaultApi {
   @POST('/api/v2/blocklists')
   Future<Result<CreateBlockListResponse>> createBlockList({
     @Body() required CreateBlockListRequest createBlockListRequest,
+  });
+
+  @POST('/api/v2/feeds/collections')
+  Future<Result<CreateCollectionsResponse>> createCollections({
+    @Body() required CreateCollectionsRequest createCollectionsRequest,
   });
 
   @POST('/api/v2/devices')
@@ -148,6 +153,11 @@ abstract interface class DefaultApi {
   @DELETE('/api/v2/feeds/bookmark_folders/{folder_id}')
   Future<Result<DeleteBookmarkFolderResponse>> deleteBookmarkFolder({
     @Path('folder_id') required String folderId,
+  });
+
+  @DELETE('/api/v2/feeds/collections')
+  Future<Result<DeleteCollectionsResponse>> deleteCollections({
+    @Query('collection_refs') required List<String> collectionRefs,
   });
 
   @DELETE('/api/v2/feeds/comments/{id}')
@@ -423,6 +433,11 @@ abstract interface class DefaultApi {
     @Query('payload') QueryUsersPayload? payload,
   });
 
+  @GET('/api/v2/feeds/collections')
+  Future<Result<ReadCollectionsResponse>> readCollections({
+    @Query('collection_refs') required List<String> collectionRefs,
+  });
+
   @POST(
       '/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/members/reject')
   Future<Result<RejectFeedMemberInviteResponse>> rejectFeedMemberInvite({
@@ -493,6 +508,11 @@ abstract interface class DefaultApi {
   Future<Result<UpdateBookmarkFolderResponse>> updateBookmarkFolder({
     @Path('folder_id') required String folderId,
     @Body() UpdateBookmarkFolderRequest? updateBookmarkFolderRequest,
+  });
+
+  @PATCH('/api/v2/feeds/collections')
+  Future<Result<UpdateCollectionsResponse>> updateCollections({
+    @Body() required UpdateCollectionsRequest updateCollectionsRequest,
   });
 
   @PATCH('/api/v2/feeds/comments/{id}')

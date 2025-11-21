@@ -18,15 +18,19 @@ part 'get_follow_suggestions_response.freezed.dart';
 @JsonSerializable()
 class GetFollowSuggestionsResponse with _$GetFollowSuggestionsResponse {
   const GetFollowSuggestionsResponse({
+    this.algorithmUsed,
     required this.duration,
     required this.suggestions,
   });
 
   @override
+  final String? algorithmUsed;
+
+  @override
   final String duration;
 
   @override
-  final List<FeedResponse> suggestions;
+  final List<FeedSuggestionResponse> suggestions;
 
   Map<String, dynamic> toJson() => _$GetFollowSuggestionsResponseToJson(this);
 

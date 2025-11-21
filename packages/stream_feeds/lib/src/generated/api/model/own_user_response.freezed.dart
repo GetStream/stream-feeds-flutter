@@ -34,7 +34,7 @@ mixin _$OwnUserResponse {
   String? get name;
   bool get online;
   PrivacySettingsResponse? get privacySettings;
-  PushPreferences? get pushPreferences;
+  PushPreferencesResponse? get pushPreferences;
   DateTime? get revokeTokensIssuedBefore;
   String get role;
   List<String> get teams;
@@ -178,7 +178,7 @@ abstract mixin class $OwnUserResponseCopyWith<$Res> {
       String? name,
       bool online,
       PrivacySettingsResponse? privacySettings,
-      PushPreferences? pushPreferences,
+      PushPreferencesResponse? pushPreferences,
       DateTime? revokeTokensIssuedBefore,
       String role,
       List<String> teams,
@@ -315,7 +315,7 @@ class _$OwnUserResponseCopyWithImpl<$Res>
       pushPreferences: freezed == pushPreferences
           ? _self.pushPreferences
           : pushPreferences // ignore: cast_nullable_to_non_nullable
-              as PushPreferences?,
+              as PushPreferencesResponse?,
       revokeTokensIssuedBefore: freezed == revokeTokensIssuedBefore
           ? _self.revokeTokensIssuedBefore
           : revokeTokensIssuedBefore // ignore: cast_nullable_to_non_nullable

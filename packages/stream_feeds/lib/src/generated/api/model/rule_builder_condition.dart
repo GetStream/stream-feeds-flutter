@@ -20,6 +20,7 @@ class RuleBuilderCondition with _$RuleBuilderCondition {
   const RuleBuilderCondition({
     this.confidence,
     this.contentCountRuleParams,
+    this.contentFlagCountRuleParams,
     this.imageContentParams,
     this.imageRuleParams,
     this.textContentParams,
@@ -27,6 +28,7 @@ class RuleBuilderCondition with _$RuleBuilderCondition {
     this.type,
     this.userCreatedWithinParams,
     this.userCustomPropertyParams,
+    this.userFlagCountRuleParams,
     this.userRuleParams,
     this.videoContentParams,
     this.videoRuleParams,
@@ -37,6 +39,9 @@ class RuleBuilderCondition with _$RuleBuilderCondition {
 
   @override
   final ContentCountRuleParameters? contentCountRuleParams;
+
+  @override
+  final FlagCountRuleParameters? contentFlagCountRuleParams;
 
   @override
   final ImageContentParameters? imageContentParams;
@@ -58,6 +63,9 @@ class RuleBuilderCondition with _$RuleBuilderCondition {
 
   @override
   final UserCustomPropertyParameters? userCustomPropertyParams;
+
+  @override
+  final FlagCountRuleParameters? userFlagCountRuleParams;
 
   @override
   final UserRuleParameters? userRuleParams;

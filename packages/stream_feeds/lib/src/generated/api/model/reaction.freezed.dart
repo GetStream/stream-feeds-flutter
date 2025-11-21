@@ -15,14 +15,23 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$Reaction {
+  String get activityId;
+  Map<String, Object?>? get childrenCounts;
   DateTime get createdAt;
-  Map<String, Object?> get custom;
-  String get messageId;
-  int get score;
-  String get type;
+  Map<String, Object?>? get data;
+  DateTime? get deletedAt;
+  String? get id;
+  String get kind;
+  Map<String, List<Reaction>>? get latestChildren;
+  Map<String, Object?>? get moderation;
+  Map<String, List<Reaction>>? get ownChildren;
+  String? get parent;
+  double? get score;
+  List<String>? get targetFeeds;
+  Map<String, Object?>? get targetFeedsExtraData;
   DateTime get updatedAt;
   User? get user;
-  String? get userId;
+  String get userId;
 
   /// Create a copy of Reaction
   /// with the given fields replaced by the non-null parameter values.
@@ -36,13 +45,29 @@ mixin _$Reaction {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Reaction &&
+            (identical(other.activityId, activityId) ||
+                other.activityId == activityId) &&
+            const DeepCollectionEquality()
+                .equals(other.childrenCounts, childrenCounts) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
-            const DeepCollectionEquality().equals(other.custom, custom) &&
-            (identical(other.messageId, messageId) ||
-                other.messageId == messageId) &&
+            const DeepCollectionEquality().equals(other.data, data) &&
+            (identical(other.deletedAt, deletedAt) ||
+                other.deletedAt == deletedAt) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.kind, kind) || other.kind == kind) &&
+            const DeepCollectionEquality()
+                .equals(other.latestChildren, latestChildren) &&
+            const DeepCollectionEquality()
+                .equals(other.moderation, moderation) &&
+            const DeepCollectionEquality()
+                .equals(other.ownChildren, ownChildren) &&
+            (identical(other.parent, parent) || other.parent == parent) &&
             (identical(other.score, score) || other.score == score) &&
-            (identical(other.type, type) || other.type == type) &&
+            const DeepCollectionEquality()
+                .equals(other.targetFeeds, targetFeeds) &&
+            const DeepCollectionEquality()
+                .equals(other.targetFeedsExtraData, targetFeedsExtraData) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
             (identical(other.user, user) || other.user == user) &&
@@ -52,18 +77,27 @@ mixin _$Reaction {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      activityId,
+      const DeepCollectionEquality().hash(childrenCounts),
       createdAt,
-      const DeepCollectionEquality().hash(custom),
-      messageId,
+      const DeepCollectionEquality().hash(data),
+      deletedAt,
+      id,
+      kind,
+      const DeepCollectionEquality().hash(latestChildren),
+      const DeepCollectionEquality().hash(moderation),
+      const DeepCollectionEquality().hash(ownChildren),
+      parent,
       score,
-      type,
+      const DeepCollectionEquality().hash(targetFeeds),
+      const DeepCollectionEquality().hash(targetFeedsExtraData),
       updatedAt,
       user,
       userId);
 
   @override
   String toString() {
-    return 'Reaction(createdAt: $createdAt, custom: $custom, messageId: $messageId, score: $score, type: $type, updatedAt: $updatedAt, user: $user, userId: $userId)';
+    return 'Reaction(activityId: $activityId, childrenCounts: $childrenCounts, createdAt: $createdAt, data: $data, deletedAt: $deletedAt, id: $id, kind: $kind, latestChildren: $latestChildren, moderation: $moderation, ownChildren: $ownChildren, parent: $parent, score: $score, targetFeeds: $targetFeeds, targetFeedsExtraData: $targetFeedsExtraData, updatedAt: $updatedAt, user: $user, userId: $userId)';
   }
 }
 
@@ -73,14 +107,23 @@ abstract mixin class $ReactionCopyWith<$Res> {
       _$ReactionCopyWithImpl;
   @useResult
   $Res call(
-      {DateTime createdAt,
-      Map<String, Object?> custom,
-      String messageId,
-      int score,
-      String type,
+      {String activityId,
+      Map<String, Object?>? childrenCounts,
+      DateTime createdAt,
+      Map<String, Object?>? data,
+      DateTime? deletedAt,
+      String? id,
+      String kind,
+      Map<String, List<Reaction>>? latestChildren,
+      Map<String, Object?>? moderation,
+      Map<String, List<Reaction>>? ownChildren,
+      String? parent,
+      double? score,
+      List<String>? targetFeeds,
+      Map<String, Object?>? targetFeedsExtraData,
       DateTime updatedAt,
       User? user,
-      String? userId});
+      String userId});
 }
 
 /// @nodoc
@@ -95,36 +138,81 @@ class _$ReactionCopyWithImpl<$Res> implements $ReactionCopyWith<$Res> {
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? activityId = null,
+    Object? childrenCounts = freezed,
     Object? createdAt = null,
-    Object? custom = null,
-    Object? messageId = null,
-    Object? score = null,
-    Object? type = null,
+    Object? data = freezed,
+    Object? deletedAt = freezed,
+    Object? id = freezed,
+    Object? kind = null,
+    Object? latestChildren = freezed,
+    Object? moderation = freezed,
+    Object? ownChildren = freezed,
+    Object? parent = freezed,
+    Object? score = freezed,
+    Object? targetFeeds = freezed,
+    Object? targetFeedsExtraData = freezed,
     Object? updatedAt = null,
     Object? user = freezed,
-    Object? userId = freezed,
+    Object? userId = null,
   }) {
     return _then(Reaction(
+      activityId: null == activityId
+          ? _self.activityId
+          : activityId // ignore: cast_nullable_to_non_nullable
+              as String,
+      childrenCounts: freezed == childrenCounts
+          ? _self.childrenCounts
+          : childrenCounts // ignore: cast_nullable_to_non_nullable
+              as Map<String, Object?>?,
       createdAt: null == createdAt
           ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      custom: null == custom
-          ? _self.custom
-          : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object?>,
-      messageId: null == messageId
-          ? _self.messageId
-          : messageId // ignore: cast_nullable_to_non_nullable
+      data: freezed == data
+          ? _self.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as Map<String, Object?>?,
+      deletedAt: freezed == deletedAt
+          ? _self.deletedAt
+          : deletedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      id: freezed == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      kind: null == kind
+          ? _self.kind
+          : kind // ignore: cast_nullable_to_non_nullable
               as String,
-      score: null == score
+      latestChildren: freezed == latestChildren
+          ? _self.latestChildren
+          : latestChildren // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<Reaction>>?,
+      moderation: freezed == moderation
+          ? _self.moderation
+          : moderation // ignore: cast_nullable_to_non_nullable
+              as Map<String, Object?>?,
+      ownChildren: freezed == ownChildren
+          ? _self.ownChildren
+          : ownChildren // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<Reaction>>?,
+      parent: freezed == parent
+          ? _self.parent
+          : parent // ignore: cast_nullable_to_non_nullable
+              as String?,
+      score: freezed == score
           ? _self.score
           : score // ignore: cast_nullable_to_non_nullable
-              as int,
-      type: null == type
-          ? _self.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
+              as double?,
+      targetFeeds: freezed == targetFeeds
+          ? _self.targetFeeds
+          : targetFeeds // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      targetFeedsExtraData: freezed == targetFeedsExtraData
+          ? _self.targetFeedsExtraData
+          : targetFeedsExtraData // ignore: cast_nullable_to_non_nullable
+              as Map<String, Object?>?,
       updatedAt: null == updatedAt
           ? _self.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
@@ -133,10 +221,10 @@ class _$ReactionCopyWithImpl<$Res> implements $ReactionCopyWith<$Res> {
           ? _self.user
           : user // ignore: cast_nullable_to_non_nullable
               as User?,
-      userId: freezed == userId
+      userId: null == userId
           ? _self.userId
           : userId // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ));
   }
 }

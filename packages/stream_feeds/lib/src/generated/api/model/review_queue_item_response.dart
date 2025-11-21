@@ -33,10 +33,13 @@ class ReviewQueueItemResponse with _$ReviewQueueItemResponse {
     required this.entityType,
     this.feedsV2Activity,
     this.feedsV2Reaction,
+    this.feedsV3Activity,
+    this.feedsV3Comment,
     required this.flags,
     required this.flagsCount,
     required this.id,
     required this.languages,
+    required this.latestModeratorAction,
     this.message,
     this.moderationPayload,
     this.reaction,
@@ -97,6 +100,12 @@ class ReviewQueueItemResponse with _$ReviewQueueItemResponse {
   final Reaction? feedsV2Reaction;
 
   @override
+  final ActivityResponse? feedsV3Activity;
+
+  @override
+  final CommentResponse? feedsV3Comment;
+
+  @override
   final List<ModerationFlagResponse> flags;
 
   @override
@@ -107,6 +116,9 @@ class ReviewQueueItemResponse with _$ReviewQueueItemResponse {
 
   @override
   final List<String> languages;
+
+  @override
+  final String latestModeratorAction;
 
   @override
   final MessageResponse? message;

@@ -12,6 +12,7 @@ import '../models/comment_data.dart';
 import '../models/feed_data.dart';
 import '../models/feed_id.dart';
 import '../models/feed_member_data.dart';
+import '../models/feed_suggestion_data.dart';
 import '../models/feeds_reaction_data.dart';
 import '../models/follow_data.dart';
 import '../models/model_updates.dart';
@@ -471,9 +472,11 @@ class Feed with Disposable {
   ///
   /// [limit] Optional limit for the number of suggestions to return. If `null`, uses the
   /// default limit.
-  /// Returns a [Result] containing a list of [FeedData] representing the suggested feeds if
-  /// successful, or an error if the operation fails.
-  Future<Result<List<FeedData>>> queryFollowSuggestions({int? limit}) {
+  /// Returns a [Result] containing a list of [FeedSuggestionData] representing
+  /// the suggested feeds if successful, or an error if the operation fails.
+  Future<Result<List<FeedSuggestionData>>> queryFollowSuggestions({
+    int? limit,
+  }) {
     return feedsRepository.queryFollowSuggestions(
       feedGroupId: query.fid.group,
       limit: limit,

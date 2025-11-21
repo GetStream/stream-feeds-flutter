@@ -32,6 +32,7 @@ class ActivityResponse with _$ActivityResponse {
   const ActivityResponse({
     required this.attachments,
     required this.bookmarkCount,
+    required this.collections,
     required this.commentCount,
     required this.comments,
     required this.createdAt,
@@ -42,7 +43,7 @@ class ActivityResponse with _$ActivityResponse {
     this.expiresAt,
     required this.feeds,
     required this.filterTags,
-    this.hidden,
+    required this.hidden,
     required this.id,
     required this.interestTags,
     this.isWatched,
@@ -50,14 +51,17 @@ class ActivityResponse with _$ActivityResponse {
     this.location,
     required this.mentionedUsers,
     this.moderation,
+    this.moderationAction,
     this.notificationContext,
     required this.ownBookmarks,
     required this.ownReactions,
     this.parent,
     this.poll,
     required this.popularity,
+    required this.preview,
     required this.reactionCount,
     required this.reactionGroups,
+    required this.restrictReplies,
     required this.score,
     required this.searchData,
     required this.shareCount,
@@ -74,6 +78,9 @@ class ActivityResponse with _$ActivityResponse {
 
   @override
   final int bookmarkCount;
+
+  @override
+  final Map<String, EnrichedCollectionResponse> collections;
 
   @override
   final int commentCount;
@@ -110,7 +117,7 @@ class ActivityResponse with _$ActivityResponse {
   final List<String> filterTags;
 
   @override
-  final bool? hidden;
+  final bool hidden;
 
   @override
   final String id;
@@ -134,6 +141,9 @@ class ActivityResponse with _$ActivityResponse {
   final ModerationV2Response? moderation;
 
   @override
+  final String? moderationAction;
+
+  @override
   final NotificationContext? notificationContext;
 
   @override
@@ -152,10 +162,16 @@ class ActivityResponse with _$ActivityResponse {
   final int popularity;
 
   @override
+  final bool preview;
+
+  @override
   final int reactionCount;
 
   @override
   final Map<String, ReactionGroupResponse> reactionGroups;
+
+  @override
+  final String restrictReplies;
 
   @override
   final double score;

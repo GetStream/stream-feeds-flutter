@@ -17,10 +17,14 @@ part 'submit_action_request.freezed.dart';
 enum SubmitActionRequestActionType {
   @JsonValue('ban')
   ban,
+  @JsonValue('block')
+  block,
   @JsonValue('custom')
   custom,
   @JsonValue('delete_activity')
   deleteActivity,
+  @JsonValue('delete_comment')
+  deleteComment,
   @JsonValue('delete_message')
   deleteMessage,
   @JsonValue('delete_reaction')
@@ -54,13 +58,16 @@ class SubmitActionRequest with _$SubmitActionRequest {
   const SubmitActionRequest({
     required this.actionType,
     this.ban,
+    this.block,
     this.custom,
     this.deleteActivity,
+    this.deleteComment,
     this.deleteMessage,
     this.deleteReaction,
     this.deleteUser,
     required this.itemId,
     this.markReviewed,
+    this.shadowBlock,
   });
 
   @override
@@ -71,10 +78,16 @@ class SubmitActionRequest with _$SubmitActionRequest {
   final BanActionRequest? ban;
 
   @override
+  final BlockActionRequest? block;
+
+  @override
   final CustomActionRequest? custom;
 
   @override
   final DeleteActivityRequest? deleteActivity;
+
+  @override
+  final DeleteCommentRequest? deleteComment;
 
   @override
   final DeleteMessageRequest? deleteMessage;
@@ -90,6 +103,9 @@ class SubmitActionRequest with _$SubmitActionRequest {
 
   @override
   final MarkReviewedRequest? markReviewed;
+
+  @override
+  final ShadowBlockActionRequest? shadowBlock;
 
   Map<String, dynamic> toJson() => _$SubmitActionRequestToJson(this);
 

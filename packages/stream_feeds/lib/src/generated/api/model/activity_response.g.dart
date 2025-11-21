@@ -12,6 +12,10 @@ ActivityResponse _$ActivityResponseFromJson(Map<String, dynamic> json) =>
           .map((e) => Attachment.fromJson(e as Map<String, dynamic>))
           .toList(),
       bookmarkCount: (json['bookmark_count'] as num).toInt(),
+      collections: (json['collections'] as Map<String, dynamic>).map(
+        (k, e) => MapEntry(
+            k, EnrichedCollectionResponse.fromJson(e as Map<String, dynamic>)),
+      ),
       commentCount: (json['comment_count'] as num).toInt(),
       comments: (json['comments'] as List<dynamic>)
           .map((e) => CommentResponse.fromJson(e as Map<String, dynamic>))
@@ -32,7 +36,7 @@ ActivityResponse _$ActivityResponseFromJson(Map<String, dynamic> json) =>
       filterTags: (json['filter_tags'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
-      hidden: json['hidden'] as bool?,
+      hidden: json['hidden'] as bool,
       id: json['id'] as String,
       interestTags: (json['interest_tags'] as List<dynamic>)
           .map((e) => e as String)
@@ -51,6 +55,7 @@ ActivityResponse _$ActivityResponseFromJson(Map<String, dynamic> json) =>
           ? null
           : ModerationV2Response.fromJson(
               json['moderation'] as Map<String, dynamic>),
+      moderationAction: json['moderation_action'] as String?,
       notificationContext: json['notification_context'] == null
           ? null
           : NotificationContext.fromJson(
@@ -68,11 +73,13 @@ ActivityResponse _$ActivityResponseFromJson(Map<String, dynamic> json) =>
           ? null
           : PollResponseData.fromJson(json['poll'] as Map<String, dynamic>),
       popularity: (json['popularity'] as num).toInt(),
+      preview: json['preview'] as bool,
       reactionCount: (json['reaction_count'] as num).toInt(),
       reactionGroups: (json['reaction_groups'] as Map<String, dynamic>).map(
         (k, e) => MapEntry(
             k, ReactionGroupResponse.fromJson(e as Map<String, dynamic>)),
       ),
+      restrictReplies: json['restrict_replies'] as String,
       score: (json['score'] as num).toDouble(),
       searchData: json['search_data'] as Map<String, dynamic>,
       shareCount: (json['share_count'] as num).toInt(),
@@ -91,6 +98,8 @@ Map<String, dynamic> _$ActivityResponseToJson(ActivityResponse instance) =>
     <String, dynamic>{
       'attachments': instance.attachments.map((e) => e.toJson()).toList(),
       'bookmark_count': instance.bookmarkCount,
+      'collections':
+          instance.collections.map((k, e) => MapEntry(k, e.toJson())),
       'comment_count': instance.commentCount,
       'comments': instance.comments.map((e) => e.toJson()).toList(),
       'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
@@ -114,15 +123,18 @@ Map<String, dynamic> _$ActivityResponseToJson(ActivityResponse instance) =>
       'mentioned_users':
           instance.mentionedUsers.map((e) => e.toJson()).toList(),
       'moderation': instance.moderation?.toJson(),
+      'moderation_action': instance.moderationAction,
       'notification_context': instance.notificationContext?.toJson(),
       'own_bookmarks': instance.ownBookmarks.map((e) => e.toJson()).toList(),
       'own_reactions': instance.ownReactions.map((e) => e.toJson()).toList(),
       'parent': instance.parent?.toJson(),
       'poll': instance.poll?.toJson(),
       'popularity': instance.popularity,
+      'preview': instance.preview,
       'reaction_count': instance.reactionCount,
       'reaction_groups':
           instance.reactionGroups.map((k, e) => MapEntry(k, e.toJson())),
+      'restrict_replies': instance.restrictReplies,
       'score': instance.score,
       'search_data': instance.searchData,
       'share_count': instance.shareCount,

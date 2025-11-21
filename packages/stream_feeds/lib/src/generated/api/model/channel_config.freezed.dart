@@ -27,6 +27,7 @@ mixin _$ChannelConfig {
   bool get countMessages;
   DateTime get createdAt;
   bool get customEvents;
+  bool get deliveryEvents;
   bool get markMessagesPending;
   int get maxMessageLength;
   bool get mutes;
@@ -84,6 +85,8 @@ mixin _$ChannelConfig {
                 other.createdAt == createdAt) &&
             (identical(other.customEvents, customEvents) ||
                 other.customEvents == customEvents) &&
+            (identical(other.deliveryEvents, deliveryEvents) ||
+                other.deliveryEvents == deliveryEvents) &&
             (identical(other.markMessagesPending, markMessagesPending) ||
                 other.markMessagesPending == markMessagesPending) &&
             (identical(other.maxMessageLength, maxMessageLength) ||
@@ -138,6 +141,7 @@ mixin _$ChannelConfig {
         countMessages,
         createdAt,
         customEvents,
+        deliveryEvents,
         markMessagesPending,
         maxMessageLength,
         mutes,
@@ -163,7 +167,7 @@ mixin _$ChannelConfig {
 
   @override
   String toString() {
-    return 'ChannelConfig(allowedFlagReasons: $allowedFlagReasons, automod: $automod, automodBehavior: $automodBehavior, automodThresholds: $automodThresholds, blocklist: $blocklist, blocklistBehavior: $blocklistBehavior, blocklists: $blocklists, commands: $commands, connectEvents: $connectEvents, countMessages: $countMessages, createdAt: $createdAt, customEvents: $customEvents, markMessagesPending: $markMessagesPending, maxMessageLength: $maxMessageLength, mutes: $mutes, name: $name, partitionSize: $partitionSize, partitionTtl: $partitionTtl, polls: $polls, pushNotifications: $pushNotifications, quotes: $quotes, reactions: $reactions, readEvents: $readEvents, reminders: $reminders, replies: $replies, search: $search, sharedLocations: $sharedLocations, skipLastMsgUpdateForSystemMsgs: $skipLastMsgUpdateForSystemMsgs, typingEvents: $typingEvents, updatedAt: $updatedAt, uploads: $uploads, urlEnrichment: $urlEnrichment, userMessageReminders: $userMessageReminders)';
+    return 'ChannelConfig(allowedFlagReasons: $allowedFlagReasons, automod: $automod, automodBehavior: $automodBehavior, automodThresholds: $automodThresholds, blocklist: $blocklist, blocklistBehavior: $blocklistBehavior, blocklists: $blocklists, commands: $commands, connectEvents: $connectEvents, countMessages: $countMessages, createdAt: $createdAt, customEvents: $customEvents, deliveryEvents: $deliveryEvents, markMessagesPending: $markMessagesPending, maxMessageLength: $maxMessageLength, mutes: $mutes, name: $name, partitionSize: $partitionSize, partitionTtl: $partitionTtl, polls: $polls, pushNotifications: $pushNotifications, quotes: $quotes, reactions: $reactions, readEvents: $readEvents, reminders: $reminders, replies: $replies, search: $search, sharedLocations: $sharedLocations, skipLastMsgUpdateForSystemMsgs: $skipLastMsgUpdateForSystemMsgs, typingEvents: $typingEvents, updatedAt: $updatedAt, uploads: $uploads, urlEnrichment: $urlEnrichment, userMessageReminders: $userMessageReminders)';
   }
 }
 
@@ -186,6 +190,7 @@ abstract mixin class $ChannelConfigCopyWith<$Res> {
       bool countMessages,
       DateTime createdAt,
       bool customEvents,
+      bool deliveryEvents,
       bool markMessagesPending,
       int maxMessageLength,
       bool mutes,
@@ -234,6 +239,7 @@ class _$ChannelConfigCopyWithImpl<$Res>
     Object? countMessages = null,
     Object? createdAt = null,
     Object? customEvents = null,
+    Object? deliveryEvents = null,
     Object? markMessagesPending = null,
     Object? maxMessageLength = null,
     Object? mutes = null,
@@ -304,6 +310,10 @@ class _$ChannelConfigCopyWithImpl<$Res>
       customEvents: null == customEvents
           ? _self.customEvents
           : customEvents // ignore: cast_nullable_to_non_nullable
+              as bool,
+      deliveryEvents: null == deliveryEvents
+          ? _self.deliveryEvents
+          : deliveryEvents // ignore: cast_nullable_to_non_nullable
               as bool,
       markMessagesPending: null == markMessagesPending
           ? _self.markMessagesPending

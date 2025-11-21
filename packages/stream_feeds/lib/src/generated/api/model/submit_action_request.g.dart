@@ -14,6 +14,9 @@ SubmitActionRequest _$SubmitActionRequestFromJson(Map<String, dynamic> json) =>
       ban: json['ban'] == null
           ? null
           : BanActionRequest.fromJson(json['ban'] as Map<String, dynamic>),
+      block: json['block'] == null
+          ? null
+          : BlockActionRequest.fromJson(json['block'] as Map<String, dynamic>),
       custom: json['custom'] == null
           ? null
           : CustomActionRequest.fromJson(
@@ -22,6 +25,10 @@ SubmitActionRequest _$SubmitActionRequestFromJson(Map<String, dynamic> json) =>
           ? null
           : DeleteActivityRequest.fromJson(
               json['delete_activity'] as Map<String, dynamic>),
+      deleteComment: json['delete_comment'] == null
+          ? null
+          : DeleteCommentRequest.fromJson(
+              json['delete_comment'] as Map<String, dynamic>),
       deleteMessage: json['delete_message'] == null
           ? null
           : DeleteMessageRequest.fromJson(
@@ -39,6 +46,10 @@ SubmitActionRequest _$SubmitActionRequestFromJson(Map<String, dynamic> json) =>
           ? null
           : MarkReviewedRequest.fromJson(
               json['mark_reviewed'] as Map<String, dynamic>),
+      shadowBlock: json['shadow_block'] == null
+          ? null
+          : ShadowBlockActionRequest.fromJson(
+              json['shadow_block'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$SubmitActionRequestToJson(
@@ -47,19 +58,24 @@ Map<String, dynamic> _$SubmitActionRequestToJson(
       'action_type':
           _$SubmitActionRequestActionTypeEnumMap[instance.actionType]!,
       'ban': instance.ban?.toJson(),
+      'block': instance.block?.toJson(),
       'custom': instance.custom?.toJson(),
       'delete_activity': instance.deleteActivity?.toJson(),
+      'delete_comment': instance.deleteComment?.toJson(),
       'delete_message': instance.deleteMessage?.toJson(),
       'delete_reaction': instance.deleteReaction?.toJson(),
       'delete_user': instance.deleteUser?.toJson(),
       'item_id': instance.itemId,
       'mark_reviewed': instance.markReviewed?.toJson(),
+      'shadow_block': instance.shadowBlock?.toJson(),
     };
 
 const _$SubmitActionRequestActionTypeEnumMap = {
   SubmitActionRequestActionType.ban: 'ban',
+  SubmitActionRequestActionType.block: 'block',
   SubmitActionRequestActionType.custom: 'custom',
   SubmitActionRequestActionType.deleteActivity: 'delete_activity',
+  SubmitActionRequestActionType.deleteComment: 'delete_comment',
   SubmitActionRequestActionType.deleteMessage: 'delete_message',
   SubmitActionRequestActionType.deleteReaction: 'delete_reaction',
   SubmitActionRequestActionType.deleteUser: 'delete_user',

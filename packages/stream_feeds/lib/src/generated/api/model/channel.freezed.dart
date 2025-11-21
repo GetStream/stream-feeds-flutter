@@ -27,6 +27,7 @@ mixin _$Channel {
   Map<String, Object?> get custom;
   DateTime? get deletedAt;
   bool get disabled;
+  List<String>? get filterTags;
   bool get frozen;
   String get id;
   List<ChannelMember>? get invites;
@@ -76,6 +77,8 @@ mixin _$Channel {
                 other.deletedAt == deletedAt) &&
             (identical(other.disabled, disabled) ||
                 other.disabled == disabled) &&
+            const DeepCollectionEquality()
+                .equals(other.filterTags, filterTags) &&
             (identical(other.frozen, frozen) || other.frozen == frozen) &&
             (identical(other.id, id) || other.id == id) &&
             const DeepCollectionEquality().equals(other.invites, invites) &&
@@ -115,6 +118,7 @@ mixin _$Channel {
         const DeepCollectionEquality().hash(custom),
         deletedAt,
         disabled,
+        const DeepCollectionEquality().hash(filterTags),
         frozen,
         id,
         const DeepCollectionEquality().hash(invites),
@@ -133,7 +137,7 @@ mixin _$Channel {
 
   @override
   String toString() {
-    return 'Channel(activeLiveLocations: $activeLiveLocations, autoTranslationEnabled: $autoTranslationEnabled, autoTranslationLanguage: $autoTranslationLanguage, cid: $cid, config: $config, configOverrides: $configOverrides, cooldown: $cooldown, createdAt: $createdAt, createdBy: $createdBy, custom: $custom, deletedAt: $deletedAt, disabled: $disabled, frozen: $frozen, id: $id, invites: $invites, lastCampaigns: $lastCampaigns, lastMessageAt: $lastMessageAt, memberCount: $memberCount, members: $members, membersLookup: $membersLookup, messageCount: $messageCount, messageCountUpdatedAt: $messageCountUpdatedAt, team: $team, truncatedBy: $truncatedBy, type: $type, updatedAt: $updatedAt)';
+    return 'Channel(activeLiveLocations: $activeLiveLocations, autoTranslationEnabled: $autoTranslationEnabled, autoTranslationLanguage: $autoTranslationLanguage, cid: $cid, config: $config, configOverrides: $configOverrides, cooldown: $cooldown, createdAt: $createdAt, createdBy: $createdBy, custom: $custom, deletedAt: $deletedAt, disabled: $disabled, filterTags: $filterTags, frozen: $frozen, id: $id, invites: $invites, lastCampaigns: $lastCampaigns, lastMessageAt: $lastMessageAt, memberCount: $memberCount, members: $members, membersLookup: $membersLookup, messageCount: $messageCount, messageCountUpdatedAt: $messageCountUpdatedAt, team: $team, truncatedBy: $truncatedBy, type: $type, updatedAt: $updatedAt)';
   }
 }
 
@@ -155,6 +159,7 @@ abstract mixin class $ChannelCopyWith<$Res> {
       Map<String, Object?> custom,
       DateTime? deletedAt,
       bool disabled,
+      List<String>? filterTags,
       bool frozen,
       String id,
       List<ChannelMember>? invites,
@@ -195,6 +200,7 @@ class _$ChannelCopyWithImpl<$Res> implements $ChannelCopyWith<$Res> {
     Object? custom = null,
     Object? deletedAt = freezed,
     Object? disabled = null,
+    Object? filterTags = freezed,
     Object? frozen = null,
     Object? id = null,
     Object? invites = freezed,
@@ -259,6 +265,10 @@ class _$ChannelCopyWithImpl<$Res> implements $ChannelCopyWith<$Res> {
           ? _self.disabled
           : disabled // ignore: cast_nullable_to_non_nullable
               as bool,
+      filterTags: freezed == filterTags
+          ? _self.filterTags
+          : filterTags // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       frozen: null == frozen
           ? _self.frozen
           : frozen // ignore: cast_nullable_to_non_nullable

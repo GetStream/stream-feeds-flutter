@@ -66,6 +66,7 @@ class ChannelConfigWithInfo with _$ChannelConfigWithInfo {
     required this.countMessages,
     required this.createdAt,
     required this.customEvents,
+    required this.deliveryEvents,
     this.grants,
     required this.markMessagesPending,
     required this.maxMessageLength,
@@ -129,6 +130,9 @@ class ChannelConfigWithInfo with _$ChannelConfigWithInfo {
 
   @override
   final bool customEvents;
+
+  @override
+  final bool deliveryEvents;
 
   @override
   final Map<String, List<String>>? grants;

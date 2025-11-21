@@ -23,6 +23,7 @@ class BookmarkFolderResponse with _$BookmarkFolderResponse {
     required this.id,
     required this.name,
     required this.updatedAt,
+    required this.user,
   });
 
   @override
@@ -41,6 +42,9 @@ class BookmarkFolderResponse with _$BookmarkFolderResponse {
   @override
   @EpochDateTimeConverter()
   final DateTime updatedAt;
+
+  @override
+  final UserResponse user;
 
   Map<String, dynamic> toJson() => _$BookmarkFolderResponseToJson(this);
 

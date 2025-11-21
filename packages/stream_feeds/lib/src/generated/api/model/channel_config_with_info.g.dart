@@ -39,6 +39,7 @@ ChannelConfigWithInfo _$ChannelConfigWithInfoFromJson(
       createdAt: const EpochDateTimeConverter()
           .fromJson((json['created_at'] as num).toInt()),
       customEvents: json['custom_events'] as bool,
+      deliveryEvents: json['delivery_events'] as bool,
       grants: (json['grants'] as Map<String, dynamic>?)?.map(
         (k, e) =>
             MapEntry(k, (e as List<dynamic>).map((e) => e as String).toList()),
@@ -85,6 +86,7 @@ Map<String, dynamic> _$ChannelConfigWithInfoToJson(
       'count_messages': instance.countMessages,
       'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
       'custom_events': instance.customEvents,
+      'delivery_events': instance.deliveryEvents,
       'grants': instance.grants,
       'mark_messages_pending': instance.markMessagesPending,
       'max_message_length': instance.maxMessageLength,

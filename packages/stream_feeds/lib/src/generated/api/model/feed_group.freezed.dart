@@ -19,12 +19,12 @@ mixin _$FeedGroup {
   List<ActivitySelectorConfig> get activitySelectors;
   AggregationConfig? get aggregation;
   int get aggregationVersion;
-  int get appPK;
+  int get appPk;
   DateTime get createdAt;
   Map<String, Object?> get custom;
   String get defaultVisibility;
   DateTime? get deletedAt;
-  String get iD;
+  String get groupId;
   DateTime? get lastFeedGetAt;
   NotificationConfig? get notification;
   PushNotificationConfig? get pushNotification;
@@ -52,7 +52,7 @@ mixin _$FeedGroup {
                 other.aggregation == aggregation) &&
             (identical(other.aggregationVersion, aggregationVersion) ||
                 other.aggregationVersion == aggregationVersion) &&
-            (identical(other.appPK, appPK) || other.appPK == appPK) &&
+            (identical(other.appPk, appPk) || other.appPk == appPk) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
@@ -60,7 +60,7 @@ mixin _$FeedGroup {
                 other.defaultVisibility == defaultVisibility) &&
             (identical(other.deletedAt, deletedAt) ||
                 other.deletedAt == deletedAt) &&
-            (identical(other.iD, iD) || other.iD == iD) &&
+            (identical(other.groupId, groupId) || other.groupId == groupId) &&
             (identical(other.lastFeedGetAt, lastFeedGetAt) ||
                 other.lastFeedGetAt == lastFeedGetAt) &&
             (identical(other.notification, notification) ||
@@ -80,12 +80,12 @@ mixin _$FeedGroup {
       const DeepCollectionEquality().hash(activitySelectors),
       aggregation,
       aggregationVersion,
-      appPK,
+      appPk,
       createdAt,
       const DeepCollectionEquality().hash(custom),
       defaultVisibility,
       deletedAt,
-      iD,
+      groupId,
       lastFeedGetAt,
       notification,
       pushNotification,
@@ -95,7 +95,7 @@ mixin _$FeedGroup {
 
   @override
   String toString() {
-    return 'FeedGroup(activityProcessors: $activityProcessors, activitySelectors: $activitySelectors, aggregation: $aggregation, aggregationVersion: $aggregationVersion, appPK: $appPK, createdAt: $createdAt, custom: $custom, defaultVisibility: $defaultVisibility, deletedAt: $deletedAt, iD: $iD, lastFeedGetAt: $lastFeedGetAt, notification: $notification, pushNotification: $pushNotification, ranking: $ranking, stories: $stories, updatedAt: $updatedAt)';
+    return 'FeedGroup(activityProcessors: $activityProcessors, activitySelectors: $activitySelectors, aggregation: $aggregation, aggregationVersion: $aggregationVersion, appPk: $appPk, createdAt: $createdAt, custom: $custom, defaultVisibility: $defaultVisibility, deletedAt: $deletedAt, groupId: $groupId, lastFeedGetAt: $lastFeedGetAt, notification: $notification, pushNotification: $pushNotification, ranking: $ranking, stories: $stories, updatedAt: $updatedAt)';
   }
 }
 
@@ -109,12 +109,12 @@ abstract mixin class $FeedGroupCopyWith<$Res> {
       List<ActivitySelectorConfig> activitySelectors,
       AggregationConfig? aggregation,
       int aggregationVersion,
-      int appPK,
+      int appPk,
       DateTime createdAt,
       Map<String, Object?> custom,
       String defaultVisibility,
       DateTime? deletedAt,
-      String iD,
+      String groupId,
       DateTime? lastFeedGetAt,
       NotificationConfig? notification,
       PushNotificationConfig? pushNotification,
@@ -139,12 +139,12 @@ class _$FeedGroupCopyWithImpl<$Res> implements $FeedGroupCopyWith<$Res> {
     Object? activitySelectors = null,
     Object? aggregation = freezed,
     Object? aggregationVersion = null,
-    Object? appPK = null,
+    Object? appPk = null,
     Object? createdAt = null,
     Object? custom = null,
     Object? defaultVisibility = null,
     Object? deletedAt = freezed,
-    Object? iD = null,
+    Object? groupId = null,
     Object? lastFeedGetAt = freezed,
     Object? notification = freezed,
     Object? pushNotification = freezed,
@@ -169,9 +169,9 @@ class _$FeedGroupCopyWithImpl<$Res> implements $FeedGroupCopyWith<$Res> {
           ? _self.aggregationVersion
           : aggregationVersion // ignore: cast_nullable_to_non_nullable
               as int,
-      appPK: null == appPK
-          ? _self.appPK
-          : appPK // ignore: cast_nullable_to_non_nullable
+      appPk: null == appPk
+          ? _self.appPk
+          : appPk // ignore: cast_nullable_to_non_nullable
               as int,
       createdAt: null == createdAt
           ? _self.createdAt
@@ -189,9 +189,9 @@ class _$FeedGroupCopyWithImpl<$Res> implements $FeedGroupCopyWith<$Res> {
           ? _self.deletedAt
           : deletedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      iD: null == iD
-          ? _self.iD
-          : iD // ignore: cast_nullable_to_non_nullable
+      groupId: null == groupId
+          ? _self.groupId
+          : groupId // ignore: cast_nullable_to_non_nullable
               as String,
       lastFeedGetAt: freezed == lastFeedGetAt
           ? _self.lastFeedGetAt

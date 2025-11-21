@@ -15,6 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$NotificationConfig {
+  String? get deduplicationWindow;
   bool? get trackRead;
   bool? get trackSeen;
 
@@ -31,6 +32,8 @@ mixin _$NotificationConfig {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is NotificationConfig &&
+            (identical(other.deduplicationWindow, deduplicationWindow) ||
+                other.deduplicationWindow == deduplicationWindow) &&
             (identical(other.trackRead, trackRead) ||
                 other.trackRead == trackRead) &&
             (identical(other.trackSeen, trackSeen) ||
@@ -38,11 +41,12 @@ mixin _$NotificationConfig {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, trackRead, trackSeen);
+  int get hashCode =>
+      Object.hash(runtimeType, deduplicationWindow, trackRead, trackSeen);
 
   @override
   String toString() {
-    return 'NotificationConfig(trackRead: $trackRead, trackSeen: $trackSeen)';
+    return 'NotificationConfig(deduplicationWindow: $deduplicationWindow, trackRead: $trackRead, trackSeen: $trackSeen)';
   }
 }
 
@@ -52,7 +56,7 @@ abstract mixin class $NotificationConfigCopyWith<$Res> {
           NotificationConfig value, $Res Function(NotificationConfig) _then) =
       _$NotificationConfigCopyWithImpl;
   @useResult
-  $Res call({bool? trackRead, bool? trackSeen});
+  $Res call({String? deduplicationWindow, bool? trackRead, bool? trackSeen});
 }
 
 /// @nodoc
@@ -68,10 +72,15 @@ class _$NotificationConfigCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? deduplicationWindow = freezed,
     Object? trackRead = freezed,
     Object? trackSeen = freezed,
   }) {
     return _then(NotificationConfig(
+      deduplicationWindow: freezed == deduplicationWindow
+          ? _self.deduplicationWindow
+          : deduplicationWindow // ignore: cast_nullable_to_non_nullable
+              as String?,
       trackRead: freezed == trackRead
           ? _self.trackRead
           : trackRead // ignore: cast_nullable_to_non_nullable

@@ -61,7 +61,8 @@ class _UserProfileState extends State<UserProfile> {
 
   Future<void> _queryFollowSuggestions() async {
     final result = await widget.userFeed.queryFollowSuggestions();
-    if (mounted) _updateFollowSuggestions(result.getOrNull());
+    final suggestions = result.getOrNull()?.map((e) => e.feed).toList();
+    if (mounted) _updateFollowSuggestions(suggestions);
   }
 
   void _updateFollowSuggestions(List<FeedData>? suggestions) {

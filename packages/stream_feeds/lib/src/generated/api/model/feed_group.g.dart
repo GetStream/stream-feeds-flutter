@@ -20,14 +20,14 @@ FeedGroup _$FeedGroupFromJson(Map<String, dynamic> json) => FeedGroup(
           : AggregationConfig.fromJson(
               json['aggregation'] as Map<String, dynamic>),
       aggregationVersion: (json['aggregation_version'] as num).toInt(),
-      appPK: (json['app_p_k'] as num).toInt(),
+      appPk: (json['app_pk'] as num).toInt(),
       createdAt: const EpochDateTimeConverter()
           .fromJson((json['created_at'] as num).toInt()),
       custom: json['custom'] as Map<String, dynamic>,
       defaultVisibility: json['default_visibility'] as String,
       deletedAt: _$JsonConverterFromJson<int, DateTime>(
           json['deleted_at'], const EpochDateTimeConverter().fromJson),
-      iD: json['i_d'] as String,
+      groupId: json['group_id'] as String,
       lastFeedGetAt: _$JsonConverterFromJson<int, DateTime>(
           json['last_feed_get_at'], const EpochDateTimeConverter().fromJson),
       notification: json['notification'] == null
@@ -55,13 +55,13 @@ Map<String, dynamic> _$FeedGroupToJson(FeedGroup instance) => <String, dynamic>{
           instance.activitySelectors.map((e) => e.toJson()).toList(),
       'aggregation': instance.aggregation?.toJson(),
       'aggregation_version': instance.aggregationVersion,
-      'app_p_k': instance.appPK,
+      'app_pk': instance.appPk,
       'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
       'custom': instance.custom,
       'default_visibility': instance.defaultVisibility,
       'deleted_at': _$JsonConverterToJson<int, DateTime>(
           instance.deletedAt, const EpochDateTimeConverter().toJson),
-      'i_d': instance.iD,
+      'group_id': instance.groupId,
       'last_feed_get_at': _$JsonConverterToJson<int, DateTime>(
           instance.lastFeedGetAt, const EpochDateTimeConverter().toJson),
       'notification': instance.notification?.toJson(),

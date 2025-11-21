@@ -14,6 +14,9 @@ FeedsPreferences _$FeedsPreferencesFromJson(Map<String, dynamic> json) =>
       commentReaction: $enumDecodeNullable(
           _$FeedsPreferencesCommentReactionEnumMap, json['comment_reaction'],
           unknownValue: FeedsPreferencesCommentReaction.unknown),
+      commentReply: $enumDecodeNullable(
+          _$FeedsPreferencesCommentReplyEnumMap, json['comment_reply'],
+          unknownValue: FeedsPreferencesCommentReply.unknown),
       customActivityTypes:
           (json['custom_activity_types'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
@@ -34,6 +37,8 @@ Map<String, dynamic> _$FeedsPreferencesToJson(FeedsPreferences instance) =>
       'comment': _$FeedsPreferencesCommentEnumMap[instance.comment],
       'comment_reaction':
           _$FeedsPreferencesCommentReactionEnumMap[instance.commentReaction],
+      'comment_reply':
+          _$FeedsPreferencesCommentReplyEnumMap[instance.commentReply],
       'custom_activity_types': instance.customActivityTypes,
       'follow': _$FeedsPreferencesFollowEnumMap[instance.follow],
       'mention': _$FeedsPreferencesMentionEnumMap[instance.mention],
@@ -50,6 +55,12 @@ const _$FeedsPreferencesCommentReactionEnumMap = {
   FeedsPreferencesCommentReaction.all: 'all',
   FeedsPreferencesCommentReaction.none: 'none',
   FeedsPreferencesCommentReaction.unknown: '_unknown',
+};
+
+const _$FeedsPreferencesCommentReplyEnumMap = {
+  FeedsPreferencesCommentReply.all: 'all',
+  FeedsPreferencesCommentReply.none: 'none',
+  FeedsPreferencesCommentReply.unknown: '_unknown',
 };
 
 const _$FeedsPreferencesFollowEnumMap = {

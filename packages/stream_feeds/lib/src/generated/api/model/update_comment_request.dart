@@ -20,6 +20,7 @@ class UpdateCommentRequest with _$UpdateCommentRequest {
   const UpdateCommentRequest({
     this.comment,
     this.custom,
+    this.skipEnrichUrl,
     this.skipPush,
   });
 
@@ -28,6 +29,9 @@ class UpdateCommentRequest with _$UpdateCommentRequest {
 
   @override
   final Map<String, Object?>? custom;
+
+  @override
+  final bool? skipEnrichUrl;
 
   @override
   final bool? skipPush;

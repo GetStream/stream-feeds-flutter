@@ -34,6 +34,16 @@ enum FeedsPreferencesCommentReaction {
 }
 
 @JsonEnum(alwaysCreate: true)
+enum FeedsPreferencesCommentReply {
+  @JsonValue('all')
+  all,
+  @JsonValue('none')
+  none,
+  @JsonValue('_unknown')
+  unknown;
+}
+
+@JsonEnum(alwaysCreate: true)
 enum FeedsPreferencesFollow {
   @JsonValue('all')
   all,
@@ -70,6 +80,7 @@ class FeedsPreferences with _$FeedsPreferences {
   const FeedsPreferences({
     this.comment,
     this.commentReaction,
+    this.commentReply,
     this.customActivityTypes,
     this.follow,
     this.mention,
@@ -83,6 +94,10 @@ class FeedsPreferences with _$FeedsPreferences {
   @override
   @JsonKey(unknownEnumValue: FeedsPreferencesCommentReaction.unknown)
   final FeedsPreferencesCommentReaction? commentReaction;
+
+  @override
+  @JsonKey(unknownEnumValue: FeedsPreferencesCommentReply.unknown)
+  final FeedsPreferencesCommentReply? commentReply;
 
   @override
   final Map<String, String>? customActivityTypes;

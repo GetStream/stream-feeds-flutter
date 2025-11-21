@@ -18,22 +18,25 @@ mixin _$ChannelMember {
   DateTime? get archivedAt;
   DateTime? get banExpires;
   bool get banned;
+  bool? get blocked;
+  DenormalizedChannelFields? get channel;
   String get channelRole;
   DateTime get createdAt;
   Map<String, Object?> get custom;
   DateTime? get deletedAt;
   List<String>? get deletedMessages;
+  bool? get hidden;
   DateTime? get inviteAcceptedAt;
   DateTime? get inviteRejectedAt;
   bool? get invited;
+  bool get isGlobalBanned;
   bool? get isModerator;
   bool get notificationsMuted;
   DateTime? get pinnedAt;
-  ChannelMemberRole? get role;
   bool get shadowBanned;
   String? get status;
   DateTime get updatedAt;
-  UserResponse? get user;
+  User? get user;
   String? get userId;
 
   /// Create a copy of ChannelMember
@@ -54,6 +57,8 @@ mixin _$ChannelMember {
             (identical(other.banExpires, banExpires) ||
                 other.banExpires == banExpires) &&
             (identical(other.banned, banned) || other.banned == banned) &&
+            (identical(other.blocked, blocked) || other.blocked == blocked) &&
+            (identical(other.channel, channel) || other.channel == channel) &&
             (identical(other.channelRole, channelRole) ||
                 other.channelRole == channelRole) &&
             (identical(other.createdAt, createdAt) ||
@@ -63,18 +68,20 @@ mixin _$ChannelMember {
                 other.deletedAt == deletedAt) &&
             const DeepCollectionEquality()
                 .equals(other.deletedMessages, deletedMessages) &&
+            (identical(other.hidden, hidden) || other.hidden == hidden) &&
             (identical(other.inviteAcceptedAt, inviteAcceptedAt) ||
                 other.inviteAcceptedAt == inviteAcceptedAt) &&
             (identical(other.inviteRejectedAt, inviteRejectedAt) ||
                 other.inviteRejectedAt == inviteRejectedAt) &&
             (identical(other.invited, invited) || other.invited == invited) &&
+            (identical(other.isGlobalBanned, isGlobalBanned) ||
+                other.isGlobalBanned == isGlobalBanned) &&
             (identical(other.isModerator, isModerator) ||
                 other.isModerator == isModerator) &&
             (identical(other.notificationsMuted, notificationsMuted) ||
                 other.notificationsMuted == notificationsMuted) &&
             (identical(other.pinnedAt, pinnedAt) ||
                 other.pinnedAt == pinnedAt) &&
-            (identical(other.role, role) || other.role == role) &&
             (identical(other.shadowBanned, shadowBanned) ||
                 other.shadowBanned == shadowBanned) &&
             (identical(other.status, status) || other.status == status) &&
@@ -90,18 +97,21 @@ mixin _$ChannelMember {
         archivedAt,
         banExpires,
         banned,
+        blocked,
+        channel,
         channelRole,
         createdAt,
         const DeepCollectionEquality().hash(custom),
         deletedAt,
         const DeepCollectionEquality().hash(deletedMessages),
+        hidden,
         inviteAcceptedAt,
         inviteRejectedAt,
         invited,
+        isGlobalBanned,
         isModerator,
         notificationsMuted,
         pinnedAt,
-        role,
         shadowBanned,
         status,
         updatedAt,
@@ -111,7 +121,7 @@ mixin _$ChannelMember {
 
   @override
   String toString() {
-    return 'ChannelMember(archivedAt: $archivedAt, banExpires: $banExpires, banned: $banned, channelRole: $channelRole, createdAt: $createdAt, custom: $custom, deletedAt: $deletedAt, deletedMessages: $deletedMessages, inviteAcceptedAt: $inviteAcceptedAt, inviteRejectedAt: $inviteRejectedAt, invited: $invited, isModerator: $isModerator, notificationsMuted: $notificationsMuted, pinnedAt: $pinnedAt, role: $role, shadowBanned: $shadowBanned, status: $status, updatedAt: $updatedAt, user: $user, userId: $userId)';
+    return 'ChannelMember(archivedAt: $archivedAt, banExpires: $banExpires, banned: $banned, blocked: $blocked, channel: $channel, channelRole: $channelRole, createdAt: $createdAt, custom: $custom, deletedAt: $deletedAt, deletedMessages: $deletedMessages, hidden: $hidden, inviteAcceptedAt: $inviteAcceptedAt, inviteRejectedAt: $inviteRejectedAt, invited: $invited, isGlobalBanned: $isGlobalBanned, isModerator: $isModerator, notificationsMuted: $notificationsMuted, pinnedAt: $pinnedAt, shadowBanned: $shadowBanned, status: $status, updatedAt: $updatedAt, user: $user, userId: $userId)';
   }
 }
 
@@ -125,22 +135,25 @@ abstract mixin class $ChannelMemberCopyWith<$Res> {
       {DateTime? archivedAt,
       DateTime? banExpires,
       bool banned,
+      bool? blocked,
+      DenormalizedChannelFields? channel,
       String channelRole,
       DateTime createdAt,
       Map<String, Object?> custom,
       DateTime? deletedAt,
       List<String>? deletedMessages,
+      bool? hidden,
       DateTime? inviteAcceptedAt,
       DateTime? inviteRejectedAt,
       bool? invited,
+      bool isGlobalBanned,
       bool? isModerator,
       bool notificationsMuted,
       DateTime? pinnedAt,
-      ChannelMemberRole? role,
       bool shadowBanned,
       String? status,
       DateTime updatedAt,
-      UserResponse? user,
+      User? user,
       String? userId});
 }
 
@@ -160,18 +173,21 @@ class _$ChannelMemberCopyWithImpl<$Res>
     Object? archivedAt = freezed,
     Object? banExpires = freezed,
     Object? banned = null,
+    Object? blocked = freezed,
+    Object? channel = freezed,
     Object? channelRole = null,
     Object? createdAt = null,
     Object? custom = null,
     Object? deletedAt = freezed,
     Object? deletedMessages = freezed,
+    Object? hidden = freezed,
     Object? inviteAcceptedAt = freezed,
     Object? inviteRejectedAt = freezed,
     Object? invited = freezed,
+    Object? isGlobalBanned = null,
     Object? isModerator = freezed,
     Object? notificationsMuted = null,
     Object? pinnedAt = freezed,
-    Object? role = freezed,
     Object? shadowBanned = null,
     Object? status = freezed,
     Object? updatedAt = null,
@@ -191,6 +207,14 @@ class _$ChannelMemberCopyWithImpl<$Res>
           ? _self.banned
           : banned // ignore: cast_nullable_to_non_nullable
               as bool,
+      blocked: freezed == blocked
+          ? _self.blocked
+          : blocked // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      channel: freezed == channel
+          ? _self.channel
+          : channel // ignore: cast_nullable_to_non_nullable
+              as DenormalizedChannelFields?,
       channelRole: null == channelRole
           ? _self.channelRole
           : channelRole // ignore: cast_nullable_to_non_nullable
@@ -211,6 +235,10 @@ class _$ChannelMemberCopyWithImpl<$Res>
           ? _self.deletedMessages
           : deletedMessages // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      hidden: freezed == hidden
+          ? _self.hidden
+          : hidden // ignore: cast_nullable_to_non_nullable
+              as bool?,
       inviteAcceptedAt: freezed == inviteAcceptedAt
           ? _self.inviteAcceptedAt
           : inviteAcceptedAt // ignore: cast_nullable_to_non_nullable
@@ -223,6 +251,10 @@ class _$ChannelMemberCopyWithImpl<$Res>
           ? _self.invited
           : invited // ignore: cast_nullable_to_non_nullable
               as bool?,
+      isGlobalBanned: null == isGlobalBanned
+          ? _self.isGlobalBanned
+          : isGlobalBanned // ignore: cast_nullable_to_non_nullable
+              as bool,
       isModerator: freezed == isModerator
           ? _self.isModerator
           : isModerator // ignore: cast_nullable_to_non_nullable
@@ -235,10 +267,6 @@ class _$ChannelMemberCopyWithImpl<$Res>
           ? _self.pinnedAt
           : pinnedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      role: freezed == role
-          ? _self.role
-          : role // ignore: cast_nullable_to_non_nullable
-              as ChannelMemberRole?,
       shadowBanned: null == shadowBanned
           ? _self.shadowBanned
           : shadowBanned // ignore: cast_nullable_to_non_nullable
@@ -254,7 +282,7 @@ class _$ChannelMemberCopyWithImpl<$Res>
       user: freezed == user
           ? _self.user
           : user // ignore: cast_nullable_to_non_nullable
-              as UserResponse?,
+              as User?,
       userId: freezed == userId
           ? _self.userId
           : userId // ignore: cast_nullable_to_non_nullable

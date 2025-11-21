@@ -18,11 +18,11 @@ mixin _$ReminderResponseData {
   ChannelResponse? get channel;
   String get channelCid;
   DateTime get createdAt;
-  Message? get message;
+  MessageResponse? get message;
   String get messageId;
   DateTime? get remindAt;
   DateTime get updatedAt;
-  User? get user;
+  UserResponse? get user;
   String get userId;
 
   /// Create a copy of ReminderResponseData
@@ -74,11 +74,11 @@ abstract mixin class $ReminderResponseDataCopyWith<$Res> {
       {ChannelResponse? channel,
       String channelCid,
       DateTime createdAt,
-      Message? message,
+      MessageResponse? message,
       String messageId,
       DateTime? remindAt,
       DateTime updatedAt,
-      User? user,
+      UserResponse? user,
       String userId});
 }
 
@@ -121,7 +121,7 @@ class _$ReminderResponseDataCopyWithImpl<$Res>
       message: freezed == message
           ? _self.message
           : message // ignore: cast_nullable_to_non_nullable
-              as Message?,
+              as MessageResponse?,
       messageId: null == messageId
           ? _self.messageId
           : messageId // ignore: cast_nullable_to_non_nullable
@@ -137,7 +137,7 @@ class _$ReminderResponseDataCopyWithImpl<$Res>
       user: freezed == user
           ? _self.user
           : user // ignore: cast_nullable_to_non_nullable
-              as User?,
+              as UserResponse?,
       userId: null == userId
           ? _self.userId
           : userId // ignore: cast_nullable_to_non_nullable

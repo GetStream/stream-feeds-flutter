@@ -13,12 +13,25 @@ import '../models.dart';
 part 'update_activity_request.g.dart';
 part 'update_activity_request.freezed.dart';
 
+@JsonEnum(alwaysCreate: true)
+enum UpdateActivityRequestRestrictReplies {
+  @JsonValue('everyone')
+  everyone,
+  @JsonValue('nobody')
+  nobody,
+  @JsonValue('people_i_follow')
+  peopleIFollow,
+  @JsonValue('_unknown')
+  unknown;
+}
+
 @freezed
 @immutable
 @JsonSerializable()
 class UpdateActivityRequest with _$UpdateActivityRequest {
   const UpdateActivityRequest({
     this.attachments,
+    this.collectionRefs,
     this.custom,
     this.expiresAt,
     this.feeds,
@@ -26,12 +39,17 @@ class UpdateActivityRequest with _$UpdateActivityRequest {
     this.interestTags,
     this.location,
     this.pollId,
+    this.restrictReplies,
+    this.skipEnrichUrl,
     this.text,
     this.visibility,
   });
 
   @override
   final List<Attachment>? attachments;
+
+  @override
+  final List<String>? collectionRefs;
 
   @override
   final Map<String, Object?>? custom;
@@ -54,6 +72,13 @@ class UpdateActivityRequest with _$UpdateActivityRequest {
 
   @override
   final String? pollId;
+
+  @override
+  @JsonKey(unknownEnumValue: UpdateActivityRequestRestrictReplies.unknown)
+  final UpdateActivityRequestRestrictReplies? restrictReplies;
+
+  @override
+  final bool? skipEnrichUrl;
 
   @override
   final String? text;

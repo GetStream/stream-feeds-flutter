@@ -20,6 +20,7 @@ mixin _$BookmarkFolderResponse {
   String get id;
   String get name;
   DateTime get updatedAt;
+  UserResponse get user;
 
   /// Create a copy of BookmarkFolderResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -40,16 +41,17 @@ mixin _$BookmarkFolderResponse {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.user, user) || other.user == user));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, createdAt,
-      const DeepCollectionEquality().hash(custom), id, name, updatedAt);
+      const DeepCollectionEquality().hash(custom), id, name, updatedAt, user);
 
   @override
   String toString() {
-    return 'BookmarkFolderResponse(createdAt: $createdAt, custom: $custom, id: $id, name: $name, updatedAt: $updatedAt)';
+    return 'BookmarkFolderResponse(createdAt: $createdAt, custom: $custom, id: $id, name: $name, updatedAt: $updatedAt, user: $user)';
   }
 }
 
@@ -64,7 +66,8 @@ abstract mixin class $BookmarkFolderResponseCopyWith<$Res> {
       Map<String, Object?>? custom,
       String id,
       String name,
-      DateTime updatedAt});
+      DateTime updatedAt,
+      UserResponse user});
 }
 
 /// @nodoc
@@ -85,6 +88,7 @@ class _$BookmarkFolderResponseCopyWithImpl<$Res>
     Object? id = null,
     Object? name = null,
     Object? updatedAt = null,
+    Object? user = null,
   }) {
     return _then(BookmarkFolderResponse(
       createdAt: null == createdAt
@@ -107,6 +111,10 @@ class _$BookmarkFolderResponseCopyWithImpl<$Res>
           ? _self.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      user: null == user
+          ? _self.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as UserResponse,
     ));
   }
 }

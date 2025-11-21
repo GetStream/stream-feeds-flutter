@@ -19,24 +19,12 @@ part 'activity_feedback_request.freezed.dart';
 class ActivityFeedbackRequest with _$ActivityFeedbackRequest {
   const ActivityFeedbackRequest({
     this.hide,
-    this.muteUser,
-    this.reason,
-    this.report,
     this.showLess,
     this.showMore,
   });
 
   @override
   final bool? hide;
-
-  @override
-  final bool? muteUser;
-
-  @override
-  final String? reason;
-
-  @override
-  final bool? report;
 
   @override
   final bool? showLess;

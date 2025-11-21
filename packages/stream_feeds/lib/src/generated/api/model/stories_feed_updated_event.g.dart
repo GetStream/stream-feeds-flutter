@@ -9,6 +9,9 @@ part of 'stories_feed_updated_event.dart';
 StoriesFeedUpdatedEvent _$StoriesFeedUpdatedEventFromJson(
         Map<String, dynamic> json) =>
     StoriesFeedUpdatedEvent(
+      activities: (json['activities'] as List<dynamic>?)
+          ?.map((e) => ActivityResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
       aggregatedActivities: (json['aggregated_activities'] as List<dynamic>?)
           ?.map((e) =>
               AggregatedActivityResponse.fromJson(e as Map<String, dynamic>))
@@ -30,6 +33,7 @@ StoriesFeedUpdatedEvent _$StoriesFeedUpdatedEventFromJson(
 Map<String, dynamic> _$StoriesFeedUpdatedEventToJson(
         StoriesFeedUpdatedEvent instance) =>
     <String, dynamic>{
+      'activities': instance.activities?.map((e) => e.toJson()).toList(),
       'aggregated_activities':
           instance.aggregatedActivities?.map((e) => e.toJson()).toList(),
       'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
