@@ -12,6 +12,8 @@ export 'state/comment_list_state.dart';
 export 'state/comment_reaction_list.dart';
 export 'state/comment_reply_list.dart';
 export 'state/feed.dart';
+export 'state/feed_list.dart';
+export 'state/feed_list_state.dart';
 export 'state/feed_state.dart';
 export 'state/query/activities_query.dart';
 export 'state/query/activity_comments_query.dart';
