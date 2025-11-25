@@ -15,6 +15,8 @@ export 'state/feed.dart';
 export 'state/feed_list.dart';
 export 'state/feed_list_state.dart';
 export 'state/feed_state.dart';
+export 'state/follow_list.dart';
+export 'state/follow_list_state.dart';
 export 'state/query/activities_query.dart';
 export 'state/query/activity_comments_query.dart';
 export 'state/query/bookmark_folders_query.dart';

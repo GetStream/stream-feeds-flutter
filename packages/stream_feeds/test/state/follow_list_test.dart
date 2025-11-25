@@ -1,139 +1,81 @@
-import 'dart:async';
-import 'dart:convert';
-
-import 'package:mocktail/mocktail.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
 
 void main() {
-  late StreamFeedsClient client;
-  late MockDefaultApi feedsApi;
-  late MockWebSocketChannel webSocketChannel;
-
-  setUp(() {
-    feedsApi = MockDefaultApi();
-    webSocketChannel = MockWebSocketChannel();
-
-    client = StreamFeedsClient(
-      apiKey: 'apiKey',
-      user: const User(id: 'luke_skywalker'),
-      tokenProvider: TokenProvider.static(UserToken(testToken)),
-      feedsRestApi: feedsApi,
-      wsProvider: (options) => webSocketChannel,
-    );
-  });
-
-  tearDown(() {
-    client.disconnect();
-  });
+  // ============================================================
+  // FEATURE: Local Filtering
+  // ============================================================
 
   group('FollowListEventHandler - Local filtering', () {
-    late StreamController<Object> wsStreamController;
-    late MockWebSocketSink webSocketSink;
+    final initialFollows = [
+      createDefaultFollowResponse(id: 'follow-1'),
+      createDefaultFollowResponse(id: 'follow-2'),
+      createDefaultFollowResponse(id: 'follow-3'),
+    ];
 
-    setUp(() async {
-      wsStreamController = StreamController<Object>();
-      webSocketSink = MockWebSocketSink();
-      WsTestConnection(
-        wsStreamController: wsStreamController,
-        webSocketSink: webSocketSink,
-        webSocketChannel: webSocketChannel,
-      ).setUp();
-
-      await client.connect();
-
-      when(
-        () => feedsApi.queryFollows(
-          queryFollowsRequest: any(named: 'queryFollowsRequest'),
-        ),
-      ).thenAnswer(
-        (_) async => Result.success(
-          QueryFollowsResponse(
-            duration: DateTime.now().toIso8601String(),
-            follows: [
-              createDefaultFollowResponse(id: 'follow-1'),
-              createDefaultFollowResponse(id: 'follow-2'),
-              createDefaultFollowResponse(id: 'follow-3'),
-            ],
-          ),
-        ),
-      );
-    });
-
-    tearDown(() async {
-      await webSocketSink.close();
-      await wsStreamController.close();
-    });
-
-    test(
+    followListTest(
       'FollowUpdatedEvent - should remove follow when updated to non-matching status',
-      () async {
-        final followList = client.followList(
-          FollowsQuery(
-            filter: Filter.equal(
-              FollowsFilterField.status,
-              FollowStatus.accepted,
+      build: (client) => client.followList(
+        FollowsQuery(
+          filter: Filter.equal(
+            FollowsFilterField.status,
+            FollowStatus.accepted,
+          ),
+        ),
+      ),
+      setUp: (tester) => tester.get(
+        modifyResponse: (it) => it.copyWith(follows: initialFollows),
+      ),
+      body: (tester) async {
+        expect(tester.followListState.follows, hasLength(3));
+
+        await tester.emitEvent(
+          FollowUpdatedEvent(
+            type: EventTypes.followUpdated,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: 'user:follow-1',
+            follow: createDefaultFollowResponse(
+              id: 'follow-1',
+            ).copyWith(
+              status: FollowResponseStatus.rejected,
             ),
           ),
         );
 
-        await followList.get();
-        expect(followList.state.follows, hasLength(3));
-
-        wsStreamController.add(
-          jsonEncode(
-            FollowUpdatedEvent(
-              type: 'feeds.follow.updated',
-              createdAt: DateTime.now(),
-              custom: const {},
-              fid: 'user:follow-1',
-              follow: createDefaultFollowResponse(
-                id: 'follow-1',
-              ).copyWith(
-                status: FollowResponseStatus.rejected,
-              ),
-            ),
-          ),
-        );
-
-        // Wait for the event to be processed
-        await Future<Object?>.delayed(Duration.zero);
-        expect(followList.state.follows, hasLength(2));
+        expect(tester.followListState.follows, hasLength(2));
       },
     );
 
-    test(
+    followListTest(
       'No filter - should not remove follow when no filter specified',
-      () async {
-        final followList = client.followList(
-          // No filter specified, should accept all follows
-          const FollowsQuery(),
-        );
+      build: (client) => client.followList(
+        // No filter specified, should accept all follows
+        const FollowsQuery(),
+      ),
+      setUp: (tester) => tester.get(
+        modifyResponse: (it) => it.copyWith(follows: initialFollows),
+      ),
+      body: (tester) async {
+        expect(tester.followListState.follows, hasLength(3));
 
-        await followList.get();
-        expect(followList.state.follows, hasLength(3));
-
-        wsStreamController.add(
-          jsonEncode(
-            FollowUpdatedEvent(
-              type: 'feeds.follow.updated',
-              createdAt: DateTime.now(),
-              custom: const {},
-              fid: 'user:follow-1',
-              follow: createDefaultFollowResponse(
-                id: 'follow-1',
-              ).copyWith(
-                status: FollowResponseStatus.rejected,
-              ),
+        await tester.emitEvent(
+          FollowUpdatedEvent(
+            type: EventTypes.followUpdated,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: 'user:follow-1',
+            follow: createDefaultFollowResponse(
+              id: 'follow-1',
+            ).copyWith(
+              status: FollowResponseStatus.rejected,
             ),
           ),
         );
 
-        // Wait for the event to be processed
-        await Future<Object?>.delayed(Duration.zero);
-        expect(followList.state.follows, hasLength(3));
+        expect(tester.followListState.follows, hasLength(3));
       },
     );
   });
