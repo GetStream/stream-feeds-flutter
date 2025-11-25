@@ -23,6 +23,7 @@ void whenListenWebSocket(
   StreamController<Object> wsStreamController,
 ) {
   final webSocketSink = MockWebSocketSink();
+  final webSocketStream = wsStreamController.stream.asBroadcastStream();
 
   when(
     webSocketSink.close,
@@ -34,7 +35,7 @@ void whenListenWebSocket(
 
   when(
     () => webSocketChannel.stream,
-  ).thenAnswer((_) => wsStreamController.stream);
+  ).thenAnswer((_) => webSocketStream);
 
   when(
     () => webSocketChannel.sink,
