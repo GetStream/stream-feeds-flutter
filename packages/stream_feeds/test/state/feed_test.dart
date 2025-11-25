@@ -179,7 +179,7 @@ void main() {
           ),
         );
 
-        tester.expect((f) => f.state.activities.first.hidden, false);
+        tester.expect((f) => f.state.activities.first.hidden, true);
       },
     );
 
