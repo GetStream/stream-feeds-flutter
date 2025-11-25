@@ -3,9 +3,8 @@ import 'dart:convert';
 
 import 'package:mocktail/mocktail.dart';
 import 'package:stream_feeds/src/ws/events/events.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
 
-class _MockWebSocketSink extends Mock implements WebSocketSink {}
+import 'mocks.dart';
 
 /// Sets up WebSocket channel mocks for testing.
 ///
@@ -20,10 +19,10 @@ class _MockWebSocketSink extends Mock implements WebSocketSink {}
 /// whenListenWebSocket(webSocketChannel, wsStreamController);
 /// ```
 void whenListenWebSocket(
-  WebSocketChannel webSocketChannel,
+  MockWebSocketChannel webSocketChannel,
   StreamController<Object> wsStreamController,
 ) {
-  final webSocketSink = _MockWebSocketSink();
+  final webSocketSink = MockWebSocketSink();
 
   when(
     webSocketSink.close,

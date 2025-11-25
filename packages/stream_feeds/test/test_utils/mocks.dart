@@ -6,6 +6,8 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 
 class MockDefaultApi extends Mock implements api.DefaultApi {}
 
+class MockWebSocketSink extends Mock implements WebSocketSink {}
+
 class MockWebSocketChannel extends Mock implements WebSocketChannel {}
 
 api.UserToken generateTestUserToken(String userId) {
