@@ -1,381 +1,284 @@
-import 'dart:async';
-import 'dart:convert';
-
-import 'package:mocktail/mocktail.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
 
 void main() {
-  late StreamFeedsClient client;
-  late MockDefaultApi feedsApi;
-  late MockWebSocketChannel webSocketChannel;
-
-  setUp(() {
-    feedsApi = MockDefaultApi();
-    webSocketChannel = MockWebSocketChannel();
-
-    client = StreamFeedsClient(
-      apiKey: 'apiKey',
-      user: const User(id: 'luke_skywalker'),
-      tokenProvider: TokenProvider.static(UserToken(testToken)),
-      feedsRestApi: feedsApi,
-      wsProvider: (options) => webSocketChannel,
-    );
-  });
-
-  tearDown(() {
-    client.disconnect();
-  });
+  // ============================================================
+  // FEATURE: Local Filtering
+  // ============================================================
 
   group('Local filtering with real-time events', () {
-    late StreamController<Object> wsStreamController;
-    late MockWebSocketSink webSocketSink;
+    final defaultActivities = [
+      createDefaultActivityResponse(id: 'activity-1'),
+      createDefaultActivityResponse(id: 'activity-2'),
+      createDefaultActivityResponse(id: 'activity-3'),
+    ];
 
-    setUp(() async {
-      wsStreamController = StreamController<Object>();
-      webSocketSink = MockWebSocketSink();
-      WsTestConnection(
-        wsStreamController: wsStreamController,
-        webSocketSink: webSocketSink,
-        webSocketChannel: webSocketChannel,
-      ).setUp();
-
-      await client.connect();
-
-      // Setup default mock response for queryActivities
-      when(
-        () => feedsApi.queryActivities(
-          queryActivitiesRequest: any(named: 'queryActivitiesRequest'),
-        ),
-      ).thenAnswer(
-        (_) async => Result.success(
-          QueryActivitiesResponse(
-            duration: DateTime.now().toIso8601String(),
-            activities: [
-              createDefaultActivityResponse(id: 'activity-1'),
-              createDefaultActivityResponse(id: 'activity-2'),
-              createDefaultActivityResponse(id: 'activity-3'),
-            ],
-          ),
-        ),
-      );
-    });
-
-    tearDown(() async {
-      await webSocketSink.close();
-      await wsStreamController.close();
-    });
-
-    test(
+    activityListTest(
       'ActivityUpdatedEvent - should remove activity when updated to non-matching type',
-      () async {
-        final activityList = client.activityList(
-          ActivitiesQuery(
-            filter: Filter.equal(ActivitiesFilterField.type, 'post'),
+      build: (client) => client.activityList(
+        ActivitiesQuery(
+          filter: Filter.equal(ActivitiesFilterField.type, 'post'),
+        ),
+      ),
+      setUp: (tester) => tester.get(
+        modifyResponse: (it) => it.copyWith(activities: defaultActivities),
+      ),
+      body: (tester) async {
+        expect(tester.activityListState.activities, hasLength(3));
+
+        await tester.emitEvent(
+          ActivityUpdatedEvent(
+            type: EventTypes.activityUpdated,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: 'fid',
+            activity: createDefaultActivityResponse(id: 'activity-1')
+                .copyWith(type: 'comment'),
           ),
         );
 
-        await activityList.get();
-        expect(activityList.state.activities, hasLength(3));
-
-        // Send ActivityUpdatedEvent with type that doesn't match filter
-        wsStreamController.add(
-          jsonEncode(
-            ActivityUpdatedEvent(
-              type: 'feeds.activity.updated',
-              createdAt: DateTime.now(),
-              custom: const {},
-              fid: 'fid',
-              activity: createDefaultActivityResponse(
-                id: 'activity-1',
-                // Doesn't match 'post' filter
-              ).copyWith(type: 'comment'),
-            ),
-          ),
-        );
-
-        // Wait for the event to be processed
-        await Future<Object?>.delayed(Duration.zero);
-
-        expect(activityList.state.activities, hasLength(2));
+        await tester.pump();
+        expect(tester.activityListState.activities, hasLength(2));
       },
     );
 
-    test(
+    activityListTest(
       'ActivityReactionAddedEvent - should remove activity when reaction causes filter mismatch',
-      () async {
-        final activityList = client.activityList(
-          ActivitiesQuery(
-            filter: Filter.equal(ActivitiesFilterField.type, 'post'),
-          ),
-        );
+      build: (client) => client.activityList(
+        ActivitiesQuery(
+          filter: Filter.equal(ActivitiesFilterField.type, 'post'),
+        ),
+      ),
+      setUp: (tester) => tester.get(
+        modifyResponse: (it) => it.copyWith(activities: defaultActivities),
+      ),
+      body: (tester) async {
+        expect(tester.activityListState.activities, hasLength(3));
 
-        await activityList.get();
-        expect(activityList.state.activities, hasLength(3));
-
-        // Send ActivityReactionAddedEvent with activity that doesn't match filter
-        wsStreamController.add(
-          jsonEncode(
-            ActivityReactionAddedEvent(
-              type: 'feeds.activity.reaction.added',
-              createdAt: DateTime.now(),
-              custom: const {},
-              fid: 'fid',
-              activity: createDefaultActivityResponse(
-                id: 'activity-2',
-                // Doesn't match 'post' filter
-              ).copyWith(type: 'comment'),
-              reaction: FeedsReactionResponse(
-                activityId: 'activity-2',
-                type: 'like',
-                createdAt: DateTime.now(),
-                updatedAt: DateTime.now(),
-                user: createDefaultUserResponse(),
-              ),
+        await tester.emitEvent(
+          ActivityReactionAddedEvent(
+            type: EventTypes.activityReactionAdded,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: 'fid',
+            activity: createDefaultActivityResponse(id: 'activity-2')
+                .copyWith(type: 'comment'),
+            reaction: FeedsReactionResponse(
+              activityId: 'activity-2',
+              type: 'like',
+              createdAt: DateTime.timestamp(),
+              updatedAt: DateTime.timestamp(),
+              user: createDefaultUserResponse(),
             ),
           ),
         );
 
-        // Wait for the event to be processed
-        await Future<Object?>.delayed(Duration.zero);
-
-        expect(activityList.state.activities, hasLength(2));
+        await tester.pump();
+        expect(tester.activityListState.activities, hasLength(2));
       },
     );
 
-    test(
+    activityListTest(
       'ActivityReactionDeletedEvent - should remove activity when reaction deletion causes filter mismatch',
-      () async {
-        final activityList = client.activityList(
-          ActivitiesQuery(
-            filter: Filter.equal(ActivitiesFilterField.type, 'post'),
-          ),
-        );
+      build: (client) => client.activityList(
+        ActivitiesQuery(
+          filter: Filter.equal(ActivitiesFilterField.type, 'post'),
+        ),
+      ),
+      setUp: (tester) => tester.get(
+        modifyResponse: (it) => it.copyWith(activities: defaultActivities),
+      ),
+      body: (tester) async {
+        expect(tester.activityListState.activities, hasLength(3));
 
-        await activityList.get();
-        expect(activityList.state.activities, hasLength(3));
-
-        // Send ActivityReactionDeletedEvent with activity that doesn't match filter
-        wsStreamController.add(
-          jsonEncode(
-            ActivityReactionDeletedEvent(
-              type: 'feeds.activity.reaction.deleted',
-              createdAt: DateTime.now(),
-              custom: const {},
-              fid: 'fid',
-              activity: createDefaultActivityResponse(
-                id: 'activity-3',
-              ).copyWith(type: 'share'),
-              reaction: FeedsReactionResponse(
-                activityId: 'activity-3',
-                type: 'like',
-                createdAt: DateTime.now(),
-                updatedAt: DateTime.now(),
-                user: createDefaultUserResponse(),
-              ),
+        await tester.emitEvent(
+          ActivityReactionDeletedEvent(
+            type: EventTypes.activityReactionDeleted,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: 'fid',
+            activity: createDefaultActivityResponse(id: 'activity-3')
+                .copyWith(type: 'share'),
+            reaction: FeedsReactionResponse(
+              activityId: 'activity-3',
+              type: 'like',
+              createdAt: DateTime.timestamp(),
+              updatedAt: DateTime.timestamp(),
+              user: createDefaultUserResponse(),
             ),
           ),
         );
 
-        // Wait for the event to be processed
-        await Future<Object?>.delayed(Duration.zero);
-
-        expect(activityList.state.activities, hasLength(2));
+        await tester.pump();
+        expect(tester.activityListState.activities, hasLength(2));
       },
     );
 
-    test(
+    activityListTest(
       'BookmarkAddedEvent - should remove activity when bookmark causes filter mismatch',
-      () async {
-        final activityList = client.activityList(
-          ActivitiesQuery(
-            filter: Filter.equal(ActivitiesFilterField.type, 'post'),
-          ),
-        );
+      build: (client) => client.activityList(
+        ActivitiesQuery(
+          filter: Filter.equal(ActivitiesFilterField.type, 'post'),
+        ),
+      ),
+      setUp: (tester) => tester.get(
+        modifyResponse: (it) => it.copyWith(activities: defaultActivities),
+      ),
+      body: (tester) async {
+        expect(tester.activityListState.activities, hasLength(3));
 
-        await activityList.get();
-        expect(activityList.state.activities, hasLength(3));
-
-        // Send BookmarkAddedEvent with activity that doesn't match filter
-        wsStreamController.add(
-          jsonEncode(
-            BookmarkAddedEvent(
-              type: 'feeds.bookmark.added',
-              createdAt: DateTime.now(),
-              custom: const {},
-              bookmark: createDefaultBookmarkResponse(
-                activityId: 'activity-1',
-              ).copyWith(
-                activity: createDefaultActivityResponse(
-                  id: 'activity-1',
-                  // Doesn't match 'post' filter
-                ).copyWith(type: 'comment'),
-              ),
+        await tester.emitEvent(
+          BookmarkAddedEvent(
+            type: EventTypes.bookmarkAdded,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            bookmark: createDefaultBookmarkResponse(
+              activityId: 'activity-1',
+            ).copyWith(
+              activity: createDefaultActivityResponse(id: 'activity-1')
+                  .copyWith(type: 'comment'),
             ),
           ),
         );
 
-        // Wait for the event to be processed
-        await Future<Object?>.delayed(Duration.zero);
-
-        expect(activityList.state.activities, hasLength(2));
+        await tester.pump();
+        expect(tester.activityListState.activities, hasLength(2));
       },
     );
 
-    test(
+    activityListTest(
       'BookmarkDeletedEvent - should remove activity when bookmark deletion causes filter mismatch',
-      () async {
-        final activityList = client.activityList(
-          ActivitiesQuery(
-            filter: Filter.equal(ActivitiesFilterField.type, 'post'),
-          ),
-        );
+      build: (client) => client.activityList(
+        ActivitiesQuery(
+          filter: Filter.equal(ActivitiesFilterField.type, 'post'),
+        ),
+      ),
+      setUp: (tester) => tester.get(
+        modifyResponse: (it) => it.copyWith(activities: defaultActivities),
+      ),
+      body: (tester) async {
+        expect(tester.activityListState.activities, hasLength(3));
 
-        await activityList.get();
-        expect(activityList.state.activities, hasLength(3));
-
-        // Send BookmarkDeletedEvent with activity that doesn't match filter
-        wsStreamController.add(
-          jsonEncode(
-            BookmarkDeletedEvent(
-              type: 'feeds.bookmark.deleted',
-              createdAt: DateTime.now(),
-              custom: const {},
-              bookmark: createDefaultBookmarkResponse(
-                activityId: 'activity-2',
-              ).copyWith(
-                activity: createDefaultActivityResponse(
-                  id: 'activity-2',
-                  // Doesn't match 'post' filter
-                ).copyWith(type: 'share'),
-              ),
+        await tester.emitEvent(
+          BookmarkDeletedEvent(
+            type: EventTypes.bookmarkDeleted,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            bookmark: createDefaultBookmarkResponse(
+              activityId: 'activity-2',
+            ).copyWith(
+              activity: createDefaultActivityResponse(id: 'activity-2')
+                  .copyWith(type: 'share'),
             ),
           ),
         );
 
-        // Wait for the event to be processed
-        await Future<Object?>.delayed(Duration.zero);
-
-        expect(activityList.state.activities, hasLength(2));
+        await tester.pump();
+        expect(tester.activityListState.activities, hasLength(2));
       },
     );
 
-    test(
+    activityListTest(
       'CommentAddedEvent - should remove activity when comment causes filter mismatch',
-      () async {
-        final activityList = client.activityList(
-          ActivitiesQuery(
-            filter: Filter.equal(ActivitiesFilterField.type, 'post'),
-          ),
-        );
+      build: (client) => client.activityList(
+        ActivitiesQuery(
+          filter: Filter.equal(ActivitiesFilterField.type, 'post'),
+        ),
+      ),
+      setUp: (tester) => tester.get(
+        modifyResponse: (it) => it.copyWith(activities: defaultActivities),
+      ),
+      body: (tester) async {
+        expect(tester.activityListState.activities, hasLength(3));
 
-        await activityList.get();
-        expect(activityList.state.activities, hasLength(3));
-
-        // Send CommentAddedEvent with activity that doesn't match filter
-        wsStreamController.add(
-          jsonEncode(
-            CommentAddedEvent(
-              type: 'feeds.comment.added',
-              createdAt: DateTime.now(),
-              custom: const {},
-              fid: 'fid',
-              activity: createDefaultActivityResponse(
-                id: 'activity-3',
-                // Doesn't match 'post' filter
-              ).copyWith(type: 'comment'),
-              comment: createDefaultCommentResponse(
-                objectId: 'activity-3',
-              ),
+        await tester.emitEvent(
+          CommentAddedEvent(
+            type: EventTypes.commentAdded,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: 'fid',
+            activity: createDefaultActivityResponse(id: 'activity-3')
+                .copyWith(type: 'comment'),
+            comment: createDefaultCommentResponse(
+              objectId: 'activity-3',
             ),
           ),
         );
 
-        // Wait for the event to be processed
-        await Future<Object?>.delayed(Duration.zero);
-
-        expect(activityList.state.activities, hasLength(2));
+        await tester.pump();
+        expect(tester.activityListState.activities, hasLength(2));
       },
     );
 
-    test('Complex filter with AND - should filter correctly', () async {
-      final activityList = client.activityList(
+    activityListTest(
+      'Complex filter with AND - should filter correctly',
+      build: (client) => client.activityList(
         ActivitiesQuery(
           filter: Filter.and([
             Filter.equal(ActivitiesFilterField.type, 'post'),
             Filter.equal(ActivitiesFilterField.filterTags, ['featured']),
           ]),
         ),
-      );
+      ),
+      setUp: (tester) => tester.get(
+        modifyResponse: (it) => it.copyWith(activities: defaultActivities),
+      ),
+      body: (tester) async {
+        expect(tester.activityListState.activities, hasLength(3));
 
-      await activityList.get();
-      expect(activityList.state.activities, hasLength(3));
-
-      // Send ActivityUpdatedEvent that matches only one condition
-      wsStreamController.add(
-        jsonEncode(
+        await tester.emitEvent(
           ActivityUpdatedEvent(
-            type: 'feeds.activity.updated',
-            createdAt: DateTime.now(),
+            type: EventTypes.activityUpdated,
+            createdAt: DateTime.timestamp(),
             custom: const {},
             fid: 'fid',
-            activity: createDefaultActivityResponse(
-              id: 'activity-1',
-            ).copyWith(
+            activity: createDefaultActivityResponse(id: 'activity-1').copyWith(
               type: 'post', // Matches first condition
               filterTags: ['general'], // Doesn't match second condition
-            ), // Doesn't match any condition
-          ),
-        ),
-      );
-
-      // Wait for the event to be processed
-      await Future<Object?>.delayed(Duration.zero);
-
-      expect(activityList.state.activities, hasLength(2));
-    });
-
-    test(
-      'Complex filter with OR - should only keep activities matching any condition',
-      () async {
-        final activityList = client.activityList(
-          ActivitiesQuery(
-            filter: Filter.or([
-              Filter.equal(ActivitiesFilterField.type, 'post'),
-              Filter.equal(ActivitiesFilterField.filterTags, ['featured']),
-            ]),
-          ),
-        );
-
-        await activityList.get();
-        expect(activityList.state.activities, hasLength(3));
-
-        // Send ActivityUpdatedEvent that matches only one condition
-        wsStreamController.add(
-          jsonEncode(
-            ActivityUpdatedEvent(
-              type: 'feeds.activity.updated',
-              createdAt: DateTime.now(),
-              custom: const {},
-              fid: 'fid',
-              activity: createDefaultActivityResponse(
-                id: 'activity-1',
-              ).copyWith(
-                type: 'post', // Matches first condition
-                filterTags: ['general'], // Doesn't match second condition
-              ), // Doesn't match any condition
             ),
           ),
         );
 
-        // Wait for the event to be processed
-        await Future<Object?>.delayed(Duration.zero);
+        await tester.pump();
+        expect(tester.activityListState.activities, hasLength(2));
+      },
+    );
 
-        expect(activityList.state.activities, hasLength(3));
+    activityListTest(
+      'Complex filter with OR - should only keep activities matching any condition',
+      build: (client) => client.activityList(
+        ActivitiesQuery(
+          filter: Filter.or([
+            Filter.equal(ActivitiesFilterField.type, 'post'),
+            Filter.equal(ActivitiesFilterField.filterTags, ['featured']),
+          ]),
+        ),
+      ),
+      setUp: (tester) => tester.get(
+        modifyResponse: (it) => it.copyWith(activities: defaultActivities),
+      ),
+      body: (tester) async {
+        expect(tester.activityListState.activities, hasLength(3));
 
-        final updatedActivity = activityList.state.activities.firstWhere(
+        await tester.emitEvent(
+          ActivityUpdatedEvent(
+            type: EventTypes.activityUpdated,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: 'fid',
+            activity: createDefaultActivityResponse(id: 'activity-1').copyWith(
+              type: 'post', // Matches first condition
+              filterTags: ['general'], // Doesn't match second condition
+            ),
+          ),
+        );
+
+        await tester.pump();
+        expect(tester.activityListState.activities, hasLength(3));
+
+        final updatedActivity = tester.activityListState.activities.firstWhere(
           (activity) => activity.id == 'activity-1',
         );
 
@@ -383,34 +286,28 @@ void main() {
       },
     );
 
-    test(
+    activityListTest(
       'No filter - filtering is disabled when no filter specified',
-      () async {
-        final activityList = client.activityList(
-          const ActivitiesQuery(), // No filter
-        );
+      build: (client) => client.activityList(const ActivitiesQuery()),
+      setUp: (tester) => tester.get(
+        modifyResponse: (it) => it.copyWith(activities: defaultActivities),
+      ),
+      body: (tester) async {
+        expect(tester.activityListState.activities, hasLength(3));
 
-        await activityList.get();
-        expect(activityList.state.activities, hasLength(3));
-
-        // Send ActivityUpdatedEvent with any type
-        wsStreamController.add(
-          jsonEncode(
-            ActivityUpdatedEvent(
-              type: 'feeds.activity.updated',
-              createdAt: DateTime.now(),
-              custom: const {},
-              fid: 'fid',
-              activity: createDefaultActivityResponse(
-                id: 'activity-1',
-              ).copyWith(type: 'share'),
-            ),
+        await tester.emitEvent(
+          ActivityUpdatedEvent(
+            type: EventTypes.activityUpdated,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: 'fid',
+            activity: createDefaultActivityResponse(id: 'activity-1')
+                .copyWith(type: 'share'),
           ),
         );
 
-        // Wait for the event to be processed
-        await Future<Object?>.delayed(Duration.zero);
-        expect(activityList.state.activities, hasLength(3));
+        await tester.pump();
+        expect(tester.activityListState.activities, hasLength(3));
       },
     );
   });
@@ -433,8 +330,8 @@ void main() {
         ),
       ),
       body: (tester) async {
-        tester.expect((al) => al.state.activities, hasLength(1));
-        tester.expect((al) => al.state.activities.first.hidden, false);
+        expect(tester.activityListState.activities, hasLength(1));
+        expect(tester.activityListState.activities.first.hidden, false);
 
         await tester.emitEvent(
           ActivityFeedbackEvent(
@@ -452,8 +349,8 @@ void main() {
           ),
         );
 
-        tester.expect((al) => al.state.activities, hasLength(1));
-        tester.expect((al) => al.state.activities.first.hidden, true);
+        expect(tester.activityListState.activities, hasLength(1));
+        expect(tester.activityListState.activities.first.hidden, true);
       },
     );
 
@@ -468,8 +365,8 @@ void main() {
         ),
       ),
       body: (tester) async {
-        tester.expect((al) => al.state.activities, hasLength(1));
-        tester.expect((al) => al.state.activities.first.hidden, true);
+        expect(tester.activityListState.activities, hasLength(1));
+        expect(tester.activityListState.activities.first.hidden, true);
 
         await tester.emitEvent(
           ActivityFeedbackEvent(
@@ -487,8 +384,8 @@ void main() {
           ),
         );
 
-        tester.expect((al) => al.state.activities, hasLength(1));
-        tester.expect((al) => al.state.activities.first.hidden, false);
+        expect(tester.activityListState.activities, hasLength(1));
+        expect(tester.activityListState.activities.first.hidden, false);
       },
     );
   });

@@ -53,9 +53,9 @@ void main() {
           QueryPollsResponse(
             duration: DateTime.now().toIso8601String(),
             polls: [
-              createDefaultPollResponseData(id: 'poll-1'),
-              createDefaultPollResponseData(id: 'poll-2'),
-              createDefaultPollResponseData(id: 'poll-3'),
+              createDefaultPollResponse(id: 'poll-1'),
+              createDefaultPollResponse(id: 'poll-2'),
+              createDefaultPollResponse(id: 'poll-3'),
             ],
           ),
         ),
@@ -87,7 +87,7 @@ void main() {
               createdAt: DateTime.now(),
               custom: const {},
               fid: 'fid',
-              poll: createDefaultPollResponseData(
+              poll: createDefaultPollResponse(
                 id: 'poll-1',
               ).copyWith(isClosed: true),
             ),
@@ -118,7 +118,7 @@ void main() {
               createdAt: DateTime.now(),
               custom: const {},
               fid: 'fid',
-              poll: createDefaultPollResponseData(
+              poll: createDefaultPollResponse(
                 id: 'poll-1',
               ).copyWith(isClosed: true),
             ),

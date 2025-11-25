@@ -90,7 +90,7 @@ void main() {
               createdAt: DateTime.now(),
               custom: const {},
               fid: 'fid',
-              poll: createDefaultPollResponseData(id: pollId),
+              poll: createDefaultPollResponse(id: pollId),
               pollVote: createDefaultPollVoteResponse(
                 id: 'vote-1',
                 pollId: pollId,
@@ -124,7 +124,7 @@ void main() {
               createdAt: DateTime.now(),
               custom: const {},
               fid: 'fid',
-              poll: createDefaultPollResponseData(id: pollId),
+              poll: createDefaultPollResponse(id: pollId),
               pollVote: createDefaultPollVoteResponse(
                 id: 'vote-1',
                 pollId: pollId,

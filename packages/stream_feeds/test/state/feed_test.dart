@@ -1,8 +1,5 @@
 // ignore_for_file: avoid_redundant_argument_values
 
-import 'dart:async';
-import 'dart:convert';
-
 import 'package:mocktail/mocktail.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 import 'package:test/test.dart';
@@ -10,102 +7,82 @@ import 'package:test/test.dart';
 import '../test_utils.dart';
 
 void main() {
-  late StreamFeedsClient client;
-  late MockDefaultApi feedsApi;
-  late MockWebSocketChannel webSocketChannel;
+  // ============================================================
+  // FEATURE: Feed Operations
+  // ============================================================
 
-  setUp(() {
-    feedsApi = MockDefaultApi();
-    webSocketChannel = MockWebSocketChannel();
+  group('Get a Feed', () {
+    feedTest(
+      'get feed',
+      build: (client) => client.feed(group: 'group', id: 'id'),
+      body: (tester) async {
+        final result = await tester.getOrCreate();
 
-    client = StreamFeedsClient(
-      apiKey: 'apiKey',
-      user: const User(id: 'luke_skywalker'),
-      tokenProvider: TokenProvider.static(UserToken(testToken)),
-      feedsRestApi: feedsApi,
-      wsProvider: (options) => webSocketChannel,
+        expect(result, isA<Result<FeedData>>());
+        final feedData = result.getOrThrow();
+
+        expect(feedData, isA<FeedData>());
+        expect(feedData.id, 'id');
+        expect(feedData.groupId, 'group');
+      },
     );
   });
 
-  tearDown(() {
-    client.disconnect();
-  });
-
-  group('Get a Feed', () {
-    test('get feed', () async {
-      const feedId = FeedId(group: 'group', id: 'id');
-      when(
-        () => feedsApi.getOrCreateFeed(
-          feedGroupId: feedId.group,
-          feedId: feedId.id,
-          getOrCreateFeedRequest: any(named: 'getOrCreateFeedRequest'),
-        ),
-      ).thenAnswer(
-        (_) async => Result.success(createDefaultGetOrCreateFeedResponse()),
-      );
-
-      final feed = client.feed(group: feedId.group, id: feedId.id);
-      final result = await feed.getOrCreate();
-
-      expect(result, isA<Result<FeedData>>());
-      final feedData = result.getOrThrow();
-
-      expect(feedData, isA<FeedData>());
-      expect(feedData.id, 'id');
-      expect(feedData.name, 'name');
-      expect(feedData.description, 'description');
-    });
-  });
-
   group('Query follow suggestions', () {
-    test('should return list of FeedSuggestionData', () async {
-      const feedId = FeedId(group: 'user', id: 'john');
-      when(
-        () => feedsApi.getFollowSuggestions(
+    const feedId = FeedId(group: 'user', id: 'john');
+
+    feedTest(
+      'should return list of FeedSuggestionData',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.mockApi(
+        (api) => api.getFollowSuggestions(
           feedGroupId: feedId.group,
           limit: any(named: 'limit'),
         ),
-      ).thenAnswer(
-        (_) async => Result.success(
-          createDefaultGetFollowSuggestionsResponse(
-            suggestions: [
-              createDefaultFeedSuggestionResponse(
-                id: 'suggestion-1',
-                reason: 'Based on your interests',
-                recommendationScore: 0.95,
-                algorithmScores: {'relevance': 0.9, 'popularity': 0.85},
-              ),
-              createDefaultFeedSuggestionResponse(
-                id: 'suggestion-2',
-                reason: 'Popular in your network',
-                recommendationScore: 0.88,
-              ),
-            ],
-          ),
+        result: createDefaultGetFollowSuggestionsResponse(
+          suggestions: [
+            createDefaultFeedSuggestionResponse(
+              id: 'suggestion-1',
+              reason: 'Based on your interests',
+              recommendationScore: 0.95,
+              algorithmScores: {'relevance': 0.9, 'popularity': 0.85},
+            ),
+            createDefaultFeedSuggestionResponse(
+              id: 'suggestion-2',
+              reason: 'Popular in your network',
+              recommendationScore: 0.88,
+            ),
+          ],
         ),
-      );
+      ),
+      body: (tester) async {
+        final result = await tester.feed.queryFollowSuggestions(limit: 10);
 
-      final feed = client.feed(group: feedId.group, id: feedId.id);
-      final result = await feed.queryFollowSuggestions(limit: 10);
+        expect(result, isA<Result<List<FeedSuggestionData>>>());
 
-      expect(result, isA<Result<List<FeedSuggestionData>>>());
+        final suggestions = result.getOrThrow();
+        expect(suggestions.length, 2);
 
-      final suggestions = result.getOrThrow();
-      expect(suggestions.length, 2);
+        final firstSuggestion = suggestions[0];
+        expect(firstSuggestion.feed.id, 'suggestion-1');
+        expect(firstSuggestion.reason, 'Based on your interests');
+        expect(firstSuggestion.recommendationScore, 0.95);
+        expect(firstSuggestion.algorithmScores, isNotNull);
+        expect(firstSuggestion.algorithmScores!['relevance'], 0.9);
+        expect(firstSuggestion.algorithmScores!['popularity'], 0.85);
 
-      final firstSuggestion = suggestions[0];
-      expect(firstSuggestion.feed.id, 'suggestion-1');
-      expect(firstSuggestion.reason, 'Based on your interests');
-      expect(firstSuggestion.recommendationScore, 0.95);
-      expect(firstSuggestion.algorithmScores, isNotNull);
-      expect(firstSuggestion.algorithmScores!['relevance'], 0.9);
-      expect(firstSuggestion.algorithmScores!['popularity'], 0.85);
-
-      final secondSuggestion = suggestions[1];
-      expect(secondSuggestion.feed.id, 'suggestion-2');
-      expect(secondSuggestion.reason, 'Popular in your network');
-      expect(secondSuggestion.recommendationScore, 0.88);
-    });
+        final secondSuggestion = suggestions[1];
+        expect(secondSuggestion.feed.id, 'suggestion-2');
+        expect(secondSuggestion.reason, 'Popular in your network');
+        expect(secondSuggestion.recommendationScore, 0.88);
+      },
+      verify: (tester) => tester.verifyApi(
+        (api) => api.getFollowSuggestions(
+          feedGroupId: feedId.group,
+          limit: any(named: 'limit'),
+        ),
+      ),
+    );
   });
 
   // ============================================================
@@ -118,7 +95,7 @@ void main() {
 
     feedTest(
       'submits feedback via API',
-      build: (client) => client.feed(group: feedId.group, id: feedId.id),
+      build: (client) => client.feedFromId(feedId),
       setUp: (tester) {
         const activityFeedbackRequest = ActivityFeedbackRequest(hide: true);
         tester.mockApi(
@@ -151,7 +128,7 @@ void main() {
 
     feedTest(
       'marks activity hidden on ActivityFeedbackEvent',
-      build: (client) => client.feed(group: feedId.group, id: feedId.id),
+      build: (client) => client.feedFromId(feedId),
       setUp: (tester) => tester.getOrCreate(
         modifyResponse: (response) => response.copyWith(
           activities: [
@@ -160,8 +137,8 @@ void main() {
         ),
       ),
       body: (tester) async {
-        tester.expect((f) => f.state.activities.length, 1);
-        tester.expect((f) => f.state.activities.first.hidden, false);
+        expect(tester.feedState.activities, hasLength(1));
+        expect(tester.feedState.activities.first.hidden, false);
 
         await tester.emitEvent(
           ActivityFeedbackEvent(
@@ -179,13 +156,14 @@ void main() {
           ),
         );
 
-        tester.expect((f) => f.state.activities.first.hidden, true);
+        expect(tester.feedState.activities, hasLength(1));
+        expect(tester.feedState.activities.first.hidden, true);
       },
     );
 
     feedTest(
       'marks activity unhidden on ActivityFeedbackEvent',
-      build: (client) => client.feed(group: feedId.group, id: feedId.id),
+      build: (client) => client.feedFromId(feedId),
       setUp: (tester) => tester.getOrCreate(
         modifyResponse: (response) => response.copyWith(
           activities: [
@@ -194,8 +172,8 @@ void main() {
         ),
       ),
       body: (tester) async {
-        tester.expect((f) => f.state.activities.length, 1);
-        tester.expect((f) => f.state.activities.first.hidden, true);
+        expect(tester.feedState.activities, hasLength(1));
+        expect(tester.feedState.activities.first.hidden, true);
 
         await tester.emitEvent(
           ActivityFeedbackEvent(
@@ -213,78 +191,37 @@ void main() {
           ),
         );
 
-        tester.expect((f) => f.state.activities.first.hidden, false);
+        expect(tester.feedState.activities, hasLength(1));
+        expect(tester.feedState.activities.first.hidden, false);
       },
     );
   });
 
   group('Follow events', () {
-    late StreamController<Object> wsStreamController;
-    late MockWebSocketSink webSocketSink;
+    const targetFeedId = FeedId(group: 'group', id: 'target');
+    const sourceFeedId = FeedId(group: 'group', id: 'source');
 
-    setUp(() async {
-      wsStreamController = StreamController<Object>();
-      webSocketSink = MockWebSocketSink();
-      WsTestConnection(
-        wsStreamController: wsStreamController,
-        webSocketSink: webSocketSink,
-        webSocketChannel: webSocketChannel,
-      ).setUp();
+    feedTest(
+      'follow target feed should update follower count',
+      build: (client) => client.feedFromId(targetFeedId),
+      setUp: (tester) => tester.getOrCreate(),
+      body: (tester) async {
+        expect(tester.feedState.feed?.followerCount, 0);
+        expect(tester.feedState.feed?.followingCount, 0);
 
-      await client.connect();
-    });
-
-    tearDown(() async {
-      await webSocketSink.close();
-      await wsStreamController.close();
-    });
-
-    test('follow target feed should update follower count', () async {
-      const targetFeedId = FeedId(group: 'group', id: 'target');
-      const sourceFeedId = FeedId(group: 'group', id: 'source');
-
-      when(
-        () => feedsApi.getOrCreateFeed(
-          feedGroupId: targetFeedId.group,
-          feedId: targetFeedId.id,
-          getOrCreateFeedRequest: any(named: 'getOrCreateFeedRequest'),
-        ),
-      ).thenAnswer(
-        (_) async => Result.success(createDefaultGetOrCreateFeedResponse()),
-      );
-
-      final feed = client.feedFromId(targetFeedId);
-
-      final result = await feed.getOrCreate();
-      final feedData = result.getOrThrow();
-
-      expect(feedData.followerCount, 0);
-      expect(feedData.followingCount, 0);
-
-      feed.notifier.stream.listen(
-        expectAsync1(
-          (event) {
-            expect(event, isA<FeedState>());
-            expect(event.feed?.followerCount, 1);
-            expect(event.feed?.followingCount, 0);
-          },
-        ),
-      );
-
-      wsStreamController.add(
-        jsonEncode(
+        await tester.emitEvent(
           FollowCreatedEvent(
             type: EventTypes.followCreated,
-            createdAt: DateTime.now(),
+            createdAt: DateTime.timestamp(),
             custom: const {},
             fid: targetFeedId.toString(),
             follow: FollowResponse(
-              createdAt: DateTime.now(),
+              createdAt: DateTime.timestamp(),
               custom: const {},
               followerRole: 'followerRole',
               pushPreference: FollowResponsePushPreference.none,
-              requestAcceptedAt: DateTime.now(),
-              requestRejectedAt: DateTime.now(),
+              requestAcceptedAt: DateTime.timestamp(),
+              requestRejectedAt: DateTime.timestamp(),
               sourceFeed: createDefaultFeedResponse(
                 id: sourceFeedId.id,
                 groupId: sourceFeedId.group,
@@ -296,59 +233,37 @@ void main() {
                 groupId: targetFeedId.group,
                 followerCount: 1,
               ),
-              updatedAt: DateTime.now(),
+              updatedAt: DateTime.timestamp(),
             ),
           ),
-        ),
-      );
-    });
+        );
 
-    test('follow source feed should update following count', () async {
-      const targetFeedId = FeedId(group: 'group', id: 'target');
-      const sourceFeedId = FeedId(group: 'group', id: 'source');
+        expect(tester.feedState.feed?.followerCount, 1);
+        expect(tester.feedState.feed?.followingCount, 0);
+      },
+    );
 
-      when(
-        () => feedsApi.getOrCreateFeed(
-          feedGroupId: sourceFeedId.group,
-          feedId: sourceFeedId.id,
-          getOrCreateFeedRequest: any(named: 'getOrCreateFeedRequest'),
-        ),
-      ).thenAnswer(
-        (_) async => Result.success(createDefaultGetOrCreateFeedResponse()),
-      );
+    feedTest(
+      'follow source feed should update following count',
+      build: (client) => client.feedFromId(sourceFeedId),
+      setUp: (tester) => tester.getOrCreate(),
+      body: (tester) async {
+        expect(tester.feedState.feed?.followerCount, 0);
+        expect(tester.feedState.feed?.followingCount, 0);
 
-      final feed = client.feedFromId(sourceFeedId);
-
-      final result = await feed.getOrCreate();
-      final feedData = result.getOrThrow();
-
-      expect(feedData.followerCount, 0);
-      expect(feedData.followingCount, 0);
-
-      feed.notifier.stream.listen(
-        expectAsync1(
-          (event) {
-            expect(event, isA<FeedState>());
-            expect(event.feed?.followerCount, 0);
-            expect(event.feed?.followingCount, 1);
-          },
-        ),
-      );
-
-      wsStreamController.add(
-        jsonEncode(
+        await tester.emitEvent(
           FollowCreatedEvent(
             type: EventTypes.followCreated,
-            createdAt: DateTime.now(),
+            createdAt: DateTime.timestamp(),
             custom: const {},
             fid: sourceFeedId.toString(),
             follow: FollowResponse(
-              createdAt: DateTime.now(),
+              createdAt: DateTime.timestamp(),
               custom: const {},
               followerRole: 'followerRole',
               pushPreference: FollowResponsePushPreference.none,
-              requestAcceptedAt: DateTime.now(),
-              requestRejectedAt: DateTime.now(),
+              requestAcceptedAt: DateTime.timestamp(),
+              requestRejectedAt: DateTime.timestamp(),
               sourceFeed: createDefaultFeedResponse(
                 id: sourceFeedId.id,
                 groupId: sourceFeedId.group,
@@ -360,64 +275,46 @@ void main() {
                 groupId: targetFeedId.group,
                 followerCount: 1,
               ),
-              updatedAt: DateTime.now(),
+              updatedAt: DateTime.timestamp(),
             ),
           ),
-        ),
-      );
-    });
+        );
 
-    test('follow deleted target feed should update follower count', () async {
-      const targetFeedId = FeedId(group: 'group', id: 'target');
-      const sourceFeedId = FeedId(group: 'group', id: 'source');
+        expect(tester.feedState.feed?.followerCount, 0);
+        expect(tester.feedState.feed?.followingCount, 1);
+      },
+    );
 
-      when(
-        () => feedsApi.getOrCreateFeed(
-          feedGroupId: targetFeedId.group,
-          feedId: targetFeedId.id,
-          getOrCreateFeedRequest: any(named: 'getOrCreateFeedRequest'),
-        ),
-      ).thenAnswer(
-        (_) async => Result.success(
-          createDefaultGetOrCreateFeedResponse(
+    feedTest(
+      'follow deleted target feed should update follower count',
+      build: (client) => client.feedFromId(targetFeedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          feed: createDefaultFeedResponse(
+            id: targetFeedId.id,
+            groupId: targetFeedId.group,
             followerCount: 1,
             followingCount: 1,
           ),
         ),
-      );
+      ),
+      body: (tester) async {
+        expect(tester.feedState.feed?.followerCount, 1);
+        expect(tester.feedState.feed?.followingCount, 1);
 
-      final feed = client.feedFromId(targetFeedId);
-
-      final result = await feed.getOrCreate();
-      final feedData = result.getOrThrow();
-
-      expect(feedData.followerCount, 1);
-      expect(feedData.followingCount, 1);
-
-      feed.notifier.stream.listen(
-        expectAsync1(
-          (event) {
-            expect(event, isA<FeedState>());
-            expect(event.feed?.followerCount, 0);
-            expect(event.feed?.followingCount, 1);
-          },
-        ),
-      );
-
-      wsStreamController.add(
-        jsonEncode(
+        await tester.emitEvent(
           FollowDeletedEvent(
             type: EventTypes.followDeleted,
-            createdAt: DateTime.now(),
+            createdAt: DateTime.timestamp(),
             custom: const {},
             fid: targetFeedId.toString(),
             follow: FollowResponse(
-              createdAt: DateTime.now(),
+              createdAt: DateTime.timestamp(),
               custom: const {},
               followerRole: 'followerRole',
               pushPreference: FollowResponsePushPreference.none,
-              requestAcceptedAt: DateTime.now(),
-              requestRejectedAt: DateTime.now(),
+              requestAcceptedAt: DateTime.timestamp(),
+              requestRejectedAt: DateTime.timestamp(),
               sourceFeed: createDefaultFeedResponse(
                 id: sourceFeedId.id,
                 groupId: sourceFeedId.group,
@@ -429,64 +326,46 @@ void main() {
                 groupId: targetFeedId.group,
                 followerCount: 0,
               ),
-              updatedAt: DateTime.now(),
+              updatedAt: DateTime.timestamp(),
             ),
           ),
-        ),
-      );
-    });
+        );
 
-    test('follow deleted source feed should update following count', () async {
-      const targetFeedId = FeedId(group: 'group', id: 'target');
-      const sourceFeedId = FeedId(group: 'group', id: 'source');
+        expect(tester.feedState.feed?.followerCount, 0);
+        expect(tester.feedState.feed?.followingCount, 1);
+      },
+    );
 
-      when(
-        () => feedsApi.getOrCreateFeed(
-          feedGroupId: sourceFeedId.group,
-          feedId: sourceFeedId.id,
-          getOrCreateFeedRequest: any(named: 'getOrCreateFeedRequest'),
-        ),
-      ).thenAnswer(
-        (_) async => Result.success(
-          createDefaultGetOrCreateFeedResponse(
-            followingCount: 1,
+    feedTest(
+      'follow deleted source feed should update following count',
+      build: (client) => client.feedFromId(sourceFeedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          feed: createDefaultFeedResponse(
+            id: sourceFeedId.id,
+            groupId: sourceFeedId.group,
             followerCount: 1,
+            followingCount: 1,
           ),
         ),
-      );
+      ),
+      body: (tester) async {
+        expect(tester.feedState.feed?.followerCount, 1);
+        expect(tester.feedState.feed?.followingCount, 1);
 
-      final feed = client.feedFromId(sourceFeedId);
-
-      final result = await feed.getOrCreate();
-      final feedData = result.getOrThrow();
-
-      expect(feedData.followerCount, 1);
-      expect(feedData.followingCount, 1);
-
-      feed.notifier.stream.listen(
-        expectAsync1(
-          (event) {
-            expect(event, isA<FeedState>());
-            expect(event.feed?.followerCount, 1);
-            expect(event.feed?.followingCount, 0);
-          },
-        ),
-      );
-
-      wsStreamController.add(
-        jsonEncode(
+        await tester.emitEvent(
           FollowDeletedEvent(
             type: EventTypes.followDeleted,
-            createdAt: DateTime.now(),
+            createdAt: DateTime.timestamp(),
             custom: const {},
             fid: sourceFeedId.toString(),
             follow: FollowResponse(
-              createdAt: DateTime.now(),
+              createdAt: DateTime.timestamp(),
               custom: const {},
               followerRole: 'followerRole',
               pushPreference: FollowResponsePushPreference.none,
-              requestAcceptedAt: DateTime.now(),
-              requestRejectedAt: DateTime.now(),
+              requestAcceptedAt: DateTime.timestamp(),
+              requestRejectedAt: DateTime.timestamp(),
               sourceFeed: createDefaultFeedResponse(
                 id: sourceFeedId.id,
                 groupId: sourceFeedId.group,
@@ -498,436 +377,384 @@ void main() {
                 groupId: targetFeedId.group,
                 followerCount: 0,
               ),
-              updatedAt: DateTime.now(),
+              updatedAt: DateTime.timestamp(),
             ),
           ),
-        ),
-      );
-    });
+        );
+
+        expect(tester.feedState.feed?.followerCount, 1);
+        expect(tester.feedState.feed?.followingCount, 0);
+      },
+    );
   });
 
-  group('Local filtering with real-time events', () {
-    late StreamController<Object> wsStreamController;
-    late MockWebSocketSink webSocketSink;
+  // ============================================================
+  // FEATURE: Local Filtering
+  // ============================================================
 
+  group('Local filtering with real-time events', () {
     const feedId = FeedId(group: 'user', id: 'test');
 
-    setUp(() async {
-      wsStreamController = StreamController<Object>();
-      webSocketSink = MockWebSocketSink();
-      WsTestConnection(
-        wsStreamController: wsStreamController,
-        webSocketSink: webSocketSink,
-        webSocketChannel: webSocketChannel,
-      ).setUp();
+    final initialActivities = [
+      createDefaultActivityResponse(id: 'activity-1'),
+      createDefaultActivityResponse(id: 'activity-2'),
+      createDefaultActivityResponse(id: 'activity-3'),
+    ];
 
-      await client.connect();
+    final initialPinnedActivities = [
+      ActivityPinResponse(
+        feed: feedId.rawValue,
+        activity: createDefaultActivityResponse(id: 'activity-1'),
+        createdAt: DateTime(2022, 1, 1),
+        updatedAt: DateTime(2022, 1, 1),
+        user: createDefaultUserResponse(id: 'user-1'),
+      ),
+    ];
 
-      final initialActivities = [
-        createDefaultActivityResponse(id: 'activity-1'),
-        createDefaultActivityResponse(id: 'activity-2'),
-        createDefaultActivityResponse(id: 'activity-3'),
-      ];
-
-      final initialPinnedActivities = [
-        ActivityPinResponse(
-          feed: feedId.rawValue,
-          activity: initialActivities.first,
-          createdAt: DateTime(2022, 1, 1),
-          updatedAt: DateTime(2022, 1, 1),
-          user: createDefaultUserResponse(id: 'user-1'),
-        ),
-      ];
-
-      // Setup default mock response
-      when(
-        () => feedsApi.getOrCreateFeed(
-          feedGroupId: feedId.group,
-          feedId: feedId.id,
-          getOrCreateFeedRequest: any(named: 'getOrCreateFeedRequest'),
-        ),
-      ).thenAnswer(
-        (_) async => Result.success(
-          createDefaultGetOrCreateFeedResponse().copyWith(
-            activities: initialActivities,
-            pinnedActivities: initialPinnedActivities,
-          ),
-        ),
-      );
-    });
-
-    tearDown(() async {
-      await webSocketSink.close();
-      await wsStreamController.close();
-    });
-
-    test(
+    feedTest(
       'ActivityAddedEvent - should not add activity that does not match filter',
-      () async {
-        final feed = client.feedFromQuery(
-          FeedQuery(
-            fid: feedId,
-            activityFilter: Filter.equal(ActivitiesFilterField.type, 'post'),
-          ),
-        );
-
-        await feed.getOrCreate();
-        expect(feed.state.activities, hasLength(3));
+      build: (client) => client.feedFromQuery(
+        FeedQuery(
+          fid: feedId,
+          activityFilter: Filter.equal(ActivitiesFilterField.type, 'post'),
+        ),
+      ),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(activities: initialActivities),
+      ),
+      body: (tester) async {
+        expect(tester.feedState.activities, hasLength(3));
 
         // Send ActivityAddedEvent with type 'comment' (doesn't match filter)
-        wsStreamController.add(
-          jsonEncode(
-            ActivityAddedEvent(
-              type: 'feeds.activity.added',
-              createdAt: DateTime.now(),
-              custom: const {},
-              fid: feedId.rawValue,
-              activity: createDefaultActivityResponse(
-                id: 'activity-4',
-                // Doesn't match 'post' filter
-              ).copyWith(type: 'comment'),
-            ),
+        await tester.emitEvent(
+          ActivityAddedEvent(
+            type: EventTypes.activityAdded,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: feedId.rawValue,
+            activity: createDefaultActivityResponse(
+              id: 'activity-4',
+              // Doesn't match 'post' filter
+            ).copyWith(type: 'comment'),
           ),
         );
 
-        // Wait for the event to be processed
-        await Future<Object?>.delayed(Duration.zero);
-
-        expect(feed.state.activities, hasLength(3));
+        expect(tester.feedState.activities, hasLength(3));
       },
     );
 
-    test(
+    feedTest(
       'ActivityUpdatedEvent - should remove activity when updated to non-matching type',
-      () async {
-        final feed = client.feedFromQuery(
-          FeedQuery(
-            fid: feedId,
-            activityFilter: Filter.equal(ActivitiesFilterField.type, 'post'),
-          ),
-        );
-
-        await feed.getOrCreate();
-        expect(feed.state.activities, hasLength(3));
+      build: (client) => client.feedFromQuery(
+        FeedQuery(
+          fid: feedId,
+          activityFilter: Filter.equal(ActivitiesFilterField.type, 'post'),
+        ),
+      ),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(activities: initialActivities),
+      ),
+      body: (tester) async {
+        expect(tester.feedState.activities, hasLength(3));
 
         // Send ActivityUpdatedEvent with type that doesn't match filter
-        wsStreamController.add(
-          jsonEncode(
-            ActivityUpdatedEvent(
-              type: 'feeds.activity.updated',
-              createdAt: DateTime.now(),
-              custom: const {},
-              fid: feedId.rawValue,
-              activity: createDefaultActivityResponse(
-                id: 'activity-1',
-                // Doesn't match 'post' filter
-              ).copyWith(type: 'comment'),
+        await tester.emitEvent(
+          ActivityUpdatedEvent(
+            type: EventTypes.activityUpdated,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: feedId.rawValue,
+            activity: createDefaultActivityResponse(
+              id: 'activity-1',
+              // Doesn't match 'post' filter
+            ).copyWith(type: 'comment'),
+          ),
+        );
+
+        expect(tester.feedState.activities, hasLength(2));
+      },
+    );
+
+    feedTest(
+      'ActivityReactionAddedEvent - should remove activity when reaction causes filter mismatch',
+      build: (client) => client.feedFromQuery(
+        FeedQuery(
+          fid: feedId,
+          activityFilter: Filter.equal(ActivitiesFilterField.type, 'post'),
+        ),
+      ),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(activities: initialActivities),
+      ),
+      body: (tester) async {
+        expect(tester.feedState.activities, hasLength(3));
+
+        // Send ActivityReactionAddedEvent with activity that doesn't match filter
+        await tester.emitEvent(
+          ActivityReactionAddedEvent(
+            type: EventTypes.activityReactionAdded,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: feedId.rawValue,
+            activity: createDefaultActivityResponse(
+              id: 'activity-1',
+              // Doesn't match 'post' filter
+            ).copyWith(type: 'comment'),
+            reaction: FeedsReactionResponse(
+              activityId: 'activity-1',
+              type: 'like',
+              createdAt: DateTime.timestamp(),
+              updatedAt: DateTime.timestamp(),
+              user: createDefaultUserResponse(),
             ),
           ),
         );
 
-        // Wait for the event to be processed
-        await Future<Object?>.delayed(Duration.zero);
-
-        expect(feed.state.activities, hasLength(2));
+        expect(tester.feedState.activities, hasLength(2));
       },
     );
 
-    test(
-      'ActivityReactionAddedEvent - should remove activity when reaction causes filter mismatch',
-      () async {
-        final feed = client.feedFromQuery(
-          FeedQuery(
-            fid: feedId,
-            activityFilter: Filter.equal(ActivitiesFilterField.type, 'post'),
+    feedTest(
+      'CommentAddedEvent - should remove activity when comment causes filter mismatch',
+      build: (client) => client.feedFromQuery(
+        FeedQuery(
+          fid: feedId,
+          activityFilter: Filter.in_(
+            ActivitiesFilterField.filterTags,
+            ['important'],
+          ),
+        ),
+      ),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(activities: initialActivities),
+      ),
+      body: (tester) async {
+        expect(tester.feedState.activities, hasLength(3));
+
+        // Send CommentAddedEvent with activity that doesn't have 'important' tag
+        await tester.emitEvent(
+          CommentAddedEvent(
+            type: EventTypes.commentAdded,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: feedId.rawValue,
+            activity: createDefaultActivityResponse(
+              id: 'activity-1',
+            ).copyWith(
+              filterTags: ['general'], // Doesn't have 'important' tag
+            ),
+            comment: createDefaultCommentResponse(
+              objectId: 'activity-1',
+            ),
           ),
         );
 
-        await feed.getOrCreate();
-        expect(feed.state.activities, hasLength(3));
+        expect(tester.feedState.activities, hasLength(2));
+      },
+    );
 
-        // Send ActivityReactionAddedEvent with activity that doesn't match filter
-        wsStreamController.add(
-          jsonEncode(
-            ActivityReactionAddedEvent(
-              type: 'feeds.activity.reaction.added',
-              createdAt: DateTime.now(),
-              custom: const {},
-              fid: feedId.rawValue,
+    feedTest(
+      'ActivityReactionDeletedEvent - should remove activity when reaction deletion causes filter mismatch',
+      build: (client) => client.feedFromQuery(
+        FeedQuery(
+          fid: feedId,
+          activityFilter: Filter.equal(ActivitiesFilterField.type, 'post'),
+        ),
+      ),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(activities: initialActivities),
+      ),
+      body: (tester) async {
+        expect(tester.feedState.activities, hasLength(3));
+
+        // Send ActivityReactionDeletedEvent with activity that doesn't match filter
+        await tester.emitEvent(
+          ActivityReactionDeletedEvent(
+            type: EventTypes.activityReactionDeleted,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: feedId.rawValue,
+            activity: createDefaultActivityResponse(
+              id: 'activity-2',
+              // Doesn't match 'post' filter
+            ).copyWith(type: 'comment'),
+            reaction: FeedsReactionResponse(
+              activityId: 'activity-2',
+              type: 'like',
+              createdAt: DateTime.timestamp(),
+              updatedAt: DateTime.timestamp(),
+              user: createDefaultUserResponse(),
+            ),
+          ),
+        );
+
+        expect(tester.feedState.activities, hasLength(2));
+      },
+    );
+
+    feedTest(
+      'ActivityPinnedEvent - should remove activity when pinned activity does not match filter',
+      build: (client) => client.feedFromQuery(
+        FeedQuery(
+          fid: feedId,
+          activityFilter: Filter.equal(ActivitiesFilterField.type, 'post'),
+        ),
+      ),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: initialActivities,
+          pinnedActivities: initialPinnedActivities,
+        ),
+      ),
+      body: (tester) async {
+        expect(tester.feedState.activities, hasLength(3));
+        expect(tester.feedState.pinnedActivities, hasLength(1));
+
+        // Send ActivityPinnedEvent with activity that doesn't match filter
+        await tester.emitEvent(
+          ActivityPinnedEvent(
+            type: EventTypes.activityPinned,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: feedId.rawValue,
+            pinnedActivity: createDefaultPinActivityResponse(
+              activityId: 'activity-1',
+              type: 'comment', // Doesn't match 'post' filter
+            ),
+          ),
+        );
+
+        expect(tester.feedState.activities, hasLength(2));
+        expect(tester.feedState.pinnedActivities, isEmpty);
+      },
+    );
+
+    feedTest(
+      'ActivityUnpinnedEvent - should remove activity when unpinned activity does not match filter',
+      build: (client) => client.feedFromQuery(
+        FeedQuery(
+          fid: feedId,
+          activityFilter: Filter.equal(ActivitiesFilterField.type, 'post'),
+        ),
+      ),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: initialActivities,
+          pinnedActivities: initialPinnedActivities,
+        ),
+      ),
+      body: (tester) async {
+        expect(tester.feedState.activities, hasLength(3));
+        expect(tester.feedState.pinnedActivities, hasLength(1));
+
+        // Send ActivityUnpinnedEvent with activity that doesn't match filter
+        await tester.emitEvent(
+          ActivityUnpinnedEvent(
+            type: EventTypes.activityUnpinned,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: feedId.rawValue,
+            pinnedActivity: createDefaultPinActivityResponse(
+              activityId: 'activity-1',
+              type: 'comment', // Doesn't match 'post' filter
+            ),
+          ),
+        );
+
+        expect(tester.feedState.activities, hasLength(2));
+        expect(tester.feedState.pinnedActivities, isEmpty);
+      },
+    );
+
+    feedTest(
+      'BookmarkAddedEvent - should remove activity when bookmark causes filter mismatch',
+      build: (client) => client.feedFromQuery(
+        FeedQuery(
+          fid: feedId,
+          activityFilter: Filter.in_(
+            ActivitiesFilterField.filterTags,
+            ['important'],
+          ),
+        ),
+      ),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: initialActivities,
+          pinnedActivities: initialPinnedActivities,
+        ),
+      ),
+      body: (tester) async {
+        expect(tester.feedState.activities, hasLength(3));
+
+        // Send BookmarkAddedEvent with activity that doesn't have 'important' tag
+        await tester.emitEvent(
+          BookmarkAddedEvent(
+            type: EventTypes.bookmarkAdded,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            bookmark: createDefaultBookmarkResponse(
+              activityId: 'activity-1',
+            ).copyWith(
               activity: createDefaultActivityResponse(
                 id: 'activity-1',
-                // Doesn't match 'post' filter
-              ).copyWith(type: 'comment'),
-              reaction: FeedsReactionResponse(
-                activityId: 'activity-1',
-                type: 'like',
-                createdAt: DateTime.now(),
-                updatedAt: DateTime.now(),
-                user: createDefaultUserResponse(),
+              ).copyWith(
+                feeds: [feedId.rawValue], // Activity belongs to this feed
+                filterTags: ['general'], // Doesn't have 'important' tag
               ),
             ),
           ),
         );
 
-        // Wait for the event to be processed
-        await Future<Object?>.delayed(Duration.zero);
-
-        expect(feed.state.activities, hasLength(2));
+        expect(tester.feedState.activities, hasLength(2));
       },
     );
 
-    test(
-      'CommentAddedEvent - should remove activity when comment causes filter mismatch',
-      () async {
-        final feed = client.feedFromQuery(
-          FeedQuery(
-            fid: feedId,
-            activityFilter: Filter.in_(
-              ActivitiesFilterField.filterTags,
-              ['important'],
-            ),
+    feedTest(
+      'BookmarkDeletedEvent - should remove activity when bookmark deletion causes filter mismatch',
+      build: (client) => client.feedFromQuery(
+        FeedQuery(
+          fid: feedId,
+          activityFilter: Filter.in_(
+            ActivitiesFilterField.filterTags,
+            ['important'],
           ),
-        );
+        ),
+      ),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: initialActivities,
+          pinnedActivities: initialPinnedActivities,
+        ),
+      ),
+      body: (tester) async {
+        expect(tester.feedState.activities, hasLength(3));
 
-        await feed.getOrCreate();
-        expect(feed.state.activities, hasLength(3));
-
-        // Send CommentAddedEvent with activity that doesn't have 'important' tag
-        wsStreamController.add(
-          jsonEncode(
-            CommentAddedEvent(
-              type: 'feeds.comment.added',
-              createdAt: DateTime.now(),
-              custom: const {},
-              fid: feedId.rawValue,
+        // Send BookmarkDeletedEvent with activity that doesn't have 'important' tag
+        await tester.emitEvent(
+          BookmarkDeletedEvent(
+            type: EventTypes.bookmarkDeleted,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            bookmark: createDefaultBookmarkResponse(
+              activityId: 'activity-2',
+            ).copyWith(
               activity: createDefaultActivityResponse(
-                id: 'activity-1',
+                id: 'activity-2',
+                feeds: [feedId.rawValue], // Activity belongs to this feed
               ).copyWith(
                 filterTags: ['general'], // Doesn't have 'important' tag
               ),
-              comment: createDefaultCommentResponse(
-                objectId: 'activity-1',
-              ),
             ),
           ),
         );
 
-        // Wait for the event to be processed
-        await Future<Object?>.delayed(Duration.zero);
-
-        expect(feed.state.activities, hasLength(2));
+        expect(tester.feedState.activities, hasLength(2));
       },
     );
 
-    test(
-      'ActivityReactionDeletedEvent - should remove activity when reaction deletion causes filter mismatch',
-      () async {
-        final feed = client.feedFromQuery(
-          FeedQuery(
-            fid: feedId,
-            activityFilter: Filter.equal(ActivitiesFilterField.type, 'post'),
-          ),
-        );
-
-        await feed.getOrCreate();
-        expect(feed.state.activities, hasLength(3));
-
-        // Send ActivityReactionDeletedEvent with activity that doesn't match filter
-        wsStreamController.add(
-          jsonEncode(
-            ActivityReactionDeletedEvent(
-              type: 'feeds.activity.reaction.deleted',
-              createdAt: DateTime.now(),
-              custom: const {},
-              fid: feedId.rawValue,
-              activity: createDefaultActivityResponse(
-                id: 'activity-2',
-                // Doesn't match 'post' filter
-              ).copyWith(type: 'comment'),
-              reaction: FeedsReactionResponse(
-                activityId: 'activity-2',
-                type: 'like',
-                createdAt: DateTime.now(),
-                updatedAt: DateTime.now(),
-                user: createDefaultUserResponse(),
-              ),
-            ),
-          ),
-        );
-
-        // Wait for the event to be processed
-        await Future<Object?>.delayed(Duration.zero);
-
-        expect(feed.state.activities, hasLength(2));
-      },
-    );
-
-    test(
-      'ActivityPinnedEvent - should remove activity when pinned activity does not match filter',
-      () async {
-        final feed = client.feedFromQuery(
-          FeedQuery(
-            fid: feedId,
-            activityFilter: Filter.equal(ActivitiesFilterField.type, 'post'),
-          ),
-        );
-
-        await feed.getOrCreate();
-        expect(feed.state.activities, hasLength(3));
-        expect(feed.state.pinnedActivities, hasLength(1));
-
-        // Send ActivityPinnedEvent with activity that doesn't match filter
-        wsStreamController.add(
-          jsonEncode(
-            ActivityPinnedEvent(
-              type: 'feeds.activity.pinned',
-              createdAt: DateTime.now(),
-              custom: const {},
-              fid: feedId.rawValue,
-              pinnedActivity: createDefaultPinActivityResponse(
-                activityId: 'activity-1',
-                type: 'comment', // Doesn't match 'post' filter
-              ),
-            ),
-          ),
-        );
-
-        // Wait for the event to be processed
-        await Future<Object?>.delayed(Duration.zero);
-
-        expect(feed.state.activities, hasLength(2));
-        expect(feed.state.pinnedActivities, isEmpty);
-      },
-    );
-
-    test(
-      'ActivityUnpinnedEvent - should remove activity when unpinned activity does not match filter',
-      () async {
-        final feed = client.feedFromQuery(
-          FeedQuery(
-            fid: feedId,
-            activityFilter: Filter.equal(ActivitiesFilterField.type, 'post'),
-          ),
-        );
-
-        await feed.getOrCreate();
-        expect(feed.state.activities, hasLength(3));
-        expect(feed.state.pinnedActivities, hasLength(1));
-
-        // Send ActivityUnpinnedEvent with activity that doesn't match filter
-        wsStreamController.add(
-          jsonEncode(
-            ActivityUnpinnedEvent(
-              type: 'feeds.activity.unpinned',
-              createdAt: DateTime.now(),
-              custom: const {},
-              fid: feedId.rawValue,
-              pinnedActivity: createDefaultPinActivityResponse(
-                activityId: 'activity-1',
-                type: 'comment', // Doesn't match 'post' filter
-              ),
-            ),
-          ),
-        );
-
-        // Wait for the event to be processed
-        await Future<Object?>.delayed(Duration.zero);
-
-        expect(feed.state.activities, hasLength(2));
-        expect(feed.state.pinnedActivities, isEmpty);
-      },
-    );
-
-    test(
-      'BookmarkAddedEvent - should remove activity when bookmark causes filter mismatch',
-      () async {
-        final feed = client.feedFromQuery(
-          FeedQuery(
-            fid: feedId,
-            activityFilter: Filter.in_(
-              ActivitiesFilterField.filterTags,
-              ['important'],
-            ),
-          ),
-        );
-
-        await feed.getOrCreate();
-        expect(feed.state.activities, hasLength(3));
-
-        // Send BookmarkAddedEvent with activity that doesn't have 'important' tag
-        wsStreamController.add(
-          jsonEncode(
-            BookmarkAddedEvent(
-              type: 'feeds.bookmark.added',
-              createdAt: DateTime.now(),
-              custom: const {},
-              bookmark: createDefaultBookmarkResponse(
-                activityId: 'activity-1',
-              ).copyWith(
-                activity: createDefaultActivityResponse(
-                  id: 'activity-1',
-                ).copyWith(
-                  feeds: [feedId.rawValue], // Activity belongs to this feed
-                  filterTags: ['general'], // Doesn't have 'important' tag
-                ),
-              ),
-            ),
-          ),
-        );
-
-        // Wait for the event to be processed
-        await Future<Object?>.delayed(Duration.zero);
-
-        expect(feed.state.activities, hasLength(2));
-      },
-    );
-
-    test(
-      'BookmarkDeletedEvent - should remove activity when bookmark deletion causes filter mismatch',
-      () async {
-        final feed = client.feedFromQuery(
-          FeedQuery(
-            fid: feedId,
-            activityFilter: Filter.in_(
-              ActivitiesFilterField.filterTags,
-              ['important'],
-            ),
-          ),
-        );
-
-        await feed.getOrCreate();
-        expect(feed.state.activities, hasLength(3));
-
-        // Send BookmarkDeletedEvent with activity that doesn't have 'important' tag
-        wsStreamController.add(
-          jsonEncode(
-            BookmarkDeletedEvent(
-              type: 'feeds.bookmark.deleted',
-              createdAt: DateTime.now(),
-              custom: const {},
-              bookmark: createDefaultBookmarkResponse(
-                activityId: 'activity-2',
-              ).copyWith(
-                activity: createDefaultActivityResponse(
-                  id: 'activity-2',
-                  feeds: [feedId.rawValue], // Activity belongs to this feed
-                ).copyWith(
-                  filterTags: ['general'], // Doesn't have 'important' tag
-                ),
-              ),
-            ),
-          ),
-        );
-
-        // Wait for the event to be processed
-        await Future<Object?>.delayed(Duration.zero);
-
-        expect(feed.state.activities, hasLength(2));
-      },
-    );
-
-    test('Complex filter with AND - should filter correctly', () async {
-      final feed = client.feedFromQuery(
+    feedTest(
+      'Complex filter with AND - should filter correctly',
+      build: (client) => client.feedFromQuery(
         FeedQuery(
           fid: feedId,
           activityFilter: Filter.and([
@@ -935,17 +762,20 @@ void main() {
             Filter.in_(ActivitiesFilterField.filterTags, ['featured']),
           ]),
         ),
-      );
+      ),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: initialActivities,
+          pinnedActivities: initialPinnedActivities,
+        ),
+      ),
+      body: (tester) async {
+        expect(tester.feedState.activities, hasLength(3));
 
-      await feed.getOrCreate();
-      expect(feed.state.activities, hasLength(3));
-
-      // Send ActivityAddedEvent that matches only one condition
-      wsStreamController.add(
-        jsonEncode(
+        await tester.emitEvent(
           ActivityAddedEvent(
-            type: 'feeds.activity.added',
-            createdAt: DateTime.now(),
+            type: EventTypes.activityAdded,
+            createdAt: DateTime.timestamp(),
             custom: const {},
             fid: feedId.rawValue,
             activity: createDefaultActivityResponse(
@@ -955,317 +785,254 @@ void main() {
               filterTags: ['general'], // Doesn't match second condition
             ),
           ),
-        ),
-      );
-
-      // Wait for the event to be processed
-      await Future<Object?>.delayed(Duration.zero);
-
-      expect(feed.state.activities, hasLength(3));
-    });
-
-    test(
-      'Complex filter with OR - should add activities matching any condition',
-      () async {
-        final feed = client.feedFromQuery(
-          FeedQuery(
-            fid: feedId,
-            activityFilter: Filter.or([
-              Filter.equal(ActivitiesFilterField.type, 'post'),
-              Filter.in_(ActivitiesFilterField.filterTags, ['featured']),
-            ]),
-          ),
         );
 
-        await feed.getOrCreate();
-        expect(feed.state.activities, hasLength(3));
-
-        // Send ActivityAddedEvent that matches only one condition
-        wsStreamController.add(
-          jsonEncode(
-            ActivityAddedEvent(
-              type: 'feeds.activity.added',
-              createdAt: DateTime.now(),
-              custom: const {},
-              fid: feedId.rawValue,
-              activity: createDefaultActivityResponse(
-                id: 'activity-4',
-              ).copyWith(
-                type: 'post', // Matches first condition
-                filterTags: ['general'], // Doesn't match second condition
-              ),
-            ),
-          ),
-        );
-
-        // Wait for the event to be processed
-        await Future<Object?>.delayed(Duration.zero);
-
-        // Activity should be added because it matches first condition
-        expect(feed.state.activities, hasLength(4));
+        expect(tester.feedState.activities, hasLength(3));
       },
     );
 
-    test(
-      'No filter - filtering is disabled when no filter specified',
-      () async {
-        final feed = client.feedFromQuery(
-          const FeedQuery(
-            fid: feedId,
-            // No activityFilter - all activities should be accepted
-          ),
-        );
+    feedTest(
+      'Complex filter with OR - should add activities matching any condition',
+      build: (client) => client.feedFromQuery(
+        FeedQuery(
+          fid: feedId,
+          activityFilter: Filter.or([
+            Filter.equal(ActivitiesFilterField.type, 'post'),
+            Filter.in_(ActivitiesFilterField.filterTags, ['featured']),
+          ]),
+        ),
+      ),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: initialActivities,
+          pinnedActivities: initialPinnedActivities,
+        ),
+      ),
+      body: (tester) async {
+        expect(tester.feedState.activities, hasLength(3));
 
-        await feed.getOrCreate();
-
-        // Verify the feed has no filter
-        expect(feed.query.activityFilter, isNull);
-        expect(feed.state.activities, hasLength(3));
-
-        // Send ActivityAddedEvent that matches only one condition
-        wsStreamController.add(
-          jsonEncode(
-            ActivityAddedEvent(
-              type: 'feeds.activity.added',
-              createdAt: DateTime.now(),
-              custom: const {},
-              fid: feedId.rawValue,
-              activity: createDefaultActivityResponse(
-                id: 'activity-4',
-                // Doesn't match 'post' activity type
-              ).copyWith(type: 'post'),
+        await tester.emitEvent(
+          ActivityAddedEvent(
+            type: EventTypes.activityAdded,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: feedId.rawValue,
+            activity: createDefaultActivityResponse(
+              id: 'activity-4',
+            ).copyWith(
+              type: 'post', // Matches first condition
+              filterTags: ['general'], // Doesn't match second condition
             ),
           ),
         );
 
-        // Wait for the event to be processed
-        await Future<Object?>.delayed(Duration.zero);
+        expect(tester.feedState.activities, hasLength(4));
+      },
+    );
 
-        expect(feed.state.activities, hasLength(4));
+    feedTest(
+      'No filter - filtering is disabled when no filter specified',
+      build: (client) => client.feedFromQuery(
+        const FeedQuery(
+          fid: feedId,
+          // No activityFilter - all activities should be accepted
+        ),
+      ),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: initialActivities,
+          pinnedActivities: initialPinnedActivities,
+        ),
+      ),
+      body: (tester) async {
+        // Verify the feed has no filter
+        expect(tester.feed.query.activityFilter, isNull);
+        expect(tester.feedState.activities, hasLength(3));
+
+        // Send ActivityAddedEvent that matches only one condition
+        await tester.emitEvent(
+          ActivityAddedEvent(
+            type: EventTypes.activityAdded,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: feedId.rawValue,
+            activity: createDefaultActivityResponse(
+              id: 'activity-4',
+              // Doesn't match 'post' activity type
+            ).copyWith(type: 'post'),
+          ),
+        );
+
+        expect(tester.feedState.activities, hasLength(4));
       },
     );
   });
 
+  // ============================================================
+  // FEATURE: Story Events
+  // ============================================================
+
   group('Story events', () {
-    late StreamController<Object> wsStreamController;
-    late MockWebSocketSink webSocketSink;
+    const feedId = FeedId(group: 'stories', id: 'target');
+    final initialStories = [
+      createDefaultActivityResponse(id: 'storyActivityId1'),
+      createDefaultActivityResponse(id: 'storyActivityId2'),
+    ];
 
-    setUp(() async {
-      wsStreamController = StreamController<Object>();
-      webSocketSink = MockWebSocketSink();
-      WsTestConnection(
-        wsStreamController: wsStreamController,
-        webSocketSink: webSocketSink,
-        webSocketChannel: webSocketChannel,
-      ).setUp();
-
-      await client.connect();
-    });
-
-    tearDown(() async {
-      await webSocketSink.close();
-      await wsStreamController.close();
-    });
-
-    test('Watch story should update isWatched', () async {
-      const feedId = FeedId(group: 'stories', id: 'target');
-      final activity1 = createDefaultActivityResponse().copyWith(
-        isWatched: false,
-        id: 'storyActivityId1',
-      );
-
-      final activity2 = createDefaultActivityResponse().copyWith(
-        isWatched: false,
-        id: 'storyActivityId2',
-      );
-
-      when(
-        () => feedsApi.getOrCreateFeed(
-          feedGroupId: feedId.group,
-          feedId: feedId.id,
-          getOrCreateFeedRequest: any(named: 'getOrCreateFeedRequest'),
+    feedTest(
+      'Watch story should update isWatched',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) async => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          aggregatedActivities: [
+            createDefaultAggregatedActivityResponse(
+              group: 'group1',
+              activities: initialStories,
+            ),
+          ],
         ),
-      ).thenAnswer(
-        (_) async => Result.success(
-          createDefaultGetOrCreateFeedResponse(
-            aggregatedActivities: [
-              createDefaultAggregatedActivityResponse(
-                activities: [activity1, activity2],
-              ),
-            ],
-          ),
-        ),
-      );
+      ),
+      body: (tester) async {
+        final userStories = tester.feedState.aggregatedActivities;
+        expect(userStories, hasLength(1));
 
-      final feed = client.feedFromId(feedId);
+        final firstUserStories = userStories.first.activities;
+        expect(firstUserStories, hasLength(2));
+        expect(firstUserStories[0].isWatched ?? false, isFalse);
+        expect(firstUserStories[1].isWatched ?? false, isFalse);
 
-      final result = await feed.getOrCreate();
-      result.getOrThrow();
-
-      expect(feed.state.aggregatedActivities.length, 1);
-      expect(
-        feed.state.aggregatedActivities.first.activities.first.isWatched,
-        false,
-      );
-      expect(
-        feed.state.aggregatedActivities.first.activities[1].isWatched,
-        false,
-      );
-
-      feed.notifier.stream.listen(
-        expectAsync1(
-          (event) {
-            expect(event, isA<FeedState>());
-            expect(
-              event.aggregatedActivities.first.activities.first.isWatched,
-              true,
-            );
-            expect(
-              event.aggregatedActivities.first.activities[1].isWatched,
-              false,
-            );
-          },
-        ),
-      );
-
-      wsStreamController.add(
-        jsonEncode(
+        await tester.emitEvent(
           ActivityMarkEvent(
             type: EventTypes.activityMarked,
-            createdAt: DateTime.now(),
+            createdAt: DateTime.timestamp(),
             custom: const {},
-            fid: feedId.toString(),
-            markWatched: [activity1.id],
+            fid: feedId.rawValue,
+            markWatched: const ['storyActivityId1'],
           ),
+        );
+
+        final updatedAllUserStories = tester.feedState.aggregatedActivities;
+        expect(updatedAllUserStories, hasLength(1));
+
+        final updatedFirstUserStories = updatedAllUserStories.first.activities;
+        expect(updatedFirstUserStories, hasLength(2));
+        expect(updatedFirstUserStories[0].isWatched ?? false, isTrue);
+        expect(updatedFirstUserStories[1].isWatched ?? false, isFalse);
+      },
+    );
+
+    feedTest(
+      'Pagination should load more aggregated activities',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) async => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          next: 'nextPageToken',
+          aggregatedActivities: [
+            createDefaultAggregatedActivityResponse(
+              group: 'group1',
+              activities: initialStories,
+            ),
+          ],
         ),
-      );
-    });
+      ),
+      body: (tester) async {
+        final userStories = tester.feedState.aggregatedActivities;
+        expect(userStories, hasLength(1));
 
-    test('Pagination should load more aggregated activities', () async {
-      const feedId = FeedId(group: 'stories', id: 'target');
-      const nextPagination = 'next';
-      const prevPagination = 'prev';
+        final firstUserStories = userStories.first.activities;
+        expect(firstUserStories, hasLength(2));
 
-      final activity1 = createDefaultActivityResponse(id: 'storyActivityId1');
-      final activity2 = createDefaultActivityResponse(id: 'storyActivityId2');
-      final activity3 = createDefaultActivityResponse(id: 'storyActivityId3');
+        final nextPageQuery = tester.feed.query.copyWith(
+          activityNext: tester.feedState.activitiesPagination?.next,
+        );
 
-      when(
-        () => feedsApi.getOrCreateFeed(
-          feedGroupId: feedId.group,
-          feedId: feedId.id,
-          getOrCreateFeedRequest: any(named: 'getOrCreateFeedRequest'),
-        ),
-      ).thenAnswer(
-        (invocation) async {
-          final request =
-              invocation.namedArguments[const Symbol('getOrCreateFeedRequest')]
-                  as GetOrCreateFeedRequest;
-
-          if (request.next == null) {
-            return Result.success(
-              createDefaultGetOrCreateFeedResponse(
-                nextPagination: nextPagination,
-                aggregatedActivities: [
-                  createDefaultAggregatedActivityResponse(
-                    group: 'group1',
-                    activities: [activity1, activity2],
-                  ),
-                ],
-              ),
-            );
-          }
-          if (request.next == nextPagination) {
-            return Result.success(
-              createDefaultGetOrCreateFeedResponse(
-                prevPagination: prevPagination,
-                aggregatedActivities: [
-                  createDefaultAggregatedActivityResponse(
-                    group: 'group2',
-                    activities: [activity3],
-                  ),
-                ],
-              ),
-            );
-          }
-          throw Exception('Unexpected request');
-        },
-      );
-
-      final feed = client.feedFromId(feedId);
-
-      final result = await feed.getOrCreate();
-      result.getOrThrow();
-
-      expect(feed.state.aggregatedActivities.length, 1);
-      expect(feed.state.aggregatedActivities.first.activities.length, 2);
-
-      await feed.queryMoreActivities();
-
-      expect(feed.state.aggregatedActivities.length, 2);
-      expect(feed.state.aggregatedActivities.last.activities.length, 1);
-    });
-
-    test('StoriesFeedUpdatedEvent should update aggregated activities',
-        () async {
-      const feedId = FeedId(group: 'stories', id: 'target');
-
-      final activity1 = createDefaultActivityResponse(id: 'storyActivityId1');
-      final activity2 = createDefaultActivityResponse(id: 'storyActivityId2');
-
-      when(
-        () => feedsApi.getOrCreateFeed(
-          feedGroupId: feedId.group,
-          feedId: feedId.id,
-          getOrCreateFeedRequest: any(named: 'getOrCreateFeedRequest'),
-        ),
-      ).thenAnswer(
-        (_) async => Result.success(
-          createDefaultGetOrCreateFeedResponse(
+        tester.mockApi(
+          (api) => api.getOrCreateFeed(
+            feedId: feedId.id,
+            feedGroupId: feedId.group,
+            getOrCreateFeedRequest: nextPageQuery.toRequest(),
+          ),
+          result: createDefaultGetOrCreateFeedResponse(
+            prevPagination: 'prevPageToken',
             aggregatedActivities: [
               createDefaultAggregatedActivityResponse(
-                group: 'group1',
-                activities: [activity1],
+                group: 'group2',
+                activities: [
+                  createDefaultActivityResponse(id: 'storyActivityId3'),
+                ],
               ),
             ],
           ),
+        );
+
+        // Fetch more activities
+        await tester.feed.queryMoreActivities();
+
+        final updatedUserStories = tester.feedState.aggregatedActivities;
+        expect(updatedUserStories, hasLength(2));
+
+        final lastUserStories = updatedUserStories.last.activities;
+        expect(lastUserStories, hasLength(1));
+      },
+      verify: (tester) {
+        final nextPageQuery = tester.feed.query.copyWith(
+          activityNext: tester.feedState.activitiesPagination?.next,
+        );
+
+        tester.verifyApi(
+          (api) => api.getOrCreateFeed(
+            feedId: feedId.id,
+            feedGroupId: feedId.group,
+            getOrCreateFeedRequest: nextPageQuery.toRequest(),
+          ),
+        );
+      },
+    );
+
+    feedTest(
+      'StoriesFeedUpdatedEvent should update aggregated activities',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) async => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          aggregatedActivities: [
+            createDefaultAggregatedActivityResponse(
+              group: 'group1',
+              activities: initialStories,
+            ),
+          ],
         ),
-      );
+      ),
+      body: (tester) async {
+        final userStories = tester.feedState.aggregatedActivities;
+        expect(userStories, hasLength(1));
 
-      final feed = client.feedFromId(feedId);
+        final firstUserStories = userStories.first.activities;
+        expect(firstUserStories, hasLength(2));
 
-      final result = await feed.getOrCreate();
-      result.getOrThrow();
-      expect(feed.state.aggregatedActivities.length, 1);
-      expect(feed.state.aggregatedActivities.first.activities.length, 1);
-
-      feed.notifier.stream.listen(
-        expectAsync1(
-          (event) {
-            expect(event, isA<FeedState>());
-
-            expect(event.aggregatedActivities.length, 1);
-            expect(event.aggregatedActivities.first.activities.length, 2);
-          },
-        ),
-      );
-
-      wsStreamController.add(
-        jsonEncode(
+        await tester.emitEvent(
           StoriesFeedUpdatedEvent(
             type: EventTypes.storiesFeedUpdated,
-            createdAt: DateTime.now(),
+            createdAt: DateTime.timestamp(),
             custom: const {},
-            fid: feedId.toString(),
+            fid: feedId.rawValue,
             aggregatedActivities: [
               createDefaultAggregatedActivityResponse(
                 group: 'group1',
-                activities: [activity1, activity2],
+                activities: [
+                  ...initialStories,
+                  createDefaultActivityResponse(id: 'storyActivityId3'),
+                ],
               ),
             ],
           ),
-        ),
-      );
-    });
+        );
+
+        final updatedUserStories = tester.feedState.aggregatedActivities;
+        expect(updatedUserStories, hasLength(1));
+
+        final updatedFirstUserStories = updatedUserStories.first.activities;
+        expect(updatedFirstUserStories, hasLength(3));
+      },
+    );
   });
 }

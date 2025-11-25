@@ -71,6 +71,7 @@ abstract base class BaseTester<S> with ApiMockerMixin {
   /// ```dart
   /// tester.expect((subject) => subject.state.someField, expectedValue);
   /// ```
+  @Deprecated('Use regular expect instead')
   void expect(
     Object? Function(S subject) actual,
     Object? matcher, {
