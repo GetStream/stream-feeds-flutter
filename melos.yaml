@@ -42,7 +42,8 @@ command:
       photo_view: ^0.15.0
       json_annotation: ^4.9.0
       meta: ^1.9.1
-      retrofit: ^4.6.0
+      # There's a breaking change in retrofit 4.10.0, so we limit the version to <=4.9.0
+      retrofit: ">=4.6.0 <=4.9.0"
       rxdart: ^0.28.0
       shared_preferences: ^2.5.3
       state_notifier: ^1.0.0
