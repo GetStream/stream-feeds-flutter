@@ -21,6 +21,7 @@ class EventTypes {
 
   // Comment events
   static const commentAdded = 'feeds.comment.added';
+  static const commentUpdated = 'feeds.comment.updated';
 
   // Follow events
   static const followCreated = 'feeds.follow.created';

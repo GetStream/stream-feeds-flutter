@@ -5,5 +5,6 @@ export 'test_utils/testers/activity_list_tester.dart';
 export 'test_utils/testers/activity_tester.dart';
 export 'test_utils/testers/bookmark_folder_list_tester.dart';
 export 'test_utils/testers/bookmark_list_tester.dart';
+export 'test_utils/testers/comment_list_tester.dart';
 export 'test_utils/testers/feed_tester.dart';
 export 'test_utils/ws_test_helpers.dart';

@@ -8,6 +8,7 @@ export 'state/bookmark_folder_list_state.dart';
 export 'state/bookmark_list.dart';
 export 'state/bookmark_list_state.dart';
 export 'state/comment_list.dart';
+export 'state/comment_list_state.dart';
 export 'state/comment_reaction_list.dart';
 export 'state/comment_reply_list.dart';
 export 'state/feed.dart';

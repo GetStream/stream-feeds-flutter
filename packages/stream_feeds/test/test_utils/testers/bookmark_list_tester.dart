@@ -79,14 +79,10 @@ final class BookmarkListTester extends BaseTester<BookmarkList> {
   BookmarkList get bookmarkList => subject;
 
   /// Current state of the bookmark list.
-  BookmarkListState get bookmarkListState {
-    return bookmarkList.state;
-  }
+  BookmarkListState get bookmarkListState => bookmarkList.state;
 
   /// Stream of bookmark list state updates.
-  Stream<BookmarkListState> get bookmarkListStateStream {
-    return bookmarkList.stream;
-  }
+  Stream<BookmarkListState> get bookmarkListStateStream => bookmarkList.stream;
 
   /// Gets the bookmark list by fetching it from the API.
   ///
