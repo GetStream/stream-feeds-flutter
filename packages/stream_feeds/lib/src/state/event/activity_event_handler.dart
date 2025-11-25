@@ -17,10 +17,14 @@ class ActivityEventHandler implements StateEventHandler {
   const ActivityEventHandler({
     required this.fid,
     required this.state,
+    required this.activityId,
+    required this.currentUserId,
   });
 
   final FeedId fid;
   final ActivityStateNotifier state;
+  final String activityId;
+  final String currentUserId;
 
   @override
   void handleEvent(WsEvent event) {
@@ -66,6 +70,21 @@ class ActivityEventHandler implements StateEventHandler {
       final vote = event.pollVote.toModel();
       final poll = event.poll.toModel();
       return state.onPollVoteRemoved(vote, poll);
+    }
+
+    if (event is api.ActivityFeedbackEvent) {
+      final payload = event.activityFeedback;
+
+      // Only process events for this activity and current user
+      if (payload.activityId != activityId) return;
+      if (payload.user.id != currentUserId) return;
+
+      // Only handle hide action for now
+      if (payload.action == api.ActivityFeedbackEventPayloadAction.hide) {
+        return state.onActivityHidden(
+          hidden: payload.value == 'true',
+        );
+      }
     }
 
     // Handle other activity events here as needed

@@ -47,6 +47,16 @@ class ActivityStateNotifier extends StateNotifier<ActivityState> {
     );
   }
 
+  /// Handles updates to the activity's hidden status.
+  void onActivityHidden({
+    required bool hidden,
+  }) {
+    final currentActivity = state.activity;
+    final updatedActivity = currentActivity?.copyWith(hidden: hidden);
+
+    state = state.copyWith(activity: updatedActivity);
+  }
+
   /// Handles when a poll is closed.
   void onPollClosed(PollData poll) {
     if (state.poll?.id != poll.id) return;

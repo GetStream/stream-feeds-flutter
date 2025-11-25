@@ -21,11 +21,13 @@ class FeedEventHandler with FeedCapabilitiesMixin implements StateEventHandler {
   const FeedEventHandler({
     required this.query,
     required this.state,
+    required this.currentUserId,
     required this.capabilitiesRepository,
   });
 
   final FeedQuery query;
   final FeedStateNotifier state;
+  final String currentUserId;
 
   @override
   final CapabilitiesRepository capabilitiesRepository;
@@ -210,6 +212,22 @@ class FeedEventHandler with FeedCapabilitiesMixin implements StateEventHandler {
       return state.onAggregatedActivitiesUpdated(
         event.aggregatedActivities?.map((it) => it.toModel()).toList(),
       );
+    }
+
+    if (event is api.ActivityFeedbackEvent) {
+      final payload = event.activityFeedback;
+      final userId = payload.user.id;
+
+      // Only process events for the current user
+      if (userId != currentUserId) return;
+
+      // Only handle hide action for now
+      if (payload.action == api.ActivityFeedbackEventPayloadAction.hide) {
+        return state.onActivityHidden(
+          activityId: payload.activityId,
+          hidden: payload.value == 'true',
+        );
+      }
     }
 
     // Handle other events if necessary

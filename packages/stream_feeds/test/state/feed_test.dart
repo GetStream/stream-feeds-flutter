@@ -108,6 +108,116 @@ void main() {
     });
   });
 
+  // ============================================================
+  // FEATURE: Activity Feedback
+  // ============================================================
+
+  group('Activity feedback', () {
+    const activityId = 'activity-1';
+    const feedId = FeedId(group: 'user', id: 'john');
+
+    feedTest(
+      'submits feedback via API',
+      build: (client) => client.feed(group: feedId.group, id: feedId.id),
+      setUp: (tester) {
+        const activityFeedbackRequest = ActivityFeedbackRequest(hide: true);
+        tester.mockApi(
+          (api) => api.activityFeedback(
+            activityId: activityId,
+            activityFeedbackRequest: activityFeedbackRequest,
+          ),
+          result: createDefaultActivityFeedbackResponse(activityId: activityId),
+        );
+      },
+      body: (tester) async {
+        const activityFeedbackRequest = ActivityFeedbackRequest(hide: true);
+        final result = await tester.feed.activityFeedback(
+          activityId: activityId,
+          activityFeedbackRequest: activityFeedbackRequest,
+        );
+
+        expect(result.isSuccess, isTrue);
+      },
+      verify: (tester) {
+        const activityFeedbackRequest = ActivityFeedbackRequest(hide: true);
+        tester.verifyApi(
+          (api) => api.activityFeedback(
+            activityId: activityId,
+            activityFeedbackRequest: activityFeedbackRequest,
+          ),
+        );
+      },
+    );
+
+    feedTest(
+      'marks activity hidden on ActivityFeedbackEvent',
+      build: (client) => client.feed(group: feedId.group, id: feedId.id),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (response) => response.copyWith(
+          activities: [
+            createDefaultActivityResponse(id: activityId, hidden: false),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        tester.expect((f) => f.state.activities.length, 1);
+        tester.expect((f) => f.state.activities.first.hidden, false);
+
+        await tester.emitEvent(
+          ActivityFeedbackEvent(
+            type: EventTypes.activityFeedback,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            activityFeedback: ActivityFeedbackEventPayload(
+              activityId: activityId,
+              action: ActivityFeedbackEventPayloadAction.hide,
+              createdAt: DateTime.timestamp(),
+              updatedAt: DateTime.timestamp(),
+              user: createDefaultUserResponse(id: 'luke_skywalker'),
+              value: 'true',
+            ),
+          ),
+        );
+
+        tester.expect((f) => f.state.activities.first.hidden, true);
+      },
+    );
+
+    feedTest(
+      'marks activity unhidden on ActivityFeedbackEvent',
+      build: (client) => client.feed(group: feedId.group, id: feedId.id),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (response) => response.copyWith(
+          activities: [
+            createDefaultActivityResponse(id: activityId, hidden: true),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        tester.expect((f) => f.state.activities.length, 1);
+        tester.expect((f) => f.state.activities.first.hidden, true);
+
+        await tester.emitEvent(
+          ActivityFeedbackEvent(
+            type: EventTypes.activityFeedback,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            activityFeedback: ActivityFeedbackEventPayload(
+              activityId: activityId,
+              action: ActivityFeedbackEventPayloadAction.hide,
+              createdAt: DateTime.timestamp(),
+              updatedAt: DateTime.timestamp(),
+              user: createDefaultUserResponse(id: 'luke_skywalker'),
+              value: 'false',
+            ),
+          ),
+        );
+
+        tester.expect((f) => f.state.activities.first.hidden, false);
+      },
+    );
+  });
+
   group('Follow events', () {
     late StreamController<Object> wsStreamController;
     late MockWebSocketSink webSocketSink;
@@ -414,9 +524,9 @@ void main() {
       await client.connect();
 
       final initialActivities = [
-        createDefaultActivityResponse(id: 'activity-1').activity,
-        createDefaultActivityResponse(id: 'activity-2').activity,
-        createDefaultActivityResponse(id: 'activity-3').activity,
+        createDefaultActivityResponse(id: 'activity-1'),
+        createDefaultActivityResponse(id: 'activity-2'),
+        createDefaultActivityResponse(id: 'activity-3'),
       ];
 
       final initialPinnedActivities = [
@@ -475,7 +585,7 @@ void main() {
               activity: createDefaultActivityResponse(
                 id: 'activity-4',
                 // Doesn't match 'post' filter
-              ).activity.copyWith(type: 'comment'),
+              ).copyWith(type: 'comment'),
             ),
           ),
         );
@@ -511,7 +621,7 @@ void main() {
               activity: createDefaultActivityResponse(
                 id: 'activity-1',
                 // Doesn't match 'post' filter
-              ).activity.copyWith(type: 'comment'),
+              ).copyWith(type: 'comment'),
             ),
           ),
         );
@@ -547,7 +657,7 @@ void main() {
               activity: createDefaultActivityResponse(
                 id: 'activity-1',
                 // Doesn't match 'post' filter
-              ).activity.copyWith(type: 'comment'),
+              ).copyWith(type: 'comment'),
               reaction: FeedsReactionResponse(
                 activityId: 'activity-1',
                 type: 'like',
@@ -592,7 +702,7 @@ void main() {
               fid: feedId.rawValue,
               activity: createDefaultActivityResponse(
                 id: 'activity-1',
-              ).activity.copyWith(
+              ).copyWith(
                 filterTags: ['general'], // Doesn't have 'important' tag
               ),
               comment: createDefaultCommentResponse(
@@ -633,7 +743,7 @@ void main() {
               activity: createDefaultActivityResponse(
                 id: 'activity-2',
                 // Doesn't match 'post' filter
-              ).activity.copyWith(type: 'comment'),
+              ).copyWith(type: 'comment'),
               reaction: FeedsReactionResponse(
                 activityId: 'activity-2',
                 type: 'like',
@@ -756,7 +866,7 @@ void main() {
               ).copyWith(
                 activity: createDefaultActivityResponse(
                   id: 'activity-1',
-                ).activity.copyWith(
+                ).copyWith(
                   feeds: [feedId.rawValue], // Activity belongs to this feed
                   filterTags: ['general'], // Doesn't have 'important' tag
                 ),
@@ -801,7 +911,7 @@ void main() {
                 activity: createDefaultActivityResponse(
                   id: 'activity-2',
                   feeds: [feedId.rawValue], // Activity belongs to this feed
-                ).activity.copyWith(
+                ).copyWith(
                   filterTags: ['general'], // Doesn't have 'important' tag
                 ),
               ),
@@ -840,7 +950,7 @@ void main() {
             fid: feedId.rawValue,
             activity: createDefaultActivityResponse(
               id: 'activity-4',
-            ).activity.copyWith(
+            ).copyWith(
               type: 'post', // Matches first condition
               filterTags: ['general'], // Doesn't match second condition
             ),
@@ -880,7 +990,7 @@ void main() {
               fid: feedId.rawValue,
               activity: createDefaultActivityResponse(
                 id: 'activity-4',
-              ).activity.copyWith(
+              ).copyWith(
                 type: 'post', // Matches first condition
                 filterTags: ['general'], // Doesn't match second condition
               ),
@@ -923,7 +1033,7 @@ void main() {
               activity: createDefaultActivityResponse(
                 id: 'activity-4',
                 // Doesn't match 'post' activity type
-              ).activity.copyWith(type: 'post'),
+              ).copyWith(type: 'post'),
             ),
           ),
         );
@@ -959,15 +1069,15 @@ void main() {
 
     test('Watch story should update isWatched', () async {
       const feedId = FeedId(group: 'stories', id: 'target');
-      final activity1 = createDefaultActivityResponse().activity.copyWith(
-            isWatched: false,
-            id: 'storyActivityId1',
-          );
+      final activity1 = createDefaultActivityResponse().copyWith(
+        isWatched: false,
+        id: 'storyActivityId1',
+      );
 
-      final activity2 = createDefaultActivityResponse().activity.copyWith(
-            isWatched: false,
-            id: 'storyActivityId2',
-          );
+      final activity2 = createDefaultActivityResponse().copyWith(
+        isWatched: false,
+        id: 'storyActivityId2',
+      );
 
       when(
         () => feedsApi.getOrCreateFeed(
@@ -1036,17 +1146,9 @@ void main() {
       const nextPagination = 'next';
       const prevPagination = 'prev';
 
-      final activity1 = createDefaultActivityResponse()
-          .activity
-          .copyWith(id: 'storyActivityId1');
-
-      final activity2 = createDefaultActivityResponse()
-          .activity
-          .copyWith(id: 'storyActivityId2');
-
-      final activity3 = createDefaultActivityResponse()
-          .activity
-          .copyWith(id: 'storyActivityId3');
+      final activity1 = createDefaultActivityResponse(id: 'storyActivityId1');
+      final activity2 = createDefaultActivityResponse(id: 'storyActivityId2');
+      final activity3 = createDefaultActivityResponse(id: 'storyActivityId3');
 
       when(
         () => feedsApi.getOrCreateFeed(
@@ -1108,13 +1210,8 @@ void main() {
         () async {
       const feedId = FeedId(group: 'stories', id: 'target');
 
-      final activity1 = createDefaultActivityResponse()
-          .activity
-          .copyWith(id: 'storyActivityId1');
-
-      final activity2 = createDefaultActivityResponse()
-          .activity
-          .copyWith(id: 'storyActivityId2');
+      final activity1 = createDefaultActivityResponse(id: 'storyActivityId1');
+      final activity2 = createDefaultActivityResponse(id: 'storyActivityId2');
 
       when(
         () => feedsApi.getOrCreateFeed(

@@ -39,8 +39,10 @@ class ActivityList with Disposable {
     final handler = ActivityListEventHandler(
       query: query,
       state: _stateNotifier,
+      currentUserId: currentUserId,
       capabilitiesRepository: capabilitiesRepository,
     );
+
     _eventsSubscription = eventsEmitter.listen(handler.handleEvent);
   }
 

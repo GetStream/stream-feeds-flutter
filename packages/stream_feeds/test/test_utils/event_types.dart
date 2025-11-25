@@ -1,5 +1,6 @@
 class EventTypes {
   static const String activityMarked = 'feeds.activity.marked';
+  static const String activityFeedback = 'feeds.activity.feedback';
 
   static const String followCreated = 'feeds.follow.created';
   static const String followDeleted = 'feeds.follow.deleted';

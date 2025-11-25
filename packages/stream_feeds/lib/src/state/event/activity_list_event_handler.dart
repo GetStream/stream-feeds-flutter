@@ -21,11 +21,13 @@ class ActivityListEventHandler
   const ActivityListEventHandler({
     required this.query,
     required this.state,
+    required this.currentUserId,
     required this.capabilitiesRepository,
   });
 
   final ActivitiesQuery query;
   final ActivityListStateNotifier state;
+  final String currentUserId;
 
   @override
   final CapabilitiesRepository capabilitiesRepository;
@@ -110,6 +112,21 @@ class ActivityListEventHandler
     if (event is api.CommentDeletedEvent) {
       // TODO: Match event activity against filter once available in the event
       return state.onCommentRemoved(event.comment.toModel());
+    }
+
+    if (event is api.ActivityFeedbackEvent) {
+      final payload = event.activityFeedback;
+
+      // Only process events for the current user
+      if (payload.user.id != currentUserId) return;
+
+      // Only handle hide action for now
+      if (payload.action == api.ActivityFeedbackEventPayloadAction.hide) {
+        return state.onActivityHidden(
+          activityId: payload.activityId,
+          hidden: payload.value == 'true',
+        );
+      }
     }
 
     // Handle other activity list events here as needed

@@ -68,7 +68,13 @@ class Activity with Disposable {
     );
 
     // Attach event handlers for real-time updates
-    final handler = ActivityEventHandler(fid: fid, state: _stateNotifier);
+    final handler = ActivityEventHandler(
+      fid: fid,
+      state: _stateNotifier,
+      activityId: activityId,
+      currentUserId: currentUserId,
+    );
+
     _eventsSubscription = eventsEmitter.listen(handler.handleEvent);
   }
 
@@ -115,6 +121,20 @@ class Activity with Disposable {
     await queryComments();
 
     return result;
+  }
+
+  /// Submits feedback for this activity.
+  ///
+  /// Submits feedback for this activity using the provided [activityFeedbackRequest].
+  ///
+  /// Returns a [Result] indicating success or failure of the operation.
+  Future<Result<void>> activityFeedback({
+    required api.ActivityFeedbackRequest activityFeedbackRequest,
+  }) {
+    return activitiesRepository.activityFeedback(
+      activityId,
+      activityFeedbackRequest,
+    );
   }
 
   /// Queries the comments for this activity.

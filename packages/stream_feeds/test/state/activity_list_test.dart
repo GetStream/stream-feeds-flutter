@@ -54,9 +54,9 @@ void main() {
           QueryActivitiesResponse(
             duration: DateTime.now().toIso8601String(),
             activities: [
-              createDefaultActivityResponse(id: 'activity-1').activity,
-              createDefaultActivityResponse(id: 'activity-2').activity,
-              createDefaultActivityResponse(id: 'activity-3').activity,
+              createDefaultActivityResponse(id: 'activity-1'),
+              createDefaultActivityResponse(id: 'activity-2'),
+              createDefaultActivityResponse(id: 'activity-3'),
             ],
           ),
         ),
@@ -91,7 +91,7 @@ void main() {
               activity: createDefaultActivityResponse(
                 id: 'activity-1',
                 // Doesn't match 'post' filter
-              ).activity.copyWith(type: 'comment'),
+              ).copyWith(type: 'comment'),
             ),
           ),
         );
@@ -126,7 +126,7 @@ void main() {
               activity: createDefaultActivityResponse(
                 id: 'activity-2',
                 // Doesn't match 'post' filter
-              ).activity.copyWith(type: 'comment'),
+              ).copyWith(type: 'comment'),
               reaction: FeedsReactionResponse(
                 activityId: 'activity-2',
                 type: 'like',
@@ -167,7 +167,7 @@ void main() {
               fid: 'fid',
               activity: createDefaultActivityResponse(
                 id: 'activity-3',
-              ).activity.copyWith(type: 'share'),
+              ).copyWith(type: 'share'),
               reaction: FeedsReactionResponse(
                 activityId: 'activity-3',
                 type: 'like',
@@ -211,7 +211,7 @@ void main() {
                 activity: createDefaultActivityResponse(
                   id: 'activity-1',
                   // Doesn't match 'post' filter
-                ).activity.copyWith(type: 'comment'),
+                ).copyWith(type: 'comment'),
               ),
             ),
           ),
@@ -249,7 +249,7 @@ void main() {
                 activity: createDefaultActivityResponse(
                   id: 'activity-2',
                   // Doesn't match 'post' filter
-                ).activity.copyWith(type: 'share'),
+                ).copyWith(type: 'share'),
               ),
             ),
           ),
@@ -285,7 +285,7 @@ void main() {
               activity: createDefaultActivityResponse(
                 id: 'activity-3',
                 // Doesn't match 'post' filter
-              ).activity.copyWith(type: 'comment'),
+              ).copyWith(type: 'comment'),
               comment: createDefaultCommentResponse(
                 objectId: 'activity-3',
               ),
@@ -323,7 +323,7 @@ void main() {
             fid: 'fid',
             activity: createDefaultActivityResponse(
               id: 'activity-1',
-            ).activity.copyWith(
+            ).copyWith(
               type: 'post', // Matches first condition
               filterTags: ['general'], // Doesn't match second condition
             ), // Doesn't match any condition
@@ -362,7 +362,7 @@ void main() {
               fid: 'fid',
               activity: createDefaultActivityResponse(
                 id: 'activity-1',
-              ).activity.copyWith(
+              ).copyWith(
                 type: 'post', // Matches first condition
                 filterTags: ['general'], // Doesn't match second condition
               ), // Doesn't match any condition
@@ -403,7 +403,7 @@ void main() {
               fid: 'fid',
               activity: createDefaultActivityResponse(
                 id: 'activity-1',
-              ).activity.copyWith(type: 'share'),
+              ).copyWith(type: 'share'),
             ),
           ),
         );
@@ -411,6 +411,84 @@ void main() {
         // Wait for the event to be processed
         await Future<Object?>.delayed(Duration.zero);
         expect(activityList.state.activities, hasLength(3));
+      },
+    );
+  });
+
+  // ============================================================
+  // FEATURE: Activity Feedback
+  // ============================================================
+
+  group('Activity feedback', () {
+    const activityId = 'activity-1';
+
+    activityListTest(
+      'marks activity hidden on ActivityFeedbackEvent',
+      build: (client) => client.activityList(const ActivitiesQuery()),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(
+          activities: [
+            createDefaultActivityResponse(id: activityId),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        tester.expect((al) => al.state.activities, hasLength(1));
+        tester.expect((al) => al.state.activities.first.hidden, false);
+
+        await tester.emitEvent(
+          ActivityFeedbackEvent(
+            type: EventTypes.activityFeedback,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            activityFeedback: ActivityFeedbackEventPayload(
+              activityId: activityId,
+              action: ActivityFeedbackEventPayloadAction.hide,
+              createdAt: DateTime.timestamp(),
+              updatedAt: DateTime.timestamp(),
+              user: createDefaultUserResponse(id: 'luke_skywalker'),
+              value: 'true',
+            ),
+          ),
+        );
+
+        tester.expect((al) => al.state.activities, hasLength(1));
+        tester.expect((al) => al.state.activities.first.hidden, true);
+      },
+    );
+
+    activityListTest(
+      'marks activity unhidden on ActivityFeedbackEvent',
+      build: (client) => client.activityList(const ActivitiesQuery()),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(
+          activities: [
+            createDefaultActivityResponse(id: activityId, hidden: true),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        tester.expect((al) => al.state.activities, hasLength(1));
+        tester.expect((al) => al.state.activities.first.hidden, true);
+
+        await tester.emitEvent(
+          ActivityFeedbackEvent(
+            type: EventTypes.activityFeedback,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            activityFeedback: ActivityFeedbackEventPayload(
+              activityId: activityId,
+              action: ActivityFeedbackEventPayloadAction.hide,
+              createdAt: DateTime.timestamp(),
+              updatedAt: DateTime.timestamp(),
+              user: createDefaultUserResponse(id: 'luke_skywalker'),
+              value: 'false',
+            ),
+          ),
+        );
+
+        tester.expect((al) => al.state.activities, hasLength(1));
+        tester.expect((al) => al.state.activities.first.hidden, false);
       },
     );
   });

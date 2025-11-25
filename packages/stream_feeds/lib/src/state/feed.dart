@@ -72,6 +72,7 @@ class Feed with Disposable {
     final handler = FeedEventHandler(
       query: query,
       state: _stateNotifier,
+      currentUserId: currentUserId,
       capabilitiesRepository: capabilitiesRepository,
     );
 
@@ -215,6 +216,22 @@ class Feed with Disposable {
 
     return result.onSuccess(
       (_) => _stateNotifier.onActivityDeleted(id),
+    );
+  }
+
+  /// Submits feedback for an activity.
+  ///
+  /// Submits feedback for the activity with the specified [activityId] using
+  /// the provided [activityFeedbackRequest].
+  ///
+  /// Returns a [Result] indicating success or failure of the operation.
+  Future<Result<void>> activityFeedback({
+    required String activityId,
+    required api.ActivityFeedbackRequest activityFeedbackRequest,
+  }) {
+    return activitiesRepository.activityFeedback(
+      activityId,
+      activityFeedbackRequest,
     );
   }
 
