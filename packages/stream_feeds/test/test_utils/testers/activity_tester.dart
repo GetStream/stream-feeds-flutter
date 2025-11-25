@@ -129,7 +129,7 @@ final class ActivityTester extends BaseTester<Activity> {
   Future<Result<ActivityData>> get({
     ActivityResponse Function(ActivityResponse)? modifyResponse,
     GetCommentsResponse Function(GetCommentsResponse)? modifyCommentsResponse,
-  }) async {
+  }) {
     final activityId = activity.activityId;
     final feedId = activity.fid.rawValue;
 
@@ -176,7 +176,7 @@ Future<ActivityTester> _createActivityTester({
   required StreamFeedsClient client,
   required MockDefaultApi feedsApi,
   required MockWebSocketChannel webSocketChannel,
-}) async {
+}) {
   // Dispose activity after test
   test.addTearDown(subject.dispose);
 

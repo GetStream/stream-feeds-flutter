@@ -92,7 +92,7 @@ final class FeedTester extends BaseTester<Feed> {
   /// - [modifyResponse]: Optional function to customize the feed response
   Future<Result<FeedData>> getOrCreate({
     GetOrCreateFeedResponse Function(GetOrCreateFeedResponse)? modifyResponse,
-  }) async {
+  }) {
     final feedId = feed.fid;
 
     final defaultFeedResponse = createDefaultGetOrCreateFeedResponse(
@@ -128,7 +128,7 @@ Future<FeedTester> _createFeedTester({
   required StreamFeedsClient client,
   required MockDefaultApi feedsApi,
   required MockWebSocketChannel webSocketChannel,
-}) async {
+}) {
   // Dispose feed after test
   test.addTearDown(subject.dispose);
 

@@ -125,7 +125,7 @@ class Activity with Disposable {
 
   /// Submits feedback for this activity.
   ///
-  /// Submits feedback for this activity using the provided [request].
+  /// Submits feedback for this activity using the provided [activityFeedbackRequest].
   ///
   /// Returns a [Result] indicating success or failure of the operation.
   Future<Result<void>> activityFeedback({

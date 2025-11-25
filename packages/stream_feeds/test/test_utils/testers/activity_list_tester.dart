@@ -92,7 +92,7 @@ final class ActivityListTester extends BaseTester<ActivityList> {
   /// - [modifyResponse]: Optional function to customize the activity list response
   Future<Result<List<ActivityData>>> get({
     QueryActivitiesResponse Function(QueryActivitiesResponse)? modifyResponse,
-  }) async {
+  }) {
     final query = activityList.query;
 
     final defaultActivityListResponse = QueryActivitiesResponse(
@@ -125,7 +125,7 @@ Future<ActivityListTester> _createActivityListTester({
   required StreamFeedsClient client,
   required MockDefaultApi feedsApi,
   required MockWebSocketChannel webSocketChannel,
-}) async {
+}) {
   // Dispose activity list after test
   test.addTearDown(subject.dispose);
 
