@@ -32,10 +32,15 @@ void main() {
 
   group('Getting an activity', () {
     test('fetch activity and comments', () async {
-      const activityId = 'id';
+      const activityId = 'activity-1';
+      const feedId = FeedId(group: 'user', id: 'john');
+
       when(() => feedsApi.getActivity(id: activityId)).thenAnswer(
-        (_) async => Result.success(createDefaultActivityResponse()),
+        (_) async => Result.success(
+          createDefaultGetActivityResponse(id: activityId),
+        ),
       );
+
       when(
         () => feedsApi.getComments(
           objectId: activityId,
@@ -46,22 +51,107 @@ void main() {
         (_) async => Result.success(createDefaultCommentsResponse()),
       );
 
-      final activity = client.activity(
-        activityId: activityId,
-        fid: const FeedId(group: 'group', id: 'id'),
-      );
-
-      expect(activity, isA<Activity>());
-      expect(activity.activityId, 'id');
-
-      verifyNever(() => feedsApi.getActivity(id: 'id'));
-
+      final activity = client.activity(activityId: activityId, fid: feedId);
       final result = await activity.get();
 
-      verify(() => feedsApi.getActivity(id: 'id')).called(1);
+      verify(() => feedsApi.getActivity(id: activityId)).called(1);
       expect(result, isA<Result<ActivityData>>());
-      expect(result.getOrNull()?.id, 'id');
+      expect(result.getOrNull()?.id, activityId);
     });
+  });
+
+  // ============================================================
+  // FEATURE: Activity Feedback
+  // ============================================================
+
+  group('Activity feedback', () {
+    const activityId = 'activity-1';
+    const feedId = FeedId(group: 'user', id: 'john');
+
+    activityTest(
+      'submits feedback via API',
+      build: (client) => client.activity(activityId: activityId, fid: feedId),
+      setUp: (tester) => tester.mockApi(
+        (api) => api.activityFeedback(
+          activityId: activityId,
+          activityFeedbackRequest: const ActivityFeedbackRequest(hide: true),
+        ),
+        result: createDefaultActivityFeedbackResponse(activityId: activityId),
+      ),
+      body: (tester) async {
+        const activityFeedbackRequest = ActivityFeedbackRequest(hide: true);
+
+        final result = await tester.activity.activityFeedback(
+          activityFeedbackRequest: activityFeedbackRequest,
+        );
+
+        expect(result.isSuccess, isTrue);
+      },
+      verify: (tester) => tester.verifyApi(
+        (api) => api.activityFeedback(
+          activityId: activityId,
+          activityFeedbackRequest: const ActivityFeedbackRequest(hide: true),
+        ),
+      ),
+    );
+
+    activityTest(
+      'marks activity hidden on ActivityFeedbackEvent',
+      build: (client) => client.activity(activityId: activityId, fid: feedId),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(hidden: false),
+      ),
+      body: (tester) async {
+        tester.expect((a) => a.state.activity?.hidden, false);
+
+        await tester.emitEvent(
+          ActivityFeedbackEvent(
+            type: EventTypes.activityFeedback,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            activityFeedback: ActivityFeedbackEventPayload(
+              activityId: activityId,
+              action: ActivityFeedbackEventPayloadAction.hide,
+              createdAt: DateTime.timestamp(),
+              updatedAt: DateTime.timestamp(),
+              user: createDefaultUserResponse(id: 'luke_skywalker'),
+              value: 'true',
+            ),
+          ),
+        );
+
+        tester.expect((a) => a.state.activity?.hidden, true);
+      },
+    );
+
+    activityTest(
+      'marks activity unhidden on ActivityFeedbackEvent',
+      build: (client) => client.activity(activityId: activityId, fid: feedId),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(hidden: true),
+      ),
+      body: (tester) async {
+        tester.expect((a) => a.state.activity?.hidden, true);
+
+        await tester.emitEvent(
+          ActivityFeedbackEvent(
+            type: EventTypes.activityFeedback,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            activityFeedback: ActivityFeedbackEventPayload(
+              activityId: activityId,
+              action: ActivityFeedbackEventPayloadAction.hide,
+              createdAt: DateTime.timestamp(),
+              updatedAt: DateTime.timestamp(),
+              user: createDefaultUserResponse(id: 'luke_skywalker'),
+              value: 'false',
+            ),
+          ),
+        );
+
+        tester.expect((a) => a.state.activity?.hidden, false);
+      },
+    );
   });
 
   group('Poll events', () {
@@ -88,8 +178,9 @@ void main() {
     void setupMockActivity({GetActivityResponse? activity}) {
       const activityId = 'id';
       when(() => feedsApi.getActivity(id: activityId)).thenAnswer(
-        (_) async =>
-            Result.success(activity ?? createDefaultActivityResponse()),
+        (_) async => Result.success(
+          activity ?? createDefaultGetActivityResponse(),
+        ),
       );
       when(
         () => feedsApi.getComments(
@@ -108,7 +199,7 @@ void main() {
       final firstOptionId = poll.options.first.id;
 
       setupMockActivity(
-        activity: createDefaultActivityResponse(poll: poll),
+        activity: createDefaultGetActivityResponse(poll: poll),
       );
 
       final activity = client.activity(
@@ -151,7 +242,7 @@ void main() {
     test('poll answer casted', () async {
       final poll = createDefaultPollResponseData();
       setupMockActivity(
-        activity: createDefaultActivityResponse(poll: poll),
+        activity: createDefaultGetActivityResponse(poll: poll),
       );
 
       final activity = client.activity(
@@ -208,7 +299,7 @@ void main() {
         ],
       );
       setupMockActivity(
-        activity: createDefaultActivityResponse(poll: poll),
+        activity: createDefaultGetActivityResponse(poll: poll),
       );
 
       final activity = client.activity(
@@ -269,7 +360,7 @@ void main() {
       );
       final pollId = poll.id;
       setupMockActivity(
-        activity: createDefaultActivityResponse(poll: poll),
+        activity: createDefaultGetActivityResponse(poll: poll),
       );
 
       final activity = client.activity(
@@ -314,7 +405,7 @@ void main() {
     test('poll closed', () async {
       final poll = createDefaultPollResponseData();
       setupMockActivity(
-        activity: createDefaultActivityResponse(poll: poll),
+        activity: createDefaultGetActivityResponse(poll: poll),
       );
 
       final activity = client.activity(
@@ -349,7 +440,7 @@ void main() {
     test('poll deleted', () async {
       final poll = createDefaultPollResponseData();
       setupMockActivity(
-        activity: createDefaultActivityResponse(poll: poll),
+        activity: createDefaultGetActivityResponse(poll: poll),
       );
 
       final activity = client.activity(

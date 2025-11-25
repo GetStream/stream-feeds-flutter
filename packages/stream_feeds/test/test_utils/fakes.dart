@@ -31,50 +31,67 @@ UserResponse createDefaultUserResponse({
   );
 }
 
-GetActivityResponse createDefaultActivityResponse({
+GetActivityResponse createDefaultGetActivityResponse({
+  String id = 'id',
+  String type = 'post',
+  PollResponseData? poll,
+  List<String> feeds = const [],
+  bool hidden = false,
+}) {
+  return GetActivityResponse(
+    activity: createDefaultActivityResponse(
+      id: id,
+      type: type,
+      poll: poll,
+      feeds: feeds,
+      hidden: hidden,
+    ),
+    duration: '10ms',
+  );
+}
+
+ActivityResponse createDefaultActivityResponse({
   String id = 'id',
   String type = 'post',
   List<String> feeds = const [],
   PollResponseData? poll,
+  bool hidden = false,
 }) {
-  return GetActivityResponse(
-    activity: ActivityResponse(
-      id: id,
-      attachments: const [],
-      bookmarkCount: 0,
-      collections: const {},
-      commentCount: 0,
-      comments: const [],
-      createdAt: DateTime(2021, 1, 1),
-      custom: const {},
-      feeds: feeds,
-      filterTags: const [],
-      hidden: false,
-      interestTags: const [],
-      latestReactions: const [],
-      mentionedUsers: const [],
-      moderation: null,
-      notificationContext: null,
-      ownBookmarks: const [],
-      ownReactions: const [],
-      parent: null,
-      poll: poll,
-      popularity: 0,
-      preview: false,
-      reactionCount: 0,
-      reactionGroups: const {},
-      restrictReplies: 'everyone',
-      score: 0,
-      searchData: const {},
-      shareCount: 0,
-      text: null,
-      type: type,
-      updatedAt: DateTime(2021, 2, 1),
-      user: createDefaultUserResponse(),
-      visibility: ActivityResponseVisibility.public,
-      visibilityTag: null,
-    ),
-    duration: 'duration',
+  return ActivityResponse(
+    id: id,
+    attachments: const [],
+    bookmarkCount: 0,
+    collections: const {},
+    commentCount: 0,
+    comments: const [],
+    createdAt: DateTime(2021, 1, 1),
+    custom: const {},
+    feeds: feeds,
+    filterTags: const [],
+    hidden: hidden,
+    interestTags: const [],
+    latestReactions: const [],
+    mentionedUsers: const [],
+    moderation: null,
+    notificationContext: null,
+    ownBookmarks: const [],
+    ownReactions: const [],
+    parent: null,
+    poll: poll,
+    popularity: 0,
+    preview: false,
+    reactionCount: 0,
+    reactionGroups: const {},
+    restrictReplies: 'everyone',
+    score: 0,
+    searchData: const {},
+    shareCount: 0,
+    text: null,
+    type: type,
+    updatedAt: DateTime(2021, 2, 1),
+    user: createDefaultUserResponse(),
+    visibility: ActivityResponseVisibility.public,
+    visibilityTag: null,
   );
 }
 
@@ -204,7 +221,7 @@ PinActivityResponse createDefaultPinActivityResponse({
     activity: createDefaultActivityResponse(
       id: activityId,
       type: type,
-    ).activity,
+    ),
     createdAt: DateTime(2021, 1, 1),
     duration: 'duration',
     feed: 'user:id',
@@ -218,7 +235,7 @@ BookmarkResponse createDefaultBookmarkResponse({
   String folderId = 'folder-id',
 }) {
   return BookmarkResponse(
-    activity: createDefaultActivityResponse(id: activityId).activity,
+    activity: createDefaultActivityResponse(id: activityId),
     createdAt: DateTime(2021, 1, 1),
     custom: const {},
     folder: createDefaultBookmarkFolderResponse(id: folderId),
@@ -288,7 +305,7 @@ AggregatedActivityResponse createDefaultAggregatedActivityResponse({
   List<ActivityResponse>? activities,
   String group = 'group',
 }) {
-  activities ??= [createDefaultActivityResponse().activity];
+  activities ??= [createDefaultActivityResponse()];
   return AggregatedActivityResponse(
     activities: activities,
     activityCount: activities.length,
@@ -335,5 +352,14 @@ GetFollowSuggestionsResponse createDefaultGetFollowSuggestionsResponse({
   return GetFollowSuggestionsResponse(
     duration: '10ms',
     suggestions: suggestions ?? [createDefaultFeedSuggestionResponse()],
+  );
+}
+
+ActivityFeedbackResponse createDefaultActivityFeedbackResponse({
+  String activityId = 'activity-id',
+}) {
+  return ActivityFeedbackResponse(
+    duration: '10ms',
+    activityId: activityId,
   );
 }

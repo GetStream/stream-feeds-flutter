@@ -248,4 +248,20 @@ class ActivitiesRepository {
       return PaginationResult(items: reactions, pagination: pagination);
     });
   }
+
+  /// Submits activity feedback.
+  ///
+  /// Submits feedback for the activity with the specified [activityId] using
+  /// the provided [request].
+  ///
+  /// Returns a [Result] containing void or an error.
+  Future<Result<void>> activityFeedback(
+    String activityId,
+    api.ActivityFeedbackRequest request,
+  ) {
+    return _api.activityFeedback(
+      activityId: activityId,
+      activityFeedbackRequest: request,
+    );
+  }
 }

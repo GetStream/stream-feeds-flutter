@@ -69,6 +69,20 @@ class ActivityListStateNotifier extends StateNotifier<ActivityListState> {
     state = state.copyWith(activities: updatedActivities);
   }
 
+  /// Handles updates to the activity list state when an activity is hidden.
+  void onActivityHidden({
+    required String activityId,
+    required bool hidden,
+  }) {
+    final updatedActivities = state.activities.map((activity) {
+      if (activity.id != activityId) return activity;
+      // Update the hidden status of the activity
+      return activity.copyWith(hidden: hidden);
+    }).toList();
+
+    state = state.copyWith(activities: updatedActivities);
+  }
+
   /// Handles the addition of a bookmark.
   void onBookmarkAdded(BookmarkData bookmark) {
     final updatedActivities = state.activities.map((activity) {

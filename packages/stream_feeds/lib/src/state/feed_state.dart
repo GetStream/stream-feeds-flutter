@@ -161,6 +161,29 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
     );
   }
 
+  /// Handles updates to the feed state when an activity is hidden.
+  void onActivityHidden({
+    required String activityId,
+    required bool hidden,
+  }) {
+    // Update the activity to mark it as hidden
+    final updatedActivities = state.activities.map((activity) {
+      if (activity.id != activityId) return activity;
+      return activity.copyWith(hidden: hidden);
+    }).toList();
+
+    // Update pinned activities as well
+    final updatedPinnedActivities = state.pinnedActivities.map((pin) {
+      if (pin.activity.id != activityId) return pin;
+      return pin.copyWith(activity: pin.activity.copyWith(hidden: hidden));
+    }).toList();
+
+    state = state.copyWith(
+      activities: updatedActivities,
+      pinnedActivities: updatedPinnedActivities,
+    );
+  }
+
   /// Handles updates to the feed state when an activity is pinned.
   void onActivityPinned(ActivityPinData activityPin) {
     // Upsert the pinned activity into the existing pinned activities list
