@@ -11,4 +11,4 @@ export 'test_utils/testers/feed_tester.dart';
 export 'test_utils/testers/follow_list_tester.dart';
 export 'test_utils/testers/poll_list_tester.dart';
 export 'test_utils/testers/poll_vote_list_tester.dart';
-export 'test_utils/ws_test_helpers.dart';
+export 'test_utils/web_socket_mocks.dart';

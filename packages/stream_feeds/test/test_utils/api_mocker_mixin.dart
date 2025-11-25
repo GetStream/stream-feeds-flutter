@@ -1,7 +1,7 @@
 import 'package:mocktail/mocktail.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 
-import '../mocks.dart';
+import 'mocks.dart';
 
 /// Mixin for test utilities that need to mock and verify API calls.
 ///
