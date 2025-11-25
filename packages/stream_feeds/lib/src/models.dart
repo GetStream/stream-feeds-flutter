@@ -1,5 +1,6 @@
 export 'models/activity_data.dart';
 export 'models/aggregated_activity_data.dart';
+export 'models/bookmark_data.dart';
 export 'models/bookmark_folder_data.dart';
 export 'models/feed_data.dart';
 export 'models/feed_id.dart';

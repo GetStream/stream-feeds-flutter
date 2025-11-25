@@ -9,6 +9,12 @@ void main() {
   // ============================================================
 
   group('BookmarkFolderListEventHandler - Local filtering', () {
+    final initialFolders = [
+      createDefaultBookmarkFolderResponse(id: 'folder-1'),
+      createDefaultBookmarkFolderResponse(id: 'folder-2'),
+      createDefaultBookmarkFolderResponse(id: 'folder-3'),
+    ];
+
     bookmarkFolderListTest(
       'BookmarkFolderUpdatedEvent - should remove folder when updated to non-matching name',
       build: (client) => client.bookmarkFolderList(
@@ -19,7 +25,9 @@ void main() {
           ),
         ),
       ),
-      setUp: (tester) => tester.get(),
+      setUp: (tester) => tester.get(
+        modifyResponse: (it) => it.copyWith(bookmarkFolders: initialFolders),
+      ),
       body: (tester) async {
         expect(tester.bookmarkFolderListState.bookmarkFolders, hasLength(3));
 
@@ -46,7 +54,9 @@ void main() {
         // No filter - all folders should be accepted
         const BookmarkFoldersQuery(),
       ),
-      setUp: (tester) => tester.get(),
+      setUp: (tester) => tester.get(
+        modifyResponse: (it) => it.copyWith(bookmarkFolders: initialFolders),
+      ),
       body: (tester) async {
         expect(tester.bookmarkFolderListState.bookmarkFolders, hasLength(3));
 

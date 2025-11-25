@@ -14,6 +14,7 @@ class EventTypes {
   // Bookmark events
   static const bookmarkAdded = 'feeds.bookmark.added';
   static const bookmarkDeleted = 'feeds.bookmark.deleted';
+  static const bookmarkUpdated = 'feeds.bookmark.updated';
 
   // Bookmark folder events
   static const bookmarkFolderUpdated = 'feeds.bookmark_folder.updated';
