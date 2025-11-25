@@ -882,7 +882,7 @@ void main() {
     feedTest(
       'Watch story should update isWatched',
       build: (client) => client.feedFromId(feedId),
-      setUp: (tester) async => tester.getOrCreate(
+      setUp: (tester) => tester.getOrCreate(
         modifyResponse: (it) => it.copyWith(
           aggregatedActivities: [
             createDefaultAggregatedActivityResponse(
@@ -924,7 +924,7 @@ void main() {
     feedTest(
       'Pagination should load more aggregated activities',
       build: (client) => client.feedFromId(feedId),
-      setUp: (tester) async => tester.getOrCreate(
+      setUp: (tester) => tester.getOrCreate(
         modifyResponse: (it) => it.copyWith(
           next: 'nextPageToken',
           aggregatedActivities: [
@@ -992,7 +992,7 @@ void main() {
     feedTest(
       'StoriesFeedUpdatedEvent should update aggregated activities',
       build: (client) => client.feedFromId(feedId),
-      setUp: (tester) async => tester.getOrCreate(
+      setUp: (tester) => tester.getOrCreate(
         modifyResponse: (it) => it.copyWith(
           aggregatedActivities: [
             createDefaultAggregatedActivityResponse(
