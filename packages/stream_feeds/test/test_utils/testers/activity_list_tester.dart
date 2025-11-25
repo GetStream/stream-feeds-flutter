@@ -83,6 +83,12 @@ final class ActivityListTester extends BaseTester<ActivityList> {
   /// The activity list being tested.
   ActivityList get activityList => subject;
 
+  /// Current state of the activity list.
+  ActivityListState get activityListState => activityList.state;
+
+  /// Stream of activity list state updates.
+  Stream<ActivityListState> get activityListStateStream => activityList.stream;
+
   /// Gets the activity list by fetching it from the API.
   ///
   /// Call this in event tests to set up initial state before emitting events.

@@ -5,9 +5,9 @@ import 'package:meta/meta.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 import 'package:test/test.dart' as test;
 
+import '../api_mocker_mixin.dart';
 import '../mocks.dart';
-import '../ws_test_helpers.dart';
-import 'api_mocker_mixin.dart';
+import '../web_socket_mocks.dart';
 
 /// Factory function signature for creating tester instances.
 ///
@@ -61,51 +61,6 @@ abstract base class BaseTester<S> with ApiMockerMixin {
   Future<void> pump([Duration duration = Duration.zero]) {
     return Future<Object?>.delayed(duration);
   }
-
-  /// Asserts that [actual] matches [matcher].
-  ///
-  /// The [actual] parameter is a function that receives the subject
-  /// and returns a value to assert.
-  ///
-  /// Example:
-  /// ```dart
-  /// tester.expect((subject) => subject.state.someField, expectedValue);
-  /// ```
-  void expect(
-    Object? Function(S subject) actual,
-    Object? matcher, {
-    String? reason,
-  }) {
-    return test.expect(
-      actual(subject),
-      test.wrapMatcher(matcher),
-      reason: reason,
-    );
-  }
-
-  /// Asserts that [actual] matches [matcher] asynchronously.
-  ///
-  /// The [actual] parameter is a function that receives the subject
-  /// and returns a value to assert.
-  ///
-  /// Example:
-  /// ```dart
-  /// await tester.expectLater(
-  ///   (subject) => subject.stream,
-  ///   emits(expectedValue),
-  /// );
-  /// ```
-  Future<void> expectLater(
-    Object? Function(S subject) actual,
-    Object? matcher, {
-    String? reason,
-  }) {
-    return test.expectLater(
-      actual(subject),
-      test.wrapMatcher(matcher),
-      reason: reason,
-    );
-  }
 }
 
 /// Creates a tester instance with WebSocket support.
@@ -126,22 +81,12 @@ Future<T> createTester<T extends BaseTester<Object?>>({
   required MockWebSocketChannel webSocketChannel,
   required T Function(StreamController<Object>) create,
 }) async {
-  // Create WebSocket components
+  // Create WebSocket stream controller
   final wsStreamController = StreamController<Object>();
-  final webSocketSink = MockWebSocketSink();
+  test.addTearDown(wsStreamController.close); // Close controller after test
 
-  // Register automatic cleanup
-  test.addTearDown(() async {
-    await webSocketSink.close();
-    await wsStreamController.close();
-  });
-
-  // Setup WebSocket connection
-  WsTestConnection(
-    wsStreamController: wsStreamController,
-    webSocketSink: webSocketSink,
-    webSocketChannel: webSocketChannel,
-  ).setUp();
+  // Set up WebSocket channel mocks
+  whenListenWebSocket(webSocketChannel, wsStreamController);
 
   // Connect client
   await client.connect();
@@ -186,7 +131,7 @@ void testWithTester<S, T extends BaseTester<S>>(
     () async {
       await _runZonedGuarded(() async {
         const user = User(id: 'luke_skywalker');
-        final userToken = UserToken(testToken);
+        final userToken = generateTestUserToken(user.id);
 
         final feedsApi = MockDefaultApi();
         final webSocketChannel = MockWebSocketChannel();

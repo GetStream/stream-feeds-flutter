@@ -56,6 +56,7 @@ ActivityResponse createDefaultActivityResponse({
   List<String> feeds = const [],
   PollResponseData? poll,
   bool hidden = false,
+  bool? isWatched,
 }) {
   return ActivityResponse(
     id: id,
@@ -88,6 +89,7 @@ ActivityResponse createDefaultActivityResponse({
     shareCount: 0,
     text: null,
     type: type,
+    isWatched: isWatched,
     updatedAt: DateTime(2021, 2, 1),
     user: createDefaultUserResponse(),
     visibility: ActivityResponseVisibility.public,
@@ -95,11 +97,17 @@ ActivityResponse createDefaultActivityResponse({
   );
 }
 
-PollResponseData createDefaultPollResponseData({
+PollResponseData createDefaultPollResponse({
   String id = 'poll-id',
+  List<PollOptionResponseData>? options,
   List<PollVoteResponseData> latestAnswers = const [],
   Map<String, List<PollVoteResponseData>> latestVotesByOption = const {},
 }) {
+  options ??= [
+    createDefaultPollOptionResponse(id: 'option-1', text: 'Option 1'),
+    createDefaultPollOptionResponse(id: 'option-2', text: 'Option 2'),
+  ];
+
   return PollResponseData(
     id: id,
     name: 'name',
@@ -122,18 +130,18 @@ PollResponseData createDefaultPollResponseData({
       (k, e) => MapEntry(k, e.length),
     ),
     votingVisibility: 'visibility',
-    options: const [
-      PollOptionResponseData(
-        id: 'id1',
-        text: 'text1',
-        custom: {},
-      ),
-      PollOptionResponseData(
-        id: 'id2',
-        text: 'text2',
-        custom: {},
-      ),
-    ],
+    options: options,
+  );
+}
+
+PollOptionResponseData createDefaultPollOptionResponse({
+  String id = 'option-id',
+  String text = 'Option Text',
+}) {
+  return PollOptionResponseData(
+    id: id,
+    text: text,
+    custom: const {},
   );
 }
 
@@ -290,13 +298,30 @@ BookmarkFolderResponse createDefaultBookmarkFolderResponse({
 PollVoteResponseData createDefaultPollVoteResponse({
   String id = 'vote-id',
   String pollId = 'poll-id',
-  String optionId = 'option-1',
+  String optionId = 'option-id',
 }) {
   return PollVoteResponseData(
     createdAt: DateTime(2021, 1, 1),
     id: id,
     optionId: optionId,
     pollId: pollId,
+    isAnswer: false,
+    updatedAt: DateTime(2021, 2, 1),
+  );
+}
+
+PollVoteResponseData createDefaultPollAnswerResponse({
+  String id = 'answer-id',
+  String pollId = 'poll-id',
+  String answerText = 'My Answer',
+}) {
+  return PollVoteResponseData(
+    createdAt: DateTime(2021, 1, 1),
+    id: id,
+    optionId: '',
+    pollId: pollId,
+    isAnswer: true,
+    answerText: answerText,
     updatedAt: DateTime(2021, 2, 1),
   );
 }

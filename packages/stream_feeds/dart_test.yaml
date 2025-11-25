@@ -1,4 +1,11 @@
 tags:
   feed:
+  feed-list:
   activity:
   activity-list:
+  bookmark-list:
+  bookmark-folder-list:
+  comment-list:
+  follow-list:
+  poll-list:
+  poll-vote-list:

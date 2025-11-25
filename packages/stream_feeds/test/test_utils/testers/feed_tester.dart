@@ -83,6 +83,12 @@ final class FeedTester extends BaseTester<Feed> {
   /// The feed being tested.
   Feed get feed => subject;
 
+  /// The current state of the feed.
+  FeedState get feedState => feed.state;
+
+  /// Stream of feed state updates.
+  Stream<FeedState> get feedStateStream => feed.stream;
+
   /// Gets or creates the feed by fetching it from the API.
   ///
   /// Call this in event tests to set up initial state before emitting events.
@@ -94,6 +100,7 @@ final class FeedTester extends BaseTester<Feed> {
     GetOrCreateFeedResponse Function(GetOrCreateFeedResponse)? modifyResponse,
   }) {
     final feedId = feed.fid;
+    final query = feed.query;
 
     final defaultFeedResponse = createDefaultGetOrCreateFeedResponse(
       activities: [
@@ -107,7 +114,7 @@ final class FeedTester extends BaseTester<Feed> {
       (api) => api.getOrCreateFeed(
         feedId: feedId.id,
         feedGroupId: feedId.group,
-        getOrCreateFeedRequest: FeedQuery(fid: feedId).toRequest(),
+        getOrCreateFeedRequest: query.toRequest(),
       ),
       result: switch (modifyResponse) {
         final modifier? => modifier(defaultFeedResponse),

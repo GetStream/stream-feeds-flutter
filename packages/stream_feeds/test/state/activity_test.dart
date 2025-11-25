@@ -1,63 +1,30 @@
-import 'dart:async';
-import 'dart:convert';
-
-import 'package:mocktail/mocktail.dart';
-import 'package:stream_feeds/src/state/activity_state.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
 
 void main() {
-  late StreamFeedsClient client;
-  late MockDefaultApi feedsApi;
-  late MockWebSocketChannel webSocketChannel;
+  const activityId = 'activity-1';
+  const feedId = FeedId(group: 'user', id: 'john');
 
-  setUp(() {
-    feedsApi = MockDefaultApi();
-    webSocketChannel = MockWebSocketChannel();
-
-    client = StreamFeedsClient(
-      apiKey: 'apiKey',
-      user: const User(id: 'luke_skywalker'),
-      tokenProvider: TokenProvider.static(UserToken(testToken)),
-      feedsRestApi: feedsApi,
-      wsProvider: (options) => webSocketChannel,
-    );
-  });
-
-  tearDown(() {
-    client.disconnect();
-  });
+  // ============================================================
+  // FEATURE: Activity Retrieval
+  // ============================================================
 
   group('Getting an activity', () {
-    test('fetch activity and comments', () async {
-      const activityId = 'activity-1';
-      const feedId = FeedId(group: 'user', id: 'john');
+    activityTest(
+      'fetch activity and comments',
+      build: (client) => client.activity(activityId: activityId, fid: feedId),
+      body: (tester) async {
+        final result = await tester.get();
 
-      when(() => feedsApi.getActivity(id: activityId)).thenAnswer(
-        (_) async => Result.success(
-          createDefaultGetActivityResponse(id: activityId),
-        ),
-      );
-
-      when(
-        () => feedsApi.getComments(
-          objectId: activityId,
-          objectType: 'activity',
-          depth: 3,
-        ),
-      ).thenAnswer(
-        (_) async => Result.success(createDefaultCommentsResponse()),
-      );
-
-      final activity = client.activity(activityId: activityId, fid: feedId);
-      final result = await activity.get();
-
-      verify(() => feedsApi.getActivity(id: activityId)).called(1);
-      expect(result, isA<Result<ActivityData>>());
-      expect(result.getOrNull()?.id, activityId);
-    });
+        expect(result, isA<Result<ActivityData>>());
+        expect(result.getOrNull()?.id, activityId);
+      },
+      verify: (tester) => tester.verifyApi(
+        (api) => api.getActivity(id: activityId),
+      ),
+    );
   });
 
   // ============================================================
@@ -65,9 +32,6 @@ void main() {
   // ============================================================
 
   group('Activity feedback', () {
-    const activityId = 'activity-1';
-    const feedId = FeedId(group: 'user', id: 'john');
-
     activityTest(
       'submits feedback via API',
       build: (client) => client.activity(activityId: activityId, fid: feedId),
@@ -102,7 +66,7 @@ void main() {
         modifyResponse: (response) => response.copyWith(hidden: false),
       ),
       body: (tester) async {
-        tester.expect((a) => a.state.activity?.hidden, false);
+        expect(tester.activityState.activity?.hidden, false);
 
         await tester.emitEvent(
           ActivityFeedbackEvent(
@@ -120,7 +84,7 @@ void main() {
           ),
         );
 
-        tester.expect((a) => a.state.activity?.hidden, true);
+        expect(tester.activityState.activity?.hidden, true);
       },
     );
 
@@ -131,7 +95,7 @@ void main() {
         modifyResponse: (response) => response.copyWith(hidden: true),
       ),
       body: (tester) async {
-        tester.expect((a) => a.state.activity?.hidden, true);
+        expect(tester.activityState.activity?.hidden, true);
 
         await tester.emitEvent(
           ActivityFeedbackEvent(
@@ -149,325 +113,265 @@ void main() {
           ),
         );
 
-        tester.expect((a) => a.state.activity?.hidden, false);
+        expect(tester.activityState.activity?.hidden, false);
       },
     );
   });
 
+  // ============================================================
+  // FEATURE: Poll Events
+  // ============================================================
+
   group('Poll events', () {
-    late StreamController<Object> wsStreamController;
-    late MockWebSocketSink webSocketSink;
-
-    setUp(() async {
-      wsStreamController = StreamController<Object>();
-      webSocketSink = MockWebSocketSink();
-      WsTestConnection(
-        wsStreamController: wsStreamController,
-        webSocketSink: webSocketSink,
-        webSocketChannel: webSocketChannel,
-      ).setUp();
-
-      await client.connect();
-    });
-
-    tearDown(() async {
-      await webSocketSink.close();
-      await wsStreamController.close();
-    });
-
-    void setupMockActivity({GetActivityResponse? activity}) {
-      const activityId = 'id';
-      when(() => feedsApi.getActivity(id: activityId)).thenAnswer(
-        (_) async => Result.success(
-          activity ?? createDefaultGetActivityResponse(),
-        ),
-      );
-      when(
-        () => feedsApi.getComments(
-          objectId: activityId,
-          objectType: 'activity',
-          depth: 3,
-        ),
-      ).thenAnswer(
-        (_) async => Result.success(createDefaultCommentsResponse()),
-      );
-    }
-
-    test('poll vote casted', () async {
-      final poll = createDefaultPollResponseData();
-      final pollId = poll.id;
-      final firstOptionId = poll.options.first.id;
-
-      setupMockActivity(
-        activity: createDefaultGetActivityResponse(poll: poll),
-      );
-
-      final activity = client.activity(
-        activityId: 'id',
-        fid: const FeedId(group: 'group', id: 'id'),
-      );
-      await activity.get();
-
-      expect(poll.voteCount, 0);
-
-      activity.notifier.stream.listen(
-        expectAsync1(
-          (event) {
-            expect(event, isA<ActivityState>());
-            expect(event.poll?.id, 'poll-id');
-            expect(event.poll?.voteCount, 1);
-          },
-        ),
-      );
-      wsStreamController.add(
-        jsonEncode(
-          PollVoteCastedFeedEvent(
-            createdAt: DateTime.now(),
-            custom: const {},
-            fid: 'fid',
-            poll: poll.copyWith(voteCount: 1),
-            pollVote: PollVoteResponseData(
-              createdAt: DateTime.now(),
-              updatedAt: DateTime.now(),
-              id: 'voteId1',
-              optionId: firstOptionId,
-              pollId: pollId,
-            ),
-            type: EventTypes.pollVoteCasted,
-          ).toJson(),
-        ),
-      );
-    });
-
-    test('poll answer casted', () async {
-      final poll = createDefaultPollResponseData();
-      setupMockActivity(
-        activity: createDefaultGetActivityResponse(poll: poll),
-      );
-
-      final activity = client.activity(
-        activityId: 'id',
-        fid: const FeedId(group: 'group', id: 'id'),
-      );
-      await activity.get();
-
-      activity.notifier.stream.listen(
-        expectAsync1(
-          (event) {
-            expect(event, isA<ActivityState>());
-            expect(event.poll?.id, 'poll-id');
-            expect(event.poll?.answersCount, 1);
-            expect(event.poll?.latestAnswers.length, 1);
-          },
-        ),
-      );
-
-      wsStreamController.add(
-        jsonEncode(
-          PollVoteCastedFeedEvent(
-            createdAt: DateTime.now(),
-            custom: const {},
-            fid: 'fid',
-            poll: poll.copyWith(answersCount: 1),
-            pollVote: PollVoteResponseData(
-              createdAt: DateTime.now(),
-              updatedAt: DateTime.now(),
-              id: 'voteId1',
-              answerText: 'answerText1',
-              isAnswer: true,
-              optionId: 'optionId1',
-              pollId: 'pollId1',
-            ),
-            type: EventTypes.pollVoteCasted,
-          ),
-        ),
-      );
-    });
-
-    test('poll answer removed', () async {
-      final poll = createDefaultPollResponseData(
-        latestAnswers: [
-          PollVoteResponseData(
-            createdAt: DateTime.now(),
-            updatedAt: DateTime.now(),
-            id: 'voteId1',
-            answerText: 'answerText1',
-            isAnswer: true,
-            optionId: 'optionId1',
-            pollId: 'pollId1',
-          ),
+    group('Vote operations', () {
+      final pollWithVotes = createDefaultPollResponse(
+        options: [
+          createDefaultPollOptionResponse(id: 'option-1', text: 'Option 1'),
+          createDefaultPollOptionResponse(id: 'option-2', text: 'Option 2'),
         ],
-      );
-      setupMockActivity(
-        activity: createDefaultGetActivityResponse(poll: poll),
-      );
-
-      final activity = client.activity(
-        activityId: 'id',
-        fid: const FeedId(group: 'group', id: 'id'),
-      );
-      await activity.get();
-
-      expect(poll.answersCount, 1);
-      expect(poll.latestAnswers.length, 1);
-
-      activity.notifier.stream.listen(
-        expectAsync1(
-          (event) {
-            expect(event, isA<ActivityState>());
-            expect(event.poll?.id, 'poll-id');
-            expect(event.poll?.answersCount, 0);
-            expect(event.poll?.latestAnswers.length, 0);
-          },
-        ),
-      );
-
-      wsStreamController.add(
-        jsonEncode(
-          PollVoteRemovedFeedEvent(
-            createdAt: DateTime.now(),
-            custom: const {},
-            fid: 'fid',
-            poll: poll.copyWith(answersCount: 0),
-            pollVote: PollVoteResponseData(
-              createdAt: DateTime.now(),
-              updatedAt: DateTime.now(),
-              id: 'voteId1',
-              answerText: 'answerText1',
-              isAnswer: true,
-              optionId: 'optionId1',
-              pollId: 'pollId1',
-            ),
-            type: EventTypes.pollVoteRemoved,
-          ),
-        ),
-      );
-    });
-
-    test('poll vote removed', () async {
-      final poll = createDefaultPollResponseData(
         latestVotesByOption: {
-          'optionId1': [
-            PollVoteResponseData(
-              createdAt: DateTime.now(),
-              updatedAt: DateTime.now(),
-              id: 'voteId1',
-              optionId: 'optionId1',
-              pollId: 'pollId1',
-            ),
+          'option-1': [
+            createDefaultPollVoteResponse(id: 'vote-1', optionId: 'option-1'),
+            createDefaultPollVoteResponse(id: 'vote-2', optionId: 'option-1'),
+          ],
+          'option-2': [
+            createDefaultPollVoteResponse(id: 'vote-3', optionId: 'option-2'),
           ],
         },
       );
-      final pollId = poll.id;
-      setupMockActivity(
-        activity: createDefaultGetActivityResponse(poll: poll),
-      );
 
-      final activity = client.activity(
-        activityId: 'id',
-        fid: const FeedId(group: 'group', id: 'id'),
-      );
-      await activity.get();
-
-      expect(poll.voteCount, 1);
-      expect(poll.latestVotesByOption.length, 1);
-
-      activity.notifier.stream.listen(
-        expectAsync1(
-          (event) {
-            expect(event, isA<ActivityState>());
-            expect(event.poll?.id, 'poll-id');
-            expect(event.poll?.voteCount, 0);
-            expect(event.poll?.latestVotesByOption.length, 0);
-          },
+      activityTest(
+        'poll vote casted',
+        build: (client) => client.activity(activityId: activityId, fid: feedId),
+        setUp: (tester) => tester.get(
+          modifyResponse: (it) => it.copyWith(poll: pollWithVotes),
         ),
-      );
-      wsStreamController.add(
-        jsonEncode(
-          PollVoteRemovedFeedEvent(
-            createdAt: DateTime.now(),
-            custom: const {},
-            fid: 'fid',
-            poll: poll.copyWith(voteCount: 0, latestVotesByOption: {}),
-            pollVote: PollVoteResponseData(
-              createdAt: DateTime.now(),
-              updatedAt: DateTime.now(),
-              id: 'voteId1',
-              optionId: 'optionId1',
-              pollId: pollId,
+        body: (tester) async {
+          final pollData = tester.activityState.poll;
+          expect(pollData!.voteCount, 3);
+
+          expect(pollData.latestVotesByOption, hasLength(2));
+          expect(pollData.latestVotesByOption['option-2'], hasLength(1));
+
+          final pollVote = createDefaultPollVoteResponse(
+            id: 'vote-4',
+            pollId: pollData.id,
+            optionId: 'option-2',
+          );
+
+          await tester.emitEvent(
+            PollVoteCastedFeedEvent(
+              type: EventTypes.pollVoteCasted,
+              createdAt: DateTime.timestamp(),
+              custom: const {},
+              fid: feedId.rawValue,
+              pollVote: pollVote,
+              poll: pollWithVotes.copyWith(
+                voteCount: 4,
+                latestVotesByOption: {
+                  ...pollWithVotes.latestVotesByOption,
+                  pollVote.optionId: List<PollVoteResponseData>.from(
+                    pollWithVotes.latestVotesByOption[pollVote.optionId]!,
+                  )..add(pollVote),
+                },
+              ),
             ),
-            type: EventTypes.pollVoteRemoved,
-          ),
+          );
+
+          final updatedPollData = tester.activityState.poll;
+          expect(updatedPollData!.voteCount, 4);
+
+          expect(updatedPollData.latestVotesByOption, hasLength(2));
+          expect(updatedPollData.latestVotesByOption['option-2'], hasLength(2));
+        },
+      );
+
+      activityTest(
+        'poll vote removed',
+        build: (client) => client.activity(activityId: activityId, fid: feedId),
+        setUp: (tester) => tester.get(
+          modifyResponse: (it) => it.copyWith(poll: pollWithVotes),
         ),
+        body: (tester) async {
+          final pollData = tester.activityState.poll;
+          expect(pollData!.voteCount, 3);
+
+          expect(pollData.latestVotesByOption, hasLength(2));
+          expect(pollData.latestVotesByOption['option-1'], hasLength(2));
+
+          final voteToRemove = createDefaultPollVoteResponse(
+            id: 'vote-1',
+            pollId: pollData.id,
+            optionId: 'option-1',
+          );
+
+          await tester.emitEvent(
+            PollVoteRemovedFeedEvent(
+              type: EventTypes.pollVoteRemoved,
+              createdAt: DateTime.timestamp(),
+              custom: const {},
+              fid: feedId.rawValue,
+              pollVote: voteToRemove,
+              poll: pollWithVotes.copyWith(
+                voteCount: 2,
+                latestVotesByOption: {
+                  ...pollWithVotes.latestVotesByOption,
+                  voteToRemove.optionId: List<PollVoteResponseData>.from(
+                    pollWithVotes.latestVotesByOption[voteToRemove.optionId]!,
+                  )..removeWhere((vote) => vote.id == voteToRemove.id),
+                },
+              ),
+            ),
+          );
+
+          final updatedPollData = tester.activityState.poll;
+          expect(updatedPollData!.voteCount, 2);
+
+          expect(updatedPollData.latestVotesByOption, hasLength(2));
+          expect(updatedPollData.latestVotesByOption['option-1'], hasLength(1));
+        },
       );
     });
 
-    test('poll closed', () async {
-      final poll = createDefaultPollResponseData();
-      setupMockActivity(
-        activity: createDefaultGetActivityResponse(poll: poll),
+    group('Answer operations', () {
+      final pollWithAnswers = createDefaultPollResponse(
+        latestAnswers: [
+          createDefaultPollAnswerResponse(id: 'answer-1'),
+          createDefaultPollAnswerResponse(id: 'answer-2'),
+          createDefaultPollAnswerResponse(id: 'answer-3'),
+        ],
       );
 
-      final activity = client.activity(
-        activityId: 'id',
-        fid: const FeedId(group: 'group', id: 'id'),
-      );
-      await activity.get();
-
-      activity.notifier.stream.listen(
-        expectAsync1(
-          (event) {
-            expect(event, isA<ActivityState>());
-            expect(event.poll?.id, 'poll-id');
-            expect(event.poll?.isClosed, true);
-          },
+      activityTest(
+        'poll answer casted',
+        build: (client) => client.activity(activityId: activityId, fid: feedId),
+        setUp: (tester) => tester.get(
+          modifyResponse: (it) => it.copyWith(poll: pollWithAnswers),
         ),
+        body: (tester) async {
+          final pollData = tester.activityState.poll;
+          expect(pollData!.answersCount, 3);
+
+          expect(pollData.latestAnswers, hasLength(3));
+
+          final newAnswer = createDefaultPollAnswerResponse(
+            id: 'answer-4',
+            pollId: pollData.id,
+            answerText: 'Answer 4',
+          );
+
+          await tester.emitEvent(
+            PollVoteCastedFeedEvent(
+              type: EventTypes.pollVoteCasted,
+              createdAt: DateTime.timestamp(),
+              custom: const {},
+              fid: feedId.rawValue,
+              pollVote: newAnswer,
+              poll: pollWithAnswers.copyWith(
+                answersCount: 4,
+                latestAnswers: List<PollVoteResponseData>.from(
+                  pollWithAnswers.latestAnswers,
+                )..add(newAnswer),
+              ),
+            ),
+          );
+
+          final updatedPollData = tester.activityState.poll;
+          expect(updatedPollData!.answersCount, 4);
+
+          expect(updatedPollData.latestAnswers, hasLength(4));
+        },
       );
 
-      wsStreamController.add(
-        jsonEncode(
-          PollClosedFeedEvent(
-            createdAt: DateTime.now(),
-            custom: const {},
-            fid: 'fid',
-            poll: poll.copyWith(isClosed: true),
-            type: EventTypes.pollClosed,
-          ),
+      activityTest(
+        'poll answer removed',
+        build: (client) => client.activity(activityId: activityId, fid: feedId),
+        setUp: (tester) => tester.get(
+          modifyResponse: (it) => it.copyWith(poll: pollWithAnswers),
         ),
+        body: (tester) async {
+          final pollData = tester.activityState.poll;
+          expect(pollData!.answersCount, 3);
+
+          expect(pollData.latestAnswers, hasLength(3));
+
+          final answerToRemove = createDefaultPollAnswerResponse(
+            id: 'answer-1',
+            pollId: pollData.id,
+            answerText: 'Answer 1',
+          );
+
+          await tester.emitEvent(
+            PollVoteRemovedFeedEvent(
+              type: EventTypes.pollVoteRemoved,
+              createdAt: DateTime.timestamp(),
+              custom: const {},
+              fid: feedId.rawValue,
+              pollVote: answerToRemove,
+              poll: pollWithAnswers.copyWith(
+                answersCount: 2,
+                latestAnswers: List<PollVoteResponseData>.from(
+                  pollWithAnswers.latestAnswers,
+                )..removeWhere((answer) => answer.id == answerToRemove.id),
+              ),
+            ),
+          );
+
+          final updatedPollData = tester.activityState.poll;
+          expect(updatedPollData!.answersCount, 2);
+
+          expect(updatedPollData.latestAnswers, hasLength(2));
+        },
       );
     });
 
-    test('poll deleted', () async {
-      final poll = createDefaultPollResponseData();
-      setupMockActivity(
-        activity: createDefaultGetActivityResponse(poll: poll),
-      );
+    group('State changes', () {
+      final defaultPoll = createDefaultPollResponse();
 
-      final activity = client.activity(
-        activityId: 'id',
-        fid: const FeedId(group: 'group', id: 'id'),
-      );
-      await activity.get();
-
-      activity.notifier.stream.listen(
-        expectAsync1(
-          (event) {
-            expect(event, isA<ActivityState>());
-            expect(event.poll, null);
-          },
+      activityTest(
+        'poll closed',
+        build: (client) => client.activity(activityId: activityId, fid: feedId),
+        setUp: (tester) => tester.get(
+          modifyResponse: (it) => it.copyWith(poll: defaultPoll),
         ),
+        body: (tester) async {
+          expect(tester.activityState.poll?.isClosed, false);
+
+          await tester.emitEvent(
+            PollClosedFeedEvent(
+              type: EventTypes.pollClosed,
+              createdAt: DateTime.timestamp(),
+              custom: const {},
+              fid: feedId.rawValue,
+              poll: defaultPoll.copyWith(isClosed: true),
+            ),
+          );
+
+          expect(tester.activityState.poll?.isClosed, true);
+        },
       );
 
-      wsStreamController.add(
-        jsonEncode(
-          PollDeletedFeedEvent(
-            createdAt: DateTime.now(),
-            custom: const {},
-            fid: 'fid',
-            poll: poll,
-            type: EventTypes.pollDeleted,
-          ),
+      activityTest(
+        'poll deleted',
+        build: (client) => client.activity(activityId: activityId, fid: feedId),
+        setUp: (tester) => tester.get(
+          modifyResponse: (it) => it.copyWith(poll: defaultPoll),
         ),
+        body: (tester) async {
+          expect(tester.activityState.poll, isNotNull);
+
+          await tester.emitEvent(
+            PollDeletedFeedEvent(
+              type: EventTypes.pollDeleted,
+              createdAt: DateTime.timestamp(),
+              custom: const {},
+              fid: feedId.rawValue,
+              poll: defaultPoll,
+            ),
+          );
+
+          expect(tester.activityState.poll, isNull);
+        },
       );
     });
   });
