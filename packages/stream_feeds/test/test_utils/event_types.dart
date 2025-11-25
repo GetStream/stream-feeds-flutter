@@ -34,7 +34,9 @@ class EventTypes {
   // Poll events
   static const pollClosed = 'feeds.poll.closed';
   static const pollDeleted = 'feeds.poll.deleted';
+  static const pollUpdated = 'feeds.poll.updated';
   static const pollVoteCasted = 'feeds.poll.vote_casted';
+  static const pollVoteChanged = 'feeds.poll.vote_changed';
   static const pollVoteRemoved = 'feeds.poll.vote_removed';
 
   // Stories events

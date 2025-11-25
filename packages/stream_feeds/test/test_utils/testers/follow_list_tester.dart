@@ -142,4 +142,3 @@ Future<FollowListTester> _createFollowListTester({
     ),
   );
 }
-

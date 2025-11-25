@@ -142,4 +142,3 @@ Future<FeedListTester> _createFeedListTester({
     ),
   );
 }
-
