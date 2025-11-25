@@ -24,6 +24,8 @@ enum ChannelOwnCapability {
   deleteChannel,
   @JsonValue('delete-own-message')
   deleteOwnMessage,
+  @JsonValue('delivery-events')
+  deliveryEvents,
   @JsonValue('flag-message')
   flagMessage,
   @JsonValue('freeze-channel')

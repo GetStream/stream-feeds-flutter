@@ -15,7 +15,6 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$GetOrCreateFeedRequest {
-  Map<String, Object?>? get activitySelectorOptions;
   FeedInput? get data;
   Map<String, Object?>? get externalRanking;
   Map<String, Object?>? get filter;
@@ -42,8 +41,6 @@ mixin _$GetOrCreateFeedRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is GetOrCreateFeedRequest &&
-            const DeepCollectionEquality().equals(
-                other.activitySelectorOptions, activitySelectorOptions) &&
             (identical(other.data, data) || other.data == data) &&
             const DeepCollectionEquality()
                 .equals(other.externalRanking, externalRanking) &&
@@ -66,7 +63,6 @@ mixin _$GetOrCreateFeedRequest {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(activitySelectorOptions),
       data,
       const DeepCollectionEquality().hash(externalRanking),
       const DeepCollectionEquality().hash(filter),
@@ -82,7 +78,7 @@ mixin _$GetOrCreateFeedRequest {
 
   @override
   String toString() {
-    return 'GetOrCreateFeedRequest(activitySelectorOptions: $activitySelectorOptions, data: $data, externalRanking: $externalRanking, filter: $filter, followersPagination: $followersPagination, followingPagination: $followingPagination, interestWeights: $interestWeights, limit: $limit, memberPagination: $memberPagination, next: $next, prev: $prev, view: $view, watch: $watch)';
+    return 'GetOrCreateFeedRequest(data: $data, externalRanking: $externalRanking, filter: $filter, followersPagination: $followersPagination, followingPagination: $followingPagination, interestWeights: $interestWeights, limit: $limit, memberPagination: $memberPagination, next: $next, prev: $prev, view: $view, watch: $watch)';
   }
 }
 
@@ -93,8 +89,7 @@ abstract mixin class $GetOrCreateFeedRequestCopyWith<$Res> {
       _$GetOrCreateFeedRequestCopyWithImpl;
   @useResult
   $Res call(
-      {Map<String, Object?>? activitySelectorOptions,
-      FeedInput? data,
+      {FeedInput? data,
       Map<String, Object?>? externalRanking,
       Map<String, Object?>? filter,
       PagerRequest? followersPagination,
@@ -121,7 +116,6 @@ class _$GetOrCreateFeedRequestCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? activitySelectorOptions = freezed,
     Object? data = freezed,
     Object? externalRanking = freezed,
     Object? filter = freezed,
@@ -136,10 +130,6 @@ class _$GetOrCreateFeedRequestCopyWithImpl<$Res>
     Object? watch = freezed,
   }) {
     return _then(GetOrCreateFeedRequest(
-      activitySelectorOptions: freezed == activitySelectorOptions
-          ? _self.activitySelectorOptions
-          : activitySelectorOptions // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object?>?,
       data: freezed == data
           ? _self.data
           : data // ignore: cast_nullable_to_non_nullable

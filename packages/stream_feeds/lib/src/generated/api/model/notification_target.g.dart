@@ -11,6 +11,10 @@ NotificationTarget _$NotificationTargetFromJson(Map<String, dynamic> json) =>
       attachments: (json['attachments'] as List<dynamic>?)
           ?.map((e) => Attachment.fromJson(e as Map<String, dynamic>))
           .toList(),
+      comment: json['comment'] == null
+          ? null
+          : NotificationComment.fromJson(
+              json['comment'] as Map<String, dynamic>),
       id: json['id'] as String,
       name: json['name'] as String?,
       text: json['text'] as String?,
@@ -21,6 +25,7 @@ NotificationTarget _$NotificationTargetFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$NotificationTargetToJson(NotificationTarget instance) =>
     <String, dynamic>{
       'attachments': instance.attachments?.map((e) => e.toJson()).toList(),
+      'comment': instance.comment?.toJson(),
       'id': instance.id,
       'name': instance.name,
       'text': instance.text,

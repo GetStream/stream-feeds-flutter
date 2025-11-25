@@ -18,6 +18,7 @@ mixin _$BookmarkFolderData {
   DateTime get createdAt;
   String get id;
   String get name;
+  UserData get user;
   DateTime get updatedAt;
   Map<String, Object?>? get custom;
 
@@ -38,18 +39,19 @@ mixin _$BookmarkFolderData {
                 other.createdAt == createdAt) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.user, user) || other.user == user) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
             const DeepCollectionEquality().equals(other.custom, custom));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, createdAt, id, name, updatedAt,
-      const DeepCollectionEquality().hash(custom));
+  int get hashCode => Object.hash(runtimeType, createdAt, id, name, user,
+      updatedAt, const DeepCollectionEquality().hash(custom));
 
   @override
   String toString() {
-    return 'BookmarkFolderData(createdAt: $createdAt, id: $id, name: $name, updatedAt: $updatedAt, custom: $custom)';
+    return 'BookmarkFolderData(createdAt: $createdAt, id: $id, name: $name, user: $user, updatedAt: $updatedAt, custom: $custom)';
   }
 }
 
@@ -63,6 +65,7 @@ abstract mixin class $BookmarkFolderDataCopyWith<$Res> {
       {DateTime createdAt,
       String id,
       String name,
+      UserData user,
       DateTime updatedAt,
       Map<String, Object?>? custom});
 }
@@ -83,6 +86,7 @@ class _$BookmarkFolderDataCopyWithImpl<$Res>
     Object? createdAt = null,
     Object? id = null,
     Object? name = null,
+    Object? user = null,
     Object? updatedAt = null,
     Object? custom = freezed,
   }) {
@@ -99,6 +103,10 @@ class _$BookmarkFolderDataCopyWithImpl<$Res>
           ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      user: null == user
+          ? _self.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as UserData,
       updatedAt: null == updatedAt
           ? _self.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable

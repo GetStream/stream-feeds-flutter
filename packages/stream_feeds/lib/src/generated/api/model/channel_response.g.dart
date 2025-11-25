@@ -26,6 +26,9 @@ ChannelResponse _$ChannelResponseFromJson(Map<String, dynamic> json) =>
       deletedAt: _$JsonConverterFromJson<int, DateTime>(
           json['deleted_at'], const EpochDateTimeConverter().fromJson),
       disabled: json['disabled'] as bool,
+      filterTags: (json['filter_tags'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       frozen: json['frozen'] as bool,
       hidden: json['hidden'] as bool?,
       hideMessagesBefore: _$JsonConverterFromJson<int, DateTime>(
@@ -36,7 +39,8 @@ ChannelResponse _$ChannelResponseFromJson(Map<String, dynamic> json) =>
           json['last_message_at'], const EpochDateTimeConverter().fromJson),
       memberCount: (json['member_count'] as num?)?.toInt(),
       members: (json['members'] as List<dynamic>?)
-          ?.map((e) => ChannelMember.fromJson(e as Map<String, dynamic>))
+          ?.map(
+              (e) => ChannelMemberResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
       messageCount: (json['message_count'] as num?)?.toInt(),
       muteExpiresAt: _$JsonConverterFromJson<int, DateTime>(
@@ -71,6 +75,7 @@ Map<String, dynamic> _$ChannelResponseToJson(ChannelResponse instance) =>
       'deleted_at': _$JsonConverterToJson<int, DateTime>(
           instance.deletedAt, const EpochDateTimeConverter().toJson),
       'disabled': instance.disabled,
+      'filter_tags': instance.filterTags,
       'frozen': instance.frozen,
       'hidden': instance.hidden,
       'hide_messages_before': _$JsonConverterToJson<int, DateTime>(
@@ -109,6 +114,7 @@ const _$ChannelOwnCapabilityEnumMap = {
   ChannelOwnCapability.deleteAnyMessage: 'delete-any-message',
   ChannelOwnCapability.deleteChannel: 'delete-channel',
   ChannelOwnCapability.deleteOwnMessage: 'delete-own-message',
+  ChannelOwnCapability.deliveryEvents: 'delivery-events',
   ChannelOwnCapability.flagMessage: 'flag-message',
   ChannelOwnCapability.freezeChannel: 'freeze-channel',
   ChannelOwnCapability.joinChannel: 'join-channel',

@@ -16,6 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$DeleteMessageRequest {
   bool? get hardDelete;
+  String? get reason;
 
   /// Create a copy of DeleteMessageRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -31,15 +32,16 @@ mixin _$DeleteMessageRequest {
         (other.runtimeType == runtimeType &&
             other is DeleteMessageRequest &&
             (identical(other.hardDelete, hardDelete) ||
-                other.hardDelete == hardDelete));
+                other.hardDelete == hardDelete) &&
+            (identical(other.reason, reason) || other.reason == reason));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, hardDelete);
+  int get hashCode => Object.hash(runtimeType, hardDelete, reason);
 
   @override
   String toString() {
-    return 'DeleteMessageRequest(hardDelete: $hardDelete)';
+    return 'DeleteMessageRequest(hardDelete: $hardDelete, reason: $reason)';
   }
 }
 
@@ -49,7 +51,7 @@ abstract mixin class $DeleteMessageRequestCopyWith<$Res> {
           $Res Function(DeleteMessageRequest) _then) =
       _$DeleteMessageRequestCopyWithImpl;
   @useResult
-  $Res call({bool? hardDelete});
+  $Res call({bool? hardDelete, String? reason});
 }
 
 /// @nodoc
@@ -66,12 +68,17 @@ class _$DeleteMessageRequestCopyWithImpl<$Res>
   @override
   $Res call({
     Object? hardDelete = freezed,
+    Object? reason = freezed,
   }) {
     return _then(DeleteMessageRequest(
       hardDelete: freezed == hardDelete
           ? _self.hardDelete
           : hardDelete // ignore: cast_nullable_to_non_nullable
               as bool?,
+      reason: freezed == reason
+          ? _self.reason
+          : reason // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }

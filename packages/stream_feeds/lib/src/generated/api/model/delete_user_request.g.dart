@@ -12,6 +12,7 @@ DeleteUserRequest _$DeleteUserRequestFromJson(Map<String, dynamic> json) =>
       deleteFeedsContent: json['delete_feeds_content'] as bool?,
       hardDelete: json['hard_delete'] as bool?,
       markMessagesDeleted: json['mark_messages_deleted'] as bool?,
+      reason: json['reason'] as String?,
     );
 
 Map<String, dynamic> _$DeleteUserRequestToJson(DeleteUserRequest instance) =>
@@ -20,4 +21,5 @@ Map<String, dynamic> _$DeleteUserRequestToJson(DeleteUserRequest instance) =>
       'delete_feeds_content': instance.deleteFeedsContent,
       'hard_delete': instance.hardDelete,
       'mark_messages_deleted': instance.markMessagesDeleted,
+      'reason': instance.reason,
     };

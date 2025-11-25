@@ -26,13 +26,14 @@ mixin _$ChannelResponse {
   Map<String, Object?> get custom;
   DateTime? get deletedAt;
   bool get disabled;
+  List<String>? get filterTags;
   bool get frozen;
   bool? get hidden;
   DateTime? get hideMessagesBefore;
   String get id;
   DateTime? get lastMessageAt;
   int? get memberCount;
-  List<ChannelMember>? get members;
+  List<ChannelMemberResponse>? get members;
   int? get messageCount;
   DateTime? get muteExpiresAt;
   bool? get muted;
@@ -75,6 +76,8 @@ mixin _$ChannelResponse {
                 other.deletedAt == deletedAt) &&
             (identical(other.disabled, disabled) ||
                 other.disabled == disabled) &&
+            const DeepCollectionEquality()
+                .equals(other.filterTags, filterTags) &&
             (identical(other.frozen, frozen) || other.frozen == frozen) &&
             (identical(other.hidden, hidden) || other.hidden == hidden) &&
             (identical(other.hideMessagesBefore, hideMessagesBefore) ||
@@ -116,6 +119,7 @@ mixin _$ChannelResponse {
         const DeepCollectionEquality().hash(custom),
         deletedAt,
         disabled,
+        const DeepCollectionEquality().hash(filterTags),
         frozen,
         hidden,
         hideMessagesBefore,
@@ -136,7 +140,7 @@ mixin _$ChannelResponse {
 
   @override
   String toString() {
-    return 'ChannelResponse(autoTranslationEnabled: $autoTranslationEnabled, autoTranslationLanguage: $autoTranslationLanguage, blocked: $blocked, cid: $cid, config: $config, cooldown: $cooldown, createdAt: $createdAt, createdBy: $createdBy, custom: $custom, deletedAt: $deletedAt, disabled: $disabled, frozen: $frozen, hidden: $hidden, hideMessagesBefore: $hideMessagesBefore, id: $id, lastMessageAt: $lastMessageAt, memberCount: $memberCount, members: $members, messageCount: $messageCount, muteExpiresAt: $muteExpiresAt, muted: $muted, ownCapabilities: $ownCapabilities, team: $team, truncatedAt: $truncatedAt, truncatedBy: $truncatedBy, type: $type, updatedAt: $updatedAt)';
+    return 'ChannelResponse(autoTranslationEnabled: $autoTranslationEnabled, autoTranslationLanguage: $autoTranslationLanguage, blocked: $blocked, cid: $cid, config: $config, cooldown: $cooldown, createdAt: $createdAt, createdBy: $createdBy, custom: $custom, deletedAt: $deletedAt, disabled: $disabled, filterTags: $filterTags, frozen: $frozen, hidden: $hidden, hideMessagesBefore: $hideMessagesBefore, id: $id, lastMessageAt: $lastMessageAt, memberCount: $memberCount, members: $members, messageCount: $messageCount, muteExpiresAt: $muteExpiresAt, muted: $muted, ownCapabilities: $ownCapabilities, team: $team, truncatedAt: $truncatedAt, truncatedBy: $truncatedBy, type: $type, updatedAt: $updatedAt)';
   }
 }
 
@@ -158,13 +162,14 @@ abstract mixin class $ChannelResponseCopyWith<$Res> {
       Map<String, Object?> custom,
       DateTime? deletedAt,
       bool disabled,
+      List<String>? filterTags,
       bool frozen,
       bool? hidden,
       DateTime? hideMessagesBefore,
       String id,
       DateTime? lastMessageAt,
       int? memberCount,
-      List<ChannelMember>? members,
+      List<ChannelMemberResponse>? members,
       int? messageCount,
       DateTime? muteExpiresAt,
       bool? muted,
@@ -200,6 +205,7 @@ class _$ChannelResponseCopyWithImpl<$Res>
     Object? custom = null,
     Object? deletedAt = freezed,
     Object? disabled = null,
+    Object? filterTags = freezed,
     Object? frozen = null,
     Object? hidden = freezed,
     Object? hideMessagesBefore = freezed,
@@ -262,6 +268,10 @@ class _$ChannelResponseCopyWithImpl<$Res>
           ? _self.disabled
           : disabled // ignore: cast_nullable_to_non_nullable
               as bool,
+      filterTags: freezed == filterTags
+          ? _self.filterTags
+          : filterTags // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       frozen: null == frozen
           ? _self.frozen
           : frozen // ignore: cast_nullable_to_non_nullable
@@ -289,7 +299,7 @@ class _$ChannelResponseCopyWithImpl<$Res>
       members: freezed == members
           ? _self.members
           : members // ignore: cast_nullable_to_non_nullable
-              as List<ChannelMember>?,
+              as List<ChannelMemberResponse>?,
       messageCount: freezed == messageCount
           ? _self.messageCount
           : messageCount // ignore: cast_nullable_to_non_nullable

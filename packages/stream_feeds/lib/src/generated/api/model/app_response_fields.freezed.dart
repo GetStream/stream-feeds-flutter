@@ -18,10 +18,10 @@ mixin _$AppResponseFields {
   bool get asyncUrlEnrichEnabled;
   bool get autoTranslationEnabled;
   FileUploadConfig get fileUploadConfig;
+  int get id;
   FileUploadConfig get imageUploadConfig;
   String get name;
-  String get region;
-  String get shard;
+  String get placement;
 
   /// Create a copy of AppResponseFields
   /// with the given fields replaced by the non-null parameter values.
@@ -42,11 +42,12 @@ mixin _$AppResponseFields {
                 other.autoTranslationEnabled == autoTranslationEnabled) &&
             (identical(other.fileUploadConfig, fileUploadConfig) ||
                 other.fileUploadConfig == fileUploadConfig) &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.imageUploadConfig, imageUploadConfig) ||
                 other.imageUploadConfig == imageUploadConfig) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.region, region) || other.region == region) &&
-            (identical(other.shard, shard) || other.shard == shard));
+            (identical(other.placement, placement) ||
+                other.placement == placement));
   }
 
   @override
@@ -55,14 +56,14 @@ mixin _$AppResponseFields {
       asyncUrlEnrichEnabled,
       autoTranslationEnabled,
       fileUploadConfig,
+      id,
       imageUploadConfig,
       name,
-      region,
-      shard);
+      placement);
 
   @override
   String toString() {
-    return 'AppResponseFields(asyncUrlEnrichEnabled: $asyncUrlEnrichEnabled, autoTranslationEnabled: $autoTranslationEnabled, fileUploadConfig: $fileUploadConfig, imageUploadConfig: $imageUploadConfig, name: $name, region: $region, shard: $shard)';
+    return 'AppResponseFields(asyncUrlEnrichEnabled: $asyncUrlEnrichEnabled, autoTranslationEnabled: $autoTranslationEnabled, fileUploadConfig: $fileUploadConfig, id: $id, imageUploadConfig: $imageUploadConfig, name: $name, placement: $placement)';
   }
 }
 
@@ -76,10 +77,10 @@ abstract mixin class $AppResponseFieldsCopyWith<$Res> {
       {bool asyncUrlEnrichEnabled,
       bool autoTranslationEnabled,
       FileUploadConfig fileUploadConfig,
+      int id,
       FileUploadConfig imageUploadConfig,
       String name,
-      String region,
-      String shard});
+      String placement});
 }
 
 /// @nodoc
@@ -98,10 +99,10 @@ class _$AppResponseFieldsCopyWithImpl<$Res>
     Object? asyncUrlEnrichEnabled = null,
     Object? autoTranslationEnabled = null,
     Object? fileUploadConfig = null,
+    Object? id = null,
     Object? imageUploadConfig = null,
     Object? name = null,
-    Object? region = null,
-    Object? shard = null,
+    Object? placement = null,
   }) {
     return _then(AppResponseFields(
       asyncUrlEnrichEnabled: null == asyncUrlEnrichEnabled
@@ -116,6 +117,10 @@ class _$AppResponseFieldsCopyWithImpl<$Res>
           ? _self.fileUploadConfig
           : fileUploadConfig // ignore: cast_nullable_to_non_nullable
               as FileUploadConfig,
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
       imageUploadConfig: null == imageUploadConfig
           ? _self.imageUploadConfig
           : imageUploadConfig // ignore: cast_nullable_to_non_nullable
@@ -124,13 +129,9 @@ class _$AppResponseFieldsCopyWithImpl<$Res>
           ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      region: null == region
-          ? _self.region
-          : region // ignore: cast_nullable_to_non_nullable
-              as String,
-      shard: null == shard
-          ? _self.shard
-          : shard // ignore: cast_nullable_to_non_nullable
+      placement: null == placement
+          ? _self.placement
+          : placement // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }

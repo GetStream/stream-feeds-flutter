@@ -66,6 +66,7 @@ class ChannelConfig with _$ChannelConfig {
     required this.countMessages,
     required this.createdAt,
     required this.customEvents,
+    required this.deliveryEvents,
     required this.markMessagesPending,
     required this.maxMessageLength,
     required this.mutes,
@@ -128,6 +129,9 @@ class ChannelConfig with _$ChannelConfig {
 
   @override
   final bool customEvents;
+
+  @override
+  final bool deliveryEvents;
 
   @override
   final bool markMessagesPending;

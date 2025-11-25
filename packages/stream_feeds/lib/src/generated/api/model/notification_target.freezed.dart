@@ -16,6 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$NotificationTarget {
   List<Attachment>? get attachments;
+  NotificationComment? get comment;
   String get id;
   String? get name;
   String? get text;
@@ -37,6 +38,7 @@ mixin _$NotificationTarget {
             other is NotificationTarget &&
             const DeepCollectionEquality()
                 .equals(other.attachments, attachments) &&
+            (identical(other.comment, comment) || other.comment == comment) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.text, text) || other.text == text) &&
@@ -48,6 +50,7 @@ mixin _$NotificationTarget {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(attachments),
+      comment,
       id,
       name,
       text,
@@ -56,7 +59,7 @@ mixin _$NotificationTarget {
 
   @override
   String toString() {
-    return 'NotificationTarget(attachments: $attachments, id: $id, name: $name, text: $text, type: $type, userId: $userId)';
+    return 'NotificationTarget(attachments: $attachments, comment: $comment, id: $id, name: $name, text: $text, type: $type, userId: $userId)';
   }
 }
 
@@ -68,6 +71,7 @@ abstract mixin class $NotificationTargetCopyWith<$Res> {
   @useResult
   $Res call(
       {List<Attachment>? attachments,
+      NotificationComment? comment,
       String id,
       String? name,
       String? text,
@@ -89,6 +93,7 @@ class _$NotificationTargetCopyWithImpl<$Res>
   @override
   $Res call({
     Object? attachments = freezed,
+    Object? comment = freezed,
     Object? id = null,
     Object? name = freezed,
     Object? text = freezed,
@@ -100,6 +105,10 @@ class _$NotificationTargetCopyWithImpl<$Res>
           ? _self.attachments
           : attachments // ignore: cast_nullable_to_non_nullable
               as List<Attachment>?,
+      comment: freezed == comment
+          ? _self.comment
+          : comment // ignore: cast_nullable_to_non_nullable
+              as NotificationComment?,
       id: null == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable

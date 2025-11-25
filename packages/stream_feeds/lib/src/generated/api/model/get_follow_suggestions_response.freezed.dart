@@ -15,8 +15,9 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$GetFollowSuggestionsResponse {
+  String? get algorithmUsed;
   String get duration;
-  List<FeedResponse> get suggestions;
+  List<FeedSuggestionResponse> get suggestions;
 
   /// Create a copy of GetFollowSuggestionsResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -32,6 +33,8 @@ mixin _$GetFollowSuggestionsResponse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is GetFollowSuggestionsResponse &&
+            (identical(other.algorithmUsed, algorithmUsed) ||
+                other.algorithmUsed == algorithmUsed) &&
             (identical(other.duration, duration) ||
                 other.duration == duration) &&
             const DeepCollectionEquality()
@@ -39,12 +42,12 @@ mixin _$GetFollowSuggestionsResponse {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, duration, const DeepCollectionEquality().hash(suggestions));
+  int get hashCode => Object.hash(runtimeType, algorithmUsed, duration,
+      const DeepCollectionEquality().hash(suggestions));
 
   @override
   String toString() {
-    return 'GetFollowSuggestionsResponse(duration: $duration, suggestions: $suggestions)';
+    return 'GetFollowSuggestionsResponse(algorithmUsed: $algorithmUsed, duration: $duration, suggestions: $suggestions)';
   }
 }
 
@@ -55,7 +58,10 @@ abstract mixin class $GetFollowSuggestionsResponseCopyWith<$Res> {
           $Res Function(GetFollowSuggestionsResponse) _then) =
       _$GetFollowSuggestionsResponseCopyWithImpl;
   @useResult
-  $Res call({String duration, List<FeedResponse> suggestions});
+  $Res call(
+      {String? algorithmUsed,
+      String duration,
+      List<FeedSuggestionResponse> suggestions});
 }
 
 /// @nodoc
@@ -71,10 +77,15 @@ class _$GetFollowSuggestionsResponseCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? algorithmUsed = freezed,
     Object? duration = null,
     Object? suggestions = null,
   }) {
     return _then(GetFollowSuggestionsResponse(
+      algorithmUsed: freezed == algorithmUsed
+          ? _self.algorithmUsed
+          : algorithmUsed // ignore: cast_nullable_to_non_nullable
+              as String?,
       duration: null == duration
           ? _self.duration
           : duration // ignore: cast_nullable_to_non_nullable
@@ -82,7 +93,7 @@ class _$GetFollowSuggestionsResponseCopyWithImpl<$Res>
       suggestions: null == suggestions
           ? _self.suggestions
           : suggestions // ignore: cast_nullable_to_non_nullable
-              as List<FeedResponse>,
+              as List<FeedSuggestionResponse>,
     ));
   }
 }

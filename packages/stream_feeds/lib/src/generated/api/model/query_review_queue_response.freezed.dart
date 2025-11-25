@@ -17,6 +17,7 @@ T _$identity<T>(T value) => value;
 mixin _$QueryReviewQueueResponse {
   Map<String, List<ModerationActionConfig>> get actionConfig;
   String get duration;
+  FilterConfigResponse? get filterConfig;
   List<ReviewQueueItemResponse> get items;
   String? get next;
   String? get prev;
@@ -39,6 +40,8 @@ mixin _$QueryReviewQueueResponse {
                 .equals(other.actionConfig, actionConfig) &&
             (identical(other.duration, duration) ||
                 other.duration == duration) &&
+            (identical(other.filterConfig, filterConfig) ||
+                other.filterConfig == filterConfig) &&
             const DeepCollectionEquality().equals(other.items, items) &&
             (identical(other.next, next) || other.next == next) &&
             (identical(other.prev, prev) || other.prev == prev) &&
@@ -50,6 +53,7 @@ mixin _$QueryReviewQueueResponse {
       runtimeType,
       const DeepCollectionEquality().hash(actionConfig),
       duration,
+      filterConfig,
       const DeepCollectionEquality().hash(items),
       next,
       prev,
@@ -57,7 +61,7 @@ mixin _$QueryReviewQueueResponse {
 
   @override
   String toString() {
-    return 'QueryReviewQueueResponse(actionConfig: $actionConfig, duration: $duration, items: $items, next: $next, prev: $prev, stats: $stats)';
+    return 'QueryReviewQueueResponse(actionConfig: $actionConfig, duration: $duration, filterConfig: $filterConfig, items: $items, next: $next, prev: $prev, stats: $stats)';
   }
 }
 
@@ -70,6 +74,7 @@ abstract mixin class $QueryReviewQueueResponseCopyWith<$Res> {
   $Res call(
       {Map<String, List<ModerationActionConfig>> actionConfig,
       String duration,
+      FilterConfigResponse? filterConfig,
       List<ReviewQueueItemResponse> items,
       String? next,
       String? prev,
@@ -91,6 +96,7 @@ class _$QueryReviewQueueResponseCopyWithImpl<$Res>
   $Res call({
     Object? actionConfig = null,
     Object? duration = null,
+    Object? filterConfig = freezed,
     Object? items = null,
     Object? next = freezed,
     Object? prev = freezed,
@@ -105,6 +111,10 @@ class _$QueryReviewQueueResponseCopyWithImpl<$Res>
           ? _self.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as String,
+      filterConfig: freezed == filterConfig
+          ? _self.filterConfig
+          : filterConfig // ignore: cast_nullable_to_non_nullable
+              as FilterConfigResponse?,
       items: null == items
           ? _self.items
           : items // ignore: cast_nullable_to_non_nullable

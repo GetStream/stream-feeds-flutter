@@ -27,7 +27,7 @@ dependencies:
   intl: ">=0.18.1 <=0.21.0"
   json_annotation: ^4.9.0
   meta: ^1.9.1
-  retrofit: ^4.6.0
+  retrofit: ">=4.6.0 <=4.9.0"
   rxdart: ^0.28.0
   state_notifier: ^1.0.0
   stream_core: ^0.3.0

@@ -30,6 +30,7 @@ class Channel with _$Channel {
     required this.custom,
     this.deletedAt,
     required this.disabled,
+    this.filterTags,
     required this.frozen,
     required this.id,
     this.invites,
@@ -83,6 +84,9 @@ class Channel with _$Channel {
 
   @override
   final bool disabled;
+
+  @override
+  final List<String>? filterTags;
 
   @override
   final bool frozen;

@@ -16,6 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AddActivityRequest {
   List<Attachment>? get attachments;
+  List<String>? get collectionRefs;
   Map<String, Object?>? get custom;
   String? get expiresAt;
   List<String> get feeds;
@@ -26,7 +27,9 @@ mixin _$AddActivityRequest {
   List<String>? get mentionedUserIds;
   String? get parentId;
   String? get pollId;
+  AddActivityRequestRestrictReplies? get restrictReplies;
   Map<String, Object?>? get searchData;
+  bool? get skipEnrichUrl;
   String? get text;
   String get type;
   AddActivityRequestVisibility? get visibility;
@@ -47,6 +50,8 @@ mixin _$AddActivityRequest {
             other is AddActivityRequest &&
             const DeepCollectionEquality()
                 .equals(other.attachments, attachments) &&
+            const DeepCollectionEquality()
+                .equals(other.collectionRefs, collectionRefs) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
             (identical(other.expiresAt, expiresAt) ||
                 other.expiresAt == expiresAt) &&
@@ -63,8 +68,12 @@ mixin _$AddActivityRequest {
             (identical(other.parentId, parentId) ||
                 other.parentId == parentId) &&
             (identical(other.pollId, pollId) || other.pollId == pollId) &&
+            (identical(other.restrictReplies, restrictReplies) ||
+                other.restrictReplies == restrictReplies) &&
             const DeepCollectionEquality()
                 .equals(other.searchData, searchData) &&
+            (identical(other.skipEnrichUrl, skipEnrichUrl) ||
+                other.skipEnrichUrl == skipEnrichUrl) &&
             (identical(other.text, text) || other.text == text) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.visibility, visibility) ||
@@ -74,28 +83,32 @@ mixin _$AddActivityRequest {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(attachments),
-      const DeepCollectionEquality().hash(custom),
-      expiresAt,
-      const DeepCollectionEquality().hash(feeds),
-      const DeepCollectionEquality().hash(filterTags),
-      id,
-      const DeepCollectionEquality().hash(interestTags),
-      location,
-      const DeepCollectionEquality().hash(mentionedUserIds),
-      parentId,
-      pollId,
-      const DeepCollectionEquality().hash(searchData),
-      text,
-      type,
-      visibility,
-      visibilityTag);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        const DeepCollectionEquality().hash(attachments),
+        const DeepCollectionEquality().hash(collectionRefs),
+        const DeepCollectionEquality().hash(custom),
+        expiresAt,
+        const DeepCollectionEquality().hash(feeds),
+        const DeepCollectionEquality().hash(filterTags),
+        id,
+        const DeepCollectionEquality().hash(interestTags),
+        location,
+        const DeepCollectionEquality().hash(mentionedUserIds),
+        parentId,
+        pollId,
+        restrictReplies,
+        const DeepCollectionEquality().hash(searchData),
+        skipEnrichUrl,
+        text,
+        type,
+        visibility,
+        visibilityTag
+      ]);
 
   @override
   String toString() {
-    return 'AddActivityRequest(attachments: $attachments, custom: $custom, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, id: $id, interestTags: $interestTags, location: $location, mentionedUserIds: $mentionedUserIds, parentId: $parentId, pollId: $pollId, searchData: $searchData, text: $text, type: $type, visibility: $visibility, visibilityTag: $visibilityTag)';
+    return 'AddActivityRequest(attachments: $attachments, collectionRefs: $collectionRefs, custom: $custom, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, id: $id, interestTags: $interestTags, location: $location, mentionedUserIds: $mentionedUserIds, parentId: $parentId, pollId: $pollId, restrictReplies: $restrictReplies, searchData: $searchData, skipEnrichUrl: $skipEnrichUrl, text: $text, type: $type, visibility: $visibility, visibilityTag: $visibilityTag)';
   }
 }
 
@@ -107,6 +120,7 @@ abstract mixin class $AddActivityRequestCopyWith<$Res> {
   @useResult
   $Res call(
       {List<Attachment>? attachments,
+      List<String>? collectionRefs,
       Map<String, Object?>? custom,
       String? expiresAt,
       List<String> feeds,
@@ -117,7 +131,9 @@ abstract mixin class $AddActivityRequestCopyWith<$Res> {
       List<String>? mentionedUserIds,
       String? parentId,
       String? pollId,
+      AddActivityRequestRestrictReplies? restrictReplies,
       Map<String, Object?>? searchData,
+      bool? skipEnrichUrl,
       String? text,
       String type,
       AddActivityRequestVisibility? visibility,
@@ -138,6 +154,7 @@ class _$AddActivityRequestCopyWithImpl<$Res>
   @override
   $Res call({
     Object? attachments = freezed,
+    Object? collectionRefs = freezed,
     Object? custom = freezed,
     Object? expiresAt = freezed,
     Object? feeds = null,
@@ -148,7 +165,9 @@ class _$AddActivityRequestCopyWithImpl<$Res>
     Object? mentionedUserIds = freezed,
     Object? parentId = freezed,
     Object? pollId = freezed,
+    Object? restrictReplies = freezed,
     Object? searchData = freezed,
+    Object? skipEnrichUrl = freezed,
     Object? text = freezed,
     Object? type = null,
     Object? visibility = freezed,
@@ -159,6 +178,10 @@ class _$AddActivityRequestCopyWithImpl<$Res>
           ? _self.attachments
           : attachments // ignore: cast_nullable_to_non_nullable
               as List<Attachment>?,
+      collectionRefs: freezed == collectionRefs
+          ? _self.collectionRefs
+          : collectionRefs // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       custom: freezed == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
@@ -199,10 +222,18 @@ class _$AddActivityRequestCopyWithImpl<$Res>
           ? _self.pollId
           : pollId // ignore: cast_nullable_to_non_nullable
               as String?,
+      restrictReplies: freezed == restrictReplies
+          ? _self.restrictReplies
+          : restrictReplies // ignore: cast_nullable_to_non_nullable
+              as AddActivityRequestRestrictReplies?,
       searchData: freezed == searchData
           ? _self.searchData
           : searchData // ignore: cast_nullable_to_non_nullable
               as Map<String, Object?>?,
+      skipEnrichUrl: freezed == skipEnrichUrl
+          ? _self.skipEnrichUrl
+          : skipEnrichUrl // ignore: cast_nullable_to_non_nullable
+              as bool?,
       text: freezed == text
           ? _self.text
           : text // ignore: cast_nullable_to_non_nullable

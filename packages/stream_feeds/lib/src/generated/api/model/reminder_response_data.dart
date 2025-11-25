@@ -40,7 +40,7 @@ class ReminderResponseData with _$ReminderResponseData {
   final DateTime createdAt;
 
   @override
-  final Message? message;
+  final MessageResponse? message;
 
   @override
   final String messageId;
@@ -54,7 +54,7 @@ class ReminderResponseData with _$ReminderResponseData {
   final DateTime updatedAt;
 
   @override
-  final User? user;
+  final UserResponse? user;
 
   @override
   final String userId;

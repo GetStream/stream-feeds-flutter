@@ -19,10 +19,14 @@ part 'delete_activity_request.freezed.dart';
 class DeleteActivityRequest with _$DeleteActivityRequest {
   const DeleteActivityRequest({
     this.hardDelete,
+    this.reason,
   });
 
   @override
   final bool? hardDelete;
+
+  @override
+  final String? reason;
 
   Map<String, dynamic> toJson() => _$DeleteActivityRequestToJson(this);
 

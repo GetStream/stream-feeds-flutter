@@ -14,6 +14,18 @@ part 'activity_request.g.dart';
 part 'activity_request.freezed.dart';
 
 @JsonEnum(alwaysCreate: true)
+enum ActivityRequestRestrictReplies {
+  @JsonValue('everyone')
+  everyone,
+  @JsonValue('nobody')
+  nobody,
+  @JsonValue('people_i_follow')
+  peopleIFollow,
+  @JsonValue('_unknown')
+  unknown;
+}
+
+@JsonEnum(alwaysCreate: true)
 enum ActivityRequestVisibility {
   @JsonValue('private')
   private,
@@ -31,6 +43,7 @@ enum ActivityRequestVisibility {
 class ActivityRequest with _$ActivityRequest {
   const ActivityRequest({
     this.attachments,
+    this.collectionRefs,
     this.custom,
     this.expiresAt,
     required this.feeds,
@@ -41,7 +54,9 @@ class ActivityRequest with _$ActivityRequest {
     this.mentionedUserIds,
     this.parentId,
     this.pollId,
+    this.restrictReplies,
     this.searchData,
+    this.skipEnrichUrl,
     this.text,
     required this.type,
     this.visibility,
@@ -50,6 +65,9 @@ class ActivityRequest with _$ActivityRequest {
 
   @override
   final List<Attachment>? attachments;
+
+  @override
+  final List<String>? collectionRefs;
 
   @override
   final Map<String, Object?>? custom;
@@ -82,7 +100,14 @@ class ActivityRequest with _$ActivityRequest {
   final String? pollId;
 
   @override
+  @JsonKey(unknownEnumValue: ActivityRequestRestrictReplies.unknown)
+  final ActivityRequestRestrictReplies? restrictReplies;
+
+  @override
   final Map<String, Object?>? searchData;
+
+  @override
+  final bool? skipEnrichUrl;
 
   @override
   final String? text;

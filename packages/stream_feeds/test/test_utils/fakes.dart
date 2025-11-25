@@ -2,13 +2,14 @@
 
 import 'package:stream_feeds/stream_feeds.dart';
 
-GetCommentsResponse createDefaultCommentsResponse() =>
-    const GetCommentsResponse(
-      comments: [],
-      next: null,
-      prev: null,
-      duration: 'duration',
-    );
+GetCommentsResponse createDefaultCommentsResponse() {
+  return const GetCommentsResponse(
+    comments: [],
+    next: null,
+    prev: null,
+    duration: 'duration',
+  );
+}
 
 UserResponse createDefaultUserResponse({
   String id = 'id',
@@ -41,12 +42,14 @@ GetActivityResponse createDefaultActivityResponse({
       id: id,
       attachments: const [],
       bookmarkCount: 0,
+      collections: const {},
       commentCount: 0,
       comments: const [],
       createdAt: DateTime(2021, 1, 1),
       custom: const {},
       feeds: feeds,
       filterTags: const [],
+      hidden: false,
       interestTags: const [],
       latestReactions: const [],
       mentionedUsers: const [],
@@ -57,8 +60,10 @@ GetActivityResponse createDefaultActivityResponse({
       parent: null,
       poll: poll,
       popularity: 0,
+      preview: false,
       reactionCount: 0,
       reactionGroups: const {},
+      restrictReplies: 'everyone',
       score: 0,
       searchData: const {},
       shareCount: 0,
@@ -77,42 +82,43 @@ PollResponseData createDefaultPollResponseData({
   String id = 'poll-id',
   List<PollVoteResponseData> latestAnswers = const [],
   Map<String, List<PollVoteResponseData>> latestVotesByOption = const {},
-}) =>
-    PollResponseData(
-      id: id,
-      name: 'name',
-      allowAnswers: true,
-      allowUserSuggestedOptions: true,
-      answersCount: latestAnswers.length,
-      createdAt: DateTime.now(),
-      createdById: 'id',
-      custom: const {},
-      description: 'description',
-      enforceUniqueVote: true,
-      latestAnswers: latestAnswers,
-      latestVotesByOption: latestVotesByOption,
-      ownVotes: const [],
-      updatedAt: DateTime.now(),
-      voteCount: latestVotesByOption.values
-          .map((e) => e.length)
-          .fold(0, (v, e) => v + e),
-      voteCountsByOption: latestVotesByOption.map(
-        (k, e) => MapEntry(k, e.length),
+}) {
+  return PollResponseData(
+    id: id,
+    name: 'name',
+    allowAnswers: true,
+    allowUserSuggestedOptions: true,
+    answersCount: latestAnswers.length,
+    createdAt: DateTime.now(),
+    createdById: 'id',
+    custom: const {},
+    description: 'description',
+    enforceUniqueVote: true,
+    latestAnswers: latestAnswers,
+    latestVotesByOption: latestVotesByOption,
+    ownVotes: const [],
+    updatedAt: DateTime.now(),
+    voteCount: latestVotesByOption.values
+        .map((e) => e.length)
+        .fold(0, (v, e) => v + e),
+    voteCountsByOption: latestVotesByOption.map(
+      (k, e) => MapEntry(k, e.length),
+    ),
+    votingVisibility: 'visibility',
+    options: const [
+      PollOptionResponseData(
+        id: 'id1',
+        text: 'text1',
+        custom: {},
       ),
-      votingVisibility: 'visibility',
-      options: const [
-        PollOptionResponseData(
-          id: 'id1',
-          text: 'text1',
-          custom: {},
-        ),
-        PollOptionResponseData(
-          id: 'id2',
-          text: 'text2',
-          custom: {},
-        ),
-      ],
-    );
+      PollOptionResponseData(
+        id: 'id2',
+        text: 'text2',
+        custom: {},
+      ),
+    ],
+  );
+}
 
 GetOrCreateFeedResponse createDefaultGetOrCreateFeedResponse({
   int followerCount = 0,
@@ -121,45 +127,47 @@ GetOrCreateFeedResponse createDefaultGetOrCreateFeedResponse({
   List<ActivityResponse> activities = const [],
   String? prevPagination,
   String? nextPagination,
-}) =>
-    GetOrCreateFeedResponse(
-      feed: createDefaultFeedResponse(
-        followerCount: followerCount,
-        followingCount: followingCount,
-      ),
-      activities: activities,
-      aggregatedActivities: aggregatedActivities,
-      created: true,
-      duration: '',
-      followers: const [],
-      following: const [],
-      members: const [],
-      pinnedActivities: const [],
-      next: nextPagination,
-      prev: prevPagination,
-    );
+}) {
+  return GetOrCreateFeedResponse(
+    feed: createDefaultFeedResponse(
+      followerCount: followerCount,
+      followingCount: followingCount,
+    ),
+    activities: activities,
+    aggregatedActivities: aggregatedActivities,
+    created: true,
+    duration: '',
+    followers: const [],
+    following: const [],
+    members: const [],
+    pinnedActivities: const [],
+    next: nextPagination,
+    prev: prevPagination,
+  );
+}
 
 FeedResponse createDefaultFeedResponse({
   String id = 'id',
   String groupId = 'group',
   int followerCount = 0,
   int followingCount = 0,
-}) =>
-    FeedResponse(
-      id: id,
-      groupId: groupId,
-      feed: FeedId(group: groupId, id: id).toString(),
-      name: 'name',
-      description: 'description',
-      visibility: FeedVisibility.public,
-      createdAt: DateTime(2021, 1, 1),
-      createdBy: createDefaultUserResponse(),
-      followerCount: followerCount,
-      followingCount: followingCount,
-      memberCount: 0,
-      pinCount: 0,
-      updatedAt: DateTime.now(),
-    );
+}) {
+  return FeedResponse(
+    id: id,
+    groupId: groupId,
+    feed: FeedId(group: groupId, id: id).toString(),
+    name: 'name',
+    description: 'description',
+    visibility: FeedVisibility.public,
+    createdAt: DateTime(2021, 1, 1),
+    createdBy: createDefaultUserResponse(),
+    followerCount: followerCount,
+    followingCount: followingCount,
+    memberCount: 0,
+    pinCount: 0,
+    updatedAt: DateTime.now(),
+  );
+}
 
 CommentResponse createDefaultCommentResponse({
   String id = 'id',
@@ -258,6 +266,7 @@ BookmarkFolderResponse createDefaultBookmarkFolderResponse({
     id: id,
     name: 'My Folder',
     updatedAt: DateTime(2021, 2, 1),
+    user: createDefaultUserResponse(),
   );
 }
 
@@ -278,17 +287,53 @@ PollVoteResponseData createDefaultPollVoteResponse({
 AggregatedActivityResponse createDefaultAggregatedActivityResponse({
   List<ActivityResponse>? activities,
   String group = 'group',
-}) =>
-    AggregatedActivityResponse(
-      activities: activities ??
-          [
-            createDefaultActivityResponse().activity,
-          ],
-      activityCount: activities?.length ?? 1,
-      createdAt: DateTime(2021, 2, 1),
-      group: group,
-      score: 0,
-      updatedAt: DateTime(2021, 2, 1),
-      userCount: 1,
-      userCountTruncated: false,
-    );
+}) {
+  activities ??= [createDefaultActivityResponse().activity];
+  return AggregatedActivityResponse(
+    activities: activities,
+    activityCount: activities.length,
+    createdAt: DateTime(2021, 2, 1),
+    group: group,
+    score: 0,
+    updatedAt: DateTime(2021, 2, 1),
+    userCount: 1,
+    userCountTruncated: false,
+  );
+}
+
+FeedSuggestionResponse createDefaultFeedSuggestionResponse({
+  String id = 'suggestion-id',
+  String groupId = 'user',
+  String feedId = 'john',
+  Map<String, double>? algorithmScores,
+  String? reason,
+  double? recommendationScore,
+}) {
+  return FeedSuggestionResponse(
+    id: id,
+    groupId: groupId,
+    feed: FeedId(group: groupId, id: feedId).toString(),
+    name: 'Suggested Feed',
+    description: 'A suggested feed for you',
+    visibility: FeedVisibility.public,
+    createdAt: DateTime(2021, 1, 1),
+    createdBy: createDefaultUserResponse(),
+    followerCount: 100,
+    followingCount: 50,
+    memberCount: 10,
+    pinCount: 0,
+    updatedAt: DateTime(2021, 2, 1),
+    algorithmScores: algorithmScores,
+    reason: reason,
+    recommendationScore: recommendationScore,
+  );
+}
+
+GetFollowSuggestionsResponse createDefaultGetFollowSuggestionsResponse({
+  List<FeedSuggestionResponse>? suggestions,
+}) {
+  return GetFollowSuggestionsResponse(
+    duration: '10ms',
+    suggestions: suggestions ?? [createDefaultFeedSuggestionResponse()],
+  );
+}

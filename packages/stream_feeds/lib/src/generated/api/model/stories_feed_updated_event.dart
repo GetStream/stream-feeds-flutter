@@ -19,6 +19,7 @@ part 'stories_feed_updated_event.freezed.dart';
 class StoriesFeedUpdatedEvent extends core.WsEvent
     with _$StoriesFeedUpdatedEvent {
   const StoriesFeedUpdatedEvent({
+    this.activities,
     this.aggregatedActivities,
     required this.createdAt,
     required this.custom,
@@ -28,6 +29,9 @@ class StoriesFeedUpdatedEvent extends core.WsEvent
     required this.type,
     this.user,
   });
+
+  @override
+  final List<ActivityResponse>? activities;
 
   @override
   final List<AggregatedActivityResponse>? aggregatedActivities;

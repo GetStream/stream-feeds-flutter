@@ -7,27 +7,76 @@ part of 'reaction.dart';
 // **************************************************************************
 
 Reaction _$ReactionFromJson(Map<String, dynamic> json) => Reaction(
+      activityId: json['activity_id'] as String,
+      childrenCounts: json['children_counts'] as Map<String, dynamic>?,
       createdAt: const EpochDateTimeConverter()
           .fromJson((json['created_at'] as num).toInt()),
-      custom: json['custom'] as Map<String, dynamic>,
-      messageId: json['message_id'] as String,
-      score: (json['score'] as num).toInt(),
-      type: json['type'] as String,
+      data: json['data'] as Map<String, dynamic>?,
+      deletedAt: _$JsonConverterFromJson<int, DateTime>(
+          json['deleted_at'], const EpochDateTimeConverter().fromJson),
+      id: json['id'] as String?,
+      kind: json['kind'] as String,
+      latestChildren: (json['latest_children'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(
+            k,
+            (e as List<dynamic>)
+                .map((e) => Reaction.fromJson(e as Map<String, dynamic>))
+                .toList()),
+      ),
+      moderation: json['moderation'] as Map<String, dynamic>?,
+      ownChildren: (json['own_children'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(
+            k,
+            (e as List<dynamic>)
+                .map((e) => Reaction.fromJson(e as Map<String, dynamic>))
+                .toList()),
+      ),
+      parent: json['parent'] as String?,
+      score: (json['score'] as num?)?.toDouble(),
+      targetFeeds: (json['target_feeds'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      targetFeedsExtraData:
+          json['target_feeds_extra_data'] as Map<String, dynamic>?,
       updatedAt: const EpochDateTimeConverter()
           .fromJson((json['updated_at'] as num).toInt()),
       user: json['user'] == null
           ? null
           : User.fromJson(json['user'] as Map<String, dynamic>),
-      userId: json['user_id'] as String?,
+      userId: json['user_id'] as String,
     );
 
 Map<String, dynamic> _$ReactionToJson(Reaction instance) => <String, dynamic>{
+      'activity_id': instance.activityId,
+      'children_counts': instance.childrenCounts,
       'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
-      'custom': instance.custom,
-      'message_id': instance.messageId,
+      'data': instance.data,
+      'deleted_at': _$JsonConverterToJson<int, DateTime>(
+          instance.deletedAt, const EpochDateTimeConverter().toJson),
+      'id': instance.id,
+      'kind': instance.kind,
+      'latest_children': instance.latestChildren
+          ?.map((k, e) => MapEntry(k, e.map((e) => e.toJson()).toList())),
+      'moderation': instance.moderation,
+      'own_children': instance.ownChildren
+          ?.map((k, e) => MapEntry(k, e.map((e) => e.toJson()).toList())),
+      'parent': instance.parent,
       'score': instance.score,
-      'type': instance.type,
+      'target_feeds': instance.targetFeeds,
+      'target_feeds_extra_data': instance.targetFeedsExtraData,
       'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
       'user': instance.user?.toJson(),
       'user_id': instance.userId,
     };
+
+Value? _$JsonConverterFromJson<Json, Value>(
+  Object? json,
+  Value? Function(Json json) fromJson,
+) =>
+    json == null ? null : fromJson(json as Json);
+
+Json? _$JsonConverterToJson<Json, Value>(
+  Value? value,
+  Json? Function(Value value) toJson,
+) =>
+    value == null ? null : toJson(value);

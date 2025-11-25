@@ -19,10 +19,14 @@ part 'delete_reaction_request.freezed.dart';
 class DeleteReactionRequest with _$DeleteReactionRequest {
   const DeleteReactionRequest({
     this.hardDelete,
+    this.reason,
   });
 
   @override
   final bool? hardDelete;
+
+  @override
+  final String? reason;
 
   Map<String, dynamic> toJson() => _$DeleteReactionRequestToJson(this);
 

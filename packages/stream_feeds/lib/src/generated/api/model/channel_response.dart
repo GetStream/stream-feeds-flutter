@@ -29,6 +29,7 @@ class ChannelResponse with _$ChannelResponse {
     required this.custom,
     this.deletedAt,
     required this.disabled,
+    this.filterTags,
     required this.frozen,
     this.hidden,
     this.hideMessagesBefore,
@@ -83,6 +84,9 @@ class ChannelResponse with _$ChannelResponse {
   final bool disabled;
 
   @override
+  final List<String>? filterTags;
+
+  @override
   final bool frozen;
 
   @override
@@ -103,7 +107,7 @@ class ChannelResponse with _$ChannelResponse {
   final int? memberCount;
 
   @override
-  final List<ChannelMember>? members;
+  final List<ChannelMemberResponse>? members;
 
   @override
   final int? messageCount;

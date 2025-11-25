@@ -19,6 +19,7 @@ part 'notification_target.freezed.dart';
 class NotificationTarget with _$NotificationTarget {
   const NotificationTarget({
     this.attachments,
+    this.comment,
     required this.id,
     this.name,
     this.text,
@@ -28,6 +29,9 @@ class NotificationTarget with _$NotificationTarget {
 
   @override
   final List<Attachment>? attachments;
+
+  @override
+  final NotificationComment? comment;
 
   @override
   final String id;

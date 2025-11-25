@@ -13,20 +13,6 @@ import '../models.dart';
 part 'channel_member.g.dart';
 part 'channel_member.freezed.dart';
 
-@JsonEnum(alwaysCreate: true)
-enum ChannelMemberRole {
-  @JsonValue('admin')
-  admin,
-  @JsonValue('member')
-  member,
-  @JsonValue('moderator')
-  moderator,
-  @JsonValue('owner')
-  owner,
-  @JsonValue('_unknown')
-  unknown;
-}
-
 @freezed
 @immutable
 @JsonSerializable()
@@ -35,18 +21,21 @@ class ChannelMember with _$ChannelMember {
     this.archivedAt,
     this.banExpires,
     required this.banned,
+    this.blocked,
+    this.channel,
     required this.channelRole,
     required this.createdAt,
     required this.custom,
     this.deletedAt,
     this.deletedMessages,
+    this.hidden,
     this.inviteAcceptedAt,
     this.inviteRejectedAt,
     this.invited,
+    required this.isGlobalBanned,
     this.isModerator,
     required this.notificationsMuted,
     this.pinnedAt,
-    this.role,
     required this.shadowBanned,
     this.status,
     required this.updatedAt,
@@ -66,6 +55,12 @@ class ChannelMember with _$ChannelMember {
   final bool banned;
 
   @override
+  final bool? blocked;
+
+  @override
+  final DenormalizedChannelFields? channel;
+
+  @override
   final String channelRole;
 
   @override
@@ -83,6 +78,9 @@ class ChannelMember with _$ChannelMember {
   final List<String>? deletedMessages;
 
   @override
+  final bool? hidden;
+
+  @override
   @EpochDateTimeConverter()
   final DateTime? inviteAcceptedAt;
 
@@ -92,6 +90,9 @@ class ChannelMember with _$ChannelMember {
 
   @override
   final bool? invited;
+
+  @override
+  final bool isGlobalBanned;
 
   @override
   final bool? isModerator;
@@ -104,10 +105,6 @@ class ChannelMember with _$ChannelMember {
   final DateTime? pinnedAt;
 
   @override
-  @JsonKey(unknownEnumValue: ChannelMemberRole.unknown)
-  final ChannelMemberRole? role;
-
-  @override
   final bool shadowBanned;
 
   @override
@@ -118,7 +115,7 @@ class ChannelMember with _$ChannelMember {
   final DateTime updatedAt;
 
   @override
-  final UserResponse? user;
+  final User? user;
 
   @override
   final String? userId;

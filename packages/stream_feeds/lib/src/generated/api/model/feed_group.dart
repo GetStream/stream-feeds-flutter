@@ -22,12 +22,12 @@ class FeedGroup with _$FeedGroup {
     required this.activitySelectors,
     this.aggregation,
     required this.aggregationVersion,
-    required this.appPK,
+    required this.appPk,
     required this.createdAt,
     required this.custom,
     required this.defaultVisibility,
     this.deletedAt,
-    required this.iD,
+    required this.groupId,
     this.lastFeedGetAt,
     this.notification,
     this.pushNotification,
@@ -49,7 +49,7 @@ class FeedGroup with _$FeedGroup {
   final int aggregationVersion;
 
   @override
-  final int appPK;
+  final int appPk;
 
   @override
   @EpochDateTimeConverter()
@@ -66,7 +66,7 @@ class FeedGroup with _$FeedGroup {
   final DateTime? deletedAt;
 
   @override
-  final String iD;
+  final String groupId;
 
   @override
   @EpochDateTimeConverter()

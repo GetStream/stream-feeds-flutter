@@ -34,6 +34,7 @@ const _$CreateBlockListRequestTypeEnumMap = {
   CreateBlockListRequestType.domain: 'domain',
   CreateBlockListRequestType.domainAllowlist: 'domain_allowlist',
   CreateBlockListRequestType.email: 'email',
+  CreateBlockListRequestType.emailAllowlist: 'email_allowlist',
   CreateBlockListRequestType.regex: 'regex',
   CreateBlockListRequestType.word: 'word',
   CreateBlockListRequestType.unknown: '_unknown',
