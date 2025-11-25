@@ -61,52 +61,6 @@ abstract base class BaseTester<S> with ApiMockerMixin {
   Future<void> pump([Duration duration = Duration.zero]) {
     return Future<Object?>.delayed(duration);
   }
-
-  /// Asserts that [actual] matches [matcher].
-  ///
-  /// The [actual] parameter is a function that receives the subject
-  /// and returns a value to assert.
-  ///
-  /// Example:
-  /// ```dart
-  /// tester.expect((subject) => subject.state.someField, expectedValue);
-  /// ```
-  @Deprecated('Use regular expect instead')
-  void expect(
-    Object? Function(S subject) actual,
-    Object? matcher, {
-    String? reason,
-  }) {
-    return test.expect(
-      actual(subject),
-      test.wrapMatcher(matcher),
-      reason: reason,
-    );
-  }
-
-  /// Asserts that [actual] matches [matcher] asynchronously.
-  ///
-  /// The [actual] parameter is a function that receives the subject
-  /// and returns a value to assert.
-  ///
-  /// Example:
-  /// ```dart
-  /// await tester.expectLater(
-  ///   (subject) => subject.stream,
-  ///   emits(expectedValue),
-  /// );
-  /// ```
-  Future<void> expectLater(
-    Object? Function(S subject) actual,
-    Object? matcher, {
-    String? reason,
-  }) {
-    return test.expectLater(
-      actual(subject),
-      test.wrapMatcher(matcher),
-      reason: reason,
-    );
-  }
 }
 
 /// Creates a tester instance with WebSocket support.
