@@ -272,7 +272,7 @@ extension CommentDataMutations on CommentData {
     String currentUserId, {
     bool enforceUnique = false,
   }) {
-    final updatedOwnReactions = updatedComment.ownReactions.let((it) {
+    final updatedOwnReactions = ownReactions.let((it) {
       if (reaction.user.id != currentUserId) return it;
       return it.upsertReaction(reaction, enforceUnique: enforceUnique);
     });
