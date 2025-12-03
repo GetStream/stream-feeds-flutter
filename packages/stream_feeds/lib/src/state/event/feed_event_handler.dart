@@ -83,7 +83,21 @@ class FeedEventHandler with FeedCapabilitiesMixin implements StateEventHandler {
         return state.onActivityRemoved(activity);
       }
 
-      return state.onReactionAdded(event.reaction.toModel());
+      final reaction = event.reaction.toModel();
+      return state.onReactionAdded(activity, reaction);
+    }
+
+    if (event is api.ActivityReactionUpdatedEvent) {
+      if (event.fid != fid.rawValue) return;
+
+      final activity = event.activity.toModel();
+      if (!matchesQueryFilter(activity)) {
+        // If the reaction's activity no longer matches the filter, remove it
+        return state.onActivityRemoved(activity);
+      }
+
+      final reaction = event.reaction.toModel();
+      return state.onReactionUpdated(activity, reaction);
     }
 
     if (event is api.ActivityReactionDeletedEvent) {
@@ -95,7 +109,8 @@ class FeedEventHandler with FeedCapabilitiesMixin implements StateEventHandler {
         return state.onActivityRemoved(activity);
       }
 
-      return state.onReactionRemoved(event.reaction.toModel());
+      final reaction = event.reaction.toModel();
+      return state.onReactionRemoved(activity, reaction);
     }
 
     if (event is api.ActivityPinnedEvent) {
@@ -136,26 +151,10 @@ class FeedEventHandler with FeedCapabilitiesMixin implements StateEventHandler {
     }
 
     if (event is api.BookmarkAddedEvent) {
-      final activity = event.bookmark.activity.toModel();
-      if (!activity.feeds.contains(fid.rawValue)) return;
-
-      if (!matchesQueryFilter(activity)) {
-        // If the bookmark's activity no longer matches the filter, remove it
-        return state.onActivityRemoved(activity);
-      }
-
       return state.onBookmarkAdded(event.bookmark.toModel());
     }
 
     if (event is api.BookmarkDeletedEvent) {
-      final activity = event.bookmark.activity.toModel();
-      if (!activity.feeds.contains(fid.rawValue)) return;
-
-      if (!matchesQueryFilter(activity)) {
-        // If the bookmark's activity no longer matches the filter, remove it
-        return state.onActivityRemoved(activity);
-      }
-
       return state.onBookmarkRemoved(event.bookmark.toModel());
     }
 
@@ -169,6 +168,12 @@ class FeedEventHandler with FeedCapabilitiesMixin implements StateEventHandler {
       }
 
       return state.onCommentAdded(event.comment.toModel());
+    }
+
+    if (event is api.CommentUpdatedEvent) {
+      if (event.fid != fid.rawValue) return;
+      // TODO: Match event activity against filter once available in the event
+      return state.onCommentUpdated(event.comment.toModel());
     }
 
     if (event is api.CommentDeletedEvent) {

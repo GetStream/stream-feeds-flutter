@@ -1,6 +1,9 @@
 // ignore_for_file: avoid_redundant_argument_values
 
+import 'dart:math' as math;
+
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:stream_core/stream_core.dart';
 
 import '../generated/api/models.dart';
 import '../state/query/comments_query.dart';
@@ -157,6 +160,138 @@ class CommentData with _$CommentData implements CommentsSortDataFields {
   bool get isThreaded => replies != null;
 }
 
+/// Extension functions for [CommentData] to handle common operations.
+extension CommentDataMutations on CommentData {
+  /// Updates this comment with new data while preserving own reactions.
+  ///
+  /// Merges [updated] comment data with this instance, preserving [ownReactions] from
+  /// this instance when not provided. For threaded comments, also preserves meta and
+  /// replies data. This ensures that user-specific data is not lost when updating
+  /// from WebSocket events.
+  ///
+  /// Returns a new [CommentData] instance with the merged data.
+  CommentData updateWith(
+    CommentData updated, {
+    List<FeedsReactionData>? ownReactions,
+  }) {
+    // If the comment is threaded, only preserve own reactions.
+    if (updated.isThreaded) {
+      return updated.copyWith(
+        // Preserve own reactions from the current instance if not provided
+        // as they may not be reliable from WS events.
+        ownReactions: ownReactions ?? this.ownReactions,
+      );
+    }
+
+    // For non-threaded comments, preserve meta and replies as well.
+    return updated.copyWith(
+      meta: meta,
+      replies: replies,
+      // Preserve own reactions from the current instance if not provided
+      // as they may not be reliable from WS events.
+      ownReactions: ownReactions ?? this.ownReactions,
+    );
+  }
+
+  /// Adds or updates a reply in this comment.
+  ///
+  /// Updates the replies list by adding or updating [reply]. If the reply already exists,
+  /// it will be updated. The reply count is automatically recalculated.
+  ///
+  /// Returns a new [CommentData] instance with the updated replies and reply count.
+  CommentData upsertReply(CommentData reply) {
+    final currentReplies = [...?replies];
+    final updatedReplies = currentReplies.upsert(reply, key: (it) => it.id);
+
+    final difference = updatedReplies.length - currentReplies.length;
+    final updatedReplyCount = math.max(0, replyCount + difference);
+
+    return copyWith(
+      replies: updatedReplies,
+      replyCount: updatedReplyCount,
+    );
+  }
+
+  /// Removes a reply from this comment.
+  ///
+  /// Updates the replies list by removing [reply]. The reply count is automatically
+  /// recalculated.
+  ///
+  /// Returns a new [CommentData] instance with the updated replies and reply count.
+  CommentData removeReply(CommentData reply) {
+    final currentReplies = [...?replies];
+    final updatedReplies = [...currentReplies.where((it) => it.id != reply.id)];
+
+    final difference = updatedReplies.length - currentReplies.length;
+    final updatedReplyCount = math.max(0, replyCount + difference);
+
+    return copyWith(
+      replies: updatedReplies,
+      replyCount: updatedReplyCount,
+    );
+  }
+
+  /// Adds or updates a reaction in this comment with unique enforcement.
+  ///
+  /// Updates the own reactions list by adding or updating [reaction]. Only adds reactions
+  /// that belong to [currentUserId]. When unique enforcement is enabled, replaces any
+  /// existing reaction from the same user.
+  ///
+  /// Returns a new [CommentData] instance with the updated own reactions.
+  CommentData upsertUniqueReaction(
+    CommentData updatedComment,
+    FeedsReactionData reaction,
+    String currentUserId,
+  ) {
+    return upsertReaction(
+      updatedComment,
+      reaction,
+      currentUserId,
+      enforceUnique: true,
+    );
+  }
+
+  /// Adds or updates a reaction in this comment.
+  ///
+  /// Updates the own reactions list by adding or updating [reaction]. Only adds reactions
+  /// that belong to [currentUserId]. When [enforceUnique] is true, replaces any existing
+  /// reaction from the same user; otherwise, allows multiple reactions from the same user.
+  ///
+  /// Returns a new [CommentData] instance with the updated own reactions.
+  CommentData upsertReaction(
+    CommentData updatedComment,
+    FeedsReactionData reaction,
+    String currentUserId, {
+    bool enforceUnique = false,
+  }) {
+    final updatedOwnReactions = updatedComment.ownReactions.let((it) {
+      if (reaction.user.id != currentUserId) return it;
+      return it.upsertReaction(reaction, enforceUnique: enforceUnique);
+    });
+
+    return updateWith(updatedComment, ownReactions: updatedOwnReactions);
+  }
+
+  /// Removes a reaction from this comment.
+  ///
+  /// Updates the own reactions list by removing [reaction]. Only removes reactions
+  /// that belong to [currentUserId].
+  ///
+  /// Returns a new [CommentData] instance with the updated own reactions.
+  CommentData removeReaction(
+    CommentData updatedComment,
+    FeedsReactionData reaction,
+    String currentUserId,
+  ) {
+    final updatedOwnReactions = ownReactions.let((it) {
+      if (reaction.user.id != currentUserId) return it;
+      return it.where((it) => it.id != reaction.id).toList();
+    });
+
+    return updateWith(updatedComment, ownReactions: updatedOwnReactions);
+  }
+}
+
 /// Extension function to convert a [CommentResponse] to a [CommentData] model.
 extension CommentResponseMapper on CommentResponse {
   /// Converts this API comment response to a domain [CommentData] instance.
@@ -187,6 +322,46 @@ extension CommentResponseMapper on CommentResponse {
           entry.key: entry.value.toModel(),
       },
       replies: null, // Comments don't have replies loaded by default
+      replyCount: replyCount,
+      score: score,
+      status: status,
+      text: text,
+      updatedAt: updatedAt,
+      upvoteCount: upvoteCount,
+      user: user.toModel(),
+    );
+  }
+}
+
+extension ThreadedCommentResponseMapper on ThreadedCommentResponse {
+  /// Converts this API comment response to a domain [CommentData] instance.
+  ///
+  /// Returns a [CommentData] instance containing all the comment information
+  /// from the API response with proper type conversions and null handling.
+  CommentData toModel() {
+    return CommentData(
+      attachments: attachments,
+      confidenceScore: confidenceScore,
+      controversyScore: controversyScore,
+      createdAt: createdAt,
+      custom: custom,
+      deletedAt: deletedAt,
+      downvoteCount: downvoteCount,
+      id: id,
+      latestReactions: [...?latestReactions?.map((e) => e.toModel())],
+      mentionedUsers: [...mentionedUsers.map((e) => e.toModel())],
+      meta: meta,
+      moderation: moderation?.toModel(),
+      objectId: objectId,
+      objectType: objectType,
+      ownReactions: [...ownReactions.map((e) => e.toModel())],
+      parentId: parentId,
+      reactionCount: reactionCount,
+      reactionGroups: {
+        for (final entry in {...?reactionGroups?.entries})
+          entry.key: entry.value.toModel(),
+      },
+      replies: replies?.map((e) => e.toModel()).toList(),
       replyCount: replyCount,
       score: score,
       status: status,

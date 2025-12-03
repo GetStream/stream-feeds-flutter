@@ -5,7 +5,6 @@ import '../models/comment_data.dart';
 import '../models/feeds_reaction_data.dart';
 import '../models/pagination_data.dart';
 import '../models/request/activity_add_comment_request.dart';
-import '../models/threaded_comment_data.dart';
 import '../state/query/activity_comments_query.dart';
 import '../state/query/comment_reactions_query.dart';
 import '../state/query/comment_replies_query.dart';
@@ -56,8 +55,8 @@ class CommentsRepository {
   ///
   /// Fetches threaded comments for an activity using the specified [query] parameters.
   ///
-  /// Returns a [Result] containing a [PaginationResult] of [ThreadedCommentData] or an error.
-  Future<Result<PaginationResult<ThreadedCommentData>>> getComments(
+  /// Returns a [Result] containing a [PaginationResult] of [CommentData] or an error.
+  Future<Result<PaginationResult<CommentData>>> getComments(
     ActivityCommentsQuery query,
   ) async {
     final result = await _api.getComments(
@@ -85,7 +84,7 @@ class CommentsRepository {
   ///
   /// Creates a new comment using the provided [request] data.
   ///
-  /// Returns a [Result] containing the newly created [CommentData] or an error.
+  /// Returns a [Result] containing the created [CommentData] or an error.
   Future<Result<CommentData>> addComment(
     ActivityAddCommentRequest request,
   ) async {
@@ -100,7 +99,7 @@ class CommentsRepository {
     });
   }
 
-  /// Adds multiple comments.
+  /// Adds multiple comments in a single batch operation.
   ///
   /// Creates multiple comments in a single batch operation using the provided [requests] data.
   ///
@@ -170,8 +169,9 @@ class CommentsRepository {
   ///
   /// Creates a new reaction on the comment with [commentId] using the provided [request] data.
   ///
-  /// Returns a [Result] containing the [FeedsReactionData] or an error.
-  Future<Result<({FeedsReactionData reaction, String commentId})>>
+  /// Returns a [Result] containing a record with the updated [CommentData] and created
+  /// [FeedsReactionData] or an error.
+  Future<Result<({CommentData comment, FeedsReactionData reaction})>>
       addCommentReaction(
     String commentId,
     api.AddCommentReactionRequest request,
@@ -183,8 +183,8 @@ class CommentsRepository {
 
     return result.map(
       (response) => (
+        comment: response.comment.toModel(),
         reaction: response.reaction.toModel(),
-        commentId: response.comment.id,
       ),
     );
   }
@@ -193,8 +193,9 @@ class CommentsRepository {
   ///
   /// Removes the reaction of [type] from the comment with [commentId].
   ///
-  /// Returns a [Result] containing the deleted [FeedsReactionData] or an error.
-  Future<Result<({FeedsReactionData reaction, String commentId})>>
+  /// Returns a [Result] containing a record with the updated [CommentData] and deleted
+  /// [FeedsReactionData] or an error.
+  Future<Result<({CommentData comment, FeedsReactionData reaction})>>
       deleteCommentReaction(
     String commentId,
     String type,
@@ -203,8 +204,8 @@ class CommentsRepository {
 
     return result.map(
       (response) => (
+        comment: response.comment.toModel(),
         reaction: response.reaction.toModel(),
-        commentId: response.comment.id,
       ),
     );
   }
@@ -239,8 +240,8 @@ class CommentsRepository {
   ///
   /// Fetches threaded replies for a comment using the specified [query] parameters.
   ///
-  /// Returns a [Result] containing a [PaginationResult] of [ThreadedCommentData] or an error.
-  Future<Result<PaginationResult<ThreadedCommentData>>> getCommentReplies(
+  /// Returns a [Result] containing a [PaginationResult] of [CommentData] or an error.
+  Future<Result<PaginationResult<CommentData>>> getCommentReplies(
     CommentRepliesQuery query,
   ) async {
     final result = await _api.getCommentReplies(

@@ -5,7 +5,6 @@ import 'package:stream_core/stream_core.dart';
 import '../models/comment_data.dart';
 import '../models/feeds_reaction_data.dart';
 import '../models/pagination_data.dart';
-import '../models/threaded_comment_data.dart';
 import 'query/comments_query.dart';
 
 part 'activity_comment_list_state.freezed.dart';
@@ -28,7 +27,7 @@ class ActivityCommentListStateNotifier
 
   /// Handles the result of a query for more comments.
   void onQueryMoreComments(
-    PaginationResult<ThreadedCommentData> result, {
+    PaginationResult<CommentData> result, {
     CommentsSort? sort,
   }) {
     _commentSort = sort;
@@ -47,13 +46,13 @@ class ActivityCommentListStateNotifier
   }
 
   /// Handles the addition of a new comment.
-  void onCommentAdded(ThreadedCommentData comment) {
+  void onCommentAdded(CommentData comment) {
     // If the comment is a reply, find the parent and add it to the parent's replies
     if (comment.parentId case final parentId?) {
       final updatedComments = state.comments.updateNested(
-        (comment) => comment.id == parentId,
+        (it) => it.id == parentId,
         children: (it) => it.replies ?? [],
-        update: (found) => found.addReply(comment, commentSort.compare),
+        update: (found) => found.upsertReply(comment),
         updateChildren: (parent, replies) => parent.copyWith(replies: replies),
         compare: commentSort.compare,
       );
@@ -77,7 +76,7 @@ class ActivityCommentListStateNotifier
     final updatedComments = state.comments.updateNested(
       (it) => it.id == comment.id,
       children: (it) => it.replies ?? [],
-      update: (found) => found.setCommentData(comment),
+      update: (found) => found.updateWith(comment),
       updateChildren: (parent, replies) => parent.copyWith(replies: replies),
     );
 
@@ -85,7 +84,10 @@ class ActivityCommentListStateNotifier
   }
 
   /// Handles the removal of a comment by ID.
-  void onCommentRemoved(String commentId, {bool hardDelete = false}) {
+  void onCommentRemoved(
+    String commentId, {
+    bool hardDelete = false,
+  }) {
     final updatedComments = state.comments.removeNested(
       (it) => it.id == commentId,
       children: (it) => it.replies ?? [],
@@ -96,11 +98,31 @@ class ActivityCommentListStateNotifier
   }
 
   /// Handles the addition of a reaction to a comment.
-  void onCommentReactionAdded(String commentId, FeedsReactionData reaction) {
+  void onCommentReactionAdded(
+    CommentData comment,
+    FeedsReactionData reaction,
+  ) {
     final updatedComments = state.comments.updateNested(
-      (comment) => comment.id == commentId,
+      (it) => it.id == comment.id,
       children: (it) => it.replies ?? [],
-      update: (found) => found.addReaction(reaction, currentUserId),
+      update: (found) => found.upsertReaction(comment, reaction, currentUserId),
+      updateChildren: (parent, replies) => parent.copyWith(replies: replies),
+      compare: commentSort.compare,
+    );
+
+    state = state.copyWith(comments: updatedComments);
+  }
+
+  /// Handles the update of a reaction on a comment.
+  void onCommentReactionUpdated(
+    CommentData comment,
+    FeedsReactionData reaction,
+  ) {
+    final updatedComments = state.comments.updateNested(
+      (it) => it.id == comment.id,
+      children: (it) => it.replies ?? [],
+      update: (found) =>
+          found.upsertUniqueReaction(comment, reaction, currentUserId),
       updateChildren: (parent, replies) => parent.copyWith(replies: replies),
       compare: commentSort.compare,
     );
@@ -109,11 +131,14 @@ class ActivityCommentListStateNotifier
   }
 
   /// Handles the removal of a reaction from a comment.
-  void onCommentReactionRemoved(String commentId, FeedsReactionData reaction) {
+  void onCommentReactionRemoved(
+    CommentData comment,
+    FeedsReactionData reaction,
+  ) {
     final updatedComments = state.comments.updateNested(
-      (comment) => comment.id == commentId,
+      (it) => it.id == comment.id,
       children: (it) => it.replies ?? [],
-      update: (found) => found.removeReaction(reaction, currentUserId),
+      update: (found) => found.removeReaction(comment, reaction, currentUserId),
       updateChildren: (parent, replies) => parent.copyWith(replies: replies),
       compare: commentSort.compare,
     );
@@ -139,7 +164,7 @@ class ActivityCommentListState with _$ActivityCommentListState {
   /// pagination requests. The comments are automatically sorted according to
   /// the current sorting configuration.
   @override
-  final List<ThreadedCommentData> comments;
+  final List<CommentData> comments;
 
   /// Last pagination information from the most recent request.
   ///

@@ -88,7 +88,7 @@ class ActivityListStateNotifier extends StateNotifier<ActivityListState> {
     final updatedActivities = state.activities.map((activity) {
       if (activity.id != bookmark.activity.id) return activity;
       // Add the bookmark to the activity
-      return activity.addBookmark(bookmark, currentUserId);
+      return activity.upsertBookmark(bookmark, currentUserId);
     }).toList();
 
     state = state.copyWith(activities: updatedActivities);
@@ -107,10 +107,15 @@ class ActivityListStateNotifier extends StateNotifier<ActivityListState> {
 
   /// Handles the addition of a comment.
   void onCommentAdded(CommentData comment) {
+    return onCommentUpdated(comment);
+  }
+
+  /// Handles the update of a comment.
+  void onCommentUpdated(CommentData comment) {
     final updatedActivities = state.activities.map((activity) {
       if (activity.id != comment.objectId) return activity;
       // Add the comment to the activity
-      return activity.addComment(comment);
+      return activity.upsertComment(comment);
     }).toList();
 
     state = state.copyWith(activities: updatedActivities);
@@ -128,22 +133,41 @@ class ActivityListStateNotifier extends StateNotifier<ActivityListState> {
   }
 
   /// Handles the addition of a reaction.
-  void onReactionAdded(FeedsReactionData reaction) {
-    final updatedActivities = state.activities.map((activity) {
-      if (activity.id != reaction.activityId) return activity;
+  void onReactionAdded(
+    ActivityData activity,
+    FeedsReactionData reaction,
+  ) {
+    final updatedActivities = state.activities.map((it) {
+      if (it.id != reaction.activityId) return it;
       // Add the reaction to the activity
-      return activity.addReaction(reaction, currentUserId);
+      return it.upsertReaction(activity, reaction, currentUserId);
+    }).toList();
+
+    state = state.copyWith(activities: updatedActivities);
+  }
+
+  void onReactionUpdated(
+    ActivityData activity,
+    FeedsReactionData reaction,
+  ) {
+    final updatedActivities = state.activities.map((it) {
+      if (it.id != reaction.activityId) return it;
+      // Update the reaction in the activity
+      return it.upsertUniqueReaction(activity, reaction, currentUserId);
     }).toList();
 
     state = state.copyWith(activities: updatedActivities);
   }
 
   /// Handles the removal of a reaction.
-  void onReactionRemoved(FeedsReactionData reaction) {
-    final updatedActivities = state.activities.map((activity) {
-      if (activity.id != reaction.activityId) return activity;
+  void onReactionRemoved(
+    ActivityData activity,
+    FeedsReactionData reaction,
+  ) {
+    final updatedActivities = state.activities.map((it) {
+      if (it.id != reaction.activityId) return it;
       // Remove the reaction from the activity
-      return activity.removeReaction(reaction, currentUserId);
+      return it.removeReaction(activity, reaction, currentUserId);
     }).toList();
 
     state = state.copyWith(activities: updatedActivities);

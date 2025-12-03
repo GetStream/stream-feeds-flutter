@@ -3,7 +3,6 @@ import 'package:stream_core/stream_core.dart';
 import '../../generated/api/models.dart' as api;
 import '../../models/comment_data.dart';
 import '../../models/feeds_reaction_data.dart';
-import '../../models/threaded_comment_data.dart';
 import '../comment_reply_list_state.dart';
 import 'state_event_handler.dart';
 
@@ -22,7 +21,7 @@ class CommentReplyListEventHandler implements StateEventHandler {
   void handleEvent(WsEvent event) {
     if (event is api.CommentAddedEvent) {
       final comment = event.comment.toModel();
-      return state.onCommentAdded(ThreadedCommentData.fromComment(comment));
+      return state.onCommentAdded(comment);
     }
 
     if (event is api.CommentDeletedEvent) {
@@ -30,17 +29,20 @@ class CommentReplyListEventHandler implements StateEventHandler {
     }
 
     if (event is api.CommentUpdatedEvent) {
-      return state.onCommentUpdated(event.comment.toModel());
+      final comment = event.comment.toModel();
+      return state.onCommentUpdated(comment);
     }
 
     if (event is api.CommentReactionAddedEvent) {
+      final comment = event.comment.toModel();
       final reaction = event.reaction.toModel();
-      return state.onCommentReactionAdded(event.comment.id, reaction);
+      return state.onCommentReactionAdded(comment, reaction);
     }
 
     if (event is api.CommentReactionDeletedEvent) {
+      final comment = event.comment.toModel();
       final reaction = event.reaction.toModel();
-      return state.onCommentReactionRemoved(event.comment.id, reaction);
+      return state.onCommentReactionRemoved(comment, reaction);
     }
 
     // Handle other comment reply list events here as needed

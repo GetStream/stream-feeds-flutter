@@ -125,11 +125,12 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
       activity,
       key: (it) => it.id,
       compare: activitiesSort.compare,
+      update: (existing, updated) => existing.updateWith(updated),
     );
 
     final updatedPinnedActivities = state.pinnedActivities.map((pin) {
       if (pin.activity.id != activity.id) return pin;
-      return pin.copyWith(activity: activity);
+      return pin.copyWith(activity: pin.activity.updateWith(activity));
     }).toList();
 
     state = state.copyWith(
@@ -251,20 +252,26 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
     state = state.copyWith(aggregatedActivities: updatedAggregatedActivities);
   }
 
-  /// Handles updates to the feed state when a bookmark is added or removed.
+  /// Handles updates to the feed state when a bookmark is added.
+  ///
+  /// Updates the activity matching [bookmark]'s activity ID by adding or updating
+  /// the bookmark in its own bookmarks list. Only adds bookmarks that belong to
+  /// the current user.
   void onBookmarkAdded(BookmarkData bookmark) {
-    // Add or update the bookmark in the activity
     final updatedActivities = state.activities.map((activity) {
       if (activity.id != bookmark.activity.id) return activity;
-      return activity.addBookmark(bookmark, currentUserId);
+      return activity.upsertBookmark(bookmark, currentUserId);
     }).toList();
 
     state = state.copyWith(activities: updatedActivities);
   }
 
   /// Handles updates to the feed state when a bookmark is removed.
+  ///
+  /// Updates the activity matching [bookmark]'s activity ID by removing
+  /// the bookmark from its own bookmarks list. Only removes bookmarks that
+  /// belong to the current user.
   void onBookmarkRemoved(BookmarkData bookmark) {
-    // Remove the bookmark from the activity
     final updatedActivities = state.activities.map((activity) {
       if (activity.id != bookmark.activity.id) return activity;
       return activity.removeBookmark(bookmark, currentUserId);
@@ -275,10 +282,15 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
 
   /// Handles updates to the feed state when a comment is added or removed.
   void onCommentAdded(CommentData comment) {
+    return onCommentUpdated(comment);
+  }
+
+  /// Handles updates to the feed state when a comment is updated.
+  void onCommentUpdated(CommentData comment) {
     // Add or update the comment in the activity
     final updatedActivities = state.activities.map((activity) {
       if (activity.id != comment.objectId) return activity;
-      return activity.addComment(comment);
+      return activity.upsertComment(comment);
     }).toList();
 
     state = state.copyWith(activities: updatedActivities);
@@ -360,22 +372,42 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
   }
 
   /// Handles updates to the feed state when a reaction is added.
-  void onReactionAdded(FeedsReactionData reaction) {
+  void onReactionAdded(
+    ActivityData activity,
+    FeedsReactionData reaction,
+  ) {
     // Add or update the reaction in the activity
-    final updatedActivities = state.activities.map((activity) {
-      if (activity.id != reaction.activityId) return activity;
-      return activity.addReaction(reaction, currentUserId);
+    final updatedActivities = state.activities.map((it) {
+      if (it.id != reaction.activityId) return it;
+      return it.upsertReaction(activity, reaction, currentUserId);
+    }).toList();
+
+    state = state.copyWith(activities: updatedActivities);
+  }
+
+  /// Handles updates to the feed state when a reaction is updated.
+  void onReactionUpdated(
+    ActivityData activity,
+    FeedsReactionData reaction,
+  ) {
+    // Update the reaction in the activity
+    final updatedActivities = state.activities.map((it) {
+      if (it.id != reaction.activityId) return it;
+      return it.upsertUniqueReaction(activity, reaction, currentUserId);
     }).toList();
 
     state = state.copyWith(activities: updatedActivities);
   }
 
   /// Handles updates to the feed state when a reaction is removed.
-  void onReactionRemoved(FeedsReactionData reaction) {
+  void onReactionRemoved(
+    ActivityData activity,
+    FeedsReactionData reaction,
+  ) {
     // Remove the reaction from the activity
-    final updatedActivities = state.activities.map((activity) {
-      if (activity.id != reaction.activityId) return activity;
-      return activity.removeReaction(reaction, currentUserId);
+    final updatedActivities = state.activities.map((it) {
+      if (it.id != reaction.activityId) return it;
+      return it.removeReaction(activity, reaction, currentUserId);
     }).toList();
 
     state = state.copyWith(activities: updatedActivities);

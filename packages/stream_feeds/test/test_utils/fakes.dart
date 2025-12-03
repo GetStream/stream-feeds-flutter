@@ -2,12 +2,42 @@
 
 import 'package:stream_feeds/stream_feeds.dart';
 
-GetCommentsResponse createDefaultCommentsResponse() {
-  return const GetCommentsResponse(
-    comments: [],
-    next: null,
-    prev: null,
-    duration: 'duration',
+GetCommentsResponse createDefaultCommentsResponse({
+  String? next,
+  String? prev,
+  List<ThreadedCommentResponse> comments = const [],
+}) {
+  return GetCommentsResponse(
+    next: next,
+    prev: prev,
+    comments: comments,
+    duration: '10ms',
+  );
+}
+
+GetCommentRepliesResponse createDefaultCommentRepliesResponse({
+  String? next,
+  String? prev,
+  List<ThreadedCommentResponse> comments = const [],
+}) {
+  return GetCommentRepliesResponse(
+    next: next,
+    prev: prev,
+    comments: comments,
+    duration: '10ms',
+  );
+}
+
+QueryActivitiesResponse createDefaultQueryActivitiesResponse({
+  String? next,
+  String? prev,
+  List<ActivityResponse> activities = const [],
+}) {
+  return QueryActivitiesResponse(
+    next: next,
+    prev: prev,
+    activities: activities,
+    duration: '10ms',
   );
 }
 
@@ -57,14 +87,18 @@ ActivityResponse createDefaultActivityResponse({
   PollResponseData? poll,
   bool hidden = false,
   bool? isWatched,
+  List<BookmarkResponse> ownBookmarks = const [],
+  List<FeedsReactionResponse> ownReactions = const [],
+  Map<String, ReactionGroupResponse> reactionGroups = const {},
+  List<CommentResponse> comments = const [],
 }) {
   return ActivityResponse(
     id: id,
     attachments: const [],
-    bookmarkCount: 0,
+    bookmarkCount: ownBookmarks.length,
     collections: const {},
-    commentCount: 0,
-    comments: const [],
+    commentCount: comments.length,
+    comments: comments,
     createdAt: DateTime(2021, 1, 1),
     custom: const {},
     feeds: feeds,
@@ -75,14 +109,14 @@ ActivityResponse createDefaultActivityResponse({
     mentionedUsers: const [],
     moderation: null,
     notificationContext: null,
-    ownBookmarks: const [],
-    ownReactions: const [],
+    ownBookmarks: ownBookmarks,
+    ownReactions: ownReactions,
     parent: null,
     poll: poll,
     popularity: 0,
     preview: false,
-    reactionCount: 0,
-    reactionGroups: const {},
+    reactionCount: reactionGroups.values.sumOf((group) => group.count),
+    reactionGroups: reactionGroups,
     restrictReplies: 'everyone',
     score: 0,
     searchData: const {},
@@ -123,9 +157,7 @@ PollResponseData createDefaultPollResponse({
     latestVotesByOption: latestVotesByOption,
     ownVotes: const [],
     updatedAt: DateTime.now(),
-    voteCount: latestVotesByOption.values
-        .map((e) => e.length)
-        .fold(0, (v, e) => v + e),
+    voteCount: latestVotesByOption.values.sumOf((it) => it.length),
     voteCountsByOption: latestVotesByOption.map(
       (k, e) => MapEntry(k, e.length),
     ),
@@ -199,6 +231,7 @@ CommentResponse createDefaultCommentResponse({
   required String objectId,
   String objectType = 'post',
   String? text,
+  String? userId,
 }) {
   return CommentResponse(
     id: id,
@@ -217,7 +250,147 @@ CommentResponse createDefaultCommentResponse({
     text: text,
     updatedAt: DateTime(2021, 2, 1),
     upvoteCount: 0,
-    user: createDefaultUserResponse(),
+    user: createDefaultUserResponse(id: userId ?? 'user-1'),
+  );
+}
+
+ThreadedCommentResponse createDefaultThreadedCommentResponse({
+  String id = 'id',
+  required String objectId,
+  String objectType = 'post',
+  String? text,
+  String? userId,
+  List<FeedsReactionResponse>? ownReactions,
+  List<ThreadedCommentResponse> replies = const [],
+}) {
+  return ThreadedCommentResponse(
+    id: id,
+    confidenceScore: 0,
+    createdAt: DateTime(2021, 1, 1),
+    custom: const {},
+    downvoteCount: 0,
+    mentionedUsers: const [],
+    objectId: objectId,
+    objectType: objectType,
+    ownReactions: ownReactions ?? const [],
+    reactionCount: 0,
+    replyCount: replies.length,
+    replies: replies.isEmpty ? null : replies,
+    score: 0,
+    status: 'status',
+    text: text,
+    updatedAt: DateTime(2021, 2, 1),
+    upvoteCount: 0,
+    user: createDefaultUserResponse(id: userId ?? 'user-1'),
+  );
+}
+
+AddCommentResponse createDefaultAddCommentResponse({
+  String commentId = 'comment-1',
+  required String objectId,
+  String objectType = 'activity',
+  String? text,
+  String? userId,
+}) {
+  return AddCommentResponse(
+    comment: createDefaultCommentResponse(
+      id: commentId,
+      objectId: objectId,
+      objectType: objectType,
+      text: text,
+      userId: userId,
+    ),
+    duration: '10ms',
+  );
+}
+
+UpdateCommentResponse createDefaultUpdateCommentResponse({
+  String commentId = 'comment-1',
+  required String objectId,
+  String objectType = 'activity',
+  String? text,
+  String? userId,
+}) {
+  return UpdateCommentResponse(
+    comment: createDefaultCommentResponse(
+      id: commentId,
+      objectId: objectId,
+      objectType: objectType,
+      text: text,
+      userId: userId,
+    ),
+    duration: '10ms',
+  );
+}
+
+DeleteCommentResponse createDefaultDeleteCommentResponse({
+  String commentId = 'comment-1',
+  required String activityId,
+  required String objectId,
+  String objectType = 'activity',
+  String? userId,
+}) {
+  return DeleteCommentResponse(
+    activity: createDefaultActivityResponse(id: activityId),
+    comment: createDefaultCommentResponse(
+      id: commentId,
+      objectId: objectId,
+      objectType: objectType,
+      userId: userId ?? 'user-1',
+    ),
+    duration: '10ms',
+  );
+}
+
+AddCommentReactionResponse createDefaultAddCommentReactionResponse({
+  String commentId = 'comment-1',
+  required String objectId,
+  String objectType = 'activity',
+  String userId = 'user-1',
+  String reactionType = 'like',
+}) {
+  return AddCommentReactionResponse(
+    comment: createDefaultCommentResponse(
+      id: commentId,
+      objectId: objectId,
+      objectType: objectType,
+      userId: userId,
+    ),
+    duration: '10ms',
+    reaction: FeedsReactionResponse(
+      activityId: objectId,
+      commentId: commentId,
+      type: reactionType,
+      createdAt: DateTime.timestamp(),
+      updatedAt: DateTime.timestamp(),
+      user: createDefaultUserResponse(id: userId),
+    ),
+  );
+}
+
+DeleteCommentReactionResponse createDefaultDeleteCommentReactionResponse({
+  String commentId = 'comment-1',
+  required String objectId,
+  String objectType = 'activity',
+  String userId = 'user-1',
+  String reactionType = 'like',
+}) {
+  return DeleteCommentReactionResponse(
+    comment: createDefaultCommentResponse(
+      id: commentId,
+      objectId: objectId,
+      objectType: objectType,
+      userId: userId,
+    ),
+    duration: '10ms',
+    reaction: FeedsReactionResponse(
+      activityId: objectId,
+      commentId: commentId,
+      type: reactionType,
+      createdAt: DateTime.timestamp(),
+      updatedAt: DateTime.timestamp(),
+      user: createDefaultUserResponse(id: userId),
+    ),
   );
 }
 
@@ -240,15 +413,97 @@ PinActivityResponse createDefaultPinActivityResponse({
 BookmarkResponse createDefaultBookmarkResponse({
   String userId = 'user-id',
   String activityId = 'activity-id',
+  String activityType = 'post',
   String folderId = 'folder-id',
 }) {
   return BookmarkResponse(
-    activity: createDefaultActivityResponse(id: activityId),
+    activity: createDefaultActivityResponse(id: activityId, type: activityType),
     createdAt: DateTime(2021, 1, 1),
     custom: const {},
     folder: createDefaultBookmarkFolderResponse(id: folderId),
     updatedAt: DateTime(2021, 2, 1),
     user: createDefaultUserResponse(id: userId),
+  );
+}
+
+AddBookmarkResponse createDefaultAddBookmarkResponse({
+  String userId = 'user-id',
+  String activityId = 'activity-id',
+  String folderId = 'folder-id',
+}) {
+  return AddBookmarkResponse(
+    bookmark: createDefaultBookmarkResponse(
+      userId: userId,
+      activityId: activityId,
+      folderId: folderId,
+    ),
+    duration: '10ms',
+  );
+}
+
+UpdateBookmarkResponse createDefaultUpdateBookmarkResponse({
+  String userId = 'user-id',
+  String activityId = 'activity-id',
+  String folderId = 'folder-id',
+}) {
+  return UpdateBookmarkResponse(
+    bookmark: createDefaultBookmarkResponse(
+      userId: userId,
+      activityId: activityId,
+      folderId: folderId,
+    ),
+    duration: '10ms',
+  );
+}
+
+DeleteBookmarkResponse createDefaultDeleteBookmarkResponse({
+  String userId = 'user-id',
+  String activityId = 'activity-id',
+  String folderId = 'folder-id',
+}) {
+  return DeleteBookmarkResponse(
+    bookmark: createDefaultBookmarkResponse(
+      userId: userId,
+      activityId: activityId,
+      folderId: folderId,
+    ),
+    duration: '10ms',
+  );
+}
+
+AddReactionResponse createDefaultAddReactionResponse({
+  String activityId = 'activity-id',
+  String userId = 'user-id',
+  String reactionType = 'like',
+}) {
+  return AddReactionResponse(
+    activity: createDefaultActivityResponse(id: activityId),
+    duration: '10ms',
+    reaction: FeedsReactionResponse(
+      activityId: activityId,
+      type: reactionType,
+      createdAt: DateTime.timestamp(),
+      updatedAt: DateTime.timestamp(),
+      user: createDefaultUserResponse(id: userId),
+    ),
+  );
+}
+
+DeleteActivityReactionResponse createDefaultDeleteReactionResponse({
+  String activityId = 'activity-id',
+  String userId = 'user-id',
+  String reactionType = 'like',
+}) {
+  return DeleteActivityReactionResponse(
+    activity: createDefaultActivityResponse(id: activityId),
+    duration: '10ms',
+    reaction: FeedsReactionResponse(
+      activityId: activityId,
+      type: reactionType,
+      createdAt: DateTime.timestamp(),
+      updatedAt: DateTime.timestamp(),
+      user: createDefaultUserResponse(id: userId),
+    ),
   );
 }
 

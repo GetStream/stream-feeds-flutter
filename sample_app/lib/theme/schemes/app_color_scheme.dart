@@ -24,6 +24,7 @@ class AppColorScheme {
     required this.accentPrimary,
     required this.accentError,
     required this.accentInfo,
+    required this.accentWarning,
     required this.highlight,
     required this.overlay,
     required this.overlayDark,
@@ -44,6 +45,7 @@ class AppColorScheme {
       accentPrimary: AppColorTokens.blue500,
       accentError: AppColorTokens.red500,
       accentInfo: AppColorTokens.green500,
+      accentWarning: AppColorTokens.orange500,
       highlight: AppColorTokens.yellow100,
       overlay: AppColorTokens.blackAlpha20,
       overlayDark: AppColorTokens.blackAlpha60,
@@ -65,6 +67,7 @@ class AppColorScheme {
       accentPrimary: AppColorTokens.blue600,
       accentError: AppColorTokens.red600,
       accentInfo: AppColorTokens.green500,
+      accentWarning: AppColorTokens.orange600,
       highlight: AppColorTokens.yellow800,
       overlay: AppColorTokens.blackAlpha40,
       overlayDark: AppColorTokens.whiteAlpha60,
@@ -116,6 +119,9 @@ class AppColorScheme {
   /// Info accent color.
   final Color accentInfo;
 
+  /// Warning accent color.
+  final Color accentWarning;
+
   /// Highlight color.
   final Color highlight;
 
@@ -141,6 +147,7 @@ class AppColorScheme {
     Color? accentPrimary,
     Color? accentError,
     Color? accentInfo,
+    Color? accentWarning,
     Color? highlight,
     Color? overlay,
     Color? overlayDark,
@@ -158,6 +165,7 @@ class AppColorScheme {
       accentPrimary: accentPrimary ?? this.accentPrimary,
       accentError: accentError ?? this.accentError,
       accentInfo: accentInfo ?? this.accentInfo,
+      accentWarning: accentWarning ?? this.accentWarning,
       highlight: highlight ?? this.highlight,
       overlay: overlay ?? this.overlay,
       overlayDark: overlayDark ?? this.overlayDark,
@@ -179,6 +187,7 @@ class AppColorScheme {
       accentPrimary: Color.lerp(a.accentPrimary, b.accentPrimary, t)!,
       accentError: Color.lerp(a.accentError, b.accentError, t)!,
       accentInfo: Color.lerp(a.accentInfo, b.accentInfo, t)!,
+      accentWarning: Color.lerp(a.accentWarning, b.accentWarning, t)!,
       highlight: Color.lerp(a.highlight, b.highlight, t)!,
       overlay: Color.lerp(a.overlay, b.overlay, t)!,
       overlayDark: Color.lerp(a.overlayDark, b.overlayDark, t)!,
@@ -201,6 +210,7 @@ class AppColorScheme {
         other.accentPrimary == accentPrimary &&
         other.accentError == accentError &&
         other.accentInfo == accentInfo &&
+        other.accentWarning == accentWarning &&
         other.highlight == highlight &&
         other.overlay == overlay &&
         other.overlayDark == overlayDark &&
@@ -221,6 +231,7 @@ class AppColorScheme {
       accentPrimary,
       accentError,
       accentInfo,
+      accentWarning,
       highlight,
       overlay,
       overlayDark,

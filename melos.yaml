@@ -48,7 +48,7 @@ command:
       shared_preferences: ^2.5.3
       state_notifier: ^1.0.0
       stream_feeds: ^0.4.0
-      stream_core: ^0.3.0
+      stream_core: ^0.3.1
       video_player: ^2.10.0
       uuid: ^4.5.1
 

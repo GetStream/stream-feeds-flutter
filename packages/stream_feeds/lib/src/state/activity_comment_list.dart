@@ -4,7 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:state_notifier/state_notifier.dart';
 import 'package:stream_core/stream_core.dart';
 
-import '../models/threaded_comment_data.dart';
+import '../models/comment_data.dart';
 import '../repository/comments_repository.dart';
 import 'activity_comment_list_state.dart';
 import 'event/activity_comment_list_event_handler.dart';
@@ -58,8 +58,8 @@ class ActivityCommentList extends Disposable {
 
   /// Queries the initial list of activity comments based on the provided [ActivityCommentsQuery].
   ///
-  /// Returns a [Result] containing a list of [ThreadedCommentData] or an error.
-  Future<Result<List<ThreadedCommentData>>> get() => _queryComments(query);
+  /// Returns a [Result] containing a list of [CommentData] or an error.
+  Future<Result<List<CommentData>>> get() => _queryComments(query);
 
   /// Loads more activity comments based on the current pagination state.
   ///
@@ -67,7 +67,7 @@ class ActivityCommentList extends Disposable {
   ///
   /// Optionally accepts a [limit] parameter to specify the maximum number of
   /// comments to return.
-  Future<Result<List<ThreadedCommentData>>> queryMoreComments({
+  Future<Result<List<CommentData>>> queryMoreComments({
     int? limit,
   }) async {
     // Build the query with the current pagination state (with next page token)
@@ -87,7 +87,7 @@ class ActivityCommentList extends Disposable {
   }
 
   // Internal method to query comments and update state.
-  Future<Result<List<ThreadedCommentData>>> _queryComments(
+  Future<Result<List<CommentData>>> _queryComments(
     ActivityCommentsQuery query,
   ) async {
     final result = await commentsRepository.getComments(query);

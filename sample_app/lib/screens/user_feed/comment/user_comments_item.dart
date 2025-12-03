@@ -12,36 +12,39 @@ class UserCommentItem extends StatelessWidget {
   const UserCommentItem({
     super.key,
     required this.comment,
-    required this.onHeartClick,
+    required this.onReactionClick,
     required this.onReplyClick,
     required this.onLongPressComment,
   });
 
-  final ThreadedCommentData comment;
-  final ValueSetter<ThreadedCommentData> onReplyClick;
-  final void Function(ThreadedCommentData comment, bool isAdding) onHeartClick;
-  final ValueSetter<ThreadedCommentData> onLongPressComment;
+  final CommentData comment;
+  final ValueSetter<CommentData> onReplyClick;
+  final void Function(CommentData comment, String type, bool isAdding)
+      onReactionClick;
+  final ValueSetter<CommentData> onLongPressComment;
 
   @override
   Widget build(BuildContext context) {
     final user = comment.user;
     final heartsCount = comment.reactionGroups['heart']?.count ?? 0;
     final hasOwnHeart = comment.ownReactions.any((it) => it.type == 'heart');
+    final fireCount = comment.reactionGroups['fire']?.count ?? 0;
+    final hasOwnFire = comment.ownReactions.any((it) => it.type == 'fire');
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 8),
-        GestureDetector(
-          onLongPress: () => onLongPressComment(comment),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              UserAvatar.appBar(
-                user: User(id: user.id, name: user.name, image: user.image),
-              ),
-              const SizedBox(width: 8),
-              Expanded(
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            UserAvatar.appBar(
+              user: User(id: user.id, name: user.name, image: user.image),
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: GestureDetector(
+                onLongPress: () => onLongPressComment(comment),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -58,8 +61,8 @@ class UserCommentItem extends StatelessWidget {
                   ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -79,16 +82,34 @@ class UserCommentItem extends StatelessWidget {
                 ),
               ),
             ),
-            ActionButton(
-              icon: Icon(
-                switch (hasOwnHeart) {
-                  true => Icons.favorite_rounded,
-                  false => Icons.favorite_outline_rounded,
-                },
-              ),
-              count: heartsCount,
-              color: hasOwnHeart ? context.appColors.accentError : null,
-              onTap: () => onHeartClick(comment, !hasOwnHeart),
+            Row(
+              spacing: 8,
+              children: [
+                ActionButton(
+                  icon: Icon(
+                    switch (hasOwnHeart) {
+                      true => Icons.favorite_rounded,
+                      false => Icons.favorite_outline_rounded,
+                    },
+                  ),
+                  count: heartsCount,
+                  color: hasOwnHeart ? context.appColors.accentError : null,
+                  onTap: () => onReactionClick(comment, 'heart', !hasOwnHeart),
+                ),
+                ActionButton(
+                  icon: Icon(
+                    switch (hasOwnFire) {
+                      true => Icons.local_fire_department_rounded,
+                      false => Icons.local_fire_department_outlined,
+                    },
+                  ),
+                  count: fireCount,
+                  color: hasOwnFire
+                      ? context.appColors.accentWarning
+                      : context.appColors.textLowEmphasis,
+                  onTap: () => onReactionClick(comment, 'fire', !hasOwnFire),
+                ),
+              ],
             ),
           ],
         ),
@@ -97,7 +118,7 @@ class UserCommentItem extends StatelessWidget {
             padding: const EdgeInsets.only(left: 32),
             child: UserCommentItem(
               comment: reply,
-              onHeartClick: onHeartClick,
+              onReactionClick: onReactionClick,
               onReplyClick: onReplyClick,
               onLongPressComment: onLongPressComment,
             ),

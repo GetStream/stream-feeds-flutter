@@ -64,19 +64,19 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
       _followSelfIfNeeded(timelineFeed, FeedId.user(client.user.id));
     });
     notificationFeed.getOrCreate();
-    storiesFeed.getOrCreate().then((value) {
-      _followSelfIfNeeded(storiesFeed, FeedId.story(client.user.id));
-    });
+    // storiesFeed.getOrCreate().then((value) {
+    //   _followSelfIfNeeded(storiesFeed, FeedId.story(client.user.id));
+    // });
 
     // need to make sure story feed is created, but we don't use it directly.
-    client
-        .feedFromQuery(
-          FeedQuery(
-            fid: FeedId.story(client.user.id),
-            watch: false,
-          ),
-        )
-        .getOrCreate();
+    // client
+    //     .feedFromQuery(
+    //       FeedQuery(
+    //         fid: FeedId.story(client.user.id),
+    //         watch: false,
+    //       ),
+    //     )
+    //     .getOrCreate();
   }
 
   @override

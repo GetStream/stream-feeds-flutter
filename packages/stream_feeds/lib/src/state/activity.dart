@@ -14,7 +14,6 @@ import '../models/poll_option_data.dart';
 import '../models/poll_vote_data.dart';
 import '../models/request/activity_add_comment_request.dart';
 import '../models/request/activity_update_comment_request.dart';
-import '../models/threaded_comment_data.dart';
 import '../repository/activities_repository.dart';
 import '../repository/capabilities_repository.dart';
 import '../repository/comments_repository.dart';
@@ -139,8 +138,8 @@ class Activity with Disposable {
 
   /// Queries the comments for this activity.
   ///
-  /// Returns a [Result] containing a list of [ThreadedCommentData] or an error.
-  Future<Result<List<ThreadedCommentData>>> queryComments() {
+  /// Returns a [Result] containing a list of [CommentData] or an error.
+  Future<Result<List<CommentData>>> queryComments() {
     return _commentsList.get();
   }
 
@@ -148,7 +147,7 @@ class Activity with Disposable {
   ///
   /// Optionally accepts a [limit] parameter to specify the maximum number of
   /// comments to return.
-  Future<Result<List<ThreadedCommentData>>> queryMoreComments({int? limit}) {
+  Future<Result<List<CommentData>>> queryMoreComments({int? limit}) {
     return _commentsList.queryMoreComments(limit: limit);
   }
 
@@ -172,9 +171,7 @@ class Activity with Disposable {
     final result = await commentsRepository.addComment(request);
 
     result.onSuccess(
-      (comment) => _commentsList.notifier.onCommentAdded(
-        ThreadedCommentData.fromComment(comment),
-      ),
+      (comment) => _commentsList.notifier.onCommentAdded(comment),
     );
 
     return result;
@@ -188,10 +185,9 @@ class Activity with Disposable {
   ) async {
     final result = await commentsRepository.addCommentsBatch(requests);
 
-    result.onSuccess((comments) {
-      final threadedComments = comments.map(ThreadedCommentData.fromComment);
-      threadedComments.forEach(_commentsList.notifier.onCommentAdded);
-    });
+    result.onSuccess(
+      (comments) => comments.forEach(_commentsList.notifier.onCommentAdded),
+    );
 
     return result;
   }
@@ -222,8 +218,10 @@ class Activity with Disposable {
     String commentId,
     ActivityUpdateCommentRequest request,
   ) async {
-    final result =
-        await commentsRepository.updateComment(commentId, request.toRequest());
+    final result = await commentsRepository.updateComment(
+      commentId,
+      request.toRequest(),
+    );
 
     result.onSuccess(_commentsList.notifier.onCommentUpdated);
 
@@ -243,10 +241,19 @@ class Activity with Disposable {
     );
 
     result.onSuccess(
-      (pair) => _commentsList.notifier.onCommentReactionAdded(
-        pair.commentId,
-        pair.reaction,
-      ),
+      (pair) {
+        if (request.enforceUnique ?? false) {
+          return _commentsList.notifier.onCommentReactionUpdated(
+            pair.comment,
+            pair.reaction,
+          );
+        }
+
+        return _commentsList.notifier.onCommentReactionAdded(
+          pair.comment,
+          pair.reaction,
+        );
+      },
     );
 
     return result.map((pair) => pair.reaction);
@@ -266,7 +273,7 @@ class Activity with Disposable {
 
     result.onSuccess(
       (pair) => _commentsList.notifier.onCommentReactionRemoved(
-        pair.commentId,
+        pair.comment,
         pair.reaction,
       ),
     );

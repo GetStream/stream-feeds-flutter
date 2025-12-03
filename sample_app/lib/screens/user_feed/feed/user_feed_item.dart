@@ -10,6 +10,7 @@ import '../../../widgets/attachment_gallery/attachment_metadata.dart';
 import '../../../widgets/attachments/attachments.dart';
 import '../../../widgets/user_avatar.dart';
 import '../polls/show_poll/show_poll_widget.dart';
+import 'reaction_icon.dart';
 
 class UserFeedItem extends StatelessWidget {
   const UserFeedItem({
@@ -21,7 +22,7 @@ class UserFeedItem extends StatelessWidget {
     required this.data,
     required this.currentUserId,
     this.onCommentClick,
-    this.onHeartClick,
+    this.onReactionClick,
     this.onRepostClick,
     this.onBookmarkClick,
     this.onDeleteClick,
@@ -34,8 +35,8 @@ class UserFeedItem extends StatelessWidget {
   final ActivityData data;
   final String currentUserId;
   final VoidCallback? onCommentClick;
-  final ValueSetter<bool>? onHeartClick;
-  final ValueSetter<String?>? onRepostClick;
+  final ValueSetter<ReactionIcon>? onReactionClick;
+  final VoidCallback? onRepostClick;
   final VoidCallback? onBookmarkClick;
   final VoidCallback? onDeleteClick;
   final ValueChanged<String>? onEditSave;
@@ -60,7 +61,7 @@ class UserFeedItem extends StatelessWidget {
             data: data,
             currentUserId: currentUserId,
             onCommentClick: onCommentClick,
-            onHeartClick: onHeartClick,
+            onReactionClick: onReactionClick,
             onRepostClick: onRepostClick,
             onBookmarkClick: onBookmarkClick,
           ),
@@ -181,7 +182,7 @@ class _UserActions extends StatelessWidget {
     required this.data,
     required this.currentUserId,
     this.onCommentClick,
-    this.onHeartClick,
+    this.onReactionClick,
     this.onRepostClick,
     this.onBookmarkClick,
   });
@@ -190,16 +191,13 @@ class _UserActions extends StatelessWidget {
   final ActivityData data;
   final String currentUserId;
   final VoidCallback? onCommentClick;
-  final ValueSetter<bool>? onHeartClick;
-  final ValueSetter<String?>? onRepostClick;
+  final ValueSetter<ReactionIcon>? onReactionClick;
+  final VoidCallback? onRepostClick;
   final VoidCallback? onBookmarkClick;
 
   @override
   Widget build(BuildContext context) {
-    final heartsCount = data.reactionGroups['heart']?.count ?? 0;
-    final hasOwnHeart = data.ownReactions.any((it) => it.type == 'heart');
-
-    final hasOwnBookmark = data.ownReactions.any((it) => it.type == 'bookmark');
+    final hasOwnBookmark = data.ownBookmarks.isNotEmpty;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -209,21 +207,13 @@ class _UserActions extends StatelessWidget {
           count: data.commentCount,
           onTap: onCommentClick,
         ),
-        ActionButton(
-          icon: Icon(
-            switch (hasOwnHeart) {
-              true => Icons.favorite_rounded,
-              false => Icons.favorite_outline_rounded,
-            },
-          ),
-          count: heartsCount,
-          color: hasOwnHeart ? context.appColors.accentError : null,
-          onTap: () => onHeartClick?.call(!hasOwnHeart),
-        ),
+        // region Reactions
+        ..._buildReactions(context, onReactionClick: onReactionClick),
+        // endregion
         ActionButton(
           icon: const Icon(Icons.repeat_rounded),
           count: data.shareCount,
-          onTap: () => onRepostClick?.call(null),
+          onTap: onRepostClick,
         ),
         ActionButton(
           icon: Icon(
@@ -238,5 +228,22 @@ class _UserActions extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Iterable<Widget> _buildReactions(
+    BuildContext context, {
+    ValueSetter<ReactionIcon>? onReactionClick,
+  }) sync* {
+    for (final reaction in ReactionIcon.defaultReactions) {
+      final count = data.reactionGroups[reaction.type]?.count ?? 0;
+      final selected = data.ownReactions.any((it) => it.type == reaction.type);
+
+      yield ActionButton(
+        icon: Icon(reaction.getIcon(selected)),
+        count: count,
+        color: reaction.getColor(selected),
+        onTap: () => onReactionClick?.call(reaction),
+      );
+    }
   }
 }

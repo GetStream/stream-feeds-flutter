@@ -3,7 +3,6 @@ import 'package:stream_core/stream_core.dart';
 import '../../generated/api/models.dart' as api;
 import '../../models/comment_data.dart';
 import '../../models/feeds_reaction_data.dart';
-import '../../models/threaded_comment_data.dart';
 import '../activity_comment_list_state.dart';
 import 'state_event_handler.dart';
 
@@ -30,7 +29,7 @@ class ActivityCommentListEventHandler implements StateEventHandler {
       if (event.comment.objectType != objectType) return;
 
       final comment = event.comment.toModel();
-      return state.onCommentAdded(ThreadedCommentData.fromComment(comment));
+      return state.onCommentAdded(comment);
     }
 
     if (event is api.CommentUpdatedEvent) {
@@ -41,28 +40,42 @@ class ActivityCommentListEventHandler implements StateEventHandler {
     }
 
     if (event is api.CommentDeletedEvent) {
+      final comment = event.comment.toModel();
       // Only handle comments for this specific activity
-      if (event.comment.objectId != objectId) return;
-      if (event.comment.objectType != objectType) return;
-      return state.onCommentRemoved(event.comment.id);
+      if (comment.objectId != objectId) return;
+      if (comment.objectType != objectType) return;
+
+      return state.onCommentRemoved(comment.id);
     }
 
     if (event is api.CommentReactionAddedEvent) {
+      final comment = event.comment.toModel();
       // Only handle reactions for comments on this specific activity
-      if (event.comment.objectId != objectId) return;
-      if (event.comment.objectType != objectType) return;
+      if (comment.objectId != objectId) return;
+      if (comment.objectType != objectType) return;
 
       final reaction = event.reaction.toModel();
-      return state.onCommentReactionAdded(event.comment.id, reaction);
+      return state.onCommentReactionAdded(comment, reaction);
+    }
+
+    if (event is api.CommentReactionUpdatedEvent) {
+      final comment = event.comment.toModel();
+      // Only handle reactions for comments on this specific activity
+      if (comment.objectId != objectId) return;
+      if (comment.objectType != objectType) return;
+
+      final reaction = event.reaction.toModel();
+      return state.onCommentReactionUpdated(comment, reaction);
     }
 
     if (event is api.CommentReactionDeletedEvent) {
+      final comment = event.comment.toModel();
       // Only handle reactions for comments on this specific activity
-      if (event.comment.objectId != objectId) return;
-      if (event.comment.objectType != objectType) return;
+      if (comment.objectId != objectId) return;
+      if (comment.objectType != objectType) return;
 
       final reaction = event.reaction.toModel();
-      return state.onCommentReactionRemoved(event.comment.id, reaction);
+      return state.onCommentReactionRemoved(comment, reaction);
     }
 
     // Handle other comment-related events if needed

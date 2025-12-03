@@ -21,7 +21,11 @@ class EventTypes {
 
   // Comment events
   static const commentAdded = 'feeds.comment.added';
+  static const commentDeleted = 'feeds.comment.deleted';
   static const commentUpdated = 'feeds.comment.updated';
+  static const commentReactionAdded = 'feeds.comment.reaction.added';
+  static const commentReactionDeleted = 'feeds.comment.reaction.deleted';
+  static const commentReactionUpdated = 'feeds.comment.reaction.updated';
 
   // Feed events
   static const feedUpdated = 'feeds.feed.updated';

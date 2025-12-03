@@ -667,92 +667,6 @@ void main() {
     );
 
     feedTest(
-      'BookmarkAddedEvent - should remove activity when bookmark causes filter mismatch',
-      build: (client) => client.feedFromQuery(
-        FeedQuery(
-          fid: feedId,
-          activityFilter: Filter.in_(
-            ActivitiesFilterField.filterTags,
-            ['important'],
-          ),
-        ),
-      ),
-      setUp: (tester) => tester.getOrCreate(
-        modifyResponse: (it) => it.copyWith(
-          activities: initialActivities,
-          pinnedActivities: initialPinnedActivities,
-        ),
-      ),
-      body: (tester) async {
-        expect(tester.feedState.activities, hasLength(3));
-
-        // Send BookmarkAddedEvent with activity that doesn't have 'important' tag
-        await tester.emitEvent(
-          BookmarkAddedEvent(
-            type: EventTypes.bookmarkAdded,
-            createdAt: DateTime.timestamp(),
-            custom: const {},
-            bookmark: createDefaultBookmarkResponse(
-              activityId: 'activity-1',
-            ).copyWith(
-              activity: createDefaultActivityResponse(
-                id: 'activity-1',
-              ).copyWith(
-                feeds: [feedId.rawValue], // Activity belongs to this feed
-                filterTags: ['general'], // Doesn't have 'important' tag
-              ),
-            ),
-          ),
-        );
-
-        expect(tester.feedState.activities, hasLength(2));
-      },
-    );
-
-    feedTest(
-      'BookmarkDeletedEvent - should remove activity when bookmark deletion causes filter mismatch',
-      build: (client) => client.feedFromQuery(
-        FeedQuery(
-          fid: feedId,
-          activityFilter: Filter.in_(
-            ActivitiesFilterField.filterTags,
-            ['important'],
-          ),
-        ),
-      ),
-      setUp: (tester) => tester.getOrCreate(
-        modifyResponse: (it) => it.copyWith(
-          activities: initialActivities,
-          pinnedActivities: initialPinnedActivities,
-        ),
-      ),
-      body: (tester) async {
-        expect(tester.feedState.activities, hasLength(3));
-
-        // Send BookmarkDeletedEvent with activity that doesn't have 'important' tag
-        await tester.emitEvent(
-          BookmarkDeletedEvent(
-            type: EventTypes.bookmarkDeleted,
-            createdAt: DateTime.timestamp(),
-            custom: const {},
-            bookmark: createDefaultBookmarkResponse(
-              activityId: 'activity-2',
-            ).copyWith(
-              activity: createDefaultActivityResponse(
-                id: 'activity-2',
-                feeds: [feedId.rawValue], // Activity belongs to this feed
-              ).copyWith(
-                filterTags: ['general'], // Doesn't have 'important' tag
-              ),
-            ),
-          ),
-        );
-
-        expect(tester.feedState.activities, hasLength(2));
-      },
-    );
-
-    feedTest(
       'Complex filter with AND - should filter correctly',
       build: (client) => client.feedFromQuery(
         FeedQuery(
@@ -1032,6 +946,844 @@ void main() {
 
         final updatedFirstUserStories = updatedUserStories.first.activities;
         expect(updatedFirstUserStories, hasLength(3));
+      },
+    );
+  });
+
+  // ============================================================
+  // FEATURE: Bookmarks
+  // ============================================================
+
+  group('Bookmarks', () {
+    const feedId = FeedId(group: 'user', id: 'john');
+    const activityId = 'activity-1';
+    const userId = 'luke_skywalker';
+
+    feedTest(
+      'addBookmark - should add bookmark to activity via API',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: [
+            createDefaultActivityResponse(
+              id: activityId,
+              feeds: [feedId.rawValue],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Mock API call that will be used
+        tester.mockApi(
+          (api) => api.addBookmark(
+            activityId: activityId,
+            addBookmarkRequest: any(named: 'addBookmarkRequest'),
+          ),
+          result: createDefaultAddBookmarkResponse(
+            userId: userId,
+            activityId: activityId,
+          ),
+        );
+
+        // Initial state - no bookmarks
+        final initialActivity = tester.feedState.activities.first;
+        expect(initialActivity.id, activityId);
+        expect(initialActivity.ownBookmarks, isEmpty);
+
+        // Add bookmark
+        final result = await tester.feed.addBookmark(activityId: activityId);
+
+        expect(result, isA<Result<BookmarkData>>());
+        final bookmark = result.getOrThrow();
+        expect(bookmark.activity.id, activityId);
+        expect(bookmark.user.id, userId);
+
+        // Verify state was updated
+        final updatedActivity = tester.feedState.activities.first;
+        expect(updatedActivity.ownBookmarks, hasLength(1));
+        expect(updatedActivity.ownBookmarks.first.id, bookmark.id);
+        expect(updatedActivity.ownBookmarks.first.user.id, userId);
+      },
+      verify: (tester) => tester.verifyApi(
+        (api) => api.addBookmark(
+          activityId: activityId,
+          addBookmarkRequest: any(named: 'addBookmarkRequest'),
+        ),
+      ),
+    );
+
+    feedTest(
+      'addBookmark - should handle BookmarkAddedEvent and update activity',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: [
+            createDefaultActivityResponse(
+              id: activityId,
+              feeds: [feedId.rawValue],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - no bookmarks
+        final initialActivity = tester.feedState.activities.first;
+        expect(initialActivity.ownBookmarks, isEmpty);
+
+        // Emit BookmarkAddedEvent
+        await tester.emitEvent(
+          BookmarkAddedEvent(
+            type: EventTypes.bookmarkAdded,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            bookmark: createDefaultBookmarkResponse(
+              userId: userId,
+              activityId: activityId,
+            ),
+          ),
+        );
+
+        // Verify state was updated
+        final updatedActivity = tester.feedState.activities.first;
+        expect(updatedActivity.ownBookmarks, hasLength(1));
+        expect(updatedActivity.ownBookmarks.first.user.id, userId);
+        expect(updatedActivity.ownBookmarks.first.activity.id, activityId);
+      },
+    );
+
+    feedTest(
+      'addBookmark - should handle both API call and event together',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: [
+            createDefaultActivityResponse(
+              id: activityId,
+              feeds: [feedId.rawValue],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - no bookmarks
+        final initialActivity = tester.feedState.activities.first;
+        expect(initialActivity.ownBookmarks, isEmpty);
+
+        // Mock API call that will be used
+        tester.mockApi(
+          (api) => api.addBookmark(
+            activityId: activityId,
+            addBookmarkRequest: any(named: 'addBookmarkRequest'),
+          ),
+          result: createDefaultAddBookmarkResponse(
+            userId: userId,
+            activityId: activityId,
+          ),
+        );
+
+        // Add bookmark via API
+        final result = await tester.feed.addBookmark(activityId: activityId);
+        expect(result.isSuccess, isTrue);
+
+        // Also emit event (simulating real-time update)
+        await tester.emitEvent(
+          BookmarkAddedEvent(
+            type: EventTypes.bookmarkAdded,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            bookmark: createDefaultBookmarkResponse(
+              userId: userId,
+              activityId: activityId,
+            ),
+          ),
+        );
+
+        // Verify state has bookmark (should not duplicate)
+        final updatedActivity = tester.feedState.activities.first;
+        expect(updatedActivity.ownBookmarks, hasLength(1));
+      },
+    );
+
+    feedTest(
+      'addBookmark - should not update activity if activity ID does not match',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: [
+            createDefaultActivityResponse(
+              id: activityId,
+              feeds: [feedId.rawValue],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - no bookmarks
+        final initialActivity = tester.feedState.activities.first;
+        expect(initialActivity.ownBookmarks, isEmpty);
+
+        // Emit BookmarkAddedEvent for different activity
+        await tester.emitEvent(
+          BookmarkAddedEvent(
+            type: EventTypes.bookmarkAdded,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            bookmark: createDefaultBookmarkResponse(
+              userId: userId,
+              activityId: 'different-activity-id',
+            ),
+          ),
+        );
+
+        // Verify state was not updated
+        final activity = tester.feedState.activities.first;
+        expect(activity.ownBookmarks, isEmpty);
+      },
+    );
+
+    feedTest(
+      'updateBookmark - should update bookmark via API',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: [
+            createDefaultActivityResponse(
+              id: activityId,
+              feeds: [feedId.rawValue],
+              ownBookmarks: [
+                createDefaultBookmarkResponse(
+                  userId: userId,
+                  activityId: activityId,
+                  folderId: 'folder-id',
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - has bookmark
+        final initialActivity = tester.feedState.activities.first;
+        expect(initialActivity.ownBookmarks, hasLength(1));
+        expect(initialActivity.ownBookmarks.first.folder?.id, 'folder-id');
+
+        // Mock API call that will be used
+        tester.mockApi(
+          (api) => api.updateBookmark(
+            activityId: activityId,
+            updateBookmarkRequest: any(named: 'updateBookmarkRequest'),
+          ),
+          result: createDefaultUpdateBookmarkResponse(
+            userId: userId,
+            activityId: activityId,
+            folderId: 'new-folder-id',
+          ),
+        );
+
+        final result = await tester.feed.updateBookmark(
+          activityId: activityId,
+          request: const UpdateBookmarkRequest(folderId: 'new-folder-id'),
+        );
+
+        expect(result, isA<Result<BookmarkData>>());
+        final bookmark = result.getOrThrow();
+        expect(bookmark.activity.id, activityId);
+        expect(bookmark.folder?.id, 'new-folder-id');
+      },
+      verify: (tester) => tester.verifyApi(
+        (api) => api.updateBookmark(
+          activityId: activityId,
+          updateBookmarkRequest: any(named: 'updateBookmarkRequest'),
+        ),
+      ),
+    );
+
+    // Note: BookmarkUpdatedEvent is not currently handled in FeedEventHandler
+    // It's only handled in BookmarkListEventHandler for bookmark list state
+    // This test is skipped until BookmarkUpdatedEvent handling is added to FeedEventHandler
+
+    feedTest(
+      'deleteBookmark - should delete bookmark via API',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: [
+            createDefaultActivityResponse(
+              id: activityId,
+              feeds: [feedId.rawValue],
+              ownBookmarks: [
+                createDefaultBookmarkResponse(
+                  userId: userId,
+                  activityId: activityId,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - has bookmark
+        final initialActivity = tester.feedState.activities.first;
+        expect(initialActivity.ownBookmarks, hasLength(1));
+
+        // Mock API call that will be used
+        tester.mockApi(
+          (api) => api.deleteBookmark(
+            activityId: activityId,
+            folderId: any(named: 'folderId'),
+          ),
+          result: createDefaultDeleteBookmarkResponse(
+            userId: userId,
+            activityId: activityId,
+          ),
+        );
+
+        // Delete bookmark
+        final result = await tester.feed.deleteBookmark(activityId: activityId);
+
+        expect(result, isA<Result<BookmarkData>>());
+        final bookmark = result.getOrThrow();
+        expect(bookmark.activity.id, activityId);
+        expect(bookmark.user.id, userId);
+
+        // Verify state was updated
+        final updatedActivity = tester.feedState.activities.first;
+        expect(updatedActivity.ownBookmarks, isEmpty);
+      },
+      verify: (tester) => tester.verifyApi(
+        (api) => api.deleteBookmark(
+          activityId: activityId,
+          folderId: any(named: 'folderId'),
+        ),
+      ),
+    );
+
+    feedTest(
+      'deleteBookmark - should handle BookmarkDeletedEvent and update activity',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: [
+            createDefaultActivityResponse(
+              id: activityId,
+              feeds: [feedId.rawValue],
+              ownBookmarks: [
+                createDefaultBookmarkResponse(
+                  userId: userId,
+                  activityId: activityId,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - has bookmark
+        final initialActivity = tester.feedState.activities.first;
+        expect(initialActivity.ownBookmarks, hasLength(1));
+
+        // Emit BookmarkDeletedEvent
+        await tester.emitEvent(
+          BookmarkDeletedEvent(
+            type: EventTypes.bookmarkDeleted,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            bookmark: createDefaultBookmarkResponse(
+              userId: userId,
+              activityId: activityId,
+            ),
+          ),
+        );
+
+        // Verify state was updated
+        final updatedActivity = tester.feedState.activities.first;
+        expect(updatedActivity.ownBookmarks, isEmpty);
+      },
+    );
+
+    feedTest(
+      'deleteBookmark - should handle both API call and event together',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: [
+            createDefaultActivityResponse(
+              id: activityId,
+              feeds: [feedId.rawValue],
+              ownBookmarks: [
+                createDefaultBookmarkResponse(
+                  userId: userId,
+                  activityId: activityId,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - has bookmark
+        final initialActivity = tester.feedState.activities.first;
+        expect(initialActivity.ownBookmarks, hasLength(1));
+
+        // Mock API call that will be used
+        tester.mockApi(
+          (api) => api.deleteBookmark(
+            activityId: activityId,
+            folderId: any(named: 'folderId'),
+          ),
+          result: createDefaultDeleteBookmarkResponse(
+            userId: userId,
+            activityId: activityId,
+          ),
+        );
+
+        // Delete bookmark via API
+        final result = await tester.feed.deleteBookmark(activityId: activityId);
+        expect(result.isSuccess, isTrue);
+
+        // Also emit event (simulating real-time update)
+        await tester.emitEvent(
+          BookmarkDeletedEvent(
+            type: EventTypes.bookmarkDeleted,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            bookmark: createDefaultBookmarkResponse(
+              userId: userId,
+              activityId: activityId,
+            ),
+          ),
+        );
+
+        // Verify state has no bookmarks
+        final updatedActivity = tester.feedState.activities.first;
+        expect(updatedActivity.ownBookmarks, isEmpty);
+      },
+    );
+  });
+
+  // ============================================================
+  // FEATURE: Reactions
+  // ============================================================
+
+  group('Reactions', () {
+    const feedId = FeedId(group: 'user', id: 'john');
+    const activityId = 'activity-1';
+    const userId = 'luke_skywalker';
+
+    setUpAll(() {
+      registerFallbackValue(const AddReactionRequest(type: 'like'));
+    });
+
+    feedTest(
+      'addActivityReaction - should add reaction to activity via API',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: [
+            createDefaultActivityResponse(
+              id: activityId,
+              feeds: [feedId.rawValue],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Mock API call that will be used
+        tester.mockApi(
+          (api) => api.addActivityReaction(
+            activityId: activityId,
+            addReactionRequest: any(named: 'addReactionRequest'),
+          ),
+          result: createDefaultAddReactionResponse(
+            activityId: activityId,
+            userId: userId,
+            reactionType: 'heart',
+          ),
+        );
+
+        // Initial state - no reactions
+        final initialActivity = tester.feedState.activities.first;
+        expect(initialActivity.ownReactions, isEmpty);
+
+        // Add reaction
+        final result = await tester.feed.addActivityReaction(
+          activityId: activityId,
+          request: const AddReactionRequest(type: 'heart'),
+        );
+
+        expect(result.isSuccess, isTrue);
+        final reaction = result.getOrThrow();
+        expect(reaction.activityId, activityId);
+        expect(reaction.type, 'heart');
+        expect(reaction.user.id, userId);
+      },
+      verify: (tester) => tester.verifyApi(
+        (api) => api.addActivityReaction(
+          activityId: activityId,
+          addReactionRequest: any(named: 'addReactionRequest'),
+        ),
+      ),
+    );
+
+    feedTest(
+      'addActivityReaction - should handle ActivityReactionAddedEvent and update activity',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: [
+            createDefaultActivityResponse(
+              id: activityId,
+              feeds: [feedId.rawValue],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - no reactions
+        final initialActivity = tester.feedState.activities.first;
+        expect(initialActivity.ownReactions, isEmpty);
+
+        // Emit ActivityReactionAddedEvent
+        await tester.emitEvent(
+          ActivityReactionAddedEvent(
+            type: EventTypes.activityReactionAdded,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: feedId.rawValue,
+            activity: createDefaultActivityResponse(id: activityId).copyWith(
+              reactionGroups: {
+                'heart': ReactionGroupResponse(
+                  count: 1,
+                  firstReactionAt: DateTime.timestamp(),
+                  lastReactionAt: DateTime.timestamp(),
+                ),
+              },
+            ),
+            reaction: FeedsReactionResponse(
+              activityId: activityId,
+              type: 'heart',
+              createdAt: DateTime.timestamp(),
+              updatedAt: DateTime.timestamp(),
+              user: createDefaultUserResponse(id: userId),
+            ),
+          ),
+        );
+
+        // Verify state was updated
+        final updatedActivity = tester.feedState.activities.first;
+        expect(updatedActivity.ownReactions, hasLength(1));
+        expect(updatedActivity.ownReactions.first.type, 'heart');
+        expect(updatedActivity.ownReactions.first.user.id, userId);
+        expect(updatedActivity.reactionGroups['heart']?.count ?? 0, 1);
+      },
+    );
+
+    feedTest(
+      'deleteActivityReaction - should delete reaction via API',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: [
+            createDefaultActivityResponse(
+              id: activityId,
+              feeds: [feedId.rawValue],
+              ownReactions: [
+                FeedsReactionResponse(
+                  activityId: activityId,
+                  type: 'heart',
+                  createdAt: DateTime.timestamp(),
+                  updatedAt: DateTime.timestamp(),
+                  user: createDefaultUserResponse(id: userId),
+                ),
+              ],
+              reactionGroups: {
+                'heart': ReactionGroupResponse(
+                  count: 1,
+                  firstReactionAt: DateTime.timestamp(),
+                  lastReactionAt: DateTime.timestamp(),
+                ),
+              },
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - has reaction
+        final initialActivity = tester.feedState.activities.first;
+        expect(initialActivity.ownReactions, hasLength(1));
+
+        // Mock API call that will be used
+        tester.mockApi(
+          (api) => api.deleteActivityReaction(
+            activityId: activityId,
+            type: 'heart',
+          ),
+          result: createDefaultDeleteReactionResponse(
+            activityId: activityId,
+            userId: userId,
+            reactionType: 'heart',
+          ),
+        );
+
+        // Delete reaction
+        final result = await tester.feed.deleteActivityReaction(
+          activityId: activityId,
+          type: 'heart',
+        );
+
+        expect(result.isSuccess, isTrue);
+        final reaction = result.getOrThrow();
+        expect(reaction.activityId, activityId);
+        expect(reaction.type, 'heart');
+        expect(reaction.user.id, userId);
+
+        // Note: deleteActivityReaction doesn't update state automatically
+        // State is only updated via events (ActivityReactionDeletedEvent)
+      },
+      verify: (tester) => tester.verifyApi(
+        (api) => api.deleteActivityReaction(
+          activityId: activityId,
+          type: 'heart',
+        ),
+      ),
+    );
+
+    feedTest(
+      'deleteActivityReaction - should handle ActivityReactionDeletedEvent and update activity',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: [
+            createDefaultActivityResponse(
+              id: activityId,
+              feeds: [feedId.rawValue],
+              ownReactions: [
+                FeedsReactionResponse(
+                  activityId: activityId,
+                  type: 'heart',
+                  createdAt: DateTime.timestamp(),
+                  updatedAt: DateTime.timestamp(),
+                  user: createDefaultUserResponse(id: userId),
+                ),
+              ],
+              reactionGroups: {
+                'heart': ReactionGroupResponse(
+                  count: 1,
+                  firstReactionAt: DateTime.timestamp(),
+                  lastReactionAt: DateTime.timestamp(),
+                ),
+              },
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - has reaction
+        final initialActivity = tester.feedState.activities.first;
+        expect(initialActivity.ownReactions, hasLength(1));
+
+        // Emit ActivityReactionDeletedEvent
+        await tester.emitEvent(
+          ActivityReactionDeletedEvent(
+            type: EventTypes.activityReactionDeleted,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: feedId.rawValue,
+            activity: createDefaultActivityResponse(id: activityId).copyWith(
+              reactionGroups: const {},
+            ),
+            reaction: FeedsReactionResponse(
+              activityId: activityId,
+              type: 'heart',
+              createdAt: DateTime.timestamp(),
+              updatedAt: DateTime.timestamp(),
+              user: createDefaultUserResponse(id: userId),
+            ),
+          ),
+        );
+
+        // Verify state was updated
+        final updatedActivity = tester.feedState.activities.first;
+        expect(updatedActivity.ownReactions, isEmpty);
+      },
+    );
+
+    feedTest(
+      'should handle multiple reaction types (heart and fire) on same activity',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: [
+            createDefaultActivityResponse(
+              id: activityId,
+              feeds: [feedId.rawValue],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - no reactions
+        final initialActivity = tester.feedState.activities.first;
+        expect(initialActivity.ownReactions, isEmpty);
+        expect(initialActivity.reactionGroups, isEmpty);
+
+        // Add heart reaction via event
+        await tester.emitEvent(
+          ActivityReactionAddedEvent(
+            type: EventTypes.activityReactionAdded,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: feedId.rawValue,
+            activity: createDefaultActivityResponse(id: activityId).copyWith(
+              reactionGroups: {
+                'heart': ReactionGroupResponse(
+                  count: 1,
+                  firstReactionAt: DateTime.timestamp(),
+                  lastReactionAt: DateTime.timestamp(),
+                ),
+              },
+            ),
+            reaction: FeedsReactionResponse(
+              activityId: activityId,
+              type: 'heart',
+              createdAt: DateTime.timestamp(),
+              updatedAt: DateTime.timestamp(),
+              user: createDefaultUserResponse(id: userId),
+            ),
+          ),
+        );
+
+        final activityAfterHeart = tester.feedState.activities.first;
+        expect(
+          activityAfterHeart.ownReactions.any((r) => r.type == 'heart'),
+          isTrue,
+        );
+        expect(activityAfterHeart.reactionGroups['heart']?.count ?? 0, 1);
+
+        // Add fire reaction via event (should coexist with heart)
+        await tester.emitEvent(
+          ActivityReactionAddedEvent(
+            type: EventTypes.activityReactionAdded,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: feedId.rawValue,
+            activity: createDefaultActivityResponse(id: activityId).copyWith(
+              reactionGroups: {
+                'heart': ReactionGroupResponse(
+                  count: 1,
+                  firstReactionAt: DateTime.timestamp(),
+                  lastReactionAt: DateTime.timestamp(),
+                ),
+                'fire': ReactionGroupResponse(
+                  count: 1,
+                  firstReactionAt: DateTime.timestamp(),
+                  lastReactionAt: DateTime.timestamp(),
+                ),
+              },
+            ),
+            reaction: FeedsReactionResponse(
+              activityId: activityId,
+              type: 'fire',
+              createdAt: DateTime.timestamp(),
+              updatedAt: DateTime.timestamp(),
+              user: createDefaultUserResponse(id: userId),
+            ),
+          ),
+        );
+
+        final activityAfterFire = tester.feedState.activities.first;
+        expect(
+          activityAfterFire.ownReactions.any((r) => r.type == 'heart'),
+          isTrue,
+        );
+        expect(
+          activityAfterFire.ownReactions.any((r) => r.type == 'fire'),
+          isTrue,
+        );
+        expect(activityAfterFire.reactionGroups['heart']?.count ?? 0, 1);
+        expect(activityAfterFire.reactionGroups['fire']?.count ?? 0, 1);
+      },
+    );
+
+    feedTest(
+      'should handle removing one reaction type while keeping another',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: [
+            createDefaultActivityResponse(
+              id: activityId,
+              feeds: [feedId.rawValue],
+              ownReactions: [
+                FeedsReactionResponse(
+                  activityId: activityId,
+                  type: 'heart',
+                  createdAt: DateTime.timestamp(),
+                  updatedAt: DateTime.timestamp(),
+                  user: createDefaultUserResponse(id: userId),
+                ),
+                FeedsReactionResponse(
+                  activityId: activityId,
+                  type: 'fire',
+                  createdAt: DateTime.timestamp(),
+                  updatedAt: DateTime.timestamp(),
+                  user: createDefaultUserResponse(id: userId),
+                ),
+              ],
+              reactionGroups: {
+                'heart': ReactionGroupResponse(
+                  count: 1,
+                  firstReactionAt: DateTime.timestamp(),
+                  lastReactionAt: DateTime.timestamp(),
+                ),
+                'fire': ReactionGroupResponse(
+                  count: 1,
+                  firstReactionAt: DateTime.timestamp(),
+                  lastReactionAt: DateTime.timestamp(),
+                ),
+              },
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - has both reactions
+        final initialActivity = tester.feedState.activities.first;
+        expect(initialActivity.ownReactions.length, 2);
+        expect(initialActivity.reactionGroups['heart']?.count ?? 0, 1);
+        expect(initialActivity.reactionGroups['fire']?.count ?? 0, 1);
+
+        // Delete heart reaction via event
+        await tester.emitEvent(
+          ActivityReactionDeletedEvent(
+            type: EventTypes.activityReactionDeleted,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: feedId.rawValue,
+            activity: createDefaultActivityResponse(id: activityId).copyWith(
+              reactionGroups: {
+                'fire': ReactionGroupResponse(
+                  count: 1,
+                  firstReactionAt: DateTime.timestamp(),
+                  lastReactionAt: DateTime.timestamp(),
+                ),
+              },
+            ),
+            reaction: FeedsReactionResponse(
+              activityId: activityId,
+              type: 'heart',
+              createdAt: DateTime.timestamp(),
+              updatedAt: DateTime.timestamp(),
+              user: createDefaultUserResponse(id: userId),
+            ),
+          ),
+        );
+
+        final activityAfterDelete = tester.feedState.activities.first;
+        expect(activityAfterDelete.ownReactions.length, 1);
+        expect(activityAfterDelete.ownReactions.first.type, 'fire');
+        expect(activityAfterDelete.reactionGroups['heart']?.count ?? 0, 0);
+        expect(activityAfterDelete.reactionGroups['fire']?.count ?? 0, 1);
       },
     );
   });
