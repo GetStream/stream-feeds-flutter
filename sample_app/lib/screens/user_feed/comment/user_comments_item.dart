@@ -7,6 +7,7 @@ import '../../../theme/extensions/theme_extensions.dart';
 import '../../../utils/date_time_extensions.dart';
 import '../../../widgets/action_button.dart';
 import '../../../widgets/user_avatar.dart';
+import '../reaction_icon.dart';
 
 class UserCommentItem extends StatelessWidget {
   const UserCommentItem({
@@ -19,17 +20,12 @@ class UserCommentItem extends StatelessWidget {
 
   final CommentData comment;
   final ValueSetter<CommentData> onReplyClick;
-  final void Function(CommentData comment, String type, bool isAdding)
-      onReactionClick;
+  final void Function(CommentData, ReactionIcon) onReactionClick;
   final ValueSetter<CommentData> onLongPressComment;
 
   @override
   Widget build(BuildContext context) {
     final user = comment.user;
-    final heartsCount = comment.reactionGroups['heart']?.count ?? 0;
-    final hasOwnHeart = comment.ownReactions.any((it) => it.type == 'heart');
-    final fireCount = comment.reactionGroups['fire']?.count ?? 0;
-    final hasOwnFire = comment.ownReactions.any((it) => it.type == 'fire');
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,29 +81,9 @@ class UserCommentItem extends StatelessWidget {
             Row(
               spacing: 8,
               children: [
-                ActionButton(
-                  icon: Icon(
-                    switch (hasOwnHeart) {
-                      true => Icons.favorite_rounded,
-                      false => Icons.favorite_outline_rounded,
-                    },
-                  ),
-                  count: heartsCount,
-                  color: hasOwnHeart ? context.appColors.accentError : null,
-                  onTap: () => onReactionClick(comment, 'heart', !hasOwnHeart),
-                ),
-                ActionButton(
-                  icon: Icon(
-                    switch (hasOwnFire) {
-                      true => Icons.local_fire_department_rounded,
-                      false => Icons.local_fire_department_outlined,
-                    },
-                  ),
-                  count: fireCount,
-                  color: hasOwnFire
-                      ? context.appColors.accentWarning
-                      : context.appColors.textLowEmphasis,
-                  onTap: () => onReactionClick(comment, 'fire', !hasOwnFire),
+                ..._buildReactions(
+                  context,
+                  onReactionClick: (it) => onReactionClick(comment, it),
                 ),
               ],
             ),
@@ -125,5 +101,25 @@ class UserCommentItem extends StatelessWidget {
           ),
       ],
     );
+  }
+
+  Iterable<Widget> _buildReactions(
+    BuildContext context, {
+    ValueSetter<ReactionIcon>? onReactionClick,
+  }) sync* {
+    final groups = comment.reactionGroups;
+    final ownReactions = comment.ownReactions;
+
+    for (final reaction in ReactionIcon.defaultReactions) {
+      final count = groups[reaction.type]?.count ?? 0;
+      final selected = ownReactions.any((it) => it.type == reaction.type);
+
+      yield ActionButton(
+        icon: Icon(reaction.getIcon(selected)),
+        count: count,
+        color: reaction.getColor(selected),
+        onTap: () => onReactionClick?.call(reaction),
+      );
+    }
   }
 }

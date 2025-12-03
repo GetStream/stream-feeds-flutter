@@ -5,7 +5,7 @@ import 'package:stream_feeds/stream_feeds.dart';
 import '../../../core/di/di_initializer.dart';
 import '../../../theme/theme.dart';
 import '../comment/user_comments.dart';
-import 'reaction_icon.dart';
+import '../reaction_icon.dart';
 import 'stories_bar.dart';
 import 'user_feed_item.dart';
 

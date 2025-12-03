@@ -4,6 +4,7 @@ import 'package:stream_feeds/stream_feeds.dart';
 
 import '../../../core/di/di_initializer.dart';
 import '../../../theme/extensions/theme_extensions.dart';
+import '../reaction_icon.dart';
 import 'user_comments_item.dart';
 
 class UserComments extends StatefulWidget {
@@ -206,21 +207,27 @@ class _UserCommentsState extends State<UserComments> {
 
   Future<void> _onReactionClick(
     CommentData comment,
-    String type,
-    bool isAdding,
+    ReactionIcon reaction,
   ) {
-    if (isAdding) {
-      return activity.addCommentReaction(
-        commentId: comment.id,
-        request: AddCommentReactionRequest(
-          type: type,
-          enforceUnique: true,
-          createNotificationActivity: true,
-        ),
-      );
+    final ownReactions = [...comment.ownReactions];
+    final shouldDelete = ownReactions.any((it) => it.type == reaction.type);
+
+    if (shouldDelete) {
+      return activity.deleteCommentReaction(comment.id, reaction.type);
     }
 
-    return activity.deleteCommentReaction(comment.id, type);
+    return activity.addCommentReaction(
+      commentId: comment.id,
+      request: AddCommentReactionRequest(
+        type: reaction.type,
+        enforceUnique: true,
+        createNotificationActivity: true,
+        custom: {
+          // Add emoji code only if available
+          if (reaction.emojiCode case final code?) 'emoji_code': code,
+        },
+      ),
+    );
   }
 
   Future<void> _onReplyClick([CommentData? parentComment]) async {

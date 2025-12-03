@@ -10,7 +10,7 @@ import '../../../widgets/attachment_gallery/attachment_metadata.dart';
 import '../../../widgets/attachments/attachments.dart';
 import '../../../widgets/user_avatar.dart';
 import '../polls/show_poll/show_poll_widget.dart';
-import 'reaction_icon.dart';
+import '../reaction_icon.dart';
 
 class UserFeedItem extends StatelessWidget {
   const UserFeedItem({
@@ -234,9 +234,12 @@ class _UserActions extends StatelessWidget {
     BuildContext context, {
     ValueSetter<ReactionIcon>? onReactionClick,
   }) sync* {
+    final groups = data.reactionGroups;
+    final ownReactions = data.ownReactions;
+
     for (final reaction in ReactionIcon.defaultReactions) {
-      final count = data.reactionGroups[reaction.type]?.count ?? 0;
-      final selected = data.ownReactions.any((it) => it.type == reaction.type);
+      final count = groups[reaction.type]?.count ?? 0;
+      final selected = ownReactions.any((it) => it.type == reaction.type);
 
       yield ActionButton(
         icon: Icon(reaction.getIcon(selected)),
