@@ -199,9 +199,17 @@ extension CommentDataMutations on CommentData {
   /// it will be updated. The reply count is automatically recalculated.
   ///
   /// Returns a new [CommentData] instance with the updated replies and reply count.
-  CommentData upsertReply(CommentData reply) {
+  CommentData upsertReply(
+    CommentData reply,
+    Comparator<CommentData> compare,
+  ) {
     final currentReplies = [...?replies];
-    final updatedReplies = currentReplies.upsert(reply, key: (it) => it.id);
+    final updatedReplies = currentReplies.sortedUpsert(
+      reply,
+      key: (it) => it.id,
+      compare: compare,
+      update: (existing, updated) => existing.updateWith(updated),
+    );
 
     final difference = updatedReplies.length - currentReplies.length;
     final updatedReplyCount = math.max(0, replyCount + difference);

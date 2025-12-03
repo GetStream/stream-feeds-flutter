@@ -47,24 +47,27 @@ class ActivityCommentListStateNotifier
 
   /// Handles the addition of a new comment.
   void onCommentAdded(CommentData comment) {
-    // If the comment is a reply, find the parent and add it to the parent's replies
-    if (comment.parentId case final parentId?) {
-      final updatedComments = state.comments.updateNested(
-        (it) => it.id == parentId,
-        children: (it) => it.replies ?? [],
-        update: (found) => found.upsertReply(comment),
-        updateChildren: (parent, replies) => parent.copyWith(replies: replies),
+    final parentId = comment.parentId;
+
+    // If there's no parentId, it's a top-level comment
+    if (parentId == null) {
+      final updatedComments = state.comments.sortedUpsert(
+        comment,
+        key: (comment) => comment.id,
         compare: commentSort.compare,
+        update: (existing, updated) => existing.updateWith(updated),
       );
 
       state = state.copyWith(comments: updatedComments);
       return;
     }
 
-    // Otherwise, just update the top-level comments list
-    final updatedComments = state.comments.sortedUpsert(
-      comment,
-      key: (comment) => comment.id,
+    // Otherwise, it's a reply to an existing comment
+    final updatedComments = state.comments.updateNested(
+      (it) => it.id == parentId,
+      children: (it) => it.replies ?? [],
+      update: (found) => found.upsertReply(comment, commentSort.compare),
+      updateChildren: (parent, replies) => parent.copyWith(replies: replies),
       compare: commentSort.compare,
     );
 
@@ -73,6 +76,7 @@ class ActivityCommentListStateNotifier
 
   /// Handles updates to a specific comment.
   void onCommentUpdated(CommentData comment) {
+    // Update nested replies (handles both top-level and nested replies)
     final updatedComments = state.comments.updateNested(
       (it) => it.id == comment.id,
       children: (it) => it.replies ?? [],
@@ -84,13 +88,24 @@ class ActivityCommentListStateNotifier
   }
 
   /// Handles the removal of a comment by ID.
-  void onCommentRemoved(
-    String commentId, {
-    bool hardDelete = false,
-  }) {
-    final updatedComments = state.comments.removeNested(
-      (it) => it.id == commentId,
+  void onCommentRemoved(CommentData comment) {
+    final removeIndex = state.comments.indexWhere((it) => it.id == comment.id);
+
+    // If found at the top level, remove it directly
+    if (removeIndex >= 0) {
+      final updatedComments = [...state.comments].apply(
+        (it) => it.removeAt(removeIndex),
+      );
+
+      state = state.copyWith(comments: updatedComments);
+      return;
+    }
+
+    // Otherwise, it might be a direct reply to a top-level comment
+    final updatedComments = state.comments.updateNested(
+      (it) => it.id == comment.parentId,
       children: (it) => it.replies ?? [],
+      update: (found) => found.removeReply(comment),
       updateChildren: (parent, replies) => parent.copyWith(replies: replies),
     );
 

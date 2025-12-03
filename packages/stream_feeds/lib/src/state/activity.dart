@@ -206,7 +206,7 @@ class Activity with Disposable {
       hardDelete: hardDelete,
     );
 
-    result.onSuccess((_) => _commentsList.notifier.onCommentRemoved(commentId));
+    result.onSuccess(_commentsList.notifier.onCommentRemoved);
 
     return result;
   }

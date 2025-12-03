@@ -48,29 +48,43 @@ class CommentReplyListStateNotifier
   }
 
   /// Handles the addition of a new comment reply.
-  void onCommentAdded(CommentData comment) {
-    final parentId = comment.parentId;
+  void onReplyAdded(CommentData reply) {
+    final parentId = reply.parentId;
     // If there's no parentId, it's not a reply; ignore it
     if (parentId == null) return;
 
     // If this is a top-level reply to the parent comment, add it directly
     if (parentId == parentCommentId) {
       final updatedReplies = state.replies.sortedUpsert(
-        comment,
+        reply,
         key: (it) => it.id,
         compare: commentSort.compare,
+        update: (existing, updated) => existing.updateWith(updated),
       );
 
       state = state.copyWith(replies: updatedReplies);
       return;
     }
 
-    // Otherwise, it's a nested reply - find the parent reply and add it there
-    // Only handle nested replies within replies that are already in our state
+    // Otherwise, it's a nested reply - find the parent reply and add it
     final updatedReplies = state.replies.updateNested(
       (reply) => reply.id == parentId,
       children: (it) => it.replies ?? [],
-      update: (found) => found.upsertReply(comment),
+      update: (found) => found.upsertReply(reply, commentSort.compare),
+      updateChildren: (parent, replies) => parent.copyWith(replies: replies),
+      compare: commentSort.compare,
+    );
+
+    state = state.copyWith(replies: updatedReplies);
+  }
+
+  /// Handles the update of an existing comment reply.
+  void onReplyUpdated(CommentData reply) {
+    // Update nested replies (handles both top-level and nested replies)
+    final updatedReplies = state.replies.updateNested(
+      (it) => it.id == reply.id,
+      children: (it) => it.replies ?? [],
+      update: (found) => found.updateWith(reply),
       updateChildren: (parent, replies) => parent.copyWith(replies: replies),
       compare: commentSort.compare,
     );
@@ -79,40 +93,40 @@ class CommentReplyListStateNotifier
   }
 
   /// Handles the removal of a comment reply.
-  void onCommentRemoved(String commentId) {
-    final updatedReplies = state.replies.removeNested(
-      (reply) => reply.id == commentId,
-      children: (it) => it.replies ?? [],
-      updateChildren: (parent, replies) => parent.copyWith(replies: replies),
-    );
+  void onReplyRemoved(CommentData reply) {
+    final removeIndex = state.replies.indexWhere((it) => it.id == reply.id);
 
-    state = state.copyWith(replies: updatedReplies);
-  }
+    // If found at the top level, remove it directly
+    if (removeIndex >= 0) {
+      final updatedReplies = [...state.replies].apply(
+        (it) => it.removeAt(removeIndex),
+      );
 
-  /// Handles the update of an existing comment reply.
-  void onCommentUpdated(CommentData comment) {
-    // Update nested replies (handles both top-level and nested replies)
+      state = state.copyWith(replies: updatedReplies);
+      return;
+    }
+
+    // Otherwise, it's a nested reply - find the parent reply and remove it
     final updatedReplies = state.replies.updateNested(
-      (it) => it.id == comment.id,
+      (it) => it.id == reply.parentId,
       children: (it) => it.replies ?? [],
-      update: (found) => found.updateWith(comment),
+      update: (found) => found.removeReply(reply),
       updateChildren: (parent, replies) => parent.copyWith(replies: replies),
-      compare: commentSort.compare,
     );
 
     state = state.copyWith(replies: updatedReplies);
   }
 
   /// Handles the addition of a reaction to a comment reply.
-  void onCommentReactionAdded(
-    CommentData comment,
+  void onReplyReactionAdded(
+    CommentData reply,
     FeedsReactionData reaction,
   ) {
     // Update nested replies (handles both top-level and nested replies)
     final updatedReplies = state.replies.updateNested(
-      (it) => it.id == comment.id,
+      (it) => it.id == reply.id,
       children: (it) => it.replies ?? [],
-      update: (found) => found.upsertReaction(comment, reaction, currentUserId),
+      update: (found) => found.upsertReaction(reply, reaction, currentUserId),
       updateChildren: (parent, replies) => parent.copyWith(replies: replies),
       compare: commentSort.compare,
     );
@@ -121,16 +135,16 @@ class CommentReplyListStateNotifier
   }
 
   /// Handles the update of a reaction on a comment reply.
-  void onCommentReactionUpdated(
-    CommentData comment,
+  void onReplyReactionUpdated(
+    CommentData reply,
     FeedsReactionData reaction,
   ) {
     // Update nested replies (handles both top-level and nested replies)
     final updatedReplies = state.replies.updateNested(
-      (it) => it.id == comment.id,
+      (it) => it.id == reply.id,
       children: (it) => it.replies ?? [],
       update: (found) =>
-          found.upsertUniqueReaction(comment, reaction, currentUserId),
+          found.upsertUniqueReaction(reply, reaction, currentUserId),
       updateChildren: (parent, replies) => parent.copyWith(replies: replies),
       compare: commentSort.compare,
     );
@@ -139,15 +153,15 @@ class CommentReplyListStateNotifier
   }
 
   /// Handles the removal of a reaction from a comment reply.
-  void onCommentReactionRemoved(
-    CommentData comment,
+  void onReplyReactionRemoved(
+    CommentData reply,
     FeedsReactionData reaction,
   ) {
     // Update nested replies (handles both top-level and nested replies)
     final updatedReplies = state.replies.updateNested(
-      (it) => it.id == comment.id,
+      (it) => it.id == reply.id,
       children: (it) => it.replies ?? [],
-      update: (found) => found.removeReaction(comment, reaction, currentUserId),
+      update: (found) => found.removeReaction(reply, reaction, currentUserId),
       updateChildren: (parent, replies) => parent.copyWith(replies: replies),
       compare: commentSort.compare,
     );

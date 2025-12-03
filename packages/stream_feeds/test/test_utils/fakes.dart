@@ -232,6 +232,7 @@ CommentResponse createDefaultCommentResponse({
   String objectType = 'post',
   String? text,
   String? userId,
+  String? parentId,
 }) {
   return CommentResponse(
     id: id,
@@ -243,6 +244,7 @@ CommentResponse createDefaultCommentResponse({
     objectId: objectId,
     objectType: objectType,
     ownReactions: const [],
+    parentId: parentId,
     reactionCount: 0,
     replyCount: 0,
     score: 0,

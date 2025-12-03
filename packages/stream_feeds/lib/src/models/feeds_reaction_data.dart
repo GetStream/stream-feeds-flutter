@@ -67,24 +67,6 @@ class FeedsReactionData with _$FeedsReactionData {
 extension FeedsReactionListMutation on List<FeedsReactionData> {
   static int _alwaysEqualComparator<T>(T a, T b) => 0;
 
-  /// Adds or updates a reaction in this list with unique enforcement.
-  ///
-  /// Updates this list by adding or updating [reaction]. When unique enforcement is enabled,
-  /// replaces any existing reaction from the same user reactions group. Uses [compare] to
-  /// determine the order when inserting.
-  ///
-  /// Returns a new list with the updated reactions.
-  List<FeedsReactionData> upsertUniqueReaction(
-    FeedsReactionData reaction, {
-    Comparator<FeedsReactionData> compare = _alwaysEqualComparator,
-  }) {
-    return upsertReaction(
-      reaction,
-      enforceUnique: true,
-      compare: compare,
-    );
-  }
-
   /// Adds or updates a reaction in this list.
   ///
   /// Updates this list by adding or updating [reaction]. When [enforceUnique] is true,

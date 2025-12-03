@@ -24,19 +24,21 @@ class ActivityCommentListEventHandler implements StateEventHandler {
   @override
   void handleEvent(WsEvent event) {
     if (event is api.CommentAddedEvent) {
-      // Only handle comments for this specific activity
-      if (event.comment.objectId != objectId) return;
-      if (event.comment.objectType != objectType) return;
-
       final comment = event.comment.toModel();
+      // Only handle comments for this specific activity
+      if (comment.objectId != objectId) return;
+      if (comment.objectType != objectType) return;
+
       return state.onCommentAdded(comment);
     }
 
     if (event is api.CommentUpdatedEvent) {
+      final comment = event.comment.toModel();
       // Only handle comments for this specific activity
-      if (event.comment.objectId != objectId) return;
-      if (event.comment.objectType != objectType) return;
-      return state.onCommentUpdated(event.comment.toModel());
+      if (comment.objectId != objectId) return;
+      if (comment.objectType != objectType) return;
+
+      return state.onCommentUpdated(comment);
     }
 
     if (event is api.CommentDeletedEvent) {
@@ -45,7 +47,7 @@ class ActivityCommentListEventHandler implements StateEventHandler {
       if (comment.objectId != objectId) return;
       if (comment.objectType != objectType) return;
 
-      return state.onCommentRemoved(comment.id);
+      return state.onCommentRemoved(comment);
     }
 
     if (event is api.CommentReactionAddedEvent) {

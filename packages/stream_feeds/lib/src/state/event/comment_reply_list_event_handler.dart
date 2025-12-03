@@ -21,28 +21,47 @@ class CommentReplyListEventHandler implements StateEventHandler {
   void handleEvent(WsEvent event) {
     if (event is api.CommentAddedEvent) {
       final comment = event.comment.toModel();
-      return state.onCommentAdded(comment);
+      if (comment.parentId == null) return;
+
+      return state.onReplyAdded(comment);
     }
 
     if (event is api.CommentDeletedEvent) {
-      return state.onCommentRemoved(event.comment.id);
+      final comment = event.comment.toModel();
+      if (comment.parentId == null) return;
+
+      return state.onReplyRemoved(comment);
     }
 
     if (event is api.CommentUpdatedEvent) {
       final comment = event.comment.toModel();
-      return state.onCommentUpdated(comment);
+      if (comment.parentId == null) return;
+
+      return state.onReplyUpdated(comment);
     }
 
     if (event is api.CommentReactionAddedEvent) {
       final comment = event.comment.toModel();
+      if (comment.parentId == null) return;
+
       final reaction = event.reaction.toModel();
-      return state.onCommentReactionAdded(comment, reaction);
+      return state.onReplyReactionAdded(comment, reaction);
+    }
+
+    if (event is api.CommentReactionUpdatedEvent) {
+      final comment = event.comment.toModel();
+      if (comment.parentId == null) return;
+
+      final reaction = event.reaction.toModel();
+      return state.onReplyReactionUpdated(comment, reaction);
     }
 
     if (event is api.CommentReactionDeletedEvent) {
       final comment = event.comment.toModel();
+      if (comment.parentId == null) return;
+
       final reaction = event.reaction.toModel();
-      return state.onCommentReactionRemoved(comment, reaction);
+      return state.onReplyReactionRemoved(comment, reaction);
     }
 
     // Handle other comment reply list events here as needed

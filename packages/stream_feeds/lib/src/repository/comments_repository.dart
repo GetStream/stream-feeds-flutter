@@ -130,11 +130,16 @@ class CommentsRepository {
   /// If [hardDelete] is true, the comment is permanently deleted; otherwise, it may be soft-deleted.
   ///
   /// Returns a [Result] containing void or an error.
-  Future<Result<void>> deleteComment(
+  Future<Result<CommentData>> deleteComment(
     String commentId, {
     bool? hardDelete,
-  }) {
-    return _api.deleteComment(id: commentId, hardDelete: hardDelete);
+  }) async {
+    final result = await _api.deleteComment(
+      id: commentId,
+      hardDelete: hardDelete,
+    );
+
+    return result.map((response) => response.comment.toModel());
   }
 
   /// Retrieves a specific comment.

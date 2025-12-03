@@ -235,6 +235,7 @@ void main() {
               objectType: 'activity',
               text: 'Updated reply',
               userId: userId,
+              parentId: parentCommentId,
             ),
           ),
         );
@@ -281,6 +282,7 @@ void main() {
               objectId: commentId,
               objectType: 'activity',
               userId: userId,
+              parentId: parentCommentId,
             ),
           ),
         );
@@ -324,7 +326,7 @@ void main() {
     );
 
     commentReplyListTest(
-      'should not add comment if parentId is null',
+      'should skip top-level comments (only handles replies)',
       build: (client) => client.commentReplyList(query),
       setUp: (tester) => tester.get(
         modifyResponse: (response) => response.copyWith(comments: const []),
@@ -357,6 +359,97 @@ void main() {
     );
 
     commentReplyListTest(
+      'should skip top-level comment updates (only handles replies)',
+      build: (client) => client.commentReplyList(query),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(
+          comments: [
+            createDefaultThreadedCommentResponse(
+              id: replyId,
+              objectId: commentId,
+              objectType: 'activity',
+              text: 'Original reply',
+              userId: userId,
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - has reply
+        expect(tester.commentReplyListState.replies, hasLength(1));
+        expect(
+          tester.commentReplyListState.replies.first.text,
+          'Original reply',
+        );
+
+        // Emit CommentUpdatedEvent without parentId (not a reply)
+        await tester.emitEvent(
+          CommentUpdatedEvent(
+            type: EventTypes.commentUpdated,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: 'user:john',
+            comment: createDefaultCommentResponse(
+              id: replyId,
+              objectId: commentId,
+              objectType: 'activity',
+              text: 'Updated comment',
+              userId: userId,
+            ),
+          ),
+        );
+
+        // Verify state was not updated (only replies are updated, not top-level comments)
+        expect(tester.commentReplyListState.replies, hasLength(1));
+        expect(
+          tester.commentReplyListState.replies.first.text,
+          'Original reply',
+        );
+      },
+    );
+
+    commentReplyListTest(
+      'should skip top-level comment deletions (only handles replies)',
+      build: (client) => client.commentReplyList(query),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(
+          comments: [
+            createDefaultThreadedCommentResponse(
+              id: replyId,
+              objectId: commentId,
+              objectType: 'activity',
+              text: 'Test reply',
+              userId: userId,
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - has reply
+        expect(tester.commentReplyListState.replies, hasLength(1));
+
+        // Emit CommentDeletedEvent without parentId (not a reply)
+        await tester.emitEvent(
+          CommentDeletedEvent(
+            type: EventTypes.commentDeleted,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: 'user:john',
+            comment: createDefaultCommentResponse(
+              id: replyId,
+              objectId: commentId,
+              objectType: 'activity',
+              userId: userId,
+            ),
+          ),
+        );
+
+        // Verify state was not updated (only replies are deleted, not top-level comments)
+        expect(tester.commentReplyListState.replies, hasLength(1));
+      },
+    );
+
+    commentReplyListTest(
       'should handle CommentAddedEvent and add nested reply',
       build: (client) => client.commentReplyList(query),
       setUp: (tester) => tester.get(
@@ -375,8 +468,10 @@ void main() {
       body: (tester) async {
         // Initial state - has top-level reply
         expect(tester.commentReplyListState.replies, hasLength(1));
-        expect(tester.commentReplyListState.replies.first.id, replyId);
-        expect(tester.commentReplyListState.replies.first.replies, isNull);
+        final initialReply = tester.commentReplyListState.replies.first;
+        expect(initialReply.id, replyId);
+        expect(initialReply.replies, isNull);
+        expect(initialReply.replyCount, 0);
 
         // Emit event for nested reply (parentId matches existing reply's ID)
         await tester.emitEvent(
@@ -404,6 +499,7 @@ void main() {
         expect(topLevelReply.replies, hasLength(1));
         expect(topLevelReply.replies!.first.id, 'nested-reply-1');
         expect(topLevelReply.replies!.first.text, 'Nested reply');
+        expect(topLevelReply.replyCount, 1);
       },
     );
 
@@ -451,6 +547,7 @@ void main() {
               objectType: 'activity',
               text: 'Updated nested reply',
               userId: userId,
+              parentId: replyId,
             ),
           ),
         );
@@ -495,6 +592,7 @@ void main() {
         final topLevelReply = tester.commentReplyListState.replies.first;
         expect(topLevelReply.replies, hasLength(1));
         expect(topLevelReply.replies!.first.id, 'nested-reply-1');
+        expect(topLevelReply.replyCount, 1);
 
         // Emit event to delete nested reply
         await tester.emitEvent(
@@ -508,6 +606,7 @@ void main() {
               objectId: commentId,
               objectType: 'activity',
               userId: userId,
+              parentId: replyId,
             ),
           ),
         );
@@ -515,6 +614,7 @@ void main() {
         // Verify nested reply was removed
         final updatedTopLevelReply = tester.commentReplyListState.replies.first;
         expect(updatedTopLevelReply.replies, isEmpty);
+        expect(updatedTopLevelReply.replyCount, 0);
         // Top-level reply should still exist
         expect(tester.commentReplyListState.replies, hasLength(1));
         expect(tester.commentReplyListState.replies.first.id, replyId);
@@ -567,6 +667,219 @@ void main() {
         expect(updatedTopLevelReply.replies, isNull);
       },
     );
+
+    commentReplyListTest(
+      'should handle CommentAddedEvent and add deep nested reply',
+      build: (client) => client.commentReplyList(query),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(
+          comments: [
+            createDefaultThreadedCommentResponse(
+              id: replyId,
+              objectId: commentId,
+              objectType: 'activity',
+              text: 'Top-level reply',
+              userId: userId,
+              replies: [
+                createDefaultThreadedCommentResponse(
+                  id: 'nested-reply-1',
+                  objectId: commentId,
+                  objectType: 'activity',
+                  text: 'Second-level reply',
+                  userId: userId,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - has nested reply
+        expect(tester.commentReplyListState.replies, hasLength(1));
+        final topLevelReply = tester.commentReplyListState.replies.first;
+        expect(topLevelReply.id, replyId);
+        expect(topLevelReply.replies, hasLength(1));
+        expect(topLevelReply.replies!.first.id, 'nested-reply-1');
+        expect(topLevelReply.replies!.first.replies, isNull);
+        expect(topLevelReply.replyCount, 1);
+        expect(topLevelReply.replies!.first.replyCount, 0);
+
+        // Emit event for deep nested reply (reply to nested-reply-1)
+        await tester.emitEvent(
+          CommentAddedEvent(
+            type: EventTypes.commentAdded,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: 'user:john',
+            activity: createDefaultActivityResponse(id: 'activity-1'),
+            comment: createDefaultCommentResponse(
+              id: 'deep-nested-reply-1',
+              objectId: commentId,
+              objectType: 'activity',
+              text: 'Deep nested reply',
+              userId: userId,
+            ).copyWith(parentId: 'nested-reply-1'),
+          ),
+        );
+
+        // Verify deep nested reply was added
+        expect(tester.commentReplyListState.replies, hasLength(1));
+        final updatedTopLevelReply = tester.commentReplyListState.replies.first;
+        expect(updatedTopLevelReply.id, replyId);
+        expect(updatedTopLevelReply.replies, hasLength(1));
+        expect(updatedTopLevelReply.replyCount, 1);
+
+        final secondLevelReply = updatedTopLevelReply.replies!.first;
+        expect(secondLevelReply.id, 'nested-reply-1');
+        expect(secondLevelReply.replies, isNotNull);
+        expect(secondLevelReply.replies, hasLength(1));
+        expect(secondLevelReply.replyCount, 1);
+
+        final deepNestedReply = secondLevelReply.replies!.first;
+        expect(deepNestedReply.id, 'deep-nested-reply-1');
+        expect(deepNestedReply.text, 'Deep nested reply');
+      },
+    );
+
+    commentReplyListTest(
+      'should handle CommentUpdatedEvent and update deep nested reply',
+      build: (client) => client.commentReplyList(query),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(
+          comments: [
+            createDefaultThreadedCommentResponse(
+              id: replyId,
+              objectId: commentId,
+              objectType: 'activity',
+              text: 'Top-level reply',
+              userId: userId,
+              replies: [
+                createDefaultThreadedCommentResponse(
+                  id: 'nested-reply-1',
+                  objectId: commentId,
+                  objectType: 'activity',
+                  text: 'Second-level reply',
+                  userId: userId,
+                  replies: [
+                    createDefaultThreadedCommentResponse(
+                      id: 'deep-nested-reply-1',
+                      objectId: commentId,
+                      objectType: 'activity',
+                      text: 'Original deep nested reply',
+                      userId: userId,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - has deep nested reply
+        final topLevelReply = tester.commentReplyListState.replies.first;
+        final secondLevelReply = topLevelReply.replies!.first;
+        expect(secondLevelReply.replies, hasLength(1));
+        expect(secondLevelReply.replies!.first.text, 'Original deep nested reply');
+
+        // Emit event to update deep nested reply
+        await tester.emitEvent(
+          CommentUpdatedEvent(
+            type: EventTypes.commentUpdated,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: 'user:john',
+            comment: createDefaultCommentResponse(
+              id: 'deep-nested-reply-1',
+              objectId: commentId,
+              objectType: 'activity',
+              text: 'Updated deep nested reply',
+              userId: userId,
+              parentId: 'nested-reply-1',
+            ),
+          ),
+        );
+
+        // Verify deep nested reply was updated
+        final updatedTopLevelReply = tester.commentReplyListState.replies.first;
+        final updatedSecondLevelReply = updatedTopLevelReply.replies!.first;
+        expect(updatedSecondLevelReply.replies, hasLength(1));
+        expect(
+          updatedSecondLevelReply.replies!.first.text,
+          'Updated deep nested reply',
+        );
+      },
+    );
+
+    commentReplyListTest(
+      'should handle CommentDeletedEvent and remove deep nested reply',
+      build: (client) => client.commentReplyList(query),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(
+          comments: [
+            createDefaultThreadedCommentResponse(
+              id: replyId,
+              objectId: commentId,
+              objectType: 'activity',
+              text: 'Top-level reply',
+              userId: userId,
+              replies: [
+                createDefaultThreadedCommentResponse(
+                  id: 'nested-reply-1',
+                  objectId: commentId,
+                  objectType: 'activity',
+                  text: 'Second-level reply',
+                  userId: userId,
+                  replies: [
+                    createDefaultThreadedCommentResponse(
+                      id: 'deep-nested-reply-1',
+                      objectId: commentId,
+                      objectType: 'activity',
+                      text: 'Deep nested reply',
+                      userId: userId,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - has deep nested reply
+        final topLevelReply = tester.commentReplyListState.replies.first;
+        final secondLevelReply = topLevelReply.replies!.first;
+        expect(secondLevelReply.replies, hasLength(1));
+        expect(secondLevelReply.replies!.first.id, 'deep-nested-reply-1');
+        expect(secondLevelReply.replyCount, 1);
+
+        // Emit event to delete deep nested reply
+        await tester.emitEvent(
+          CommentDeletedEvent(
+            type: EventTypes.commentDeleted,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: 'user:john',
+            comment: createDefaultCommentResponse(
+              id: 'deep-nested-reply-1',
+              objectId: commentId,
+              objectType: 'activity',
+              userId: userId,
+              parentId: 'nested-reply-1',
+            ),
+          ),
+        );
+
+        // Verify deep nested reply was removed
+        final updatedTopLevelReply = tester.commentReplyListState.replies.first;
+        final updatedSecondLevelReply = updatedTopLevelReply.replies!.first;
+        expect(updatedSecondLevelReply.replies, isEmpty);
+        expect(updatedSecondLevelReply.replyCount, 0);
+        // Second-level reply should still exist
+        expect(updatedTopLevelReply.replies, hasLength(1));
+        expect(updatedTopLevelReply.replies!.first.id, 'nested-reply-1');
+      },
+    );
   });
 
   // ============================================================
@@ -608,6 +921,7 @@ void main() {
               objectId: commentId,
               objectType: 'activity',
               userId: userId,
+              parentId: parentCommentId,
             ),
             reaction: FeedsReactionResponse(
               activityId: 'activity-1',
@@ -670,6 +984,7 @@ void main() {
               objectId: commentId,
               objectType: 'activity',
               userId: userId,
+              parentId: parentCommentId,
             ),
             reaction: FeedsReactionResponse(
               activityId: 'activity-1',
@@ -685,6 +1000,71 @@ void main() {
         // Verify state has no reactions
         final updatedReply = tester.commentReplyListState.replies.first;
         expect(updatedReply.ownReactions, isEmpty);
+      },
+    );
+
+    commentReplyListTest(
+      'should handle CommentReactionUpdatedEvent and update reaction',
+      build: (client) => client.commentReplyList(query),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(
+          comments: [
+            createDefaultThreadedCommentResponse(
+              id: replyId,
+              objectId: commentId,
+              objectType: 'activity',
+              text: 'Test reply',
+              userId: userId,
+              ownReactions: [
+                FeedsReactionResponse(
+                  activityId: 'activity-1',
+                  commentId: replyId,
+                  type: reactionType,
+                  createdAt: DateTime.timestamp(),
+                  updatedAt: DateTime.timestamp(),
+                  user: createDefaultUserResponse(id: userId),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - has 'like' reaction
+        final initialReply = tester.commentReplyListState.replies.first;
+        expect(initialReply.ownReactions, hasLength(1));
+        expect(initialReply.ownReactions.first.type, reactionType);
+
+        // Emit event to update reaction to 'fire'
+        await tester.emitEvent(
+          CommentReactionUpdatedEvent(
+            type: EventTypes.commentReactionUpdated,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: 'user:john',
+            activity: createDefaultActivityResponse(id: 'activity-1'),
+            comment: createDefaultCommentResponse(
+              id: replyId,
+              objectId: commentId,
+              objectType: 'activity',
+              userId: userId,
+              parentId: parentCommentId,
+            ),
+            reaction: FeedsReactionResponse(
+              activityId: 'activity-1',
+              commentId: replyId,
+              type: 'fire',
+              createdAt: DateTime.timestamp(),
+              updatedAt: DateTime.timestamp(),
+              user: createDefaultUserResponse(id: userId),
+            ),
+          ),
+        );
+
+        // Verify state has updated reaction (old reaction replaced)
+        final updatedReply = tester.commentReplyListState.replies.first;
+        expect(updatedReply.ownReactions, hasLength(1));
+        expect(updatedReply.ownReactions.first.type, 'fire');
       },
     );
 
@@ -732,6 +1112,7 @@ void main() {
               objectId: commentId,
               objectType: 'activity',
               userId: userId,
+              parentId: replyId,
             ),
             reaction: FeedsReactionResponse(
               activityId: 'activity-1',
@@ -752,6 +1133,346 @@ void main() {
           updatedTopLevelReply.replies!.first.ownReactions.first.type,
           reactionType,
         );
+      },
+    );
+
+    commentReplyListTest(
+      'should handle CommentReactionAddedEvent and update deep nested reply',
+      build: (client) => client.commentReplyList(query),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(
+          comments: [
+            createDefaultThreadedCommentResponse(
+              id: replyId,
+              objectId: commentId,
+              objectType: 'activity',
+              text: 'Top-level reply',
+              userId: userId,
+              replies: [
+                createDefaultThreadedCommentResponse(
+                  id: 'nested-reply-1',
+                  objectId: commentId,
+                  objectType: 'activity',
+                  text: 'Second-level reply',
+                  userId: userId,
+                  replies: [
+                    createDefaultThreadedCommentResponse(
+                      id: 'deep-nested-reply-1',
+                      objectId: commentId,
+                      objectType: 'activity',
+                      text: 'Deep nested reply',
+                      userId: userId,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - deep nested reply has no reactions
+        final topLevelReply = tester.commentReplyListState.replies.first;
+        final secondLevelReply = topLevelReply.replies!.first;
+        expect(secondLevelReply.replies, hasLength(1));
+        expect(secondLevelReply.replies!.first.ownReactions, isEmpty);
+
+        // Emit event to add reaction to deep nested reply
+        await tester.emitEvent(
+          CommentReactionAddedEvent(
+            type: EventTypes.commentReactionAdded,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: 'user:john',
+            activity: createDefaultActivityResponse(id: 'activity-1'),
+            comment: createDefaultCommentResponse(
+              id: 'deep-nested-reply-1',
+              objectId: commentId,
+              objectType: 'activity',
+              userId: userId,
+              parentId: 'nested-reply-1',
+            ),
+            reaction: FeedsReactionResponse(
+              activityId: 'activity-1',
+              commentId: 'deep-nested-reply-1',
+              type: reactionType,
+              createdAt: DateTime.timestamp(),
+              updatedAt: DateTime.timestamp(),
+              user: createDefaultUserResponse(id: userId),
+            ),
+          ),
+        );
+
+        // Verify deep nested reply has reaction
+        final updatedTopLevelReply = tester.commentReplyListState.replies.first;
+        final updatedSecondLevelReply = updatedTopLevelReply.replies!.first;
+        expect(updatedSecondLevelReply.replies, hasLength(1));
+        expect(updatedSecondLevelReply.replies!.first.ownReactions, hasLength(1));
+        expect(
+          updatedSecondLevelReply.replies!.first.ownReactions.first.type,
+          reactionType,
+        );
+      },
+    );
+
+    commentReplyListTest(
+      'should handle CommentReactionDeletedEvent and remove reaction from deep nested reply',
+      build: (client) => client.commentReplyList(query),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(
+          comments: [
+            createDefaultThreadedCommentResponse(
+              id: replyId,
+              objectId: commentId,
+              objectType: 'activity',
+              text: 'Top-level reply',
+              userId: userId,
+              replies: [
+                createDefaultThreadedCommentResponse(
+                  id: 'nested-reply-1',
+                  objectId: commentId,
+                  objectType: 'activity',
+                  text: 'Second-level reply',
+                  userId: userId,
+                  replies: [
+                    createDefaultThreadedCommentResponse(
+                      id: 'deep-nested-reply-1',
+                      objectId: commentId,
+                      objectType: 'activity',
+                      text: 'Deep nested reply',
+                      userId: userId,
+                      ownReactions: [
+                        FeedsReactionResponse(
+                          activityId: 'activity-1',
+                          commentId: 'deep-nested-reply-1',
+                          type: reactionType,
+                          createdAt: DateTime.timestamp(),
+                          updatedAt: DateTime.timestamp(),
+                          user: createDefaultUserResponse(id: userId),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - deep nested reply has reaction
+        final topLevelReply = tester.commentReplyListState.replies.first;
+        final secondLevelReply = topLevelReply.replies!.first;
+        expect(secondLevelReply.replies, hasLength(1));
+        expect(secondLevelReply.replies!.first.ownReactions, hasLength(1));
+
+        // Emit event to remove reaction from deep nested reply
+        await tester.emitEvent(
+          CommentReactionDeletedEvent(
+            type: EventTypes.commentReactionDeleted,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: 'user:john',
+            comment: createDefaultCommentResponse(
+              id: 'deep-nested-reply-1',
+              objectId: commentId,
+              objectType: 'activity',
+              userId: userId,
+              parentId: 'nested-reply-1',
+            ),
+            reaction: FeedsReactionResponse(
+              activityId: 'activity-1',
+              commentId: 'deep-nested-reply-1',
+              type: reactionType,
+              createdAt: DateTime.timestamp(),
+              updatedAt: DateTime.timestamp(),
+              user: createDefaultUserResponse(id: userId),
+            ),
+          ),
+        );
+
+        // Verify deep nested reply has no reactions
+        final updatedTopLevelReply = tester.commentReplyListState.replies.first;
+        final updatedSecondLevelReply = updatedTopLevelReply.replies!.first;
+        expect(updatedSecondLevelReply.replies, hasLength(1));
+        expect(updatedSecondLevelReply.replies!.first.ownReactions, isEmpty);
+      },
+    );
+
+    commentReplyListTest(
+      'should skip reaction additions for top-level comments (only handles replies)',
+      build: (client) => client.commentReplyList(query),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(
+          comments: [
+            createDefaultThreadedCommentResponse(
+              id: replyId,
+              objectId: commentId,
+              objectType: 'activity',
+              text: 'Test reply',
+              userId: userId,
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - no reactions
+        final initialReply = tester.commentReplyListState.replies.first;
+        expect(initialReply.ownReactions, isEmpty);
+
+        // Emit CommentReactionAddedEvent without parentId (not a reply)
+        await tester.emitEvent(
+          CommentReactionAddedEvent(
+            type: EventTypes.commentReactionAdded,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: 'user:john',
+            activity: createDefaultActivityResponse(id: 'activity-1'),
+            comment: createDefaultCommentResponse(
+              id: replyId,
+              objectId: commentId,
+              objectType: 'activity',
+              userId: userId,
+            ),
+            reaction: FeedsReactionResponse(
+              activityId: 'activity-1',
+              commentId: replyId,
+              type: reactionType,
+              createdAt: DateTime.timestamp(),
+              updatedAt: DateTime.timestamp(),
+              user: createDefaultUserResponse(id: userId),
+            ),
+          ),
+        );
+
+        // Verify state was not updated (only replies get reactions, not top-level comments)
+        final updatedReply = tester.commentReplyListState.replies.first;
+        expect(updatedReply.ownReactions, isEmpty);
+      },
+    );
+
+    commentReplyListTest(
+      'should skip reaction updates for top-level comments (only handles replies)',
+      build: (client) => client.commentReplyList(query),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(
+          comments: [
+            createDefaultThreadedCommentResponse(
+              id: replyId,
+              objectId: commentId,
+              objectType: 'activity',
+              text: 'Test reply',
+              userId: userId,
+              ownReactions: [
+                FeedsReactionResponse(
+                  activityId: 'activity-1',
+                  commentId: replyId,
+                  type: reactionType,
+                  createdAt: DateTime.timestamp(),
+                  updatedAt: DateTime.timestamp(),
+                  user: createDefaultUserResponse(id: userId),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - has reaction
+        final initialReply = tester.commentReplyListState.replies.first;
+        expect(initialReply.ownReactions, hasLength(1));
+        expect(initialReply.ownReactions.first.type, reactionType);
+
+        // Emit CommentReactionUpdatedEvent without parentId (not a reply)
+        await tester.emitEvent(
+          CommentReactionUpdatedEvent(
+            type: EventTypes.commentReactionUpdated,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: 'user:john',
+            activity: createDefaultActivityResponse(id: 'activity-1'),
+            comment: createDefaultCommentResponse(
+              id: replyId,
+              objectId: commentId,
+              objectType: 'activity',
+              userId: userId,
+            ),
+            reaction: FeedsReactionResponse(
+              activityId: 'activity-1',
+              commentId: replyId,
+              type: 'fire',
+              createdAt: DateTime.timestamp(),
+              updatedAt: DateTime.timestamp(),
+              user: createDefaultUserResponse(id: userId),
+            ),
+          ),
+        );
+
+        // Verify state was not updated (only replies get reactions updated, not top-level comments)
+        final updatedReply = tester.commentReplyListState.replies.first;
+        expect(updatedReply.ownReactions, hasLength(1));
+        expect(updatedReply.ownReactions.first.type, reactionType);
+      },
+    );
+
+    commentReplyListTest(
+      'should skip reaction deletions for top-level comments (only handles replies)',
+      build: (client) => client.commentReplyList(query),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(
+          comments: [
+            createDefaultThreadedCommentResponse(
+              id: replyId,
+              objectId: commentId,
+              objectType: 'activity',
+              text: 'Test reply',
+              userId: userId,
+              ownReactions: [
+                FeedsReactionResponse(
+                  activityId: 'activity-1',
+                  commentId: replyId,
+                  type: reactionType,
+                  createdAt: DateTime.timestamp(),
+                  updatedAt: DateTime.timestamp(),
+                  user: createDefaultUserResponse(id: userId),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - has reaction
+        final initialReply = tester.commentReplyListState.replies.first;
+        expect(initialReply.ownReactions, hasLength(1));
+
+        // Emit CommentReactionDeletedEvent without parentId (not a reply)
+        await tester.emitEvent(
+          CommentReactionDeletedEvent(
+            type: EventTypes.commentReactionDeleted,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: 'user:john',
+            comment: createDefaultCommentResponse(
+              id: replyId,
+              objectId: commentId,
+              objectType: 'activity',
+              userId: userId,
+            ),
+            reaction: FeedsReactionResponse(
+              activityId: 'activity-1',
+              commentId: replyId,
+              type: reactionType,
+              createdAt: DateTime.timestamp(),
+              updatedAt: DateTime.timestamp(),
+              user: createDefaultUserResponse(id: userId),
+            ),
+          ),
+        );
+
+        // Verify state was not updated (only replies get reactions deleted, not top-level comments)
+        final updatedReply = tester.commentReplyListState.replies.first;
+        expect(updatedReply.ownReactions, hasLength(1));
       },
     );
   });
