@@ -571,6 +571,70 @@ void main() {
     );
 
     activityCommentListTest(
+      'should handle CommentReactionUpdatedEvent and update reaction',
+      build: (client) => client.activityCommentList(query),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(
+          comments: [
+            createDefaultThreadedCommentResponse(
+              id: commentId,
+              objectId: activityId,
+              objectType: 'activity',
+              text: 'Test comment',
+              userId: userId,
+              ownReactions: [
+                FeedsReactionResponse(
+                  activityId: activityId,
+                  commentId: commentId,
+                  type: reactionType,
+                  createdAt: DateTime.timestamp(),
+                  updatedAt: DateTime.timestamp(),
+                  user: createDefaultUserResponse(id: userId),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - has 'like' reaction
+        final initialComment = tester.activityCommentListState.comments.first;
+        expect(initialComment.ownReactions, hasLength(1));
+        expect(initialComment.ownReactions.first.type, reactionType);
+
+        // Emit event
+        await tester.emitEvent(
+          CommentReactionUpdatedEvent(
+            type: EventTypes.commentReactionUpdated,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: 'user:john',
+            activity: createDefaultActivityResponse(id: activityId),
+            comment: createDefaultCommentResponse(
+              id: commentId,
+              objectId: activityId,
+              objectType: 'activity',
+              userId: userId,
+            ),
+            reaction: FeedsReactionResponse(
+              activityId: activityId,
+              commentId: commentId,
+              type: 'fire',
+              createdAt: DateTime.timestamp(),
+              updatedAt: DateTime.timestamp(),
+              user: createDefaultUserResponse(id: userId),
+            ),
+          ),
+        );
+
+        // Verify state has updated reaction (old reaction replaced)
+        final updatedComment = tester.activityCommentListState.comments.first;
+        expect(updatedComment.ownReactions, hasLength(1));
+        expect(updatedComment.ownReactions.first.type, 'fire');
+      },
+    );
+
+    activityCommentListTest(
       'should handle CommentReactionDeletedEvent and remove reaction',
       build: (client) => client.activityCommentList(query),
       setUp: (tester) => tester.get(

@@ -780,7 +780,8 @@ void main() {
         final topLevelReply = tester.commentReplyListState.replies.first;
         final secondLevelReply = topLevelReply.replies!.first;
         expect(secondLevelReply.replies, hasLength(1));
-        expect(secondLevelReply.replies!.first.text, 'Original deep nested reply');
+        expect(
+            secondLevelReply.replies!.first.text, 'Original deep nested reply');
 
         // Emit event to update deep nested reply
         await tester.emitEvent(
@@ -1207,7 +1208,8 @@ void main() {
         final updatedTopLevelReply = tester.commentReplyListState.replies.first;
         final updatedSecondLevelReply = updatedTopLevelReply.replies!.first;
         expect(updatedSecondLevelReply.replies, hasLength(1));
-        expect(updatedSecondLevelReply.replies!.first.ownReactions, hasLength(1));
+        expect(
+            updatedSecondLevelReply.replies!.first.ownReactions, hasLength(1));
         expect(
           updatedSecondLevelReply.replies!.first.ownReactions.first.type,
           reactionType,
