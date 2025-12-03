@@ -702,10 +702,10 @@ class Feed with Disposable {
   void _subscribeToReconnectionUpdates({
     required Stream<void> onReconnectEmitter,
   }) {
-    // _feedSubscriptions.add(
-    //   onReconnectEmitter.listen((_) {
-    //     getOrCreate();
-    //   }),
-    // );
+    _feedSubscriptions.add(
+      onReconnectEmitter.listen((_) {
+        getOrCreate();
+      }),
+    );
   }
 }
