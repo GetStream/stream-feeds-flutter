@@ -309,168 +309,161 @@ extension ActivityResponseMapper on ActivityResponse {
 
 /// Extension functions for [ActivityData] to handle common operations.
 extension ActivityDataMutations on ActivityData {
-  /// Adds a comment to the activity, updating the comment count and the list of comments.
+  /// Updates this activity with new data while preserving own data.
   ///
-  /// @param comment The comment to be added.
-  /// @return A new [ActivityData] instance with the updated comments and comment count.
-  ActivityData addComment(CommentData comment) {
-    final updatedComments = comments.upsert(comment, key: (it) => it.id);
-
-    return copyWith(
-      comments: updatedComments,
-      commentCount: math.max(0, commentCount + 1),
+  /// Merges [updated] activity data with this instance, preserving [ownBookmarks] and
+  /// [ownReactions] from this instance when not provided. This ensures that user-specific
+  /// data is not lost when updating from WebSocket events.
+  ///
+  /// Returns a new [ActivityData] instance with the merged data.
+  ActivityData updateWith(
+    ActivityData updated, {
+    List<BookmarkData>? ownBookmarks,
+    List<FeedsReactionData>? ownReactions,
+  }) {
+    return updated.copyWith(
+      // Preserve own data from the current instance if not provided
+      // as they may not be reliable from WS events.
+      ownBookmarks: ownBookmarks ?? this.ownBookmarks,
+      ownReactions: ownReactions ?? this.ownReactions,
+      poll: updated.poll?.let((it) => poll?.updateWith(it) ?? it),
     );
   }
 
-  /// Removes a comment from the activity, updating the comment count and the list of comments.
+  /// Adds or updates a comment in this activity.
   ///
-  /// @param comment The comment to be removed.
-  /// @return A new [ActivityData] instance with the updated comments and comment count.
+  /// Updates the comments list by adding or updating [comment]. If the comment already
+  /// exists, it will be updated. The comment count is automatically recalculated.
+  ///
+  /// Returns a new [ActivityData] instance with the updated comments and comment count.
+  ActivityData upsertComment(CommentData comment) {
+    final currentComments = [...comments];
+    final updatedComments = currentComments.upsert(comment, key: (it) => it.id);
+
+    final difference = updatedComments.length - currentComments.length;
+    final updatedCommentCount = math.max(0, commentCount + difference);
+
+    return copyWith(
+      comments: updatedComments,
+      commentCount: updatedCommentCount,
+    );
+  }
+
+  /// Removes a comment from this activity.
+  ///
+  /// Updates the comments list by removing [comment]. The comment count is automatically
+  /// recalculated.
+  ///
+  /// Returns a new [ActivityData] instance with the updated comments and comment count.
   ActivityData removeComment(CommentData comment) {
-    final updatedComments = comments.where((it) {
+    final currentComments = [...comments];
+    final updatedComments = currentComments.where((it) {
       return it.id != comment.id;
     }).toList();
 
+    final difference = updatedComments.length - currentComments.length;
+    final updatedCommentCount = math.max(0, commentCount + difference);
+
     return copyWith(
       comments: updatedComments,
-      commentCount: math.max(0, commentCount - 1),
+      commentCount: updatedCommentCount,
     );
   }
 
-  /// Adds a bookmark to the activity, updating the own bookmarks and bookmark count.
+  /// Adds or updates a bookmark in this activity.
   ///
-  /// @param bookmark The bookmark to be added.
-  /// @param currentUserId The ID of the current user, used to determine if the bookmark belongs to
-  /// them.
-  /// @return A new [ActivityData] instance with the updated own bookmarks and bookmark count.
-  ActivityData addBookmark(
+  /// Updates the own bookmarks list by adding or updating [bookmark]. Only adds bookmarks
+  /// that belong to [currentUserId]. If the bookmark already exists, it will be updated.
+  ///
+  /// Returns a new [ActivityData] instance with the updated own bookmarks and bookmark count.
+  ActivityData upsertBookmark(
     BookmarkData bookmark,
     String currentUserId,
   ) {
-    final updatedOwnBookmarks = switch (bookmark.user.id == currentUserId) {
-      true => ownBookmarks.upsert(bookmark, key: (it) => it.id),
-      false => ownBookmarks,
-    };
+    final updatedOwnBookmarks = ownBookmarks.let((it) {
+      if (bookmark.user.id != currentUserId) return it;
+      return it.upsert(bookmark, key: (it) => it.id);
+    });
 
-    return copyWith(
-      ownBookmarks: updatedOwnBookmarks,
-      bookmarkCount: math.max(0, bookmarkCount + 1),
-    );
+    return updateWith(bookmark.activity, ownBookmarks: updatedOwnBookmarks);
   }
 
-  /// Removes a bookmark from the activity, updating the own bookmarks and bookmark count.
+  /// Removes a bookmark from this activity.
   ///
-  /// @param bookmark The bookmark to be deleted.
-  /// @param currentUserId The ID of the current user, used to determine if the bookmark belongs to
-  /// them.
-  /// @return A new [ActivityData] instance with the updated own bookmarks and bookmark count.
+  /// Updates the own bookmarks list by removing [bookmark]. Only removes bookmarks
+  /// that belong to [currentUserId].
+  ///
+  /// Returns a new [ActivityData] instance with the updated own bookmarks and bookmark count.
   ActivityData removeBookmark(
     BookmarkData bookmark,
     String currentUserId,
   ) {
-    final updatedOwnBookmarks = switch (bookmark.user.id == currentUserId) {
-      true => ownBookmarks.where((it) => it.id != bookmark.id).toList(),
-      false => ownBookmarks,
-    };
+    final updatedOwnBookmarks = ownBookmarks.let((it) {
+      if (bookmark.user.id != currentUserId) return it;
+      return it.where((it) => it.id != bookmark.id).toList();
+    });
 
-    return copyWith(
-      ownBookmarks: updatedOwnBookmarks,
-      bookmarkCount: math.max(0, bookmarkCount - 1),
-    );
+    return updateWith(bookmark.activity, ownBookmarks: updatedOwnBookmarks);
   }
 
-  /// Adds a reaction to the activity, updating the latest reactions, reaction groups,
-  /// reaction count, and own reactions.
+  /// Adds or updates a reaction in this activity with unique enforcement.
   ///
-  /// @param reaction The reaction to be added.
-  /// @param currentUserId The ID of the current user, used to determine if the reaction belongs to.
-  /// @return A new [ActivityData] instance with the updated reactions and counts.
-  ActivityData addReaction(
+  /// Updates the own reactions list by adding or updating [reaction]. Only adds reactions
+  /// that belong to [currentUserId]. When unique enforcement is enabled, replaces any
+  /// existing reaction from the same user.
+  ///
+  /// Returns a new [ActivityData] instance with the updated own reactions.
+  ActivityData upsertUniqueReaction(
+    ActivityData updatedActivity,
     FeedsReactionData reaction,
     String currentUserId,
   ) {
-    final updatedOwnReactions = switch (reaction.user.id == currentUserId) {
-      true => ownReactions.upsert(reaction, key: (it) => it.id),
-      false => ownReactions,
-    };
-
-    final updatedLatestReactions = latestReactions.upsert(
+    return upsertReaction(
+      updatedActivity,
       reaction,
-      key: (reaction) => reaction.id,
-    );
-
-    final reactionGroup = switch (reactionGroups[reaction.type]) {
-      final existingGroup? => existingGroup,
-      _ => ReactionGroupData(
-          count: 1,
-          firstReactionAt: reaction.createdAt,
-          lastReactionAt: reaction.createdAt,
-        ),
-    };
-
-    final updatedReactionGroups = {
-      ...reactionGroups,
-      reaction.type: reactionGroup.increment(reaction.createdAt),
-    };
-
-    final updatedReactionCount = updatedReactionGroups.values.sumOf(
-      (group) => group.count,
-    );
-
-    return copyWith(
-      ownReactions: updatedOwnReactions,
-      latestReactions: updatedLatestReactions,
-      reactionGroups: updatedReactionGroups,
-      reactionCount: updatedReactionCount,
+      currentUserId,
+      enforceUnique: true,
     );
   }
 
-  /// Removes a reaction from the activity, updating the latest reactions, reaction groups,
-  /// reaction count, and own reactions.
+  /// Adds or updates a reaction in this activity.
   ///
-  /// @param reaction The reaction to be removed.
-  /// @param currentUserId The ID of the current user, used to determine if the reaction belongs to.
-  /// @return A new [ActivityData] instance with the updated reactions and counts.
+  /// Updates the own reactions list by adding or updating [reaction]. Only adds reactions
+  /// that belong to [currentUserId]. When [enforceUnique] is true, replaces any existing
+  /// reaction from the same user; otherwise, allows multiple reactions from the same user.
+  ///
+  /// Returns a new [ActivityData] instance with the updated own reactions.
+  ActivityData upsertReaction(
+    ActivityData updatedActivity,
+    FeedsReactionData reaction,
+    String currentUserId, {
+    bool enforceUnique = false,
+  }) {
+    final updatedOwnReactions = ownReactions.let((it) {
+      if (reaction.user.id != currentUserId) return it;
+      return it.upsertReaction(reaction, enforceUnique: enforceUnique);
+    });
+
+    return updateWith(updatedActivity, ownReactions: updatedOwnReactions);
+  }
+
+  /// Removes a reaction from this activity.
+  ///
+  /// Updates the own reactions list by removing [reaction]. Only removes reactions
+  /// that belong to [currentUserId].
+  ///
+  /// Returns a new [ActivityData] instance with the updated own reactions.
   ActivityData removeReaction(
+    ActivityData updatedActivity,
     FeedsReactionData reaction,
     String currentUserId,
   ) {
-    final updatedOwnReactions = switch (reaction.user.id == currentUserId) {
-      true => ownReactions.where((it) => it.id != reaction.id).toList(),
-      false => ownReactions,
-    };
+    final updatedOwnReactions = ownReactions.let((it) {
+      if (reaction.user.id != currentUserId) return it;
+      return it.where((it) => it.id != reaction.id).toList();
+    });
 
-    final updatedLatestReactions = latestReactions.where((it) {
-      return it.id != reaction.id;
-    }).toList();
-
-    final updatedReactionGroups = {...reactionGroups};
-    final reactionGroup = updatedReactionGroups.remove(reaction.type);
-
-    if (reactionGroup == null) {
-      // If there is no reaction group for this type, just update latest and own reactions.
-      // Note: This is only a hypothetical case, as we should always have a reaction group.
-      return copyWith(
-        latestReactions: updatedLatestReactions,
-        ownReactions: updatedOwnReactions,
-      );
-    }
-
-    final updatedReactionGroup = reactionGroup.decrement(reaction.createdAt);
-    if (updatedReactionGroup.count > 0) {
-      updatedReactionGroups[reaction.type] = updatedReactionGroup;
-    }
-
-    final updatedReactionCount = updatedReactionGroups.values.sumOf(
-      (group) => group.count,
-    );
-
-    return copyWith(
-      ownReactions: updatedOwnReactions,
-      latestReactions: updatedLatestReactions,
-      reactionGroups: updatedReactionGroups,
-      reactionCount: updatedReactionCount,
-    );
+    return updateWith(updatedActivity, ownReactions: updatedOwnReactions);
   }
 }
 

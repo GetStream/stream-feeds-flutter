@@ -36,6 +36,10 @@ abstract class AppColorTokens {
   /// Green color scale for success states
   static const green500 = Color(0xff20E070);
 
+  /// Orange color scale for warning states
+  static const orange500 = Color(0xffFF6B35);
+  static const orange600 = Color(0xffFF8555);
+
   /// Special colors for highlights and overlays
   static const yellow100 = Color(0xfffbf4dd);
   static const yellow800 = Color(0xff302d22);

@@ -5,6 +5,7 @@ import 'package:stream_feeds/stream_feeds.dart';
 import '../../../core/di/di_initializer.dart';
 import '../../../theme/theme.dart';
 import '../comment/user_comments.dart';
+import '../reaction_icon.dart';
 import 'stories_bar.dart';
 import 'user_feed_item.dart';
 
@@ -56,15 +57,9 @@ class UserFeed extends StatelessWidget {
                 onCommentClick: (activity) {
                   _onCommentClick(context, activity);
                 },
-                onHeartClick: (data) {
-                  _onHeartClick(data.activity, data.isAdding);
-                },
-                onRepostClick: (data) {
-                  _onRepostClick(context, data.activity, data.message);
-                },
-                onBookmarkClick: (activity) {
-                  _onBookmarkClick(context, activity);
-                },
+                onReactionClick: _onReactionClick,
+                onRepostClick: _onRepostClick,
+                onBookmarkClick: _onBookmarkClick,
                 onDeleteClick: (activity) {},
                 onEditSave: (data) {},
               ),
@@ -90,8 +85,11 @@ class UserFeed extends StatelessWidget {
     );
   }
 
-  void _onCommentClick(BuildContext context, ActivityData activity) {
-    showModalBottomSheet<void>(
+  Future<void> _onCommentClick(
+    BuildContext context,
+    ActivityData activity,
+  ) {
+    return showModalBottomSheet<void>(
       context: context,
       useSafeArea: true,
       isScrollControlled: true,
@@ -117,37 +115,52 @@ class UserFeed extends StatelessWidget {
     );
   }
 
-  void _onHeartClick(ActivityData activity, bool isAdding) {
-    if (isAdding) {
-      userFeed.addActivityReaction(
-        activityId: activity.id,
-        request: const AddReactionRequest(
-          type: 'heart',
-          createNotificationActivity: true,
-        ),
-      );
-    } else {
-      userFeed.deleteActivityReaction(
-        activityId: activity.id,
-        type: 'heart',
-      );
-    }
-  }
-
-  void _onRepostClick(
-    BuildContext context,
+  Future<void> _onReactionClick(
     ActivityData activity,
-    String? message,
+    ReactionIcon reaction,
   ) {
-    userFeed.repost(activityId: activity.id, text: message);
+    final ownReactions = [...activity.ownReactions];
+    final shouldDelete = ownReactions.any((it) => it.type == reaction.type);
+
+    if (shouldDelete) {
+      return timelineFeed.deleteActivityReaction(
+        type: reaction.type,
+        activityId: activity.id,
+      );
+    }
+
+    return timelineFeed.addActivityReaction(
+      activityId: activity.id,
+      request: AddReactionRequest(
+        type: reaction.type,
+        enforceUnique: true,
+        createNotificationActivity: true,
+        custom: {
+          // Add emoji code only if available
+          if (reaction.emojiCode case final code?) 'emoji_code': code,
+        },
+      ),
+    );
   }
 
-  void _onBookmarkClick(BuildContext context, ActivityData activity) {
-    if (activity.ownBookmarks.isNotEmpty) {
-      userFeed.deleteBookmark(activityId: activity.id);
-    } else {
-      userFeed.addBookmark(activityId: activity.id);
+  Future<void> _onRepostClick(
+    ActivityData activity, {
+    String? message,
+  }) {
+    return userFeed.repost(
+      activityId: activity.id,
+      text: message,
+    );
+  }
+
+  Future<void> _onBookmarkClick(ActivityData activity) {
+    final shouldDelete = activity.ownBookmarks.isNotEmpty;
+
+    if (shouldDelete) {
+      return timelineFeed.deleteBookmark(activityId: activity.id);
     }
+
+    return timelineFeed.addBookmark(activityId: activity.id);
   }
 }
 
@@ -157,7 +170,7 @@ class _TimelineFeedItemList extends StatelessWidget {
     required this.timelineFeed,
     required this.currentUserId,
     required this.onCommentClick,
-    required this.onHeartClick,
+    required this.onReactionClick,
     required this.onRepostClick,
     required this.onBookmarkClick,
     required this.onDeleteClick,
@@ -168,8 +181,8 @@ class _TimelineFeedItemList extends StatelessWidget {
   final Feed timelineFeed;
   final String currentUserId;
   final ValueSetter<ActivityData>? onCommentClick;
-  final ValueSetter<({ActivityData activity, bool isAdding})>? onHeartClick;
-  final ValueSetter<({ActivityData activity, String? message})>? onRepostClick;
+  final void Function(ActivityData, ReactionIcon)? onReactionClick;
+  final ValueSetter<ActivityData>? onRepostClick;
   final ValueSetter<ActivityData>? onBookmarkClick;
   final ValueSetter<ActivityData>? onDeleteClick;
   final ValueSetter<({ActivityData activity, String text})>? onEditSave;
@@ -212,12 +225,8 @@ class _TimelineFeedItemList extends StatelessWidget {
                 attachments: baseActivity.attachments,
                 currentUserId: currentUserId,
                 onCommentClick: () => onCommentClick?.call(activity),
-                onHeartClick: (isAdding) => onHeartClick?.call(
-                  (activity: activity, isAdding: isAdding),
-                ),
-                onRepostClick: (message) => onRepostClick?.call(
-                  (activity: activity, message: message),
-                ),
+                onReactionClick: (it) => onReactionClick?.call(activity, it),
+                onRepostClick: () => onRepostClick?.call(activity),
                 onBookmarkClick: () => onBookmarkClick?.call(activity),
                 onDeleteClick: () => onDeleteClick?.call(activity),
                 onEditSave: (text) => onEditSave?.call(

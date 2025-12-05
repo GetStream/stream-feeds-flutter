@@ -21,5 +21,4 @@ export 'models/request/activity_update_comment_request.dart'
     show ActivityUpdateCommentRequest;
 export 'models/request/feed_add_activity_request.dart'
     show FeedAddActivityRequest;
-export 'models/threaded_comment_data.dart';
 export 'models/user_data.dart';

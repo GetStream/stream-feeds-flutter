@@ -150,7 +150,32 @@ class PollData with _$PollData {
   final Map<String, Object?>? custom;
 }
 
+/// Extension functions for [PollData] to handle common operations.
 extension PollDataMutations on PollData {
+  /// Updates this poll with new data while preserving own votes and answers.
+  ///
+  /// Merges [other] poll data with this instance, preserving [ownVotesAndAnswers] from
+  /// this instance when not provided. This ensures that user-specific data is not lost
+  /// when updating from WebSocket events.
+  ///
+  /// Returns a new [PollData] instance with the merged data.
+  PollData updateWith(
+    PollData other, {
+    List<PollVoteData>? ownVotesAndAnswers,
+  }) {
+    return other.copyWith(
+      // Preserve ownVotesAndAnswers from the current instance if not provided
+      // as they may not be reliable from WS events.
+      ownVotesAndAnswers: ownVotesAndAnswers ?? this.ownVotesAndAnswers,
+    );
+  }
+
+  /// Adds or updates an option in this poll.
+  ///
+  /// Updates the options list by adding or updating [option]. If the option already
+  /// exists (by ID), it will be updated.
+  ///
+  /// Returns a new [PollData] instance with the updated options.
   PollData addOption(PollOptionData option) {
     final updatedOptions = options.upsert(
       option,
@@ -160,12 +185,23 @@ extension PollDataMutations on PollData {
     return copyWith(options: updatedOptions);
   }
 
+  /// Removes an option from this poll.
+  ///
+  /// Updates the options list by removing the option with [optionId].
+  ///
+  /// Returns a new [PollData] instance with the updated options.
   PollData removeOption(String optionId) {
     final updatedOptions = options.where((it) => it.id != optionId).toList();
 
     return copyWith(options: updatedOptions);
   }
 
+  /// Updates an existing option in this poll.
+  ///
+  /// Updates the options list by replacing the option with the same ID as [option]
+  /// with the new [option] data.
+  ///
+  /// Returns a new [PollData] instance with the updated options.
   PollData updateOption(PollOptionData option) {
     final updatedOptions = options.map((it) {
       if (it.id != option.id) return it;
@@ -175,6 +211,12 @@ extension PollDataMutations on PollData {
     return copyWith(options: updatedOptions);
   }
 
+  /// Casts an answer to this poll.
+  ///
+  /// Updates the latest answers and own votes/answers lists by adding or updating [answer].
+  /// Only adds answers that belong to [currentUserId] to the own votes/answers list.
+  ///
+  /// Returns a new [PollData] instance with the updated answers.
   PollData castAnswer(PollVoteData answer, String currentUserId) {
     final updatedLatestAnswers = latestAnswers.let((it) {
       return it.upsert(answer, key: (it) => it.id == answer.id);

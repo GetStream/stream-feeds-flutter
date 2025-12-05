@@ -251,10 +251,10 @@ class Feed with Disposable {
 
   /// Adds an activity to the user's bookmarks.
   ///
-  /// The [activityId] is the unique identifier of the activity to bookmark.
-  /// The [request] contains additional details for the bookmark.
-  /// Returns a [Result] containing the created [BookmarkData] if successful, or an error if the
-  /// operation fails.
+  /// Creates a bookmark for the activity with [activityId]. When [request] is provided,
+  /// can specify a folder ID or create a new folder for the bookmark.
+  ///
+  /// Returns a [Result] containing the created [BookmarkData] or an error.
   Future<Result<BookmarkData>> addBookmark({
     required String activityId,
     api.AddBookmarkRequest request = const api.AddBookmarkRequest(),
@@ -266,8 +266,8 @@ class Feed with Disposable {
 
   /// Updates an existing bookmark for an activity.
   ///
-  /// This method allows you to modify the properties of an existing bookmark, such as changing the
-  /// folder it belongs to or updating custom data associated with the bookmark.
+  /// Modifies the bookmark for the activity with [activityId] using the provided [request].
+  /// Can change the folder, update custom data, or move the bookmark to a new folder.
   ///
   /// Example:
   /// ```dart
@@ -283,10 +283,7 @@ class Feed with Disposable {
   /// final bookmark = feed.updateBookmark('activity-456', customUpdateRequest);
   /// ```
   ///
-  /// The [activityId] is the unique identifier of the activity whose bookmark should be updated.
-  /// The [request] contains the new bookmark properties to apply.
-  /// Returns a [Result] containing the updated [BookmarkData] if successful, or an error if the
-  /// operation fails.
+  /// Returns a [Result] containing the updated [BookmarkData] or an error.
   Future<Result<BookmarkData>> updateBookmark({
     required String activityId,
     required api.UpdateBookmarkRequest request,
@@ -296,11 +293,10 @@ class Feed with Disposable {
 
   /// Removes an activity from the user's bookmarks.
   ///
-  /// The [activityId] is the unique identifier of the activity to remove from bookmarks.
-  /// The [folderId] is an optional folder identifier. If provided, removes the bookmark from the
-  /// specific folder.
-  /// Returns a [Result] containing the deleted [BookmarkData] if successful, or an error if the
-  /// operation fails.
+  /// Deletes the bookmark for the activity with [activityId]. When [folderId] is provided,
+  /// removes the bookmark from that specific folder only.
+  ///
+  /// Returns a [Result] containing the deleted [BookmarkData] or an error.
   Future<Result<BookmarkData>> deleteBookmark({
     required String activityId,
     String? folderId,

@@ -4,7 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:state_notifier/state_notifier.dart';
 import 'package:stream_core/stream_core.dart';
 
-import '../models/threaded_comment_data.dart';
+import '../models/comment_data.dart';
 import '../repository/comments_repository.dart';
 import 'comment_reply_list_state.dart';
 import 'event/comment_reply_list_event_handler.dart';
@@ -30,6 +30,7 @@ class CommentReplyList with Disposable {
     _stateNotifier = CommentReplyListStateNotifier(
       initialState: const CommentReplyListState(),
       currentUserId: currentUserId,
+      parentCommentId: query.commentId,
     );
 
     // Attach event handlers for real-time updates
@@ -60,13 +61,13 @@ class CommentReplyList with Disposable {
   /// Queries the initial list of replies based on the provided query.
   ///
   /// Returns a [Result] containing a list of replies or an error.
-  Future<Result<List<ThreadedCommentData>>> get() => _queryReplies(query);
+  Future<Result<List<CommentData>>> get() => _queryReplies(query);
 
   /// Loads more replies if available.
   ///
   /// Optionally accepts a [limit] parameter to specify the maximum number of
   /// replies to return.
-  Future<Result<List<ThreadedCommentData>>> queryMoreReplies({
+  Future<Result<List<CommentData>>> queryMoreReplies({
     int? limit,
   }) async {
     // Build the query with the current pagination state (with next page token)
@@ -86,7 +87,7 @@ class CommentReplyList with Disposable {
   }
 
   // Internal method to query replies and update state.
-  Future<Result<List<ThreadedCommentData>>> _queryReplies(
+  Future<Result<List<CommentData>>> _queryReplies(
     CommentRepliesQuery query,
   ) async {
     final result = await commentsRepository.getCommentReplies(query);

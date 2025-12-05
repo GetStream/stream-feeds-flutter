@@ -1,11 +1,13 @@
 export 'test_utils/event_types.dart';
 export 'test_utils/fakes.dart';
 export 'test_utils/mocks.dart';
+export 'test_utils/testers/activity_comment_list_tester.dart';
 export 'test_utils/testers/activity_list_tester.dart';
 export 'test_utils/testers/activity_tester.dart';
 export 'test_utils/testers/bookmark_folder_list_tester.dart';
 export 'test_utils/testers/bookmark_list_tester.dart';
 export 'test_utils/testers/comment_list_tester.dart';
+export 'test_utils/testers/comment_reply_list_tester.dart';
 export 'test_utils/testers/feed_list_tester.dart';
 export 'test_utils/testers/feed_tester.dart';
 export 'test_utils/testers/follow_list_tester.dart';

@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:stream_core/stream_core.dart';
 
 import '../generated/api/models.dart';
 import 'user_data.dart';
@@ -50,10 +51,47 @@ class FeedsReactionData with _$FeedsReactionData {
   @override
   final Map<String, Object?>? custom;
 
-  /// Unique identifier for the reaction, generated from the activity ID and user ID.
-  String get id {
-    if (commentId case final id?) return '${user.id}-$type-$id-$activityId';
-    return '${user.id}-$type-$activityId';
+  /// Unique identifier for the reaction.
+  ///
+  /// Combines the reaction type and user reactions group ID.
+  String get id => '$type-$userReactionsGroupId';
+
+  /// Identifier for grouping a user's reactions.
+  String get userReactionsGroupId {
+    if (commentId case final id?) return '${user.id}-$id-$activityId';
+    return '${user.id}-$activityId';
+  }
+}
+
+/// Extension functions for managing reactions in a list.
+extension FeedsReactionListMutation on List<FeedsReactionData> {
+  static int _alwaysEqualComparator<T>(T a, T b) => 0;
+
+  /// Adds or updates a reaction in this list.
+  ///
+  /// Updates this list by adding or updating [reaction]. When [enforceUnique] is true,
+  /// replaces any existing reaction from the same user reactions group; otherwise,
+  /// allows multiple reactions. Uses [compare] to determine the order when inserting.
+  ///
+  /// Returns a new list with the updated reactions.
+  List<FeedsReactionData> upsertReaction(
+    FeedsReactionData reaction, {
+    bool enforceUnique = false,
+    Comparator<FeedsReactionData> compare = _alwaysEqualComparator,
+  }) {
+    if (enforceUnique) {
+      return insertUnique(
+        reaction,
+        key: (r) => r.userReactionsGroupId,
+        compare: compare,
+      );
+    }
+
+    return sortedUpsert(
+      reaction,
+      key: (r) => r.id,
+      compare: compare,
+    );
   }
 }
 

@@ -3,10 +3,10 @@ import 'package:state_notifier/state_notifier.dart';
 import 'package:stream_core/stream_core.dart';
 
 import '../models/activity_data.dart';
+import '../models/comment_data.dart';
 import '../models/pagination_data.dart';
 import '../models/poll_data.dart';
 import '../models/poll_vote_data.dart';
-import '../models/threaded_comment_data.dart';
 import 'activity_comment_list_state.dart';
 
 part 'activity_state.freezed.dart';
@@ -203,7 +203,7 @@ class ActivityState with _$ActivityState {
   ///
   /// Contains a list of threaded comments related to the activity.
   @override
-  final List<ThreadedCommentData> comments;
+  final List<CommentData> comments;
 
   /// Pagination information for [comments].
   @override

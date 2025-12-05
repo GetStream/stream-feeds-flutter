@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$CommentReplyListState {
-  List<ThreadedCommentData> get replies;
+  List<CommentData> get replies;
   PaginationData? get pagination;
 
   /// Create a copy of CommentReplyListState
@@ -52,7 +52,7 @@ abstract mixin class $CommentReplyListStateCopyWith<$Res> {
           $Res Function(CommentReplyListState) _then) =
       _$CommentReplyListStateCopyWithImpl;
   @useResult
-  $Res call({List<ThreadedCommentData> replies, PaginationData? pagination});
+  $Res call({List<CommentData> replies, PaginationData? pagination});
 }
 
 /// @nodoc
@@ -75,7 +75,7 @@ class _$CommentReplyListStateCopyWithImpl<$Res>
       replies: null == replies
           ? _self.replies
           : replies // ignore: cast_nullable_to_non_nullable
-              as List<ThreadedCommentData>,
+              as List<CommentData>,
       pagination: freezed == pagination
           ? _self.pagination
           : pagination // ignore: cast_nullable_to_non_nullable

@@ -101,8 +101,7 @@ final class ActivityListTester extends BaseTester<ActivityList> {
   }) {
     final query = activityList.query;
 
-    final defaultActivityListResponse = QueryActivitiesResponse(
-      duration: DateTime.now().toIso8601String(),
+    final defaultActivityListResponse = createDefaultQueryActivitiesResponse(
       activities: [
         createDefaultActivityResponse(id: 'activity-1'),
         createDefaultActivityResponse(id: 'activity-2'),

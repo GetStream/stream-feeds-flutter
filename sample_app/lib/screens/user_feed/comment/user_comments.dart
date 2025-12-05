@@ -4,6 +4,7 @@ import 'package:stream_feeds/stream_feeds.dart';
 
 import '../../../core/di/di_initializer.dart';
 import '../../../theme/extensions/theme_extensions.dart';
+import '../reaction_icon.dart';
 import 'user_comments_item.dart';
 
 class UserComments extends StatefulWidget {
@@ -70,7 +71,6 @@ class _UserCommentsState extends State<UserComments> {
             _buildHeader(
               context,
               activity,
-              comments,
             ),
             Expanded(
               child: _buildUserCommentsList(
@@ -88,7 +88,6 @@ class _UserCommentsState extends State<UserComments> {
   Widget _buildHeader(
     BuildContext context,
     ActivityData? activity,
-    List<ThreadedCommentData> comments,
   ) {
     final totalComments = activity?.commentCount ?? 0;
 
@@ -142,7 +141,7 @@ class _UserCommentsState extends State<UserComments> {
 
   Widget _buildUserCommentsList(
     BuildContext context,
-    List<ThreadedCommentData> comments,
+    List<CommentData> comments,
     bool canLoadMore,
   ) {
     if (comments.isEmpty) return const EmptyComments();
@@ -177,9 +176,11 @@ class _UserCommentsState extends State<UserComments> {
 
           return UserCommentItem(
             comment: comment,
-            onHeartClick: _onHeartClick,
+            onReactionClick: _onReactionClick,
             onReplyClick: _onReplyClick,
-            onLongPressComment: _onLongPressComment,
+            onLongPressComment: (comment) {
+              _onLongPressComment(context, comment);
+            },
           );
         },
       ),
@@ -204,24 +205,43 @@ class _UserCommentsState extends State<UserComments> {
     await activity.get();
   }
 
-  void _onHeartClick(ThreadedCommentData comment, bool isAdding) {
-    const type = 'heart';
+  Future<void> _onReactionClick(
+    CommentData comment,
+    ReactionIcon reaction,
+  ) {
+    final ownReactions = [...comment.ownReactions];
+    final shouldDelete = ownReactions.any((it) => it.type == reaction.type);
 
-    if (isAdding) {
-      activity.addCommentReaction(
-        commentId: comment.id,
-        request: const AddCommentReactionRequest(
-          type: type,
-          createNotificationActivity: true,
-        ),
-      );
-    } else {
-      activity.deleteCommentReaction(comment.id, type);
+    if (shouldDelete) {
+      return activity.deleteCommentReaction(comment.id, reaction.type);
     }
+
+    return activity.addCommentReaction(
+      commentId: comment.id,
+      request: AddCommentReactionRequest(
+        type: reaction.type,
+        enforceUnique: true,
+        createNotificationActivity: true,
+        custom: {
+          // Add emoji code only if available
+          if (reaction.emojiCode case final code?) 'emoji_code': code,
+        },
+      ),
+    );
   }
 
-  Future<void> _onReplyClick([ThreadedCommentData? parentComment]) async {
-    final text = await _displayTextInputDialog(context, title: 'Add comment');
+  Future<void> _onReplyClick([CommentData? parentComment]) async {
+    final title = switch (parentComment) {
+      final comment? => 'Reply to ${comment.user.name ?? 'unknown'}',
+      _ => 'Add Comment',
+    };
+
+    final text = await _displayTextInputDialog(
+      context,
+      title: title,
+      parentComment: parentComment,
+    );
+
     if (text == null) return;
 
     await activity.addComment(
@@ -234,9 +254,13 @@ class _UserCommentsState extends State<UserComments> {
     );
   }
 
-  void _onLongPressComment(ThreadedCommentData comment) {
+  void _onLongPressComment(
+    BuildContext context,
+    CommentData comment,
+  ) {
     final isOwnComment = comment.user.id == client.user.id;
     if (!isOwnComment) return;
+
     final canEdit = capabilities.contains(FeedOwnCapability.updateOwnComment);
     final canDelete = capabilities.contains(FeedOwnCapability.deleteOwnComment);
     if (!canEdit && !canDelete) return;
@@ -272,7 +296,7 @@ class _UserCommentsState extends State<UserComments> {
 
   Future<void> _editComment(
     BuildContext context,
-    ThreadedCommentData comment,
+    CommentData comment,
   ) async {
     final text = await _displayTextInputDialog(
       context,
@@ -294,31 +318,169 @@ class _UserCommentsState extends State<UserComments> {
     required String title,
     String? initialText,
     String positiveAction = 'Add',
+    CommentData? parentComment,
   }) {
-    final textFieldController = TextEditingController();
-    textFieldController.text = initialText ?? '';
     return showDialog<String>(
       context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(title),
-          content: TextField(controller: textFieldController),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Cancel'),
-              onPressed: () {
-                Navigator.pop(context);
-              },
+      builder: (context) => _CommentInputDialog(
+        title: title,
+        initialText: initialText ?? '',
+        positiveAction: positiveAction,
+        parentComment: parentComment,
+      ),
+    );
+  }
+}
+
+class _CommentInputDialog extends StatefulWidget {
+  const _CommentInputDialog({
+    required this.title,
+    required this.initialText,
+    required this.positiveAction,
+    this.parentComment,
+  });
+
+  final String title;
+  final String initialText;
+  final String positiveAction;
+  final CommentData? parentComment;
+
+  @override
+  State<_CommentInputDialog> createState() => _CommentInputDialogState();
+}
+
+class _CommentInputDialogState extends State<_CommentInputDialog> {
+  late final _controller = TextEditingController(
+    text: widget.initialText,
+  );
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = context.appTextStyles;
+    final colorTheme = context.appColors;
+
+    final actions = [
+      TextButton(
+        onPressed: () => Navigator.of(context).pop(),
+        style: TextButton.styleFrom(
+          textStyle: textTheme.headlineBold,
+          foregroundColor: colorTheme.accentPrimary,
+          disabledForegroundColor: colorTheme.disabled,
+        ),
+        child: const Text('Cancel'),
+      ),
+      ValueListenableBuilder(
+        valueListenable: _controller,
+        builder: (context, textValue, _) {
+          return TextButton(
+            onPressed: switch (textValue.text.trim()) {
+              final commentText when commentText.isEmpty => null,
+              final commentText => () => Navigator.of(context).pop(commentText),
+            },
+            style: TextButton.styleFrom(
+              textStyle: textTheme.headlineBold,
+              foregroundColor: colorTheme.accentPrimary,
+              disabledForegroundColor: colorTheme.disabled,
             ),
-            TextButton(
-              child: Text(positiveAction),
-              onPressed: () {
-                Navigator.pop(context, textFieldController.text);
-              },
+            child: Text(widget.positiveAction),
+          );
+        },
+      ),
+    ];
+
+    return AlertDialog(
+      actions: actions,
+      backgroundColor: colorTheme.appBg,
+      actionsPadding: const EdgeInsets.all(8),
+      contentPadding: const EdgeInsets.all(16),
+      title: Text(widget.title, style: textTheme.headlineBold),
+      titlePadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      content: Column(
+        spacing: 16,
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (widget.parentComment case final parentComment?) ...[
+            DecoratedBox(
+              decoration: BoxDecoration(
+                color: colorTheme.inputBg,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: colorTheme.borders),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Row(
+                  spacing: 12,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Icon(
+                      Icons.reply_rounded,
+                      size: 16,
+                      color: colorTheme.accentPrimary,
+                    ),
+                    Expanded(
+                      child: Column(
+                        spacing: 4,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            parentComment.user.name ?? 'unknown',
+                            style: textTheme.bodyBold.copyWith(
+                              color: colorTheme.textHighEmphasis,
+                            ),
+                          ),
+                          Text(
+                            maxLines: 2,
+                            parentComment.text ?? '',
+                            style: textTheme.body.copyWith(
+                              color: colorTheme.textLowEmphasis,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ],
-        );
-      },
+          TextField(
+            maxLines: 5,
+            maxLength: 300,
+            autofocus: true,
+            style: textTheme.body,
+            controller: _controller,
+            textInputAction: TextInputAction.newline,
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: colorTheme.inputBg,
+              hintText: switch (widget.parentComment) {
+                CommentData() => 'Write a reply...',
+                _ => 'Enter your comment',
+              },
+              hintStyle: textTheme.body.copyWith(
+                color: colorTheme.textLowEmphasis,
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                vertical: 12,
+                horizontal: 16,
+              ),
+              border: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

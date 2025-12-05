@@ -1,3 +1,7 @@
+## Upcoming
+- [BREAKING] Unified `ThreadedCommentData` into `CommentData` to handle both flat and threaded comments.
+- Add support for `enforceUnique` parameter while adding reactions.
+
 ## 0.4.0
 - [BREAKING] Change `queryFollowSuggestions` return type to `List<FeedSuggestionData>`.
 - [BREAKING] Remove `activitySelectorOptions` from `FeedQuery`.

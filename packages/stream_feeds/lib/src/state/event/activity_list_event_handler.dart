@@ -40,6 +40,18 @@ class ActivityListEventHandler
       return filter.matches(activity);
     }
 
+    if (event is api.ActivityAddedEvent) {
+      final activity = event.activity.toModel();
+      if (!matchesQueryFilter(activity)) return;
+
+      state.onActivityUpdated(activity);
+
+      final updatedActivity = await withUpdatedFeedCapabilities(activity);
+      if (updatedActivity != null) state.onActivityUpdated(updatedActivity);
+
+      return;
+    }
+
     if (event is api.ActivityUpdatedEvent) {
       final activity = event.activity.toModel();
       if (!matchesQueryFilter(activity)) {
@@ -66,7 +78,19 @@ class ActivityListEventHandler
         return state.onActivityRemoved(activity);
       }
 
-      return state.onReactionAdded(event.reaction.toModel());
+      final reaction = event.reaction.toModel();
+      return state.onReactionAdded(activity, reaction);
+    }
+
+    if (event is api.ActivityReactionUpdatedEvent) {
+      final activity = event.activity.toModel();
+      if (!matchesQueryFilter(activity)) {
+        // If the reaction's activity no longer matches the filter, remove it
+        return state.onActivityRemoved(activity);
+      }
+
+      final reaction = event.reaction.toModel();
+      return state.onReactionUpdated(activity, reaction);
     }
 
     if (event is api.ActivityReactionDeletedEvent) {
@@ -76,7 +100,8 @@ class ActivityListEventHandler
         return state.onActivityRemoved(activity);
       }
 
-      return state.onReactionRemoved(event.reaction.toModel());
+      final reaction = event.reaction.toModel();
+      return state.onReactionRemoved(activity, reaction);
     }
 
     if (event is api.BookmarkAddedEvent) {
@@ -107,6 +132,11 @@ class ActivityListEventHandler
       }
 
       return state.onCommentAdded(event.comment.toModel());
+    }
+
+    if (event is api.CommentUpdatedEvent) {
+      // TODO: Match event activity against filter once available in the event
+      return state.onCommentUpdated(event.comment.toModel());
     }
 
     if (event is api.CommentDeletedEvent) {
