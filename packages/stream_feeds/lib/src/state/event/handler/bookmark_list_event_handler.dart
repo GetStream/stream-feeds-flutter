@@ -1,10 +1,10 @@
 import 'package:stream_core/stream_core.dart';
 
-import '../../generated/api/models.dart' as api;
-import '../../models/bookmark_data.dart';
-import '../../models/bookmark_folder_data.dart';
-import '../bookmark_list_state.dart';
-import '../query/bookmarks_query.dart';
+import '../../../generated/api/models.dart' as api;
+import '../../../models/bookmark_data.dart';
+import '../../../models/bookmark_folder_data.dart';
+import '../../bookmark_list_state.dart';
+import '../../query/bookmarks_query.dart';
 import 'state_event_handler.dart';
 
 /// Event handler for bookmark list real-time updates.

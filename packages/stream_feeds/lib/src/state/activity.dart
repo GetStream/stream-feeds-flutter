@@ -20,7 +20,7 @@ import '../repository/comments_repository.dart';
 import '../repository/polls_repository.dart';
 import 'activity_comment_list.dart';
 import 'activity_state.dart';
-import 'event/activity_event_handler.dart';
+import 'event/handler/activity_event_handler.dart';
 import 'query/activity_comments_query.dart';
 import 'state_notifier_extentions.dart';
 

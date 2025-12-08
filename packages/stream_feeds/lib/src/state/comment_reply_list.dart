@@ -7,7 +7,7 @@ import 'package:stream_core/stream_core.dart';
 import '../models/comment_data.dart';
 import '../repository/comments_repository.dart';
 import 'comment_reply_list_state.dart';
-import 'event/comment_reply_list_event_handler.dart';
+import 'event/handler/comment_reply_list_event_handler.dart';
 import 'query/comment_replies_query.dart';
 import 'state_notifier_extentions.dart';
 

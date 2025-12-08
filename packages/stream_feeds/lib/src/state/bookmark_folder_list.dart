@@ -8,7 +8,7 @@ import '../models/bookmark_folder_data.dart';
 import '../models/query_configuration.dart';
 import '../repository/bookmarks_repository.dart';
 import 'bookmark_folder_list_state.dart';
-import 'event/bookmark_folder_list_event_handler.dart';
+import 'event/handler/bookmark_folder_list_event_handler.dart';
 import 'query/bookmark_folders_query.dart';
 import 'state_notifier_extentions.dart';
 

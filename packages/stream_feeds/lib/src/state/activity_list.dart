@@ -9,7 +9,7 @@ import '../models/query_configuration.dart';
 import '../repository/activities_repository.dart';
 import '../repository/capabilities_repository.dart';
 import 'activity_list_state.dart';
-import 'event/activity_list_event_handler.dart';
+import 'event/handler/activity_list_event_handler.dart';
 import 'query/activities_query.dart';
 import 'state_notifier_extentions.dart';
 

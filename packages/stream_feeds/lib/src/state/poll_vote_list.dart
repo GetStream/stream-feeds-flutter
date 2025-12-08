@@ -7,7 +7,7 @@ import 'package:stream_core/stream_core.dart';
 import '../models/poll_vote_data.dart';
 import '../models/query_configuration.dart';
 import '../repository/polls_repository.dart';
-import 'event/poll_vote_list_event_handler.dart';
+import 'event/handler/poll_vote_list_event_handler.dart';
 import 'poll_vote_list_state.dart';
 import 'query/poll_votes_query.dart';
 import 'state_notifier_extentions.dart';

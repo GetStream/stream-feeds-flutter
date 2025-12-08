@@ -1,9 +1,9 @@
 import 'package:stream_core/stream_core.dart';
 
-import '../../generated/api/models.dart' as api;
-import '../../models/follow_data.dart';
-import '../follow_list_state.dart';
-import '../query/follows_query.dart';
+import '../../../generated/api/models.dart' as api;
+import '../../../models/follow_data.dart';
+import '../../follow_list_state.dart';
+import '../../query/follows_query.dart';
 import 'state_event_handler.dart';
 
 /// Event handler for follow list real-time updates.

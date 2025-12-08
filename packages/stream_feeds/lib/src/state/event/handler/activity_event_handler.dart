@@ -1,12 +1,12 @@
 import 'package:stream_core/stream_core.dart';
 
-import '../../generated/api/models.dart' as api;
-import '../../models/feed_id.dart';
-import '../../models/poll_data.dart';
-import '../../models/poll_vote_data.dart';
-import '../../resolvers/poll/poll_answer_casted.dart';
-import '../../resolvers/poll/poll_answer_removed.dart';
-import '../activity_state.dart';
+import '../../../generated/api/models.dart' as api;
+import '../../../models/feed_id.dart';
+import '../../../models/poll_data.dart';
+import '../../../models/poll_vote_data.dart';
+import '../../../resolvers/poll/poll_answer_casted.dart';
+import '../../../resolvers/poll/poll_answer_removed.dart';
+import '../../activity_state.dart';
 import 'state_event_handler.dart';
 
 /// Event handler for activity real-time updates.

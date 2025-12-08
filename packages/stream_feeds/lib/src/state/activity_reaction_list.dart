@@ -8,7 +8,7 @@ import '../models/feeds_reaction_data.dart';
 import '../models/query_configuration.dart';
 import '../repository/activities_repository.dart';
 import 'activity_reaction_list_state.dart';
-import 'event/activity_reaction_list_event_handler.dart';
+import 'event/handler/activity_reaction_list_event_handler.dart';
 import 'query/activity_reactions_query.dart';
 import 'state_notifier_extentions.dart';
 
