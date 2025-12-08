@@ -775,6 +775,7 @@ void main() {
             activity: createDefaultActivityResponse(
               id: 'activity-4',
               userId: 'luke_skywalker',
+              // Doesn't match 'post' activity type
             ).copyWith(type: 'post'),
           ),
         );
