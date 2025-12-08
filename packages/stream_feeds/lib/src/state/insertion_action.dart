@@ -11,4 +11,3 @@ enum InsertionAction {
   /// Add the item at the beginning of the list.
   addToStart,
 }
-
