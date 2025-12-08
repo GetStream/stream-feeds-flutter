@@ -1,9 +1,9 @@
 import 'package:meta/meta.dart';
 
 import '../../models/activity_data.dart';
-import '../../state.dart';
 import '../../utils/filter.dart';
 import '../insertion_action.dart';
+import '../query/feed_query.dart';
 
 /// A callback function that determines how to handle a new activity.
 ///
