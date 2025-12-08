@@ -30,6 +30,11 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
 
   late final storiesFeed = client.feedFromId(
     FeedId.stories(client.user.id),
+    onNewActivity: (query, activity, currentUserId) {
+      // By default new activities are added to the start of the list,
+      // but this is not what we want for stories
+      return InsertionAction.addToEnd;
+    },
   );
 
   late final userFeed = client.feedFromQuery(
