@@ -20,6 +20,7 @@ export 'state/feed_list_state.dart';
 export 'state/feed_state.dart';
 export 'state/follow_list.dart';
 export 'state/follow_list_state.dart';
+export 'state/insertion_action.dart';
 export 'state/poll_list.dart';
 export 'state/poll_list_state.dart';
 export 'state/poll_vote_list.dart';

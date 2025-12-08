@@ -1787,4 +1787,280 @@ void main() {
       },
     );
   });
+
+  // ============================================================
+  // FEATURE: OnNewActivity
+  // ============================================================
+
+  group('OnNewActivity', () {
+    const feedId = FeedId(group: 'user', id: 'john');
+    const currentUserId = 'luke_skywalker';
+    const otherUserId = 'other_user';
+
+    final initialActivities = [
+      createDefaultActivityResponse(id: 'activity-1').copyWith(
+        user: createDefaultUserResponse(id: currentUserId),
+      ),
+      createDefaultActivityResponse(id: 'activity-2').copyWith(
+        user: createDefaultUserResponse(id: currentUserId),
+      ),
+      createDefaultActivityResponse(id: 'activity-3').copyWith(
+        user: createDefaultUserResponse(id: otherUserId),
+      ),
+    ];
+
+    feedTest(
+      'defaultOnNewActivity - should add current user activity to start when matching filter',
+      build: (client) => client.feedFromQuery(
+        FeedQuery(
+          fid: feedId,
+          activityFilter: Filter.equal(ActivitiesFilterField.type, 'post'),
+        ),
+      ),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(activities: initialActivities),
+      ),
+      body: (tester) async {
+        expect(tester.feedState.activities, hasLength(3));
+
+        // Send ActivityAddedEvent from current user matching filter
+        await tester.emitEvent(
+          ActivityAddedEvent(
+            type: EventTypes.activityAdded,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: feedId.rawValue,
+            activity: createDefaultActivityResponse(id: 'activity-4').copyWith(
+              user: createDefaultUserResponse(id: currentUserId),
+              type: 'post',
+            ),
+          ),
+        );
+
+        expect(tester.feedState.activities, hasLength(4));
+        expect(tester.feedState.activities.first.id, 'activity-4');
+      },
+    );
+
+    feedTest(
+      'defaultOnNewActivity - should ignore activity from other user',
+      build: (client) => client.feedFromQuery(
+        FeedQuery(
+          fid: feedId,
+          activityFilter: Filter.equal(ActivitiesFilterField.type, 'post'),
+        ),
+      ),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(activities: initialActivities),
+      ),
+      body: (tester) async {
+        expect(tester.feedState.activities, hasLength(3));
+
+        // Send ActivityAddedEvent from other user
+        await tester.emitEvent(
+          ActivityAddedEvent(
+            type: EventTypes.activityAdded,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: feedId.rawValue,
+            activity: createDefaultActivityResponse(id: 'activity-4').copyWith(
+              user: createDefaultUserResponse(id: otherUserId),
+              type: 'post',
+            ),
+          ),
+        );
+
+        expect(tester.feedState.activities, hasLength(3));
+      },
+    );
+
+    feedTest(
+      'defaultOnNewActivity - should ignore current user activity that does not match filter',
+      build: (client) => client.feedFromQuery(
+        FeedQuery(
+          fid: feedId,
+          activityFilter: Filter.equal(ActivitiesFilterField.type, 'post'),
+        ),
+      ),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(activities: initialActivities),
+      ),
+      body: (tester) async {
+        expect(tester.feedState.activities, hasLength(3));
+
+        // Send ActivityAddedEvent from current user but doesn't match filter
+        await tester.emitEvent(
+          ActivityAddedEvent(
+            type: EventTypes.activityAdded,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: feedId.rawValue,
+            activity: createDefaultActivityResponse(id: 'activity-4').copyWith(
+              user: createDefaultUserResponse(id: currentUserId),
+              type: 'comment', // Doesn't match 'post' filter
+            ),
+          ),
+        );
+
+        expect(tester.feedState.activities, hasLength(3));
+      },
+    );
+
+    feedTest(
+      'custom onNewActivity - should add to start',
+      build: (client) => client.feedFromQuery(
+        const FeedQuery(fid: feedId),
+        onNewActivity: (query, activity, currentUserId) {
+          // Always add to start
+          return InsertionAction.addToStart;
+        },
+      ),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(activities: initialActivities),
+      ),
+      body: (tester) async {
+        expect(tester.feedState.activities, hasLength(3));
+
+        // Send ActivityAddedEvent from other user
+        await tester.emitEvent(
+          ActivityAddedEvent(
+            type: EventTypes.activityAdded,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: feedId.rawValue,
+            activity: createDefaultActivityResponse(id: 'activity-4').copyWith(
+              user: createDefaultUserResponse(id: otherUserId),
+            ),
+          ),
+        );
+
+        expect(tester.feedState.activities, hasLength(4));
+        expect(tester.feedState.activities.first.id, 'activity-4');
+      },
+    );
+
+    feedTest(
+      'custom onNewActivity - should add to end',
+      build: (client) => client.feedFromQuery(
+        const FeedQuery(fid: feedId),
+        onNewActivity: (query, activity, currentUserId) {
+          // Always add to end
+          return InsertionAction.addToEnd;
+        },
+      ),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(activities: initialActivities),
+      ),
+      body: (tester) async {
+        expect(tester.feedState.activities, hasLength(3));
+
+        // Send ActivityAddedEvent from other user
+        await tester.emitEvent(
+          ActivityAddedEvent(
+            type: EventTypes.activityAdded,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: feedId.rawValue,
+            activity: createDefaultActivityResponse(id: 'activity-4').copyWith(
+              user: createDefaultUserResponse(id: otherUserId),
+            ),
+          ),
+        );
+
+        expect(tester.feedState.activities, hasLength(4));
+        expect(tester.feedState.activities.last.id, 'activity-4');
+      },
+    );
+
+    feedTest(
+      'custom onNewActivity - should ignore',
+      build: (client) => client.feedFromQuery(
+        const FeedQuery(fid: feedId),
+        onNewActivity: (query, activity, currentUserId) {
+          // Always ignore
+          return InsertionAction.ignore;
+        },
+      ),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(activities: initialActivities),
+      ),
+      body: (tester) async {
+        expect(tester.feedState.activities, hasLength(3));
+
+        // Send ActivityAddedEvent from current user
+        await tester.emitEvent(
+          ActivityAddedEvent(
+            type: EventTypes.activityAdded,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: feedId.rawValue,
+            activity: createDefaultActivityResponse(id: 'activity-4').copyWith(
+              user: createDefaultUserResponse(id: currentUserId),
+            ),
+          ),
+        );
+
+        expect(tester.feedState.activities, hasLength(3));
+      },
+    );
+
+    feedTest(
+      'custom onNewActivity - should use query and activity context',
+      build: (client) => client.feedFromQuery(
+        FeedQuery(
+          fid: feedId,
+          activityFilter: Filter.equal(ActivitiesFilterField.type, 'post'),
+        ),
+        onNewActivity: (query, activity, currentUserId) {
+          // Add activities from other users that match the filter to the end
+          if (activity.user.id != currentUserId) {
+            final filter = query.activityFilter;
+            if (filter == null || filter.matches(activity)) {
+              return InsertionAction.addToEnd;
+            }
+          }
+          return InsertionAction.ignore;
+        },
+      ),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(activities: initialActivities),
+      ),
+      body: (tester) async {
+        expect(tester.feedState.activities, hasLength(3));
+
+        // Send ActivityAddedEvent from other user matching filter
+        await tester.emitEvent(
+          ActivityAddedEvent(
+            type: EventTypes.activityAdded,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: feedId.rawValue,
+            activity: createDefaultActivityResponse(id: 'activity-4').copyWith(
+              user: createDefaultUserResponse(id: otherUserId),
+              type: 'post',
+            ),
+          ),
+        );
+
+        expect(tester.feedState.activities, hasLength(4));
+        expect(tester.feedState.activities.last.id, 'activity-4');
+
+        // Send ActivityAddedEvent from other user not matching filter
+        await tester.emitEvent(
+          ActivityAddedEvent(
+            type: EventTypes.activityAdded,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: feedId.rawValue,
+            activity: createDefaultActivityResponse(id: 'activity-5').copyWith(
+              user: createDefaultUserResponse(id: otherUserId),
+              type: 'comment', // Doesn't match 'post' filter
+            ),
+          ),
+        );
+
+        expect(tester.feedState.activities, hasLength(4));
+      },
+    );
+  });
 }
