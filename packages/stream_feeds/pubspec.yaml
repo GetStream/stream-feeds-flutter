@@ -30,7 +30,11 @@ dependencies:
   retrofit: ">=4.6.0 <=4.9.0"
   rxdart: ^0.28.0
   state_notifier: ^1.0.0
-  stream_core: ^0.3.1
+  stream_core:
+    git:
+      url: https://github.com/GetStream/stream-core-flutter.git
+      ref: feat/more-list-extensions
+      path: packages/stream_core
   uuid: ^4.5.1
 
 dev_dependencies:
