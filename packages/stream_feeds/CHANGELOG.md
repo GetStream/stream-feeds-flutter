@@ -1,6 +1,9 @@
 ## Upcoming
 - [BREAKING] Unified `ThreadedCommentData` into `CommentData` to handle both flat and threaded comments.
 - Add support for `enforceUnique` parameter while adding reactions.
+- [BREAKING] Changed default behavior for `ActivityAddedEvent` in feeds: activities from other users
+  are now ignored by default. Only activities from the current user matching the feed's filter are
+  added. Add `onNewActivity` callback to `feed`, `feedFromId`, or `feedFromQuery` to customize.
 
 ## 0.4.0
 - [BREAKING] Change `queryFollowSuggestions` return type to `List<FeedSuggestionData>`.
