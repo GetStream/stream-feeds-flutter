@@ -24,7 +24,8 @@ import '../repository/capabilities_repository.dart';
 import '../repository/comments_repository.dart';
 import '../repository/feeds_repository.dart';
 import '../repository/polls_repository.dart';
-import 'event/feed_event_handler.dart';
+import 'event/handler/feed_event_handler.dart';
+import 'event/on_activity_added.dart';
 import 'feed_state.dart';
 import 'member_list.dart';
 import 'query/feed_query.dart';
@@ -45,6 +46,7 @@ class Feed with Disposable {
   Feed({
     required this.query,
     required this.currentUserId,
+    required this.onNewActivity,
     required this.activitiesRepository,
     required this.bookmarksRepository,
     required this.commentsRepository,
@@ -73,6 +75,7 @@ class Feed with Disposable {
       query: query,
       state: _stateNotifier,
       currentUserId: currentUserId,
+      onNewActivity: onNewActivity,
       capabilitiesRepository: capabilitiesRepository,
     );
 
@@ -88,6 +91,7 @@ class Feed with Disposable {
   final FeedQuery query;
   final String currentUserId;
 
+  final OnNewActivity onNewActivity;
   final ActivitiesRepository activitiesRepository;
   final BookmarksRepository bookmarksRepository;
   final CommentsRepository commentsRepository;

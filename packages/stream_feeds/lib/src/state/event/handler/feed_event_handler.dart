@@ -13,7 +13,8 @@ import '../../../models/mark_activity_data.dart';
 import '../../../repository/capabilities_repository.dart';
 import '../../feed_state.dart';
 
-import '../query/feed_query.dart';
+import '../../query/feed_query.dart';
+import '../on_activity_added.dart';
 import 'feed_capabilities_mixin.dart';
 import 'state_event_handler.dart';
 
@@ -22,12 +23,14 @@ class FeedEventHandler with FeedCapabilitiesMixin implements StateEventHandler {
     required this.query,
     required this.state,
     required this.currentUserId,
+    required this.onNewActivity,
     required this.capabilitiesRepository,
   });
 
   final FeedQuery query;
-  final FeedStateNotifier state;
   final String currentUserId;
+  final FeedStateNotifier state;
+  final OnNewActivity onNewActivity;
 
   @override
   final CapabilitiesRepository capabilitiesRepository;
@@ -44,11 +47,10 @@ class FeedEventHandler with FeedCapabilitiesMixin implements StateEventHandler {
 
     if (event is api.ActivityAddedEvent) {
       if (event.fid != fid.rawValue) return;
-
       final activity = event.activity.toModel();
-      if (!matchesQueryFilter(activity)) return;
 
-      state.onActivityAdded(activity);
+      final insertionAction = onNewActivity(query, activity, currentUserId);
+      state.onActivityAdded(activity, insertionAction: insertionAction);
 
       final updatedActivity = await withUpdatedFeedCapabilities(activity);
       if (updatedActivity != null) state.onActivityUpdated(updatedActivity);

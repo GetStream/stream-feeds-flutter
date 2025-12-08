@@ -18,6 +18,7 @@ import 'state/bookmark_list.dart';
 import 'state/comment_list.dart';
 import 'state/comment_reaction_list.dart';
 import 'state/comment_reply_list.dart';
+import 'state/event/on_activity_added.dart';
 import 'state/feed.dart';
 import 'state/feed_list.dart';
 import 'state/follow_list.dart';
@@ -223,6 +224,11 @@ abstract interface class StreamFeedsClient {
   /// Creates a [Feed] object using a [FeedQuery] that can include additional
   /// configuration such as activity filters, limits, and feed data for creation.
   ///
+  /// When [onNewActivity] is provided, it customizes how new activities received
+  /// via real-time events are inserted into the feed. When null, uses the default
+  /// behavior which adds activities created by the current user to the start of
+  /// the feed if they match the feed's filter.
+  ///
   /// Example:
   /// ```dart
   /// final feed = client.feedFromQuery(FeedQuery(
@@ -236,7 +242,10 @@ abstract interface class StreamFeedsClient {
   /// ```
   ///
   /// Returns a [Feed] instance that can be used to interact with the specified feed.
-  Feed feedFromQuery(FeedQuery query);
+  Feed feedFromQuery(
+    FeedQuery query, {
+    OnNewActivity onNewActivity,
+  });
 
   /// Creates a feed list instance based on the provided [query].
   ///
@@ -764,6 +773,11 @@ extension StreamFeedsClientHelpers on StreamFeedsClient {
   /// Creates a [Feed] object that represents a specific feed.
   /// The feed can be used to fetch activities, manage follows, and receive real-time updates.
   ///
+  /// When [onNewActivity] is provided, it customizes how new activities received
+  /// via real-time events are inserted into the feed. Defaults to [defaultOnNewActivity],
+  /// which adds activities created by the current user to the start of the feed
+  /// if they match the feed's filter.
+  ///
   /// Example:
   /// ```dart
   /// final userFeed = client.feed('user', 'john');
@@ -783,15 +797,24 @@ extension StreamFeedsClientHelpers on StreamFeedsClient {
   /// ```
   ///
   /// Returns a [Feed] instance that can be used to interact with the specified feed.
-  Feed feed({required String group, required String id}) {
+  Feed feed({
+    required String group,
+    required String id,
+    OnNewActivity onNewActivity = defaultOnNewActivity,
+  }) {
     final fid = FeedId(group: group, id: id);
-    return feedFromId(fid);
+    return feedFromId(fid, onNewActivity: onNewActivity);
   }
 
   /// Creates a feed instance for the specified [fid].
   ///
   /// Creates a [Feed] object that represents a specific feed.
   /// The feed can be used to fetch activities, manage follows, and receive real-time updates.
+  ///
+  /// When [onNewActivity] is provided, it customizes how new activities received
+  /// via real-time events are inserted into the feed. Defaults to [defaultOnNewActivity],
+  /// which adds activities created by the current user to the start of the feed
+  /// if they match the feed's filter.
   ///
   /// Example:
   /// ```dart
@@ -802,8 +825,11 @@ extension StreamFeedsClientHelpers on StreamFeedsClient {
   /// ```
   ///
   /// Returns a [Feed] instance that can be used to interact with the specified feed.
-  Feed feedFromId(FeedId fid) {
+  Feed feedFromId(
+    FeedId fid, {
+    OnNewActivity onNewActivity = defaultOnNewActivity,
+  }) {
     final query = FeedQuery(fid: fid);
-    return feedFromQuery(query);
+    return feedFromQuery(query, onNewActivity: onNewActivity);
   }
 }
