@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_redundant_argument_values
 
 import 'package:mocktail/mocktail.dart';
+import 'package:stream_feeds/src/utils/filter.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 import 'package:test/test.dart';
 
@@ -1799,15 +1800,9 @@ void main() {
     const otherUserId = 'other_user';
 
     final initialActivities = [
-      createDefaultActivityResponse(id: 'activity-1').copyWith(
-        user: createDefaultUserResponse(id: currentUserId),
-      ),
-      createDefaultActivityResponse(id: 'activity-2').copyWith(
-        user: createDefaultUserResponse(id: currentUserId),
-      ),
-      createDefaultActivityResponse(id: 'activity-3').copyWith(
-        user: createDefaultUserResponse(id: otherUserId),
-      ),
+      createDefaultActivityResponse(id: 'activity-1', userId: currentUserId),
+      createDefaultActivityResponse(id: 'activity-2', userId: currentUserId),
+      createDefaultActivityResponse(id: 'activity-3', userId: otherUserId),
     ];
 
     feedTest(
@@ -1831,8 +1826,9 @@ void main() {
             createdAt: DateTime.timestamp(),
             custom: const {},
             fid: feedId.rawValue,
-            activity: createDefaultActivityResponse(id: 'activity-4').copyWith(
-              user: createDefaultUserResponse(id: currentUserId),
+            activity: createDefaultActivityResponse(
+              id: 'activity-4',
+              userId: currentUserId,
               type: 'post',
             ),
           ),
@@ -1864,8 +1860,9 @@ void main() {
             createdAt: DateTime.timestamp(),
             custom: const {},
             fid: feedId.rawValue,
-            activity: createDefaultActivityResponse(id: 'activity-4').copyWith(
-              user: createDefaultUserResponse(id: otherUserId),
+            activity: createDefaultActivityResponse(
+              id: 'activity-4',
+              userId: otherUserId,
               type: 'post',
             ),
           ),
@@ -1896,8 +1893,9 @@ void main() {
             createdAt: DateTime.timestamp(),
             custom: const {},
             fid: feedId.rawValue,
-            activity: createDefaultActivityResponse(id: 'activity-4').copyWith(
-              user: createDefaultUserResponse(id: currentUserId),
+            activity: createDefaultActivityResponse(
+              id: 'activity-4',
+              userId: currentUserId,
               type: 'comment', // Doesn't match 'post' filter
             ),
           ),
@@ -1929,8 +1927,9 @@ void main() {
             createdAt: DateTime.timestamp(),
             custom: const {},
             fid: feedId.rawValue,
-            activity: createDefaultActivityResponse(id: 'activity-4').copyWith(
-              user: createDefaultUserResponse(id: otherUserId),
+            activity: createDefaultActivityResponse(
+              id: 'activity-4',
+              userId: otherUserId,
             ),
           ),
         );
@@ -1962,8 +1961,9 @@ void main() {
             createdAt: DateTime.timestamp(),
             custom: const {},
             fid: feedId.rawValue,
-            activity: createDefaultActivityResponse(id: 'activity-4').copyWith(
-              user: createDefaultUserResponse(id: otherUserId),
+            activity: createDefaultActivityResponse(
+              id: 'activity-4',
+              userId: otherUserId,
             ),
           ),
         );
@@ -1995,8 +1995,9 @@ void main() {
             createdAt: DateTime.timestamp(),
             custom: const {},
             fid: feedId.rawValue,
-            activity: createDefaultActivityResponse(id: 'activity-4').copyWith(
-              user: createDefaultUserResponse(id: currentUserId),
+            activity: createDefaultActivityResponse(
+              id: 'activity-4',
+              userId: currentUserId,
             ),
           ),
         );
@@ -2015,8 +2016,7 @@ void main() {
         onNewActivity: (query, activity, currentUserId) {
           // Add activities from other users that match the filter to the end
           if (activity.user.id != currentUserId) {
-            final filter = query.activityFilter;
-            if (filter == null || filter.matches(activity)) {
+            if (activity.matches(query.activityFilter)) {
               return InsertionAction.addToEnd;
             }
           }
@@ -2036,8 +2036,9 @@ void main() {
             createdAt: DateTime.timestamp(),
             custom: const {},
             fid: feedId.rawValue,
-            activity: createDefaultActivityResponse(id: 'activity-4').copyWith(
-              user: createDefaultUserResponse(id: otherUserId),
+            activity: createDefaultActivityResponse(
+              id: 'activity-4',
+              userId: otherUserId,
               type: 'post',
             ),
           ),
@@ -2053,8 +2054,9 @@ void main() {
             createdAt: DateTime.timestamp(),
             custom: const {},
             fid: feedId.rawValue,
-            activity: createDefaultActivityResponse(id: 'activity-5').copyWith(
-              user: createDefaultUserResponse(id: otherUserId),
+            activity: createDefaultActivityResponse(
+              id: 'activity-5',
+              userId: otherUserId,
               type: 'comment', // Doesn't match 'post' filter
             ),
           ),
