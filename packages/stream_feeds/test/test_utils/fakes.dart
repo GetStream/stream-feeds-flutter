@@ -83,6 +83,7 @@ GetActivityResponse createDefaultGetActivityResponse({
 ActivityResponse createDefaultActivityResponse({
   String id = 'id',
   String type = 'post',
+  String userId = 'user-1',
   List<String> feeds = const [],
   PollResponseData? poll,
   bool hidden = false,
@@ -125,7 +126,7 @@ ActivityResponse createDefaultActivityResponse({
     type: type,
     isWatched: isWatched,
     updatedAt: DateTime(2021, 2, 1),
-    user: createDefaultUserResponse(),
+    user: createDefaultUserResponse(id: userId),
     visibility: ActivityResponseVisibility.public,
     visibilityTag: null,
   );

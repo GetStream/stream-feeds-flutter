@@ -733,6 +733,7 @@ void main() {
             fid: feedId.rawValue,
             activity: createDefaultActivityResponse(
               id: 'activity-4',
+              userId: 'luke_skywalker',
             ).copyWith(
               type: 'post', // Matches first condition
               filterTags: ['general'], // Doesn't match second condition
@@ -772,7 +773,7 @@ void main() {
             fid: feedId.rawValue,
             activity: createDefaultActivityResponse(
               id: 'activity-4',
-              // Doesn't match 'post' activity type
+              userId: 'luke_skywalker',
             ).copyWith(type: 'post'),
           ),
         );
