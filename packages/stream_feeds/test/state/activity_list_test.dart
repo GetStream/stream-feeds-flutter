@@ -24,7 +24,7 @@ void main() {
       'ActivityUpdatedEvent - should remove activity when updated to non-matching type',
       build: (client) => client.activityList(
         ActivitiesQuery(
-          filter: Filter.equal(ActivitiesFilterField.type, 'post'),
+          filter: Filter.equal(ActivitiesFilterField.activityType, 'post'),
         ),
       ),
       setUp: (tester) => tester.get(
@@ -54,7 +54,7 @@ void main() {
       'ActivityReactionAddedEvent - should remove activity when reaction causes filter mismatch',
       build: (client) => client.activityList(
         ActivitiesQuery(
-          filter: Filter.equal(ActivitiesFilterField.type, 'post'),
+          filter: Filter.equal(ActivitiesFilterField.activityType, 'post'),
         ),
       ),
       setUp: (tester) => tester.get(
@@ -91,7 +91,7 @@ void main() {
       'ActivityReactionDeletedEvent - should remove activity when reaction deletion causes filter mismatch',
       build: (client) => client.activityList(
         ActivitiesQuery(
-          filter: Filter.equal(ActivitiesFilterField.type, 'post'),
+          filter: Filter.equal(ActivitiesFilterField.activityType, 'post'),
         ),
       ),
       setUp: (tester) => tester.get(
@@ -128,7 +128,7 @@ void main() {
       'BookmarkAddedEvent - should remove activity when bookmark causes filter mismatch',
       build: (client) => client.activityList(
         ActivitiesQuery(
-          filter: Filter.equal(ActivitiesFilterField.type, 'post'),
+          filter: Filter.equal(ActivitiesFilterField.activityType, 'post'),
         ),
       ),
       setUp: (tester) => tester.get(
@@ -157,7 +157,7 @@ void main() {
       'BookmarkDeletedEvent - should remove activity when bookmark deletion causes filter mismatch',
       build: (client) => client.activityList(
         ActivitiesQuery(
-          filter: Filter.equal(ActivitiesFilterField.type, 'post'),
+          filter: Filter.equal(ActivitiesFilterField.activityType, 'post'),
         ),
       ),
       setUp: (tester) => tester.get(
@@ -186,7 +186,7 @@ void main() {
       'CommentAddedEvent - should remove activity when comment causes filter mismatch',
       build: (client) => client.activityList(
         ActivitiesQuery(
-          filter: Filter.equal(ActivitiesFilterField.type, 'post'),
+          filter: Filter.equal(ActivitiesFilterField.activityType, 'post'),
         ),
       ),
       setUp: (tester) => tester.get(
@@ -220,7 +220,7 @@ void main() {
       build: (client) => client.activityList(
         ActivitiesQuery(
           filter: Filter.and([
-            Filter.equal(ActivitiesFilterField.type, 'post'),
+            Filter.equal(ActivitiesFilterField.activityType, 'post'),
             Filter.equal(ActivitiesFilterField.filterTags, ['featured']),
           ]),
         ),
@@ -254,7 +254,7 @@ void main() {
       build: (client) => client.activityList(
         ActivitiesQuery(
           filter: Filter.or([
-            Filter.equal(ActivitiesFilterField.type, 'post'),
+            Filter.equal(ActivitiesFilterField.activityType, 'post'),
             Filter.equal(ActivitiesFilterField.filterTags, ['featured']),
           ]),
         ),
