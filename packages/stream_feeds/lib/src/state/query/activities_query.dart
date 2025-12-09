@@ -66,6 +66,14 @@ class ActivitiesFilterField extends FilterField<ActivityData> {
   /// Creates a new activities filter field.
   ActivitiesFilterField(super.remote, super.value);
 
+  /// Filter by the type of activity (e.g., "post", "comment", "reaction").
+  ///
+  /// **Supported operators:** `.equal`, `.in`
+  static final activityType = ActivitiesFilterField(
+    'activity_type',
+    (data) => data.type,
+  );
+
   /// Filter by the creation timestamp of the activity.
   ///
   /// **Supported operators:** `.equal`, `.greaterThan`, `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`
@@ -76,7 +84,8 @@ class ActivitiesFilterField extends FilterField<ActivityData> {
 
   /// Filter by the expiration timestamp of the activity.
   ///
-  /// **Supported operators:** `.exists`
+  /// **Supported operators:** `.equal`, `.notEqual`, `.greaterThan`,
+  /// `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`, `.exists`
   static final expiresAt = ActivitiesFilterField(
     'expires_at',
     (data) => data.expiresAt,
@@ -90,12 +99,28 @@ class ActivitiesFilterField extends FilterField<ActivityData> {
     (data) => data.id,
   );
 
+  /// Filter by the feed ID(s) the activity belongs to.
+  ///
+  /// **Supported operators:** `.equal`, `.in`
+  static final feed = ActivitiesFilterField(
+    'feed',
+    (data) => data.feeds,
+  );
+
   /// Filter by the filter tags associated with the activity.
   ///
-  /// **Supported operators:** `.equal`, `.in`, `.customContains`
+  /// **Supported operators:** `.equal`, `.in`, `.contains`
   static final filterTags = ActivitiesFilterField(
     'filter_tags',
     (data) => data.filterTags,
+  );
+
+  /// Filter by the interest tags associated with the activity.
+  ///
+  /// **Supported operators:** `.equal`, `.in`, `.contains`
+  static final interestTags = ActivitiesFilterField(
+    'interest_tags',
+    (data) => data.interestTags,
   );
 
   /// Filter by the popularity score of the activity.
@@ -108,7 +133,7 @@ class ActivitiesFilterField extends FilterField<ActivityData> {
 
   /// Filter by the search data content of the activity.
   ///
-  /// **Supported operators:** `.equal`, `.customQ`, `.customAutocomplete`
+  /// **Supported operators:** `.contains`, `.in`, `.pathExists`
   static final searchData = ActivitiesFilterField(
     'search_data',
     (data) => data.searchData,
@@ -116,18 +141,10 @@ class ActivitiesFilterField extends FilterField<ActivityData> {
 
   /// Filter by the text content of the activity.
   ///
-  /// **Supported operators:** `.equal`, `.customQ`, `.customAutocomplete`
+  /// **Supported operators:** `.equal`, `.q` (full-text search), `.autocomplete`
   static final text = ActivitiesFilterField(
     'text',
     (data) => data.text,
-  );
-
-  /// Filter by the type of activity (e.g., "post", "comment", "reaction").
-  ///
-  /// **Supported operators:** `.equal`, `.in`
-  static final type = ActivitiesFilterField(
-    'type',
-    (data) => data.type,
   );
 
   /// Filter by the user ID who created the activity.
