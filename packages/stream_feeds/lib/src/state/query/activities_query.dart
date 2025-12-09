@@ -137,6 +137,28 @@ class ActivitiesFilterField extends FilterField<ActivityData> {
     'user_id',
     (data) => data.user.id,
   );
+
+  /// Filter by the proximity to a specific location.
+  ///
+  /// Note: This requires an object with latitude ('lat'), longitude ('lng')
+  /// and distance in km ('distance).
+  ///
+  /// **Supported operators:** `.equal`
+  static final near = ActivitiesFilterField(
+    'near',
+    (data) => data.location,
+  );
+
+  /// Filter by activities within specific geographical bounds.
+  ///
+  /// Note: This requires an object with 'sw_lat', 'sw_lng' (southwest corner)
+  /// and 'ne_lat', 'ne_lng' (northeast) corner keys.
+  ///
+  /// **Supported operators:** `.equal`
+  static final withinBounds = ActivitiesFilterField(
+    'within_bounds',
+    (data) => data.location,
+  );
 }
 
 // endregion
