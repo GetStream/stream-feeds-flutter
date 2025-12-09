@@ -5,7 +5,7 @@ late Feed feed;
 
 Future<void> activitySearchAndQueries() async {
   final query = ActivitiesQuery(
-    filter: Filter.equal(ActivitiesFilterField.type, 'post'),
+    filter: Filter.equal(ActivitiesFilterField.activityType, 'post'),
     sort: [ActivitiesSort.desc(ActivitiesSortField.createdAt)],
     limit: 10,
   );
