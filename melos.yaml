@@ -48,11 +48,7 @@ command:
       shared_preferences: ^2.5.3
       state_notifier: ^1.0.0
       stream_feeds: ^0.4.0
-      stream_core:
-        git:
-          url: https://github.com/GetStream/stream-core-flutter.git
-          ref: feat/more-list-extensions
-          path: packages/stream_core
+      stream_core: ^0.3.2
       video_player: ^2.10.0
       uuid: ^4.5.1
 
