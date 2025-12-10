@@ -416,7 +416,10 @@ void main() {
       build: (client) => client.feedFromQuery(
         FeedQuery(
           fid: feedId,
-          activityFilter: Filter.equal(ActivitiesFilterField.activityType, 'post'),
+          activityFilter: Filter.equal(
+            ActivitiesFilterField.activityType,
+            'post',
+          ),
         ),
       ),
       setUp: (tester) => tester.getOrCreate(
@@ -448,7 +451,10 @@ void main() {
       build: (client) => client.feedFromQuery(
         FeedQuery(
           fid: feedId,
-          activityFilter: Filter.equal(ActivitiesFilterField.activityType, 'post'),
+          activityFilter: Filter.equal(
+            ActivitiesFilterField.activityType,
+            'post',
+          ),
         ),
       ),
       setUp: (tester) => tester.getOrCreate(
@@ -480,7 +486,10 @@ void main() {
       build: (client) => client.feedFromQuery(
         FeedQuery(
           fid: feedId,
-          activityFilter: Filter.equal(ActivitiesFilterField.activityType, 'post'),
+          activityFilter: Filter.equal(
+            ActivitiesFilterField.activityType,
+            'post',
+          ),
         ),
       ),
       setUp: (tester) => tester.getOrCreate(
@@ -558,7 +567,10 @@ void main() {
       build: (client) => client.feedFromQuery(
         FeedQuery(
           fid: feedId,
-          activityFilter: Filter.equal(ActivitiesFilterField.activityType, 'post'),
+          activityFilter: Filter.equal(
+            ActivitiesFilterField.activityType,
+            'post',
+          ),
         ),
       ),
       setUp: (tester) => tester.getOrCreate(
@@ -597,7 +609,10 @@ void main() {
       build: (client) => client.feedFromQuery(
         FeedQuery(
           fid: feedId,
-          activityFilter: Filter.equal(ActivitiesFilterField.activityType, 'post'),
+          activityFilter: Filter.equal(
+            ActivitiesFilterField.activityType,
+            'post',
+          ),
         ),
       ),
       setUp: (tester) => tester.getOrCreate(
@@ -634,7 +649,10 @@ void main() {
       build: (client) => client.feedFromQuery(
         FeedQuery(
           fid: feedId,
-          activityFilter: Filter.equal(ActivitiesFilterField.activityType, 'post'),
+          activityFilter: Filter.equal(
+            ActivitiesFilterField.activityType,
+            'post',
+          ),
         ),
       ),
       setUp: (tester) => tester.getOrCreate(
