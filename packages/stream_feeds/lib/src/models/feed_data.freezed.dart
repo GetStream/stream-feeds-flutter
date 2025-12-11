@@ -29,6 +29,7 @@ mixin _$FeedData {
   String get name;
   List<FeedOwnCapability> get ownCapabilities;
   FeedMemberData? get ownMembership;
+  List<FollowData>? get ownFollows;
   int get pinCount;
   DateTime get updatedAt;
   String? get visibility;
@@ -70,6 +71,8 @@ mixin _$FeedData {
                 .equals(other.ownCapabilities, ownCapabilities) &&
             (identical(other.ownMembership, ownMembership) ||
                 other.ownMembership == ownMembership) &&
+            const DeepCollectionEquality()
+                .equals(other.ownFollows, ownFollows) &&
             (identical(other.pinCount, pinCount) ||
                 other.pinCount == pinCount) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -80,30 +83,32 @@ mixin _$FeedData {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      createdAt,
-      createdBy,
-      deletedAt,
-      description,
-      fid,
-      const DeepCollectionEquality().hash(filterTags),
-      followerCount,
-      followingCount,
-      groupId,
-      id,
-      memberCount,
-      name,
-      const DeepCollectionEquality().hash(ownCapabilities),
-      ownMembership,
-      pinCount,
-      updatedAt,
-      visibility,
-      const DeepCollectionEquality().hash(custom));
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        createdAt,
+        createdBy,
+        deletedAt,
+        description,
+        fid,
+        const DeepCollectionEquality().hash(filterTags),
+        followerCount,
+        followingCount,
+        groupId,
+        id,
+        memberCount,
+        name,
+        const DeepCollectionEquality().hash(ownCapabilities),
+        ownMembership,
+        const DeepCollectionEquality().hash(ownFollows),
+        pinCount,
+        updatedAt,
+        visibility,
+        const DeepCollectionEquality().hash(custom)
+      ]);
 
   @override
   String toString() {
-    return 'FeedData(createdAt: $createdAt, createdBy: $createdBy, deletedAt: $deletedAt, description: $description, fid: $fid, filterTags: $filterTags, followerCount: $followerCount, followingCount: $followingCount, groupId: $groupId, id: $id, memberCount: $memberCount, name: $name, ownCapabilities: $ownCapabilities, ownMembership: $ownMembership, pinCount: $pinCount, updatedAt: $updatedAt, visibility: $visibility, custom: $custom)';
+    return 'FeedData(createdAt: $createdAt, createdBy: $createdBy, deletedAt: $deletedAt, description: $description, fid: $fid, filterTags: $filterTags, followerCount: $followerCount, followingCount: $followingCount, groupId: $groupId, id: $id, memberCount: $memberCount, name: $name, ownCapabilities: $ownCapabilities, ownMembership: $ownMembership, ownFollows: $ownFollows, pinCount: $pinCount, updatedAt: $updatedAt, visibility: $visibility, custom: $custom)';
   }
 }
 
@@ -127,6 +132,7 @@ abstract mixin class $FeedDataCopyWith<$Res> {
       String name,
       List<FeedOwnCapability> ownCapabilities,
       FeedMemberData? ownMembership,
+      List<FollowData>? ownFollows,
       int pinCount,
       DateTime updatedAt,
       String? visibility,
@@ -159,6 +165,7 @@ class _$FeedDataCopyWithImpl<$Res> implements $FeedDataCopyWith<$Res> {
     Object? name = null,
     Object? ownCapabilities = null,
     Object? ownMembership = freezed,
+    Object? ownFollows = freezed,
     Object? pinCount = null,
     Object? updatedAt = null,
     Object? visibility = freezed,
@@ -221,6 +228,10 @@ class _$FeedDataCopyWithImpl<$Res> implements $FeedDataCopyWith<$Res> {
           ? _self.ownMembership
           : ownMembership // ignore: cast_nullable_to_non_nullable
               as FeedMemberData?,
+      ownFollows: freezed == ownFollows
+          ? _self.ownFollows
+          : ownFollows // ignore: cast_nullable_to_non_nullable
+              as List<FollowData>?,
       pinCount: null == pinCount
           ? _self.pinCount
           : pinCount // ignore: cast_nullable_to_non_nullable

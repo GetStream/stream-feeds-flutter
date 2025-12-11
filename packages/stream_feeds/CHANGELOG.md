@@ -9,6 +9,7 @@
 - Add location filtering support for activities with `ActivitiesFilterField.near` and `ActivitiesFilterField.withinBounds` filter fields.
 - Add new activity filter fields: `ActivitiesFilterField.feed` and `ActivitiesFilterField.interestTags`.
 - Export previously missing public APIs: models, state objects, and queries.
+- Add `ownFollows` field to `FeedData` to store the follow relationships of the current user in the feed.
 
 ## 0.4.0
 - [BREAKING] Change `queryFollowSuggestions` return type to `List<FeedSuggestionData>`.
