@@ -145,3 +145,28 @@ extension FeedResponseMapper on FeedResponse {
     );
   }
 }
+
+/// Extension functions for [FeedData] to handle common operations.
+extension FeedDataMutations on FeedData {
+  /// Updates this feed with new data while preserving own data.
+  ///
+  /// Merges [updated] feed data with this instance, preserving [ownCapabilities],
+  /// [ownMembership], and [ownFollows] from this instance when not provided. This
+  /// ensures that user-specific data is not lost when updating from WebSocket events.
+  ///
+  /// Returns a new [FeedData] instance with the merged data.
+  FeedData updateWith(
+    FeedData updated, {
+    List<FeedOwnCapability>? ownCapabilities,
+    FeedMemberData? ownMembership,
+    List<FollowData>? ownFollows,
+  }) {
+    return updated.copyWith(
+      // Preserve own data from the current instance if not provided
+      // as they may not be reliable from WS events.
+      ownCapabilities: ownCapabilities ?? this.ownCapabilities,
+      ownMembership: ownMembership ?? this.ownMembership,
+      ownFollows: ownFollows ?? this.ownFollows,
+    );
+  }
+}

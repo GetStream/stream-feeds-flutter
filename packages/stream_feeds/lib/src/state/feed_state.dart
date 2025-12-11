@@ -341,8 +341,11 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
 
   /// Handles updates to the feed state when the feed is updated.
   void onFeedUpdated(FeedData feed) {
+    final currentFeed = state.feed;
+    final updatedFeed = currentFeed?.updateWith(feed) ?? feed;
+
     // Update the feed data in the state
-    state = state.copyWith(feed: feed);
+    state = state.copyWith(feed: updatedFeed);
   }
 
   /// Handles updates to the feed state when a follow is added.
