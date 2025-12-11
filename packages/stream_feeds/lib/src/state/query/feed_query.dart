@@ -19,7 +19,7 @@ part 'feed_query.freezed.dart';
 /// ```dart
 /// final query = FeedQuery(
 ///   fid: FeedId(group: 'user', id: 'john'),
-///   activityFilter: Filter.equal(ActivitiesFilterField.type, 'post'),
+///   activityFilter: Filter.equal(ActivitiesFilterField.activityType, 'post'),
 ///   activityLimit: 25,
 ///   watch: true,
 /// );

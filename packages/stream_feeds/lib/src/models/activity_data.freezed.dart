@@ -30,7 +30,7 @@ mixin _$ActivityData {
   List<String> get interestTags;
   bool? get isWatched;
   List<FeedsReactionData> get latestReactions;
-  ActivityLocation? get location;
+  LocationCoordinate? get location;
   List<UserData> get mentionedUsers;
   Moderation? get moderation;
   NotificationContext? get notificationContext;
@@ -204,7 +204,7 @@ abstract mixin class $ActivityDataCopyWith<$Res> {
       List<String> interestTags,
       bool? isWatched,
       List<FeedsReactionData> latestReactions,
-      ActivityLocation? location,
+      LocationCoordinate? location,
       List<UserData> mentionedUsers,
       Moderation? moderation,
       NotificationContext? notificationContext,
@@ -344,7 +344,7 @@ class _$ActivityDataCopyWithImpl<$Res> implements $ActivityDataCopyWith<$Res> {
       location: freezed == location
           ? _self.location
           : location // ignore: cast_nullable_to_non_nullable
-              as ActivityLocation?,
+              as LocationCoordinate?,
       mentionedUsers: null == mentionedUsers
           ? _self.mentionedUsers
           : mentionedUsers // ignore: cast_nullable_to_non_nullable

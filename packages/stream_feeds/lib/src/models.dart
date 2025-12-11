@@ -1,3 +1,6 @@
+export 'package:stream_core/stream_core.dart'
+    show BoundingBox, CircularRegion, LocationCoordinate;
+
 export 'models/activity_data.dart';
 export 'models/aggregated_activity_data.dart';
 export 'models/bookmark_data.dart';
