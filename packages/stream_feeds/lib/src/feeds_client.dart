@@ -319,7 +319,7 @@ abstract interface class StreamFeedsClient {
   /// ```dart
   /// final activityList = client.activityList(ActivitiesQuery(
   ///   filter: Filter.and([
-  ///     Filter.equal(ActivitiesFilterField.type, 'post'),
+  ///     Filter.equal(ActivitiesFilterField.activityType, 'post'),
   ///     Filter.greaterThan(ActivitiesFilterField.createdAt,
   ///       DateTime.now().subtract(Duration(days: 7))),
   ///   ]),

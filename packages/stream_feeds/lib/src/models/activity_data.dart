@@ -127,7 +127,7 @@ class ActivityData with _$ActivityData {
 
   /// Geographic location data associated with the activity, if any.
   @override
-  final ActivityLocation? location;
+  final LocationCoordinate? location;
 
   /// Users mentioned in the activity.
   @override
@@ -277,7 +277,12 @@ extension ActivityResponseMapper on ActivityResponse {
       interestTags: interestTags,
       isWatched: isWatched,
       latestReactions: [...latestReactions.map((r) => r.toModel())],
-      location: location,
+      location: location?.let(
+        (it) => LocationCoordinate(
+          latitude: it.lat,
+          longitude: it.lng,
+        ),
+      ),
       mentionedUsers: [...mentionedUsers.map((u) => u.toModel())],
       moderation: moderation?.toModel(),
       notificationContext: notificationContext,

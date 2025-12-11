@@ -1,6 +1,10 @@
 ## Upcoming
 - [BREAKING] Unified `ThreadedCommentData` into `CommentData` to handle both flat and threaded comments.
+- [BREAKING] Renamed `ActivitiesFilterField.type` to `ActivitiesFilterField.activityType`.
+- [BREAKING] Changed `ActivityData.location` field type from `ActivityLocation?` to `LocationCoordinate?`.
 - Add support for `enforceUnique` parameter while adding reactions.
+- Add location filtering support for activities with `ActivitiesFilterField.near` and `ActivitiesFilterField.withinBounds` filter fields.
+- Add new activity filter fields: `ActivitiesFilterField.feed` and `ActivitiesFilterField.interestTags`.
 
 ## 0.4.0
 - [BREAKING] Change `queryFollowSuggestions` return type to `List<FeedSuggestionData>`.
