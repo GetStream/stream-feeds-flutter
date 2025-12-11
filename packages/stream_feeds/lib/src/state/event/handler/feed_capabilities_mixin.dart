@@ -1,5 +1,5 @@
-import '../../../stream_feeds.dart';
-import '../../repository/capabilities_repository.dart';
+import '../../../../stream_feeds.dart';
+import '../../../repository/capabilities_repository.dart';
 
 mixin FeedCapabilitiesMixin {
   CapabilitiesRepository get capabilitiesRepository;

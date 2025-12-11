@@ -1,8 +1,8 @@
 import 'package:stream_core/stream_core.dart';
 
-import '../../generated/api/models.dart' as api;
-import '../../models/feeds_reaction_data.dart';
-import '../activity_reaction_list_state.dart';
+import '../../../generated/api/models.dart' as api;
+import '../../../models/feeds_reaction_data.dart';
+import '../../activity_reaction_list_state.dart';
 import 'state_event_handler.dart';
 
 /// Event handler for activity reaction list real-time updates.

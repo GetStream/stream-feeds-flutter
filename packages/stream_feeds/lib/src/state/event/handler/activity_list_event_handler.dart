@@ -1,13 +1,13 @@
 import 'package:stream_core/stream_core.dart';
 
-import '../../generated/api/models.dart' as api;
-import '../../models/activity_data.dart';
-import '../../models/bookmark_data.dart';
-import '../../models/comment_data.dart';
-import '../../models/feeds_reaction_data.dart';
-import '../../repository/capabilities_repository.dart';
-import '../activity_list_state.dart';
-import '../query/activities_query.dart';
+import '../../../generated/api/models.dart' as api;
+import '../../../models/activity_data.dart';
+import '../../../models/bookmark_data.dart';
+import '../../../models/comment_data.dart';
+import '../../../models/feeds_reaction_data.dart';
+import '../../../repository/capabilities_repository.dart';
+import '../../activity_list_state.dart';
+import '../../query/activities_query.dart';
 import 'feed_capabilities_mixin.dart';
 import 'state_event_handler.dart';
 

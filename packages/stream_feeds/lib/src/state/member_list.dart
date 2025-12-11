@@ -7,7 +7,7 @@ import 'package:stream_core/stream_core.dart';
 import '../models/feed_member_data.dart';
 import '../models/query_configuration.dart';
 import '../repository/feeds_repository.dart';
-import 'event/member_list_event_handler.dart';
+import 'event/handler/member_list_event_handler.dart';
 import 'member_list_state.dart';
 import 'query/members_query.dart';
 import 'state_notifier_extentions.dart';

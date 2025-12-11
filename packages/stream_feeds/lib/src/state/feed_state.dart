@@ -20,6 +20,7 @@ import '../models/get_or_create_feed_data.dart';
 import '../models/mark_activity_data.dart';
 import '../models/pagination_data.dart';
 import '../models/query_configuration.dart';
+import 'insertion_action.dart';
 import 'member_list_state.dart';
 import 'query/activities_query.dart';
 import 'query/feed_query.dart';
@@ -108,12 +109,24 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
   }
 
   /// Handles updates to the feed state when a new activity is added.
-  void onActivityAdded(ActivityData activity) {
+  void onActivityAdded(
+    ActivityData activity, {
+    InsertionAction insertionAction = InsertionAction.addToStart,
+  }) {
+    final insertAt = switch (insertionAction) {
+      InsertionAction.addToStart => 0,
+      InsertionAction.addToEnd => state.activities.length,
+      InsertionAction.ignore => null,
+    };
+
+    // Return early if the activity should be ignored
+    if (insertAt == null) return;
+
     // Upsert the new activity into the existing activities list
-    final updatedActivities = state.activities.sortedUpsert(
+    final updatedActivities = state.activities.upsert(
       activity,
       key: (it) => it.id,
-      compare: activitiesSort.compare,
+      insertAt: (_) => insertAt,
     );
 
     state = state.copyWith(activities: updatedActivities);

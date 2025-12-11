@@ -1,10 +1,10 @@
 import 'package:stream_core/stream_core.dart';
 
-import '../../generated/api/models.dart' as api;
-import '../../models/feed_member_data.dart';
-import '../member_list_state.dart';
+import '../../../generated/api/models.dart' as api;
+import '../../../models/feed_member_data.dart';
+import '../../member_list_state.dart';
 
-import '../query/members_query.dart';
+import '../../query/members_query.dart';
 import 'state_event_handler.dart';
 
 class MemberListEventHandler implements StateEventHandler {

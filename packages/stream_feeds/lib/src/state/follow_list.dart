@@ -7,7 +7,7 @@ import 'package:stream_core/stream_core.dart';
 import '../models/follow_data.dart';
 import '../models/query_configuration.dart';
 import '../repository/feeds_repository.dart';
-import 'event/follow_list_event_handler.dart';
+import 'event/handler/follow_list_event_handler.dart';
 import 'follow_list_state.dart';
 import 'query/follows_query.dart';
 import 'state_notifier_extentions.dart';

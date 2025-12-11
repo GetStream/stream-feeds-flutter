@@ -31,6 +31,7 @@ import '../state/bookmark_list.dart';
 import '../state/comment_list.dart';
 import '../state/comment_reaction_list.dart';
 import '../state/comment_reply_list.dart';
+import '../state/event/on_activity_added.dart';
 import '../state/feed.dart';
 import '../state/feed_list.dart';
 import '../state/follow_list.dart';
@@ -267,10 +268,14 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
   }
 
   @override
-  Feed feedFromQuery(FeedQuery query) {
+  Feed feedFromQuery(
+    FeedQuery query, {
+    OnNewActivity onNewActivity = defaultOnNewActivity,
+  }) {
     return Feed(
       query: query,
       currentUserId: user.id,
+      onNewActivity: onNewActivity,
       activitiesRepository: _activitiesRepository,
       bookmarksRepository: _bookmarksRepository,
       commentsRepository: _commentsRepository,

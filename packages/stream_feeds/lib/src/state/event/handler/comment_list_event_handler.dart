@@ -1,10 +1,10 @@
 import 'package:stream_core/stream_core.dart';
 
-import '../../generated/api/models.dart' as api;
+import '../../../generated/api/models.dart' as api;
 
-import '../../models/comment_data.dart';
-import '../comment_list_state.dart';
-import '../query/comments_query.dart';
+import '../../../models/comment_data.dart';
+import '../../comment_list_state.dart';
+import '../../query/comments_query.dart';
 import 'state_event_handler.dart';
 
 /// Event handler for comment list real-time updates.

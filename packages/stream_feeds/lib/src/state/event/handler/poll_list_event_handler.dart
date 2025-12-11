@@ -1,9 +1,9 @@
 import 'package:stream_core/stream_core.dart';
 
-import '../../generated/api/models.dart' as api;
-import '../../models/poll_data.dart';
-import '../poll_list_state.dart';
-import '../query/polls_query.dart';
+import '../../../generated/api/models.dart' as api;
+import '../../../models/poll_data.dart';
+import '../../poll_list_state.dart';
+import '../../query/polls_query.dart';
 import 'state_event_handler.dart';
 
 /// Event handler for poll list real-time updates.

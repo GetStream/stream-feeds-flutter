@@ -3,6 +3,9 @@
 - [BREAKING] Renamed `ActivitiesFilterField.type` to `ActivitiesFilterField.activityType`.
 - [BREAKING] Changed `ActivityData.location` field type from `ActivityLocation?` to `LocationCoordinate?`.
 - Add support for `enforceUnique` parameter while adding reactions.
+- [BREAKING] Changed default behavior for `ActivityAddedEvent` in feeds: activities from other users
+  are now ignored by default. Only activities from the current user matching the feed's filter are
+  added. Add `onNewActivity` callback to `feed`, `feedFromId`, or `feedFromQuery` to customize.
 - Add location filtering support for activities with `ActivitiesFilterField.near` and `ActivitiesFilterField.withinBounds` filter fields.
 - Add new activity filter fields: `ActivitiesFilterField.feed` and `ActivitiesFilterField.interestTags`.
 

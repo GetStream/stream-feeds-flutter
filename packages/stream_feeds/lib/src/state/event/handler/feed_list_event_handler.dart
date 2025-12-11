@@ -1,10 +1,10 @@
 import 'package:stream_core/stream_core.dart';
 
-import '../../generated/api/models.dart' as api;
-import '../../models/feed_data.dart';
-import '../feed_list_state.dart';
+import '../../../generated/api/models.dart' as api;
+import '../../../models/feed_data.dart';
+import '../../feed_list_state.dart';
 
-import '../query/feeds_query.dart';
+import '../../query/feeds_query.dart';
 import 'state_event_handler.dart';
 
 class FeedListEventHandler implements StateEventHandler {
