@@ -1813,17 +1813,18 @@ void main() {
 
   group('OnNewActivity', () {
     const feedId = FeedId(group: 'user', id: 'john');
-    const currentUserId = 'luke_skywalker';
-    const otherUserId = 'other_user';
+    const currentUser = User(id: 'luke_skywalker');
+    const otherUser = User(id: 'other_user');
 
     final initialActivities = [
-      createDefaultActivityResponse(id: 'activity-1', userId: currentUserId),
-      createDefaultActivityResponse(id: 'activity-2', userId: currentUserId),
-      createDefaultActivityResponse(id: 'activity-3', userId: otherUserId),
+      createDefaultActivityResponse(id: 'activity-1', userId: currentUser.id),
+      createDefaultActivityResponse(id: 'activity-2', userId: currentUser.id),
+      createDefaultActivityResponse(id: 'activity-3', userId: otherUser.id),
     ];
 
     feedTest(
       'defaultOnNewActivity - should add current user activity to start when matching filter',
+      user: currentUser,
       build: (client) => client.feedFromQuery(
         FeedQuery(
           fid: feedId,
@@ -1848,7 +1849,7 @@ void main() {
             fid: feedId.rawValue,
             activity: createDefaultActivityResponse(
               id: 'activity-4',
-              userId: currentUserId,
+              userId: currentUser.id,
               type: 'post',
             ),
           ),
@@ -1861,6 +1862,7 @@ void main() {
 
     feedTest(
       'defaultOnNewActivity - should ignore activity from other user',
+      user: currentUser,
       build: (client) => client.feedFromQuery(
         FeedQuery(
           fid: feedId,
@@ -1885,7 +1887,7 @@ void main() {
             fid: feedId.rawValue,
             activity: createDefaultActivityResponse(
               id: 'activity-4',
-              userId: otherUserId,
+              userId: otherUser.id,
               type: 'post',
             ),
           ),
@@ -1897,6 +1899,7 @@ void main() {
 
     feedTest(
       'defaultOnNewActivity - should ignore current user activity that does not match filter',
+      user: currentUser,
       build: (client) => client.feedFromQuery(
         FeedQuery(
           fid: feedId,
@@ -1921,7 +1924,7 @@ void main() {
             fid: feedId.rawValue,
             activity: createDefaultActivityResponse(
               id: 'activity-4',
-              userId: currentUserId,
+              userId: currentUser.id,
               type: 'comment', // Doesn't match 'post' filter
             ),
           ),
@@ -1933,6 +1936,7 @@ void main() {
 
     feedTest(
       'custom onNewActivity - should add to start',
+      user: currentUser,
       build: (client) => client.feedFromQuery(
         const FeedQuery(fid: feedId),
         onNewActivity: (query, activity, currentUserId) {
@@ -1955,7 +1959,7 @@ void main() {
             fid: feedId.rawValue,
             activity: createDefaultActivityResponse(
               id: 'activity-4',
-              userId: otherUserId,
+              userId: otherUser.id,
             ),
           ),
         );
@@ -1967,6 +1971,7 @@ void main() {
 
     feedTest(
       'custom onNewActivity - should add to end',
+      user: currentUser,
       build: (client) => client.feedFromQuery(
         const FeedQuery(fid: feedId),
         onNewActivity: (query, activity, currentUserId) {
@@ -1989,7 +1994,7 @@ void main() {
             fid: feedId.rawValue,
             activity: createDefaultActivityResponse(
               id: 'activity-4',
-              userId: otherUserId,
+              userId: otherUser.id,
             ),
           ),
         );
@@ -2001,6 +2006,7 @@ void main() {
 
     feedTest(
       'custom onNewActivity - should ignore',
+      user: currentUser,
       build: (client) => client.feedFromQuery(
         const FeedQuery(fid: feedId),
         onNewActivity: (query, activity, currentUserId) {
@@ -2023,7 +2029,7 @@ void main() {
             fid: feedId.rawValue,
             activity: createDefaultActivityResponse(
               id: 'activity-4',
-              userId: currentUserId,
+              userId: currentUser.id,
             ),
           ),
         );
@@ -2034,6 +2040,7 @@ void main() {
 
     feedTest(
       'custom onNewActivity - should use query and activity context',
+      user: currentUser,
       build: (client) => client.feedFromQuery(
         FeedQuery(
           fid: feedId,
@@ -2067,7 +2074,7 @@ void main() {
             fid: feedId.rawValue,
             activity: createDefaultActivityResponse(
               id: 'activity-4',
-              userId: otherUserId,
+              userId: otherUser.id,
               type: 'post',
             ),
           ),
@@ -2085,7 +2092,7 @@ void main() {
             fid: feedId.rawValue,
             activity: createDefaultActivityResponse(
               id: 'activity-5',
-              userId: otherUserId,
+              userId: otherUser.id,
               type: 'comment', // Doesn't match 'post' filter
             ),
           ),
