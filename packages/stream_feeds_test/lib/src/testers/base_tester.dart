@@ -5,9 +5,9 @@ import 'package:meta/meta.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 import 'package:test/test.dart' as test;
 
-import '../api_mocker_mixin.dart';
-import '../mocks.dart';
-import '../web_socket_mocks.dart';
+import '../helpers/api_mocker_mixin.dart';
+import '../helpers/mocks.dart';
+import '../helpers/web_socket_mocks.dart';
 
 /// Factory function signature for creating tester instances.
 ///
@@ -100,6 +100,7 @@ Future<T> createTester<T extends BaseTester<Object?>>({
 /// Automatically sets up WebSocket connection, client, and test infrastructure.
 ///
 /// Parameters:
+/// - user: the authenticated user for the test client (defaults to luke_skywalker)
 /// - build: constructs the subject under test using the provided StreamFeedsClient
 /// - createTesterFn: the concrete tester factory function
 /// - setUp: optional, runs before body for setting up mocks and test state
@@ -113,6 +114,7 @@ Future<T> createTester<T extends BaseTester<Object?>>({
 /// This function is for internal use by concrete test helpers.
 void testWithTester<S, T extends BaseTester<S>>(
   String description, {
+  User user = const User(id: 'luke_skywalker'),
   required S Function(StreamFeedsClient client) build,
   required TesterFactory<S, T> createTesterFn,
   FutureOr<void> Function(T tester)? setUp,
@@ -130,16 +132,15 @@ void testWithTester<S, T extends BaseTester<S>>(
     timeout: timeout,
     () async {
       await _runZonedGuarded(() async {
-        const user = User(id: 'luke_skywalker');
-        final userToken = generateTestUserToken(user.id);
-
         final feedsApi = MockDefaultApi();
         final webSocketChannel = MockWebSocketChannel();
 
         final client = StreamFeedsClient(
           apiKey: 'apiKey',
           user: user,
-          tokenProvider: TokenProvider.static(userToken),
+          tokenProvider: TokenProvider.static(
+            generateTestUserToken(user.id),
+          ),
           feedsRestApi: feedsApi,
           wsProvider: (options) => webSocketChannel,
         );

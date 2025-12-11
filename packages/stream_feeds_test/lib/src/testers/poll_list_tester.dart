@@ -4,8 +4,8 @@ import 'package:meta/meta.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 import 'package:test/test.dart' as test;
 
-import '../fakes.dart';
-import '../mocks.dart';
+import '../helpers/mocks.dart';
+import '../helpers/test_data.dart';
 import 'base_tester.dart';
 
 /// Test helper for poll list operations.
@@ -13,6 +13,8 @@ import 'base_tester.dart';
 /// Automatically sets up WebSocket connection, client, and test infrastructure.
 /// Tests are tagged with 'poll-list' by default for filtering.
 ///
+/// [user] is optional, the authenticated user for the test client (defaults to luke_skywalker).
+
 /// [build] constructs the [PollList] under test using the provided [StreamFeedsClient].
 /// [setUp] is optional and runs before [body] for setting up mocks and test state.
 /// [body] is the test callback that receives a [PollListTester] for interactions.
@@ -40,6 +42,7 @@ import 'base_tester.dart';
 @isTest
 void pollListTest(
   String description, {
+  User user = const User(id: 'luke_skywalker'),
   required PollList Function(StreamFeedsClient client) build,
   FutureOr<void> Function(PollListTester tester)? setUp,
   required FutureOr<void> Function(PollListTester tester) body,
@@ -51,6 +54,7 @@ void pollListTest(
 }) {
   return testWithTester(
     description,
+    user: user,
     build: build,
     createTesterFn: _createPollListTester,
     setUp: setUp,

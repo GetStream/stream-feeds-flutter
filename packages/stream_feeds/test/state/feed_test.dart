@@ -1,11 +1,9 @@
 // ignore_for_file: avoid_redundant_argument_values
 
-import 'package:mocktail/mocktail.dart';
 import 'package:stream_feeds/src/utils/filter.dart';
 import 'package:stream_feeds/stream_feeds.dart';
-import 'package:test/test.dart';
 
-import '../test_utils.dart';
+import 'package:stream_feeds_test/stream_feeds_test.dart';
 
 void main() {
   // ============================================================

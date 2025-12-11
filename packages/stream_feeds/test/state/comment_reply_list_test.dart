@@ -1,7 +1,6 @@
 import 'package:stream_feeds/stream_feeds.dart';
-import 'package:test/test.dart';
 
-import '../test_utils.dart';
+import 'package:stream_feeds_test/stream_feeds_test.dart';
 
 void main() {
   const commentId = 'comment-1';

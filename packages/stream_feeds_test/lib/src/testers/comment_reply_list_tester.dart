@@ -4,8 +4,8 @@ import 'package:meta/meta.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 import 'package:test/test.dart' as test;
 
-import '../fakes.dart';
-import '../mocks.dart';
+import '../helpers/mocks.dart';
+import '../helpers/test_data.dart';
 import 'base_tester.dart';
 
 /// Test helper for comment reply list operations.
@@ -13,6 +13,8 @@ import 'base_tester.dart';
 /// Automatically sets up WebSocket connection, client, and test infrastructure.
 /// Tests are tagged with 'comment-reply-list' by default for filtering.
 ///
+/// [user] is optional, the authenticated user for the test client (defaults to luke_skywalker).
+
 /// [build] constructs the [CommentReplyList] under test using the provided [StreamFeedsClient].
 /// [setUp] is optional and runs before [body] for setting up mocks and test state.
 /// [body] is the test callback that receives a [CommentReplyListTester] for interactions.
@@ -42,6 +44,7 @@ import 'base_tester.dart';
 @isTest
 void commentReplyListTest(
   String description, {
+  User user = const User(id: 'luke_skywalker'),
   required CommentReplyList Function(StreamFeedsClient client) build,
   FutureOr<void> Function(CommentReplyListTester tester)? setUp,
   required FutureOr<void> Function(CommentReplyListTester tester) body,
@@ -53,6 +56,7 @@ void commentReplyListTest(
 }) {
   return testWithTester(
     description,
+    user: user,
     build: build,
     createTesterFn: _createCommentReplyListTester,
     setUp: setUp,
@@ -98,8 +102,9 @@ final class CommentReplyListTester extends BaseTester<CommentReplyList> {
   /// Parameters:
   /// - [modifyResponse]: Optional function to customize the comment replies response
   Future<Result<List<CommentData>>> get({
-    GetCommentRepliesResponse Function(GetCommentRepliesResponse)?
-        modifyResponse,
+    GetCommentRepliesResponse Function(
+      GetCommentRepliesResponse,
+    )? modifyResponse,
   }) {
     final query = commentReplyList.query;
 

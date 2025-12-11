@@ -4,8 +4,8 @@ import 'package:meta/meta.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 import 'package:test/test.dart' as test;
 
-import '../fakes.dart';
-import '../mocks.dart';
+import '../helpers/mocks.dart';
+import '../helpers/test_data.dart';
 import 'base_tester.dart';
 
 /// Test helper for follow list operations.
@@ -13,6 +13,8 @@ import 'base_tester.dart';
 /// Automatically sets up WebSocket connection, client, and test infrastructure.
 /// Tests are tagged with 'follow-list' by default for filtering.
 ///
+/// [user] is optional, the authenticated user for the test client (defaults to luke_skywalker).
+
 /// [build] constructs the [FollowList] under test using the provided [StreamFeedsClient].
 /// [setUp] is optional and runs before [body] for setting up mocks and test state.
 /// [body] is the test callback that receives a [FollowListTester] for interactions.
@@ -40,6 +42,7 @@ import 'base_tester.dart';
 @isTest
 void followListTest(
   String description, {
+  User user = const User(id: 'luke_skywalker'),
   required FollowList Function(StreamFeedsClient client) build,
   FutureOr<void> Function(FollowListTester tester)? setUp,
   required FutureOr<void> Function(FollowListTester tester) body,
@@ -51,6 +54,7 @@ void followListTest(
 }) {
   return testWithTester(
     description,
+    user: user,
     build: build,
     createTesterFn: _createFollowListTester,
     setUp: setUp,

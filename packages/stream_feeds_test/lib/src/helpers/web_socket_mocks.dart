@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:mocktail/mocktail.dart';
-import 'package:stream_feeds/src/ws/events/events.dart';
 
 import 'mocks.dart';
 
@@ -51,15 +50,18 @@ void whenListenWebSocket(
 
     if (event['token'] != null) {
       return wsStreamController.add(
-        jsonEncode(
-          HealthCheckEvent(
-            connectionId: 'connectionId',
-            createdAt: DateTime.now(),
-            custom: const {},
-            type: 'health.check',
-          ),
-        ),
+        jsonEncode(_createHealthCheckEvent()),
       );
     }
   });
+}
+
+/// Creates a health check event for WebSocket authentication.
+Map<String, dynamic> _createHealthCheckEvent() {
+  return <String, dynamic>{
+    'type': 'health.check',
+    'connection_id': 'connectionId',
+    'created_at': DateTime.now().millisecondsSinceEpoch,
+    'custom': <String, dynamic>{},
+  };
 }

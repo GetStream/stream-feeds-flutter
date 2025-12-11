@@ -4,8 +4,8 @@ import 'package:meta/meta.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 import 'package:test/test.dart' as test;
 
-import '../fakes.dart';
-import '../mocks.dart';
+import '../helpers/mocks.dart';
+import '../helpers/test_data.dart';
 import 'base_tester.dart';
 
 /// Test helper for activity comment list operations.
@@ -13,6 +13,8 @@ import 'base_tester.dart';
 /// Automatically sets up WebSocket connection, client, and test infrastructure.
 /// Tests are tagged with 'activity-comment-list' by default for filtering.
 ///
+/// [user] is optional, the authenticated user for the test client (defaults to luke_skywalker).
+
 /// [build] constructs the [ActivityCommentList] under test using the provided [StreamFeedsClient].
 /// [setUp] is optional and runs before [body] for setting up mocks and test state.
 /// [body] is the test callback that receives an [ActivityCommentListTester] for interactions.
@@ -41,6 +43,7 @@ import 'base_tester.dart';
 @isTest
 void activityCommentListTest(
   String description, {
+  User user = const User(id: 'luke_skywalker'),
   required ActivityCommentList Function(StreamFeedsClient client) build,
   FutureOr<void> Function(ActivityCommentListTester tester)? setUp,
   required FutureOr<void> Function(ActivityCommentListTester tester) body,
@@ -52,6 +55,7 @@ void activityCommentListTest(
 }) {
   return testWithTester(
     description,
+    user: user,
     build: build,
     createTesterFn: _createActivityCommentListTester,
     setUp: setUp,

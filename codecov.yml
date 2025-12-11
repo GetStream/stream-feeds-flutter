@@ -8,3 +8,6 @@ coverage:
     patch:
       default:
         target: 80%
+
+ignore:
+  - "packages/stream_feeds_test/**/*"  # Internal test utilities package
