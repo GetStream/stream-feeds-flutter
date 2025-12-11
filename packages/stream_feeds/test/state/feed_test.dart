@@ -1829,7 +1829,10 @@ void main() {
       build: (client) => client.feedFromQuery(
         FeedQuery(
           fid: feedId,
-          activityFilter: Filter.equal(ActivitiesFilterField.type, 'post'),
+          activityFilter: Filter.equal(
+            ActivitiesFilterField.activityType,
+            'post',
+          ),
         ),
       ),
       setUp: (tester) => tester.getOrCreate(
@@ -1863,7 +1866,10 @@ void main() {
       build: (client) => client.feedFromQuery(
         FeedQuery(
           fid: feedId,
-          activityFilter: Filter.equal(ActivitiesFilterField.type, 'post'),
+          activityFilter: Filter.equal(
+            ActivitiesFilterField.activityType,
+            'post',
+          ),
         ),
       ),
       setUp: (tester) => tester.getOrCreate(
@@ -1896,7 +1902,10 @@ void main() {
       build: (client) => client.feedFromQuery(
         FeedQuery(
           fid: feedId,
-          activityFilter: Filter.equal(ActivitiesFilterField.type, 'post'),
+          activityFilter: Filter.equal(
+            ActivitiesFilterField.activityType,
+            'post',
+          ),
         ),
       ),
       setUp: (tester) => tester.getOrCreate(
@@ -2030,7 +2039,10 @@ void main() {
       build: (client) => client.feedFromQuery(
         FeedQuery(
           fid: feedId,
-          activityFilter: Filter.equal(ActivitiesFilterField.type, 'post'),
+          activityFilter: Filter.equal(
+            ActivitiesFilterField.activityType,
+            'post',
+          ),
         ),
         onNewActivity: (query, activity, currentUserId) {
           // Add activities from other users that match the filter to the end
