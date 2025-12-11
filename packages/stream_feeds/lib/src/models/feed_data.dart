@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../generated/api/models.dart';
 import 'feed_id.dart';
 import 'feed_member_data.dart';
+import 'follow_data.dart';
 import 'user_data.dart';
 
 part 'feed_data.freezed.dart';
@@ -30,6 +31,7 @@ class FeedData with _$FeedData {
     required this.name,
     required this.ownCapabilities,
     this.ownMembership,
+    this.ownFollows,
     required this.pinCount,
     required this.updatedAt,
     this.visibility,
@@ -92,6 +94,10 @@ class FeedData with _$FeedData {
   @override
   final FeedMemberData? ownMembership;
 
+  /// The follow relationships of the current user in the feed.
+  @override
+  final List<FollowData>? ownFollows;
+
   /// The number of pinned items in the feed.
   @override
   final int pinCount;
@@ -131,6 +137,7 @@ extension FeedResponseMapper on FeedResponse {
       name: name,
       ownCapabilities: ownCapabilities ?? const [],
       ownMembership: ownMembership?.toModel(),
+      ownFollows: ownFollows?.map((f) => f.toModel()).toList(),
       pinCount: pinCount,
       updatedAt: updatedAt,
       visibility: visibility,
