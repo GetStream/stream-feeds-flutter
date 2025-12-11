@@ -2097,4 +2097,81 @@ void main() {
       },
     );
   });
+
+  // ============================================================
+  // FEATURE: Feed Updated Event
+  // ============================================================
+
+  group('FeedUpdatedEvent', () {
+    const feedId = FeedId(group: 'user', id: 'john');
+    const userId = 'luke_skywalker';
+
+    feedTest(
+      'should preserve own fields when feed is updated',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          feed: createDefaultFeedResponse(
+            id: feedId.id,
+            groupId: feedId.group,
+            ownCapabilities: [
+              FeedOwnCapability.createFeed,
+              FeedOwnCapability.deleteFeed,
+            ],
+            ownMembership: createDefaultFeedMemberResponse(
+              id: userId,
+              role: 'admin',
+            ),
+            ownFollows: [
+              createDefaultFollowResponse(id: 'follow-1'),
+              createDefaultFollowResponse(id: 'follow-2'),
+            ],
+          ),
+        ),
+      ),
+      body: (tester) async {
+        // Verify initial state has own fields
+        final initialFeed = tester.feedState.feed;
+        expect(initialFeed, isNotNull);
+        expect(initialFeed!.ownCapabilities, hasLength(2));
+        expect(initialFeed.ownMembership, isNotNull);
+        expect(initialFeed.ownFollows, hasLength(2));
+
+        final originalCapabilities = initialFeed.ownCapabilities;
+        final originalMembership = initialFeed.ownMembership;
+        final originalFollows = initialFeed.ownFollows;
+
+        // Emit FeedUpdatedEvent without own fields
+        await tester.emitEvent(
+          FeedUpdatedEvent(
+            type: EventTypes.feedUpdated,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: feedId.rawValue,
+            feed: createDefaultFeedResponse(
+              id: feedId.id,
+              groupId: feedId.group,
+            ).copyWith(
+              name: 'Updated Name',
+              description: 'Updated Description',
+              followerCount: 100,
+              // Note: ownCapabilities, ownMembership, ownFollows are not included
+            ),
+          ),
+        );
+
+        // Verify own fields are preserved
+        final updatedFeed = tester.feedState.feed;
+        expect(updatedFeed, isNotNull);
+        expect(updatedFeed!.name, equals('Updated Name'));
+        expect(updatedFeed.description, equals('Updated Description'));
+        expect(updatedFeed.followerCount, equals(100));
+
+        // Own fields should be preserved
+        expect(updatedFeed.ownCapabilities, equals(originalCapabilities));
+        expect(updatedFeed.ownMembership, equals(originalMembership));
+        expect(updatedFeed.ownFollows, equals(originalFollows));
+      },
+    );
+  });
 }

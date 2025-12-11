@@ -209,6 +209,9 @@ FeedResponse createDefaultFeedResponse({
   String groupId = 'group',
   int followerCount = 0,
   int followingCount = 0,
+  List<FeedOwnCapability>? ownCapabilities,
+  FeedMemberResponse? ownMembership,
+  List<FollowResponse>? ownFollows,
 }) {
   return FeedResponse(
     id: id,
@@ -224,6 +227,9 @@ FeedResponse createDefaultFeedResponse({
     memberCount: 0,
     pinCount: 0,
     updatedAt: DateTime.now(),
+    ownCapabilities: ownCapabilities,
+    ownMembership: ownMembership,
+    ownFollows: ownFollows,
   );
 }
 
