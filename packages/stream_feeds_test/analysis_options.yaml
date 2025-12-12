@@ -1,8 +1,0 @@
-include: ../../analysis_options.yaml
-
-analyzer:
-  errors:
-    # Allow accessing @internal and @visibleForTesting members in test utilities
-    invalid_use_of_internal_member: ignore
-    invalid_use_of_visible_for_testing_member: ignore
-    invalid_use_of_protected_member: ignore
