@@ -2,7 +2,7 @@
 
 import 'package:stream_feeds/src/resolvers/resolvers.dart';
 import 'package:stream_feeds/stream_feeds.dart';
-import 'package:test/test.dart';
+import 'package:stream_feeds_test/stream_feeds_test.dart';
 
 void main() {
   group('pollAnswerRemovedFeedEventResolver', () {
