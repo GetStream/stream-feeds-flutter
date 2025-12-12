@@ -45,10 +45,12 @@ class FeedListStateNotifier extends StateNotifier<FeedListState> {
 
   /// Handles updates to a specific feed.
   void onFeedUpdated(FeedData feed) {
-    final updatedFeeds = state.feeds.map((it) {
-      if (it.fid.rawValue != feed.fid.rawValue) return it;
-      return feed;
-    }).toList();
+    final updatedFeeds = state.feeds.sortedUpsert(
+      feed,
+      key: (it) => it.fid.rawValue,
+      compare: feedsSort.compare,
+      update: (existing, updated) => existing.updateWith(updated),
+    );
 
     state = state.copyWith(feeds: updatedFeeds);
   }

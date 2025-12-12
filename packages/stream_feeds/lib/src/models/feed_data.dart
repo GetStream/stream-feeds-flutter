@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../generated/api/models.dart';
 import 'feed_id.dart';
 import 'feed_member_data.dart';
+import 'follow_data.dart';
 import 'user_data.dart';
 
 part 'feed_data.freezed.dart';
@@ -30,6 +31,7 @@ class FeedData with _$FeedData {
     required this.name,
     required this.ownCapabilities,
     this.ownMembership,
+    this.ownFollows,
     required this.pinCount,
     required this.updatedAt,
     this.visibility,
@@ -92,6 +94,10 @@ class FeedData with _$FeedData {
   @override
   final FeedMemberData? ownMembership;
 
+  /// The follow relationships of the current user in the feed.
+  @override
+  final List<FollowData>? ownFollows;
+
   /// The number of pinned items in the feed.
   @override
   final int pinCount;
@@ -131,10 +137,36 @@ extension FeedResponseMapper on FeedResponse {
       name: name,
       ownCapabilities: ownCapabilities ?? const [],
       ownMembership: ownMembership?.toModel(),
+      ownFollows: ownFollows?.map((f) => f.toModel()).toList(),
       pinCount: pinCount,
       updatedAt: updatedAt,
       visibility: visibility,
       custom: custom,
+    );
+  }
+}
+
+/// Extension functions for [FeedData] to handle common operations.
+extension FeedDataMutations on FeedData {
+  /// Updates this feed with new data while preserving own data.
+  ///
+  /// Merges [updated] feed data with this instance, preserving [ownCapabilities],
+  /// [ownMembership], and [ownFollows] from this instance when not provided. This
+  /// ensures that user-specific data is not lost when updating from WebSocket events.
+  ///
+  /// Returns a new [FeedData] instance with the merged data.
+  FeedData updateWith(
+    FeedData updated, {
+    List<FeedOwnCapability>? ownCapabilities,
+    FeedMemberData? ownMembership,
+    List<FollowData>? ownFollows,
+  }) {
+    return updated.copyWith(
+      // Preserve own data from the current instance if not provided
+      // as they may not be reliable from WS events.
+      ownCapabilities: ownCapabilities ?? this.ownCapabilities,
+      ownMembership: ownMembership ?? this.ownMembership,
+      ownFollows: ownFollows ?? this.ownFollows,
     );
   }
 }

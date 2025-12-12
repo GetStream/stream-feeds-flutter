@@ -332,6 +332,12 @@ extension ActivityDataMutations on ActivityData {
       ownBookmarks: ownBookmarks ?? this.ownBookmarks,
       ownReactions: ownReactions ?? this.ownReactions,
       poll: updated.poll?.let((it) => poll?.updateWith(it) ?? it),
+      // Workaround until the backend fixes the issue with missing currentFeed
+      // in some WS events
+      currentFeed: switch (updated.currentFeed) {
+        final it? => currentFeed?.updateWith(it) ?? it,
+        _ => currentFeed,
+      },
     );
   }
 
