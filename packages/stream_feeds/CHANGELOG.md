@@ -1,4 +1,4 @@
-## Upcoming
+## 0.5.0
 - [BREAKING] Unified `ThreadedCommentData` into `CommentData` to handle both flat and threaded comments.
 - [BREAKING] Renamed `ActivitiesFilterField.type` to `ActivitiesFilterField.activityType`.
 - [BREAKING] Changed `ActivityData.location` field type from `ActivityLocation?` to `LocationCoordinate?`.
