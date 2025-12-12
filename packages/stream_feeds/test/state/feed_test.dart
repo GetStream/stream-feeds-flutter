@@ -2109,10 +2109,11 @@ void main() {
 
   group('FeedUpdatedEvent', () {
     const feedId = FeedId(group: 'user', id: 'john');
-    const userId = 'luke_skywalker';
+    const currentUser = User(id: 'luke_skywalker');
 
     feedTest(
       'should preserve own fields when feed is updated',
+      user: currentUser,
       build: (client) => client.feedFromId(feedId),
       setUp: (tester) => tester.getOrCreate(
         modifyResponse: (it) => it.copyWith(
@@ -2124,7 +2125,7 @@ void main() {
               FeedOwnCapability.deleteFeed,
             ],
             ownMembership: createDefaultFeedMemberResponse(
-              id: userId,
+              id: currentUser.id,
               role: 'admin',
             ),
             ownFollows: [
