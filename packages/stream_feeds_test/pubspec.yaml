@@ -1,0 +1,14 @@
+name: stream_feeds_test
+description: Internal BDD-style test helpers and utilities for Stream Feeds SDK testing.
+version: 0.1.0
+publish_to: none # This package is not intended for publishing.
+
+environment:
+  sdk: ^3.6.2
+
+dependencies:
+  meta: ^1.9.1
+  mocktail: ^1.0.4
+  stream_feeds: ^0.4.0
+  test: ^1.25.8
+  web_socket_channel: ^3.0.1

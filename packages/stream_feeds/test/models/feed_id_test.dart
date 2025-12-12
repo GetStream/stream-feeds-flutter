@@ -1,5 +1,5 @@
 import 'package:stream_feeds/stream_feeds.dart';
-import 'package:test/test.dart';
+import 'package:stream_feeds_test/stream_feeds_test.dart';
 
 void main() {
   test('feed id should be created with group and id', () {
