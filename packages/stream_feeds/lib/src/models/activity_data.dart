@@ -332,6 +332,10 @@ extension ActivityDataMutations on ActivityData {
       ownBookmarks: ownBookmarks ?? this.ownBookmarks,
       ownReactions: ownReactions ?? this.ownReactions,
       poll: updated.poll?.let((it) => poll?.updateWith(it) ?? it),
+      currentFeed: updated.currentFeed == null
+          ? currentFeed
+          : currentFeed?.updateWith(updated.currentFeed!) ??
+              updated.currentFeed,
     );
   }
 
