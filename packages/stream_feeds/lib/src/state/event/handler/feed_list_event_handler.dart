@@ -2,6 +2,7 @@ import 'package:stream_core/stream_core.dart';
 
 import '../../../generated/api/models.dart' as api;
 import '../../../models/feed_data.dart';
+import '../../../utils/filter.dart';
 import '../../feed_list_state.dart';
 
 import '../../query/feeds_query.dart';
@@ -18,20 +19,26 @@ class FeedListEventHandler implements StateEventHandler {
 
   @override
   void handleEvent(WsEvent event) {
-    bool matchesQueryFilter(FeedData feed) {
-      final filter = query.filter;
-      if (filter == null) return true;
-      return filter.matches(feed);
+    if (event is api.FeedCreatedEvent) {
+      final feed = event.feed.toModel();
+      // Check if the new feed matches the query filter
+      if (!feed.matches(query.filter)) return;
+
+      return state.onFeedAdded(feed);
     }
 
     if (event is api.FeedUpdatedEvent) {
       final feed = event.feed.toModel();
-      if (!matchesQueryFilter(feed)) {
+      if (!feed.matches(query.filter)) {
         // If the updated feed no longer matches the query filter, remove it
         return state.onFeedRemoved(feed.fid.rawValue);
       }
 
       return state.onFeedUpdated(feed);
+    }
+
+    if (event is api.FeedDeletedEvent) {
+      return state.onFeedRemoved(event.fid);
     }
 
     // Handle other events if needed

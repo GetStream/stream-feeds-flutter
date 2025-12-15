@@ -43,6 +43,17 @@ class FeedListStateNotifier extends StateNotifier<FeedListState> {
     );
   }
 
+  /// Handles the addition of a new feed.
+  void onFeedAdded(FeedData feed) {
+    final updatedFeeds = state.feeds.sortedUpsert(
+      feed,
+      key: (it) => it.fid.rawValue,
+      compare: feedsSort.compare,
+    );
+
+    state = state.copyWith(feeds: updatedFeeds);
+  }
+
   /// Handles updates to a specific feed.
   void onFeedUpdated(FeedData feed) {
     final updatedFeeds = state.feeds.sortedUpsert(
