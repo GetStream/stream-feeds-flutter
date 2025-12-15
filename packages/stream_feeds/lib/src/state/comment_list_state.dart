@@ -3,6 +3,7 @@ import 'package:state_notifier/state_notifier.dart';
 import 'package:stream_core/stream_core.dart';
 
 import '../models/comment_data.dart';
+import '../models/feeds_reaction_data.dart';
 import '../models/pagination_data.dart';
 import 'query/comments_query.dart';
 
@@ -15,7 +16,10 @@ part 'comment_list_state.freezed.dart';
 class CommentListStateNotifier extends StateNotifier<CommentListState> {
   CommentListStateNotifier({
     required CommentListState initialState,
+    required this.currentUserId,
   }) : super(initialState);
+
+  final String currentUserId;
 
   ({Filter? filter, CommentsSort? sort})? _queryConfig;
   CommentsSort get commentSort => _queryConfig?.sort ?? CommentsSort.last;
@@ -41,12 +45,26 @@ class CommentListStateNotifier extends StateNotifier<CommentListState> {
     );
   }
 
+  /// Handles the addition of a new comment.
+  void onCommentAdded(CommentData comment) {
+    final updatedComments = state.comments.sortedUpsert(
+      comment,
+      key: (it) => it.id,
+      compare: commentSort.compare,
+      update: (existing, updated) => existing.updateWith(updated),
+    );
+
+    state = state.copyWith(comments: updatedComments);
+  }
+
   /// Handles updates to a specific comment.
   void onCommentUpdated(CommentData comment) {
-    final updatedComments = state.comments.map((it) {
-      if (it.id != comment.id) return it;
-      return comment;
-    }).toList();
+    final updatedComments = state.comments.sortedUpsert(
+      comment,
+      key: (it) => it.id,
+      compare: commentSort.compare,
+      update: (existing, updated) => existing.updateWith(updated),
+    );
 
     state = state.copyWith(comments: updatedComments);
   }
@@ -56,6 +74,45 @@ class CommentListStateNotifier extends StateNotifier<CommentListState> {
     final updatedComments = state.comments.where((it) {
       return it.id != commentId;
     }).toList();
+
+    state = state.copyWith(comments: updatedComments);
+  }
+
+  void onCommentReactionAdded(
+    CommentData comment,
+    FeedsReactionData reaction,
+  ) {
+    final updatedComments = state.comments.updateWhere(
+      (it) => it.id == comment.id,
+      update: (it) => it.upsertReaction(comment, reaction, currentUserId),
+      compare: commentSort.compare,
+    );
+
+    state = state.copyWith(comments: updatedComments);
+  }
+
+  void onCommentReactionUpdated(
+    CommentData comment,
+    FeedsReactionData reaction,
+  ) {
+    final updatedComments = state.comments.updateWhere(
+      (it) => it.id == comment.id,
+      update: (it) => it.upsertUniqueReaction(comment, reaction, currentUserId),
+      compare: commentSort.compare,
+    );
+
+    state = state.copyWith(comments: updatedComments);
+  }
+
+  void onCommentReactionRemoved(
+    CommentData comment,
+    FeedsReactionData reaction,
+  ) {
+    final updatedComments = state.comments.updateWhere(
+      (it) => it.id == comment.id,
+      update: (it) => it.removeReaction(comment, reaction, currentUserId),
+      compare: commentSort.compare,
+    );
 
     state = state.copyWith(comments: updatedComments);
   }

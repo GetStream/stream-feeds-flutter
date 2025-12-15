@@ -25,9 +25,11 @@ class CommentList extends Disposable {
     required this.query,
     required this.commentsRepository,
     required this.eventsEmitter,
+    required this.currentUserId,
   }) {
     _stateNotifier = CommentListStateNotifier(
       initialState: const CommentListState(),
+      currentUserId: currentUserId,
     );
 
     // Attach event handlers for real-time updates
@@ -41,6 +43,7 @@ class CommentList extends Disposable {
 
   final CommentsQuery query;
   final CommentsRepository commentsRepository;
+  final String currentUserId;
 
   CommentListState get state => stateNotifier.value;
   StateNotifier<CommentListState> get notifier => stateNotifier;
