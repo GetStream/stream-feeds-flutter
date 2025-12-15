@@ -47,6 +47,14 @@ class CommentReplyListStateNotifier
     );
   }
 
+  /// Handles the deletion of the parent comment.
+  void onParentCommentDeleted() {
+    state = state.copyWith(
+      replies: [], // Clear all replies when the parent comment is deleted
+      pagination: null,
+    );
+  }
+
   /// Handles the addition of a new comment reply.
   void onReplyAdded(CommentData reply) {
     final parentId = reply.parentId;
