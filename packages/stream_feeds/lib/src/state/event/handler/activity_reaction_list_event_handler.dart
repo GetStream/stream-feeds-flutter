@@ -20,6 +20,24 @@ class ActivityReactionListEventHandler implements StateEventHandler {
 
   @override
   void handleEvent(WsEvent event) {
+    if (event is api.ActivityDeletedEvent) {
+      // Only handle deletion for this specific activity
+      if (event.activity.id != activityId) return;
+      return state.onActivityDeleted();
+    }
+
+    if (event is api.ActivityReactionAddedEvent) {
+      // Only handle reactions for this specific activity
+      if (event.activity.id != activityId) return;
+      return state.onReactionAdded(event.reaction.toModel());
+    }
+
+    if (event is api.ActivityReactionUpdatedEvent) {
+      // Only handle reactions for this specific activity
+      if (event.activity.id != activityId) return;
+      return state.onReactionUpdated(event.reaction.toModel());
+    }
+
     if (event is api.ActivityReactionDeletedEvent) {
       // Only handle reactions for this specific activity
       if (event.activity.id != activityId) return;
