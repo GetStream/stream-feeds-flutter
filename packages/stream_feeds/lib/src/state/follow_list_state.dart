@@ -43,12 +43,24 @@ class FollowListStateNotifier extends StateNotifier<FollowListState> {
     );
   }
 
+  /// Handles the addition of a new follow.
+  void onFollowAdded(FollowData follow) {
+    final updatedFollows = state.follows.sortedUpsert(
+      follow,
+      key: (it) => it.id,
+      compare: followsSort.compare,
+    );
+
+    state = state.copyWith(follows: updatedFollows);
+  }
+
   /// Handles the update of a follow data.
   void onFollowUpdated(FollowData follow) {
-    final updatedFollows = state.follows.map((it) {
-      if (it.id != follow.id) return it;
-      return follow;
-    }).toList();
+    final updatedFollows = state.follows.sortedUpsert(
+      follow,
+      key: (it) => it.id,
+      compare: followsSort.compare,
+    );
 
     state = state.copyWith(follows: updatedFollows);
   }
