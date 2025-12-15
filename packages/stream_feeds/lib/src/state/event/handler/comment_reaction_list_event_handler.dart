@@ -47,6 +47,7 @@ class CommentReactionListEventHandler implements StateEventHandler {
     }
 
     if (event is api.CommentReactionDeletedEvent) {
+      if (event.comment.id != query.commentId) return;
       return state.onReactionRemoved(event.reaction.toModel());
     }
 
