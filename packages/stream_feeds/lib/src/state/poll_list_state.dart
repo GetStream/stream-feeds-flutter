@@ -4,6 +4,7 @@ import 'package:stream_core/stream_core.dart';
 
 import '../models/pagination_data.dart';
 import '../models/poll_data.dart';
+import '../models/poll_vote_data.dart';
 import '../models/query_configuration.dart';
 import 'query/polls_query.dart';
 
@@ -16,7 +17,10 @@ part 'poll_list_state.freezed.dart';
 class PollListStateNotifier extends StateNotifier<PollListState> {
   PollListStateNotifier({
     required PollListState initialState,
+    required this.currentUserId,
   }) : super(initialState);
+
+  final String currentUserId;
 
   QueryConfiguration<PollData>? queryConfig;
   List<Sort<PollData>> get pollsSort {
@@ -45,10 +49,21 @@ class PollListStateNotifier extends StateNotifier<PollListState> {
 
   /// Handles the update of a poll.
   void onPollUpdated(PollData poll) {
-    final updatedPolls = state.polls.map((it) {
-      if (it.id != poll.id) return it;
-      return poll;
-    }).toList();
+    final updatedPolls = state.polls.sortedUpsert(
+      poll,
+      key: (it) => it.id,
+      compare: pollsSort.compare,
+    );
+
+    state = state.copyWith(polls: updatedPolls);
+  }
+
+  void onPollClosed(PollData poll) {
+    final updatedPolls = state.polls.updateWhere(
+      (it) => it.id == poll.id,
+      update: (it) => poll.copyWith(isClosed: true),
+      compare: pollsSort.compare,
+    );
 
     state = state.copyWith(polls: updatedPolls);
   }
@@ -58,6 +73,61 @@ class PollListStateNotifier extends StateNotifier<PollListState> {
     final updatedPolls = state.polls.where((it) {
       return it.id != pollId;
     }).toList();
+
+    state = state.copyWith(polls: updatedPolls);
+  }
+
+  /// Handles the casting of a vote in a poll.
+  void onPollVoteCasted(PollData poll, PollVoteData vote) {
+    final updatedPolls = state.polls.updateWhere(
+      (it) => it.id == poll.id,
+      update: (it) => it.upsertVote(poll, vote, currentUserId),
+      compare: pollsSort.compare,
+    );
+
+    state = state.copyWith(polls: updatedPolls);
+  }
+
+  /// Handles the change of a vote in a poll.
+  void onPollVoteChanged(PollData poll, PollVoteData vote) {
+    final updatedPolls = state.polls.updateWhere(
+      (it) => it.id == poll.id,
+      update: (it) => it.upsertVote(poll, vote, currentUserId),
+      compare: pollsSort.compare,
+    );
+
+    state = state.copyWith(polls: updatedPolls);
+  }
+
+  /// Handles the casting of an answer in a poll.
+  void onPollAnswerCasted(PollData poll, PollVoteData answer) {
+    final updatedPolls = state.polls.updateWhere(
+      (it) => it.id == poll.id,
+      update: (it) => it.upsertAnswer(poll, answer, currentUserId),
+      compare: pollsSort.compare,
+    );
+
+    state = state.copyWith(polls: updatedPolls);
+  }
+
+  /// Handles the removal of a vote in a poll.
+  void onPollVoteRemoved(PollData poll, PollVoteData vote) {
+    final updatedPolls = state.polls.updateWhere(
+      (it) => it.id == poll.id,
+      update: (it) => it.removeVote(poll, vote, currentUserId),
+      compare: pollsSort.compare,
+    );
+
+    state = state.copyWith(polls: updatedPolls);
+  }
+
+  /// Handles the removal of an answer in a poll.
+  void onPollAnswerRemoved(PollData poll, PollVoteData answer) {
+    final updatedPolls = state.polls.updateWhere(
+      (it) => it.id == poll.id,
+      update: (it) => it.removeAnswer(poll, answer, currentUserId),
+      compare: pollsSort.compare,
+    );
 
     state = state.copyWith(polls: updatedPolls);
   }
