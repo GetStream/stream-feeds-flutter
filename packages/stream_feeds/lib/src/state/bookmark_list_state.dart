@@ -66,12 +66,24 @@ class BookmarkListStateNotifier extends StateNotifier<BookmarkListState> {
     state = state.copyWith(bookmarks: updatedBookmarks);
   }
 
+  /// Handles the addition of a new bookmark.
+  void onBookmarkAdded(BookmarkData bookmark) {
+    final updatedBookmarks = state.bookmarks.sortedUpsert(
+      bookmark,
+      key: (it) => it.id,
+      compare: bookmarkSort.compare,
+    );
+
+    state = state.copyWith(bookmarks: updatedBookmarks);
+  }
+
   /// Handles the update of an existing bookmark.
   void onBookmarkUpdated(BookmarkData bookmark) {
-    final updatedBookmarks = state.bookmarks.map((it) {
-      if (it.id != bookmark.id) return it;
-      return bookmark;
-    }).toList();
+    final updatedBookmarks = state.bookmarks.sortedUpsert(
+      bookmark,
+      key: (it) => it.id,
+      compare: bookmarkSort.compare,
+    );
 
     state = state.copyWith(bookmarks: updatedBookmarks);
   }
