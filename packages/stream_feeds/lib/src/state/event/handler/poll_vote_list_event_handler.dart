@@ -2,6 +2,7 @@ import 'package:stream_core/stream_core.dart';
 
 import '../../../generated/api/models.dart' as api;
 import '../../../models/poll_vote_data.dart';
+import '../../../utils/filter.dart';
 import '../../poll_vote_list_state.dart';
 import '../../query/poll_votes_query.dart';
 import 'state_event_handler.dart';
@@ -21,31 +22,38 @@ class PollVoteListEventHandler implements StateEventHandler {
 
   @override
   void handleEvent(WsEvent event) {
-    final pollId = query.pollId;
+    if (event is api.PollDeletedFeedEvent) {
+      if (event.poll.id != query.pollId) return;
+      return state.onPollDeleted();
+    }
 
-    bool matchesQueryFilter(PollVoteData pollVote) {
-      final filter = query.filter;
-      if (filter == null) return true;
-      return filter.matches(pollVote);
+    if (event is api.PollVoteCastedFeedEvent) {
+      // Only handle votes for this specific poll
+      if (event.pollVote.pollId != query.pollId) return;
+
+      final pollVote = event.pollVote.toModel();
+      if (!pollVote.matches(query.filter)) return;
+
+      return state.onPollVoteAdded(pollVote);
     }
 
     if (event is api.PollVoteChangedFeedEvent) {
       // Only handle votes for this specific poll
-      if (event.pollVote.pollId != pollId) return;
+      if (event.pollVote.pollId != query.pollId) return;
 
       final pollVote = event.pollVote.toModel();
-      if (!matchesQueryFilter(pollVote)) {
+      if (!pollVote.matches(query.filter)) {
         // If the updated poll vote no longer matches the filter, remove it
-        return state.pollVoteRemoved(pollVote.id);
+        return state.onPollVoteRemoved(pollVote.id);
       }
 
-      return state.pollVoteUpdated(pollVote);
+      return state.onPollVoteUpdated(pollVote);
     }
 
     if (event is api.PollVoteRemovedFeedEvent) {
       // Only handle votes for this specific poll
-      if (event.poll.id != pollId) return;
-      return state.pollVoteRemoved(event.pollVote.id);
+      if (event.poll.id != query.pollId) return;
+      return state.onPollVoteRemoved(event.pollVote.id);
     }
 
     // Handle other poll vote list events here as needed
