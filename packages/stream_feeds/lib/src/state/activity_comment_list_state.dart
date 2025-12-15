@@ -45,6 +45,14 @@ class ActivityCommentListStateNotifier
     );
   }
 
+  /// Handles the deletion of the activity.
+  void onActivityDeleted() {
+    state = state.copyWith(
+      comments: [], // Clear all comments when the activity is deleted
+      pagination: null,
+    );
+  }
+
   /// Handles the addition of a new comment.
   void onCommentAdded(CommentData comment) {
     final parentId = comment.parentId;

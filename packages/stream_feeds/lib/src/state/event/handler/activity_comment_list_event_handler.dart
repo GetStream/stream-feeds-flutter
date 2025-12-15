@@ -23,6 +23,12 @@ class ActivityCommentListEventHandler implements StateEventHandler {
 
   @override
   void handleEvent(WsEvent event) {
+    if (event is api.ActivityDeletedEvent) {
+      // Only handle deletion for this specific activity
+      if (event.activity.id != objectId) return;
+      return state.onActivityDeleted();
+    }
+
     if (event is api.CommentAddedEvent) {
       final comment = event.comment.toModel();
       // Only handle comments for this specific activity
