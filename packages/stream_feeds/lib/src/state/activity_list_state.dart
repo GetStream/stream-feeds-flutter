@@ -283,7 +283,7 @@ class ActivityListStateNotifier extends StateNotifier<ActivityListState> {
     state = state.copyWith(activities: updatedActivities);
   }
 
-  /// Handles when a poll vote is changed.
+  /// Handles when a poll answer is removed.
   void onPollAnswerRemoved(PollData poll, PollVoteData answer) {
     final updatedActivities = state.activities.updateWhere(
       (it) => it.poll?.id == poll.id,

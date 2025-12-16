@@ -47,7 +47,7 @@ class PollListEventHandler implements StateEventHandler {
         return state.onPollRemoved(poll.id);
       }
 
-      return state.onPollClosed(poll);
+      return state.onPollClosed(poll.id);
     }
 
     if (event is api.PollVoteCastedFeedEvent) {

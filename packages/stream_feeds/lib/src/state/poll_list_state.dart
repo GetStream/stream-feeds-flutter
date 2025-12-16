@@ -59,10 +59,11 @@ class PollListStateNotifier extends StateNotifier<PollListState> {
     state = state.copyWith(polls: updatedPolls);
   }
 
-  void onPollClosed(PollData poll) {
+  /// Handles the closure of a poll by ID.
+  void onPollClosed(String pollId) {
     final updatedPolls = state.polls.updateWhere(
-      (it) => it.id == poll.id,
-      update: (it) => poll.copyWith(isClosed: true),
+      (it) => it.id == pollId,
+      update: (it) => it.copyWith(isClosed: true),
       compare: pollsSort.compare,
     );
 
