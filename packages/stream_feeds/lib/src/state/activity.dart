@@ -57,7 +57,6 @@ class Activity with Disposable {
 
     final initialActivityState = ActivityState(
       activity: initialActivityData,
-      poll: initialActivityData?.poll,
     );
 
     _stateNotifier = ActivityStateNotifier(

@@ -341,6 +341,22 @@ extension ActivityDataMutations on ActivityData {
     );
   }
 
+  /// Conditionally updates this activity based on a filter.
+  ///
+  /// If [filter] returns true for this activity, applies the [update] function
+  /// to produce a new updated activity. Otherwise, returns this activity unchanged.
+  ///
+  /// This is useful for applying updates only when certain conditions are met.
+  ///
+  /// Returns a new [ActivityData] instance, either updated or unchanged.
+  ActivityData updateIf({
+    required bool Function(ActivityData) filter,
+    required ActivityData Function(ActivityData) update,
+  }) {
+    if (!filter(this)) return this;
+    return update(this);
+  }
+
   /// Adds or updates a comment in this activity.
   ///
   /// Updates the comments list by adding or updating [comment]. If the comment already

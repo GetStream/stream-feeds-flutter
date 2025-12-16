@@ -18,7 +18,6 @@ mixin _$ActivityState {
   ActivityData? get activity;
   List<CommentData> get comments;
   PaginationData? get commentsPagination;
-  PollData? get poll;
 
   /// Create a copy of ActivityState
   /// with the given fields replaced by the non-null parameter values.
@@ -37,17 +36,16 @@ mixin _$ActivityState {
                 other.activity == activity) &&
             const DeepCollectionEquality().equals(other.comments, comments) &&
             (identical(other.commentsPagination, commentsPagination) ||
-                other.commentsPagination == commentsPagination) &&
-            (identical(other.poll, poll) || other.poll == poll));
+                other.commentsPagination == commentsPagination));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, activity,
-      const DeepCollectionEquality().hash(comments), commentsPagination, poll);
+      const DeepCollectionEquality().hash(comments), commentsPagination);
 
   @override
   String toString() {
-    return 'ActivityState(activity: $activity, comments: $comments, commentsPagination: $commentsPagination, poll: $poll)';
+    return 'ActivityState(activity: $activity, comments: $comments, commentsPagination: $commentsPagination)';
   }
 }
 
@@ -60,8 +58,7 @@ abstract mixin class $ActivityStateCopyWith<$Res> {
   $Res call(
       {ActivityData? activity,
       List<CommentData> comments,
-      PaginationData? commentsPagination,
-      PollData? poll});
+      PaginationData? commentsPagination});
 }
 
 /// @nodoc
@@ -80,7 +77,6 @@ class _$ActivityStateCopyWithImpl<$Res>
     Object? activity = freezed,
     Object? comments = null,
     Object? commentsPagination = freezed,
-    Object? poll = freezed,
   }) {
     return _then(ActivityState(
       activity: freezed == activity
@@ -95,10 +91,6 @@ class _$ActivityStateCopyWithImpl<$Res>
           ? _self.commentsPagination
           : commentsPagination // ignore: cast_nullable_to_non_nullable
               as PaginationData?,
-      poll: freezed == poll
-          ? _self.poll
-          : poll // ignore: cast_nullable_to_non_nullable
-              as PollData?,
     ));
   }
 }
