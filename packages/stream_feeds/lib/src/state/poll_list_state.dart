@@ -53,6 +53,7 @@ class PollListStateNotifier extends StateNotifier<PollListState> {
       poll,
       key: (it) => it.id,
       compare: pollsSort.compare,
+      update: (existing, updated) => existing.updateWith(updated),
     );
 
     state = state.copyWith(polls: updatedPolls);
