@@ -110,7 +110,7 @@ class ActivityEventHandler implements StateEventHandler {
     if (event is api.CommentReactionDeletedEvent) {}
 
     if (event is api.PollClosedFeedEvent) {
-      return state.onPollClosed(event.poll.toModel());
+      return state.onPollClosed(event.poll.id);
     }
 
     if (event is api.PollDeletedFeedEvent) {

@@ -130,10 +130,10 @@ class ActivityStateNotifier extends StateNotifier<ActivityState> {
   }
 
   /// Handles when a poll is closed.
-  void onPollClosed(PollData poll) {
+  void onPollClosed(String pollId) {
     final updatedActivity = state.activity?.updateIf(
-      filter: (it) => it.poll?.id == poll.id,
-      update: (it) => it.copyWith(poll: poll.copyWith(isClosed: true)),
+      filter: (it) => it.poll?.id == pollId,
+      update: (it) => it.copyWith(poll: it.poll?.copyWith(isClosed: true)),
     );
 
     state = state.copyWith(activity: updatedActivity);
