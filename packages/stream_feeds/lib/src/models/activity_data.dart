@@ -397,6 +397,75 @@ extension ActivityDataMutations on ActivityData {
     );
   }
 
+  /// Adds or updates a reaction in a comment within this activity with unique enforcement.
+  ///
+  /// Updates the own reactions list of the comment by adding or updating [reaction]. Only adds reactions
+  /// that belong to [currentUserId]. When unique enforcement is enabled, replaces any
+  /// existing reaction from the same user.
+  ///
+  /// Returns a new [ActivityData] instance with the updated comment reactions.
+  ActivityData upsertUniqueCommentReaction(
+    CommentData updatedComment,
+    FeedsReactionData reaction,
+    String currentUserId,
+  ) {
+    return upsertCommentReaction(
+      updatedComment,
+      reaction,
+      currentUserId,
+      enforceUnique: true,
+    );
+  }
+
+  /// Adds or updates a reaction in a comment within this activity.
+  ///
+  /// Updates the own reactions list of the comment by adding or updating [reaction]. Only adds reactions
+  /// that belong to [currentUserId]. When [enforceUnique] is true, replaces any existing
+  /// reaction from the same user; otherwise, allows multiple reactions from the same user.
+  ///
+  /// Returns a new [ActivityData] instance with the updated comment reactions.
+  ActivityData upsertCommentReaction(
+    CommentData updatedComment,
+    FeedsReactionData reaction,
+    String currentUserId, {
+    bool enforceUnique = false,
+  }) {
+    final updatedComments = comments.updateWhere(
+      (it) => it.id == updatedComment.id,
+      update: (it) => it.upsertReaction(
+        updatedComment,
+        reaction,
+        currentUserId,
+        enforceUnique: enforceUnique,
+      ),
+    );
+
+    return copyWith(comments: updatedComments);
+  }
+
+  /// Removes a reaction from a comment within this activity.
+  ///
+  /// Updates the own reactions list of the comment by removing [reaction]. Only removes reactions
+  /// that belong to [currentUserId].
+  ///
+  /// Returns a new [ActivityData] instance with the updated comment reactions.
+  ActivityData removeCommentReaction(
+    CommentData updatedComment,
+    FeedsReactionData reaction,
+    String currentUserId,
+  ) {
+    final updatedComments = comments.updateWhere(
+      (it) => it.id == updatedComment.id,
+      update: (it) => it.removeReaction(
+        updatedComment,
+        reaction,
+        currentUserId,
+      ),
+    );
+
+    return copyWith(comments: updatedComments);
+  }
+
   /// Adds or updates a bookmark in this activity.
   ///
   /// Updates the own bookmarks list by adding or updating [bookmark]. Only adds bookmarks

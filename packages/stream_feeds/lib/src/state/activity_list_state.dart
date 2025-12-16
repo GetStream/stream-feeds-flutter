@@ -7,6 +7,8 @@ import '../models/bookmark_data.dart';
 import '../models/comment_data.dart';
 import '../models/feeds_reaction_data.dart';
 import '../models/pagination_data.dart';
+import '../models/poll_data.dart';
+import '../models/poll_vote_data.dart';
 import '../models/query_configuration.dart';
 import 'query/activities_query.dart';
 
@@ -50,9 +52,9 @@ class ActivityListStateNotifier extends StateNotifier<ActivityListState> {
   }
 
   /// Handles the removal of an activity.
-  void onActivityRemoved(ActivityData activity) {
+  void onActivityRemoved(String activityId) {
     final updatedActivities = state.activities.where((it) {
-      return it.id != activity.id;
+      return it.id != activityId;
     }).toList();
 
     state = state.copyWith(activities: updatedActivities);
@@ -74,33 +76,80 @@ class ActivityListStateNotifier extends StateNotifier<ActivityListState> {
     required String activityId,
     required bool hidden,
   }) {
-    final updatedActivities = state.activities.map((activity) {
-      if (activity.id != activityId) return activity;
-      // Update the hidden status of the activity
-      return activity.copyWith(hidden: hidden);
-    }).toList();
+    final updatedActivities = state.activities.updateWhere(
+      (it) => it.id == activityId,
+      update: (it) => it.copyWith(hidden: hidden),
+    );
+
+    state = state.copyWith(activities: updatedActivities);
+  }
+
+  /// Handles the addition of a reaction.
+  void onReactionAdded(
+    ActivityData activity,
+    FeedsReactionData reaction,
+  ) {
+    final updatedActivities = state.activities.updateWhere(
+      (it) => it.id == reaction.activityId,
+      update: (it) => it.upsertReaction(activity, reaction, currentUserId),
+    );
+
+    state = state.copyWith(activities: updatedActivities);
+  }
+
+  void onReactionUpdated(
+    ActivityData activity,
+    FeedsReactionData reaction,
+  ) {
+    final updatedActivities = state.activities.updateWhere(
+      (it) => it.id == reaction.activityId,
+      update: (it) {
+        return it.upsertUniqueReaction(activity, reaction, currentUserId);
+      },
+    );
+
+    state = state.copyWith(activities: updatedActivities);
+  }
+
+  /// Handles the removal of a reaction.
+  void onReactionRemoved(
+    ActivityData activity,
+    FeedsReactionData reaction,
+  ) {
+    final updatedActivities = state.activities.updateWhere(
+      (it) => it.id == reaction.activityId,
+      update: (it) => it.removeReaction(activity, reaction, currentUserId),
+    );
 
     state = state.copyWith(activities: updatedActivities);
   }
 
   /// Handles the addition of a bookmark.
   void onBookmarkAdded(BookmarkData bookmark) {
-    final updatedActivities = state.activities.map((activity) {
-      if (activity.id != bookmark.activity.id) return activity;
-      // Add the bookmark to the activity
-      return activity.upsertBookmark(bookmark, currentUserId);
-    }).toList();
+    final updatedActivities = state.activities.updateWhere(
+      (it) => it.id == bookmark.activity.id,
+      update: (it) => it.upsertBookmark(bookmark, currentUserId),
+    );
+
+    state = state.copyWith(activities: updatedActivities);
+  }
+
+  /// Handles the update of a bookmark.
+  void onBookmarkUpdated(BookmarkData bookmark) {
+    final updatedActivities = state.activities.updateWhere(
+      (it) => it.id == bookmark.activity.id,
+      update: (it) => it.upsertBookmark(bookmark, currentUserId),
+    );
 
     state = state.copyWith(activities: updatedActivities);
   }
 
   /// Handles the removal of a bookmark.
   void onBookmarkRemoved(BookmarkData bookmark) {
-    final updatedActivities = state.activities.map((activity) {
-      if (activity.id != bookmark.activity.id) return activity;
-      // Remove the bookmark from the activity
-      return activity.removeBookmark(bookmark, currentUserId);
-    }).toList();
+    final updatedActivities = state.activities.updateWhere(
+      (it) => it.id == bookmark.activity.id,
+      update: (it) => it.removeBookmark(bookmark, currentUserId),
+    );
 
     state = state.copyWith(activities: updatedActivities);
   }
@@ -112,63 +161,148 @@ class ActivityListStateNotifier extends StateNotifier<ActivityListState> {
 
   /// Handles the update of a comment.
   void onCommentUpdated(CommentData comment) {
-    final updatedActivities = state.activities.map((activity) {
-      if (activity.id != comment.objectId) return activity;
-      // Add the comment to the activity
-      return activity.upsertComment(comment);
-    }).toList();
+    final updatedActivities = state.activities.updateWhere(
+      (it) => it.id == comment.objectId,
+      update: (it) => it.upsertComment(comment),
+    );
 
     state = state.copyWith(activities: updatedActivities);
   }
 
   /// Handles the removal of a comment.
   void onCommentRemoved(CommentData comment) {
-    final updatedActivities = state.activities.map((activity) {
-      if (activity.id != comment.objectId) return activity;
-      // Remove the comment from the activity
-      return activity.removeComment(comment);
-    }).toList();
+    final updatedActivities = state.activities.updateWhere(
+      (it) => it.id == comment.objectId,
+      update: (it) => it.removeComment(comment),
+    );
 
     state = state.copyWith(activities: updatedActivities);
   }
 
-  /// Handles the addition of a reaction.
-  void onReactionAdded(
-    ActivityData activity,
+  /// Handles the addition of a reaction to a comment.
+  void onCommentReactionAdded(
+    CommentData comment,
     FeedsReactionData reaction,
   ) {
-    final updatedActivities = state.activities.map((it) {
-      if (it.id != reaction.activityId) return it;
-      // Add the reaction to the activity
-      return it.upsertReaction(activity, reaction, currentUserId);
-    }).toList();
+    final updatedActivities = state.activities.updateWhere(
+      (it) => it.id == comment.objectId,
+      update: (it) {
+        return it.upsertCommentReaction(comment, reaction, currentUserId);
+      },
+    );
 
     state = state.copyWith(activities: updatedActivities);
   }
 
-  void onReactionUpdated(
-    ActivityData activity,
+  /// Handles the update of a reaction on a comment.
+  void onCommentReactionUpdated(
+    CommentData comment,
     FeedsReactionData reaction,
   ) {
-    final updatedActivities = state.activities.map((it) {
-      if (it.id != reaction.activityId) return it;
-      // Update the reaction in the activity
-      return it.upsertUniqueReaction(activity, reaction, currentUserId);
-    }).toList();
+    final updatedActivities = state.activities.updateWhere(
+      (it) => it.id == comment.objectId,
+      update: (it) {
+        return it.upsertUniqueCommentReaction(comment, reaction, currentUserId);
+      },
+    );
 
     state = state.copyWith(activities: updatedActivities);
   }
 
-  /// Handles the removal of a reaction.
-  void onReactionRemoved(
-    ActivityData activity,
+  /// Handles the removal of a reaction from a comment.
+  void onCommentReactionRemoved(
+    CommentData comment,
     FeedsReactionData reaction,
   ) {
-    final updatedActivities = state.activities.map((it) {
-      if (it.id != reaction.activityId) return it;
-      // Remove the reaction from the activity
-      return it.removeReaction(activity, reaction, currentUserId);
-    }).toList();
+    final updatedActivities = state.activities.updateWhere(
+      (it) => it.id == comment.objectId,
+      update: (it) {
+        return it.removeCommentReaction(comment, reaction, currentUserId);
+      },
+    );
+
+    state = state.copyWith(activities: updatedActivities);
+  }
+
+  /// Handles when a poll is closed.
+  void onPollClosed(String pollId) {
+    final updatedActivities = state.activities.updateWhere(
+      (it) => it.poll?.id == pollId,
+      update: (it) => it.copyWith(poll: it.poll?.copyWith(isClosed: true)),
+    );
+
+    state = state.copyWith(activities: updatedActivities);
+  }
+
+  /// Handles when a poll is deleted.
+  void onPollDeleted(String pollId) {
+    final updatedActivities = state.activities.updateWhere(
+      (it) => it.poll?.id == pollId,
+      update: (it) => it.copyWith(poll: null),
+    );
+
+    state = state.copyWith(activities: updatedActivities);
+  }
+
+  /// Handles when a poll is updated.
+  void onPollUpdated(PollData poll) {
+    final updatedActivities = state.activities.updateWhere(
+      (it) => it.poll?.id == poll.id,
+      update: (it) => it.copyWith(poll: it.poll?.updateWith(poll)),
+    );
+
+    state = state.copyWith(activities: updatedActivities);
+  }
+
+  /// Handles when a poll answer is casted.
+  void onPollAnswerCasted(PollData poll, PollVoteData answer) {
+    final updatedActivities = state.activities.updateWhere(
+      (it) => it.poll?.id == poll.id,
+      update: (it) => it.copyWith(
+        poll: it.poll?.upsertAnswer(poll, answer, currentUserId),
+      ),
+    );
+
+    state = state.copyWith(activities: updatedActivities);
+  }
+
+  /// Handles when a poll vote is casted (with poll data).
+  void onPollVoteCasted(PollData poll, PollVoteData vote) {
+    return onPollVoteChanged(poll, vote);
+  }
+
+  /// Handles when a poll vote is changed.
+  void onPollVoteChanged(PollData poll, PollVoteData vote) {
+    final updatedActivities = state.activities.updateWhere(
+      (it) => it.poll?.id == poll.id,
+      update: (it) => it.copyWith(
+        poll: it.poll?.upsertVote(poll, vote, currentUserId),
+      ),
+    );
+
+    state = state.copyWith(activities: updatedActivities);
+  }
+
+  /// Handles when a poll vote is changed.
+  void onPollAnswerRemoved(PollData poll, PollVoteData answer) {
+    final updatedActivities = state.activities.updateWhere(
+      (it) => it.poll?.id == poll.id,
+      update: (it) => it.copyWith(
+        poll: it.poll?.removeAnswer(poll, answer, currentUserId),
+      ),
+    );
+
+    state = state.copyWith(activities: updatedActivities);
+  }
+
+  /// Handles when a poll vote is removed (with poll data).
+  void onPollVoteRemoved(PollData poll, PollVoteData vote) {
+    final updatedActivities = state.activities.updateWhere(
+      (it) => it.poll?.id == poll.id,
+      update: (it) => it.copyWith(
+        poll: it.poll?.removeVote(poll, vote, currentUserId),
+      ),
+    );
 
     state = state.copyWith(activities: updatedActivities);
   }
