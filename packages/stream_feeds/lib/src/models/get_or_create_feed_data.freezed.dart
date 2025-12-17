@@ -15,9 +15,9 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$GetOrCreateFeedData {
-  PaginationResult<ActivityData> get activities;
+  PaginationData get pagination;
+  List<ActivityData> get activities;
   List<AggregatedActivityData> get aggregatedActivities;
-  QueryConfiguration<ActivityData> get activitiesQueryConfig;
   FeedData get feed;
   List<FollowData> get followers;
   List<FollowData> get following;
@@ -39,12 +39,12 @@ mixin _$GetOrCreateFeedData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is GetOrCreateFeedData &&
-            (identical(other.activities, activities) ||
-                other.activities == activities) &&
+            (identical(other.pagination, pagination) ||
+                other.pagination == pagination) &&
+            const DeepCollectionEquality()
+                .equals(other.activities, activities) &&
             const DeepCollectionEquality()
                 .equals(other.aggregatedActivities, aggregatedActivities) &&
-            (identical(other.activitiesQueryConfig, activitiesQueryConfig) ||
-                other.activitiesQueryConfig == activitiesQueryConfig) &&
             (identical(other.feed, feed) || other.feed == feed) &&
             const DeepCollectionEquality().equals(other.followers, followers) &&
             const DeepCollectionEquality().equals(other.following, following) &&
@@ -60,9 +60,9 @@ mixin _$GetOrCreateFeedData {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      activities,
+      pagination,
+      const DeepCollectionEquality().hash(activities),
       const DeepCollectionEquality().hash(aggregatedActivities),
-      activitiesQueryConfig,
       feed,
       const DeepCollectionEquality().hash(followers),
       const DeepCollectionEquality().hash(following),
@@ -73,7 +73,7 @@ mixin _$GetOrCreateFeedData {
 
   @override
   String toString() {
-    return 'GetOrCreateFeedData(activities: $activities, aggregatedActivities: $aggregatedActivities, activitiesQueryConfig: $activitiesQueryConfig, feed: $feed, followers: $followers, following: $following, followRequests: $followRequests, members: $members, pinnedActivities: $pinnedActivities, notificationStatus: $notificationStatus)';
+    return 'GetOrCreateFeedData(pagination: $pagination, activities: $activities, aggregatedActivities: $aggregatedActivities, feed: $feed, followers: $followers, following: $following, followRequests: $followRequests, members: $members, pinnedActivities: $pinnedActivities, notificationStatus: $notificationStatus)';
   }
 }
 
@@ -84,15 +84,15 @@ abstract mixin class $GetOrCreateFeedDataCopyWith<$Res> {
       _$GetOrCreateFeedDataCopyWithImpl;
   @useResult
   $Res call(
-      {PaginationResult<ActivityData> activities,
-      QueryConfiguration<ActivityData> activitiesQueryConfig,
+      {PaginationData pagination,
+      List<ActivityData> activities,
+      List<AggregatedActivityData> aggregatedActivities,
       FeedData feed,
       List<FollowData> followers,
       List<FollowData> following,
       List<FollowData> followRequests,
       PaginationResult<FeedMemberData> members,
       List<ActivityPinData> pinnedActivities,
-      List<AggregatedActivityData> aggregatedActivities,
       NotificationStatusResponse? notificationStatus});
 }
 
@@ -109,26 +109,30 @@ class _$GetOrCreateFeedDataCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? pagination = null,
     Object? activities = null,
-    Object? activitiesQueryConfig = null,
+    Object? aggregatedActivities = null,
     Object? feed = null,
     Object? followers = null,
     Object? following = null,
     Object? followRequests = null,
     Object? members = null,
     Object? pinnedActivities = null,
-    Object? aggregatedActivities = null,
     Object? notificationStatus = freezed,
   }) {
     return _then(GetOrCreateFeedData(
+      pagination: null == pagination
+          ? _self.pagination
+          : pagination // ignore: cast_nullable_to_non_nullable
+              as PaginationData,
       activities: null == activities
           ? _self.activities
           : activities // ignore: cast_nullable_to_non_nullable
-              as PaginationResult<ActivityData>,
-      activitiesQueryConfig: null == activitiesQueryConfig
-          ? _self.activitiesQueryConfig
-          : activitiesQueryConfig // ignore: cast_nullable_to_non_nullable
-              as QueryConfiguration<ActivityData>,
+              as List<ActivityData>,
+      aggregatedActivities: null == aggregatedActivities
+          ? _self.aggregatedActivities
+          : aggregatedActivities // ignore: cast_nullable_to_non_nullable
+              as List<AggregatedActivityData>,
       feed: null == feed
           ? _self.feed
           : feed // ignore: cast_nullable_to_non_nullable
@@ -153,10 +157,6 @@ class _$GetOrCreateFeedDataCopyWithImpl<$Res>
           ? _self.pinnedActivities
           : pinnedActivities // ignore: cast_nullable_to_non_nullable
               as List<ActivityPinData>,
-      aggregatedActivities: null == aggregatedActivities
-          ? _self.aggregatedActivities
-          : aggregatedActivities // ignore: cast_nullable_to_non_nullable
-              as List<AggregatedActivityData>,
       notificationStatus: freezed == notificationStatus
           ? _self.notificationStatus
           : notificationStatus // ignore: cast_nullable_to_non_nullable
