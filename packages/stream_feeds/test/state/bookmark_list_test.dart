@@ -157,7 +157,9 @@ void main() {
         // Verify state has bookmark
         expect(tester.bookmarkListState.bookmarks, hasLength(1));
         expect(
-            tester.bookmarkListState.bookmarks.first.activity.id, activityId);
+          tester.bookmarkListState.bookmarks.first.activity.id,
+          activityId,
+        );
       },
     );
 
@@ -272,17 +274,23 @@ void main() {
             type: EventTypes.bookmarkFolderUpdated,
             createdAt: DateTime.timestamp(),
             custom: const {},
-            bookmarkFolder: createDefaultBookmarkFolderResponse(id: folderId)
-                .copyWith(name: 'Updated Folder'),
+            bookmarkFolder: createDefaultBookmarkFolderResponse(
+              id: folderId,
+              name: 'Updated Folder',
+            ),
           ),
         );
 
         // Verify bookmarks with matching folder ID were updated
         expect(tester.bookmarkListState.bookmarks, hasLength(3));
-        expect(tester.bookmarkListState.bookmarks[0].folder!.name,
-            'Updated Folder');
-        expect(tester.bookmarkListState.bookmarks[1].folder!.name,
-            'Updated Folder');
+        expect(
+          tester.bookmarkListState.bookmarks[0].folder!.name,
+          'Updated Folder',
+        );
+        expect(
+          tester.bookmarkListState.bookmarks[1].folder!.name,
+          'Updated Folder',
+        );
         // Bookmark with different folder should not be affected
         expect(tester.bookmarkListState.bookmarks[2].folder!.name, 'My Folder');
       },
