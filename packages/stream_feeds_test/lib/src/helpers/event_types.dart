@@ -20,6 +20,11 @@ class EventTypes {
   static const bookmarkFolderUpdated = 'feeds.bookmark_folder.updated';
   static const bookmarkFolderDeleted = 'feeds.bookmark_folder.deleted';
 
+  // Feed events
+  static const feedCreated = 'feeds.feed.created';
+  static const feedUpdated = 'feeds.feed.updated';
+  static const feedDeleted = 'feeds.feed.deleted';
+
   // Comment events
   static const commentAdded = 'feeds.comment.added';
   static const commentDeleted = 'feeds.comment.deleted';
@@ -27,9 +32,6 @@ class EventTypes {
   static const commentReactionAdded = 'feeds.comment.reaction.added';
   static const commentReactionDeleted = 'feeds.comment.reaction.deleted';
   static const commentReactionUpdated = 'feeds.comment.reaction.updated';
-
-  // Feed events
-  static const feedUpdated = 'feeds.feed.updated';
 
   // Follow events
   static const followCreated = 'feeds.follow.created';

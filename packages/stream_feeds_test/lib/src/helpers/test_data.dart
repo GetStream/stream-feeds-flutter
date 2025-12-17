@@ -207,6 +207,8 @@ GetOrCreateFeedResponse createDefaultGetOrCreateFeedResponse({
 FeedResponse createDefaultFeedResponse({
   String id = 'id',
   String groupId = 'group',
+  String name = 'name',
+  String description = 'description',
   int followerCount = 0,
   int followingCount = 0,
   List<FeedOwnCapability>? ownCapabilities,
@@ -217,8 +219,8 @@ FeedResponse createDefaultFeedResponse({
     id: id,
     groupId: groupId,
     feed: FeedId(group: groupId, id: id).toString(),
-    name: 'name',
-    description: 'description',
+    name: name,
+    description: description,
     visibility: FeedVisibility.public,
     createdAt: DateTime(2021, 1, 1),
     createdBy: createDefaultUserResponse(),
@@ -624,6 +626,19 @@ QueryBookmarksResponse createDefaultQueryBookmarksResponse({
     next: next,
     prev: prev,
     bookmarks: bookmarks,
+    duration: '10ms',
+  );
+}
+
+QueryFeedsResponse createDefaultQueryFeedsResponse({
+  String? next,
+  String? prev,
+  List<FeedResponse> feeds = const [],
+}) {
+  return QueryFeedsResponse(
+    next: next,
+    prev: prev,
+    feeds: feeds,
     duration: '10ms',
   );
 }
