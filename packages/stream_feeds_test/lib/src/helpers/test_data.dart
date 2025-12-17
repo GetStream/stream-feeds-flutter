@@ -516,6 +516,40 @@ DeleteActivityReactionResponse createDefaultDeleteReactionResponse({
   );
 }
 
+FeedsReactionResponse createDefaultReactionResponse({
+  String activityId = 'activity-id',
+  String? commentId,
+  String userId = 'user-id',
+  String reactionType = 'like',
+}) {
+  return FeedsReactionResponse(
+    activityId: activityId,
+    commentId: commentId,
+    type: reactionType,
+    createdAt: DateTime.timestamp(),
+    updatedAt: DateTime.timestamp(),
+    user: createDefaultUserResponse(id: userId),
+  );
+}
+
+QueryActivityReactionsResponse createDefaultQueryActivityReactionsResponse({
+  List<FeedsReactionResponse>? reactions,
+  String? next,
+  String? prev,
+}) {
+  return QueryActivityReactionsResponse(
+    duration: '10ms',
+    next: next,
+    prev: prev,
+    reactions: reactions ??
+        [
+          createDefaultReactionResponse(),
+          createDefaultReactionResponse(userId: 'user-2'),
+          createDefaultReactionResponse(userId: 'user-3'),
+        ],
+  );
+}
+
 FeedMemberResponse createDefaultFeedMemberResponse({
   String id = 'member-id',
   String role = 'member',

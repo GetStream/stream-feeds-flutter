@@ -24,6 +24,7 @@ export 'src/helpers/web_socket_mocks.dart';
 // Testers
 export 'src/testers/activity_comment_list_tester.dart';
 export 'src/testers/activity_list_tester.dart';
+export 'src/testers/activity_reaction_list_tester.dart';
 export 'src/testers/activity_tester.dart';
 export 'src/testers/base_tester.dart';
 export 'src/testers/bookmark_folder_list_tester.dart';
