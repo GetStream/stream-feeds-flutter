@@ -2129,8 +2129,14 @@ void main() {
               role: 'admin',
             ),
             ownFollows: [
-              createDefaultFollowResponse(id: 'follow-1'),
-              createDefaultFollowResponse(id: 'follow-2'),
+              createDefaultFollowResponse(
+                sourceId: 'source-1',
+                targetId: 'target-1',
+              ),
+              createDefaultFollowResponse(
+                sourceId: 'source-2',
+                targetId: 'target-2',
+              ),
             ],
           ),
         ),

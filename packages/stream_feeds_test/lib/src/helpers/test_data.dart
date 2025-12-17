@@ -575,17 +575,19 @@ FeedMemberResponse createDefaultFeedMemberResponse({
 }
 
 FollowResponse createDefaultFollowResponse({
-  String id = 'follow-id',
+  String sourceId = 'follow-source-id',
+  String targetId = 'follow-target-id',
+  String followerRole = 'follower',
   FollowResponseStatus status = FollowResponseStatus.accepted,
 }) {
   return FollowResponse(
-    createdAt: DateTime(2021, 1, 1),
     custom: const {},
-    followerRole: 'follower',
+    followerRole: followerRole,
     pushPreference: FollowResponsePushPreference.all,
-    sourceFeed: createDefaultFeedResponse(id: 'source-$id'),
+    sourceFeed: createDefaultFeedResponse(id: sourceId, groupId: 'user'),
     status: status,
-    targetFeed: createDefaultFeedResponse(id: 'target-$id'),
+    targetFeed: createDefaultFeedResponse(id: targetId, groupId: 'user'),
+    createdAt: DateTime(2021, 1, 1),
     updatedAt: DateTime(2021, 2, 1),
   );
 }
