@@ -81,13 +81,7 @@ class PollListStateNotifier extends StateNotifier<PollListState> {
 
   /// Handles the casting of a vote in a poll.
   void onPollVoteCasted(PollData poll, PollVoteData vote) {
-    final updatedPolls = state.polls.updateWhere(
-      (it) => it.id == poll.id,
-      update: (it) => it.upsertVote(poll, vote, currentUserId),
-      compare: pollsSort.compare,
-    );
-
-    state = state.copyWith(polls: updatedPolls);
+    return onPollVoteChanged(poll, vote);
   }
 
   /// Handles the change of a vote in a poll.

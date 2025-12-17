@@ -17,12 +17,10 @@ class PollListEventHandler implements StateEventHandler {
   const PollListEventHandler({
     required this.query,
     required this.state,
-    required this.currentUserId,
   });
 
   final PollsQuery query;
   final PollListStateNotifier state;
-  final String currentUserId;
 
   @override
   void handleEvent(WsEvent event) {

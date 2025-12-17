@@ -37,7 +37,6 @@ class PollList with Disposable {
     final handler = PollListEventHandler(
       query: query,
       state: _stateNotifier,
-      currentUserId: currentUserId,
     );
 
     _eventsSubscription = eventsEmitter.listen(handler.handleEvent);
