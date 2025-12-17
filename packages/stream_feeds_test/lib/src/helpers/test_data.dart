@@ -601,6 +601,19 @@ QueryBookmarkFoldersResponse createDefaultQueryBookmarkFoldersResponse({
   );
 }
 
+QueryBookmarksResponse createDefaultQueryBookmarksResponse({
+  String? next,
+  String? prev,
+  List<BookmarkResponse> bookmarks = const [],
+}) {
+  return QueryBookmarksResponse(
+    next: next,
+    prev: prev,
+    bookmarks: bookmarks,
+    duration: '10ms',
+  );
+}
+
 PollVoteResponseData createDefaultPollVoteResponse({
   String id = 'vote-id',
   String pollId = 'poll-id',
