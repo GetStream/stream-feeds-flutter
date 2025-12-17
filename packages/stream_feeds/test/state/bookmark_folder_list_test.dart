@@ -60,7 +60,8 @@ void main() {
         );
 
         // Query more folders
-        final result = await tester.bookmarkFolderList.queryMoreBookmarkFolders();
+        final result =
+            await tester.bookmarkFolderList.queryMoreBookmarkFolders();
 
         expect(result.isSuccess, isTrue);
         final folders = result.getOrNull();
@@ -70,7 +71,10 @@ void main() {
         // Verify state was updated with merged folders
         expect(tester.bookmarkFolderListState.bookmarkFolders, hasLength(2));
         expect(tester.bookmarkFolderListState.pagination?.next, isNull);
-        expect(tester.bookmarkFolderListState.pagination?.previous, 'prev-cursor');
+        expect(
+          tester.bookmarkFolderListState.pagination?.previous,
+          'prev-cursor',
+        );
       },
       verify: (tester) {
         final nextPageQuery = tester.bookmarkFolderList.query.copyWith(
@@ -102,7 +106,8 @@ void main() {
         expect(tester.bookmarkFolderListState.pagination?.previous, isNull);
 
         // Query more folders (should return empty immediately)
-        final result = await tester.bookmarkFolderList.queryMoreBookmarkFolders();
+        final result =
+            await tester.bookmarkFolderList.queryMoreBookmarkFolders();
 
         expect(result.isSuccess, isTrue);
         final folders = result.getOrNull();
@@ -134,7 +139,10 @@ void main() {
       body: (tester) async {
         // Initial state - has folder
         expect(tester.bookmarkFolderListState.bookmarkFolders, hasLength(1));
-        expect(tester.bookmarkFolderListState.bookmarkFolders.first.name, 'My Folder');
+        expect(
+          tester.bookmarkFolderListState.bookmarkFolders.first.name,
+          'My Folder',
+        );
 
         // Emit event
         await tester.emitEvent(
@@ -150,7 +158,10 @@ void main() {
 
         // Verify state has updated folder
         expect(tester.bookmarkFolderListState.bookmarkFolders, hasLength(1));
-        expect(tester.bookmarkFolderListState.bookmarkFolders.first.name, 'Updated Folder');
+        expect(
+          tester.bookmarkFolderListState.bookmarkFolders.first.name,
+          'Updated Folder',
+        );
       },
     );
 
@@ -167,7 +178,10 @@ void main() {
       body: (tester) async {
         // Initial state - has folder
         expect(tester.bookmarkFolderListState.bookmarkFolders, hasLength(1));
-        expect(tester.bookmarkFolderListState.bookmarkFolders.first.id, folderId);
+        expect(
+          tester.bookmarkFolderListState.bookmarkFolders.first.id,
+          folderId,
+        );
 
         // Emit event
         await tester.emitEvent(

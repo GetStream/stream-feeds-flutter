@@ -886,7 +886,9 @@ void main() {
             createdAt: DateTime.timestamp(),
             custom: const {},
             fid: 'user:john',
-            activity: createDefaultActivityResponse(id: 'different-activity-id'),
+            activity: createDefaultActivityResponse(
+              id: 'different-activity-id',
+            ),
           ),
         );
 
