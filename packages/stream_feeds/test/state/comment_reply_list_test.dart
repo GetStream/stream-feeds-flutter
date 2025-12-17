@@ -292,6 +292,34 @@ void main() {
     );
 
     commentReplyListTest(
+      'should clear all replies when parent comment is deleted',
+      build: (client) => client.commentReplyList(query),
+      setUp: (tester) => tester.get(),
+      body: (tester) async {
+        // Verify replies are loaded
+        expect(tester.commentReplyListState.replies, hasLength(3));
+
+        // Emit event for parent comment deletion
+        await tester.emitEvent(
+          CommentDeletedEvent(
+            type: EventTypes.commentDeleted,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: 'user:john',
+            comment: createDefaultCommentResponse(
+              id: query.commentId,
+              objectId: 'activity-1',
+            ),
+          ),
+        );
+
+        // Verify state was cleared
+        expect(tester.commentReplyListState.replies, isEmpty);
+        expect(tester.commentReplyListState.pagination, isNull);
+      },
+    );
+
+    commentReplyListTest(
       'should not add reply if parentId does not match query commentId',
       build: (client) => client.commentReplyList(query),
       setUp: (tester) => tester.get(
