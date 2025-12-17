@@ -751,4 +751,149 @@ void main() {
       },
     );
   });
+
+  // ============================================================
+  // FEATURE: Activity Comment List - Activity Deletion
+  // ============================================================
+
+  group('Activity Comment List - Activity Deletion', () {
+    activityCommentListTest(
+      'should clear all comments when activity is deleted',
+      build: (client) => client.activityCommentList(query),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(
+          next: 'next-cursor',
+          comments: [
+            createDefaultThreadedCommentResponse(
+              id: commentId,
+              objectId: activityId,
+              objectType: 'activity',
+              text: 'Test comment',
+              userId: userId,
+            ),
+            createDefaultThreadedCommentResponse(
+              id: 'comment-test-2',
+              objectId: activityId,
+              objectType: 'activity',
+              text: 'Another comment',
+              userId: userId,
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - has comments and pagination
+        expect(tester.activityCommentListState.comments, hasLength(2));
+        expect(tester.activityCommentListState.pagination?.next, 'next-cursor');
+
+        // Emit ActivityDeletedEvent
+        await tester.emitEvent(
+          ActivityDeletedEvent(
+            type: 'feeds.activity.deleted',
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: 'user:john',
+            activity: createDefaultActivityResponse(id: activityId),
+          ),
+        );
+
+        // Verify state has no comments and no pagination
+        expect(tester.activityCommentListState.comments, isEmpty);
+        expect(tester.activityCommentListState.pagination, isNull);
+        expect(tester.activityCommentListState.canLoadMore, isFalse);
+      },
+    );
+
+    activityCommentListTest(
+      'should clear nested replies when activity is deleted',
+      build: (client) => client.activityCommentList(query),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(
+          comments: [
+            createDefaultThreadedCommentResponse(
+              id: commentId,
+              objectId: activityId,
+              objectType: 'activity',
+              text: 'Top-level comment',
+              userId: userId,
+              replies: [
+                createDefaultThreadedCommentResponse(
+                  id: 'nested-reply-1',
+                  objectId: activityId,
+                  objectType: 'activity',
+                  text: 'Nested reply',
+                  userId: userId,
+                ),
+                createDefaultThreadedCommentResponse(
+                  id: 'nested-reply-2',
+                  objectId: activityId,
+                  objectType: 'activity',
+                  text: 'Another nested reply',
+                  userId: userId,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - has comment with nested replies
+        expect(tester.activityCommentListState.comments, hasLength(1));
+        final initialComment = tester.activityCommentListState.comments.first;
+        expect(initialComment.replies, hasLength(2));
+
+        // Emit ActivityDeletedEvent
+        await tester.emitEvent(
+          ActivityDeletedEvent(
+            type: 'feeds.activity.deleted',
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: 'user:john',
+            activity: createDefaultActivityResponse(id: activityId),
+          ),
+        );
+
+        // Verify all comments including nested replies are cleared
+        expect(tester.activityCommentListState.comments, isEmpty);
+      },
+    );
+
+    activityCommentListTest(
+      'should not clear comments when different activity is deleted',
+      build: (client) => client.activityCommentList(query),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(
+          comments: [
+            createDefaultThreadedCommentResponse(
+              id: commentId,
+              objectId: activityId,
+              objectType: 'activity',
+              text: 'Test comment',
+              userId: userId,
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - has comment
+        expect(tester.activityCommentListState.comments, hasLength(1));
+        expect(tester.activityCommentListState.comments.first.id, commentId);
+
+        // Emit ActivityDeletedEvent for different activity
+        await tester.emitEvent(
+          ActivityDeletedEvent(
+            type: 'feeds.activity.deleted',
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: 'user:john',
+            activity: createDefaultActivityResponse(id: 'different-activity-id'),
+          ),
+        );
+
+        // Verify state was not changed (still has comment)
+        expect(tester.activityCommentListState.comments, hasLength(1));
+        expect(tester.activityCommentListState.comments.first.id, commentId);
+      },
+    );
+  });
 }
