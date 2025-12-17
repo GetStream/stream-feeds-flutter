@@ -533,20 +533,15 @@ FeedsReactionResponse createDefaultReactionResponse({
 }
 
 QueryActivityReactionsResponse createDefaultQueryActivityReactionsResponse({
-  List<FeedsReactionResponse>? reactions,
   String? next,
   String? prev,
+  List<FeedsReactionResponse> reactions = const [],
 }) {
   return QueryActivityReactionsResponse(
-    duration: '10ms',
     next: next,
     prev: prev,
-    reactions: reactions ??
-        [
-          createDefaultReactionResponse(),
-          createDefaultReactionResponse(userId: 'user-2'),
-          createDefaultReactionResponse(userId: 'user-3'),
-        ],
+    reactions: reactions,
+    duration: '10ms',
   );
 }
 
@@ -590,6 +585,19 @@ BookmarkFolderResponse createDefaultBookmarkFolderResponse({
     name: 'My Folder',
     updatedAt: DateTime(2021, 2, 1),
     user: createDefaultUserResponse(),
+  );
+}
+
+QueryBookmarkFoldersResponse createDefaultQueryBookmarkFoldersResponse({
+  String? next,
+  String? prev,
+  List<BookmarkFolderResponse> bookmarkFolders = const [],
+}) {
+  return QueryBookmarkFoldersResponse(
+    next: next,
+    prev: prev,
+    bookmarkFolders: bookmarkFolders,
+    duration: '10ms',
   );
 }
 
