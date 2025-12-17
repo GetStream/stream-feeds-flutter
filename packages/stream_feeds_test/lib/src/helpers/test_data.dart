@@ -545,6 +545,19 @@ QueryActivityReactionsResponse createDefaultQueryActivityReactionsResponse({
   );
 }
 
+QueryCommentReactionsResponse createDefaultQueryCommentReactionsResponse({
+  String? next,
+  String? prev,
+  List<FeedsReactionResponse> reactions = const [],
+}) {
+  return QueryCommentReactionsResponse(
+    next: next,
+    prev: prev,
+    reactions: reactions,
+    duration: '10ms',
+  );
+}
+
 FeedMemberResponse createDefaultFeedMemberResponse({
   String id = 'member-id',
   String role = 'member',
@@ -577,12 +590,13 @@ FollowResponse createDefaultFollowResponse({
 
 BookmarkFolderResponse createDefaultBookmarkFolderResponse({
   String id = 'folder-id',
+  String name = 'My Folder',
 }) {
   return BookmarkFolderResponse(
     createdAt: DateTime(2021, 1, 1),
     custom: const {},
     id: id,
-    name: 'My Folder',
+    name: name,
     updatedAt: DateTime(2021, 2, 1),
     user: createDefaultUserResponse(),
   );

@@ -30,6 +30,7 @@ export 'src/testers/base_tester.dart';
 export 'src/testers/bookmark_folder_list_tester.dart';
 export 'src/testers/bookmark_list_tester.dart';
 export 'src/testers/comment_list_tester.dart';
+export 'src/testers/comment_reaction_list_tester.dart';
 export 'src/testers/comment_reply_list_tester.dart';
 export 'src/testers/feed_list_tester.dart';
 export 'src/testers/feed_tester.dart';
