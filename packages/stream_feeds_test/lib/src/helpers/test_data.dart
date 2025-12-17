@@ -560,6 +560,19 @@ QueryCommentReactionsResponse createDefaultQueryCommentReactionsResponse({
   );
 }
 
+QueryCommentsResponse createDefaultQueryCommentsResponse({
+  String? next,
+  String? prev,
+  List<CommentResponse> comments = const [],
+}) {
+  return QueryCommentsResponse(
+    next: next,
+    prev: prev,
+    comments: comments,
+    duration: '10ms',
+  );
+}
+
 FeedMemberResponse createDefaultFeedMemberResponse({
   String id = 'member-id',
   String role = 'member',

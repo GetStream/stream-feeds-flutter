@@ -100,8 +100,7 @@ final class CommentListTester extends BaseTester<CommentList> {
   }) {
     final query = commentList.query;
 
-    final defaultCommentListResponse = QueryCommentsResponse(
-      duration: DateTime.now().toIso8601String(),
+    final defaultCommentListResponse = createDefaultQueryCommentsResponse(
       comments: [
         createDefaultCommentResponse(id: 'comment-1', objectId: 'obj-1'),
         createDefaultCommentResponse(id: 'comment-2', objectId: 'obj-1'),
