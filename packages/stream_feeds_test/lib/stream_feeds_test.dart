@@ -35,5 +35,6 @@ export 'src/testers/comment_reply_list_tester.dart';
 export 'src/testers/feed_list_tester.dart';
 export 'src/testers/feed_tester.dart';
 export 'src/testers/follow_list_tester.dart';
+export 'src/testers/member_list_tester.dart';
 export 'src/testers/poll_list_tester.dart';
 export 'src/testers/poll_vote_list_tester.dart';

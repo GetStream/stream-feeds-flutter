@@ -1,15 +1,18 @@
 class EventTypes {
   // Activity events
   static const activityAdded = 'feeds.activity.added';
+  static const activityDeleted = 'feeds.activity.deleted';
   static const activityMarked = 'feeds.activity.marked';
-  static const activityUpdated = 'feeds.activity.updated';
   static const activityPinned = 'feeds.activity.pinned';
+  static const activityRemovedFromFeed = 'feeds.activity.removed_from_feed';
   static const activityUnpinned = 'feeds.activity.unpinned';
+  static const activityUpdated = 'feeds.activity.updated';
   static const activityFeedback = 'feeds.activity.feedback';
 
   // Reaction events
   static const activityReactionAdded = 'feeds.activity.reaction.added';
   static const activityReactionDeleted = 'feeds.activity.reaction.deleted';
+  static const activityReactionUpdated = 'feeds.activity.reaction.updated';
 
   // Bookmark events
   static const bookmarkAdded = 'feeds.bookmark.added';
@@ -24,6 +27,13 @@ class EventTypes {
   static const feedCreated = 'feeds.feed.created';
   static const feedUpdated = 'feeds.feed.updated';
   static const feedDeleted = 'feeds.feed.deleted';
+  static const feedGroupChanged = 'feeds.feed_group.changed';
+  static const feedGroupDeleted = 'feeds.feed_group.deleted';
+
+  // Feed member events
+  static const feedMemberAdded = 'feeds.feed_member.added';
+  static const feedMemberUpdated = 'feeds.feed_member.updated';
+  static const feedMemberRemoved = 'feeds.feed_member.removed';
 
   // Comment events
   static const commentAdded = 'feeds.comment.added';
