@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:stream_core/stream_core.dart';
 
 import '../generated/api/api.dart' as api;
@@ -13,8 +12,6 @@ import '../models/follow_data.dart';
 import '../models/get_or_create_feed_data.dart';
 import '../models/model_updates.dart';
 import '../models/pagination_data.dart';
-import '../models/query_configuration.dart';
-import '../state/query/activities_query.dart';
 import '../state/query/feed_query.dart';
 import '../state/query/feeds_query.dart';
 
@@ -56,19 +53,13 @@ class FeedsRepository {
       final rawFollowing = response.following.map((f) => f.toModel());
 
       return GetOrCreateFeedData(
-        activities: PaginationResult(
-          items: response.activities
-              .map((a) => a.toModel())
-              .sorted(ActivitiesSort.defaultSort.compare),
-          pagination: PaginationData(
-            next: response.next,
-            previous: response.prev,
-          ),
+        pagination: PaginationData(
+          next: response.next,
+          previous: response.prev,
         ),
-        activitiesQueryConfig: QueryConfiguration(
-          filter: query.activityFilter,
-          sort: ActivitiesSort.defaultSort,
-        ),
+        activities: response.activities.map((a) => a.toModel()).toList(),
+        aggregatedActivities:
+            response.aggregatedActivities.map((a) => a.toModel()).toList(),
         feed: response.feed.toModel(),
         followers: rawFollowers.where((f) => f.isFollowerOf(fid)).toList(),
         following: rawFollowing.where((f) => f.isFollowingFeed(fid)).toList(),
@@ -82,8 +73,6 @@ class FeedsRepository {
         ),
         pinnedActivities:
             response.pinnedActivities.map((a) => a.toModel()).toList(),
-        aggregatedActivities:
-            response.aggregatedActivities.map((a) => a.toModel()).toList(),
         notificationStatus: response.notificationStatus,
       );
     });
