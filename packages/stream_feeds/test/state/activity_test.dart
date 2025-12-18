@@ -1783,6 +1783,32 @@ void main() {
         },
       );
 
+      activityTest(
+        'poll updated',
+        build: (client) => client.activity(activityId: activityId, fid: fid),
+        setUp: (tester) => tester.get(
+          modifyResponse: (it) => it.copyWith(poll: defaultPoll),
+        ),
+        body: (tester) async {
+          final poll = tester.activityState.poll!;
+          expect(poll.name, 'name');
+
+          await tester.emitEvent(
+            PollUpdatedFeedEvent(
+              type: EventTypes.pollUpdated,
+              createdAt: DateTime.timestamp(),
+              custom: const {},
+              fid: fid.rawValue,
+              poll: defaultPoll.copyWith(name: 'Updated Poll Name'),
+            ),
+          );
+
+          final updatedPoll = tester.activityState.poll;
+          expect(updatedPoll, isNotNull);
+          expect(updatedPoll!.name, 'Updated Poll Name');
+        },
+      );
+
       group('Vote operations', () {
         final pollWithVotes = createDefaultPollResponse(
           options: [
@@ -1844,6 +1870,70 @@ void main() {
             final latestVotesByOption = updatedPollData.latestVotesByOption;
             expect(latestVotesByOption, hasLength(2));
             expect(latestVotesByOption['option-2'], hasLength(2));
+          },
+        );
+
+        activityTest(
+          'poll vote changed',
+          build: (client) => client.activity(activityId: activityId, fid: fid),
+          setUp: (tester) => tester.get(
+            modifyResponse: (it) => it.copyWith(poll: pollWithVotes),
+          ),
+          body: (tester) async {
+            final poll = tester.activityState.poll!;
+            expect(poll.voteCount, 3);
+
+            expect(poll.latestVotesByOption, hasLength(2));
+            expect(poll.latestVotesByOption['option-1'], hasLength(2));
+            expect(poll.latestVotesByOption['option-2'], hasLength(1));
+
+            // User changes vote from option-1 to option-2
+            const voteId = 'vote-1';
+            const newOptionId = 'option-2';
+            final changedVote = createDefaultPollVoteResponse(
+              id: voteId,
+              pollId: poll.id,
+              optionId: newOptionId,
+            );
+
+            await tester.emitEvent(
+              PollVoteChangedFeedEvent(
+                type: EventTypes.pollVoteChanged,
+                createdAt: DateTime.timestamp(),
+                custom: const {},
+                fid: fid.rawValue,
+                pollVote: changedVote,
+                poll: pollWithVotes.copyWith(
+                  latestVotesByOption: {
+                    'option-1': [
+                      createDefaultPollVoteResponse(
+                        id: 'vote-2',
+                        optionId: 'option-1',
+                      ),
+                    ],
+                    'option-2': [
+                      createDefaultPollVoteResponse(
+                        id: 'vote-3',
+                        optionId: 'option-2',
+                      ),
+                      changedVote,
+                    ],
+                  },
+                ),
+              ),
+            );
+
+            final updatedPollData = tester.activityState.poll;
+            expect(updatedPollData, isNotNull);
+
+            final latestVotesByOption = updatedPollData!.latestVotesByOption;
+            expect(latestVotesByOption, hasLength(2));
+            expect(latestVotesByOption['option-1'], hasLength(1));
+            expect(latestVotesByOption['option-2'], hasLength(2));
+
+            // Verify the vote was moved to option-2
+            final votesInOption2 = latestVotesByOption['option-2']!;
+            expect(votesInOption2.any((v) => v.id == voteId), isTrue);
           },
         );
 
