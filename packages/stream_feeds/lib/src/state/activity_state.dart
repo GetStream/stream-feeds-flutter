@@ -41,6 +41,11 @@ class ActivityStateNotifier extends StateNotifier<ActivityState> {
     });
   }
 
+  /// Handles the retrieval of the activity.
+  void onActivityGet(ActivityData activity) {
+    state = state.copyWith(activity: activity);
+  }
+
   /// Handles the deletion of the activity.
   void onActivityDeleted() {
     state = state.copyWith(
@@ -53,7 +58,7 @@ class ActivityStateNotifier extends StateNotifier<ActivityState> {
   /// Handles the update of an activity.
   void onActivityUpdated(ActivityData activity) {
     final currentActivity = state.activity;
-    final updatedActivity = currentActivity?.updateWith(activity) ?? activity;
+    final updatedActivity = currentActivity?.updateWith(activity);
 
     state = state.copyWith(activity: updatedActivity);
   }
