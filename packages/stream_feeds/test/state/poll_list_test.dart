@@ -352,7 +352,7 @@ void main() {
             fid: 'fid',
             poll: createDefaultPollResponse(id: 'poll-1').copyWith(
               latestVotesByOption: {
-                optionId: [vote]
+                optionId: [vote],
               },
               voteCount: 1,
               voteCountsByOption: {optionId: 1},
