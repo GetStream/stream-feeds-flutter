@@ -3093,6 +3093,85 @@ void main() {
     );
 
     feedTest(
+      'PollDeletedFeedEvent - should remove poll from activity',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: [
+            createDefaultActivityResponse(
+              id: 'activity-1',
+              feeds: [feedId.rawValue],
+              poll: createDefaultPollResponse(id: pollId),
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - activity has poll
+        final initialActivity = tester.feedState.activities.first;
+        expect(initialActivity.poll, isNotNull);
+        expect(initialActivity.poll!.id, pollId);
+
+        // Emit PollDeletedFeedEvent
+        await tester.emitEvent(
+          PollDeletedFeedEvent(
+            type: EventTypes.pollDeleted,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: feedId.rawValue,
+            poll: createDefaultPollResponse(id: pollId),
+          ),
+        );
+
+        // Verify poll was removed
+        final updatedActivity = tester.feedState.activities.first;
+        expect(updatedActivity.poll, isNull);
+      },
+    );
+
+    feedTest(
+      'PollUpdatedFeedEvent - should update poll in activity',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: [
+            createDefaultActivityResponse(
+              id: 'activity-1',
+              feeds: [feedId.rawValue],
+              poll: createDefaultPollResponse(
+                id: pollId,
+              ).copyWith(name: 'Original poll name'),
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - poll has original name
+        final initialActivity = tester.feedState.activities.first;
+        expect(initialActivity.poll, isNotNull);
+        expect(initialActivity.poll!.name, 'Original poll name');
+
+        // Emit PollUpdatedFeedEvent
+        await tester.emitEvent(
+          PollUpdatedFeedEvent(
+            type: EventTypes.pollUpdated,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: feedId.rawValue,
+            poll: createDefaultPollResponse(
+              id: pollId,
+            ).copyWith(name: 'Updated poll name'),
+          ),
+        );
+
+        // Verify poll was updated
+        final updatedActivity = tester.feedState.activities.first;
+        expect(updatedActivity.poll, isNotNull);
+        expect(updatedActivity.poll!.name, 'Updated poll name');
+      },
+    );
+
+    feedTest(
       'PollClosedFeedEvent - should mark poll as closed',
       build: (client) => client.feedFromId(feedId),
       setUp: (tester) => tester.getOrCreate(
