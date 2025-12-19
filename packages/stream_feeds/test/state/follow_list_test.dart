@@ -80,11 +80,6 @@ void main() {
         // Verify state was updated with merged follows
         expect(tester.followListState.follows, hasLength(4));
         expect(tester.followListState.canLoadMore, isFalse);
-      },
-      verify: (tester) {
-        final nextPageQuery = tester.followList.query.copyWith(
-          next: tester.followListState.pagination?.next,
-        );
 
         tester.verifyApi(
           (api) => api.queryFollows(

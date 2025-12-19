@@ -3585,11 +3585,6 @@ void main() {
 
         final lastUserStories = updatedUserStories.last.activities;
         expect(lastUserStories, hasLength(1));
-      },
-      verify: (tester) {
-        final nextPageQuery = tester.feed.query.copyWith(
-          activityNext: tester.feedState.activitiesPagination?.next,
-        );
 
         tester.verifyApi(
           (api) => api.getOrCreateFeed(

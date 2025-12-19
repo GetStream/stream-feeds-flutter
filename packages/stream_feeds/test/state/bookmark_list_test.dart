@@ -77,11 +77,6 @@ void main() {
         // Verify state was updated with merged bookmarks
         expect(tester.bookmarkListState.bookmarks, hasLength(2));
         expect(tester.bookmarkListState.canLoadMore, isFalse);
-      },
-      verify: (tester) {
-        final nextPageQuery = tester.bookmarkList.query.copyWith(
-          next: tester.bookmarkListState.pagination?.next,
-        );
 
         tester.verifyApi(
           (api) => api.queryBookmarks(

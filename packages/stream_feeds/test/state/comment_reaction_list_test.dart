@@ -76,11 +76,6 @@ void main() {
         // Verify state was updated with merged reactions
         expect(tester.commentReactionListState.reactions, hasLength(2));
         expect(tester.commentReactionListState.canLoadMore, isFalse);
-      },
-      verify: (tester) {
-        final nextPageQuery = tester.commentReactionList.query.copyWith(
-          next: tester.commentReactionListState.pagination?.next,
-        );
 
         tester.verifyApi(
           (api) => api.queryCommentReactions(

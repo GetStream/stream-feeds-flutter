@@ -71,11 +71,6 @@ void main() {
         // Verify state was updated with merged members
         expect(tester.memberListState.members, hasLength(4));
         expect(tester.memberListState.canLoadMore, isFalse);
-      },
-      verify: (tester) {
-        final nextPageQuery = tester.memberList.query.copyWith(
-          next: tester.memberListState.pagination?.next,
-        );
 
         tester.verifyApi(
           (api) => api.queryFeedMembers(

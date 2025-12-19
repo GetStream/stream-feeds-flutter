@@ -70,11 +70,6 @@ void main() {
         // Verify state was updated with merged votes
         expect(tester.pollVoteListState.votes, hasLength(4));
         expect(tester.pollVoteListState.canLoadMore, isFalse);
-      },
-      verify: (tester) {
-        final nextPageQuery = tester.pollVoteList.query.copyWith(
-          next: tester.pollVoteListState.pagination?.next,
-        );
 
         tester.verifyApi(
           (api) => api.queryPollVotes(

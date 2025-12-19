@@ -96,11 +96,6 @@ void main() {
         // Verify state was updated with merged comments
         expect(tester.activityCommentListState.comments, hasLength(2));
         expect(tester.activityCommentListState.canLoadMore, isFalse);
-      },
-      verify: (tester) {
-        final nextPageQuery = tester.activityCommentList.query.copyWith(
-          next: tester.activityCommentListState.pagination?.next,
-        );
 
         tester.verifyApi(
           (api) => api.getComments(

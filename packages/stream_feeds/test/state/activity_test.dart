@@ -73,15 +73,16 @@ void main() {
         // Verify state was updated
         expect(tester.activityState.comments, hasLength(2));
         expect(tester.activityState.canLoadMoreComments, isFalse);
+
+        tester.verifyApi(
+          (api) => api.getComments(
+            next: 'next-cursor',
+            objectId: activityId,
+            objectType: 'activity',
+            depth: 3,
+          ),
+        );
       },
-      verify: (tester) => tester.verifyApi(
-        (api) => api.getComments(
-          next: 'next-cursor',
-          objectId: activityId,
-          objectType: 'activity',
-          depth: 3,
-        ),
-      ),
     );
 
     activityTest(

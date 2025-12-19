@@ -60,11 +60,6 @@ void main() {
         // Verify state was updated with merged feeds
         expect(tester.feedListState.feeds, hasLength(2));
         expect(tester.feedListState.canLoadMore, isFalse);
-      },
-      verify: (tester) {
-        final nextPageQuery = tester.feedList.query.copyWith(
-          next: tester.feedListState.pagination?.next,
-        );
 
         tester.verifyApi(
           (api) => api.queryFeeds(

@@ -70,11 +70,6 @@ void main() {
         // Verify state was updated with merged polls
         expect(tester.pollListState.polls, hasLength(4));
         expect(tester.pollListState.canLoadMore, isFalse);
-      },
-      verify: (tester) {
-        final nextPageQuery = tester.pollList.query.copyWith(
-          next: tester.pollListState.pagination?.next,
-        );
 
         tester.verifyApi(
           (api) => api.queryPolls(

@@ -61,11 +61,6 @@ void main() {
         // Verify state was updated with merged configs
         expect(tester.moderationConfigListState.configs, hasLength(2));
         expect(tester.moderationConfigListState.canLoadMore, isFalse);
-      },
-      verify: (tester) {
-        final nextPageQuery = tester.moderationConfigList.query.copyWith(
-          next: tester.moderationConfigListState.pagination?.next,
-        );
 
         tester.verifyApi(
           (api) => api.queryModerationConfigs(

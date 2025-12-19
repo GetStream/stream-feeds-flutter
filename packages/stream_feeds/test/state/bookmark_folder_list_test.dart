@@ -71,11 +71,6 @@ void main() {
         // Verify state was updated with merged folders
         expect(tester.bookmarkFolderListState.bookmarkFolders, hasLength(2));
         expect(tester.bookmarkFolderListState.canLoadMore, isFalse);
-      },
-      verify: (tester) {
-        final nextPageQuery = tester.bookmarkFolderList.query.copyWith(
-          next: tester.bookmarkFolderListState.pagination?.next,
-        );
 
         tester.verifyApi(
           (api) => api.queryBookmarkFolders(

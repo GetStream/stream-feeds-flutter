@@ -155,11 +155,6 @@ void main() {
         // Verify state was updated with merged activities
         expect(tester.activityListState.activities, hasLength(2));
         expect(tester.activityListState.canLoadMore, isFalse);
-      },
-      verify: (tester) {
-        final nextPageQuery = tester.activityList.query.copyWith(
-          next: tester.activityListState.pagination?.next,
-        );
 
         tester.verifyApi(
           (api) => api.queryActivities(
