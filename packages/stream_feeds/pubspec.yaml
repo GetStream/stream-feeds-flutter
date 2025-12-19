@@ -30,11 +30,7 @@ dependencies:
   retrofit: ">=4.6.0 <=4.9.0"
   rxdart: ^0.28.0
   state_notifier: ^1.0.0
-  stream_core:
-    git:
-      url: https://github.com/GetStream/stream-core-flutter
-      ref: feat/sorted-update-where
-      path: packages/stream_core
+  stream_core: ^0.3.3
   uuid: ^4.5.1
 
 dev_dependencies:
