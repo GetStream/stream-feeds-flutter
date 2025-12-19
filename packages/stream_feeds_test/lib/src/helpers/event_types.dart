@@ -58,4 +58,7 @@ class EventTypes {
 
   // Stories events
   static const storiesFeedUpdated = 'feeds.stories_feed.updated';
+
+  // Notification events
+  static const notificationFeedUpdated = 'feeds.notification_feed.updated';
 }

@@ -1,5 +1,6 @@
-// ignore_for_file: avoid_redundant_argument_values
+// ignore_for_file: avoid_redundant_argument_values, parameter_assignments
 
+import 'package:collection/collection.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 
 GetCommentsResponse createDefaultCommentsResponse({
@@ -90,9 +91,32 @@ ActivityResponse createDefaultActivityResponse({
   bool? isWatched,
   List<BookmarkResponse> ownBookmarks = const [],
   List<FeedsReactionResponse> ownReactions = const [],
+  List<FeedsReactionResponse> latestReactions = const [],
   Map<String, ReactionGroupResponse> reactionGroups = const {},
   List<CommentResponse> comments = const [],
 }) {
+  latestReactions = latestReactions.isEmpty ? ownReactions : latestReactions;
+  reactionGroups = switch (reactionGroups.isNotEmpty) {
+    true => reactionGroups,
+    _ => latestReactions.fold(
+        <String, ReactionGroupResponse>{},
+        (prev, curr) => prev
+          ..update(
+            curr.type,
+            (it) => it.copyWith(
+              count: it.count + 1,
+              firstReactionAt: [it.firstReactionAt, curr.createdAt].min,
+              lastReactionAt: [it.lastReactionAt, curr.createdAt].max,
+            ),
+            ifAbsent: () => ReactionGroupResponse(
+              count: 1,
+              firstReactionAt: curr.createdAt,
+              lastReactionAt: curr.createdAt,
+            ),
+          ),
+      ),
+  };
+
   return ActivityResponse(
     id: id,
     attachments: const [],
@@ -106,7 +130,7 @@ ActivityResponse createDefaultActivityResponse({
     filterTags: const [],
     hidden: hidden,
     interestTags: const [],
-    latestReactions: const [],
+    latestReactions: latestReactions,
     mentionedUsers: const [],
     moderation: null,
     notificationContext: null,
@@ -135,13 +159,36 @@ ActivityResponse createDefaultActivityResponse({
 PollResponseData createDefaultPollResponse({
   String id = 'poll-id',
   List<PollOptionResponseData>? options,
-  List<PollVoteResponseData> latestAnswers = const [],
+  List<PollVoteResponseData> ownVotesAndAnswers = const [],
+  List<PollVoteResponseData> latestVotesAndAnswers = const [],
   Map<String, List<PollVoteResponseData>> latestVotesByOption = const {},
 }) {
   options ??= [
     createDefaultPollOptionResponse(id: 'option-1', text: 'Option 1'),
     createDefaultPollOptionResponse(id: 'option-2', text: 'Option 2'),
   ];
+
+  latestVotesAndAnswers = switch (latestVotesAndAnswers.isNotEmpty) {
+    true => latestVotesAndAnswers,
+    _ => ownVotesAndAnswers,
+  };
+
+  final (latestAnswers, latestVotes) = latestVotesAndAnswers.partition(
+    (vote) => vote.isAnswer ?? false,
+  );
+
+  latestVotesByOption = switch (latestVotesByOption.isNotEmpty) {
+    true => latestVotesByOption,
+    _ => latestVotes.fold(
+        <String, List<PollVoteResponseData>>{},
+        (prev, curr) => prev
+          ..update(
+            curr.optionId,
+            (it) => [curr, ...it],
+            ifAbsent: () => [curr],
+          ),
+      ),
+  };
 
   return PollResponseData(
     id: id,
@@ -156,7 +203,7 @@ PollResponseData createDefaultPollResponse({
     enforceUniqueVote: true,
     latestAnswers: latestAnswers,
     latestVotesByOption: latestVotesByOption,
-    ownVotes: const [],
+    ownVotes: ownVotesAndAnswers,
     updatedAt: DateTime.now(),
     voteCount: latestVotesByOption.values.sumOf((it) => it.length),
     voteCountsByOption: latestVotesByOption.map(
@@ -242,19 +289,46 @@ CommentResponse createDefaultCommentResponse({
   String? text,
   String? userId,
   String? parentId,
+  List<FeedsReactionResponse> ownReactions = const [],
+  List<FeedsReactionResponse> latestReactions = const [],
+  Map<String, ReactionGroupResponse> reactionGroups = const {},
 }) {
+  latestReactions = latestReactions.isEmpty ? ownReactions : latestReactions;
+  reactionGroups = switch (reactionGroups.isNotEmpty) {
+    true => reactionGroups,
+    _ => latestReactions.fold(
+        {},
+        (prev, curr) => prev
+          ..update(
+            curr.type,
+            (it) => it.copyWith(
+              count: it.count + 1,
+              firstReactionAt: [it.firstReactionAt, curr.createdAt].min,
+              lastReactionAt: [it.lastReactionAt, curr.createdAt].max,
+            ),
+            ifAbsent: () => ReactionGroupResponse(
+              count: 1,
+              firstReactionAt: DateTime.timestamp(),
+              lastReactionAt: DateTime.timestamp(),
+            ),
+          ),
+      ),
+  };
+
   return CommentResponse(
     id: id,
     confidenceScore: 0,
     createdAt: DateTime(2021, 1, 1),
     custom: const {},
     downvoteCount: 0,
+    latestReactions: latestReactions,
     mentionedUsers: const [],
     objectId: objectId,
     objectType: objectType,
-    ownReactions: const [],
+    ownReactions: ownReactions,
     parentId: parentId,
-    reactionCount: 0,
+    reactionCount: reactionGroups.values.sumOf((group) => group.count),
+    reactionGroups: reactionGroups,
     replyCount: 0,
     score: 0,
     status: 'status',
@@ -418,6 +492,23 @@ PinActivityResponse createDefaultPinActivityResponse({
     duration: 'duration',
     feed: 'user:id',
     userId: 'user-id',
+  );
+}
+
+ActivityPinResponse createDefaultActivityPinResponse({
+  String activityId = 'activity-id',
+  String type = 'post',
+  String userId = 'user-id',
+}) {
+  return ActivityPinResponse(
+    activity: createDefaultActivityResponse(
+      id: activityId,
+      type: type,
+    ),
+    createdAt: DateTime(2021, 1, 1),
+    feed: 'user:id',
+    updatedAt: DateTime(2021, 1, 2),
+    user: createDefaultUserResponse(id: userId),
   );
 }
 
