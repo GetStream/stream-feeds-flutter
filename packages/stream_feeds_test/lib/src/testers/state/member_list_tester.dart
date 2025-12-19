@@ -75,6 +75,7 @@ final class MemberListTester extends BaseTester<MemberList> {
     required MemberList memberList,
     required super.wsStreamController,
     required super.feedsApi,
+    required super.cdnApi,
   }) : super(subject: memberList);
 
   /// The member list being tested.
@@ -129,6 +130,7 @@ final class MemberListTester extends BaseTester<MemberList> {
 Future<MemberListTester> _createMemberListTester({
   required StreamFeedsClient client,
   required MemberList subject,
+  required MockCdnApi cdnApi,
   required MockDefaultApi feedsApi,
   required MockWebSocketChannel webSocketChannel,
 }) {
@@ -141,6 +143,7 @@ Future<MemberListTester> _createMemberListTester({
     create: (wsStreamController) => MemberListTester._(
       memberList: subject,
       wsStreamController: wsStreamController,
+      cdnApi: cdnApi,
       feedsApi: feedsApi,
     ),
   );

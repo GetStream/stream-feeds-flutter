@@ -78,6 +78,7 @@ final class ActivityReactionListTester
     required ActivityReactionList activityReactionList,
     required super.wsStreamController,
     required super.feedsApi,
+    required super.cdnApi,
   }) : super(subject: activityReactionList);
 
   /// The activity reaction list being tested.
@@ -144,6 +145,7 @@ final class ActivityReactionListTester
 Future<ActivityReactionListTester> _createActivityReactionListTester({
   required StreamFeedsClient client,
   required ActivityReactionList subject,
+  required MockCdnApi cdnApi,
   required MockDefaultApi feedsApi,
   required MockWebSocketChannel webSocketChannel,
 }) {
@@ -156,6 +158,7 @@ Future<ActivityReactionListTester> _createActivityReactionListTester({
     create: (wsStreamController) => ActivityReactionListTester._(
       activityReactionList: subject,
       wsStreamController: wsStreamController,
+      cdnApi: cdnApi,
       feedsApi: feedsApi,
     ),
   );

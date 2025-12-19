@@ -77,6 +77,7 @@ final class BookmarkFolderListTester extends BaseTester<BookmarkFolderList> {
     required BookmarkFolderList bookmarkFolderList,
     required super.wsStreamController,
     required super.feedsApi,
+    required super.cdnApi,
   }) : super(subject: bookmarkFolderList);
 
   /// The bookmark folder list being tested.
@@ -136,6 +137,7 @@ final class BookmarkFolderListTester extends BaseTester<BookmarkFolderList> {
 Future<BookmarkFolderListTester> _createBookmarkFolderListTester({
   required BookmarkFolderList subject,
   required StreamFeedsClient client,
+  required MockCdnApi cdnApi,
   required MockDefaultApi feedsApi,
   required MockWebSocketChannel webSocketChannel,
 }) {
@@ -148,6 +150,7 @@ Future<BookmarkFolderListTester> _createBookmarkFolderListTester({
     create: (wsStreamController) => BookmarkFolderListTester._(
       bookmarkFolderList: subject,
       wsStreamController: wsStreamController,
+      cdnApi: cdnApi,
       feedsApi: feedsApi,
     ),
   );

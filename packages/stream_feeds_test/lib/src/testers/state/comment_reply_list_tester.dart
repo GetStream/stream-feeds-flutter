@@ -79,6 +79,7 @@ final class CommentReplyListTester extends BaseTester<CommentReplyList> {
     required CommentReplyList commentReplyList,
     required super.wsStreamController,
     required super.feedsApi,
+    required super.cdnApi,
   }) : super(subject: commentReplyList);
 
   /// The comment reply list being tested.
@@ -161,6 +162,7 @@ final class CommentReplyListTester extends BaseTester<CommentReplyList> {
 Future<CommentReplyListTester> _createCommentReplyListTester({
   required CommentReplyList subject,
   required StreamFeedsClient client,
+  required MockCdnApi cdnApi,
   required MockDefaultApi feedsApi,
   required MockWebSocketChannel webSocketChannel,
 }) {
@@ -173,6 +175,7 @@ Future<CommentReplyListTester> _createCommentReplyListTester({
     create: (wsStreamController) => CommentReplyListTester._(
       commentReplyList: subject,
       wsStreamController: wsStreamController,
+      cdnApi: cdnApi,
       feedsApi: feedsApi,
     ),
   );

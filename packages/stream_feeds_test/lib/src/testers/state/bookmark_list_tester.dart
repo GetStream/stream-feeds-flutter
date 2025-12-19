@@ -77,6 +77,7 @@ final class BookmarkListTester extends BaseTester<BookmarkList> {
     required BookmarkList bookmarkList,
     required super.wsStreamController,
     required super.feedsApi,
+    required super.cdnApi,
   }) : super(subject: bookmarkList);
 
   /// The bookmark list being tested.
@@ -139,6 +140,7 @@ final class BookmarkListTester extends BaseTester<BookmarkList> {
 Future<BookmarkListTester> _createBookmarkListTester({
   required BookmarkList subject,
   required StreamFeedsClient client,
+  required MockCdnApi cdnApi,
   required MockDefaultApi feedsApi,
   required MockWebSocketChannel webSocketChannel,
 }) {
@@ -151,6 +153,7 @@ Future<BookmarkListTester> _createBookmarkListTester({
     create: (wsStreamController) => BookmarkListTester._(
       bookmarkList: subject,
       wsStreamController: wsStreamController,
+      cdnApi: cdnApi,
       feedsApi: feedsApi,
     ),
   );

@@ -78,6 +78,7 @@ final class ActivityCommentListTester extends BaseTester<ActivityCommentList> {
     required ActivityCommentList activityCommentList,
     required super.wsStreamController,
     required super.feedsApi,
+    required super.cdnApi,
   }) : super(subject: activityCommentList);
 
   /// The activity comment list being tested.
@@ -158,6 +159,7 @@ final class ActivityCommentListTester extends BaseTester<ActivityCommentList> {
 Future<ActivityCommentListTester> _createActivityCommentListTester({
   required ActivityCommentList subject,
   required StreamFeedsClient client,
+  required MockCdnApi cdnApi,
   required MockDefaultApi feedsApi,
   required MockWebSocketChannel webSocketChannel,
 }) {
@@ -170,6 +172,7 @@ Future<ActivityCommentListTester> _createActivityCommentListTester({
     create: (wsStreamController) => ActivityCommentListTester._(
       activityCommentList: subject,
       wsStreamController: wsStreamController,
+      cdnApi: cdnApi,
       feedsApi: feedsApi,
     ),
   );

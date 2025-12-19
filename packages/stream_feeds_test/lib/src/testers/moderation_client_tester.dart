@@ -78,6 +78,7 @@ final class ModerationClientTester extends BaseTester<ModerationClient> {
     required super.subject,
     required super.wsStreamController,
     required super.feedsApi,
+    required super.cdnApi,
   });
 
   /// The Moderation client being tested.
@@ -91,6 +92,7 @@ final class ModerationClientTester extends BaseTester<ModerationClient> {
 Future<ModerationClientTester> _createModerationClientTester({
   required ModerationClient subject,
   required StreamFeedsClient client,
+  required MockCdnApi cdnApi,
   required MockDefaultApi feedsApi,
   required MockWebSocketChannel webSocketChannel,
 }) {
@@ -100,6 +102,7 @@ Future<ModerationClientTester> _createModerationClientTester({
     create: (wsStreamController) => ModerationClientTester._(
       subject: subject,
       wsStreamController: wsStreamController,
+      cdnApi: cdnApi,
       feedsApi: feedsApi,
     ),
   );

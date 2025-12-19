@@ -77,6 +77,7 @@ final class CommentReactionListTester extends BaseTester<CommentReactionList> {
     required CommentReactionList commentReactionList,
     required super.wsStreamController,
     required super.feedsApi,
+    required super.cdnApi,
   }) : super(subject: commentReactionList);
 
   /// The comment reaction list being tested.
@@ -143,6 +144,7 @@ final class CommentReactionListTester extends BaseTester<CommentReactionList> {
 Future<CommentReactionListTester> _createCommentReactionListTester({
   required StreamFeedsClient client,
   required CommentReactionList subject,
+  required MockCdnApi cdnApi,
   required MockDefaultApi feedsApi,
   required MockWebSocketChannel webSocketChannel,
 }) {
@@ -155,6 +157,7 @@ Future<CommentReactionListTester> _createCommentReactionListTester({
     create: (wsStreamController) => CommentReactionListTester._(
       commentReactionList: subject,
       wsStreamController: wsStreamController,
+      cdnApi: cdnApi,
       feedsApi: feedsApi,
     ),
   );

@@ -73,6 +73,7 @@ final class ModerationConfigListTester
     required ModerationConfigList moderationConfigList,
     required super.wsStreamController,
     required super.feedsApi,
+    required super.cdnApi,
   }) : super(subject: moderationConfigList);
 
   /// The moderation config list being tested.
@@ -132,6 +133,7 @@ final class ModerationConfigListTester
 Future<ModerationConfigListTester> _createModerationConfigListTester({
   required ModerationConfigList subject,
   required StreamFeedsClient client,
+  required MockCdnApi cdnApi,
   required MockDefaultApi feedsApi,
   required MockWebSocketChannel webSocketChannel,
 }) {
@@ -144,6 +146,7 @@ Future<ModerationConfigListTester> _createModerationConfigListTester({
     create: (wsStreamController) => ModerationConfigListTester._(
       moderationConfigList: subject,
       wsStreamController: wsStreamController,
+      cdnApi: cdnApi,
       feedsApi: feedsApi,
     ),
   );

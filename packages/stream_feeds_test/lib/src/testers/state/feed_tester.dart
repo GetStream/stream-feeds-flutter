@@ -82,6 +82,7 @@ final class FeedTester extends BaseTester<Feed> {
     required Feed feed,
     required super.wsStreamController,
     required super.feedsApi,
+    required super.cdnApi,
   }) : super(subject: feed);
 
   /// The feed being tested.
@@ -137,6 +138,7 @@ final class FeedTester extends BaseTester<Feed> {
 Future<FeedTester> _createFeedTester({
   required Feed subject,
   required StreamFeedsClient client,
+  required MockCdnApi cdnApi,
   required MockDefaultApi feedsApi,
   required MockWebSocketChannel webSocketChannel,
 }) {
@@ -149,6 +151,7 @@ Future<FeedTester> _createFeedTester({
     create: (wsStreamController) => FeedTester._(
       feed: subject,
       wsStreamController: wsStreamController,
+      cdnApi: cdnApi,
       feedsApi: feedsApi,
     ),
   );

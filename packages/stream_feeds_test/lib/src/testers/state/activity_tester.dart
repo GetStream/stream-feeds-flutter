@@ -117,6 +117,7 @@ final class ActivityTester extends BaseTester<Activity> {
     required Activity activity,
     required super.wsStreamController,
     required super.feedsApi,
+    required super.cdnApi,
   }) : super(subject: activity);
 
   /// The activity being tested.
@@ -184,6 +185,7 @@ final class ActivityTester extends BaseTester<Activity> {
 Future<ActivityTester> _createActivityTester({
   required Activity subject,
   required StreamFeedsClient client,
+  required MockCdnApi cdnApi,
   required MockDefaultApi feedsApi,
   required MockWebSocketChannel webSocketChannel,
 }) {
@@ -195,6 +197,7 @@ Future<ActivityTester> _createActivityTester({
     webSocketChannel: webSocketChannel,
     create: (wsStreamController) => ActivityTester._(
       activity: subject,
+      cdnApi: cdnApi,
       feedsApi: feedsApi,
       wsStreamController: wsStreamController,
     ),

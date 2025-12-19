@@ -77,6 +77,7 @@ final class FollowListTester extends BaseTester<FollowList> {
     required FollowList followList,
     required super.wsStreamController,
     required super.feedsApi,
+    required super.cdnApi,
   }) : super(subject: followList);
 
   /// The follow list being tested.
@@ -139,6 +140,7 @@ final class FollowListTester extends BaseTester<FollowList> {
 Future<FollowListTester> _createFollowListTester({
   required FollowList subject,
   required StreamFeedsClient client,
+  required MockCdnApi cdnApi,
   required MockDefaultApi feedsApi,
   required MockWebSocketChannel webSocketChannel,
 }) {
@@ -151,6 +153,7 @@ Future<FollowListTester> _createFollowListTester({
     create: (wsStreamController) => FollowListTester._(
       followList: subject,
       wsStreamController: wsStreamController,
+      cdnApi: cdnApi,
       feedsApi: feedsApi,
     ),
   );

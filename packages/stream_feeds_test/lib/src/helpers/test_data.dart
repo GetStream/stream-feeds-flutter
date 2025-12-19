@@ -1008,3 +1008,70 @@ GetConfigResponse createDefaultGetConfigResponse({
     duration: '10ms',
   );
 }
+
+UpsertActivitiesResponse createDefaultUpsertActivitiesResponse({
+  int count = 1,
+}) {
+  return UpsertActivitiesResponse(
+    activities: List.generate(
+      count,
+      (index) => createDefaultActivityResponse(id: 'activity-${index + 1}'),
+    ),
+    duration: '10ms',
+  );
+}
+
+DeleteActivitiesResponse createDefaultDeleteActivitiesResponse({
+  List<String> ids = const ['activity-1'],
+}) {
+  return DeleteActivitiesResponse(
+    deletedIds: ids,
+    duration: '10ms',
+  );
+}
+
+GetApplicationResponse createDefaultGetApplicationResponse({
+  String name = 'Test App',
+}) {
+  return GetApplicationResponse(
+    app: AppResponseFields(
+      asyncUrlEnrichEnabled: false,
+      autoTranslationEnabled: false,
+      id: 1,
+      name: name,
+      placement: 'default',
+      fileUploadConfig: const FileUploadConfig(
+        allowedFileExtensions: ['jpg', 'png', 'gif', 'mp4'],
+        allowedMimeTypes: ['image/jpeg', 'image/png', 'video/mp4'],
+        blockedFileExtensions: [],
+        blockedMimeTypes: [],
+        sizeLimit: 10485760,
+      ),
+      imageUploadConfig: const FileUploadConfig(
+        allowedFileExtensions: ['jpg', 'png', 'gif'],
+        allowedMimeTypes: ['image/jpeg', 'image/png', 'image/gif'],
+        blockedFileExtensions: [],
+        blockedMimeTypes: [],
+        sizeLimit: 5242880,
+      ),
+    ),
+    duration: '10ms',
+  );
+}
+
+ListDevicesResponse createDefaultListDevicesResponse({
+  List<DeviceResponse> devices = const [],
+}) {
+  return ListDevicesResponse(
+    devices: devices,
+    duration: '10ms',
+  );
+}
+
+DurationResponse createDefaultCreateDeviceResponse() {
+  return const DurationResponse(duration: '10ms');
+}
+
+DurationResponse createDefaultDeleteDeviceResponse() {
+  return const DurationResponse(duration: '10ms');
+}

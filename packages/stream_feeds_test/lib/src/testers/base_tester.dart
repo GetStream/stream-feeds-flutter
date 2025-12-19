@@ -6,6 +6,7 @@ import 'package:stream_feeds/stream_feeds.dart';
 import 'package:test/test.dart' as test;
 
 import '../helpers/api_mocker_mixin.dart';
+import '../helpers/cdn_mocker_mixin.dart';
 import '../helpers/mocks.dart';
 import '../helpers/web_socket_mocks.dart';
 
@@ -15,6 +16,7 @@ import '../helpers/web_socket_mocks.dart';
 typedef TesterFactory<S, T extends BaseTester<S>> = Future<T> Function({
   required S subject,
   required StreamFeedsClient client,
+  required MockCdnApi cdnApi,
   required MockDefaultApi feedsApi,
   required MockWebSocketChannel webSocketChannel,
 });
@@ -25,15 +27,20 @@ typedef TesterFactory<S, T extends BaseTester<S>> = Future<T> Function({
 /// and making assertions about the state object being tested.
 ///
 /// Type parameter [S] is the subject being tested.
-abstract base class BaseTester<S> with ApiMockerMixin {
+abstract base class BaseTester<S> with ApiMockerMixin, CdnMockerMixin {
   const BaseTester({
     required this.subject,
+    required this.cdnApi,
     required this.feedsApi,
     required StreamController<Object> wsStreamController,
   }) : _wsStreamController = wsStreamController;
 
   /// The subject being tested.
   final S subject;
+
+  @override
+  @protected
+  final MockCdnApi cdnApi;
 
   @override
   @protected
@@ -132,6 +139,7 @@ void testWithTester<S, T extends BaseTester<S>>(
     timeout: timeout,
     () async {
       await _runZonedGuarded(() async {
+        final cdnApi = MockCdnApi();
         final feedsApi = MockDefaultApi();
         final webSocketChannel = MockWebSocketChannel();
 
@@ -143,11 +151,15 @@ void testWithTester<S, T extends BaseTester<S>>(
           ),
           feedsRestApi: feedsApi,
           wsProvider: (options) => webSocketChannel,
+          config: FeedsConfig(
+            cdnClient: FeedsCdnClient(cdnApi),
+          ),
         );
 
         final tester = await createTesterFn(
           subject: build.call(client),
           client: client,
+          cdnApi: cdnApi,
           feedsApi: feedsApi,
           webSocketChannel: webSocketChannel,
         );

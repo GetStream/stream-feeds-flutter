@@ -16,6 +16,7 @@ export 'package:test/test.dart';
 
 // Helpers
 export 'src/helpers/api_mocker_mixin.dart';
+export 'src/helpers/cdn_mocker_mixin.dart';
 export 'src/helpers/event_types.dart';
 export 'src/helpers/mocks.dart';
 export 'src/helpers/test_data.dart';
@@ -23,6 +24,7 @@ export 'src/helpers/web_socket_mocks.dart';
 
 // Testers
 export 'src/testers/base_tester.dart';
+export 'src/testers/feeds_client_tester.dart';
 export 'src/testers/moderation_client_tester.dart';
 export 'src/testers/state/activity_comment_list_tester.dart';
 export 'src/testers/state/activity_list_tester.dart';

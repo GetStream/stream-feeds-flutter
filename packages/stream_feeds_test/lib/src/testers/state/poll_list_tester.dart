@@ -77,6 +77,7 @@ final class PollListTester extends BaseTester<PollList> {
     required PollList pollList,
     required super.wsStreamController,
     required super.feedsApi,
+    required super.cdnApi,
   }) : super(subject: pollList);
 
   /// The poll list being tested.
@@ -130,6 +131,7 @@ final class PollListTester extends BaseTester<PollList> {
 Future<PollListTester> _createPollListTester({
   required PollList subject,
   required StreamFeedsClient client,
+  required MockCdnApi cdnApi,
   required MockDefaultApi feedsApi,
   required MockWebSocketChannel webSocketChannel,
 }) {
@@ -142,6 +144,7 @@ Future<PollListTester> _createPollListTester({
     create: (wsStreamController) => PollListTester._(
       pollList: subject,
       wsStreamController: wsStreamController,
+      cdnApi: cdnApi,
       feedsApi: feedsApi,
     ),
   );
