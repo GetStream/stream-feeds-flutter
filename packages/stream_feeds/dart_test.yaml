@@ -1,11 +1,17 @@
 tags:
+  activity:
+  activity-comment-list:
+  activity-list:
+  activity-reaction-list:
+  bookmark-folder-list:
+  bookmark-list:
+  comment-list:
+  comment-reaction-list:
+  comment-reply-list:
   feed:
   feed-list:
-  activity:
-  activity-list:
-  bookmark-list:
-  bookmark-folder-list:
-  comment-list:
   follow-list:
+  member-list:
+  moderation-config-list:
   poll-list:
   poll-vote-list:

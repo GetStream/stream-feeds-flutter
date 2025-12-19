@@ -856,3 +856,31 @@ ActivityFeedbackResponse createDefaultActivityFeedbackResponse({
     activityId: activityId,
   );
 }
+
+ConfigResponse createDefaultModerationConfigResponse({
+  String key = 'config-key',
+  String team = 'team-id',
+  bool async = false,
+}) {
+  return ConfigResponse(
+    key: key,
+    team: team,
+    async: async,
+    supportedVideoCallHarmTypes: const [],
+    createdAt: DateTime(2021, 1, 1),
+    updatedAt: DateTime(2021, 2, 1),
+  );
+}
+
+QueryModerationConfigsResponse createDefaultQueryModerationConfigsResponse({
+  String? next,
+  String? prev,
+  List<ConfigResponse> configs = const [],
+}) {
+  return QueryModerationConfigsResponse(
+    next: next,
+    prev: prev,
+    configs: configs,
+    duration: '10ms',
+  );
+}
