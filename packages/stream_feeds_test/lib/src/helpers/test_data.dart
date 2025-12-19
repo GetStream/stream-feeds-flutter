@@ -664,61 +664,6 @@ QueryCommentsResponse createDefaultQueryCommentsResponse({
   );
 }
 
-FeedsReactionResponse createDefaultReactionResponse({
-  String activityId = 'activity-id',
-  String? commentId,
-  String userId = 'user-id',
-  String reactionType = 'like',
-}) {
-  return FeedsReactionResponse(
-    activityId: activityId,
-    commentId: commentId,
-    type: reactionType,
-    createdAt: DateTime.timestamp(),
-    updatedAt: DateTime.timestamp(),
-    user: createDefaultUserResponse(id: userId),
-  );
-}
-
-QueryActivityReactionsResponse createDefaultQueryActivityReactionsResponse({
-  String? next,
-  String? prev,
-  List<FeedsReactionResponse> reactions = const [],
-}) {
-  return QueryActivityReactionsResponse(
-    next: next,
-    prev: prev,
-    reactions: reactions,
-    duration: '10ms',
-  );
-}
-
-QueryCommentReactionsResponse createDefaultQueryCommentReactionsResponse({
-  String? next,
-  String? prev,
-  List<FeedsReactionResponse> reactions = const [],
-}) {
-  return QueryCommentReactionsResponse(
-    next: next,
-    prev: prev,
-    reactions: reactions,
-    duration: '10ms',
-  );
-}
-
-QueryCommentsResponse createDefaultQueryCommentsResponse({
-  String? next,
-  String? prev,
-  List<CommentResponse> comments = const [],
-}) {
-  return QueryCommentsResponse(
-    next: next,
-    prev: prev,
-    comments: comments,
-    duration: '10ms',
-  );
-}
-
 FeedMemberResponse createDefaultFeedMemberResponse({
   String id = 'member-id',
   String role = 'member',
