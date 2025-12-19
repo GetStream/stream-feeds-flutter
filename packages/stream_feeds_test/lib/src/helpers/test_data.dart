@@ -885,6 +885,20 @@ QueryModerationConfigsResponse createDefaultQueryModerationConfigsResponse({
   );
 }
 
+ConfigResponse createDefaultConfigResponse({
+  String key = 'default-config',
+  String team = 'default-team',
+}) {
+  return ConfigResponse(
+    key: key,
+    team: team,
+    async: true,
+    createdAt: DateTime(2021, 1, 1),
+    updatedAt: DateTime(2021, 2, 1),
+    supportedVideoCallHarmTypes: const [],
+  );
+}
+
 BanResponse createDefaultBanResponse() {
   return const BanResponse(duration: '10ms');
 }

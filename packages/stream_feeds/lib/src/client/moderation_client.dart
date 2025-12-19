@@ -1,8 +1,9 @@
 import 'package:stream_core/stream_core.dart';
 
-import '../../stream_feeds.dart' show ModerationConfigsQuery;
 import '../generated/api/api.dart' as api;
+import '../models.dart' show ModerationConfigData, PaginationResult;
 import '../repository/moderation_repository.dart';
+import '../state.dart' show ModerationConfigsQuery;
 
 /// Controller exposing moderation functionalities.
 ///
@@ -160,8 +161,9 @@ class ModerationClient {
   ///
   /// Retrieves moderation configurations using the specified [queryModerationConfigsRequest] filters and pagination.
   ///
-  /// Returns a [Result] containing a [api.QueryModerationConfigsResponse] or an error.
-  Future<void> queryModerationConfigs({
+  /// Returns a [Result] containing a [PaginationResult] of [ModerationConfigData] or an error.
+  Future<Result<PaginationResult<ModerationConfigData>>>
+      queryModerationConfigs({
     required ModerationConfigsQuery queryModerationConfigsRequest,
   }) {
     return _moderationRepository
