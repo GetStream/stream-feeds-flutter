@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_redundant_argument_values
-
 import 'package:stream_feeds/src/generated/api/api.dart' as api;
 import 'package:stream_feeds/stream_feeds.dart';
 import 'package:stream_feeds_test/stream_feeds_test.dart';
@@ -12,7 +10,7 @@ void main() {
   group('updateSystemEnvironment', () {
     feedsClientTest(
       'should update system environment successfully',
-      body: (tester) async {
+      body: (tester) {
         const environment = SystemEnvironment(
           sdkName: 'my-app',
           sdkIdentifier: 'flutter',
