@@ -884,3 +884,113 @@ QueryModerationConfigsResponse createDefaultQueryModerationConfigsResponse({
     duration: '10ms',
   );
 }
+
+BanResponse createDefaultBanResponse() {
+  return const BanResponse(duration: '10ms');
+}
+
+MuteResponse createDefaultMuteResponse({
+  List<UserMute>? mutes,
+}) {
+  return MuteResponse(
+    duration: '10ms',
+    mutes: mutes,
+  );
+}
+
+BlockUsersResponse createDefaultBlockUsersResponse({
+  String blockedUserId = 'user-123',
+  String blockedByUserId = 'user-1',
+}) {
+  return BlockUsersResponse(
+    blockedUserId: blockedUserId,
+    blockedByUserId: blockedByUserId,
+    createdAt: DateTime(2021, 1, 1),
+    duration: '10ms',
+  );
+}
+
+UnblockUsersResponse createDefaultUnblockUsersResponse() {
+  return const UnblockUsersResponse(duration: '10ms');
+}
+
+GetBlockedUsersResponse createDefaultGetBlockedUsersResponse({
+  List<BlockedUserResponse> blocks = const [],
+}) {
+  return GetBlockedUsersResponse(
+    blocks: blocks,
+    duration: '10ms',
+  );
+}
+
+BlockedUserResponse createDefaultBlockedUserResponse({
+  String blockedUserId = 'user-123',
+  String userId = 'user-1',
+}) {
+  return BlockedUserResponse(
+    blockedUserId: blockedUserId,
+    blockedUser: createDefaultUserResponse(id: blockedUserId),
+    userId: userId,
+    user: createDefaultUserResponse(id: userId),
+    createdAt: DateTime(2021, 1, 1),
+  );
+}
+
+FlagResponse createDefaultFlagResponse({
+  String itemId = 'activity-123',
+}) {
+  return FlagResponse(
+    duration: '10ms',
+    itemId: itemId,
+  );
+}
+
+SubmitActionResponse createDefaultSubmitActionResponse({
+  ReviewQueueItemResponse? item,
+}) {
+  return SubmitActionResponse(
+    duration: '10ms',
+    item: item,
+  );
+}
+
+QueryReviewQueueResponse createDefaultQueryReviewQueueResponse({
+  String? next,
+  String? prev,
+  List<ReviewQueueItemResponse> items = const [],
+}) {
+  return QueryReviewQueueResponse(
+    actionConfig: const {},
+    items: items,
+    next: next,
+    prev: prev,
+    stats: const {},
+    duration: '10ms',
+  );
+}
+
+UpsertConfigResponse createDefaultUpsertConfigResponse({
+  String key = 'config-1',
+}) {
+  return UpsertConfigResponse(
+    config: createDefaultModerationConfigResponse(key: key),
+    duration: '10ms',
+  );
+}
+
+DeleteModerationConfigResponse createDefaultDeleteModerationConfigResponse() {
+  return const DeleteModerationConfigResponse(duration: '10ms');
+}
+
+GetConfigResponse createDefaultGetConfigResponse({
+  String key = 'config-1',
+  String? team,
+}) {
+  return GetConfigResponse(
+    config: createDefaultModerationConfigResponse(
+      key: key,
+      team: team ?? 'team-id',
+    ),
+    duration: '10ms',
+  );
+}
