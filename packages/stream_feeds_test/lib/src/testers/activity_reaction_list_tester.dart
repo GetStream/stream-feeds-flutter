@@ -147,7 +147,7 @@ Future<ActivityReactionListTester> _createActivityReactionListTester({
   required MockDefaultApi feedsApi,
   required MockWebSocketChannel webSocketChannel,
 }) {
-  // Dispose comment list after test
+  // Dispose activity reaction list after test
   test.addTearDown(subject.dispose);
 
   return createTester(
