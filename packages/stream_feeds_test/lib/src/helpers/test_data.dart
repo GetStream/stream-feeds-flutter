@@ -308,8 +308,8 @@ CommentResponse createDefaultCommentResponse({
             ),
             ifAbsent: () => ReactionGroupResponse(
               count: 1,
-              firstReactionAt: DateTime.timestamp(),
-              lastReactionAt: DateTime.timestamp(),
+              firstReactionAt: curr.createdAt,
+              lastReactionAt: curr.createdAt,
             ),
           ),
       ),
