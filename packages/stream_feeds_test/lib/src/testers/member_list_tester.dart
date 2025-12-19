@@ -132,7 +132,7 @@ Future<MemberListTester> _createMemberListTester({
   required MockDefaultApi feedsApi,
   required MockWebSocketChannel webSocketChannel,
 }) {
-  // Dispose comment list after test
+  // Dispose member list after test
   test.addTearDown(subject.dispose);
 
   return createTester(
