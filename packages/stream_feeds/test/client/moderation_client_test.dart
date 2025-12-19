@@ -520,4 +520,68 @@ void main() {
       },
     );
   });
+
+  group('queryModerationConfigs', () {
+    setUpAll(() {
+      registerFallbackValue(const QueryModerationConfigsRequest());
+    });
+
+    moderationClientTest(
+      'should query moderation configs successfully',
+      body: (tester) async {
+        const query = ModerationConfigsQuery(limit: 10);
+        final request = query.toRequest();
+
+        tester.mockApi(
+          (api) => api.queryModerationConfigs(
+            queryModerationConfigsRequest: request,
+          ),
+          result: createDefaultQueryModerationConfigsResponse(
+            configs: [createDefaultConfigResponse()],
+          ),
+        );
+
+        final result = await tester.moderation.queryModerationConfigs(
+          queryModerationConfigsRequest: query,
+        );
+
+        expect(result.isSuccess, isTrue);
+        final paginationResult = result.getOrThrow();
+        expect(paginationResult.items, isNotEmpty);
+
+        tester.verifyApi(
+          (api) => api.queryModerationConfigs(
+            queryModerationConfigsRequest: request,
+          ),
+        );
+      },
+    );
+
+    moderationClientTest(
+      'should handle query moderation configs failure',
+      body: (tester) async {
+        const query = ModerationConfigsQuery(limit: 10);
+        final request = query.toRequest();
+
+        tester.mockApiFailure(
+          (api) => api.queryModerationConfigs(
+            queryModerationConfigsRequest: request,
+          ),
+          error: Exception('Failed to query configs'),
+        );
+
+        final result = await tester.moderation.queryModerationConfigs(
+          queryModerationConfigsRequest: query,
+        );
+
+        expect(result.isFailure, isTrue);
+
+        tester.verifyApi(
+          (api) => api.queryModerationConfigs(
+            queryModerationConfigsRequest: request,
+          ),
+        );
+      },
+    );
+  });
 }
