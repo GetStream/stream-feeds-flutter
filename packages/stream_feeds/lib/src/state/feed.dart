@@ -127,9 +127,7 @@ class Feed with Disposable {
 
       capabilitiesRepository.cacheCapabilitiesForFeeds([
         feedData.feed,
-        ...feedData.activities.items
-            .map((activity) => activity.currentFeed)
-            .nonNulls,
+        ...feedData.activities.map((activity) => activity.currentFeed).nonNulls,
       ]);
     });
 
@@ -470,19 +468,19 @@ class Feed with Disposable {
         _stateNotifier.onQueryMoreActivities(
           feedData.activities,
           feedData.aggregatedActivities,
-          feedData.activitiesQueryConfig,
+          feedData.pagination,
         );
 
         capabilitiesRepository.cacheCapabilitiesForFeeds([
           feedData.feed,
-          ...feedData.activities.items
+          ...feedData.activities
               .map((activity) => activity.currentFeed)
               .nonNulls,
         ]);
       },
     );
 
-    return result.map((feedData) => feedData.activities.items);
+    return result.map((feedData) => feedData.activities);
   }
 
   /// Queries for feed suggestions that the current user might want to follow.

@@ -8,7 +8,6 @@ import 'feed_data.dart';
 import 'feed_member_data.dart';
 import 'follow_data.dart';
 import 'pagination_data.dart';
-import 'query_configuration.dart';
 
 part 'get_or_create_feed_data.freezed.dart';
 
@@ -20,29 +19,29 @@ part 'get_or_create_feed_data.freezed.dart';
 class GetOrCreateFeedData with _$GetOrCreateFeedData {
   /// Creates a new [GetOrCreateFeedData] instance.
   const GetOrCreateFeedData({
+    required this.pagination,
     required this.activities,
-    required this.activitiesQueryConfig,
+    this.aggregatedActivities = const [],
     required this.feed,
     this.followers = const [],
     this.following = const [],
     this.followRequests = const [],
     required this.members,
     this.pinnedActivities = const [],
-    this.aggregatedActivities = const [],
     this.notificationStatus,
   });
 
-  /// A paginated result of activities associated with the feed.
+  /// Pagination information for the feed data.
   @override
-  final PaginationResult<ActivityData> activities;
+  final PaginationData pagination;
+
+  /// The list of activities in the feed.
+  @override
+  final List<ActivityData> activities;
 
   /// The list of aggregated activities in the feed.
   @override
   final List<AggregatedActivityData> aggregatedActivities;
-
-  /// The configuration used to query activities.
-  @override
-  final QueryConfiguration<ActivityData> activitiesQueryConfig;
 
   /// The feed data associated with the feed.
   @override

@@ -24,7 +24,6 @@ import '../models/poll_vote_data.dart';
 import '../models/query_configuration.dart';
 import 'insertion_action.dart';
 import 'member_list_state.dart';
-import 'query/activities_query.dart';
 import 'query/feed_query.dart';
 
 part 'feed_state.freezed.dart';
@@ -54,18 +53,12 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
     });
   }
 
-  QueryConfiguration<ActivityData>? _activitiesQueryConfig;
-  List<Sort<ActivityData>> get activitiesSort {
-    return _activitiesQueryConfig?.sort ?? ActivitiesSort.defaultSort;
-  }
-
   /// Handles the result of a query for the feed.
   void onQueryFeed(GetOrCreateFeedData result) {
-    _activitiesQueryConfig = result.activitiesQueryConfig;
-
     state = state.copyWith(
-      activities: result.activities.items,
-      activitiesPagination: result.activities.pagination,
+      activities: result.activities,
+      aggregatedActivities: result.aggregatedActivities,
+      activitiesPagination: result.pagination,
       feed: result.feed,
       followers: result.followers,
       following: result.following,
@@ -76,7 +69,6 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
       // members: result.members.items,
       followRequests: result.followRequests,
       pinnedActivities: result.pinnedActivities,
-      aggregatedActivities: result.aggregatedActivities,
       notificationStatus: result.notificationStatus,
     );
 
@@ -86,18 +78,16 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
 
   /// Handles the result of a query for more activities.
   void onQueryMoreActivities(
-    PaginationResult<ActivityData> activities,
+    List<ActivityData> activities,
     List<AggregatedActivityData> aggregatedActivities,
-    QueryConfiguration<ActivityData> queryConfig,
+    PaginationData pagination,
   ) {
-    _activitiesQueryConfig = queryConfig;
-
     // Merge the new activities with the existing ones
     final updatedActivities = state.activities.merge(
-      activities.items,
+      activities,
       key: (it) => it.id,
-      compare: activitiesSort.compare,
     );
+
     final updatedAggregatedActivities = state.aggregatedActivities.merge(
       aggregatedActivities,
       key: (it) => it.group,
@@ -106,7 +96,7 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
     state = state.copyWith(
       activities: updatedActivities,
       aggregatedActivities: updatedAggregatedActivities,
-      activitiesPagination: activities.pagination,
+      activitiesPagination: pagination,
     );
   }
 
@@ -139,7 +129,6 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
     state = state.updateActivitiesWhere(
       (it) => it.id == activity.id,
       update: (it) => it.updateWith(activity),
-      compare: activitiesSort.compare,
     );
   }
 
@@ -161,7 +150,6 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
     state = state.updateActivitiesWhere(
       (it) => it.id == activityId,
       update: (it) => it.copyWith(hidden: hidden),
-      compare: activitiesSort.compare,
     );
   }
 
@@ -253,7 +241,6 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
     state = state.updateActivitiesWhere(
       (it) => it.id == bookmark.activity.id,
       update: (it) => it.upsertBookmark(bookmark, currentUserId),
-      compare: activitiesSort.compare,
     );
   }
 
@@ -266,7 +253,6 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
     state = state.updateActivitiesWhere(
       (it) => it.id == bookmark.activity.id,
       update: (it) => it.removeBookmark(bookmark, currentUserId),
-      compare: activitiesSort.compare,
     );
   }
 
@@ -279,7 +265,6 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
     state = state.updateActivitiesWhere(
       (it) => it.id == comment.objectId,
       update: (it) => it.upsertComment(comment),
-      compare: activitiesSort.compare,
     );
   }
 
@@ -289,7 +274,6 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
     state = state.updateActivitiesWhere(
       (it) => it.id == comment.objectId,
       update: (it) => it.removeComment(comment),
-      compare: activitiesSort.compare,
     );
   }
 
