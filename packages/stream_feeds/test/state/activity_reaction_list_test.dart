@@ -7,9 +7,7 @@ void main() {
   const activityId = 'activity-1';
   const reactionType = 'love';
 
-  const query = ActivityReactionsQuery(
-    activityId: activityId,
-  );
+  const query = ActivityReactionsQuery(activityId: activityId);
 
   // Computed reaction ID based on FeedsReactionData.id getter
   // id = '$type-$userReactionsGroupId' where userReactionsGroupId = '${currentUser.id}-$activityId'
@@ -181,7 +179,7 @@ void main() {
     );
 
     activityReactionListTest(
-      'should handle ActivityReactionUpdatedEvent and update reaction',
+      'ActivityReactionUpdatedEvent - should replace user reaction',
       user: currentUser,
       build: (client) => client.activityReactionList(query),
       setUp: (tester) => tester.get(
@@ -210,7 +208,16 @@ void main() {
             createdAt: DateTime.timestamp(),
             custom: const {},
             fid: 'user:john',
-            activity: createDefaultActivityResponse(id: activityId),
+            activity: createDefaultActivityResponse(
+              id: activityId,
+              latestReactions: [
+                createDefaultReactionResponse(
+                  activityId: activityId,
+                  reactionType: 'fire',
+                  userId: currentUser.id,
+                ),
+              ],
+            ),
             reaction: createDefaultReactionResponse(
               activityId: activityId,
               reactionType: 'fire',

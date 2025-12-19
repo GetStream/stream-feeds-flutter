@@ -234,46 +234,37 @@ void main() {
         modifyResponse: (it) => it.copyWith(polls: initialPolls),
       ),
       body: (tester) async {
-        // Initial state - has polls
+        // Initial state - has 3 polls
         expect(tester.pollListState.polls, hasLength(3));
 
-        const optionId = 'option-1';
-        const voteId = 'vote-1';
-        final vote = createDefaultPollVoteResponse(
-          id: voteId,
+        final newVote = createDefaultPollVoteResponse(
+          id: 'vote-1',
           pollId: 'poll-1',
-          optionId: optionId,
+          optionId: 'option-1',
         );
 
-        // Emit event
+        // Emit PollVoteCastedFeedEvent
         await tester.emitEvent(
           PollVoteCastedFeedEvent(
             type: EventTypes.pollVoteCasted,
             createdAt: DateTime.timestamp(),
             custom: const {},
             fid: 'fid',
-            poll: createDefaultPollResponse(id: 'poll-1').copyWith(
-              voteCount: 1,
-              voteCountsByOption: {optionId: 1},
-              latestVotesByOption: {
-                optionId: [vote],
-              },
+            poll: createDefaultPollResponse(
+              id: 'poll-1',
+              ownVotesAndAnswers: [newVote],
             ),
-            pollVote: vote,
+            pollVote: newVote,
           ),
         );
 
         // Verify poll was updated with vote
-        expect(tester.pollListState.polls, hasLength(3));
         final updatedPoll = tester.pollListState.polls.firstWhereOrNull(
           (p) => p.id == 'poll-1',
         );
-
         expect(updatedPoll, isNotNull);
-        final votes = updatedPoll!.latestVotesByOption[optionId];
-
-        expect(votes, isNotNull);
-        expect(votes!.any((v) => v.id == voteId), isTrue);
+        expect(updatedPoll!.voteCount, 1);
+        expect(updatedPoll.latestVotesByOption['option-1'], hasLength(1));
       },
     );
 
@@ -281,47 +272,53 @@ void main() {
       'PollVoteChangedFeedEvent - should update poll with changed vote',
       build: (client) => client.pollList(query),
       setUp: (tester) => tester.get(
-        modifyResponse: (it) => it.copyWith(polls: initialPolls),
+        modifyResponse: (it) => it.copyWith(
+          polls: [
+            createDefaultPollResponse(
+              id: 'poll-1',
+              ownVotesAndAnswers: [
+                createDefaultPollVoteResponse(
+                  id: 'vote-1',
+                  optionId: 'option-1',
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
       body: (tester) async {
-        // Initial state - has polls
-        expect(tester.pollListState.polls, hasLength(3));
+        // Initial state - has one poll with one vote on option-1
+        expect(tester.pollListState.polls, hasLength(1));
+        final initialPoll = tester.pollListState.polls.first;
+        expect(initialPoll.voteCount, 1);
+        expect(initialPoll.latestVotesByOption['option-1'], hasLength(1));
 
-        const voteId = 'vote-1';
-        const newOptionId = 'option-2';
         final changedVote = createDefaultPollVoteResponse(
-          id: voteId,
+          id: 'vote-1',
           pollId: 'poll-1',
-          optionId: newOptionId,
+          optionId: 'option-2',
         );
 
-        // Emit event
+        // Emit PollVoteChangedFeedEvent
         await tester.emitEvent(
           PollVoteChangedFeedEvent(
             type: EventTypes.pollVoteChanged,
             createdAt: DateTime.timestamp(),
             custom: const {},
             fid: 'fid',
-            poll: createDefaultPollResponse(id: 'poll-1').copyWith(
-              latestVotesByOption: {
-                newOptionId: [changedVote],
-              },
+            poll: createDefaultPollResponse(
+              id: 'poll-1',
+              ownVotesAndAnswers: [changedVote],
             ),
             pollVote: changedVote,
           ),
         );
 
         // Verify poll was updated with changed vote
-        expect(tester.pollListState.polls, hasLength(3));
-        final updatedPoll = tester.pollListState.polls.firstWhereOrNull(
-          (p) => p.id == 'poll-1',
-        );
-
-        expect(updatedPoll, isNotNull);
-        final votes = updatedPoll!.latestVotesByOption[newOptionId];
-
-        expect(votes, isNotNull);
-        expect(votes!.any((v) => v.id == voteId), isTrue);
+        final updatedPoll = tester.pollListState.polls.first;
+        expect(updatedPoll.voteCount, 1);
+        expect(updatedPoll.latestVotesByOption['option-1'], isNull);
+        expect(updatedPoll.latestVotesByOption['option-2'], hasLength(1));
       },
     );
 
@@ -329,71 +326,52 @@ void main() {
       'PollVoteRemovedFeedEvent - should update poll when vote is removed',
       build: (client) => client.pollList(query),
       setUp: (tester) => tester.get(
-        modifyResponse: (it) => it.copyWith(polls: initialPolls),
+        modifyResponse: (it) => it.copyWith(
+          polls: [
+            createDefaultPollResponse(
+              id: 'poll-1',
+              ownVotesAndAnswers: [
+                createDefaultPollVoteResponse(
+                  id: 'vote-1',
+                  optionId: 'option-1',
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
       body: (tester) async {
-        // Initial state - has polls
-        expect(tester.pollListState.polls, hasLength(3));
+        // Initial state - has one poll with one vote
+        expect(tester.pollListState.polls, hasLength(1));
+        final initialPoll = tester.pollListState.polls.first;
+        expect(initialPoll.voteCount, 1);
+        expect(initialPoll.latestVotesByOption['option-1'], hasLength(1));
 
-        const voteId = 'vote-1';
-        const optionId = 'option-1';
-        final vote = createDefaultPollVoteResponse(
-          id: voteId,
+        final voteToRemove = createDefaultPollVoteResponse(
+          id: 'vote-1',
           pollId: 'poll-1',
-          optionId: optionId,
+          optionId: 'option-1',
         );
 
-        // First add a vote
-        await tester.emitEvent(
-          PollVoteCastedFeedEvent(
-            type: EventTypes.pollVoteCasted,
-            createdAt: DateTime.timestamp(),
-            custom: const {},
-            fid: 'fid',
-            poll: createDefaultPollResponse(id: 'poll-1').copyWith(
-              latestVotesByOption: {
-                optionId: [vote],
-              },
-              voteCount: 1,
-              voteCountsByOption: {optionId: 1},
-            ),
-            pollVote: vote,
-          ),
-        );
-
-        // Verify vote was added
-        final pollAfterAdd = tester.pollListState.polls.firstWhereOrNull(
-          (p) => p.id == 'poll-1',
-        );
-
-        expect(pollAfterAdd, isNotNull);
-        final votes = pollAfterAdd!.latestVotesByOption[optionId];
-
-        expect(votes, isNotNull);
-        expect(votes!.any((v) => v.id == voteId), isTrue);
-
-        // Now remove the vote
+        // Emit PollVoteRemovedFeedEvent
         await tester.emitEvent(
           PollVoteRemovedFeedEvent(
             type: EventTypes.pollVoteRemoved,
             createdAt: DateTime.timestamp(),
             custom: const {},
             fid: 'fid',
-            poll: createDefaultPollResponse(id: 'poll-1'),
-            pollVote: vote,
+            poll: createDefaultPollResponse(
+              id: 'poll-1',
+              ownVotesAndAnswers: [],
+            ),
+            pollVote: voteToRemove,
           ),
         );
 
-        // Verify poll was updated and vote was removed
-        expect(tester.pollListState.polls, hasLength(3));
-        final updatedPoll = tester.pollListState.polls.firstWhereOrNull(
-          (p) => p.id == 'poll-1',
-        );
-
-        expect(updatedPoll, isNotNull);
-        // Vote should no longer be in latestVotesByOption
-        final updatedVotes = updatedPoll!.latestVotesByOption[optionId];
-        expect(updatedVotes, isNull);
+        // Verify vote was removed
+        final updatedPoll = tester.pollListState.polls.first;
+        expect(updatedPoll.voteCount, 0);
+        expect(updatedPoll.latestVotesByOption['option-1'], isNull);
       },
     );
 
@@ -404,47 +382,38 @@ void main() {
         modifyResponse: (it) => it.copyWith(polls: initialPolls),
       ),
       body: (tester) async {
-        // Initial state - has polls
+        // Initial state - has 3 polls
         expect(tester.pollListState.polls, hasLength(3));
 
-        const answerId = 'answer-1';
-        const answerText = 'My Custom Answer';
-        final answer = createDefaultPollAnswerResponse(
-          id: answerId,
+        final newAnswer = createDefaultPollAnswerResponse(
+          id: 'answer-1',
           pollId: 'poll-1',
-          answerText: answerText,
+          answerText: 'My Custom Answer',
         );
 
-        // Emit event using PollVoteCastedFeedEvent with isAnswer: true
-        // This will be resolved to PollAnswerCastedFeedEvent by the resolver
+        // Emit PollVoteCastedFeedEvent (resolved to PollAnswerCastedFeedEvent)
         await tester.emitEvent(
           PollVoteCastedFeedEvent(
             type: EventTypes.pollVoteCasted,
             createdAt: DateTime.timestamp(),
             custom: const {},
             fid: 'fid',
-            poll: createDefaultPollResponse(id: 'poll-1').copyWith(
-              latestAnswers: [answer],
-              answersCount: 1,
+            poll: createDefaultPollResponse(
+              id: 'poll-1',
+              ownVotesAndAnswers: [newAnswer],
             ),
-            pollVote: answer,
+            pollVote: newAnswer,
           ),
         );
 
         // Verify poll was updated with answer
-        expect(tester.pollListState.polls, hasLength(3));
         final updatedPoll = tester.pollListState.polls.firstWhereOrNull(
           (p) => p.id == 'poll-1',
         );
-
         expect(updatedPoll, isNotNull);
-        final updatedAnswers = updatedPoll!.latestAnswers;
-
-        expect(updatedAnswers, isNotNull);
-        expect(updatedAnswers.any((a) => a.id == answerId), isTrue);
-
-        final foundAnswer = updatedAnswers.firstWhere((a) => a.id == answerId);
-        expect(foundAnswer.answerText, answerText);
+        expect(updatedPoll!.answersCount, 1);
+        expect(updatedPoll.latestAnswers, hasLength(1));
+        expect(updatedPoll.latestAnswers.first.answerText, 'My Custom Answer');
       },
     );
 
@@ -452,67 +421,48 @@ void main() {
       'PollAnswerRemovedFeedEvent - should update poll when answer is removed',
       build: (client) => client.pollList(query),
       setUp: (tester) => tester.get(
-        modifyResponse: (it) => it.copyWith(polls: initialPolls),
+        modifyResponse: (it) => it.copyWith(
+          polls: [
+            createDefaultPollResponse(
+              id: 'poll-1',
+              ownVotesAndAnswers: [
+                createDefaultPollAnswerResponse(id: 'answer-1'),
+              ],
+            ),
+          ],
+        ),
       ),
       body: (tester) async {
-        // Initial state - has polls
-        expect(tester.pollListState.polls, hasLength(3));
+        // Initial state - has one poll with one answer
+        expect(tester.pollListState.polls, hasLength(1));
+        final initialPoll = tester.pollListState.polls.first;
+        expect(initialPoll.answersCount, 1);
+        expect(initialPoll.latestAnswers, hasLength(1));
 
-        const answerId = 'answer-1';
-        const answerText = 'My Custom Answer';
-        final answer = createDefaultPollAnswerResponse(
-          id: answerId,
+        final answerToRemove = createDefaultPollAnswerResponse(
+          id: 'answer-1',
           pollId: 'poll-1',
-          answerText: answerText,
         );
 
-        // First add an answer
-        await tester.emitEvent(
-          PollVoteCastedFeedEvent(
-            type: EventTypes.pollVoteCasted,
-            createdAt: DateTime.timestamp(),
-            custom: const {},
-            fid: 'fid',
-            poll: createDefaultPollResponse(id: 'poll-1').copyWith(
-              latestAnswers: [answer],
-              answersCount: 1,
-            ),
-            pollVote: answer,
-          ),
-        );
-
-        // Verify answer was added
-        final pollAfterAdd = tester.pollListState.polls.firstWhereOrNull(
-          (p) => p.id == 'poll-1',
-        );
-        expect(pollAfterAdd, isNotNull);
-        final answers = pollAfterAdd!.latestAnswers;
-
-        expect(answers, isNotNull);
-        expect(answers.any((a) => a.id == answerId), isTrue);
-
-        // Now remove the answer
+        // Emit PollVoteRemovedFeedEvent (resolved to PollAnswerRemovedFeedEvent)
         await tester.emitEvent(
           PollVoteRemovedFeedEvent(
             type: EventTypes.pollVoteRemoved,
             createdAt: DateTime.timestamp(),
             custom: const {},
             fid: 'fid',
-            poll: createDefaultPollResponse(id: 'poll-1'),
-            pollVote: answer,
+            poll: createDefaultPollResponse(
+              id: 'poll-1',
+              ownVotesAndAnswers: [],
+            ),
+            pollVote: answerToRemove,
           ),
         );
 
-        // Verify poll was updated and answer was removed
-        expect(tester.pollListState.polls, hasLength(3));
-        final updatedPoll = tester.pollListState.polls.firstWhereOrNull(
-          (p) => p.id == 'poll-1',
-        );
-
-        expect(updatedPoll, isNotNull);
-        // Answer should no longer be in latestAnswers
-        final updatedAnswers = updatedPoll!.latestAnswers;
-        expect(updatedAnswers.any((a) => a.id == answerId), isFalse);
+        // Verify answer was removed
+        final updatedPoll = tester.pollListState.polls.first;
+        expect(updatedPoll.answersCount, 0);
+        expect(updatedPoll.latestAnswers, isEmpty);
       },
     );
   });

@@ -862,13 +862,11 @@ void main() {
               objectType: 'activity',
               userId: userId,
             ),
-            reaction: FeedsReactionResponse(
+            reaction: createDefaultReactionResponse(
+              reactionType: reactionType,
+              userId: userId,
               activityId: activityId,
               commentId: commentId,
-              type: reactionType,
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
             ),
           ),
         );
@@ -893,13 +891,11 @@ void main() {
               text: 'Test comment',
               userId: userId,
               ownReactions: [
-                FeedsReactionResponse(
+                createDefaultReactionResponse(
+                  reactionType: reactionType,
+                  userId: userId,
                   activityId: activityId,
                   commentId: commentId,
-                  type: reactionType,
-                  createdAt: DateTime.timestamp(),
-                  updatedAt: DateTime.timestamp(),
-                  user: createDefaultUserResponse(id: userId),
                 ),
               ],
             ),
@@ -989,56 +985,57 @@ void main() {
       );
 
       activityTest(
-        'ActivityReactionUpdatedEvent - should update reaction on activity',
+        'ActivityReactionUpdatedEvent - should replace user reaction',
         user: currentUser,
         build: (client) => client.activity(activityId: activityId, fid: fid),
-        setUp: (tester) => tester.get(),
+        setUp: (tester) => tester.get(
+          modifyResponse: (response) => response.copyWith(
+            ownReactions: [
+              createDefaultReactionResponse(
+                reactionType: 'wow',
+                userId: currentUser.id,
+                activityId: activityId,
+              ),
+            ],
+          ),
+        ),
         body: (tester) async {
+          // Initial state - has 'wow' reaction
           final activity = tester.activityState.activity;
           expect(activity, isNotNull);
+          expect(activity!.ownReactions, hasLength(1));
+          expect(activity.ownReactions.first.type, 'wow');
 
-          final existingReaction = createDefaultReactionResponse(
-            reactionType: 'wow',
-            userId: currentUser.id,
-            activityId: activityId,
-          );
-
-          // First add a reaction
-          await tester.emitEvent(
-            ActivityReactionAddedEvent(
-              type: EventTypes.activityReactionAdded,
-              createdAt: DateTime.timestamp(),
-              custom: const {},
-              fid: fid.rawValue,
-              activity: createDefaultActivityResponse(id: activityId),
-              reaction: existingReaction,
-            ),
-          );
-
-          // Then update it
-          final updatedReaction = existingReaction.copyWith(
-            custom: const {'updated': true},
-          );
-
+          // Emit ActivityReactionUpdatedEvent - replaces 'wow' with 'fire'
           await tester.emitEvent(
             ActivityReactionUpdatedEvent(
               type: EventTypes.activityReactionUpdated,
               createdAt: DateTime.timestamp(),
               custom: const {},
               fid: fid.rawValue,
-              activity: createDefaultActivityResponse(id: activityId),
-              reaction: updatedReaction,
+              activity: createDefaultActivityResponse(
+                id: activityId,
+                latestReactions: [
+                  createDefaultReactionResponse(
+                    reactionType: 'fire',
+                    userId: currentUser.id,
+                    activityId: activityId,
+                  ),
+                ],
+              ),
+              reaction: createDefaultReactionResponse(
+                reactionType: 'fire',
+                userId: currentUser.id,
+                activityId: activityId,
+              ),
             ),
           );
 
+          // Verify 'wow' was replaced with 'fire'
           final updatedActivity = tester.activityState.activity;
           expect(updatedActivity, isNotNull);
           expect(updatedActivity!.ownReactions, hasLength(1));
-
-          final foundReaction = updatedActivity.ownReactions.firstWhere(
-            (r) => r.type == 'wow',
-          );
-          expect(foundReaction.custom?['updated'], isTrue);
+          expect(updatedActivity.ownReactions.first.type, 'fire');
         },
       );
 
@@ -1046,37 +1043,25 @@ void main() {
         'ActivityReactionDeletedEvent - should remove reaction from activity',
         user: currentUser,
         build: (client) => client.activity(activityId: activityId, fid: fid),
-        setUp: (tester) => tester.get(),
+        setUp: (tester) => tester.get(
+          modifyResponse: (response) => response.copyWith(
+            ownReactions: [
+              createDefaultReactionResponse(
+                reactionType: 'love',
+                userId: currentUser.id,
+                activityId: activityId,
+              ),
+            ],
+          ),
+        ),
         body: (tester) async {
+          // Initial state - has 'love' reaction
           final activity = tester.activityState.activity;
           expect(activity, isNotNull);
+          expect(activity!.ownReactions, hasLength(1));
+          expect(activity.ownReactions.first.type, 'love');
 
-          final reaction = createDefaultReactionResponse(
-            reactionType: 'love',
-            userId: currentUser.id,
-            activityId: activityId,
-          );
-
-          // First add a reaction
-          await tester.emitEvent(
-            ActivityReactionAddedEvent(
-              type: EventTypes.activityReactionAdded,
-              createdAt: DateTime.timestamp(),
-              custom: const {},
-              fid: fid.rawValue,
-              activity: createDefaultActivityResponse(id: activityId),
-              reaction: reaction,
-            ),
-          );
-
-          // Verify reaction was added
-          var updatedActivity = tester.activityState.activity;
-          expect(updatedActivity, isNotNull);
-          expect(updatedActivity!.ownReactions, hasLength(1));
-
-          expect(updatedActivity.ownReactions.first.type, 'love');
-
-          // Then remove it
+          // Emit ActivityReactionDeletedEvent
           await tester.emitEvent(
             ActivityReactionDeletedEvent(
               type: EventTypes.activityReactionDeleted,
@@ -1084,11 +1069,16 @@ void main() {
               custom: const {},
               fid: fid.rawValue,
               activity: createDefaultActivityResponse(id: activityId),
-              reaction: reaction,
+              reaction: createDefaultReactionResponse(
+                reactionType: 'love',
+                userId: currentUser.id,
+                activityId: activityId,
+              ),
             ),
           );
 
-          updatedActivity = tester.activityState.activity;
+          // Verify reaction was removed
+          final updatedActivity = tester.activityState.activity;
           expect(updatedActivity, isNotNull);
           expect(updatedActivity!.ownReactions, isEmpty);
         },
@@ -1815,15 +1805,11 @@ void main() {
             createDefaultPollOptionResponse(id: 'option-1', text: 'Option 1'),
             createDefaultPollOptionResponse(id: 'option-2', text: 'Option 2'),
           ],
-          latestVotesByOption: {
-            'option-1': [
-              createDefaultPollVoteResponse(id: 'vote-1', optionId: 'option-1'),
-              createDefaultPollVoteResponse(id: 'vote-2', optionId: 'option-1'),
-            ],
-            'option-2': [
-              createDefaultPollVoteResponse(id: 'vote-3', optionId: 'option-2'),
-            ],
-          },
+          ownVotesAndAnswers: [
+            createDefaultPollVoteResponse(id: 'vote-1', optionId: 'option-1'),
+            createDefaultPollVoteResponse(id: 'vote-2', optionId: 'option-1'),
+            createDefaultPollVoteResponse(id: 'vote-3', optionId: 'option-2'),
+          ],
         );
 
         activityTest(
@@ -1833,43 +1819,52 @@ void main() {
             modifyResponse: (it) => it.copyWith(poll: pollWithVotes),
           ),
           body: (tester) async {
-            final poll = tester.activityState.poll!;
-            expect(poll.voteCount, 3);
+            // Initial state - has 3 votes
+            final initialPoll = tester.activityState.poll!;
+            expect(initialPoll.voteCount, 3);
+            expect(initialPoll.latestVotesByOption, hasLength(2));
+            expect(initialPoll.latestVotesByOption['option-2'], hasLength(1));
 
-            expect(poll.latestVotesByOption, hasLength(2));
-            expect(poll.latestVotesByOption['option-2'], hasLength(1));
-
-            final pollVote = createDefaultPollVoteResponse(
+            final newVote = createDefaultPollVoteResponse(
               id: 'vote-4',
-              pollId: poll.id,
+              pollId: initialPoll.id,
               optionId: 'option-2',
             );
 
+            // Emit PollVoteCastedFeedEvent
             await tester.emitEvent(
               PollVoteCastedFeedEvent(
                 type: EventTypes.pollVoteCasted,
                 createdAt: DateTime.timestamp(),
                 custom: const {},
                 fid: fid.rawValue,
-                pollVote: pollVote,
-                poll: pollWithVotes.copyWith(
-                  voteCount: 4,
-                  latestVotesByOption: {
-                    ...pollWithVotes.latestVotesByOption,
-                    pollVote.optionId: List<PollVoteResponseData>.from(
-                      pollWithVotes.latestVotesByOption[pollVote.optionId]!,
-                    )..add(pollVote),
-                  },
+                pollVote: newVote,
+                poll: createDefaultPollResponse(
+                  options: pollWithVotes.options,
+                  ownVotesAndAnswers: [
+                    createDefaultPollVoteResponse(
+                      id: 'vote-1',
+                      optionId: 'option-1',
+                    ),
+                    createDefaultPollVoteResponse(
+                      id: 'vote-2',
+                      optionId: 'option-1',
+                    ),
+                    createDefaultPollVoteResponse(
+                      id: 'vote-3',
+                      optionId: 'option-2',
+                    ),
+                    newVote,
+                  ],
                 ),
               ),
             );
 
-            final updatedPollData = tester.activityState.poll;
-            expect(updatedPollData!.voteCount, 4);
-
-            final latestVotesByOption = updatedPollData.latestVotesByOption;
-            expect(latestVotesByOption, hasLength(2));
-            expect(latestVotesByOption['option-2'], hasLength(2));
+            // Verify vote was added
+            final updatedPoll = tester.activityState.poll!;
+            expect(updatedPoll.voteCount, 4);
+            expect(updatedPoll.latestVotesByOption, hasLength(2));
+            expect(updatedPoll.latestVotesByOption['option-2'], hasLength(2));
           },
         );
 
@@ -1877,25 +1872,31 @@ void main() {
           'poll vote changed',
           build: (client) => client.activity(activityId: activityId, fid: fid),
           setUp: (tester) => tester.get(
-            modifyResponse: (it) => it.copyWith(poll: pollWithVotes),
+            modifyResponse: (it) => it.copyWith(
+              poll: createDefaultPollResponse(
+                options: pollWithVotes.options,
+                ownVotesAndAnswers: [
+                  createDefaultPollVoteResponse(
+                    id: 'vote-1',
+                    optionId: 'option-1',
+                  ),
+                ],
+              ),
+            ),
           ),
           body: (tester) async {
-            final poll = tester.activityState.poll!;
-            expect(poll.voteCount, 3);
+            // Initial state - has one vote on option-1
+            final initialPoll = tester.activityState.poll!;
+            expect(initialPoll.voteCount, 1);
+            expect(initialPoll.latestVotesByOption['option-1'], hasLength(1));
 
-            expect(poll.latestVotesByOption, hasLength(2));
-            expect(poll.latestVotesByOption['option-1'], hasLength(2));
-            expect(poll.latestVotesByOption['option-2'], hasLength(1));
-
-            // User changes vote from option-1 to option-2
-            const voteId = 'vote-1';
-            const newOptionId = 'option-2';
             final changedVote = createDefaultPollVoteResponse(
-              id: voteId,
-              pollId: poll.id,
-              optionId: newOptionId,
+              id: 'vote-1',
+              pollId: initialPoll.id,
+              optionId: 'option-2',
             );
 
+            // Emit PollVoteChangedFeedEvent
             await tester.emitEvent(
               PollVoteChangedFeedEvent(
                 type: EventTypes.pollVoteChanged,
@@ -1903,37 +1904,18 @@ void main() {
                 custom: const {},
                 fid: fid.rawValue,
                 pollVote: changedVote,
-                poll: pollWithVotes.copyWith(
-                  latestVotesByOption: {
-                    'option-1': [
-                      createDefaultPollVoteResponse(
-                        id: 'vote-2',
-                        optionId: 'option-1',
-                      ),
-                    ],
-                    'option-2': [
-                      createDefaultPollVoteResponse(
-                        id: 'vote-3',
-                        optionId: 'option-2',
-                      ),
-                      changedVote,
-                    ],
-                  },
+                poll: createDefaultPollResponse(
+                  options: pollWithVotes.options,
+                  ownVotesAndAnswers: [changedVote],
                 ),
               ),
             );
 
-            final updatedPollData = tester.activityState.poll;
-            expect(updatedPollData, isNotNull);
-
-            final latestVotesByOption = updatedPollData!.latestVotesByOption;
-            expect(latestVotesByOption, hasLength(2));
-            expect(latestVotesByOption['option-1'], hasLength(1));
-            expect(latestVotesByOption['option-2'], hasLength(2));
-
-            // Verify the vote was moved to option-2
-            final votesInOption2 = latestVotesByOption['option-2']!;
-            expect(votesInOption2.any((v) => v.id == voteId), isTrue);
+            // Verify vote was changed
+            final updatedPoll = tester.activityState.poll!;
+            expect(updatedPoll.voteCount, 1);
+            expect(updatedPoll.latestVotesByOption['option-1'], isNull);
+            expect(updatedPoll.latestVotesByOption['option-2'], hasLength(1));
           },
         );
 
@@ -1941,21 +1923,31 @@ void main() {
           'poll vote removed',
           build: (client) => client.activity(activityId: activityId, fid: fid),
           setUp: (tester) => tester.get(
-            modifyResponse: (it) => it.copyWith(poll: pollWithVotes),
+            modifyResponse: (it) => it.copyWith(
+              poll: createDefaultPollResponse(
+                options: pollWithVotes.options,
+                ownVotesAndAnswers: [
+                  createDefaultPollVoteResponse(
+                    id: 'vote-1',
+                    optionId: 'option-1',
+                  ),
+                ],
+              ),
+            ),
           ),
           body: (tester) async {
-            final poll = tester.activityState.poll!;
-            expect(poll.voteCount, 3);
-
-            expect(poll.latestVotesByOption, hasLength(2));
-            expect(poll.latestVotesByOption['option-1'], hasLength(2));
+            // Initial state - has one vote on option-1
+            final initialPoll = tester.activityState.poll!;
+            expect(initialPoll.voteCount, 1);
+            expect(initialPoll.latestVotesByOption['option-1'], hasLength(1));
 
             final voteToRemove = createDefaultPollVoteResponse(
               id: 'vote-1',
-              pollId: poll.id,
+              pollId: initialPoll.id,
               optionId: 'option-1',
             );
 
+            // Emit PollVoteRemovedFeedEvent
             await tester.emitEvent(
               PollVoteRemovedFeedEvent(
                 type: EventTypes.pollVoteRemoved,
@@ -1963,31 +1955,24 @@ void main() {
                 custom: const {},
                 fid: fid.rawValue,
                 pollVote: voteToRemove,
-                poll: pollWithVotes.copyWith(
-                  voteCount: 2,
-                  latestVotesByOption: {
-                    ...pollWithVotes.latestVotesByOption,
-                    voteToRemove.optionId: List<PollVoteResponseData>.from(
-                      pollWithVotes.latestVotesByOption[voteToRemove.optionId]!,
-                    )..removeWhere((vote) => vote.id == voteToRemove.id),
-                  },
+                poll: createDefaultPollResponse(
+                  options: pollWithVotes.options,
+                  ownVotesAndAnswers: [],
                 ),
               ),
             );
 
-            final updatedPollData = tester.activityState.poll;
-            expect(updatedPollData!.voteCount, 2);
-
-            final latestVotesByOption = updatedPollData.latestVotesByOption;
-            expect(latestVotesByOption, hasLength(2));
-            expect(latestVotesByOption['option-1'], hasLength(1));
+            // Verify vote was removed
+            final updatedPoll = tester.activityState.poll!;
+            expect(updatedPoll.voteCount, 0);
+            expect(updatedPoll.latestVotesByOption['option-1'], isNull);
           },
         );
       });
 
       group('Answer operations', () {
         final pollWithAnswers = createDefaultPollResponse(
-          latestAnswers: [
+          ownVotesAndAnswers: [
             createDefaultPollAnswerResponse(id: 'answer-1'),
             createDefaultPollAnswerResponse(id: 'answer-2'),
             createDefaultPollAnswerResponse(id: 'answer-3'),
@@ -2001,17 +1986,18 @@ void main() {
             modifyResponse: (it) => it.copyWith(poll: pollWithAnswers),
           ),
           body: (tester) async {
-            final poll = tester.activityState.poll!;
-            expect(poll.answersCount, 3);
-
-            expect(poll.latestAnswers, hasLength(3));
+            // Initial state - has 3 answers
+            final initialPoll = tester.activityState.poll!;
+            expect(initialPoll.answersCount, 3);
+            expect(initialPoll.latestAnswers, hasLength(3));
 
             final newAnswer = createDefaultPollAnswerResponse(
               id: 'answer-4',
-              pollId: poll.id,
+              pollId: initialPoll.id,
               answerText: 'Answer 4',
             );
 
+            // Emit PollVoteCastedFeedEvent (resolved to PollAnswerCastedFeedEvent)
             await tester.emitEvent(
               PollVoteCastedFeedEvent(
                 type: EventTypes.pollVoteCasted,
@@ -2019,19 +2005,21 @@ void main() {
                 custom: const {},
                 fid: fid.rawValue,
                 pollVote: newAnswer,
-                poll: pollWithAnswers.copyWith(
-                  answersCount: 4,
-                  latestAnswers: List<PollVoteResponseData>.from(
-                    pollWithAnswers.latestAnswers,
-                  )..add(newAnswer),
+                poll: createDefaultPollResponse(
+                  ownVotesAndAnswers: [
+                    createDefaultPollAnswerResponse(id: 'answer-1'),
+                    createDefaultPollAnswerResponse(id: 'answer-2'),
+                    createDefaultPollAnswerResponse(id: 'answer-3'),
+                    newAnswer,
+                  ],
                 ),
               ),
             );
 
-            final updatedPollData = tester.activityState.poll;
-            expect(updatedPollData!.answersCount, 4);
-
-            expect(updatedPollData.latestAnswers, hasLength(4));
+            // Verify answer was added
+            final updatedPoll = tester.activityState.poll!;
+            expect(updatedPoll.answersCount, 4);
+            expect(updatedPoll.latestAnswers, hasLength(4));
           },
         );
 
@@ -2039,20 +2027,26 @@ void main() {
           'poll answer removed',
           build: (client) => client.activity(activityId: activityId, fid: fid),
           setUp: (tester) => tester.get(
-            modifyResponse: (it) => it.copyWith(poll: pollWithAnswers),
+            modifyResponse: (it) => it.copyWith(
+              poll: createDefaultPollResponse(
+                ownVotesAndAnswers: [
+                  createDefaultPollAnswerResponse(id: 'answer-1'),
+                ],
+              ),
+            ),
           ),
           body: (tester) async {
-            final poll = tester.activityState.poll!;
-            expect(poll.answersCount, 3);
-
-            expect(poll.latestAnswers, hasLength(3));
+            // Initial state - has one answer
+            final initialPoll = tester.activityState.poll!;
+            expect(initialPoll.answersCount, 1);
+            expect(initialPoll.latestAnswers, hasLength(1));
 
             final answerToRemove = createDefaultPollAnswerResponse(
               id: 'answer-1',
-              pollId: poll.id,
-              answerText: 'Answer 1',
+              pollId: initialPoll.id,
             );
 
+            // Emit PollVoteRemovedFeedEvent (resolved to PollAnswerRemovedFeedEvent)
             await tester.emitEvent(
               PollVoteRemovedFeedEvent(
                 type: EventTypes.pollVoteRemoved,
@@ -2060,19 +2054,16 @@ void main() {
                 custom: const {},
                 fid: fid.rawValue,
                 pollVote: answerToRemove,
-                poll: pollWithAnswers.copyWith(
-                  answersCount: 2,
-                  latestAnswers: List<PollVoteResponseData>.from(
-                    pollWithAnswers.latestAnswers,
-                  )..removeWhere((answer) => answer.id == answerToRemove.id),
+                poll: createDefaultPollResponse(
+                  ownVotesAndAnswers: [],
                 ),
               ),
             );
 
-            final updatedPollData = tester.activityState.poll;
-            expect(updatedPollData!.answersCount, 2);
-
-            expect(updatedPollData.latestAnswers, hasLength(2));
+            // Verify answer was removed
+            final updatedPoll = tester.activityState.poll!;
+            expect(updatedPoll.answersCount, 0);
+            expect(updatedPoll.latestAnswers, isEmpty);
           },
         );
       });

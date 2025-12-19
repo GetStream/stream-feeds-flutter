@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_redundant_argument_values
+
 import 'package:stream_feeds/stream_feeds.dart';
 
 import 'package:stream_feeds_test/stream_feeds_test.dart';
@@ -332,12 +334,10 @@ void main() {
             activity: createDefaultActivityResponse(
               id: activityId,
             ),
-            reaction: FeedsReactionResponse(
+            reaction: createDefaultReactionResponse(
+              reactionType: reactionType,
+              userId: userId,
               activityId: activityId,
-              type: reactionType,
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
             ),
           ),
         );
@@ -350,7 +350,7 @@ void main() {
     );
 
     activityListTest(
-      'should handle ActivityReactionUpdatedEvent and update reaction',
+      'ActivityReactionUpdatedEvent - should replace user reaction',
       build: (client) => client.activityList(query),
       setUp: (tester) => tester.get(
         modifyResponse: (response) => response.copyWith(
@@ -358,12 +358,10 @@ void main() {
             createDefaultActivityResponse(
               id: activityId,
               ownReactions: [
-                FeedsReactionResponse(
+                createDefaultReactionResponse(
+                  reactionType: reactionType,
+                  userId: userId,
                   activityId: activityId,
-                  type: reactionType,
-                  createdAt: DateTime.timestamp(),
-                  updatedAt: DateTime.timestamp(),
-                  user: createDefaultUserResponse(id: userId),
                 ),
               ],
             ),
@@ -385,14 +383,18 @@ void main() {
             fid: 'user:john',
             activity: createDefaultActivityResponse(
               id: activityId,
+              latestReactions: [
+                createDefaultReactionResponse(
+                  reactionType: 'love',
+                  userId: userId,
+                  activityId: activityId,
+                ),
+              ],
             ),
-            reaction: FeedsReactionResponse(
+            reaction: createDefaultReactionResponse(
+              reactionType: 'love',
+              userId: userId,
               activityId: activityId,
-              type: 'love',
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
-              custom: const {'updated': true},
             ),
           ),
         );
@@ -413,12 +415,10 @@ void main() {
             createDefaultActivityResponse(
               id: activityId,
               ownReactions: [
-                FeedsReactionResponse(
+                createDefaultReactionResponse(
+                  reactionType: reactionType,
+                  userId: userId,
                   activityId: activityId,
-                  type: reactionType,
-                  createdAt: DateTime.timestamp(),
-                  updatedAt: DateTime.timestamp(),
-                  user: createDefaultUserResponse(id: userId),
                 ),
               ],
             ),
@@ -440,12 +440,10 @@ void main() {
             activity: createDefaultActivityResponse(
               id: activityId,
             ),
-            reaction: FeedsReactionResponse(
+            reaction: createDefaultReactionResponse(
+              reactionType: reactionType,
+              userId: userId,
               activityId: activityId,
-              type: reactionType,
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
             ),
           ),
         );
@@ -807,7 +805,7 @@ void main() {
     );
 
     activityListTest(
-      'should handle CommentReactionUpdatedEvent and update reaction',
+      'CommentReactionUpdatedEvent - should replace user reaction',
       build: (client) => client.activityList(query),
       setUp: (tester) => tester.get(
         modifyResponse: (response) => response.copyWith(
@@ -820,6 +818,13 @@ void main() {
                   objectId: activityId,
                   objectType: 'activity',
                   userId: userId,
+                  ownReactions: [
+                    createDefaultReactionResponse(
+                      reactionType: 'wow',
+                      userId: userId,
+                      commentId: 'comment-1',
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -827,38 +832,13 @@ void main() {
         ),
       ),
       body: (tester) async {
-        // Initial state - has comment with no reactions
+        // Initial state - has comment with 'wow' reaction
         final initialActivity = tester.activityListState.activities.first;
         expect(initialActivity.comments, hasLength(1));
-        expect(initialActivity.comments.first.ownReactions, isEmpty);
+        expect(initialActivity.comments.first.ownReactions, hasLength(1));
+        expect(initialActivity.comments.first.ownReactions.first.type, 'wow');
 
-        // First add a reaction
-        await tester.emitEvent(
-          CommentReactionAddedEvent(
-            type: EventTypes.commentReactionAdded,
-            createdAt: DateTime.timestamp(),
-            custom: const {},
-            fid: 'user:john',
-            activity: createDefaultActivityResponse(id: activityId),
-            comment: createDefaultCommentResponse(
-              id: 'comment-1',
-              objectId: activityId,
-              objectType: 'activity',
-            ),
-            reaction: createDefaultReactionResponse(
-              reactionType: 'wow',
-              userId: userId,
-              commentId: 'comment-1',
-            ),
-          ),
-        );
-
-        // Verify reaction was added
-        final activityAfterAdd = tester.activityListState.activities.first;
-        expect(activityAfterAdd.comments.first.ownReactions, hasLength(1));
-        expect(activityAfterAdd.comments.first.ownReactions.first.type, 'wow');
-
-        // Then update it
+        // Emit CommentReactionUpdatedEvent - replaces 'wow' with 'love'
         await tester.emitEvent(
           CommentReactionUpdatedEvent(
             type: EventTypes.commentReactionUpdated,
@@ -870,6 +850,13 @@ void main() {
               id: 'comment-1',
               objectId: activityId,
               objectType: 'activity',
+              latestReactions: [
+                createDefaultReactionResponse(
+                  reactionType: 'love',
+                  userId: userId,
+                  commentId: 'comment-1',
+                ),
+              ],
             ),
             reaction: createDefaultReactionResponse(
               reactionType: 'love',
@@ -879,7 +866,7 @@ void main() {
           ),
         );
 
-        // Verify state has updated reaction
+        // Verify 'wow' was replaced with 'love'
         final updatedActivity = tester.activityListState.activities.first;
         expect(updatedActivity.comments, hasLength(1));
         expect(updatedActivity.comments.first.ownReactions, hasLength(1));
@@ -901,6 +888,13 @@ void main() {
                   objectId: activityId,
                   objectType: 'activity',
                   userId: userId,
+                  ownReactions: [
+                    createDefaultReactionResponse(
+                      reactionType: 'love',
+                      userId: userId,
+                      commentId: 'comment-1',
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -908,37 +902,13 @@ void main() {
         ),
       ),
       body: (tester) async {
-        // Initial state - has comment with no reactions
+        // Initial state - has comment with 'love' reaction
         final initialActivity = tester.activityListState.activities.first;
         expect(initialActivity.comments, hasLength(1));
-        expect(initialActivity.comments.first.ownReactions, isEmpty);
+        expect(initialActivity.comments.first.ownReactions, hasLength(1));
+        expect(initialActivity.comments.first.ownReactions.first.type, 'love');
 
-        // First add a reaction
-        await tester.emitEvent(
-          CommentReactionAddedEvent(
-            type: EventTypes.commentReactionAdded,
-            createdAt: DateTime.timestamp(),
-            custom: const {},
-            fid: 'user:john',
-            activity: createDefaultActivityResponse(id: activityId),
-            comment: createDefaultCommentResponse(
-              id: 'comment-1',
-              objectId: activityId,
-              objectType: 'activity',
-            ),
-            reaction: createDefaultReactionResponse(
-              reactionType: 'love',
-              userId: userId,
-              commentId: 'comment-1',
-            ),
-          ),
-        );
-
-        // Verify reaction was added
-        final activityAfterAdd = tester.activityListState.activities.first;
-        expect(activityAfterAdd.comments.first.ownReactions, hasLength(1));
-
-        // Then remove it
+        // Emit CommentReactionDeletedEvent
         await tester.emitEvent(
           CommentReactionDeletedEvent(
             type: EventTypes.commentReactionDeleted,
@@ -958,7 +928,7 @@ void main() {
           ),
         );
 
-        // Verify state has no reactions on comment
+        // Verify reaction was removed
         final updatedActivity = tester.activityListState.activities.first;
         expect(updatedActivity.comments, hasLength(1));
         expect(updatedActivity.comments.first.ownReactions, isEmpty);
@@ -1088,11 +1058,9 @@ void main() {
           createDefaultPollOptionResponse(id: 'option-1', text: 'Option 1'),
           createDefaultPollOptionResponse(id: 'option-2', text: 'Option 2'),
         ],
-        latestVotesByOption: {
-          'option-1': [
-            createDefaultPollVoteResponse(id: 'vote-1', optionId: 'option-1'),
-          ],
-        },
+        ownVotesAndAnswers: [
+          createDefaultPollVoteResponse(id: 'vote-1', optionId: 'option-1'),
+        ],
       );
 
       activityListTest(
@@ -1120,7 +1088,7 @@ void main() {
             optionId: 'option-2',
           );
 
-          // Emit event
+          // Emit PollVoteCastedFeedEvent
           await tester.emitEvent(
             PollVoteCastedFeedEvent(
               type: EventTypes.pollVoteCasted,
@@ -1128,12 +1096,15 @@ void main() {
               custom: const {},
               fid: 'user:john',
               pollVote: newVote,
-              poll: pollWithVotes.copyWith(
-                voteCount: 2,
-                latestVotesByOption: {
-                  ...pollWithVotes.latestVotesByOption,
-                  newVote.optionId: [newVote],
-                },
+              poll: createDefaultPollResponse(
+                options: pollWithVotes.options,
+                ownVotesAndAnswers: [
+                  createDefaultPollVoteResponse(
+                    id: 'vote-1',
+                    optionId: 'option-1',
+                  ),
+                  newVote,
+                ],
               ),
             ),
           );
@@ -1166,16 +1137,13 @@ void main() {
               initialActivity.poll!.latestVotesByOption['option-1'];
           expect(votesInOption1, hasLength(1));
 
-          // User changes vote from option-1 to option-2
-          const voteId = 'vote-1';
-          const newOptionId = 'option-2';
           final changedVote = createDefaultPollVoteResponse(
-            id: voteId,
+            id: 'vote-1',
             pollId: pollWithVotes.id,
-            optionId: newOptionId,
+            optionId: 'option-2',
           );
 
-          // Emit event
+          // Emit PollVoteChangedFeedEvent
           await tester.emitEvent(
             PollVoteChangedFeedEvent(
               type: EventTypes.pollVoteChanged,
@@ -1183,10 +1151,9 @@ void main() {
               custom: const {},
               fid: 'user:john',
               pollVote: changedVote,
-              poll: pollWithVotes.copyWith(
-                latestVotesByOption: {
-                  'option-2': [changedVote],
-                },
+              poll: createDefaultPollResponse(
+                options: pollWithVotes.options,
+                ownVotesAndAnswers: [changedVote],
               ),
             ),
           );
@@ -1194,9 +1161,11 @@ void main() {
           // Verify state has updated poll
           final updatedActivity = tester.activityListState.activities.first;
           expect(updatedActivity.poll, isNotNull);
-          final votesInOption2 =
-              updatedActivity.poll!.latestVotesByOption['option-2'];
-          expect(votesInOption2!.any((v) => v.id == voteId), isTrue);
+          expect(updatedActivity.poll!.voteCount, 1);
+          expect(
+            updatedActivity.poll!.latestVotesByOption['option-2'],
+            hasLength(1),
+          );
         },
       );
 
@@ -1225,7 +1194,7 @@ void main() {
             optionId: 'option-1',
           );
 
-          // Emit event
+          // Emit PollVoteRemovedFeedEvent
           await tester.emitEvent(
             PollVoteRemovedFeedEvent(
               type: EventTypes.pollVoteRemoved,
@@ -1233,9 +1202,9 @@ void main() {
               custom: const {},
               fid: 'user:john',
               pollVote: voteToRemove,
-              poll: pollWithVotes.copyWith(
-                voteCount: 0,
-                latestVotesByOption: {},
+              poll: createDefaultPollResponse(
+                options: pollWithVotes.options,
+                ownVotesAndAnswers: [],
               ),
             ),
           );
@@ -1250,7 +1219,7 @@ void main() {
 
     group('Answer operations', () {
       final pollWithAnswers = createDefaultPollResponse(
-        latestAnswers: [
+        ownVotesAndAnswers: [
           createDefaultPollAnswerResponse(id: 'answer-1'),
         ],
       );
@@ -1289,11 +1258,11 @@ void main() {
               custom: const {},
               fid: 'user:john',
               pollVote: newAnswer,
-              poll: pollWithAnswers.copyWith(
-                answersCount: 2,
-                latestAnswers: List<PollVoteResponseData>.from(
-                  pollWithAnswers.latestAnswers,
-                )..add(newAnswer),
+              poll: createDefaultPollResponse(
+                ownVotesAndAnswers: [
+                  createDefaultPollAnswerResponse(id: 'answer-1'),
+                  newAnswer,
+                ],
               ),
             ),
           );
@@ -1338,9 +1307,8 @@ void main() {
               custom: const {},
               fid: 'user:john',
               pollVote: answerToRemove,
-              poll: pollWithAnswers.copyWith(
-                answersCount: 0,
-                latestAnswers: [],
+              poll: createDefaultPollResponse(
+                ownVotesAndAnswers: [],
               ),
             ),
           );

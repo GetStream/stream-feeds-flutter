@@ -236,16 +236,19 @@ void main() {
       user: currentUser,
       build: (client) => client.commentList(query),
       setUp: (tester) => tester.get(
-        modifyResponse: (it) => it.copyWith(comments: initialComments),
+        modifyResponse: (it) => it.copyWith(
+          comments: [
+            createDefaultCommentResponse(
+              id: 'comment-1',
+              objectId: 'obj-1',
+            ),
+          ],
+        ),
       ),
       body: (tester) async {
-        expect(tester.commentListState.comments, hasLength(3));
-
-        final reaction = createDefaultReactionResponse(
-          reactionType: 'love',
-          userId: currentUser.id,
-          commentId: 'comment-1',
-        );
+        // Initial state - no reactions
+        var comment = tester.commentListState.comments.first;
+        expect(comment.ownReactions, isEmpty);
 
         await tester.emitEvent(
           CommentReactionAddedEvent(
@@ -258,59 +261,49 @@ void main() {
               id: 'comment-1',
               objectId: 'obj-1',
             ),
-            reaction: reaction,
+            reaction: createDefaultReactionResponse(
+              reactionType: 'love',
+              userId: currentUser.id,
+              commentId: 'comment-1',
+            ),
           ),
         );
 
-        final comments = tester.commentListState.comments;
-        expect(comments, hasLength(3));
-
-        final updatedComment = comments.firstWhereOrNull(
-          (c) => c.id == 'comment-1',
-        );
-        expect(updatedComment, isNotNull);
-        expect(updatedComment!.ownReactions, hasLength(1));
-        expect(updatedComment.ownReactions.first.type, 'love');
+        // Verify reaction was added
+        comment = tester.commentListState.comments.first;
+        expect(comment.ownReactions, hasLength(1));
+        expect(comment.ownReactions.first.type, 'love');
       },
     );
 
     commentListTest(
-      'CommentReactionUpdatedEvent - should update reaction on comment',
+      'CommentReactionUpdatedEvent - should replace user reaction',
       user: currentUser,
       build: (client) => client.commentList(query),
       setUp: (tester) => tester.get(
-        modifyResponse: (it) => it.copyWith(comments: initialComments),
-      ),
-      body: (tester) async {
-        expect(tester.commentListState.comments, hasLength(3));
-
-        final existingReaction = createDefaultReactionResponse(
-          reactionType: 'wow',
-          userId: currentUser.id,
-          commentId: 'comment-1',
-        );
-
-        // First add a reaction
-        await tester.emitEvent(
-          CommentReactionAddedEvent(
-            type: EventTypes.commentReactionAdded,
-            createdAt: DateTime.timestamp(),
-            custom: const {},
-            fid: 'user:source',
-            activity: createDefaultActivityResponse(id: 'obj-1'),
-            comment: createDefaultCommentResponse(
+        modifyResponse: (it) => it.copyWith(
+          comments: [
+            createDefaultCommentResponse(
               id: 'comment-1',
               objectId: 'obj-1',
+              ownReactions: [
+                createDefaultReactionResponse(
+                  reactionType: 'wow',
+                  userId: currentUser.id,
+                  commentId: 'comment-1',
+                ),
+              ],
             ),
-            reaction: existingReaction,
-          ),
-        );
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - has 'wow' reaction
+        var comment = tester.commentListState.comments.first;
+        expect(comment.ownReactions, hasLength(1));
+        expect(comment.ownReactions.first.type, 'wow');
 
-        // Then update it
-        final updatedReaction = existingReaction.copyWith(
-          custom: const {'updated': true},
-        );
-
+        // Emit CommentReactionUpdatedEvent - replaces 'wow' with 'fire'
         await tester.emitEvent(
           CommentReactionUpdatedEvent(
             type: EventTypes.commentReactionUpdated,
@@ -321,27 +314,26 @@ void main() {
             comment: createDefaultCommentResponse(
               id: 'comment-1',
               objectId: 'obj-1',
+              latestReactions: [
+                createDefaultReactionResponse(
+                  reactionType: 'fire',
+                  userId: currentUser.id,
+                  commentId: 'comment-1',
+                ),
+              ],
             ),
-            reaction: updatedReaction,
+            reaction: createDefaultReactionResponse(
+              reactionType: 'fire',
+              userId: currentUser.id,
+              commentId: 'comment-1',
+            ),
           ),
         );
 
-        final comments = tester.commentListState.comments;
-        expect(comments, hasLength(3));
-
-        final updatedComment = comments.firstWhereOrNull(
-          (c) => c.id == 'comment-1',
-        );
-
-        expect(updatedComment, isNotNull);
-        expect(updatedComment!.ownReactions, hasLength(1));
-
-        final foundReaction = updatedComment.ownReactions.firstWhereOrNull(
-          (r) => r.type == 'wow',
-        );
-
-        expect(foundReaction, isNotNull);
-        expect(foundReaction!.custom?['updated'], isTrue);
+        // Verify 'wow' was replaced with 'fire'
+        comment = tester.commentListState.comments.first;
+        expect(comment.ownReactions, hasLength(1));
+        expect(comment.ownReactions.first.type, 'fire');
       },
     );
 
@@ -350,44 +342,29 @@ void main() {
       user: currentUser,
       build: (client) => client.commentList(query),
       setUp: (tester) => tester.get(
-        modifyResponse: (it) => it.copyWith(comments: initialComments),
-      ),
-      body: (tester) async {
-        expect(tester.commentListState.comments, hasLength(3));
-
-        final reaction = createDefaultReactionResponse(
-          reactionType: 'love',
-          userId: currentUser.id,
-          commentId: 'comment-1',
-        );
-
-        // First add a reaction
-        await tester.emitEvent(
-          CommentReactionAddedEvent(
-            type: EventTypes.commentReactionAdded,
-            createdAt: DateTime.timestamp(),
-            custom: const {},
-            fid: 'user:source',
-            activity: createDefaultActivityResponse(id: 'obj-1'),
-            comment: createDefaultCommentResponse(
+        modifyResponse: (it) => it.copyWith(
+          comments: [
+            createDefaultCommentResponse(
               id: 'comment-1',
               objectId: 'obj-1',
+              ownReactions: [
+                createDefaultReactionResponse(
+                  reactionType: 'love',
+                  userId: currentUser.id,
+                  commentId: 'comment-1',
+                ),
+              ],
             ),
-            reaction: reaction,
-          ),
-        );
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - has 'love' reaction
+        var comment = tester.commentListState.comments.first;
+        expect(comment.ownReactions, hasLength(1));
+        expect(comment.ownReactions.first.type, 'love');
 
-        // Verify reaction was added
-        var comments = tester.commentListState.comments;
-
-        final commentAfterAdd = comments.firstWhereOrNull(
-          (c) => c.id == 'comment-1',
-        );
-        expect(commentAfterAdd, isNotNull);
-        expect(commentAfterAdd!.ownReactions, hasLength(1));
-        expect(commentAfterAdd.ownReactions.first.type, 'love');
-
-        // Then remove it
+        // Emit CommentReactionDeletedEvent
         await tester.emitEvent(
           CommentReactionDeletedEvent(
             type: EventTypes.commentReactionDeleted,
@@ -398,19 +375,17 @@ void main() {
               id: 'comment-1',
               objectId: 'obj-1',
             ),
-            reaction: reaction,
+            reaction: createDefaultReactionResponse(
+              reactionType: 'love',
+              userId: currentUser.id,
+              commentId: 'comment-1',
+            ),
           ),
         );
 
-        comments = tester.commentListState.comments;
-        expect(comments, hasLength(3));
-
-        final updatedComment = comments.firstWhereOrNull(
-          (c) => c.id == 'comment-1',
-        );
-
-        expect(updatedComment, isNotNull);
-        expect(updatedComment!.ownReactions, isEmpty);
+        // Verify reaction was removed
+        comment = tester.commentListState.comments.first;
+        expect(comment.ownReactions, isEmpty);
       },
     );
   });

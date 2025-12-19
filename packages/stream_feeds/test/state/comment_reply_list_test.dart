@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_redundant_argument_values
+
 import 'package:stream_feeds/stream_feeds.dart';
 
 import 'package:stream_feeds_test/stream_feeds_test.dart';
@@ -953,13 +955,10 @@ void main() {
               userId: userId,
               parentId: parentCommentId,
             ),
-            reaction: FeedsReactionResponse(
-              activityId: 'activity-1',
+            reaction: createDefaultReactionResponse(
+              reactionType: reactionType,
+              userId: userId,
               commentId: replyId,
-              type: reactionType,
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
             ),
           ),
         );
@@ -984,13 +983,10 @@ void main() {
               text: 'Test reply',
               userId: userId,
               ownReactions: [
-                FeedsReactionResponse(
-                  activityId: 'activity-1',
+                createDefaultReactionResponse(
+                  reactionType: reactionType,
+                  userId: userId,
                   commentId: replyId,
-                  type: reactionType,
-                  createdAt: DateTime.timestamp(),
-                  updatedAt: DateTime.timestamp(),
-                  user: createDefaultUserResponse(id: userId),
                 ),
               ],
             ),
@@ -1016,13 +1012,10 @@ void main() {
               userId: userId,
               parentId: parentCommentId,
             ),
-            reaction: FeedsReactionResponse(
-              activityId: 'activity-1',
+            reaction: createDefaultReactionResponse(
+              reactionType: reactionType,
+              userId: userId,
               commentId: replyId,
-              type: reactionType,
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
             ),
           ),
         );
@@ -1034,7 +1027,7 @@ void main() {
     );
 
     commentReplyListTest(
-      'should handle CommentReactionUpdatedEvent and update reaction',
+      'CommentReactionUpdatedEvent - should replace user reaction',
       build: (client) => client.commentReplyList(query),
       setUp: (tester) => tester.get(
         modifyResponse: (response) => response.copyWith(
@@ -1046,13 +1039,10 @@ void main() {
               text: 'Test reply',
               userId: userId,
               ownReactions: [
-                FeedsReactionResponse(
-                  activityId: 'activity-1',
+                createDefaultReactionResponse(
+                  reactionType: reactionType,
+                  userId: userId,
                   commentId: replyId,
-                  type: reactionType,
-                  createdAt: DateTime.timestamp(),
-                  updatedAt: DateTime.timestamp(),
-                  user: createDefaultUserResponse(id: userId),
                 ),
               ],
             ),
@@ -1079,14 +1069,18 @@ void main() {
               objectType: 'activity',
               userId: userId,
               parentId: parentCommentId,
+              latestReactions: [
+                createDefaultReactionResponse(
+                  reactionType: 'fire',
+                  userId: userId,
+                  commentId: replyId,
+                ),
+              ],
             ),
-            reaction: FeedsReactionResponse(
-              activityId: 'activity-1',
+            reaction: createDefaultReactionResponse(
+              reactionType: 'fire',
+              userId: userId,
               commentId: replyId,
-              type: 'fire',
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
             ),
           ),
         );
@@ -1144,13 +1138,10 @@ void main() {
               userId: userId,
               parentId: replyId,
             ),
-            reaction: FeedsReactionResponse(
-              activityId: 'activity-1',
+            reaction: createDefaultReactionResponse(
+              reactionType: reactionType,
+              userId: userId,
               commentId: 'nested-reply-1',
-              type: reactionType,
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
             ),
           ),
         );
@@ -1222,13 +1213,10 @@ void main() {
               userId: userId,
               parentId: 'nested-reply-1',
             ),
-            reaction: FeedsReactionResponse(
-              activityId: 'activity-1',
+            reaction: createDefaultReactionResponse(
+              reactionType: reactionType,
+              userId: userId,
               commentId: 'deep-nested-reply-1',
-              type: reactionType,
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
             ),
           ),
         );
@@ -1275,13 +1263,10 @@ void main() {
                       text: 'Deep nested reply',
                       userId: userId,
                       ownReactions: [
-                        FeedsReactionResponse(
-                          activityId: 'activity-1',
+                        createDefaultReactionResponse(
+                          reactionType: reactionType,
+                          userId: userId,
                           commentId: 'deep-nested-reply-1',
-                          type: reactionType,
-                          createdAt: DateTime.timestamp(),
-                          updatedAt: DateTime.timestamp(),
-                          user: createDefaultUserResponse(id: userId),
                         ),
                       ],
                     ),
@@ -1313,13 +1298,10 @@ void main() {
               userId: userId,
               parentId: 'nested-reply-1',
             ),
-            reaction: FeedsReactionResponse(
-              activityId: 'activity-1',
+            reaction: createDefaultReactionResponse(
+              reactionType: reactionType,
+              userId: userId,
               commentId: 'deep-nested-reply-1',
-              type: reactionType,
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
             ),
           ),
         );
@@ -1367,13 +1349,10 @@ void main() {
               objectType: 'activity',
               userId: userId,
             ),
-            reaction: FeedsReactionResponse(
-              activityId: 'activity-1',
+            reaction: createDefaultReactionResponse(
+              reactionType: reactionType,
+              userId: userId,
               commentId: replyId,
-              type: reactionType,
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
             ),
           ),
         );
@@ -1397,13 +1376,10 @@ void main() {
               text: 'Test reply',
               userId: userId,
               ownReactions: [
-                FeedsReactionResponse(
-                  activityId: 'activity-1',
+                createDefaultReactionResponse(
+                  reactionType: reactionType,
+                  userId: userId,
                   commentId: replyId,
-                  type: reactionType,
-                  createdAt: DateTime.timestamp(),
-                  updatedAt: DateTime.timestamp(),
-                  user: createDefaultUserResponse(id: userId),
                 ),
               ],
             ),
@@ -1430,13 +1406,10 @@ void main() {
               objectType: 'activity',
               userId: userId,
             ),
-            reaction: FeedsReactionResponse(
-              activityId: 'activity-1',
+            reaction: createDefaultReactionResponse(
+              reactionType: 'fire',
+              userId: userId,
               commentId: replyId,
-              type: 'fire',
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
             ),
           ),
         );
@@ -1461,13 +1434,10 @@ void main() {
               text: 'Test reply',
               userId: userId,
               ownReactions: [
-                FeedsReactionResponse(
-                  activityId: 'activity-1',
+                createDefaultReactionResponse(
+                  reactionType: reactionType,
+                  userId: userId,
                   commentId: replyId,
-                  type: reactionType,
-                  createdAt: DateTime.timestamp(),
-                  updatedAt: DateTime.timestamp(),
-                  user: createDefaultUserResponse(id: userId),
                 ),
               ],
             ),
@@ -1492,13 +1462,10 @@ void main() {
               objectType: 'activity',
               userId: userId,
             ),
-            reaction: FeedsReactionResponse(
-              activityId: 'activity-1',
+            reaction: createDefaultReactionResponse(
+              reactionType: reactionType,
+              userId: userId,
               commentId: replyId,
-              type: reactionType,
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
             ),
           ),
         );

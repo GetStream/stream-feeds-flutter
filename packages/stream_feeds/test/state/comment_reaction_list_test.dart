@@ -285,14 +285,16 @@ void main() {
     );
 
     commentReactionListTest(
-      'CommentReactionUpdatedEvent - should update reaction',
+      'CommentReactionUpdatedEvent - should replace user reaction',
       build: (client) => client.commentReactionList(query),
       setUp: (tester) => tester.get(),
       body: (tester) async {
+        // Initial state - has 'like' reaction
         final existingReaction =
             tester.commentReactionListState.reactions.first;
+        expect(existingReaction.type, 'like');
 
-        // Emit event
+        // Emit event to replace 'like' with 'fire'
         await tester.emitEvent(
           CommentReactionUpdatedEvent(
             type: EventTypes.commentReactionUpdated,
@@ -303,20 +305,25 @@ void main() {
             comment: createDefaultCommentResponse(
               id: query.commentId,
               objectId: activityId,
+              latestReactions: [
+                createDefaultReactionResponse(
+                  commentId: query.commentId,
+                  reactionType: 'fire',
+                  userId: existingReaction.user.id,
+                ),
+              ],
             ),
             reaction: createDefaultReactionResponse(
               commentId: query.commentId,
-              reactionType: reactionType,
+              reactionType: 'fire',
               userId: existingReaction.user.id,
-            ).copyWith(
-              custom: const {'updated': true},
             ),
           ),
         );
 
-        // Verify reaction was updated
+        // Verify 'like' was replaced with 'fire'
         final updatedReaction = tester.commentReactionListState.reactions.first;
-        expect(updatedReaction.custom!['updated'], isTrue);
+        expect(updatedReaction.type, 'fire');
       },
     );
 

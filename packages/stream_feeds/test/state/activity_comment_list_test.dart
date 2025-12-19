@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_redundant_argument_values
+
 import 'package:stream_feeds/stream_feeds.dart';
 
 import 'package:stream_feeds_test/stream_feeds_test.dart';
@@ -550,13 +552,10 @@ void main() {
               objectType: 'activity',
               userId: userId,
             ),
-            reaction: FeedsReactionResponse(
-              activityId: activityId,
+            reaction: createDefaultReactionResponse(
+              reactionType: reactionType,
+              userId: userId,
               commentId: commentId,
-              type: reactionType,
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
             ),
           ),
         );
@@ -570,7 +569,7 @@ void main() {
     );
 
     activityCommentListTest(
-      'should handle CommentReactionUpdatedEvent and update reaction',
+      'CommentReactionUpdatedEvent - should replace user reaction',
       build: (client) => client.activityCommentList(query),
       setUp: (tester) => tester.get(
         modifyResponse: (response) => response.copyWith(
@@ -582,13 +581,10 @@ void main() {
               text: 'Test comment',
               userId: userId,
               ownReactions: [
-                FeedsReactionResponse(
-                  activityId: activityId,
+                createDefaultReactionResponse(
+                  reactionType: reactionType,
+                  userId: userId,
                   commentId: commentId,
-                  type: reactionType,
-                  createdAt: DateTime.timestamp(),
-                  updatedAt: DateTime.timestamp(),
-                  user: createDefaultUserResponse(id: userId),
                 ),
               ],
             ),
@@ -614,14 +610,18 @@ void main() {
               objectId: activityId,
               objectType: 'activity',
               userId: userId,
+              latestReactions: [
+                createDefaultReactionResponse(
+                  reactionType: 'fire',
+                  userId: userId,
+                  commentId: commentId,
+                ),
+              ],
             ),
-            reaction: FeedsReactionResponse(
-              activityId: activityId,
+            reaction: createDefaultReactionResponse(
+              reactionType: 'fire',
+              userId: userId,
               commentId: commentId,
-              type: 'fire',
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
             ),
           ),
         );
@@ -646,13 +646,10 @@ void main() {
               text: 'Test comment',
               userId: userId,
               ownReactions: [
-                FeedsReactionResponse(
-                  activityId: activityId,
+                createDefaultReactionResponse(
+                  reactionType: reactionType,
+                  userId: userId,
                   commentId: commentId,
-                  type: reactionType,
-                  createdAt: DateTime.timestamp(),
-                  updatedAt: DateTime.timestamp(),
-                  user: createDefaultUserResponse(id: userId),
                 ),
               ],
             ),
@@ -677,13 +674,10 @@ void main() {
               objectType: 'activity',
               userId: userId,
             ),
-            reaction: FeedsReactionResponse(
-              activityId: activityId,
+            reaction: createDefaultReactionResponse(
+              reactionType: reactionType,
+              userId: userId,
               commentId: commentId,
-              type: reactionType,
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
             ),
           ),
         );
@@ -732,13 +726,11 @@ void main() {
               objectType: 'activity',
               userId: userId,
             ),
-            reaction: FeedsReactionResponse(
+            reaction: createDefaultReactionResponse(
+              reactionType: reactionType,
+              userId: userId,
               activityId: 'different-activity-id',
               commentId: 'different-comment-id',
-              type: reactionType,
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
             ),
           ),
         );
