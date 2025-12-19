@@ -44,6 +44,35 @@ class ActivityReactionListStateNotifier
     );
   }
 
+  /// Handles the deletion of the activity.
+  void onActivityDeleted() {
+    state = state.copyWith(
+      reactions: [], // Clear all reactions when the activity is deleted
+      pagination: null,
+    );
+  }
+
+  /// Handles the addition of a new reaction.
+  void onReactionAdded(FeedsReactionData reaction) {
+    final updatedReactions = state.reactions.upsertReaction(
+      reaction,
+      compare: reactionsSort.compare,
+    );
+
+    state = state.copyWith(reactions: updatedReactions);
+  }
+
+  /// Handles the update of an existing reaction.
+  void onReactionUpdated(FeedsReactionData reaction) {
+    final updatedReactions = state.reactions.upsertReaction(
+      reaction,
+      enforceUnique: true,
+      compare: reactionsSort.compare,
+    );
+
+    state = state.copyWith(reactions: updatedReactions);
+  }
+
   /// Handles the removal of a reaction by reaction data.
   void onReactionRemoved(FeedsReactionData reaction) {
     final updatedReactions = state.reactions.where((it) {

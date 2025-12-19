@@ -45,20 +45,32 @@ class MemberListStateNotifier extends StateNotifier<MemberListState> {
     );
   }
 
-  /// Handles the removal of a member by their ID.
-  void onMemberRemoved(String memberId) {
-    final updatedMembers = state.members.where((it) {
-      return it.id != memberId;
-    }).toList();
+  /// Handles the addition of a new member.
+  void onMemberAdded(FeedMemberData member) {
+    final updatedMembers = state.members.sortedUpsert(
+      member,
+      key: (it) => it.id,
+      compare: membersSort.compare,
+    );
 
     state = state.copyWith(members: updatedMembers);
   }
 
   /// Handles the update of a member's data.
   void onMemberUpdated(FeedMemberData member) {
-    final updatedMembers = state.members.map((it) {
-      if (it.id != member.id) return it;
-      return member;
+    final updatedMembers = state.members.sortedUpsert(
+      member,
+      key: (it) => it.id,
+      compare: membersSort.compare,
+    );
+
+    state = state.copyWith(members: updatedMembers);
+  }
+
+  /// Handles the removal of a member by their ID.
+  void onMemberRemoved(String memberId) {
+    final updatedMembers = state.members.where((it) {
+      return it.id != memberId;
     }).toList();
 
     state = state.copyWith(members: updatedMembers);
@@ -75,7 +87,7 @@ class MemberListStateNotifier extends StateNotifier<MemberListState> {
     // Remove members by their IDs
     updatedMembers = updatedMembers.whereNot((it) {
       return updates.removedIds.contains(it.id);
-    }).toList();
+    }).sorted(membersSort.compare);
 
     state = state.copyWith(members: updatedMembers);
   }

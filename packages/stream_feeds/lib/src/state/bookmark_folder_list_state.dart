@@ -46,10 +46,11 @@ class BookmarkFolderListStateNotifier
 
   /// Handles updates to a specific bookmark folder.
   void onBookmarkFolderUpdated(BookmarkFolderData folder) {
-    final updatedFolders = state.bookmarkFolders.map((it) {
-      if (it.id != folder.id) return it;
-      return folder;
-    }).toList();
+    final updatedFolders = state.bookmarkFolders.sortedUpsert(
+      folder,
+      key: (it) => it.id,
+      compare: foldersSort.compare,
+    );
 
     state = state.copyWith(bookmarkFolders: updatedFolders);
   }

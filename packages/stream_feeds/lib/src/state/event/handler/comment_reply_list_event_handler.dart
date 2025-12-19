@@ -4,6 +4,7 @@ import '../../../generated/api/models.dart' as api;
 import '../../../models/comment_data.dart';
 import '../../../models/feeds_reaction_data.dart';
 import '../../comment_reply_list_state.dart';
+import '../../query/comment_replies_query.dart';
 import 'state_event_handler.dart';
 
 /// Event handler for comment reply list real-time updates.
@@ -12,9 +13,11 @@ import 'state_event_handler.dart';
 /// and updates the comment reply list state accordingly.
 class CommentReplyListEventHandler implements StateEventHandler {
   const CommentReplyListEventHandler({
+    required this.query,
     required this.state,
   });
 
+  final CommentRepliesQuery query;
   final CommentReplyListStateNotifier state;
 
   @override
@@ -28,6 +31,11 @@ class CommentReplyListEventHandler implements StateEventHandler {
 
     if (event is api.CommentDeletedEvent) {
       final comment = event.comment.toModel();
+      if (comment.id == query.commentId) {
+        // If the parent comment is deleted, clear all replies
+        return state.onParentCommentDeleted();
+      }
+
       if (comment.parentId == null) return;
 
       return state.onReplyRemoved(comment);

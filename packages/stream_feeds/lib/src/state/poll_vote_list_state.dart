@@ -43,20 +43,40 @@ class PollVoteListStateNotifier extends StateNotifier<PollVoteListState> {
     );
   }
 
-  /// Handles the removal of a poll vote.
-  void pollVoteRemoved(String voteId) {
-    final updatedVotes = state.votes.where((it) {
-      return it.id != voteId;
-    }).toList();
+  /// Handles the deletion of the poll.
+  void onPollDeleted() {
+    state = state.copyWith(
+      votes: [], // Clear all votes when the poll is deleted
+      pagination: null,
+    );
+  }
+
+  /// Handles the addition of a new poll vote.
+  void onPollVoteAdded(PollVoteData vote) {
+    final updatedVotes = state.votes.sortedUpsert(
+      vote,
+      key: (it) => it.id,
+      compare: votesSort.compare,
+    );
 
     state = state.copyWith(votes: updatedVotes);
   }
 
   /// Handles the update of a poll vote.
-  void pollVoteUpdated(PollVoteData vote) {
-    final updatedVotes = state.votes.map((it) {
-      if (it.id != vote.id) return it;
-      return vote;
+  void onPollVoteUpdated(PollVoteData vote) {
+    final updatedVotes = state.votes.sortedUpsert(
+      vote,
+      key: (it) => it.id,
+      compare: votesSort.compare,
+    );
+
+    state = state.copyWith(votes: updatedVotes);
+  }
+
+  /// Handles the removal of a poll vote.
+  void onPollVoteRemoved(String voteId) {
+    final updatedVotes = state.votes.where((it) {
+      return it.id != voteId;
     }).toList();
 
     state = state.copyWith(votes: updatedVotes);

@@ -4,16 +4,16 @@ import 'package:stream_feeds_test/stream_feeds_test.dart';
 
 void main() {
   const activityId = 'activity-1';
-  const feedId = FeedId(group: 'user', id: 'john');
+  const fid = FeedId(group: 'user', id: 'john');
 
   // ============================================================
-  // FEATURE: Activity Retrieval
+  // FEATURE: Query Operations
   // ============================================================
 
-  group('Getting an activity', () {
+  group('Activity - Query Operations', () {
     activityTest(
       'fetch activity and comments',
-      build: (client) => client.activity(activityId: activityId, fid: feedId),
+      build: (client) => client.activity(activityId: activityId, fid: fid),
       body: (tester) async {
         final result = await tester.get();
 
@@ -24,16 +24,184 @@ void main() {
         (api) => api.getActivity(id: activityId),
       ),
     );
+
+    activityTest(
+      'queryMoreComments - should load more comments',
+      build: (client) => client.activity(activityId: activityId, fid: fid),
+      setUp: (tester) => tester.get(
+        modifyCommentsResponse: (response) => response.copyWith(
+          next: 'next-cursor',
+          comments: [
+            createDefaultThreadedCommentResponse(
+              id: 'comment-1',
+              objectId: activityId,
+              objectType: 'activity',
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - has comment
+        expect(tester.activityState.comments, hasLength(1));
+        expect(tester.activityState.canLoadMoreComments, isTrue);
+
+        tester.mockApi(
+          (api) => api.getComments(
+            next: 'next-cursor',
+            objectId: activityId,
+            objectType: 'activity',
+            depth: 3,
+          ),
+          result: createDefaultCommentsResponse(
+            comments: [
+              createDefaultThreadedCommentResponse(
+                id: 'comment-2',
+                objectId: activityId,
+                objectType: 'activity',
+              ),
+            ],
+          ),
+        );
+
+        final result = await tester.activity.queryMoreComments();
+
+        expect(result.isSuccess, isTrue);
+        final comments = result.getOrNull();
+        expect(comments, isNotNull);
+        expect(comments, hasLength(1));
+
+        // Verify state was updated
+        expect(tester.activityState.comments, hasLength(2));
+        expect(tester.activityState.canLoadMoreComments, isFalse);
+
+        tester.verifyApi(
+          (api) => api.getComments(
+            next: 'next-cursor',
+            objectId: activityId,
+            objectType: 'activity',
+            depth: 3,
+          ),
+        );
+      },
+    );
+
+    activityTest(
+      'getComment - should get specific comment by ID',
+      build: (client) => client.activity(activityId: activityId, fid: fid),
+      setUp: (tester) => tester.get(),
+      body: (tester) async {
+        const commentId = 'comment-1';
+
+        tester.mockApi(
+          (api) => api.getComment(id: commentId),
+          result: GetCommentResponse(
+            duration: DateTime.timestamp().toIso8601String(),
+            comment: createDefaultCommentResponse(
+              id: commentId,
+              objectId: activityId,
+              objectType: 'activity',
+            ),
+          ),
+        );
+
+        final result = await tester.activity.getComment(commentId);
+
+        expect(result.isSuccess, isTrue);
+        final comment = result.getOrNull();
+        expect(comment, isNotNull);
+        expect(comment!.id, commentId);
+      },
+      verify: (tester) => tester.verifyApi(
+        (api) => api.getComment(id: 'comment-1'),
+      ),
+    );
+
+    activityTest(
+      'getPoll - should get poll for activity',
+      build: (client) => client.activity(activityId: activityId, fid: fid),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(
+          poll: createDefaultPollResponse(),
+        ),
+      ),
+      body: (tester) async {
+        final pollId = tester.activityState.poll!.id;
+
+        tester.mockApi(
+          (api) => api.getPoll(pollId: pollId),
+          result: PollResponse(
+            poll: createDefaultPollResponse(id: pollId),
+            duration: DateTime.timestamp().toIso8601String(),
+          ),
+        );
+
+        final result = await tester.activity.getPoll();
+
+        expect(result.isSuccess, isTrue);
+        final poll = result.getOrNull();
+        expect(poll, isNotNull);
+        expect(poll!.id, pollId);
+      },
+      verify: (tester) {
+        final pollId = tester.activityState.poll!.id;
+        tester.verifyApi((api) => api.getPoll(pollId: pollId));
+      },
+    );
+
+    activityTest(
+      'getPollOption - should get poll option by ID',
+      build: (client) => client.activity(activityId: activityId, fid: fid),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(
+          poll: createDefaultPollResponse(
+            options: [
+              createDefaultPollOptionResponse(
+                id: 'option-1',
+                text: 'Option 1',
+              ),
+            ],
+          ),
+        ),
+      ),
+      body: (tester) async {
+        const optionId = 'option-1';
+        final pollId = tester.activityState.poll!.id;
+
+        tester.mockApi(
+          (api) => api.getPollOption(pollId: pollId, optionId: optionId),
+          result: PollOptionResponse(
+            duration: DateTime.timestamp().toIso8601String(),
+            pollOption: createDefaultPollOptionResponse(
+              id: optionId,
+              text: 'Option 1',
+            ),
+          ),
+        );
+
+        final result = await tester.activity.getPollOption(optionId);
+
+        expect(result.isSuccess, isTrue);
+        final option = result.getOrNull();
+        expect(option, isNotNull);
+        expect(option!.id, optionId);
+      },
+      verify: (tester) {
+        final pollId = tester.activityState.poll!.id;
+        tester.verifyApi(
+          (api) => api.getPollOption(pollId: pollId, optionId: 'option-1'),
+        );
+      },
+    );
   });
 
   // ============================================================
-  // FEATURE: Activity Feedback
+  // FEATURE: Activity Methods
   // ============================================================
 
-  group('Activity feedback', () {
+  group('Activity - Activity Methods', () {
     activityTest(
-      'submits feedback via API',
-      build: (client) => client.activity(activityId: activityId, fid: feedId),
+      'activityFeedback - should submit feedback via API',
+      build: (client) => client.activity(activityId: activityId, fid: fid),
       setUp: (tester) => tester.mockApi(
         (api) => api.activityFeedback(
           activityId: activityId,
@@ -58,334 +226,238 @@ void main() {
       ),
     );
 
-    activityTest(
-      'marks activity hidden on ActivityFeedbackEvent',
-      build: (client) => client.activity(activityId: activityId, fid: feedId),
-      setUp: (tester) => tester.get(
-        modifyResponse: (response) => response.copyWith(hidden: false),
-      ),
-      body: (tester) async {
-        expect(tester.activityState.activity?.hidden, false);
+    group('ActivityFeedbackEvent', () {
+      activityTest(
+        'ActivityFeedbackEvent - should mark activity hidden',
+        build: (client) => client.activity(activityId: activityId, fid: fid),
+        setUp: (tester) => tester.get(
+          modifyResponse: (response) => response.copyWith(hidden: false),
+        ),
+        body: (tester) async {
+          expect(tester.activityState.activity?.hidden, false);
 
-        await tester.emitEvent(
-          ActivityFeedbackEvent(
-            type: EventTypes.activityFeedback,
-            createdAt: DateTime.timestamp(),
-            custom: const {},
-            activityFeedback: ActivityFeedbackEventPayload(
-              activityId: activityId,
-              action: ActivityFeedbackEventPayloadAction.hide,
+          await tester.emitEvent(
+            ActivityFeedbackEvent(
+              type: EventTypes.activityFeedback,
               createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: 'luke_skywalker'),
-              value: 'true',
+              custom: const {},
+              activityFeedback: ActivityFeedbackEventPayload(
+                activityId: activityId,
+                action: ActivityFeedbackEventPayloadAction.hide,
+                createdAt: DateTime.timestamp(),
+                updatedAt: DateTime.timestamp(),
+                user: createDefaultUserResponse(id: 'luke_skywalker'),
+                value: 'true',
+              ),
             ),
+          );
+
+          expect(tester.activityState.activity?.hidden, true);
+        },
+      );
+
+      activityTest(
+        'ActivityFeedbackEvent - should mark activity unhidden',
+        build: (client) => client.activity(activityId: activityId, fid: fid),
+        setUp: (tester) => tester.get(
+          modifyResponse: (response) => response.copyWith(hidden: true),
+        ),
+        body: (tester) async {
+          expect(tester.activityState.activity?.hidden, true);
+
+          await tester.emitEvent(
+            ActivityFeedbackEvent(
+              type: EventTypes.activityFeedback,
+              createdAt: DateTime.timestamp(),
+              custom: const {},
+              activityFeedback: ActivityFeedbackEventPayload(
+                activityId: activityId,
+                action: ActivityFeedbackEventPayloadAction.hide,
+                createdAt: DateTime.timestamp(),
+                updatedAt: DateTime.timestamp(),
+                user: createDefaultUserResponse(id: 'luke_skywalker'),
+                value: 'false',
+              ),
+            ),
+          );
+
+          expect(tester.activityState.activity?.hidden, false);
+        },
+      );
+    });
+
+    group('Activity Events', () {
+      activityTest(
+        'ActivityUpdatedEvent - should update activity',
+        build: (client) => client.activity(activityId: activityId, fid: fid),
+        setUp: (tester) => tester.get(),
+        body: (tester) async {
+          final activity = tester.activityState.activity;
+          expect(activity, isNotNull);
+          expect(activity!.type, 'post');
+
+          await tester.emitEvent(
+            ActivityUpdatedEvent(
+              type: EventTypes.activityUpdated,
+              createdAt: DateTime.timestamp(),
+              custom: const {},
+              fid: fid.rawValue,
+              activity: createDefaultActivityResponse(
+                id: activityId,
+                type: 'share',
+              ),
+            ),
+          );
+
+          final updatedActivity = tester.activityState.activity;
+          expect(updatedActivity, isNotNull);
+          expect(updatedActivity!.type, 'share');
+        },
+      );
+
+      activityTest(
+        'ActivityDeletedEvent - should delete activity',
+        build: (client) => client.activity(activityId: activityId, fid: fid),
+        setUp: (tester) => tester.get(
+          modifyCommentsResponse: (response) => response.copyWith(
+            comments: [
+              createDefaultThreadedCommentResponse(
+                id: 'comment-1',
+                objectId: activityId,
+                objectType: 'activity',
+              ),
+            ],
+          ),
+        ),
+        body: (tester) async {
+          final activity = tester.activityState.activity;
+          expect(activity, isNotNull);
+          expect(tester.activityState.comments, hasLength(1));
+
+          await tester.emitEvent(
+            ActivityDeletedEvent(
+              type: EventTypes.activityDeleted,
+              createdAt: DateTime.timestamp(),
+              custom: const {},
+              fid: fid.rawValue,
+              activity: createDefaultActivityResponse(id: activityId),
+            ),
+          );
+
+          final deletedActivity = tester.activityState.activity;
+          expect(deletedActivity, isNull);
+          expect(tester.activityState.comments, isEmpty);
+        },
+      );
+
+      activityTest(
+        'ActivityDeletedEvent - should not delete activity for different activity',
+        build: (client) => client.activity(activityId: activityId, fid: fid),
+        setUp: (tester) => tester.get(),
+        body: (tester) async {
+          final activity = tester.activityState.activity;
+          expect(activity, isNotNull);
+
+          await tester.emitEvent(
+            ActivityDeletedEvent(
+              type: EventTypes.activityDeleted,
+              createdAt: DateTime.timestamp(),
+              custom: const {},
+              fid: fid.rawValue,
+              activity: createDefaultActivityResponse(id: 'different-activity'),
+            ),
+          );
+
+          final updatedActivity = tester.activityState.activity;
+          expect(updatedActivity, isNotNull);
+          expect(updatedActivity!.id, activityId);
+        },
+      );
+    });
+
+    activityTest(
+      'pin - should pin activity via API',
+      build: (client) => client.activity(activityId: activityId, fid: fid),
+      setUp: (tester) => tester.get(),
+      body: (tester) async {
+        tester.mockApi(
+          (api) => api.pinActivity(
+            activityId: activityId,
+            feedGroupId: fid.group,
+            feedId: fid.id,
+          ),
+          result: PinActivityResponse(
+            activity: createDefaultActivityResponse(id: activityId),
+            createdAt: DateTime.timestamp(),
+            duration: DateTime.timestamp().toIso8601String(),
+            feed: fid.rawValue,
+            userId: 'user-id',
           ),
         );
 
-        expect(tester.activityState.activity?.hidden, true);
+        final result = await tester.activity.pin();
+
+        expect(result.isSuccess, isTrue);
       },
+      verify: (tester) => tester.verifyApi(
+        (api) => api.pinActivity(
+          activityId: activityId,
+          feedGroupId: fid.group,
+          feedId: fid.id,
+        ),
+      ),
     );
 
     activityTest(
-      'marks activity unhidden on ActivityFeedbackEvent',
-      build: (client) => client.activity(activityId: activityId, fid: feedId),
-      setUp: (tester) => tester.get(
-        modifyResponse: (response) => response.copyWith(hidden: true),
-      ),
+      'unpin - should unpin activity via API',
+      build: (client) => client.activity(activityId: activityId, fid: fid),
+      setUp: (tester) => tester.get(),
       body: (tester) async {
-        expect(tester.activityState.activity?.hidden, true);
-
-        await tester.emitEvent(
-          ActivityFeedbackEvent(
-            type: EventTypes.activityFeedback,
-            createdAt: DateTime.timestamp(),
-            custom: const {},
-            activityFeedback: ActivityFeedbackEventPayload(
-              activityId: activityId,
-              action: ActivityFeedbackEventPayloadAction.hide,
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: 'luke_skywalker'),
-              value: 'false',
-            ),
+        tester.mockApi(
+          (api) => api.unpinActivity(
+            activityId: activityId,
+            feedGroupId: fid.group,
+            feedId: fid.id,
+          ),
+          result: UnpinActivityResponse(
+            activity: createDefaultActivityResponse(id: activityId),
+            duration: DateTime.timestamp().toIso8601String(),
+            feed: fid.rawValue,
+            userId: 'user-id',
           ),
         );
 
-        expect(tester.activityState.activity?.hidden, false);
+        final result = await tester.activity.unpin();
+
+        expect(result.isSuccess, isTrue);
       },
+      verify: (tester) => tester.verifyApi(
+        (api) => api.unpinActivity(
+          activityId: activityId,
+          feedGroupId: fid.group,
+          feedId: fid.id,
+        ),
+      ),
     );
-  });
-
-  // ============================================================
-  // FEATURE: Poll Events
-  // ============================================================
-
-  group('Poll events', () {
-    group('Vote operations', () {
-      final pollWithVotes = createDefaultPollResponse(
-        options: [
-          createDefaultPollOptionResponse(id: 'option-1', text: 'Option 1'),
-          createDefaultPollOptionResponse(id: 'option-2', text: 'Option 2'),
-        ],
-        latestVotesByOption: {
-          'option-1': [
-            createDefaultPollVoteResponse(id: 'vote-1', optionId: 'option-1'),
-            createDefaultPollVoteResponse(id: 'vote-2', optionId: 'option-1'),
-          ],
-          'option-2': [
-            createDefaultPollVoteResponse(id: 'vote-3', optionId: 'option-2'),
-          ],
-        },
-      );
-
-      activityTest(
-        'poll vote casted',
-        build: (client) => client.activity(activityId: activityId, fid: feedId),
-        setUp: (tester) => tester.get(
-          modifyResponse: (it) => it.copyWith(poll: pollWithVotes),
-        ),
-        body: (tester) async {
-          final pollData = tester.activityState.poll;
-          expect(pollData!.voteCount, 3);
-
-          expect(pollData.latestVotesByOption, hasLength(2));
-          expect(pollData.latestVotesByOption['option-2'], hasLength(1));
-
-          final pollVote = createDefaultPollVoteResponse(
-            id: 'vote-4',
-            pollId: pollData.id,
-            optionId: 'option-2',
-          );
-
-          await tester.emitEvent(
-            PollVoteCastedFeedEvent(
-              type: EventTypes.pollVoteCasted,
-              createdAt: DateTime.timestamp(),
-              custom: const {},
-              fid: feedId.rawValue,
-              pollVote: pollVote,
-              poll: pollWithVotes.copyWith(
-                voteCount: 4,
-                latestVotesByOption: {
-                  ...pollWithVotes.latestVotesByOption,
-                  pollVote.optionId: List<PollVoteResponseData>.from(
-                    pollWithVotes.latestVotesByOption[pollVote.optionId]!,
-                  )..add(pollVote),
-                },
-              ),
-            ),
-          );
-
-          final updatedPollData = tester.activityState.poll;
-          expect(updatedPollData!.voteCount, 4);
-
-          expect(updatedPollData.latestVotesByOption, hasLength(2));
-          expect(updatedPollData.latestVotesByOption['option-2'], hasLength(2));
-        },
-      );
-
-      activityTest(
-        'poll vote removed',
-        build: (client) => client.activity(activityId: activityId, fid: feedId),
-        setUp: (tester) => tester.get(
-          modifyResponse: (it) => it.copyWith(poll: pollWithVotes),
-        ),
-        body: (tester) async {
-          final pollData = tester.activityState.poll;
-          expect(pollData!.voteCount, 3);
-
-          expect(pollData.latestVotesByOption, hasLength(2));
-          expect(pollData.latestVotesByOption['option-1'], hasLength(2));
-
-          final voteToRemove = createDefaultPollVoteResponse(
-            id: 'vote-1',
-            pollId: pollData.id,
-            optionId: 'option-1',
-          );
-
-          await tester.emitEvent(
-            PollVoteRemovedFeedEvent(
-              type: EventTypes.pollVoteRemoved,
-              createdAt: DateTime.timestamp(),
-              custom: const {},
-              fid: feedId.rawValue,
-              pollVote: voteToRemove,
-              poll: pollWithVotes.copyWith(
-                voteCount: 2,
-                latestVotesByOption: {
-                  ...pollWithVotes.latestVotesByOption,
-                  voteToRemove.optionId: List<PollVoteResponseData>.from(
-                    pollWithVotes.latestVotesByOption[voteToRemove.optionId]!,
-                  )..removeWhere((vote) => vote.id == voteToRemove.id),
-                },
-              ),
-            ),
-          );
-
-          final updatedPollData = tester.activityState.poll;
-          expect(updatedPollData!.voteCount, 2);
-
-          expect(updatedPollData.latestVotesByOption, hasLength(2));
-          expect(updatedPollData.latestVotesByOption['option-1'], hasLength(1));
-        },
-      );
-    });
-
-    group('Answer operations', () {
-      final pollWithAnswers = createDefaultPollResponse(
-        latestAnswers: [
-          createDefaultPollAnswerResponse(id: 'answer-1'),
-          createDefaultPollAnswerResponse(id: 'answer-2'),
-          createDefaultPollAnswerResponse(id: 'answer-3'),
-        ],
-      );
-
-      activityTest(
-        'poll answer casted',
-        build: (client) => client.activity(activityId: activityId, fid: feedId),
-        setUp: (tester) => tester.get(
-          modifyResponse: (it) => it.copyWith(poll: pollWithAnswers),
-        ),
-        body: (tester) async {
-          final pollData = tester.activityState.poll;
-          expect(pollData!.answersCount, 3);
-
-          expect(pollData.latestAnswers, hasLength(3));
-
-          final newAnswer = createDefaultPollAnswerResponse(
-            id: 'answer-4',
-            pollId: pollData.id,
-            answerText: 'Answer 4',
-          );
-
-          await tester.emitEvent(
-            PollVoteCastedFeedEvent(
-              type: EventTypes.pollVoteCasted,
-              createdAt: DateTime.timestamp(),
-              custom: const {},
-              fid: feedId.rawValue,
-              pollVote: newAnswer,
-              poll: pollWithAnswers.copyWith(
-                answersCount: 4,
-                latestAnswers: List<PollVoteResponseData>.from(
-                  pollWithAnswers.latestAnswers,
-                )..add(newAnswer),
-              ),
-            ),
-          );
-
-          final updatedPollData = tester.activityState.poll;
-          expect(updatedPollData!.answersCount, 4);
-
-          expect(updatedPollData.latestAnswers, hasLength(4));
-        },
-      );
-
-      activityTest(
-        'poll answer removed',
-        build: (client) => client.activity(activityId: activityId, fid: feedId),
-        setUp: (tester) => tester.get(
-          modifyResponse: (it) => it.copyWith(poll: pollWithAnswers),
-        ),
-        body: (tester) async {
-          final pollData = tester.activityState.poll;
-          expect(pollData!.answersCount, 3);
-
-          expect(pollData.latestAnswers, hasLength(3));
-
-          final answerToRemove = createDefaultPollAnswerResponse(
-            id: 'answer-1',
-            pollId: pollData.id,
-            answerText: 'Answer 1',
-          );
-
-          await tester.emitEvent(
-            PollVoteRemovedFeedEvent(
-              type: EventTypes.pollVoteRemoved,
-              createdAt: DateTime.timestamp(),
-              custom: const {},
-              fid: feedId.rawValue,
-              pollVote: answerToRemove,
-              poll: pollWithAnswers.copyWith(
-                answersCount: 2,
-                latestAnswers: List<PollVoteResponseData>.from(
-                  pollWithAnswers.latestAnswers,
-                )..removeWhere((answer) => answer.id == answerToRemove.id),
-              ),
-            ),
-          );
-
-          final updatedPollData = tester.activityState.poll;
-          expect(updatedPollData!.answersCount, 2);
-
-          expect(updatedPollData.latestAnswers, hasLength(2));
-        },
-      );
-    });
-
-    group('State changes', () {
-      final defaultPoll = createDefaultPollResponse();
-
-      activityTest(
-        'poll closed',
-        build: (client) => client.activity(activityId: activityId, fid: feedId),
-        setUp: (tester) => tester.get(
-          modifyResponse: (it) => it.copyWith(poll: defaultPoll),
-        ),
-        body: (tester) async {
-          expect(tester.activityState.poll?.isClosed, false);
-
-          await tester.emitEvent(
-            PollClosedFeedEvent(
-              type: EventTypes.pollClosed,
-              createdAt: DateTime.timestamp(),
-              custom: const {},
-              fid: feedId.rawValue,
-              poll: defaultPoll.copyWith(isClosed: true),
-            ),
-          );
-
-          expect(tester.activityState.poll?.isClosed, true);
-        },
-      );
-
-      activityTest(
-        'poll deleted',
-        build: (client) => client.activity(activityId: activityId, fid: feedId),
-        setUp: (tester) => tester.get(
-          modifyResponse: (it) => it.copyWith(poll: defaultPoll),
-        ),
-        body: (tester) async {
-          expect(tester.activityState.poll, isNotNull);
-
-          await tester.emitEvent(
-            PollDeletedFeedEvent(
-              type: EventTypes.pollDeleted,
-              createdAt: DateTime.timestamp(),
-              custom: const {},
-              fid: feedId.rawValue,
-              poll: defaultPoll,
-            ),
-          );
-
-          expect(tester.activityState.poll, isNull);
-        },
-      );
-    });
   });
 
   // ============================================================
   // FEATURE: Comments
   // ============================================================
 
-  group('Comments', () {
+  group('Activity - Comments', () {
     const commentId = 'comment-test-1';
     const userId = 'luke_skywalker';
 
+    setUpAll(() {
+      registerFallbackValue(
+        const AddCommentsBatchRequest(comments: []),
+      );
+    });
+
     activityTest(
       'addComment - should add comment to activity via API',
-      build: (client) => client.activity(activityId: activityId, fid: feedId),
+      build: (client) => client.activity(activityId: activityId, fid: fid),
       setUp: (tester) => tester.get(),
       body: (tester) async {
         // Mock API call that will be used
@@ -431,42 +503,8 @@ void main() {
     );
 
     activityTest(
-      'addComment - should handle CommentAddedEvent and update comments',
-      build: (client) => client.activity(activityId: activityId, fid: feedId),
-      setUp: (tester) => tester.get(),
-      body: (tester) async {
-        // Initial state - no comments
-        expect(tester.activityState.comments, isEmpty);
-
-        // Emit event
-        await tester.emitEvent(
-          CommentAddedEvent(
-            type: EventTypes.commentAdded,
-            createdAt: DateTime.timestamp(),
-            custom: const {},
-            fid: feedId.rawValue,
-            activity: createDefaultActivityResponse(id: activityId),
-            comment: createDefaultCommentResponse(
-              id: commentId,
-              objectId: activityId,
-              objectType: 'activity',
-              text: 'Test comment',
-              userId: userId,
-            ),
-          ),
-        );
-
-        // Verify state has comment
-        expect(tester.activityState.comments, hasLength(1));
-        expect(tester.activityState.comments.first.id, commentId);
-        expect(tester.activityState.comments.first.text, 'Test comment');
-        expect(tester.activityState.comments.first.user.id, userId);
-      },
-    );
-
-    activityTest(
       'addComment - should handle both API call and event together',
-      build: (client) => client.activity(activityId: activityId, fid: feedId),
+      build: (client) => client.activity(activityId: activityId, fid: fid),
       setUp: (tester) => tester.get(),
       body: (tester) async {
         // Initial state - no comments
@@ -500,7 +538,7 @@ void main() {
             type: EventTypes.commentAdded,
             createdAt: DateTime.timestamp(),
             custom: const {},
-            fid: feedId.rawValue,
+            fid: fid.rawValue,
             activity: createDefaultActivityResponse(id: activityId),
             comment: createDefaultCommentResponse(
               id: commentId,
@@ -519,40 +557,8 @@ void main() {
     );
 
     activityTest(
-      'addComment - should not update comments if objectId does not match',
-      build: (client) => client.activity(activityId: activityId, fid: feedId),
-      setUp: (tester) => tester.get(),
-      body: (tester) async {
-        // Initial state - no comments
-        expect(tester.activityState.comments, isEmpty);
-
-        // Emit CommentAddedEvent for different activity
-        await tester.emitEvent(
-          CommentAddedEvent(
-            type: EventTypes.commentAdded,
-            createdAt: DateTime.timestamp(),
-            custom: const {},
-            fid: feedId.rawValue,
-            activity:
-                createDefaultActivityResponse(id: 'different-activity-id'),
-            comment: createDefaultCommentResponse(
-              id: commentId,
-              objectId: 'different-activity-id',
-              objectType: 'activity',
-              text: 'Test comment',
-              userId: userId,
-            ),
-          ),
-        );
-
-        // Verify state was not updated
-        expect(tester.activityState.comments, isEmpty);
-      },
-    );
-
-    activityTest(
       'deleteComment - should delete comment via API',
-      build: (client) => client.activity(activityId: activityId, fid: feedId),
+      build: (client) => client.activity(activityId: activityId, fid: fid),
       setUp: (tester) => tester.get(
         modifyCommentsResponse: (response) => response.copyWith(
           comments: [
@@ -602,93 +608,8 @@ void main() {
     );
 
     activityTest(
-      'deleteComment - should handle CommentDeletedEvent and update comments',
-      build: (client) => client.activity(activityId: activityId, fid: feedId),
-      setUp: (tester) => tester.get(
-        modifyCommentsResponse: (response) => response.copyWith(
-          comments: [
-            createDefaultThreadedCommentResponse(
-              id: commentId,
-              objectId: activityId,
-              objectType: 'activity',
-              text: 'Test comment',
-              userId: userId,
-            ),
-          ],
-        ),
-      ),
-      body: (tester) async {
-        // Initial state - has comment
-        expect(tester.activityState.comments, hasLength(1));
-        expect(tester.activityState.comments.first.id, commentId);
-
-        // Emit event
-        await tester.emitEvent(
-          CommentDeletedEvent(
-            type: EventTypes.commentDeleted,
-            createdAt: DateTime.timestamp(),
-            custom: const {},
-            fid: feedId.rawValue,
-            comment: createDefaultCommentResponse(
-              id: commentId,
-              objectId: activityId,
-              objectType: 'activity',
-              userId: userId,
-            ),
-          ),
-        );
-
-        // Verify state has no comments
-        expect(tester.activityState.comments, isEmpty);
-      },
-    );
-
-    activityTest(
-      'deleteComment - should not update comments if objectId does not match',
-      build: (client) => client.activity(activityId: activityId, fid: feedId),
-      setUp: (tester) => tester.get(
-        modifyCommentsResponse: (response) => response.copyWith(
-          comments: [
-            createDefaultThreadedCommentResponse(
-              id: commentId,
-              objectId: activityId,
-              objectType: 'activity',
-              text: 'Test comment',
-              userId: userId,
-            ),
-          ],
-        ),
-      ),
-      body: (tester) async {
-        // Initial state - has comment
-        expect(tester.activityState.comments, hasLength(1));
-        expect(tester.activityState.comments.first.id, commentId);
-
-        // Emit CommentDeletedEvent for different activity
-        await tester.emitEvent(
-          CommentDeletedEvent(
-            type: EventTypes.commentDeleted,
-            createdAt: DateTime.timestamp(),
-            custom: const {},
-            fid: feedId.rawValue,
-            comment: createDefaultCommentResponse(
-              id: 'different-comment-id',
-              objectId: 'different-activity-id',
-              objectType: 'activity',
-              userId: userId,
-            ),
-          ),
-        );
-
-        // Verify state was not updated
-        expect(tester.activityState.comments, hasLength(1));
-        expect(tester.activityState.comments.first.id, commentId);
-      },
-    );
-
-    activityTest(
       'updateComment - should update comment via API',
-      build: (client) => client.activity(activityId: activityId, fid: feedId),
+      build: (client) => client.activity(activityId: activityId, fid: fid),
       setUp: (tester) => tester.get(
         modifyCommentsResponse: (response) => response.copyWith(
           comments: [
@@ -747,91 +668,64 @@ void main() {
     );
 
     activityTest(
-      'updateComment - should handle CommentUpdatedEvent and update comments',
-      build: (client) => client.activity(activityId: activityId, fid: feedId),
-      setUp: (tester) => tester.get(
-        modifyCommentsResponse: (response) => response.copyWith(
-          comments: [
-            createDefaultThreadedCommentResponse(
-              id: commentId,
-              objectId: activityId,
-              objectType: 'activity',
-              text: 'Original comment',
-              userId: userId,
-            ),
-          ],
-        ),
-      ),
+      'addCommentsBatch - should add multiple comments via API',
+      build: (client) => client.activity(activityId: activityId, fid: fid),
+      setUp: (tester) => tester.get(),
       body: (tester) async {
-        // Initial state - has comment
-        expect(tester.activityState.comments, hasLength(1));
-        expect(tester.activityState.comments.first.text, 'Original comment');
+        const commentId1 = 'comment-1';
+        const commentId2 = 'comment-2';
 
-        // Emit event
-        await tester.emitEvent(
-          CommentUpdatedEvent(
-            type: EventTypes.commentUpdated,
-            createdAt: DateTime.timestamp(),
-            custom: const {},
-            fid: feedId.rawValue,
-            comment: createDefaultCommentResponse(
-              id: commentId,
-              objectId: activityId,
-              objectType: 'activity',
-              text: 'Updated comment',
-              userId: userId,
-            ),
+        tester.mockApi(
+          (api) => api.addCommentsBatch(
+            addCommentsBatchRequest: any(named: 'addCommentsBatchRequest'),
+          ),
+          result: AddCommentsBatchResponse(
+            duration: DateTime.timestamp().toIso8601String(),
+            comments: [
+              createDefaultCommentResponse(
+                id: commentId1,
+                objectId: activityId,
+                objectType: 'activity',
+                userId: userId,
+                text: 'First comment',
+              ),
+              createDefaultCommentResponse(
+                id: commentId2,
+                objectId: activityId,
+                objectType: 'activity',
+                userId: userId,
+                text: 'Second comment',
+              ),
+            ],
           ),
         );
 
-        // Verify state has updated comment
-        expect(tester.activityState.comments, hasLength(1));
-        expect(tester.activityState.comments.first.text, 'Updated comment');
-      },
-    );
+        final result = await tester.activity.addCommentsBatch([
+          const ActivityAddCommentRequest(
+            activityId: activityId,
+            comment: 'First comment',
+          ),
+          const ActivityAddCommentRequest(
+            activityId: activityId,
+            comment: 'Second comment',
+          ),
+        ]);
 
-    activityTest(
-      'updateComment - should not update comments if objectId does not match',
-      build: (client) => client.activity(activityId: activityId, fid: feedId),
-      setUp: (tester) => tester.get(
-        modifyCommentsResponse: (response) => response.copyWith(
-          comments: [
-            createDefaultThreadedCommentResponse(
-              id: commentId,
-              objectId: activityId,
-              objectType: 'activity',
-              text: 'Original comment',
-              userId: userId,
-            ),
-          ],
+        expect(result.isSuccess, isTrue);
+        final comments = result.getOrNull();
+        expect(comments, isNotNull);
+        expect(comments, hasLength(2));
+        expect(comments!.first.id, commentId1);
+        expect(comments.last.id, commentId2);
+
+        // Verify state was updated via onCommentAdded
+        expect(tester.activityState.comments, hasLength(2));
+      },
+      verify: (tester) => tester.verifyApi(
+        (api) => api.addCommentsBatch(
+          addCommentsBatchRequest: any(named: 'addCommentsBatchRequest'),
         ),
       ),
-      body: (tester) async {
-        // Initial state - has comment
-        expect(tester.activityState.comments, hasLength(1));
-        expect(tester.activityState.comments.first.text, 'Original comment');
-
-        // Emit CommentUpdatedEvent for different activity
-        await tester.emitEvent(
-          CommentUpdatedEvent(
-            type: EventTypes.commentUpdated,
-            createdAt: DateTime.timestamp(),
-            custom: const {},
-            fid: feedId.rawValue,
-            comment: createDefaultCommentResponse(
-              id: 'different-comment-id',
-              objectId: 'different-activity-id',
-              objectType: 'activity',
-              text: 'Updated comment',
-              userId: userId,
-            ),
-          ),
-        );
-
-        // Verify state was not updated
-        expect(tester.activityState.comments, hasLength(1));
-        expect(tester.activityState.comments.first.text, 'Original comment');
-      },
     );
   });
 
@@ -839,7 +733,7 @@ void main() {
   // FEATURE: Comment Reactions
   // ============================================================
 
-  group('Comment Reactions', () {
+  group('Activity - Comment Reactions', () {
     const commentId = 'comment-test-1';
     const userId = 'luke_skywalker';
     const reactionType = 'heart';
@@ -850,7 +744,7 @@ void main() {
 
     activityTest(
       'addCommentReaction - should add reaction to comment via API',
-      build: (client) => client.activity(activityId: activityId, fid: feedId),
+      build: (client) => client.activity(activityId: activityId, fid: fid),
       setUp: (tester) => tester.get(
         modifyCommentsResponse: (response) => response.copyWith(
           comments: [
@@ -910,62 +804,8 @@ void main() {
     );
 
     activityTest(
-      'addCommentReaction - should handle CommentReactionAddedEvent and update comment',
-      build: (client) => client.activity(activityId: activityId, fid: feedId),
-      setUp: (tester) => tester.get(
-        modifyCommentsResponse: (response) => response.copyWith(
-          comments: [
-            createDefaultThreadedCommentResponse(
-              id: commentId,
-              objectId: activityId,
-              objectType: 'activity',
-              text: 'Test comment',
-              userId: userId,
-            ),
-          ],
-        ),
-      ),
-      body: (tester) async {
-        // Initial state - comment has no reactions
-        final initialComment = tester.activityState.comments.first;
-        expect(initialComment.ownReactions, isEmpty);
-
-        // Emit event
-        await tester.emitEvent(
-          CommentReactionAddedEvent(
-            type: EventTypes.commentReactionAdded,
-            createdAt: DateTime.timestamp(),
-            custom: const {},
-            fid: feedId.rawValue,
-            activity: createDefaultActivityResponse(id: activityId),
-            comment: createDefaultCommentResponse(
-              id: commentId,
-              objectId: activityId,
-              objectType: 'activity',
-              userId: userId,
-            ),
-            reaction: FeedsReactionResponse(
-              activityId: activityId,
-              commentId: commentId,
-              type: reactionType,
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
-            ),
-          ),
-        );
-
-        // Verify state has reaction
-        final updatedComment = tester.activityState.comments.first;
-        expect(updatedComment.ownReactions, hasLength(1));
-        expect(updatedComment.ownReactions.first.type, reactionType);
-        expect(updatedComment.ownReactions.first.user.id, userId);
-      },
-    );
-
-    activityTest(
       'addCommentReaction - should handle both API call and event together',
-      build: (client) => client.activity(activityId: activityId, fid: feedId),
+      build: (client) => client.activity(activityId: activityId, fid: fid),
       setUp: (tester) => tester.get(
         modifyCommentsResponse: (response) => response.copyWith(
           comments: [
@@ -1011,7 +851,7 @@ void main() {
             type: EventTypes.commentReactionAdded,
             createdAt: DateTime.timestamp(),
             custom: const {},
-            fid: feedId.rawValue,
+            fid: fid.rawValue,
             activity: createDefaultActivityResponse(id: activityId),
             comment: createDefaultCommentResponse(
               id: commentId,
@@ -1019,13 +859,11 @@ void main() {
               objectType: 'activity',
               userId: userId,
             ),
-            reaction: FeedsReactionResponse(
+            reaction: createDefaultReactionResponse(
+              reactionType: reactionType,
+              userId: userId,
               activityId: activityId,
               commentId: commentId,
-              type: reactionType,
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
             ),
           ),
         );
@@ -1038,61 +876,8 @@ void main() {
     );
 
     activityTest(
-      'addCommentReaction - should not update comment if objectId does not match',
-      build: (client) => client.activity(activityId: activityId, fid: feedId),
-      setUp: (tester) => tester.get(
-        modifyCommentsResponse: (response) => response.copyWith(
-          comments: [
-            createDefaultThreadedCommentResponse(
-              id: commentId,
-              objectId: activityId,
-              objectType: 'activity',
-              text: 'Test comment',
-              userId: userId,
-            ),
-          ],
-        ),
-      ),
-      body: (tester) async {
-        // Initial state - comment has no reactions
-        final initialComment = tester.activityState.comments.first;
-        expect(initialComment.ownReactions, isEmpty);
-
-        // Emit CommentReactionAddedEvent for different activity
-        await tester.emitEvent(
-          CommentReactionAddedEvent(
-            type: EventTypes.commentReactionAdded,
-            createdAt: DateTime.timestamp(),
-            custom: const {},
-            fid: feedId.rawValue,
-            activity:
-                createDefaultActivityResponse(id: 'different-activity-id'),
-            comment: createDefaultCommentResponse(
-              id: 'different-comment-id',
-              objectId: 'different-activity-id',
-              objectType: 'activity',
-              userId: userId,
-            ),
-            reaction: FeedsReactionResponse(
-              activityId: 'different-activity-id',
-              commentId: 'different-comment-id',
-              type: reactionType,
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
-            ),
-          ),
-        );
-
-        // Verify state was not updated
-        final comment = tester.activityState.comments.first;
-        expect(comment.ownReactions, isEmpty);
-      },
-    );
-
-    activityTest(
       'deleteCommentReaction - should delete reaction from comment via API',
-      build: (client) => client.activity(activityId: activityId, fid: feedId),
+      build: (client) => client.activity(activityId: activityId, fid: fid),
       setUp: (tester) => tester.get(
         modifyCommentsResponse: (response) => response.copyWith(
           comments: [
@@ -1103,13 +888,11 @@ void main() {
               text: 'Test comment',
               userId: userId,
               ownReactions: [
-                FeedsReactionResponse(
+                createDefaultReactionResponse(
+                  reactionType: reactionType,
+                  userId: userId,
                   activityId: activityId,
                   commentId: commentId,
-                  type: reactionType,
-                  createdAt: DateTime.timestamp(),
-                  updatedAt: DateTime.timestamp(),
-                  user: createDefaultUserResponse(id: userId),
                 ),
               ],
             ),
@@ -1155,128 +938,1132 @@ void main() {
         ),
       ),
     );
+  });
 
-    activityTest(
-      'deleteCommentReaction - should handle CommentReactionDeletedEvent and update comment',
-      build: (client) => client.activity(activityId: activityId, fid: feedId),
-      setUp: (tester) => tester.get(
-        modifyCommentsResponse: (response) => response.copyWith(
-          comments: [
-            createDefaultThreadedCommentResponse(
-              id: commentId,
-              objectId: activityId,
-              objectType: 'activity',
-              text: 'Test comment',
-              userId: userId,
-              ownReactions: [
-                FeedsReactionResponse(
-                  activityId: activityId,
-                  commentId: commentId,
-                  type: reactionType,
-                  createdAt: DateTime.timestamp(),
-                  updatedAt: DateTime.timestamp(),
-                  user: createDefaultUserResponse(id: userId),
-                ),
-              ],
+  // ============================================================
+  // FEATURE: Activity Reactions
+  // ============================================================
+
+  group('Activity - Reactions', () {
+    const currentUser = User(id: 'test_user');
+
+    group('Activity Reactions', () {
+      activityTest(
+        'ActivityReactionAddedEvent - should add reaction to activity',
+        user: currentUser,
+        build: (client) => client.activity(activityId: activityId, fid: fid),
+        setUp: (tester) => tester.get(),
+        body: (tester) async {
+          final activity = tester.activityState.activity;
+          expect(activity, isNotNull);
+          expect(activity!.ownReactions, isEmpty);
+
+          await tester.emitEvent(
+            ActivityReactionAddedEvent(
+              type: EventTypes.activityReactionAdded,
+              createdAt: DateTime.timestamp(),
+              custom: const {},
+              fid: fid.rawValue,
+              activity: createDefaultActivityResponse(id: activityId),
+              reaction: createDefaultReactionResponse(
+                reactionType: 'love',
+                userId: currentUser.id,
+                activityId: activityId,
+              ),
             ),
-          ],
+          );
+
+          final updatedActivity = tester.activityState.activity;
+          expect(updatedActivity, isNotNull);
+          expect(updatedActivity!.ownReactions, hasLength(1));
+
+          expect(updatedActivity.ownReactions.first.type, 'love');
+        },
+      );
+
+      activityTest(
+        'ActivityReactionUpdatedEvent - should replace user reaction',
+        user: currentUser,
+        build: (client) => client.activity(activityId: activityId, fid: fid),
+        setUp: (tester) => tester.get(
+          modifyResponse: (response) => response.copyWith(
+            ownReactions: [
+              createDefaultReactionResponse(
+                reactionType: 'wow',
+                userId: currentUser.id,
+                activityId: activityId,
+              ),
+            ],
+          ),
+        ),
+        body: (tester) async {
+          // Initial state - has 'wow' reaction
+          final activity = tester.activityState.activity;
+          expect(activity, isNotNull);
+          expect(activity!.ownReactions, hasLength(1));
+          expect(activity.ownReactions.first.type, 'wow');
+
+          // Emit ActivityReactionUpdatedEvent - replaces 'wow' with 'fire'
+          await tester.emitEvent(
+            ActivityReactionUpdatedEvent(
+              type: EventTypes.activityReactionUpdated,
+              createdAt: DateTime.timestamp(),
+              custom: const {},
+              fid: fid.rawValue,
+              activity: createDefaultActivityResponse(
+                id: activityId,
+                latestReactions: [
+                  createDefaultReactionResponse(
+                    reactionType: 'fire',
+                    userId: currentUser.id,
+                    activityId: activityId,
+                  ),
+                ],
+              ),
+              reaction: createDefaultReactionResponse(
+                reactionType: 'fire',
+                userId: currentUser.id,
+                activityId: activityId,
+              ),
+            ),
+          );
+
+          // Verify 'wow' was replaced with 'fire'
+          final updatedActivity = tester.activityState.activity;
+          expect(updatedActivity, isNotNull);
+          expect(updatedActivity!.ownReactions, hasLength(1));
+          expect(updatedActivity.ownReactions.first.type, 'fire');
+        },
+      );
+
+      activityTest(
+        'ActivityReactionDeletedEvent - should remove reaction from activity',
+        user: currentUser,
+        build: (client) => client.activity(activityId: activityId, fid: fid),
+        setUp: (tester) => tester.get(
+          modifyResponse: (response) => response.copyWith(
+            ownReactions: [
+              createDefaultReactionResponse(
+                reactionType: 'love',
+                userId: currentUser.id,
+                activityId: activityId,
+              ),
+            ],
+          ),
+        ),
+        body: (tester) async {
+          // Initial state - has 'love' reaction
+          final activity = tester.activityState.activity;
+          expect(activity, isNotNull);
+          expect(activity!.ownReactions, hasLength(1));
+          expect(activity.ownReactions.first.type, 'love');
+
+          // Emit ActivityReactionDeletedEvent
+          await tester.emitEvent(
+            ActivityReactionDeletedEvent(
+              type: EventTypes.activityReactionDeleted,
+              createdAt: DateTime.timestamp(),
+              custom: const {},
+              fid: fid.rawValue,
+              activity: createDefaultActivityResponse(id: activityId),
+              reaction: createDefaultReactionResponse(
+                reactionType: 'love',
+                userId: currentUser.id,
+                activityId: activityId,
+              ),
+            ),
+          );
+
+          // Verify reaction was removed
+          final updatedActivity = tester.activityState.activity;
+          expect(updatedActivity, isNotNull);
+          expect(updatedActivity!.ownReactions, isEmpty);
+        },
+      );
+
+      activityTest(
+        'ActivityReactionAddedEvent - should not add reaction for different activity',
+        user: currentUser,
+        build: (client) => client.activity(activityId: activityId, fid: fid),
+        setUp: (tester) => tester.get(),
+        body: (tester) async {
+          final activity = tester.activityState.activity;
+          expect(activity, isNotNull);
+          expect(activity!.ownReactions, isEmpty);
+
+          await tester.emitEvent(
+            ActivityReactionAddedEvent(
+              type: EventTypes.activityReactionAdded,
+              createdAt: DateTime.timestamp(),
+              custom: const {},
+              fid: fid.rawValue,
+              activity: createDefaultActivityResponse(id: 'different-activity'),
+              reaction: createDefaultReactionResponse(
+                reactionType: 'love',
+                userId: currentUser.id,
+                activityId: 'different-activity',
+              ),
+            ),
+          );
+
+          final updatedActivity = tester.activityState.activity;
+          expect(updatedActivity, isNotNull);
+          expect(updatedActivity!.ownReactions, isEmpty);
+        },
+      );
+    });
+  });
+
+  // ============================================================
+  // FEATURE: Bookmarks
+  // ============================================================
+
+  group('Activity - Bookmarks', () {
+    const currentUser = User(id: 'test_user');
+
+    group('Activity Bookmarks', () {
+      activityTest(
+        'BookmarkAddedEvent - should add bookmark to activity',
+        user: currentUser,
+        build: (client) => client.activity(activityId: activityId, fid: fid),
+        setUp: (tester) => tester.get(),
+        body: (tester) async {
+          final activity = tester.activityState.activity;
+          expect(activity, isNotNull);
+          expect(activity!.ownBookmarks, isEmpty);
+
+          await tester.emitEvent(
+            BookmarkAddedEvent(
+              type: EventTypes.bookmarkAdded,
+              createdAt: DateTime.timestamp(),
+              custom: const {},
+              bookmark: createDefaultBookmarkResponse(
+                activityId: activityId,
+                userId: currentUser.id,
+              ),
+            ),
+          );
+
+          final updatedActivity = tester.activityState.activity;
+          expect(updatedActivity, isNotNull);
+          expect(updatedActivity!.ownBookmarks, hasLength(1));
+        },
+      );
+
+      activityTest(
+        'BookmarkUpdatedEvent - should update bookmark on activity',
+        user: currentUser,
+        build: (client) => client.activity(activityId: activityId, fid: fid),
+        setUp: (tester) => tester.get(),
+        body: (tester) async {
+          final activity = tester.activityState.activity;
+          expect(activity, isNotNull);
+
+          final existingBookmark = createDefaultBookmarkResponse(
+            activityId: activityId,
+            userId: currentUser.id,
+          );
+
+          // First add a bookmark
+          await tester.emitEvent(
+            BookmarkAddedEvent(
+              type: EventTypes.bookmarkAdded,
+              createdAt: DateTime.timestamp(),
+              custom: const {},
+              bookmark: existingBookmark,
+            ),
+          );
+
+          // Then update it
+          final updatedBookmark = existingBookmark.copyWith(
+            custom: const {'updated': true},
+          );
+
+          await tester.emitEvent(
+            BookmarkUpdatedEvent(
+              type: EventTypes.bookmarkUpdated,
+              createdAt: DateTime.timestamp(),
+              custom: const {},
+              bookmark: updatedBookmark,
+            ),
+          );
+
+          final updatedActivity = tester.activityState.activity;
+          expect(updatedActivity, isNotNull);
+          expect(updatedActivity!.ownBookmarks, hasLength(1));
+
+          final bookmarkModel = updatedBookmark.toModel();
+          final foundBookmark = updatedActivity.ownBookmarks.firstWhere(
+            (b) => b.id == bookmarkModel.id,
+          );
+          expect(foundBookmark.custom?['updated'], isTrue);
+        },
+      );
+
+      activityTest(
+        'BookmarkDeletedEvent - should remove bookmark from activity',
+        user: currentUser,
+        build: (client) => client.activity(activityId: activityId, fid: fid),
+        setUp: (tester) => tester.get(),
+        body: (tester) async {
+          final activity = tester.activityState.activity;
+          expect(activity, isNotNull);
+
+          final bookmark = createDefaultBookmarkResponse(
+            activityId: activityId,
+            userId: currentUser.id,
+          );
+
+          // First add a bookmark
+          await tester.emitEvent(
+            BookmarkAddedEvent(
+              type: EventTypes.bookmarkAdded,
+              createdAt: DateTime.timestamp(),
+              custom: const {},
+              bookmark: bookmark,
+            ),
+          );
+
+          // Verify bookmark was added
+          var updatedActivity = tester.activityState.activity;
+          expect(updatedActivity, isNotNull);
+          expect(updatedActivity!.ownBookmarks, hasLength(1));
+
+          // Then remove it
+          await tester.emitEvent(
+            BookmarkDeletedEvent(
+              type: EventTypes.bookmarkDeleted,
+              createdAt: DateTime.timestamp(),
+              custom: const {},
+              bookmark: bookmark,
+            ),
+          );
+
+          updatedActivity = tester.activityState.activity;
+          expect(updatedActivity, isNotNull);
+          expect(updatedActivity!.ownBookmarks, isEmpty);
+        },
+      );
+
+      activityTest(
+        'BookmarkAddedEvent - should not add bookmark for different activity',
+        user: currentUser,
+        build: (client) => client.activity(activityId: activityId, fid: fid),
+        setUp: (tester) => tester.get(),
+        body: (tester) async {
+          final activity = tester.activityState.activity;
+          expect(activity, isNotNull);
+          expect(activity!.ownBookmarks, isEmpty);
+
+          await tester.emitEvent(
+            BookmarkAddedEvent(
+              type: EventTypes.bookmarkAdded,
+              createdAt: DateTime.timestamp(),
+              custom: const {},
+              bookmark: createDefaultBookmarkResponse(
+                activityId: 'different-activity',
+                userId: currentUser.id,
+              ),
+            ),
+          );
+
+          final updatedActivity = tester.activityState.activity;
+          expect(updatedActivity, isNotNull);
+          expect(updatedActivity!.ownBookmarks, isEmpty);
+        },
+      );
+    });
+  });
+
+  // ============================================================
+  // FEATURE: Polls
+  // ============================================================
+
+  group('Activity - Polls', () {
+    activityTest(
+      'closePoll - should close poll via API',
+      build: (client) => client.activity(activityId: activityId, fid: fid),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(
+          poll: createDefaultPollResponse(),
         ),
       ),
       body: (tester) async {
-        // Initial state - comment has reaction
-        final initialComment = tester.activityState.comments.first;
-        expect(initialComment.ownReactions, hasLength(1));
+        final pollId = tester.activityState.poll!.id;
 
-        // Emit event
-        await tester.emitEvent(
-          CommentReactionDeletedEvent(
-            type: EventTypes.commentReactionDeleted,
-            createdAt: DateTime.timestamp(),
-            custom: const {},
-            fid: feedId.rawValue,
-            comment: createDefaultCommentResponse(
-              id: commentId,
-              objectId: activityId,
-              objectType: 'activity',
-              userId: userId,
+        tester.mockApi(
+          (api) => api.updatePollPartial(
+            pollId: pollId,
+            updatePollPartialRequest: const UpdatePollPartialRequest(
+              set: {'is_closed': true},
             ),
-            reaction: FeedsReactionResponse(
-              activityId: activityId,
-              commentId: commentId,
-              type: reactionType,
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
-            ),
+          ),
+          result: PollResponse(
+            poll: createDefaultPollResponse(
+              id: pollId,
+            ).copyWith(isClosed: true),
+            duration: DateTime.timestamp().toIso8601String(),
           ),
         );
 
-        // Verify state has no reactions
-        final updatedComment = tester.activityState.comments.first;
-        expect(updatedComment.ownReactions, isEmpty);
+        final result = await tester.activity.closePoll();
+
+        expect(result.isSuccess, isTrue);
+        final poll = result.getOrNull();
+        expect(poll, isNotNull);
+        expect(poll!.isClosed, isTrue);
+      },
+      verify: (tester) {
+        final pollId = tester.activityState.poll!.id;
+        tester.verifyApi(
+          (api) => api.updatePollPartial(
+            pollId: pollId,
+            updatePollPartialRequest: const UpdatePollPartialRequest(
+              set: {'is_closed': true},
+            ),
+          ),
+        );
       },
     );
 
     activityTest(
-      'deleteCommentReaction - should not update comment if objectId does not match',
-      build: (client) => client.activity(activityId: activityId, fid: feedId),
+      'deletePoll - should delete poll via API',
+      build: (client) => client.activity(activityId: activityId, fid: fid),
       setUp: (tester) => tester.get(
-        modifyCommentsResponse: (response) => response.copyWith(
-          comments: [
-            createDefaultThreadedCommentResponse(
-              id: commentId,
-              objectId: activityId,
-              objectType: 'activity',
-              text: 'Test comment',
-              userId: userId,
-              ownReactions: [
-                FeedsReactionResponse(
-                  activityId: activityId,
-                  commentId: commentId,
-                  type: reactionType,
-                  createdAt: DateTime.timestamp(),
-                  updatedAt: DateTime.timestamp(),
-                  user: createDefaultUserResponse(id: userId),
-                ),
-              ],
-            ),
-          ],
+        modifyResponse: (response) => response.copyWith(
+          poll: createDefaultPollResponse(),
         ),
       ),
       body: (tester) async {
-        // Initial state - comment has reaction
-        final initialComment = tester.activityState.comments.first;
-        expect(initialComment.ownReactions, hasLength(1));
+        final pollId = tester.activityState.poll!.id;
 
-        // Emit CommentReactionDeletedEvent for different activity
-        await tester.emitEvent(
-          CommentReactionDeletedEvent(
-            type: EventTypes.commentReactionDeleted,
-            createdAt: DateTime.timestamp(),
-            custom: const {},
-            fid: feedId.rawValue,
-            comment: createDefaultCommentResponse(
-              id: 'different-comment-id',
-              objectId: 'different-activity-id',
-              objectType: 'activity',
-              userId: userId,
-            ),
-            reaction: FeedsReactionResponse(
-              activityId: 'different-activity-id',
-              commentId: 'different-comment-id',
-              type: reactionType,
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
-            ),
+        tester.mockApi(
+          (api) => api.deletePoll(pollId: pollId),
+          result: DurationResponse(
+            duration: DateTime.timestamp().toIso8601String(),
           ),
         );
 
-        // Verify state was not updated
-        final comment = tester.activityState.comments.first;
-        expect(comment.ownReactions, hasLength(1));
-        expect(comment.ownReactions.first.type, reactionType);
+        final result = await tester.activity.deletePoll();
+
+        expect(result.isSuccess, isTrue);
+      },
+      verify: (tester) {
+        final pollId = tester.activityState.poll!.id;
+        tester.verifyApi((api) => api.deletePoll(pollId: pollId));
       },
     );
+
+    activityTest(
+      'updatePollPartial - should update poll partially via API',
+      build: (client) => client.activity(activityId: activityId, fid: fid),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(
+          poll: createDefaultPollResponse(),
+        ),
+      ),
+      body: (tester) async {
+        final pollId = tester.activityState.poll!.id;
+
+        tester.mockApi(
+          (api) => api.updatePollPartial(
+            pollId: pollId,
+            updatePollPartialRequest: const UpdatePollPartialRequest(
+              set: {'name': 'Updated Poll Name'},
+            ),
+          ),
+          result: PollResponse(
+            poll: createDefaultPollResponse(
+              id: pollId,
+            ).copyWith(name: 'Updated Poll Name'),
+            duration: DateTime.timestamp().toIso8601String(),
+          ),
+        );
+
+        final result = await tester.activity.updatePollPartial(
+          const UpdatePollPartialRequest(set: {'name': 'Updated Poll Name'}),
+        );
+
+        expect(result.isSuccess, isTrue);
+        final poll = result.getOrNull();
+        expect(poll, isNotNull);
+        expect(poll!.name, 'Updated Poll Name');
+      },
+      verify: (tester) {
+        final pollId = tester.activityState.poll!.id;
+        tester.verifyApi(
+          (api) => api.updatePollPartial(
+            pollId: pollId,
+            updatePollPartialRequest: const UpdatePollPartialRequest(
+              set: {'name': 'Updated Poll Name'},
+            ),
+          ),
+        );
+      },
+    );
+
+    activityTest(
+      'updatePoll - should update poll via API',
+      build: (client) => client.activity(activityId: activityId, fid: fid),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(
+          poll: createDefaultPollResponse(),
+        ),
+      ),
+      body: (tester) async {
+        final pollId = tester.activityState.poll!.id;
+
+        tester.mockApi(
+          (api) => api.updatePoll(
+            updatePollRequest: UpdatePollRequest(
+              id: pollId,
+              name: 'Updated Poll Name',
+            ),
+          ),
+          result: PollResponse(
+            poll: createDefaultPollResponse(
+              id: pollId,
+            ).copyWith(name: 'Updated Poll Name'),
+            duration: DateTime.timestamp().toIso8601String(),
+          ),
+        );
+
+        final result = await tester.activity.updatePoll(
+          UpdatePollRequest(
+            id: pollId,
+            name: 'Updated Poll Name',
+          ),
+        );
+
+        expect(result.isSuccess, isTrue);
+        final poll = result.getOrNull();
+        expect(poll, isNotNull);
+        expect(poll!.name, 'Updated Poll Name');
+      },
+      verify: (tester) {
+        final pollId = tester.activityState.poll!.id;
+        tester.verifyApi(
+          (api) => api.updatePoll(
+            updatePollRequest: UpdatePollRequest(
+              id: pollId,
+              name: 'Updated Poll Name',
+            ),
+          ),
+        );
+      },
+    );
+
+    activityTest(
+      'createPollOption - should create poll option via API',
+      build: (client) => client.activity(activityId: activityId, fid: fid),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(
+          poll: createDefaultPollResponse(),
+        ),
+      ),
+      body: (tester) async {
+        final pollId = tester.activityState.poll!.id;
+
+        const optionId = 'option-new';
+        const optionText = 'New Option';
+
+        tester.mockApi(
+          (api) => api.createPollOption(
+            pollId: pollId,
+            createPollOptionRequest: const CreatePollOptionRequest(
+              text: optionText,
+            ),
+          ),
+          result: PollOptionResponse(
+            pollOption: createDefaultPollOptionResponse(
+              id: optionId,
+              text: optionText,
+            ),
+            duration: DateTime.timestamp().toIso8601String(),
+          ),
+        );
+
+        final result = await tester.activity.createPollOption(
+          const CreatePollOptionRequest(text: optionText),
+        );
+
+        expect(result.isSuccess, isTrue);
+        final option = result.getOrNull();
+        expect(option, isNotNull);
+        expect(option!.text, optionText);
+      },
+      verify: (tester) {
+        final pollId = tester.activityState.poll!.id;
+        tester.verifyApi(
+          (api) => api.createPollOption(
+            pollId: pollId,
+            createPollOptionRequest: const CreatePollOptionRequest(
+              text: 'New Option',
+            ),
+          ),
+        );
+      },
+    );
+
+    activityTest(
+      'deletePollOption - should delete poll option via API',
+      build: (client) => client.activity(activityId: activityId, fid: fid),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(
+          poll: createDefaultPollResponse(
+            options: [
+              createDefaultPollOptionResponse(
+                id: 'option-1',
+                text: 'Option 1',
+              ),
+            ],
+          ),
+        ),
+      ),
+      body: (tester) async {
+        const optionId = 'option-1';
+        final pollId = tester.activityState.poll!.id;
+
+        tester.mockApi(
+          (api) => api.deletePollOption(
+            pollId: pollId,
+            optionId: optionId,
+          ),
+          result: DurationResponse(
+            duration: DateTime.timestamp().toIso8601String(),
+          ),
+        );
+
+        final result = await tester.activity.deletePollOption(
+          optionId: optionId,
+        );
+
+        expect(result.isSuccess, isTrue);
+      },
+      verify: (tester) {
+        final pollId = tester.activityState.poll!.id;
+        tester.verifyApi(
+          (api) => api.deletePollOption(
+            pollId: pollId,
+            optionId: 'option-1',
+          ),
+        );
+      },
+    );
+
+    activityTest(
+      'updatePollOption - should update poll option via API',
+      build: (client) => client.activity(activityId: activityId, fid: fid),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(
+          poll: createDefaultPollResponse(
+            options: [
+              createDefaultPollOptionResponse(
+                id: 'option-1',
+                text: 'Option 1',
+              ),
+            ],
+          ),
+        ),
+      ),
+      body: (tester) async {
+        const optionId = 'option-1';
+        final pollId = tester.activityState.poll?.id;
+        expect(pollId, isNotNull);
+
+        tester.mockApi(
+          (api) => api.updatePollOption(
+            pollId: pollId!,
+            updatePollOptionRequest: const UpdatePollOptionRequest(
+              id: optionId,
+              text: 'Updated Option Text',
+            ),
+          ),
+          result: PollOptionResponse(
+            pollOption: createDefaultPollOptionResponse(
+              id: optionId,
+              text: 'Updated Option Text',
+            ),
+            duration: DateTime.timestamp().toIso8601String(),
+          ),
+        );
+
+        final result = await tester.activity.updatePollOption(
+          const UpdatePollOptionRequest(
+            id: optionId,
+            text: 'Updated Option Text',
+          ),
+        );
+
+        expect(result.isSuccess, isTrue);
+        final option = result.getOrNull();
+        expect(option, isNotNull);
+        expect(option!.text, 'Updated Option Text');
+      },
+      verify: (tester) {
+        final pollId = tester.activityState.poll!.id;
+        tester.verifyApi(
+          (api) => api.updatePollOption(
+            pollId: pollId,
+            updatePollOptionRequest: const UpdatePollOptionRequest(
+              id: 'option-1',
+              text: 'Updated Option Text',
+            ),
+          ),
+        );
+      },
+    );
+
+    activityTest(
+      'castPollVote - should cast poll vote via API',
+      build: (client) => client.activity(activityId: activityId, fid: fid),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(
+          poll: createDefaultPollResponse(
+            options: [
+              createDefaultPollOptionResponse(
+                id: 'option-1',
+                text: 'Option 1',
+              ),
+            ],
+          ),
+        ),
+      ),
+      body: (tester) async {
+        final pollId = tester.activityState.poll!.id;
+
+        const optionId = 'option-1';
+
+        tester.mockApi(
+          (api) => api.castPollVote(
+            pollId: pollId,
+            activityId: activityId,
+            castPollVoteRequest: const CastPollVoteRequest(
+              vote: VoteData(optionId: optionId),
+            ),
+          ),
+          result: PollVoteResponse(
+            vote: createDefaultPollVoteResponse(
+              id: 'vote-1',
+              pollId: pollId,
+              optionId: optionId,
+            ),
+            duration: DateTime.timestamp().toIso8601String(),
+          ),
+        );
+
+        final result = await tester.activity.castPollVote(
+          const CastPollVoteRequest(vote: VoteData(optionId: optionId)),
+        );
+
+        expect(result.isSuccess, isTrue);
+        final vote = result.getOrNull();
+        expect(vote, isNotNull);
+        expect(vote!.id, 'vote-1');
+      },
+      verify: (tester) {
+        final pollId = tester.activityState.poll!.id;
+        tester.verifyApi(
+          (api) => api.castPollVote(
+            pollId: pollId,
+            activityId: activityId,
+            castPollVoteRequest: const CastPollVoteRequest(
+              vote: VoteData(optionId: 'option-1'),
+            ),
+          ),
+        );
+      },
+    );
+
+    activityTest(
+      'deletePollVote - should delete poll vote via API',
+      build: (client) => client.activity(activityId: activityId, fid: fid),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(
+          poll: createDefaultPollResponse(),
+        ),
+      ),
+      body: (tester) async {
+        const voteId = 'vote-1';
+        final pollId = tester.activityState.poll!.id;
+
+        tester.mockApi(
+          (api) => api.deletePollVote(
+            activityId: activityId,
+            pollId: pollId,
+            voteId: voteId,
+          ),
+          result: PollVoteResponse(
+            vote: createDefaultPollVoteResponse(
+              id: voteId,
+              pollId: pollId,
+            ),
+            duration: DateTime.timestamp().toIso8601String(),
+          ),
+        );
+
+        final result = await tester.activity.deletePollVote(voteId: voteId);
+
+        expect(result.isSuccess, isTrue);
+        final vote = result.getOrNull();
+        expect(vote, isNotNull);
+        expect(vote!.id, voteId);
+      },
+      verify: (tester) {
+        final pollId = tester.activityState.poll!.id;
+        tester.verifyApi(
+          (api) => api.deletePollVote(
+            activityId: activityId,
+            pollId: pollId,
+            voteId: 'vote-1',
+          ),
+        );
+      },
+    );
+
+    group('Poll Events', () {
+      final defaultPoll = createDefaultPollResponse();
+
+      activityTest(
+        'poll closed',
+        build: (client) => client.activity(activityId: activityId, fid: fid),
+        setUp: (tester) => tester.get(
+          modifyResponse: (it) => it.copyWith(poll: defaultPoll),
+        ),
+        body: (tester) async {
+          expect(tester.activityState.poll?.isClosed, false);
+
+          await tester.emitEvent(
+            PollClosedFeedEvent(
+              type: EventTypes.pollClosed,
+              createdAt: DateTime.timestamp(),
+              custom: const {},
+              fid: fid.rawValue,
+              poll: defaultPoll.copyWith(isClosed: true),
+            ),
+          );
+
+          expect(tester.activityState.poll?.isClosed, true);
+        },
+      );
+
+      activityTest(
+        'poll deleted',
+        build: (client) => client.activity(activityId: activityId, fid: fid),
+        setUp: (tester) => tester.get(
+          modifyResponse: (it) => it.copyWith(poll: defaultPoll),
+        ),
+        body: (tester) async {
+          expect(tester.activityState.poll, isNotNull);
+
+          await tester.emitEvent(
+            PollDeletedFeedEvent(
+              type: EventTypes.pollDeleted,
+              createdAt: DateTime.timestamp(),
+              custom: const {},
+              fid: fid.rawValue,
+              poll: defaultPoll,
+            ),
+          );
+
+          expect(tester.activityState.poll, isNull);
+        },
+      );
+
+      activityTest(
+        'poll updated',
+        build: (client) => client.activity(activityId: activityId, fid: fid),
+        setUp: (tester) => tester.get(
+          modifyResponse: (it) => it.copyWith(poll: defaultPoll),
+        ),
+        body: (tester) async {
+          final poll = tester.activityState.poll!;
+          expect(poll.name, 'name');
+
+          await tester.emitEvent(
+            PollUpdatedFeedEvent(
+              type: EventTypes.pollUpdated,
+              createdAt: DateTime.timestamp(),
+              custom: const {},
+              fid: fid.rawValue,
+              poll: defaultPoll.copyWith(name: 'Updated Poll Name'),
+            ),
+          );
+
+          final updatedPoll = tester.activityState.poll;
+          expect(updatedPoll, isNotNull);
+          expect(updatedPoll!.name, 'Updated Poll Name');
+        },
+      );
+
+      group('Vote operations', () {
+        final pollWithVotes = createDefaultPollResponse(
+          options: [
+            createDefaultPollOptionResponse(id: 'option-1', text: 'Option 1'),
+            createDefaultPollOptionResponse(id: 'option-2', text: 'Option 2'),
+          ],
+          ownVotesAndAnswers: [
+            createDefaultPollVoteResponse(id: 'vote-1', optionId: 'option-1'),
+            createDefaultPollVoteResponse(id: 'vote-2', optionId: 'option-1'),
+            createDefaultPollVoteResponse(id: 'vote-3', optionId: 'option-2'),
+          ],
+        );
+
+        activityTest(
+          'poll vote casted',
+          build: (client) => client.activity(activityId: activityId, fid: fid),
+          setUp: (tester) => tester.get(
+            modifyResponse: (it) => it.copyWith(poll: pollWithVotes),
+          ),
+          body: (tester) async {
+            // Initial state - has 3 votes
+            final initialPoll = tester.activityState.poll!;
+            expect(initialPoll.voteCount, 3);
+            expect(initialPoll.latestVotesByOption, hasLength(2));
+            expect(initialPoll.latestVotesByOption['option-2'], hasLength(1));
+
+            final newVote = createDefaultPollVoteResponse(
+              id: 'vote-4',
+              pollId: initialPoll.id,
+              optionId: 'option-2',
+            );
+
+            // Emit PollVoteCastedFeedEvent
+            await tester.emitEvent(
+              PollVoteCastedFeedEvent(
+                type: EventTypes.pollVoteCasted,
+                createdAt: DateTime.timestamp(),
+                custom: const {},
+                fid: fid.rawValue,
+                pollVote: newVote,
+                poll: createDefaultPollResponse(
+                  options: pollWithVotes.options,
+                  ownVotesAndAnswers: [
+                    createDefaultPollVoteResponse(
+                      id: 'vote-1',
+                      optionId: 'option-1',
+                    ),
+                    createDefaultPollVoteResponse(
+                      id: 'vote-2',
+                      optionId: 'option-1',
+                    ),
+                    createDefaultPollVoteResponse(
+                      id: 'vote-3',
+                      optionId: 'option-2',
+                    ),
+                    newVote,
+                  ],
+                ),
+              ),
+            );
+
+            // Verify vote was added
+            final updatedPoll = tester.activityState.poll!;
+            expect(updatedPoll.voteCount, 4);
+            expect(updatedPoll.latestVotesByOption, hasLength(2));
+            expect(updatedPoll.latestVotesByOption['option-2'], hasLength(2));
+          },
+        );
+
+        activityTest(
+          'poll vote changed',
+          build: (client) => client.activity(activityId: activityId, fid: fid),
+          setUp: (tester) => tester.get(
+            modifyResponse: (it) => it.copyWith(
+              poll: createDefaultPollResponse(
+                options: pollWithVotes.options,
+                ownVotesAndAnswers: [
+                  createDefaultPollVoteResponse(
+                    id: 'vote-1',
+                    optionId: 'option-1',
+                  ),
+                ],
+              ),
+            ),
+          ),
+          body: (tester) async {
+            // Initial state - has one vote on option-1
+            final initialPoll = tester.activityState.poll!;
+            expect(initialPoll.voteCount, 1);
+            expect(initialPoll.latestVotesByOption['option-1'], hasLength(1));
+
+            final changedVote = createDefaultPollVoteResponse(
+              id: 'vote-1',
+              pollId: initialPoll.id,
+              optionId: 'option-2',
+            );
+
+            // Emit PollVoteChangedFeedEvent
+            await tester.emitEvent(
+              PollVoteChangedFeedEvent(
+                type: EventTypes.pollVoteChanged,
+                createdAt: DateTime.timestamp(),
+                custom: const {},
+                fid: fid.rawValue,
+                pollVote: changedVote,
+                poll: createDefaultPollResponse(
+                  options: pollWithVotes.options,
+                  ownVotesAndAnswers: [changedVote],
+                ),
+              ),
+            );
+
+            // Verify vote was changed
+            final updatedPoll = tester.activityState.poll!;
+            expect(updatedPoll.voteCount, 1);
+            expect(updatedPoll.latestVotesByOption['option-1'], isNull);
+            expect(updatedPoll.latestVotesByOption['option-2'], hasLength(1));
+          },
+        );
+
+        activityTest(
+          'poll vote removed',
+          build: (client) => client.activity(activityId: activityId, fid: fid),
+          setUp: (tester) => tester.get(
+            modifyResponse: (it) => it.copyWith(
+              poll: createDefaultPollResponse(
+                options: pollWithVotes.options,
+                ownVotesAndAnswers: [
+                  createDefaultPollVoteResponse(
+                    id: 'vote-1',
+                    optionId: 'option-1',
+                  ),
+                ],
+              ),
+            ),
+          ),
+          body: (tester) async {
+            // Initial state - has one vote on option-1
+            final initialPoll = tester.activityState.poll!;
+            expect(initialPoll.voteCount, 1);
+            expect(initialPoll.latestVotesByOption['option-1'], hasLength(1));
+
+            final voteToRemove = createDefaultPollVoteResponse(
+              id: 'vote-1',
+              pollId: initialPoll.id,
+              optionId: 'option-1',
+            );
+
+            // Emit PollVoteRemovedFeedEvent
+            await tester.emitEvent(
+              PollVoteRemovedFeedEvent(
+                type: EventTypes.pollVoteRemoved,
+                createdAt: DateTime.timestamp(),
+                custom: const {},
+                fid: fid.rawValue,
+                pollVote: voteToRemove,
+                poll: createDefaultPollResponse(
+                  options: pollWithVotes.options,
+                  ownVotesAndAnswers: [],
+                ),
+              ),
+            );
+
+            // Verify vote was removed
+            final updatedPoll = tester.activityState.poll!;
+            expect(updatedPoll.voteCount, 0);
+            expect(updatedPoll.latestVotesByOption['option-1'], isNull);
+          },
+        );
+      });
+
+      group('Answer operations', () {
+        final pollWithAnswers = createDefaultPollResponse(
+          ownVotesAndAnswers: [
+            createDefaultPollAnswerResponse(id: 'answer-1'),
+            createDefaultPollAnswerResponse(id: 'answer-2'),
+            createDefaultPollAnswerResponse(id: 'answer-3'),
+          ],
+        );
+
+        activityTest(
+          'poll answer casted',
+          build: (client) => client.activity(activityId: activityId, fid: fid),
+          setUp: (tester) => tester.get(
+            modifyResponse: (it) => it.copyWith(poll: pollWithAnswers),
+          ),
+          body: (tester) async {
+            // Initial state - has 3 answers
+            final initialPoll = tester.activityState.poll!;
+            expect(initialPoll.answersCount, 3);
+            expect(initialPoll.latestAnswers, hasLength(3));
+
+            final newAnswer = createDefaultPollAnswerResponse(
+              id: 'answer-4',
+              pollId: initialPoll.id,
+              answerText: 'Answer 4',
+            );
+
+            // Emit PollVoteCastedFeedEvent (resolved to PollAnswerCastedFeedEvent)
+            await tester.emitEvent(
+              PollVoteCastedFeedEvent(
+                type: EventTypes.pollVoteCasted,
+                createdAt: DateTime.timestamp(),
+                custom: const {},
+                fid: fid.rawValue,
+                pollVote: newAnswer,
+                poll: createDefaultPollResponse(
+                  ownVotesAndAnswers: [
+                    createDefaultPollAnswerResponse(id: 'answer-1'),
+                    createDefaultPollAnswerResponse(id: 'answer-2'),
+                    createDefaultPollAnswerResponse(id: 'answer-3'),
+                    newAnswer,
+                  ],
+                ),
+              ),
+            );
+
+            // Verify answer was added
+            final updatedPoll = tester.activityState.poll!;
+            expect(updatedPoll.answersCount, 4);
+            expect(updatedPoll.latestAnswers, hasLength(4));
+          },
+        );
+
+        activityTest(
+          'poll answer removed',
+          build: (client) => client.activity(activityId: activityId, fid: fid),
+          setUp: (tester) => tester.get(
+            modifyResponse: (it) => it.copyWith(
+              poll: createDefaultPollResponse(
+                ownVotesAndAnswers: [
+                  createDefaultPollAnswerResponse(id: 'answer-1'),
+                ],
+              ),
+            ),
+          ),
+          body: (tester) async {
+            // Initial state - has one answer
+            final initialPoll = tester.activityState.poll!;
+            expect(initialPoll.answersCount, 1);
+            expect(initialPoll.latestAnswers, hasLength(1));
+
+            final answerToRemove = createDefaultPollAnswerResponse(
+              id: 'answer-1',
+              pollId: initialPoll.id,
+            );
+
+            // Emit PollVoteRemovedFeedEvent (resolved to PollAnswerRemovedFeedEvent)
+            await tester.emitEvent(
+              PollVoteRemovedFeedEvent(
+                type: EventTypes.pollVoteRemoved,
+                createdAt: DateTime.timestamp(),
+                custom: const {},
+                fid: fid.rawValue,
+                pollVote: answerToRemove,
+                poll: createDefaultPollResponse(
+                  ownVotesAndAnswers: [],
+                ),
+              ),
+            );
+
+            // Verify answer was removed
+            final updatedPoll = tester.activityState.poll!;
+            expect(updatedPoll.answersCount, 0);
+            expect(updatedPoll.latestAnswers, isEmpty);
+          },
+        );
+      });
+    });
   });
 }

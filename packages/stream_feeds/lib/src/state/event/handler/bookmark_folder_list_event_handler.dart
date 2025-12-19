@@ -2,6 +2,7 @@ import 'package:stream_core/stream_core.dart';
 
 import '../../../generated/api/models.dart' as api;
 import '../../../models/bookmark_folder_data.dart';
+import '../../../utils/filter.dart';
 import '../../bookmark_folder_list_state.dart';
 import '../../query/bookmark_folders_query.dart';
 import 'state_event_handler.dart';
@@ -21,24 +22,18 @@ class BookmarkFolderListEventHandler implements StateEventHandler {
 
   @override
   void handleEvent(WsEvent event) {
-    bool matchesQueryFilter(BookmarkFolderData bookmarkFolder) {
-      final filter = query.filter;
-      if (filter == null) return true;
-      return filter.matches(bookmarkFolder);
-    }
-
-    if (event is api.BookmarkFolderDeletedEvent) {
-      return state.onBookmarkFolderRemoved(event.bookmarkFolder.id);
-    }
-
     if (event is api.BookmarkFolderUpdatedEvent) {
       final bookmarkFolder = event.bookmarkFolder.toModel();
-      if (!matchesQueryFilter(bookmarkFolder)) {
+      if (!bookmarkFolder.matches(query.filter)) {
         // If the updated bookmark folder no longer matches the filter, remove it
         return state.onBookmarkFolderRemoved(bookmarkFolder.id);
       }
 
       return state.onBookmarkFolderUpdated(bookmarkFolder);
+    }
+
+    if (event is api.BookmarkFolderDeletedEvent) {
+      return state.onBookmarkFolderRemoved(event.bookmarkFolder.id);
     }
 
     // Handle other bookmark folder list events if needed

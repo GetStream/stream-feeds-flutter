@@ -1,5 +1,6 @@
-// ignore_for_file: avoid_redundant_argument_values
+// ignore_for_file: avoid_redundant_argument_values, parameter_assignments
 
+import 'package:collection/collection.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 
 GetCommentsResponse createDefaultCommentsResponse({
@@ -90,9 +91,32 @@ ActivityResponse createDefaultActivityResponse({
   bool? isWatched,
   List<BookmarkResponse> ownBookmarks = const [],
   List<FeedsReactionResponse> ownReactions = const [],
+  List<FeedsReactionResponse> latestReactions = const [],
   Map<String, ReactionGroupResponse> reactionGroups = const {},
   List<CommentResponse> comments = const [],
 }) {
+  latestReactions = latestReactions.isEmpty ? ownReactions : latestReactions;
+  reactionGroups = switch (reactionGroups.isNotEmpty) {
+    true => reactionGroups,
+    _ => latestReactions.fold(
+        <String, ReactionGroupResponse>{},
+        (prev, curr) => prev
+          ..update(
+            curr.type,
+            (it) => it.copyWith(
+              count: it.count + 1,
+              firstReactionAt: [it.firstReactionAt, curr.createdAt].min,
+              lastReactionAt: [it.lastReactionAt, curr.createdAt].max,
+            ),
+            ifAbsent: () => ReactionGroupResponse(
+              count: 1,
+              firstReactionAt: curr.createdAt,
+              lastReactionAt: curr.createdAt,
+            ),
+          ),
+      ),
+  };
+
   return ActivityResponse(
     id: id,
     attachments: const [],
@@ -106,7 +130,7 @@ ActivityResponse createDefaultActivityResponse({
     filterTags: const [],
     hidden: hidden,
     interestTags: const [],
-    latestReactions: const [],
+    latestReactions: latestReactions,
     mentionedUsers: const [],
     moderation: null,
     notificationContext: null,
@@ -135,13 +159,36 @@ ActivityResponse createDefaultActivityResponse({
 PollResponseData createDefaultPollResponse({
   String id = 'poll-id',
   List<PollOptionResponseData>? options,
-  List<PollVoteResponseData> latestAnswers = const [],
+  List<PollVoteResponseData> ownVotesAndAnswers = const [],
+  List<PollVoteResponseData> latestVotesAndAnswers = const [],
   Map<String, List<PollVoteResponseData>> latestVotesByOption = const {},
 }) {
   options ??= [
     createDefaultPollOptionResponse(id: 'option-1', text: 'Option 1'),
     createDefaultPollOptionResponse(id: 'option-2', text: 'Option 2'),
   ];
+
+  latestVotesAndAnswers = switch (latestVotesAndAnswers.isNotEmpty) {
+    true => latestVotesAndAnswers,
+    _ => ownVotesAndAnswers,
+  };
+
+  final (latestAnswers, latestVotes) = latestVotesAndAnswers.partition(
+    (vote) => vote.isAnswer ?? false,
+  );
+
+  latestVotesByOption = switch (latestVotesByOption.isNotEmpty) {
+    true => latestVotesByOption,
+    _ => latestVotes.fold(
+        <String, List<PollVoteResponseData>>{},
+        (prev, curr) => prev
+          ..update(
+            curr.optionId,
+            (it) => [curr, ...it],
+            ifAbsent: () => [curr],
+          ),
+      ),
+  };
 
   return PollResponseData(
     id: id,
@@ -156,7 +203,7 @@ PollResponseData createDefaultPollResponse({
     enforceUniqueVote: true,
     latestAnswers: latestAnswers,
     latestVotesByOption: latestVotesByOption,
-    ownVotes: const [],
+    ownVotes: ownVotesAndAnswers,
     updatedAt: DateTime.now(),
     voteCount: latestVotesByOption.values.sumOf((it) => it.length),
     voteCountsByOption: latestVotesByOption.map(
@@ -207,6 +254,8 @@ GetOrCreateFeedResponse createDefaultGetOrCreateFeedResponse({
 FeedResponse createDefaultFeedResponse({
   String id = 'id',
   String groupId = 'group',
+  String name = 'name',
+  String description = 'description',
   int followerCount = 0,
   int followingCount = 0,
   List<FeedOwnCapability>? ownCapabilities,
@@ -217,8 +266,8 @@ FeedResponse createDefaultFeedResponse({
     id: id,
     groupId: groupId,
     feed: FeedId(group: groupId, id: id).toString(),
-    name: 'name',
-    description: 'description',
+    name: name,
+    description: description,
     visibility: FeedVisibility.public,
     createdAt: DateTime(2021, 1, 1),
     createdBy: createDefaultUserResponse(),
@@ -240,19 +289,46 @@ CommentResponse createDefaultCommentResponse({
   String? text,
   String? userId,
   String? parentId,
+  List<FeedsReactionResponse> ownReactions = const [],
+  List<FeedsReactionResponse> latestReactions = const [],
+  Map<String, ReactionGroupResponse> reactionGroups = const {},
 }) {
+  latestReactions = latestReactions.isEmpty ? ownReactions : latestReactions;
+  reactionGroups = switch (reactionGroups.isNotEmpty) {
+    true => reactionGroups,
+    _ => latestReactions.fold(
+        {},
+        (prev, curr) => prev
+          ..update(
+            curr.type,
+            (it) => it.copyWith(
+              count: it.count + 1,
+              firstReactionAt: [it.firstReactionAt, curr.createdAt].min,
+              lastReactionAt: [it.lastReactionAt, curr.createdAt].max,
+            ),
+            ifAbsent: () => ReactionGroupResponse(
+              count: 1,
+              firstReactionAt: curr.createdAt,
+              lastReactionAt: curr.createdAt,
+            ),
+          ),
+      ),
+  };
+
   return CommentResponse(
     id: id,
     confidenceScore: 0,
     createdAt: DateTime(2021, 1, 1),
     custom: const {},
     downvoteCount: 0,
+    latestReactions: latestReactions,
     mentionedUsers: const [],
     objectId: objectId,
     objectType: objectType,
-    ownReactions: const [],
+    ownReactions: ownReactions,
     parentId: parentId,
-    reactionCount: 0,
+    reactionCount: reactionGroups.values.sumOf((group) => group.count),
+    reactionGroups: reactionGroups,
     replyCount: 0,
     score: 0,
     status: 'status',
@@ -419,6 +495,23 @@ PinActivityResponse createDefaultPinActivityResponse({
   );
 }
 
+ActivityPinResponse createDefaultActivityPinResponse({
+  String activityId = 'activity-id',
+  String type = 'post',
+  String userId = 'user-id',
+}) {
+  return ActivityPinResponse(
+    activity: createDefaultActivityResponse(
+      id: activityId,
+      type: type,
+    ),
+    createdAt: DateTime(2021, 1, 1),
+    feed: 'user:id',
+    updatedAt: DateTime(2021, 1, 2),
+    user: createDefaultUserResponse(id: userId),
+  );
+}
+
 BookmarkResponse createDefaultBookmarkResponse({
   String userId = 'user-id',
   String activityId = 'activity-id',
@@ -516,46 +609,157 @@ DeleteActivityReactionResponse createDefaultDeleteReactionResponse({
   );
 }
 
+FeedsReactionResponse createDefaultReactionResponse({
+  String activityId = 'activity-id',
+  String? commentId,
+  String userId = 'user-id',
+  String reactionType = 'like',
+}) {
+  return FeedsReactionResponse(
+    activityId: activityId,
+    commentId: commentId,
+    type: reactionType,
+    createdAt: DateTime.timestamp(),
+    updatedAt: DateTime.timestamp(),
+    user: createDefaultUserResponse(id: userId),
+  );
+}
+
+QueryActivityReactionsResponse createDefaultQueryActivityReactionsResponse({
+  String? next,
+  String? prev,
+  List<FeedsReactionResponse> reactions = const [],
+}) {
+  return QueryActivityReactionsResponse(
+    next: next,
+    prev: prev,
+    reactions: reactions,
+    duration: '10ms',
+  );
+}
+
+QueryCommentReactionsResponse createDefaultQueryCommentReactionsResponse({
+  String? next,
+  String? prev,
+  List<FeedsReactionResponse> reactions = const [],
+}) {
+  return QueryCommentReactionsResponse(
+    next: next,
+    prev: prev,
+    reactions: reactions,
+    duration: '10ms',
+  );
+}
+
+QueryCommentsResponse createDefaultQueryCommentsResponse({
+  String? next,
+  String? prev,
+  List<CommentResponse> comments = const [],
+}) {
+  return QueryCommentsResponse(
+    next: next,
+    prev: prev,
+    comments: comments,
+    duration: '10ms',
+  );
+}
+
 FeedMemberResponse createDefaultFeedMemberResponse({
   String id = 'member-id',
   String role = 'member',
+  FeedMemberResponseStatus status = FeedMemberResponseStatus.member,
 }) {
   return FeedMemberResponse(
     createdAt: DateTime(2021, 1, 1),
     custom: const {},
     role: role,
-    status: FeedMemberResponseStatus.member,
+    status: status,
     updatedAt: DateTime(2021, 2, 1),
     user: createDefaultUserResponse(id: id),
   );
 }
 
+QueryFeedMembersResponse createDefaultQueryFeedMembersResponse({
+  String? next,
+  String? prev,
+  List<FeedMemberResponse> members = const [],
+}) {
+  return QueryFeedMembersResponse(
+    next: next,
+    prev: prev,
+    members: members,
+    duration: '10ms',
+  );
+}
+
 FollowResponse createDefaultFollowResponse({
-  String id = 'follow-id',
+  String sourceId = 'follow-source-id',
+  String targetId = 'follow-target-id',
+  String followerRole = 'follower',
   FollowResponseStatus status = FollowResponseStatus.accepted,
 }) {
   return FollowResponse(
-    createdAt: DateTime(2021, 1, 1),
     custom: const {},
-    followerRole: 'follower',
+    followerRole: followerRole,
     pushPreference: FollowResponsePushPreference.all,
-    sourceFeed: createDefaultFeedResponse(id: 'source-$id'),
+    sourceFeed: createDefaultFeedResponse(id: sourceId, groupId: 'user'),
     status: status,
-    targetFeed: createDefaultFeedResponse(id: 'target-$id'),
+    targetFeed: createDefaultFeedResponse(id: targetId, groupId: 'user'),
+    createdAt: DateTime(2021, 1, 1),
     updatedAt: DateTime(2021, 2, 1),
   );
 }
 
 BookmarkFolderResponse createDefaultBookmarkFolderResponse({
   String id = 'folder-id',
+  String name = 'My Folder',
 }) {
   return BookmarkFolderResponse(
     createdAt: DateTime(2021, 1, 1),
     custom: const {},
     id: id,
-    name: 'My Folder',
+    name: name,
     updatedAt: DateTime(2021, 2, 1),
     user: createDefaultUserResponse(),
+  );
+}
+
+QueryBookmarkFoldersResponse createDefaultQueryBookmarkFoldersResponse({
+  String? next,
+  String? prev,
+  List<BookmarkFolderResponse> bookmarkFolders = const [],
+}) {
+  return QueryBookmarkFoldersResponse(
+    next: next,
+    prev: prev,
+    bookmarkFolders: bookmarkFolders,
+    duration: '10ms',
+  );
+}
+
+QueryBookmarksResponse createDefaultQueryBookmarksResponse({
+  String? next,
+  String? prev,
+  List<BookmarkResponse> bookmarks = const [],
+}) {
+  return QueryBookmarksResponse(
+    next: next,
+    prev: prev,
+    bookmarks: bookmarks,
+    duration: '10ms',
+  );
+}
+
+QueryFeedsResponse createDefaultQueryFeedsResponse({
+  String? next,
+  String? prev,
+  List<FeedResponse> feeds = const [],
+}) {
+  return QueryFeedsResponse(
+    next: next,
+    prev: prev,
+    feeds: feeds,
+    duration: '10ms',
   );
 }
 
@@ -650,5 +854,33 @@ ActivityFeedbackResponse createDefaultActivityFeedbackResponse({
   return ActivityFeedbackResponse(
     duration: '10ms',
     activityId: activityId,
+  );
+}
+
+ConfigResponse createDefaultModerationConfigResponse({
+  String key = 'config-key',
+  String team = 'team-id',
+  bool async = false,
+}) {
+  return ConfigResponse(
+    key: key,
+    team: team,
+    async: async,
+    supportedVideoCallHarmTypes: const [],
+    createdAt: DateTime(2021, 1, 1),
+    updatedAt: DateTime(2021, 2, 1),
+  );
+}
+
+QueryModerationConfigsResponse createDefaultQueryModerationConfigsResponse({
+  String? next,
+  String? prev,
+  List<ConfigResponse> configs = const [],
+}) {
+  return QueryModerationConfigsResponse(
+    next: next,
+    prev: prev,
+    configs: configs,
+    duration: '10ms',
   );
 }

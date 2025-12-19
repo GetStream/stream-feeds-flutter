@@ -103,9 +103,18 @@ final class FollowListTester extends BaseTester<FollowList> {
     final defaultFollowListResponse = QueryFollowsResponse(
       duration: DateTime.now().toIso8601String(),
       follows: [
-        createDefaultFollowResponse(id: 'follow-1'),
-        createDefaultFollowResponse(id: 'follow-2'),
-        createDefaultFollowResponse(id: 'follow-3'),
+        createDefaultFollowResponse(
+          sourceId: 'source-1',
+          targetId: 'target-1',
+        ),
+        createDefaultFollowResponse(
+          sourceId: 'source-2',
+          targetId: 'target-2',
+        ),
+        createDefaultFollowResponse(
+          sourceId: 'source-3',
+          targetId: 'target-3',
+        ),
       ],
     );
 

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_redundant_argument_values
+
 import 'package:stream_feeds/stream_feeds.dart';
 
 import 'package:stream_feeds_test/stream_feeds_test.dart';
@@ -55,6 +57,7 @@ void main() {
       body: (tester) async {
         // Initial state - has comment
         expect(tester.activityCommentListState.comments, hasLength(1));
+        expect(tester.activityCommentListState.canLoadMore, isTrue);
 
         final nextPageQuery = tester.activityCommentList.query.copyWith(
           next: tester.activityCommentListState.pagination?.next,
@@ -68,10 +71,8 @@ void main() {
             sort: nextPageQuery.sort,
             limit: nextPageQuery.limit,
             next: nextPageQuery.next,
-            prev: nextPageQuery.previous,
           ),
           result: createDefaultCommentsResponse(
-            prev: 'prev-cursor',
             comments: [
               createDefaultThreadedCommentResponse(
                 id: 'comment-test-2',
@@ -94,16 +95,7 @@ void main() {
 
         // Verify state was updated with merged comments
         expect(tester.activityCommentListState.comments, hasLength(2));
-        expect(tester.activityCommentListState.pagination?.next, isNull);
-        expect(
-          tester.activityCommentListState.pagination?.previous,
-          'prev-cursor',
-        );
-      },
-      verify: (tester) {
-        final nextPageQuery = tester.activityCommentList.query.copyWith(
-          next: tester.activityCommentListState.pagination?.next,
-        );
+        expect(tester.activityCommentListState.canLoadMore, isFalse);
 
         tester.verifyApi(
           (api) => api.getComments(
@@ -113,7 +105,6 @@ void main() {
             sort: nextPageQuery.sort,
             limit: nextPageQuery.limit,
             next: nextPageQuery.next,
-            prev: nextPageQuery.previous,
           ),
         );
       },
@@ -138,7 +129,7 @@ void main() {
       body: (tester) async {
         // Initial state - has comment but no pagination
         expect(tester.activityCommentListState.comments, hasLength(1));
-        expect(tester.activityCommentListState.pagination?.next, isNull);
+        expect(tester.activityCommentListState.canLoadMore, isFalse);
 
         // Query more comments (should return empty immediately)
         final result = await tester.activityCommentList.queryMoreComments();
@@ -550,13 +541,10 @@ void main() {
               objectType: 'activity',
               userId: userId,
             ),
-            reaction: FeedsReactionResponse(
-              activityId: activityId,
+            reaction: createDefaultReactionResponse(
+              reactionType: reactionType,
+              userId: userId,
               commentId: commentId,
-              type: reactionType,
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
             ),
           ),
         );
@@ -570,7 +558,7 @@ void main() {
     );
 
     activityCommentListTest(
-      'should handle CommentReactionUpdatedEvent and update reaction',
+      'CommentReactionUpdatedEvent - should replace user reaction',
       build: (client) => client.activityCommentList(query),
       setUp: (tester) => tester.get(
         modifyResponse: (response) => response.copyWith(
@@ -582,13 +570,10 @@ void main() {
               text: 'Test comment',
               userId: userId,
               ownReactions: [
-                FeedsReactionResponse(
-                  activityId: activityId,
+                createDefaultReactionResponse(
+                  reactionType: reactionType,
+                  userId: userId,
                   commentId: commentId,
-                  type: reactionType,
-                  createdAt: DateTime.timestamp(),
-                  updatedAt: DateTime.timestamp(),
-                  user: createDefaultUserResponse(id: userId),
                 ),
               ],
             ),
@@ -614,14 +599,18 @@ void main() {
               objectId: activityId,
               objectType: 'activity',
               userId: userId,
+              latestReactions: [
+                createDefaultReactionResponse(
+                  reactionType: 'fire',
+                  userId: userId,
+                  commentId: commentId,
+                ),
+              ],
             ),
-            reaction: FeedsReactionResponse(
-              activityId: activityId,
+            reaction: createDefaultReactionResponse(
+              reactionType: 'fire',
+              userId: userId,
               commentId: commentId,
-              type: 'fire',
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
             ),
           ),
         );
@@ -646,13 +635,10 @@ void main() {
               text: 'Test comment',
               userId: userId,
               ownReactions: [
-                FeedsReactionResponse(
-                  activityId: activityId,
+                createDefaultReactionResponse(
+                  reactionType: reactionType,
+                  userId: userId,
                   commentId: commentId,
-                  type: reactionType,
-                  createdAt: DateTime.timestamp(),
-                  updatedAt: DateTime.timestamp(),
-                  user: createDefaultUserResponse(id: userId),
                 ),
               ],
             ),
@@ -677,13 +663,10 @@ void main() {
               objectType: 'activity',
               userId: userId,
             ),
-            reaction: FeedsReactionResponse(
-              activityId: activityId,
+            reaction: createDefaultReactionResponse(
+              reactionType: reactionType,
+              userId: userId,
               commentId: commentId,
-              type: reactionType,
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
             ),
           ),
         );
@@ -732,13 +715,11 @@ void main() {
               objectType: 'activity',
               userId: userId,
             ),
-            reaction: FeedsReactionResponse(
+            reaction: createDefaultReactionResponse(
+              reactionType: reactionType,
+              userId: userId,
               activityId: 'different-activity-id',
               commentId: 'different-comment-id',
-              type: reactionType,
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
             ),
           ),
         );
@@ -748,6 +729,153 @@ void main() {
         final comment = tester.activityCommentListState.comments.first;
         expect(comment.id, commentId);
         expect(comment.ownReactions, isEmpty);
+      },
+    );
+  });
+
+  // ============================================================
+  // FEATURE: Activity Comment List - Activity Deletion
+  // ============================================================
+
+  group('Activity Comment List - Activity Deletion', () {
+    activityCommentListTest(
+      'should clear all comments when activity is deleted',
+      build: (client) => client.activityCommentList(query),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(
+          next: 'next-cursor',
+          comments: [
+            createDefaultThreadedCommentResponse(
+              id: commentId,
+              objectId: activityId,
+              objectType: 'activity',
+              text: 'Test comment',
+              userId: userId,
+            ),
+            createDefaultThreadedCommentResponse(
+              id: 'comment-test-2',
+              objectId: activityId,
+              objectType: 'activity',
+              text: 'Another comment',
+              userId: userId,
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - has comments and pagination
+        expect(tester.activityCommentListState.comments, hasLength(2));
+        expect(tester.activityCommentListState.pagination?.next, 'next-cursor');
+
+        // Emit ActivityDeletedEvent
+        await tester.emitEvent(
+          ActivityDeletedEvent(
+            type: 'feeds.activity.deleted',
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: 'user:john',
+            activity: createDefaultActivityResponse(id: activityId),
+          ),
+        );
+
+        // Verify state has no comments and no pagination
+        expect(tester.activityCommentListState.comments, isEmpty);
+        expect(tester.activityCommentListState.pagination, isNull);
+        expect(tester.activityCommentListState.canLoadMore, isFalse);
+      },
+    );
+
+    activityCommentListTest(
+      'should clear nested replies when activity is deleted',
+      build: (client) => client.activityCommentList(query),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(
+          comments: [
+            createDefaultThreadedCommentResponse(
+              id: commentId,
+              objectId: activityId,
+              objectType: 'activity',
+              text: 'Top-level comment',
+              userId: userId,
+              replies: [
+                createDefaultThreadedCommentResponse(
+                  id: 'nested-reply-1',
+                  objectId: activityId,
+                  objectType: 'activity',
+                  text: 'Nested reply',
+                  userId: userId,
+                ),
+                createDefaultThreadedCommentResponse(
+                  id: 'nested-reply-2',
+                  objectId: activityId,
+                  objectType: 'activity',
+                  text: 'Another nested reply',
+                  userId: userId,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - has comment with nested replies
+        expect(tester.activityCommentListState.comments, hasLength(1));
+        final initialComment = tester.activityCommentListState.comments.first;
+        expect(initialComment.replies, hasLength(2));
+
+        // Emit ActivityDeletedEvent
+        await tester.emitEvent(
+          ActivityDeletedEvent(
+            type: 'feeds.activity.deleted',
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: 'user:john',
+            activity: createDefaultActivityResponse(id: activityId),
+          ),
+        );
+
+        // Verify all comments including nested replies are cleared
+        expect(tester.activityCommentListState.comments, isEmpty);
+      },
+    );
+
+    activityCommentListTest(
+      'should not clear comments when different activity is deleted',
+      build: (client) => client.activityCommentList(query),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(
+          comments: [
+            createDefaultThreadedCommentResponse(
+              id: commentId,
+              objectId: activityId,
+              objectType: 'activity',
+              text: 'Test comment',
+              userId: userId,
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        // Initial state - has comment
+        expect(tester.activityCommentListState.comments, hasLength(1));
+        expect(tester.activityCommentListState.comments.first.id, commentId);
+
+        // Emit ActivityDeletedEvent for different activity
+        await tester.emitEvent(
+          ActivityDeletedEvent(
+            type: 'feeds.activity.deleted',
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: 'user:john',
+            activity: createDefaultActivityResponse(
+              id: 'different-activity-id',
+            ),
+          ),
+        );
+
+        // Verify state was not changed (still has comment)
+        expect(tester.activityCommentListState.comments, hasLength(1));
+        expect(tester.activityCommentListState.comments.first.id, commentId);
       },
     );
   });

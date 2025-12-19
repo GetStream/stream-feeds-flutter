@@ -4,3 +4,4 @@ export 'src/feeds_client.dart';
 export 'src/generated/api/api.dart' hide User;
 export 'src/models.dart';
 export 'src/state.dart' hide defaultOnNewActivity;
+export 'src/utils/filter.dart' show MatchesExtensions;

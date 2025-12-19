@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_redundant_argument_values
+
 import 'package:stream_feeds/stream_feeds.dart';
 
 import 'package:stream_feeds_test/stream_feeds_test.dart';
@@ -55,6 +57,7 @@ void main() {
       body: (tester) async {
         // Initial state - has reply
         expect(tester.commentReplyListState.replies, hasLength(1));
+        expect(tester.commentReplyListState.canLoadMore, isTrue);
 
         final nextPageQuery = tester.commentReplyList.query.copyWith(
           next: tester.commentReplyListState.pagination?.next,
@@ -66,12 +69,10 @@ void main() {
             depth: nextPageQuery.depth,
             limit: nextPageQuery.limit,
             next: nextPageQuery.next,
-            prev: nextPageQuery.previous,
             repliesLimit: nextPageQuery.repliesLimit,
             sort: nextPageQuery.sort,
           ),
           result: createDefaultCommentRepliesResponse(
-            prev: 'prev-cursor',
             comments: [
               createDefaultThreadedCommentResponse(
                 id: 'reply-test-2',
@@ -94,16 +95,7 @@ void main() {
 
         // Verify state was updated with merged replies
         expect(tester.commentReplyListState.replies, hasLength(2));
-        expect(tester.commentReplyListState.pagination?.next, isNull);
-        expect(
-          tester.commentReplyListState.pagination?.previous,
-          'prev-cursor',
-        );
-      },
-      verify: (tester) {
-        final nextPageQuery = tester.commentReplyList.query.copyWith(
-          next: tester.commentReplyListState.pagination?.next,
-        );
+        expect(tester.commentReplyListState.canLoadMore, isFalse);
 
         tester.verifyApi(
           (api) => api.getCommentReplies(
@@ -111,7 +103,6 @@ void main() {
             depth: nextPageQuery.depth,
             limit: nextPageQuery.limit,
             next: nextPageQuery.next,
-            prev: nextPageQuery.previous,
             repliesLimit: nextPageQuery.repliesLimit,
             sort: nextPageQuery.sort,
           ),
@@ -138,9 +129,7 @@ void main() {
       body: (tester) async {
         // Initial state - has reply but no pagination
         expect(tester.commentReplyListState.replies, hasLength(1));
-        expect(tester.commentReplyListState.pagination?.next, isNull);
-        expect(tester.commentReplyListState.pagination?.previous, isNull);
-
+        expect(tester.commentReplyListState.canLoadMore, isFalse);
         // Query more replies (should return empty immediately)
         final result = await tester.commentReplyList.queryMoreReplies();
 
@@ -150,8 +139,7 @@ void main() {
 
         // Verify state was not updated (no new replies, pagination remains null)
         expect(tester.commentReplyListState.replies, hasLength(1));
-        expect(tester.commentReplyListState.pagination?.next, isNull);
-        expect(tester.commentReplyListState.pagination?.previous, isNull);
+        expect(tester.commentReplyListState.canLoadMore, isFalse);
       },
     );
   });
@@ -288,6 +276,34 @@ void main() {
 
         // Verify state has no replies
         expect(tester.commentReplyListState.replies, isEmpty);
+      },
+    );
+
+    commentReplyListTest(
+      'should clear all replies when parent comment is deleted',
+      build: (client) => client.commentReplyList(query),
+      setUp: (tester) => tester.get(),
+      body: (tester) async {
+        // Verify replies are loaded
+        expect(tester.commentReplyListState.replies, hasLength(3));
+
+        // Emit event for parent comment deletion
+        await tester.emitEvent(
+          CommentDeletedEvent(
+            type: EventTypes.commentDeleted,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: 'user:john',
+            comment: createDefaultCommentResponse(
+              id: query.commentId,
+              objectId: 'activity-1',
+            ),
+          ),
+        );
+
+        // Verify state was cleared
+        expect(tester.commentReplyListState.replies, isEmpty);
+        expect(tester.commentReplyListState.pagination, isNull);
       },
     );
 
@@ -925,13 +941,10 @@ void main() {
               userId: userId,
               parentId: parentCommentId,
             ),
-            reaction: FeedsReactionResponse(
-              activityId: 'activity-1',
+            reaction: createDefaultReactionResponse(
+              reactionType: reactionType,
+              userId: userId,
               commentId: replyId,
-              type: reactionType,
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
             ),
           ),
         );
@@ -956,13 +969,10 @@ void main() {
               text: 'Test reply',
               userId: userId,
               ownReactions: [
-                FeedsReactionResponse(
-                  activityId: 'activity-1',
+                createDefaultReactionResponse(
+                  reactionType: reactionType,
+                  userId: userId,
                   commentId: replyId,
-                  type: reactionType,
-                  createdAt: DateTime.timestamp(),
-                  updatedAt: DateTime.timestamp(),
-                  user: createDefaultUserResponse(id: userId),
                 ),
               ],
             ),
@@ -988,13 +998,10 @@ void main() {
               userId: userId,
               parentId: parentCommentId,
             ),
-            reaction: FeedsReactionResponse(
-              activityId: 'activity-1',
+            reaction: createDefaultReactionResponse(
+              reactionType: reactionType,
+              userId: userId,
               commentId: replyId,
-              type: reactionType,
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
             ),
           ),
         );
@@ -1006,7 +1013,7 @@ void main() {
     );
 
     commentReplyListTest(
-      'should handle CommentReactionUpdatedEvent and update reaction',
+      'CommentReactionUpdatedEvent - should replace user reaction',
       build: (client) => client.commentReplyList(query),
       setUp: (tester) => tester.get(
         modifyResponse: (response) => response.copyWith(
@@ -1018,13 +1025,10 @@ void main() {
               text: 'Test reply',
               userId: userId,
               ownReactions: [
-                FeedsReactionResponse(
-                  activityId: 'activity-1',
+                createDefaultReactionResponse(
+                  reactionType: reactionType,
+                  userId: userId,
                   commentId: replyId,
-                  type: reactionType,
-                  createdAt: DateTime.timestamp(),
-                  updatedAt: DateTime.timestamp(),
-                  user: createDefaultUserResponse(id: userId),
                 ),
               ],
             ),
@@ -1051,14 +1055,18 @@ void main() {
               objectType: 'activity',
               userId: userId,
               parentId: parentCommentId,
+              latestReactions: [
+                createDefaultReactionResponse(
+                  reactionType: 'fire',
+                  userId: userId,
+                  commentId: replyId,
+                ),
+              ],
             ),
-            reaction: FeedsReactionResponse(
-              activityId: 'activity-1',
+            reaction: createDefaultReactionResponse(
+              reactionType: 'fire',
+              userId: userId,
               commentId: replyId,
-              type: 'fire',
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
             ),
           ),
         );
@@ -1116,13 +1124,10 @@ void main() {
               userId: userId,
               parentId: replyId,
             ),
-            reaction: FeedsReactionResponse(
-              activityId: 'activity-1',
+            reaction: createDefaultReactionResponse(
+              reactionType: reactionType,
+              userId: userId,
               commentId: 'nested-reply-1',
-              type: reactionType,
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
             ),
           ),
         );
@@ -1194,13 +1199,10 @@ void main() {
               userId: userId,
               parentId: 'nested-reply-1',
             ),
-            reaction: FeedsReactionResponse(
-              activityId: 'activity-1',
+            reaction: createDefaultReactionResponse(
+              reactionType: reactionType,
+              userId: userId,
               commentId: 'deep-nested-reply-1',
-              type: reactionType,
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
             ),
           ),
         );
@@ -1247,13 +1249,10 @@ void main() {
                       text: 'Deep nested reply',
                       userId: userId,
                       ownReactions: [
-                        FeedsReactionResponse(
-                          activityId: 'activity-1',
+                        createDefaultReactionResponse(
+                          reactionType: reactionType,
+                          userId: userId,
                           commentId: 'deep-nested-reply-1',
-                          type: reactionType,
-                          createdAt: DateTime.timestamp(),
-                          updatedAt: DateTime.timestamp(),
-                          user: createDefaultUserResponse(id: userId),
                         ),
                       ],
                     ),
@@ -1285,13 +1284,10 @@ void main() {
               userId: userId,
               parentId: 'nested-reply-1',
             ),
-            reaction: FeedsReactionResponse(
-              activityId: 'activity-1',
+            reaction: createDefaultReactionResponse(
+              reactionType: reactionType,
+              userId: userId,
               commentId: 'deep-nested-reply-1',
-              type: reactionType,
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
             ),
           ),
         );
@@ -1339,13 +1335,10 @@ void main() {
               objectType: 'activity',
               userId: userId,
             ),
-            reaction: FeedsReactionResponse(
-              activityId: 'activity-1',
+            reaction: createDefaultReactionResponse(
+              reactionType: reactionType,
+              userId: userId,
               commentId: replyId,
-              type: reactionType,
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
             ),
           ),
         );
@@ -1369,13 +1362,10 @@ void main() {
               text: 'Test reply',
               userId: userId,
               ownReactions: [
-                FeedsReactionResponse(
-                  activityId: 'activity-1',
+                createDefaultReactionResponse(
+                  reactionType: reactionType,
+                  userId: userId,
                   commentId: replyId,
-                  type: reactionType,
-                  createdAt: DateTime.timestamp(),
-                  updatedAt: DateTime.timestamp(),
-                  user: createDefaultUserResponse(id: userId),
                 ),
               ],
             ),
@@ -1402,13 +1392,10 @@ void main() {
               objectType: 'activity',
               userId: userId,
             ),
-            reaction: FeedsReactionResponse(
-              activityId: 'activity-1',
+            reaction: createDefaultReactionResponse(
+              reactionType: 'fire',
+              userId: userId,
               commentId: replyId,
-              type: 'fire',
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
             ),
           ),
         );
@@ -1433,13 +1420,10 @@ void main() {
               text: 'Test reply',
               userId: userId,
               ownReactions: [
-                FeedsReactionResponse(
-                  activityId: 'activity-1',
+                createDefaultReactionResponse(
+                  reactionType: reactionType,
+                  userId: userId,
                   commentId: replyId,
-                  type: reactionType,
-                  createdAt: DateTime.timestamp(),
-                  updatedAt: DateTime.timestamp(),
-                  user: createDefaultUserResponse(id: userId),
                 ),
               ],
             ),
@@ -1464,13 +1448,10 @@ void main() {
               objectType: 'activity',
               userId: userId,
             ),
-            reaction: FeedsReactionResponse(
-              activityId: 'activity-1',
+            reaction: createDefaultReactionResponse(
+              reactionType: reactionType,
+              userId: userId,
               commentId: replyId,
-              type: reactionType,
-              createdAt: DateTime.timestamp(),
-              updatedAt: DateTime.timestamp(),
-              user: createDefaultUserResponse(id: userId),
             ),
           ),
         );

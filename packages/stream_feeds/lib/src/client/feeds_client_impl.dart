@@ -388,6 +388,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
       query: query,
       commentsRepository: _commentsRepository,
       eventsEmitter: events,
+      currentUserId: user.id,
     );
   }
 
@@ -444,6 +445,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
       query: query,
       pollsRepository: _pollsRepository,
       eventsEmitter: events,
+      currentUserId: user.id,
     );
   }
 

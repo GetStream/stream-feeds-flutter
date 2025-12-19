@@ -26,9 +26,11 @@ class PollList with Disposable {
     required this.query,
     required this.pollsRepository,
     required this.eventsEmitter,
+    required this.currentUserId,
   }) {
     _stateNotifier = PollListStateNotifier(
       initialState: const PollListState(),
+      currentUserId: currentUserId,
     );
 
     // Attach event handlers for real-time updates
@@ -42,6 +44,7 @@ class PollList with Disposable {
 
   final PollsQuery query;
   final PollsRepository pollsRepository;
+  final String currentUserId;
 
   late final PollListStateNotifier _stateNotifier;
 

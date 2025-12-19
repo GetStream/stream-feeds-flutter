@@ -33,6 +33,7 @@ class PollsRepository {
     const request = api.UpdatePollPartialRequest(
       set: {'is_closed': true},
     );
+
     final result = await _api.updatePollPartial(
       pollId: pollId,
       updatePollPartialRequest: request,

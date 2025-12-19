@@ -19,6 +19,8 @@ import '../models/follow_data.dart';
 import '../models/get_or_create_feed_data.dart';
 import '../models/mark_activity_data.dart';
 import '../models/pagination_data.dart';
+import '../models/poll_data.dart';
+import '../models/poll_vote_data.dart';
 import '../models/query_configuration.dart';
 import 'insertion_action.dart';
 import 'member_list_state.dart';
@@ -124,20 +126,9 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
 
   /// Handles updates to the feed state when an activity is updated.
   void onActivityUpdated(ActivityData activity) {
-    final updatedActivities = state.activities.upsert(
-      activity,
-      key: (it) => it.id,
-      update: (existing, updated) => existing.updateWith(updated),
-    );
-
-    final updatedPinnedActivities = state.pinnedActivities.map((pin) {
-      if (pin.activity.id != activity.id) return pin;
-      return pin.copyWith(activity: pin.activity.updateWith(activity));
-    }).toList();
-
-    state = state.copyWith(
-      activities: updatedActivities,
-      pinnedActivities: updatedPinnedActivities,
+    state = state.updateActivitiesWhere(
+      (it) => it.id == activity.id,
+      update: (it) => it.updateWith(activity),
     );
   }
 
@@ -148,20 +139,7 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
 
   /// Handles updates to the feed state when an activity is deleted.
   void onActivityDeleted(String activityId) {
-    // Remove the activity from the activities list
-    final updatedActivities = state.activities.where((it) {
-      return it.id != activityId;
-    }).toList();
-
-    // Remove the activity from pinned activities if it exists
-    final updatedPinnedActivities = state.pinnedActivities.where((pin) {
-      return pin.activity.id != activityId;
-    }).toList();
-
-    state = state.copyWith(
-      activities: updatedActivities,
-      pinnedActivities: updatedPinnedActivities,
-    );
+    state = state.removeActivitiesWhere((it) => it.id == activityId);
   }
 
   /// Handles updates to the feed state when an activity is hidden.
@@ -169,21 +147,9 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
     required String activityId,
     required bool hidden,
   }) {
-    // Update the activity to mark it as hidden
-    final updatedActivities = state.activities.map((activity) {
-      if (activity.id != activityId) return activity;
-      return activity.copyWith(hidden: hidden);
-    }).toList();
-
-    // Update pinned activities as well
-    final updatedPinnedActivities = state.pinnedActivities.map((pin) {
-      if (pin.activity.id != activityId) return pin;
-      return pin.copyWith(activity: pin.activity.copyWith(hidden: hidden));
-    }).toList();
-
-    state = state.copyWith(
-      activities: updatedActivities,
-      pinnedActivities: updatedPinnedActivities,
+    state = state.updateActivitiesWhere(
+      (it) => it.id == activityId,
+      update: (it) => it.copyWith(hidden: hidden),
     );
   }
 
@@ -213,15 +179,15 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
     // Update the state based on the type of mark operation
     state = markData.handle(
       // If markAllRead is true, mark all activities as read
-      markAllRead: () => _markAllRead(state),
+      markAllRead: () => state.markAllRead(),
       // If markAllSeen is true, mark all activities as seen
-      markAllSeen: () => _markAllSeen(state),
+      markAllSeen: () => state.markAllSeen(),
       // If markRead contains specific IDs, mark those as read
-      markRead: (read) => _markRead(read, state),
+      markRead: (read) => state.markRead(read),
       // If markSeen contains specific IDs, mark those as seen
-      markSeen: (seen) => _markSeen(seen, state),
+      markSeen: (seen) => state.markSeen(seen),
       // If markWatched contains specific IDs, mark those as watched
-      markWatched: (watched) => _markWatched(watched, state),
+      markWatched: (watched) => state.markWatched(watched),
       // For other cases, return the current state without changes
       orElse: (MarkActivityData data) => state,
     );
@@ -229,8 +195,8 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
 
   /// Handles updates to the feed state when the notification feed is updated.
   void onNotificationFeedUpdated(
-    List<AggregatedActivityData>? aggregatedActivities,
     NotificationStatusResponse? notificationStatus,
+    List<AggregatedActivityData>? aggregatedActivities,
   ) {
     // Update the aggregated activities and notification status in the state
     final updatedAggregatedActivities = state.aggregatedActivities.merge(
@@ -239,19 +205,24 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
     );
 
     state = state.copyWith(
-      aggregatedActivities: updatedAggregatedActivities,
       notificationStatus: notificationStatus,
+      aggregatedActivities: updatedAggregatedActivities,
     );
   }
 
-  void onAggregatedActivitiesUpdated(
+  /// Handles updates to the feed state when the stories feed is updated.
+  void onStoriesFeedUpdated(
     List<AggregatedActivityData>? aggregatedActivities,
   ) {
+    // Update the aggregated activities in the state
     final updatedAggregatedActivities = state.aggregatedActivities.merge(
       aggregatedActivities ?? [],
       key: (it) => it.group,
     );
-    state = state.copyWith(aggregatedActivities: updatedAggregatedActivities);
+
+    state = state.copyWith(
+      aggregatedActivities: updatedAggregatedActivities,
+    );
   }
 
   /// Handles updates to the feed state when a bookmark is added.
@@ -259,13 +230,18 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
   /// Updates the activity matching [bookmark]'s activity ID by adding or updating
   /// the bookmark in its own bookmarks list. Only adds bookmarks that belong to
   /// the current user.
-  void onBookmarkAdded(BookmarkData bookmark) {
-    final updatedActivities = state.activities.map((activity) {
-      if (activity.id != bookmark.activity.id) return activity;
-      return activity.upsertBookmark(bookmark, currentUserId);
-    }).toList();
+  void onBookmarkAdded(BookmarkData bookmark) => onBookmarkUpdated(bookmark);
 
-    state = state.copyWith(activities: updatedActivities);
+  /// Handles updates to the feed state when a bookmark is updated.
+  ///
+  /// Updates the activity matching [bookmark]'s activity ID by adding or updating
+  /// the bookmark in its own bookmarks list. Only adds bookmarks that belong to
+  /// the current user.
+  void onBookmarkUpdated(BookmarkData bookmark) {
+    state = state.updateActivitiesWhere(
+      (it) => it.id == bookmark.activity.id,
+      update: (it) => it.upsertBookmark(bookmark, currentUserId),
+    );
   }
 
   /// Handles updates to the feed state when a bookmark is removed.
@@ -274,39 +250,73 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
   /// the bookmark from its own bookmarks list. Only removes bookmarks that
   /// belong to the current user.
   void onBookmarkRemoved(BookmarkData bookmark) {
-    final updatedActivities = state.activities.map((activity) {
-      if (activity.id != bookmark.activity.id) return activity;
-      return activity.removeBookmark(bookmark, currentUserId);
-    }).toList();
-
-    state = state.copyWith(activities: updatedActivities);
+    state = state.updateActivitiesWhere(
+      (it) => it.id == bookmark.activity.id,
+      update: (it) => it.removeBookmark(bookmark, currentUserId),
+    );
   }
 
   /// Handles updates to the feed state when a comment is added or removed.
-  void onCommentAdded(CommentData comment) {
-    return onCommentUpdated(comment);
-  }
+  void onCommentAdded(CommentData comment) => onCommentUpdated(comment);
 
   /// Handles updates to the feed state when a comment is updated.
   void onCommentUpdated(CommentData comment) {
     // Add or update the comment in the activity
-    final updatedActivities = state.activities.map((activity) {
-      if (activity.id != comment.objectId) return activity;
-      return activity.upsertComment(comment);
-    }).toList();
-
-    state = state.copyWith(activities: updatedActivities);
+    state = state.updateActivitiesWhere(
+      (it) => it.id == comment.objectId,
+      update: (it) => it.upsertComment(comment),
+    );
   }
 
   /// Handles updates to the feed state when a comment is removed.
   void onCommentRemoved(CommentData comment) {
     // Remove the comment from the activity
-    final updatedActivities = state.activities.map((activity) {
-      if (activity.id != comment.objectId) return activity;
-      return activity.removeComment(comment);
-    }).toList();
+    state = state.updateActivitiesWhere(
+      (it) => it.id == comment.objectId,
+      update: (it) => it.removeComment(comment),
+    );
+  }
 
-    state = state.copyWith(activities: updatedActivities);
+  /// Handles updates to the feed state when a comment reaction is added.
+  void onCommentReactionAdded(
+    CommentData comment,
+    FeedsReactionData reaction,
+  ) {
+    // Add the reaction to the comment in the activity
+    state = state.updateActivitiesWhere(
+      (it) => it.id == comment.objectId,
+      update: (it) {
+        return it.upsertCommentReaction(comment, reaction, currentUserId);
+      },
+    );
+  }
+
+  /// Handles updates to the feed state when a comment reaction is updated.
+  void onCommentReactionUpdated(
+    CommentData comment,
+    FeedsReactionData reaction,
+  ) {
+    // Update the reaction on the comment in the activity
+    state = state.updateActivitiesWhere(
+      (it) => it.id == comment.objectId,
+      update: (it) {
+        return it.upsertUniqueCommentReaction(comment, reaction, currentUserId);
+      },
+    );
+  }
+
+  /// Handles updates to the feed state when a comment reaction is removed.
+  void onCommentReactionRemoved(
+    CommentData comment,
+    FeedsReactionData reaction,
+  ) {
+    // Remove the reaction from the comment in the activity
+    state = state.updateActivitiesWhere(
+      (it) => it.id == comment.objectId,
+      update: (it) {
+        return it.removeCommentReaction(comment, reaction, currentUserId);
+      },
+    );
   }
 
   /// Handles updates to the feed state when the feed is deleted.
@@ -340,19 +350,19 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
   /// Handles updates to the feed state when a follow is added.
   void onFollowAdded(FollowData follow) {
     // Add the follow to the feed state
-    state = _addFollow(follow, state);
+    state = state.addFollow(follow);
   }
 
   /// Handles updates to the feed state when a follow is removed.
   void onFollowRemoved(FollowData follow) {
     // Remove the follow from the feed state
-    state = _removeFollow(follow, state);
+    state = state.removeFollow(follow);
   }
 
   /// Handles updates to the feed state when a follow is updated.
   void onFollowUpdated(FollowData follow) {
     // Update the follow in the feed state
-    state = _updateFollow(follow, state);
+    state = state.updateFollow(follow);
   }
 
   /// Handles updates to the feed state when an unfollow action occurs.
@@ -382,12 +392,10 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
     FeedsReactionData reaction,
   ) {
     // Add or update the reaction in the activity
-    final updatedActivities = state.activities.map((it) {
-      if (it.id != reaction.activityId) return it;
-      return it.upsertReaction(activity, reaction, currentUserId);
-    }).toList();
-
-    state = state.copyWith(activities: updatedActivities);
+    state = state.updateActivitiesWhere(
+      (it) => it.id == reaction.activityId,
+      update: (it) => it.upsertReaction(activity, reaction, currentUserId),
+    );
   }
 
   /// Handles updates to the feed state when a reaction is updated.
@@ -396,12 +404,12 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
     FeedsReactionData reaction,
   ) {
     // Update the reaction in the activity
-    final updatedActivities = state.activities.map((it) {
-      if (it.id != reaction.activityId) return it;
-      return it.upsertUniqueReaction(activity, reaction, currentUserId);
-    }).toList();
-
-    state = state.copyWith(activities: updatedActivities);
+    state = state.updateActivitiesWhere(
+      (it) => it.id == reaction.activityId,
+      update: (it) {
+        return it.upsertUniqueReaction(activity, reaction, currentUserId);
+      },
+    );
   }
 
   /// Handles updates to the feed state when a reaction is removed.
@@ -410,183 +418,79 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
     FeedsReactionData reaction,
   ) {
     // Remove the reaction from the activity
-    final updatedActivities = state.activities.map((it) {
-      if (it.id != reaction.activityId) return it;
-      return it.removeReaction(activity, reaction, currentUserId);
-    }).toList();
-
-    state = state.copyWith(activities: updatedActivities);
-  }
-
-  FeedState _addFollow(FollowData follow, FeedState state) {
-    if (follow.isFollowRequest) {
-      final updatedFollowRequests = state.followRequests.upsert(
-        follow,
-        key: (it) => it.id,
-      );
-
-      return state.copyWith(followRequests: updatedFollowRequests);
-    }
-
-    if (follow.isFollowingFeed(state.fid)) {
-      final updatedCount = follow.sourceFeed.followingCount;
-      final updatedFollowing = state.following.upsert(
-        follow,
-        key: (it) => it.id,
-      );
-
-      return state.copyWith(
-        following: updatedFollowing,
-        feed: state.feed?.copyWith(followingCount: updatedCount),
-      );
-    }
-
-    if (follow.isFollowerOf(state.fid)) {
-      final updatedCount = follow.targetFeed.followerCount;
-      final updatedFollowers = state.followers.upsert(
-        follow,
-        key: (it) => it.id,
-      );
-
-      return state.copyWith(
-        followers: updatedFollowers,
-        feed: state.feed?.copyWith(followerCount: updatedCount),
-      );
-    }
-
-    // If the follow doesn't match any known categories,
-    // we can simply return the current state without changes.
-    return state;
-  }
-
-  FeedState _removeFollow(FollowData follow, FeedState state) {
-    var feed = state.feed;
-
-    if (follow.isFollowerOf(state.fid)) {
-      final followerCount = follow.targetFeed.followerCount;
-      feed = feed?.copyWith(followerCount: followerCount);
-    }
-    if (follow.isFollowingFeed(state.fid)) {
-      final followingCount = follow.sourceFeed.followingCount;
-      feed = feed?.copyWith(followingCount: followingCount);
-    }
-
-    final updatedFollowing = state.following.where((it) {
-      return it.id != follow.id;
-    }).toList();
-
-    final updatedFollowers = state.followers.where((it) {
-      return it.id != follow.id;
-    }).toList();
-
-    final updatedFollowRequests = state.followRequests.where((it) {
-      return it.id != follow.id;
-    }).toList();
-
-    return state.copyWith(
-      feed: feed,
-      following: updatedFollowing,
-      followers: updatedFollowers,
-      followRequests: updatedFollowRequests,
+    state = state.updateActivitiesWhere(
+      (it) => it.id == reaction.activityId,
+      update: (it) => it.removeReaction(activity, reaction, currentUserId),
     );
   }
 
-  FeedState _updateFollow(FollowData follow, FeedState state) {
-    final removedFollowState = _removeFollow(follow, state);
-    return _addFollow(follow, removedFollowState);
-  }
-
-  FeedState _markAllRead(FeedState state) {
-    final aggregatedActivities = state.aggregatedActivities;
-    final readActivities = aggregatedActivities.map((it) => it.group).toList();
-
-    // Set unread count to 0 and update read activities
-    final updatedNotificationStatus = state.notificationStatus?.copyWith(
-      unread: 0,
-      readActivities: readActivities,
-      lastReadAt: DateTime.timestamp(),
-    );
-
-    return state.copyWith(notificationStatus: updatedNotificationStatus);
-  }
-
-  FeedState _markAllSeen(FeedState state) {
-    final aggregatedActivities = state.aggregatedActivities;
-    final seenActivities = aggregatedActivities.map((it) => it.group).toList();
-
-    // Set unseen count to 0 and update seen activities
-    final updatedNotificationStatus = state.notificationStatus?.copyWith(
-      unseen: 0,
-      seenActivities: seenActivities,
-      lastSeenAt: DateTime.timestamp(),
-    );
-
-    return state.copyWith(notificationStatus: updatedNotificationStatus);
-  }
-
-  FeedState _markRead(Set<String> readIds, FeedState state) {
-    final readActivities = state.notificationStatus?.readActivities?.toSet();
-    final updatedReadActivities = readActivities?.union(readIds).toList();
-
-    // Decrease unread count by the number of newly read activities
-    final unreadCount = state.notificationStatus?.unread ?? 0;
-    final updatedUnreadCount = max(unreadCount - readIds.length, 0);
-
-    final updatedNotificationStatus = state.notificationStatus?.copyWith(
-      unread: updatedUnreadCount,
-      readActivities: updatedReadActivities,
-      lastReadAt: DateTime.timestamp(),
-    );
-
-    return state.copyWith(notificationStatus: updatedNotificationStatus);
-  }
-
-  FeedState _markSeen(Set<String> seenIds, FeedState state) {
-    final seenActivities = state.notificationStatus?.seenActivities?.toSet();
-    final updatedSeenActivities = seenActivities?.union(seenIds).toList();
-
-    // Decrease unseen count by the number of newly seen activities
-    final unseenCount = state.notificationStatus?.unseen ?? 0;
-    final updatedUnseenCount = max(unseenCount - seenIds.length, 0);
-
-    final updatedNotificationStatus = state.notificationStatus?.copyWith(
-      unseen: updatedUnseenCount,
-      seenActivities: updatedSeenActivities,
-      lastSeenAt: DateTime.timestamp(),
-    );
-
-    return state.copyWith(notificationStatus: updatedNotificationStatus);
-  }
-
-  FeedState _markWatched(Set<String> watchedIds, FeedState state) {
-    final activities = _markWatchedActivities(watchedIds, state.activities);
-
-    final aggregatedActivities =
-        state.aggregatedActivities.map((aggregatedActivity) {
-      return aggregatedActivity.copyWith(
-        activities: _markWatchedActivities(
-          watchedIds,
-          aggregatedActivity.activities,
-        ),
-      );
-    }).toList();
-
-    return state.copyWith(
-      activities: activities,
-      aggregatedActivities: aggregatedActivities,
+  /// Handles when a poll is closed.
+  void onPollClosed(String pollId) {
+    state = state.updateActivitiesWhere(
+      (it) => it.poll?.id == pollId,
+      update: (it) => it.copyWith(poll: it.poll?.copyWith(isClosed: true)),
     );
   }
 
-  List<ActivityData> _markWatchedActivities(
-    Set<String> watchedIds,
-    List<ActivityData> activities,
-  ) {
-    return activities.map((activity) {
-      if (watchedIds.contains(activity.id)) {
-        return activity.copyWith(isWatched: true);
-      }
-      return activity;
-    }).toList();
+  /// Handles when a poll is deleted.
+  void onPollDeleted(String pollId) {
+    state = state.updateActivitiesWhere(
+      (it) => it.poll?.id == pollId,
+      update: (it) => it.copyWith(poll: null),
+    );
+  }
+
+  /// Handles when a poll is updated.
+  void onPollUpdated(PollData poll) {
+    state = state.updateActivitiesWhere(
+      (it) => it.poll?.id == poll.id,
+      update: (it) => it.copyWith(poll: it.poll?.updateWith(poll)),
+    );
+  }
+
+  /// Handles when a poll answer is casted.
+  void onPollAnswerCasted(PollData poll, PollVoteData answer) {
+    state = state.updateActivitiesWhere(
+      (it) => it.poll?.id == poll.id,
+      update: (it) => it.copyWith(
+        poll: it.poll?.upsertAnswer(poll, answer, currentUserId),
+      ),
+    );
+  }
+
+  /// Handles when a poll vote is casted (with poll data).
+  void onPollVoteCasted(PollData poll, PollVoteData vote) {
+    return onPollVoteChanged(poll, vote);
+  }
+
+  /// Handles when a poll vote is changed.
+  void onPollVoteChanged(PollData poll, PollVoteData vote) {
+    state = state.updateActivitiesWhere(
+      (it) => it.poll?.id == poll.id,
+      update: (it) => it.copyWith(
+        poll: it.poll?.upsertVote(poll, vote, currentUserId),
+      ),
+    );
+  }
+
+  /// Handles when a poll answer is removed (with poll data).
+  void onPollAnswerRemoved(PollData poll, PollVoteData answer) {
+    state = state.updateActivitiesWhere(
+      (it) => it.poll?.id == poll.id,
+      update: (it) => it.copyWith(
+        poll: it.poll?.removeAnswer(poll, answer, currentUserId),
+      ),
+    );
+  }
+
+  /// Handles when a poll vote is removed (with poll data).
+  void onPollVoteRemoved(PollData poll, PollVoteData vote) {
+    state = state.updateActivitiesWhere(
+      (it) => it.poll?.id == poll.id,
+      update: (it) => it.copyWith(
+        poll: it.poll?.removeVote(poll, vote, currentUserId),
+      ),
+    );
   }
 
   @override
@@ -669,4 +573,277 @@ class FeedState with _$FeedState {
   ///
   /// Returns true if there is a next page available for pagination.
   bool get canLoadMoreActivities => activitiesPagination?.next != null;
+}
+
+/// Extension providing helper methods for updating feed state.
+///
+/// This extension adds convenience methods for common feed state mutations including
+/// follow management, activity marking (read, seen, watched), and activity filtering.
+extension on FeedState {
+  /// Adds a follow to this feed state.
+  ///
+  /// Updates the appropriate follow list (follow requests, following, or followers) based on
+  /// the type of [follow]. Also updates the feed's follower or following count when applicable.
+  ///
+  /// Returns a new [FeedState] instance with the updated follow data.
+  FeedState addFollow(FollowData follow) {
+    if (follow.isFollowRequest) {
+      final updatedFollowRequests = followRequests.upsert(
+        follow,
+        key: (it) => it.id,
+      );
+
+      return copyWith(followRequests: updatedFollowRequests);
+    }
+
+    if (follow.isFollowingFeed(fid)) {
+      final updatedCount = follow.sourceFeed.followingCount;
+      final updatedFollowing = following.upsert(
+        follow,
+        key: (it) => it.id,
+      );
+
+      return copyWith(
+        following: updatedFollowing,
+        feed: feed?.copyWith(followingCount: updatedCount),
+      );
+    }
+
+    if (follow.isFollowerOf(fid)) {
+      final updatedCount = follow.targetFeed.followerCount;
+      final updatedFollowers = followers.upsert(
+        follow,
+        key: (it) => it.id,
+      );
+
+      return copyWith(
+        followers: updatedFollowers,
+        feed: feed?.copyWith(followerCount: updatedCount),
+      );
+    }
+
+    // If the follow doesn't match any known categories,
+    // we can simply return the current state without changes.
+    return this;
+  }
+
+  /// Removes a follow from this feed state.
+  ///
+  /// Removes [follow] from all follow lists (following, followers, and follow requests) and
+  /// updates the feed's follower or following count when applicable.
+  ///
+  /// Returns a new [FeedState] instance with the updated follow data.
+  FeedState removeFollow(FollowData follow) {
+    var feed = this.feed;
+
+    if (follow.isFollowerOf(fid)) {
+      final followerCount = follow.targetFeed.followerCount;
+      feed = feed?.copyWith(followerCount: followerCount);
+    }
+    if (follow.isFollowingFeed(fid)) {
+      final followingCount = follow.sourceFeed.followingCount;
+      feed = feed?.copyWith(followingCount: followingCount);
+    }
+
+    final updatedFollowing = following.where((it) {
+      return it.id != follow.id;
+    }).toList();
+
+    final updatedFollowers = followers.where((it) {
+      return it.id != follow.id;
+    }).toList();
+
+    final updatedFollowRequests = followRequests.where((it) {
+      return it.id != follow.id;
+    }).toList();
+
+    return copyWith(
+      feed: feed,
+      following: updatedFollowing,
+      followers: updatedFollowers,
+      followRequests: updatedFollowRequests,
+    );
+  }
+
+  /// Updates a follow in this feed state.
+  ///
+  /// Removes the existing [follow] and then adds it again, effectively updating the follow
+  /// data with the latest information.
+  ///
+  /// Returns a new [FeedState] instance with the updated follow data.
+  FeedState updateFollow(FollowData follow) {
+    final removedFollowState = removeFollow(follow);
+    return removedFollowState.addFollow(follow);
+  }
+
+  /// Marks all activities in this feed state as read.
+  ///
+  /// Sets the unread count to 0 and marks all aggregated activity groups as read.
+  /// Updates the last read timestamp to the current time.
+  ///
+  /// Returns a new [FeedState] instance with the updated notification status.
+  FeedState markAllRead() {
+    final aggregatedActivities = [...this.aggregatedActivities];
+    final readActivities = aggregatedActivities.map((it) => it.group).toList();
+
+    // Set unread count to 0 and update read activities
+    final updatedNotificationStatus = notificationStatus?.copyWith(
+      unread: 0,
+      readActivities: readActivities,
+      lastReadAt: DateTime.timestamp(),
+    );
+
+    return copyWith(notificationStatus: updatedNotificationStatus);
+  }
+
+  /// Marks all activities in this feed state as seen.
+  ///
+  /// Sets the unseen count to 0 and marks all aggregated activity groups as seen.
+  /// Updates the last seen timestamp to the current time.
+  ///
+  /// Returns a new [FeedState] instance with the updated notification status.
+  FeedState markAllSeen() {
+    final aggregatedActivities = [...this.aggregatedActivities];
+    final seenActivities = aggregatedActivities.map((it) => it.group).toList();
+
+    // Set unseen count to 0 and update seen activities
+    final updatedNotificationStatus = notificationStatus?.copyWith(
+      unseen: 0,
+      seenActivities: seenActivities,
+      lastSeenAt: DateTime.timestamp(),
+    );
+
+    return copyWith(notificationStatus: updatedNotificationStatus);
+  }
+
+  /// Marks specific activities as read in this feed state.
+  ///
+  /// Adds the activity IDs in [readIds] to the read activities set and decreases the unread
+  /// count by the number of newly read activities. Updates the last read timestamp to the
+  /// current time.
+  ///
+  /// Returns a new [FeedState] instance with the updated notification status.
+  FeedState markRead(Set<String> readIds) {
+    final readActivities = notificationStatus?.readActivities?.toSet();
+    final updatedReadActivities = readActivities?.union(readIds).toList();
+
+    // Decrease unread count by the number of newly read activities
+    final unreadCount = notificationStatus?.unread ?? 0;
+    final updatedUnreadCount = max(unreadCount - readIds.length, 0);
+
+    final updatedNotificationStatus = notificationStatus?.copyWith(
+      unread: updatedUnreadCount,
+      readActivities: updatedReadActivities,
+      lastReadAt: DateTime.timestamp(),
+    );
+
+    return copyWith(notificationStatus: updatedNotificationStatus);
+  }
+
+  /// Marks specific activities as seen in this feed state.
+  ///
+  /// Adds the activity IDs in [seenIds] to the seen activities set and decreases the unseen
+  /// count by the number of newly seen activities. Updates the last seen timestamp to the
+  /// current time.
+  ///
+  /// Returns a new [FeedState] instance with the updated notification status.
+  FeedState markSeen(Set<String> seenIds) {
+    final seenActivities = notificationStatus?.seenActivities?.toSet();
+    final updatedSeenActivities = seenActivities?.union(seenIds).toList();
+
+    // Decrease unseen count by the number of newly seen activities
+    final unseenCount = notificationStatus?.unseen ?? 0;
+    final updatedUnseenCount = max(unseenCount - seenIds.length, 0);
+
+    final updatedNotificationStatus = notificationStatus?.copyWith(
+      unseen: updatedUnseenCount,
+      seenActivities: updatedSeenActivities,
+      lastSeenAt: DateTime.timestamp(),
+    );
+
+    return copyWith(notificationStatus: updatedNotificationStatus);
+  }
+
+  /// Marks specific activities as watched in this feed state.
+  ///
+  /// Updates activities with IDs in [watchedIds] to set their watched status to true.
+  /// Updates both the main activities list and aggregated activities.
+  ///
+  /// Returns a new [FeedState] instance with the updated activities.
+  FeedState markWatched(Set<String> watchedIds) {
+    return updateActivitiesWhere(
+      (it) => watchedIds.contains(it.id),
+      update: (it) => it.copyWith(isWatched: true),
+      updateAggregatedActivities: true,
+    );
+  }
+
+  /// Updates activities in this feed state that match the provided filter.
+  ///
+  /// Applies [update] to all activities where [filter] returns true. Updates both the main
+  /// activities list and pinned activities. When [compare] is provided, maintains the
+  /// sort order after updates.
+  ///
+  /// Returns a new [FeedState] instance with the updated activities.
+  FeedState updateActivitiesWhere(
+    bool Function(ActivityData) filter, {
+    required ActivityData Function(ActivityData) update,
+    bool updateAggregatedActivities = false,
+    Comparator<ActivityData>? compare,
+  }) {
+    final updatedActivities = activities.updateWhere(
+      filter,
+      update: update,
+      compare: compare,
+    );
+
+    final updatedPinnedActivities = pinnedActivities.updateWhere(
+      (it) => filter(it.activity),
+      update: (it) => it.copyWith(activity: update(it.activity)),
+    );
+
+    var updatedAggregatedActivities = aggregatedActivities;
+    if (updateAggregatedActivities) {
+      updatedAggregatedActivities = updatedAggregatedActivities.map((it) {
+        final updated = it.activities.updateWhere(filter, update: update);
+        return it.copyWith(activities: updated);
+      }).toList();
+    }
+
+    return copyWith(
+      activities: updatedActivities,
+      pinnedActivities: updatedPinnedActivities,
+      aggregatedActivities: updatedAggregatedActivities,
+    );
+  }
+
+  /// Removes activities from this feed state that match the provided filter.
+  ///
+  /// Removes all activities where [filter] returns true from both the main activities list
+  /// and pinned activities.
+  ///
+  /// Returns a new [FeedState] instance with the filtered activities.
+  FeedState removeActivitiesWhere(
+    bool Function(ActivityData) filter, {
+    bool removeFromAggregatedActivities = false,
+  }) {
+    final updatedActivities = activities.whereNot(filter).toList();
+    final updatedPinnedActivities = pinnedActivities.whereNot((it) {
+      return filter(it.activity);
+    }).toList();
+
+    var updatedAggregatedActivities = aggregatedActivities;
+    if (removeFromAggregatedActivities) {
+      updatedAggregatedActivities = updatedAggregatedActivities.map((it) {
+        final updated = it.activities.whereNot(filter).toList();
+        return it.copyWith(activities: updated);
+      }).toList();
+    }
+
+    return copyWith(
+      activities: updatedActivities,
+      pinnedActivities: updatedPinnedActivities,
+      aggregatedActivities: updatedAggregatedActivities,
+    );
+  }
 }

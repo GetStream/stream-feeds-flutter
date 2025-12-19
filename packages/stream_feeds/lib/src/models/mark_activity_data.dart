@@ -45,8 +45,8 @@ class MarkActivityData with _$MarkActivityData {
   final List<String>? markWatched;
 }
 
-extension MarkActivityDataHandler<R> on MarkActivityData {
-  R handle({
+extension MarkActivityDataHandler on MarkActivityData {
+  R handle<R>({
     R Function()? markAllRead,
     R Function()? markAllSeen,
     R Function(Set<String> read)? markRead,

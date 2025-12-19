@@ -57,7 +57,6 @@ class Activity with Disposable {
 
     final initialActivityState = ActivityState(
       activity: initialActivityData,
-      poll: initialActivityData?.poll,
     );
 
     _stateNotifier = ActivityStateNotifier(
@@ -110,7 +109,7 @@ class Activity with Disposable {
     final result = await activitiesRepository.getActivity(activityId);
 
     result.onSuccess((activity) {
-      _stateNotifier.onActivityUpdated(activity);
+      _stateNotifier.onActivityGet(activity);
       if (activity.currentFeed case final feed?) {
         capabilitiesRepository.cacheCapabilitiesForFeeds([feed]);
       }

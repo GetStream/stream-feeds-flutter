@@ -44,6 +44,35 @@ class CommentReactionListStateNotifier
     );
   }
 
+  /// Handles the deletion of the comment.
+  void onCommentDeleted() {
+    state = state.copyWith(
+      reactions: [], // Clear all reactions when the comment is deleted
+      pagination: null,
+    );
+  }
+
+  /// Handles the addition of a new reaction.
+  void onReactionAdded(FeedsReactionData reaction) {
+    final updatedReactions = state.reactions.upsertReaction(
+      reaction,
+      compare: reactionSort.compare,
+    );
+
+    state = state.copyWith(reactions: updatedReactions);
+  }
+
+  /// Handles the update of an existing reaction.
+  void onReactionUpdated(FeedsReactionData reaction) {
+    final updatedReactions = state.reactions.upsertReaction(
+      reaction,
+      enforceUnique: true,
+      compare: reactionSort.compare,
+    );
+
+    state = state.copyWith(reactions: updatedReactions);
+  }
+
   /// Handles the removal of a reaction.
   void onReactionRemoved(FeedsReactionData reaction) {
     final updatedReactions = state.reactions.where((it) {

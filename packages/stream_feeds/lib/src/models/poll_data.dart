@@ -176,10 +176,10 @@ extension PollDataMutations on PollData {
   /// exists (by ID), it will be updated.
   ///
   /// Returns a new [PollData] instance with the updated options.
-  PollData addOption(PollOptionData option) {
+  PollData upsertOption(PollOptionData option) {
     final updatedOptions = options.upsert(
       option,
-      key: (it) => it.id == option.id,
+      key: (it) => it.id,
     );
 
     return copyWith(options: updatedOptions);
@@ -191,44 +191,97 @@ extension PollDataMutations on PollData {
   ///
   /// Returns a new [PollData] instance with the updated options.
   PollData removeOption(String optionId) {
-    final updatedOptions = options.where((it) => it.id != optionId).toList();
-
-    return copyWith(options: updatedOptions);
-  }
-
-  /// Updates an existing option in this poll.
-  ///
-  /// Updates the options list by replacing the option with the same ID as [option]
-  /// with the new [option] data.
-  ///
-  /// Returns a new [PollData] instance with the updated options.
-  PollData updateOption(PollOptionData option) {
-    final updatedOptions = options.map((it) {
-      if (it.id != option.id) return it;
-      return option;
+    final updatedOptions = options.where((it) {
+      return it.id != optionId;
     }).toList();
 
     return copyWith(options: updatedOptions);
   }
 
-  /// Casts an answer to this poll.
+  /// Adds or updates a vote in this poll.
   ///
-  /// Updates the latest answers and own votes/answers lists by adding or updating [answer].
-  /// Only adds answers that belong to [currentUserId] to the own votes/answers list.
+  /// Updates the own votes and answers list by adding or updating [vote]. Only adds votes
+  /// that belong to [currentUserId].
   ///
-  /// Returns a new [PollData] instance with the updated answers.
-  PollData castAnswer(PollVoteData answer, String currentUserId) {
-    final updatedLatestAnswers = latestAnswers.let((it) {
-      return it.upsert(answer, key: (it) => it.id == answer.id);
+  /// Returns a new [PollData] instance with the updated own votes and answers.
+  PollData upsertVote(
+    PollData updatedPoll,
+    PollVoteData vote,
+    String currentUserId,
+  ) {
+    final updatedOwnVotesAndAnswers = ownVotesAndAnswers.let((it) {
+      if (vote.userId != currentUserId) return it;
+      return it.upsert(vote, key: (it) => it.id);
     });
 
+    return updateWith(
+      updatedPoll,
+      ownVotesAndAnswers: updatedOwnVotesAndAnswers,
+    );
+  }
+
+  /// Adds or updates an answer in this poll.
+  ///
+  /// Updates the own votes and answers list by adding or updating [answer]. Only adds answers
+  /// that belong to [currentUserId].
+  ///
+  /// Returns a new [PollData] instance with the updated own votes and answers.
+  PollData upsertAnswer(
+    PollData updatedPoll,
+    PollVoteData answer,
+    String currentUserId,
+  ) {
     final updatedOwnVotesAndAnswers = ownVotesAndAnswers.let((it) {
       if (answer.userId != currentUserId) return it;
-      return it.upsert(answer, key: (it) => it.id == answer.id);
+      return it.upsert(answer, key: (it) => it.id);
     });
 
-    return copyWith(
-      latestAnswers: updatedLatestAnswers,
+    return updateWith(
+      updatedPoll,
+      ownVotesAndAnswers: updatedOwnVotesAndAnswers,
+    );
+  }
+
+  /// Removes a vote from this poll.
+  ///
+  /// Updates the own votes and answers list by removing [vote]. Only removes votes
+  /// that belong to [currentUserId].
+  ///
+  /// Returns a new [PollData] instance with the updated own votes and answers.
+  PollData removeVote(
+    PollData updatedPoll,
+    PollVoteData vote,
+    String currentUserId,
+  ) {
+    final updatedOwnVotesAndAnswers = ownVotesAndAnswers.let((it) {
+      if (vote.userId != currentUserId) return it;
+      return it.where((it) => it.id != vote.id).toList();
+    });
+
+    return updateWith(
+      updatedPoll,
+      ownVotesAndAnswers: updatedOwnVotesAndAnswers,
+    );
+  }
+
+  /// Removes an answer from this poll.
+  ///
+  /// Updates the own votes and answers list by removing [answer]. Only removes answers
+  /// that belong to [currentUserId].
+  ///
+  /// Returns a new [PollData] instance with the updated own votes and answers.
+  PollData removeAnswer(
+    PollData updatedPoll,
+    PollVoteData answer,
+    String currentUserId,
+  ) {
+    final updatedOwnVotesAndAnswers = ownVotesAndAnswers.let((it) {
+      if (answer.userId != currentUserId) return it;
+      return it.where((it) => it.id != answer.id).toList();
+    });
+
+    return updateWith(
+      updatedPoll,
       ownVotesAndAnswers: updatedOwnVotesAndAnswers,
     );
   }
