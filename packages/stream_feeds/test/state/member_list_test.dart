@@ -41,6 +41,7 @@ void main() {
       body: (tester) async {
         // Initial state - has members
         expect(tester.memberListState.members, hasLength(3));
+        expect(tester.memberListState.canLoadMore, isTrue);
 
         final nextPageQuery = tester.memberList.query.copyWith(
           next: tester.memberListState.pagination?.next,
@@ -53,7 +54,6 @@ void main() {
             queryFeedMembersRequest: nextPageQuery.toRequest(),
           ),
           result: createDefaultQueryFeedMembersResponse(
-            prev: 'prev-cursor',
             members: [
               createDefaultFeedMemberResponse(id: 'member-4'),
             ],
@@ -70,8 +70,7 @@ void main() {
 
         // Verify state was updated with merged members
         expect(tester.memberListState.members, hasLength(4));
-        expect(tester.memberListState.pagination?.next, isNull);
-        expect(tester.memberListState.pagination?.previous, 'prev-cursor');
+        expect(tester.memberListState.canLoadMore, isFalse);
       },
       verify: (tester) {
         final nextPageQuery = tester.memberList.query.copyWith(
@@ -103,9 +102,7 @@ void main() {
       body: (tester) async {
         // Initial state - has members but no pagination
         expect(tester.memberListState.members, hasLength(3));
-        expect(tester.memberListState.pagination?.next, isNull);
-        expect(tester.memberListState.pagination?.previous, isNull);
-
+        expect(tester.memberListState.canLoadMore, isFalse);
         // Query more members (should return empty immediately)
         final result = await tester.memberList.queryMoreMembers();
 
@@ -115,8 +112,7 @@ void main() {
 
         // State should remain unchanged
         expect(tester.memberListState.members, hasLength(3));
-        expect(tester.memberListState.pagination?.next, isNull);
-        expect(tester.memberListState.pagination?.previous, isNull);
+        expect(tester.memberListState.canLoadMore, isFalse);
       },
     );
   });

@@ -40,6 +40,7 @@ void main() {
       body: (tester) async {
         // Initial state - has votes
         expect(tester.pollVoteListState.votes, hasLength(3));
+        expect(tester.pollVoteListState.canLoadMore, isTrue);
 
         final nextPageQuery = tester.pollVoteList.query.copyWith(
           next: tester.pollVoteListState.pagination?.next,
@@ -52,7 +53,6 @@ void main() {
           ),
           result: PollVotesResponse(
             duration: DateTime.now().toIso8601String(),
-            prev: 'prev-cursor',
             votes: [
               createDefaultPollVoteResponse(id: 'vote-4', pollId: query.pollId),
             ],
@@ -69,8 +69,7 @@ void main() {
 
         // Verify state was updated with merged votes
         expect(tester.pollVoteListState.votes, hasLength(4));
-        expect(tester.pollVoteListState.pagination?.next, isNull);
-        expect(tester.pollVoteListState.pagination?.previous, 'prev-cursor');
+        expect(tester.pollVoteListState.canLoadMore, isFalse);
       },
       verify: (tester) {
         final nextPageQuery = tester.pollVoteList.query.copyWith(
@@ -101,9 +100,7 @@ void main() {
       body: (tester) async {
         // Initial state - has votes but no pagination
         expect(tester.pollVoteListState.votes, hasLength(3));
-        expect(tester.pollVoteListState.pagination?.next, isNull);
-        expect(tester.pollVoteListState.pagination?.previous, isNull);
-
+        expect(tester.pollVoteListState.canLoadMore, isFalse);
         // Query more votes (should return empty immediately)
         final result = await tester.pollVoteList.queryMorePollVotes();
 
@@ -113,8 +110,7 @@ void main() {
 
         // State should remain unchanged
         expect(tester.pollVoteListState.votes, hasLength(3));
-        expect(tester.pollVoteListState.pagination?.next, isNull);
-        expect(tester.pollVoteListState.pagination?.previous, isNull);
+        expect(tester.pollVoteListState.canLoadMore, isFalse);
       },
     );
   });

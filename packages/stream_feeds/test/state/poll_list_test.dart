@@ -41,6 +41,7 @@ void main() {
       body: (tester) async {
         // Initial state - has polls
         expect(tester.pollListState.polls, hasLength(3));
+        expect(tester.pollListState.canLoadMore, isTrue);
 
         final nextPageQuery = tester.pollList.query.copyWith(
           next: tester.pollListState.pagination?.next,
@@ -52,7 +53,6 @@ void main() {
           ),
           result: QueryPollsResponse(
             duration: DateTime.now().toIso8601String(),
-            prev: 'prev-cursor',
             polls: [
               createDefaultPollResponse(id: 'poll-4'),
             ],
@@ -69,8 +69,7 @@ void main() {
 
         // Verify state was updated with merged polls
         expect(tester.pollListState.polls, hasLength(4));
-        expect(tester.pollListState.pagination?.next, isNull);
-        expect(tester.pollListState.pagination?.previous, 'prev-cursor');
+        expect(tester.pollListState.canLoadMore, isFalse);
       },
       verify: (tester) {
         final nextPageQuery = tester.pollList.query.copyWith(
@@ -100,9 +99,7 @@ void main() {
       body: (tester) async {
         // Initial state - has polls but no pagination
         expect(tester.pollListState.polls, hasLength(3));
-        expect(tester.pollListState.pagination?.next, isNull);
-        expect(tester.pollListState.pagination?.previous, isNull);
-
+        expect(tester.pollListState.canLoadMore, isFalse);
         // Query more polls (should return empty immediately)
         final result = await tester.pollList.queryMorePolls();
 
@@ -112,8 +109,7 @@ void main() {
 
         // State should remain unchanged
         expect(tester.pollListState.polls, hasLength(3));
-        expect(tester.pollListState.pagination?.next, isNull);
-        expect(tester.pollListState.pagination?.previous, isNull);
+        expect(tester.pollListState.canLoadMore, isFalse);
       },
     );
   });

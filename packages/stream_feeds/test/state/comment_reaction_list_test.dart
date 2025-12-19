@@ -43,6 +43,7 @@ void main() {
       body: (tester) async {
         // Initial state - has reaction
         expect(tester.commentReactionListState.reactions, hasLength(1));
+        expect(tester.commentReactionListState.canLoadMore, isTrue);
 
         final nextPageQuery = tester.commentReactionList.query.copyWith(
           next: tester.commentReactionListState.pagination?.next,
@@ -54,7 +55,6 @@ void main() {
             queryCommentReactionsRequest: nextPageQuery.toRequest(),
           ),
           result: createDefaultQueryCommentReactionsResponse(
-            prev: 'prev-cursor',
             reactions: [
               createDefaultReactionResponse(
                 commentId: query.commentId,
@@ -75,11 +75,7 @@ void main() {
 
         // Verify state was updated with merged reactions
         expect(tester.commentReactionListState.reactions, hasLength(2));
-        expect(tester.commentReactionListState.pagination?.next, isNull);
-        expect(
-          tester.commentReactionListState.pagination?.previous,
-          'prev-cursor',
-        );
+        expect(tester.commentReactionListState.canLoadMore, isFalse);
       },
       verify: (tester) {
         final nextPageQuery = tester.commentReactionList.query.copyWith(
@@ -111,9 +107,7 @@ void main() {
       body: (tester) async {
         // Initial state - has reaction but no pagination
         expect(tester.commentReactionListState.reactions, hasLength(1));
-        expect(tester.commentReactionListState.pagination?.next, isNull);
-        expect(tester.commentReactionListState.pagination?.previous, isNull);
-
+        expect(tester.commentReactionListState.canLoadMore, isFalse);
         // Query more reactions (should return empty immediately)
         final result = await tester.commentReactionList.queryMoreReactions();
 
@@ -123,8 +117,7 @@ void main() {
 
         // State should remain unchanged
         expect(tester.commentReactionListState.reactions, hasLength(1));
-        expect(tester.commentReactionListState.pagination?.next, isNull);
-        expect(tester.commentReactionListState.pagination?.previous, isNull);
+        expect(tester.commentReactionListState.canLoadMore, isFalse);
       },
     );
   });

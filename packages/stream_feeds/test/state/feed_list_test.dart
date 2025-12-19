@@ -34,6 +34,7 @@ void main() {
       body: (tester) async {
         // Initial state - has feed
         expect(tester.feedListState.feeds, hasLength(1));
+        expect(tester.feedListState.canLoadMore, isTrue);
 
         final nextPageQuery = tester.feedList.query.copyWith(
           next: tester.feedListState.pagination?.next,
@@ -44,7 +45,6 @@ void main() {
             queryFeedsRequest: nextPageQuery.toRequest(),
           ),
           result: createDefaultQueryFeedsResponse(
-            prev: 'prev-cursor',
             feeds: [createDefaultFeedResponse(id: 'feed-2')],
           ),
         );
@@ -59,8 +59,7 @@ void main() {
 
         // Verify state was updated with merged feeds
         expect(tester.feedListState.feeds, hasLength(2));
-        expect(tester.feedListState.pagination?.next, isNull);
-        expect(tester.feedListState.pagination?.previous, 'prev-cursor');
+        expect(tester.feedListState.canLoadMore, isFalse);
       },
       verify: (tester) {
         final nextPageQuery = tester.feedList.query.copyWith(
@@ -86,9 +85,7 @@ void main() {
       body: (tester) async {
         // Initial state - has feed but no pagination
         expect(tester.feedListState.feeds, hasLength(1));
-        expect(tester.feedListState.pagination?.next, isNull);
-        expect(tester.feedListState.pagination?.previous, isNull);
-
+        expect(tester.feedListState.canLoadMore, isFalse);
         // Query more feeds (should return empty immediately)
         final result = await tester.feedList.queryMoreFeeds();
 
@@ -98,8 +95,7 @@ void main() {
 
         // State should remain unchanged
         expect(tester.feedListState.feeds, hasLength(1));
-        expect(tester.feedListState.pagination?.next, isNull);
-        expect(tester.feedListState.pagination?.previous, isNull);
+        expect(tester.feedListState.canLoadMore, isFalse);
       },
     );
   });

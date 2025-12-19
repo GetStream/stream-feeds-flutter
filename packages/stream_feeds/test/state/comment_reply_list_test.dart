@@ -57,6 +57,7 @@ void main() {
       body: (tester) async {
         // Initial state - has reply
         expect(tester.commentReplyListState.replies, hasLength(1));
+        expect(tester.commentReplyListState.canLoadMore, isTrue);
 
         final nextPageQuery = tester.commentReplyList.query.copyWith(
           next: tester.commentReplyListState.pagination?.next,
@@ -68,12 +69,10 @@ void main() {
             depth: nextPageQuery.depth,
             limit: nextPageQuery.limit,
             next: nextPageQuery.next,
-            prev: nextPageQuery.previous,
             repliesLimit: nextPageQuery.repliesLimit,
             sort: nextPageQuery.sort,
           ),
           result: createDefaultCommentRepliesResponse(
-            prev: 'prev-cursor',
             comments: [
               createDefaultThreadedCommentResponse(
                 id: 'reply-test-2',
@@ -96,11 +95,7 @@ void main() {
 
         // Verify state was updated with merged replies
         expect(tester.commentReplyListState.replies, hasLength(2));
-        expect(tester.commentReplyListState.pagination?.next, isNull);
-        expect(
-          tester.commentReplyListState.pagination?.previous,
-          'prev-cursor',
-        );
+        expect(tester.commentReplyListState.canLoadMore, isFalse);
       },
       verify: (tester) {
         final nextPageQuery = tester.commentReplyList.query.copyWith(
@@ -113,7 +108,6 @@ void main() {
             depth: nextPageQuery.depth,
             limit: nextPageQuery.limit,
             next: nextPageQuery.next,
-            prev: nextPageQuery.previous,
             repliesLimit: nextPageQuery.repliesLimit,
             sort: nextPageQuery.sort,
           ),
@@ -140,9 +134,7 @@ void main() {
       body: (tester) async {
         // Initial state - has reply but no pagination
         expect(tester.commentReplyListState.replies, hasLength(1));
-        expect(tester.commentReplyListState.pagination?.next, isNull);
-        expect(tester.commentReplyListState.pagination?.previous, isNull);
-
+        expect(tester.commentReplyListState.canLoadMore, isFalse);
         // Query more replies (should return empty immediately)
         final result = await tester.commentReplyList.queryMoreReplies();
 
@@ -152,8 +144,7 @@ void main() {
 
         // Verify state was not updated (no new replies, pagination remains null)
         expect(tester.commentReplyListState.replies, hasLength(1));
-        expect(tester.commentReplyListState.pagination?.next, isNull);
-        expect(tester.commentReplyListState.pagination?.previous, isNull);
+        expect(tester.commentReplyListState.canLoadMore, isFalse);
       },
     );
   });

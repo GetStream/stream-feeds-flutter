@@ -43,6 +43,7 @@ void main() {
       body: (tester) async {
         // Initial state - has comment
         expect(tester.activityState.comments, hasLength(1));
+        expect(tester.activityState.canLoadMoreComments, isTrue);
 
         tester.mockApi(
           (api) => api.getComments(
@@ -52,7 +53,6 @@ void main() {
             depth: 3,
           ),
           result: createDefaultCommentsResponse(
-            prev: 'prev-cursor',
             comments: [
               createDefaultThreadedCommentResponse(
                 id: 'comment-2',
@@ -72,11 +72,7 @@ void main() {
 
         // Verify state was updated
         expect(tester.activityState.comments, hasLength(2));
-        expect(tester.activityState.commentsPagination?.next, isNull);
-        expect(
-          tester.activityState.commentsPagination?.previous,
-          'prev-cursor',
-        );
+        expect(tester.activityState.canLoadMoreComments, isFalse);
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.getComments(

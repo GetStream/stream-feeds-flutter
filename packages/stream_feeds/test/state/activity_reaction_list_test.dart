@@ -52,6 +52,7 @@ void main() {
       body: (tester) async {
         // Initial state - has reaction
         expect(tester.activityReactionListState.reactions, hasLength(1));
+        expect(tester.activityReactionListState.canLoadMore, isTrue);
 
         final nextPageQuery = tester.activityReactionList.query.copyWith(
           next: tester.activityReactionListState.pagination?.next,
@@ -63,7 +64,6 @@ void main() {
             queryActivityReactionsRequest: nextPageQuery.toRequest(),
           ),
           result: createDefaultQueryActivityReactionsResponse(
-            prev: 'prev-cursor',
             reactions: [
               createDefaultReactionResponse(
                 activityId: activityId,
@@ -84,11 +84,7 @@ void main() {
 
         // Verify state was updated with merged reactions
         expect(tester.activityReactionListState.reactions, hasLength(2));
-        expect(tester.activityReactionListState.pagination?.next, isNull);
-        expect(
-          tester.activityReactionListState.pagination?.previous,
-          'prev-cursor',
-        );
+        expect(tester.activityReactionListState.canLoadMore, isFalse);
       },
       verify: (tester) {
         final nextPageQuery = tester.activityReactionList.query.copyWith(
@@ -122,7 +118,7 @@ void main() {
       body: (tester) async {
         // Initial state - has reaction but no pagination
         expect(tester.activityReactionListState.reactions, hasLength(1));
-        expect(tester.activityReactionListState.pagination?.next, isNull);
+        expect(tester.activityReactionListState.canLoadMore, isFalse);
 
         // Query more reactions (should return empty immediately)
         final result = await tester.activityReactionList.queryMoreReactions();

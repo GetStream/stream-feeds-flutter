@@ -42,6 +42,7 @@ void main() {
       body: (tester) async {
         // Initial state - has folder
         expect(tester.bookmarkFolderListState.bookmarkFolders, hasLength(1));
+        expect(tester.bookmarkFolderListState.canLoadMore, isTrue);
 
         final nextPageQuery = tester.bookmarkFolderList.query.copyWith(
           next: tester.bookmarkFolderListState.pagination?.next,
@@ -52,7 +53,6 @@ void main() {
             queryBookmarkFoldersRequest: nextPageQuery.toRequest(),
           ),
           result: createDefaultQueryBookmarkFoldersResponse(
-            prev: 'prev-cursor',
             bookmarkFolders: [
               createDefaultBookmarkFolderResponse(id: 'folder-2'),
             ],
@@ -70,11 +70,7 @@ void main() {
 
         // Verify state was updated with merged folders
         expect(tester.bookmarkFolderListState.bookmarkFolders, hasLength(2));
-        expect(tester.bookmarkFolderListState.pagination?.next, isNull);
-        expect(
-          tester.bookmarkFolderListState.pagination?.previous,
-          'prev-cursor',
-        );
+        expect(tester.bookmarkFolderListState.canLoadMore, isFalse);
       },
       verify: (tester) {
         final nextPageQuery = tester.bookmarkFolderList.query.copyWith(
@@ -102,9 +98,7 @@ void main() {
       body: (tester) async {
         // Initial state - has folder but no pagination
         expect(tester.bookmarkFolderListState.bookmarkFolders, hasLength(1));
-        expect(tester.bookmarkFolderListState.pagination?.next, isNull);
-        expect(tester.bookmarkFolderListState.pagination?.previous, isNull);
-
+        expect(tester.bookmarkFolderListState.canLoadMore, isFalse);
         // Query more folders (should return empty immediately)
         final result =
             await tester.bookmarkFolderList.queryMoreBookmarkFolders();
@@ -115,8 +109,7 @@ void main() {
 
         // Verify state was not updated (no new folders, pagination remains null)
         expect(tester.bookmarkFolderListState.bookmarkFolders, hasLength(1));
-        expect(tester.bookmarkFolderListState.pagination?.next, isNull);
-        expect(tester.bookmarkFolderListState.pagination?.previous, isNull);
+        expect(tester.bookmarkFolderListState.canLoadMore, isFalse);
       },
     );
   });

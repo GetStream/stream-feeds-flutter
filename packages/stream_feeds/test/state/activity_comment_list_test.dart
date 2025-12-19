@@ -57,6 +57,7 @@ void main() {
       body: (tester) async {
         // Initial state - has comment
         expect(tester.activityCommentListState.comments, hasLength(1));
+        expect(tester.activityCommentListState.canLoadMore, isTrue);
 
         final nextPageQuery = tester.activityCommentList.query.copyWith(
           next: tester.activityCommentListState.pagination?.next,
@@ -70,10 +71,8 @@ void main() {
             sort: nextPageQuery.sort,
             limit: nextPageQuery.limit,
             next: nextPageQuery.next,
-            prev: nextPageQuery.previous,
           ),
           result: createDefaultCommentsResponse(
-            prev: 'prev-cursor',
             comments: [
               createDefaultThreadedCommentResponse(
                 id: 'comment-test-2',
@@ -96,11 +95,7 @@ void main() {
 
         // Verify state was updated with merged comments
         expect(tester.activityCommentListState.comments, hasLength(2));
-        expect(tester.activityCommentListState.pagination?.next, isNull);
-        expect(
-          tester.activityCommentListState.pagination?.previous,
-          'prev-cursor',
-        );
+        expect(tester.activityCommentListState.canLoadMore, isFalse);
       },
       verify: (tester) {
         final nextPageQuery = tester.activityCommentList.query.copyWith(
@@ -115,7 +110,6 @@ void main() {
             sort: nextPageQuery.sort,
             limit: nextPageQuery.limit,
             next: nextPageQuery.next,
-            prev: nextPageQuery.previous,
           ),
         );
       },
@@ -140,7 +134,7 @@ void main() {
       body: (tester) async {
         // Initial state - has comment but no pagination
         expect(tester.activityCommentListState.comments, hasLength(1));
-        expect(tester.activityCommentListState.pagination?.next, isNull);
+        expect(tester.activityCommentListState.canLoadMore, isFalse);
 
         // Query more comments (should return empty immediately)
         final result = await tester.activityCommentList.queryMoreComments();

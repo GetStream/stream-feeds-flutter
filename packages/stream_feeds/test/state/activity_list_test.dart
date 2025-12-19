@@ -127,6 +127,7 @@ void main() {
       body: (tester) async {
         // Initial state - has activity
         expect(tester.activityListState.activities, hasLength(1));
+        expect(tester.activityListState.canLoadMore, isTrue);
 
         final nextPageQuery = tester.activityList.query.copyWith(
           next: tester.activityListState.pagination?.next,
@@ -137,7 +138,6 @@ void main() {
             queryActivitiesRequest: nextPageQuery.toRequest(),
           ),
           result: createDefaultQueryActivitiesResponse(
-            prev: 'prev-cursor',
             activities: [
               createDefaultActivityResponse(id: 'activity-2'),
             ],
@@ -154,8 +154,7 @@ void main() {
 
         // Verify state was updated with merged activities
         expect(tester.activityListState.activities, hasLength(2));
-        expect(tester.activityListState.pagination?.next, isNull);
-        expect(tester.activityListState.pagination?.previous, 'prev-cursor');
+        expect(tester.activityListState.canLoadMore, isFalse);
       },
       verify: (tester) {
         final nextPageQuery = tester.activityList.query.copyWith(
@@ -183,9 +182,7 @@ void main() {
       body: (tester) async {
         // Initial state - has activity but no pagination
         expect(tester.activityListState.activities, hasLength(1));
-        expect(tester.activityListState.pagination?.next, isNull);
-        expect(tester.activityListState.pagination?.previous, isNull);
-
+        expect(tester.activityListState.canLoadMore, isFalse);
         // Query more activities (should return empty immediately)
         final result = await tester.activityList.queryMoreActivities();
 
@@ -195,8 +192,7 @@ void main() {
 
         // Verify state was not updated (no new activities, pagination remains null)
         expect(tester.activityListState.activities, hasLength(1));
-        expect(tester.activityListState.pagination?.next, isNull);
-        expect(tester.activityListState.pagination?.previous, isNull);
+        expect(tester.activityListState.canLoadMore, isFalse);
       },
     );
   });

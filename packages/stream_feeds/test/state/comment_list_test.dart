@@ -41,6 +41,7 @@ void main() {
       body: (tester) async {
         // Initial state - has comments
         expect(tester.commentListState.comments, hasLength(3));
+        expect(tester.commentListState.canLoadMore, isTrue);
 
         final nextPageQuery = tester.commentList.query.copyWith(
           next: tester.commentListState.pagination?.next,
@@ -51,7 +52,6 @@ void main() {
             queryCommentsRequest: nextPageQuery.toRequest(),
           ),
           result: createDefaultQueryCommentsResponse(
-            prev: 'prev-cursor',
             comments: [
               createDefaultCommentResponse(id: 'comment-4', objectId: 'obj-1'),
             ],
@@ -68,8 +68,7 @@ void main() {
 
         // Verify state was updated with merged comments
         expect(tester.commentListState.comments, hasLength(4));
-        expect(tester.commentListState.pagination?.next, isNull);
-        expect(tester.commentListState.pagination?.previous, 'prev-cursor');
+        expect(tester.commentListState.canLoadMore, isFalse);
       },
       verify: (tester) {
         final nextPageQuery = tester.commentList.query.copyWith(
@@ -99,7 +98,7 @@ void main() {
       body: (tester) async {
         // Initial state - has comments, no next cursor
         expect(tester.commentListState.comments, hasLength(3));
-        expect(tester.commentListState.pagination?.next, isNull);
+        expect(tester.commentListState.canLoadMore, isFalse);
 
         // Query more comments when no next cursor
         final result = await tester.commentList.queryMoreComments();

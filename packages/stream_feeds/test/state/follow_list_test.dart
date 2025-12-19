@@ -48,6 +48,7 @@ void main() {
       body: (tester) async {
         // Initial state - has follows
         expect(tester.followListState.follows, hasLength(3));
+        expect(tester.followListState.canLoadMore, isTrue);
 
         final nextPageQuery = tester.followList.query.copyWith(
           next: tester.followListState.pagination?.next,
@@ -59,7 +60,6 @@ void main() {
           ),
           result: QueryFollowsResponse(
             duration: DateTime.now().toIso8601String(),
-            prev: 'prev-cursor',
             follows: [
               createDefaultFollowResponse(
                 sourceId: 'source-4',
@@ -79,8 +79,7 @@ void main() {
 
         // Verify state was updated with merged follows
         expect(tester.followListState.follows, hasLength(4));
-        expect(tester.followListState.pagination?.next, isNull);
-        expect(tester.followListState.pagination?.previous, 'prev-cursor');
+        expect(tester.followListState.canLoadMore, isFalse);
       },
       verify: (tester) {
         final nextPageQuery = tester.followList.query.copyWith(
@@ -119,9 +118,7 @@ void main() {
       body: (tester) async {
         // Initial state - has follows but no pagination
         expect(tester.followListState.follows, hasLength(3));
-        expect(tester.followListState.pagination?.next, isNull);
-        expect(tester.followListState.pagination?.previous, isNull);
-
+        expect(tester.followListState.canLoadMore, isFalse);
         // Query more follows (should return empty immediately)
         final result = await tester.followList.queryMoreFollows();
 
@@ -131,8 +128,7 @@ void main() {
 
         // State should remain unchanged
         expect(tester.followListState.follows, hasLength(3));
-        expect(tester.followListState.pagination?.next, isNull);
-        expect(tester.followListState.pagination?.previous, isNull);
+        expect(tester.followListState.canLoadMore, isFalse);
       },
     );
   });

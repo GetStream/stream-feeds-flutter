@@ -46,6 +46,7 @@ void main() {
       body: (tester) async {
         // Initial state - has bookmark
         expect(tester.bookmarkListState.bookmarks, hasLength(1));
+        expect(tester.bookmarkListState.canLoadMore, isTrue);
 
         final nextPageQuery = tester.bookmarkList.query.copyWith(
           next: tester.bookmarkListState.pagination?.next,
@@ -56,7 +57,6 @@ void main() {
             queryBookmarksRequest: nextPageQuery.toRequest(),
           ),
           result: createDefaultQueryBookmarksResponse(
-            prev: 'prev-cursor',
             bookmarks: [
               createDefaultBookmarkResponse(
                 folderId: folderId,
@@ -76,8 +76,7 @@ void main() {
 
         // Verify state was updated with merged bookmarks
         expect(tester.bookmarkListState.bookmarks, hasLength(2));
-        expect(tester.bookmarkListState.pagination?.next, isNull);
-        expect(tester.bookmarkListState.pagination?.previous, 'prev-cursor');
+        expect(tester.bookmarkListState.canLoadMore, isFalse);
       },
       verify: (tester) {
         final nextPageQuery = tester.bookmarkList.query.copyWith(
@@ -108,9 +107,7 @@ void main() {
       body: (tester) async {
         // Initial state - has bookmark but no pagination
         expect(tester.bookmarkListState.bookmarks, hasLength(1));
-        expect(tester.bookmarkListState.pagination?.next, isNull);
-        expect(tester.bookmarkListState.pagination?.previous, isNull);
-
+        expect(tester.bookmarkListState.canLoadMore, isFalse);
         // Query more bookmarks (should return empty immediately)
         final result = await tester.bookmarkList.queryMoreBookmarks();
 
@@ -120,8 +117,7 @@ void main() {
 
         // Verify state was not updated (no new bookmarks, pagination remains null)
         expect(tester.bookmarkListState.bookmarks, hasLength(1));
-        expect(tester.bookmarkListState.pagination?.next, isNull);
-        expect(tester.bookmarkListState.pagination?.previous, isNull);
+        expect(tester.bookmarkListState.canLoadMore, isFalse);
       },
     );
   });
