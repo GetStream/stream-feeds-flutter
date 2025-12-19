@@ -12,6 +12,7 @@ tags:
   feed-list:
   follow-list:
   member-list:
+  moderation-client:
   moderation-config-list:
   poll-list:
   poll-vote-list:

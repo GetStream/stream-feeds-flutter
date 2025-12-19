@@ -4,9 +4,9 @@ import 'package:meta/meta.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 import 'package:test/test.dart' as test;
 
-import '../helpers/mocks.dart';
-import '../helpers/test_data.dart';
-import 'base_tester.dart';
+import '../../helpers/mocks.dart';
+import '../../helpers/test_data.dart';
+import '../base_tester.dart';
 
 /// Test helper for feed operations.
 ///
