@@ -13,9 +13,10 @@ import '../base_tester.dart';
 /// Automatically sets up WebSocket connection, client, and test infrastructure.
 /// Tests are tagged with 'poll-vote-list' by default for filtering.
 ///
-/// [user] is optional, the authenticated user for the test client (defaults to luke_skywalker).
+/// [user] is optional, the user for whom the client is configured (defaults to luke_skywalker).
 
 /// [build] constructs the [PollVoteList] under test using the provided [StreamFeedsClient].
+/// [connect] is optional, custom connection logic (defaults to successful auth + connect).
 /// [setUp] is optional and runs before [body] for setting up mocks and test state.
 /// [body] is the test callback that receives a [PollVoteListTester] for interactions.
 /// [verify] is optional and runs after [body] for verifying API calls and interactions.
@@ -44,6 +45,7 @@ void pollVoteListTest(
   String description, {
   User user = const User(id: 'luke_skywalker'),
   required PollVoteList Function(StreamFeedsClient client) build,
+  FutureOr<void> Function(PollVoteListTester tester)? connect,
   FutureOr<void> Function(PollVoteListTester tester)? setUp,
   required FutureOr<void> Function(PollVoteListTester tester) body,
   FutureOr<void> Function(PollVoteListTester tester)? verify,
@@ -57,6 +59,7 @@ void pollVoteListTest(
     user: user,
     build: build,
     createTesterFn: _createPollVoteListTester,
+    connect: connect,
     setUp: setUp,
     body: body,
     verify: verify,
@@ -75,7 +78,8 @@ void pollVoteListTest(
 final class PollVoteListTester extends BaseTester<PollVoteList> {
   const PollVoteListTester._({
     required PollVoteList pollVoteList,
-    required super.wsStreamController,
+    required super.client,
+    required super.wsTester,
     required super.feedsApi,
     required super.cdnApi,
   }) : super(subject: pollVoteList);
@@ -149,11 +153,11 @@ Future<PollVoteListTester> _createPollVoteListTester({
   test.addTearDown(subject.dispose);
 
   return createTester(
-    client: client,
     webSocketChannel: webSocketChannel,
-    create: (wsStreamController) => PollVoteListTester._(
+    create: (wsTester) => PollVoteListTester._(
       pollVoteList: subject,
-      wsStreamController: wsStreamController,
+      client: client,
+      wsTester: wsTester,
       cdnApi: cdnApi,
       feedsApi: feedsApi,
     ),

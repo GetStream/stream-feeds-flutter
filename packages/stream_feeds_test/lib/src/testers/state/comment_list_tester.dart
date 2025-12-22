@@ -13,9 +13,10 @@ import '../base_tester.dart';
 /// Automatically sets up WebSocket connection, client, and test infrastructure.
 /// Tests are tagged with 'comment-list' by default for filtering.
 ///
-/// [user] is optional, the authenticated user for the test client (defaults to luke_skywalker).
+/// [user] is optional, the user for whom the client is configured (defaults to luke_skywalker).
 
 /// [build] constructs the [CommentList] under test using the provided [StreamFeedsClient].
+/// [connect] is optional, custom connection logic (defaults to successful auth + connect).
 /// [setUp] is optional and runs before [body] for setting up mocks and test state.
 /// [body] is the test callback that receives a [CommentListTester] for interactions.
 /// [verify] is optional and runs after [body] for verifying API calls and interactions.
@@ -44,6 +45,7 @@ void commentListTest(
   String description, {
   User user = const User(id: 'luke_skywalker'),
   required CommentList Function(StreamFeedsClient client) build,
+  FutureOr<void> Function(CommentListTester tester)? connect,
   FutureOr<void> Function(CommentListTester tester)? setUp,
   required FutureOr<void> Function(CommentListTester tester) body,
   FutureOr<void> Function(CommentListTester tester)? verify,
@@ -57,6 +59,7 @@ void commentListTest(
     user: user,
     build: build,
     createTesterFn: _createCommentListTester,
+    connect: connect,
     setUp: setUp,
     body: body,
     verify: verify,
@@ -75,7 +78,8 @@ void commentListTest(
 final class CommentListTester extends BaseTester<CommentList> {
   const CommentListTester._({
     required CommentList commentList,
-    required super.wsStreamController,
+    required super.client,
+    required super.wsTester,
     required super.feedsApi,
     required super.cdnApi,
   }) : super(subject: commentList);
@@ -138,11 +142,11 @@ Future<CommentListTester> _createCommentListTester({
   test.addTearDown(subject.dispose);
 
   return createTester(
-    client: client,
     webSocketChannel: webSocketChannel,
-    create: (wsStreamController) => CommentListTester._(
+    create: (wsTester) => CommentListTester._(
       commentList: subject,
-      wsStreamController: wsStreamController,
+      client: client,
+      wsTester: wsTester,
       cdnApi: cdnApi,
       feedsApi: feedsApi,
     ),

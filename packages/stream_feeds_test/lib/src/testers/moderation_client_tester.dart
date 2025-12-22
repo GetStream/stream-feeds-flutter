@@ -45,6 +45,7 @@ import 'base_tester.dart';
 void moderationClientTest(
   String description, {
   User user = const User(id: 'luke_skywalker'),
+  FutureOr<void> Function(ModerationClientTester tester)? connect,
   FutureOr<void> Function(ModerationClientTester tester)? setUp,
   required FutureOr<void> Function(ModerationClientTester tester) body,
   FutureOr<void> Function(ModerationClientTester tester)? verify,
@@ -58,6 +59,7 @@ void moderationClientTest(
     user: user,
     build: (client) => client.moderation,
     createTesterFn: _createModerationClientTester,
+    connect: connect,
     setUp: setUp,
     body: body,
     verify: verify,
@@ -75,11 +77,12 @@ void moderationClientTest(
 /// Resources are automatically cleaned up after the test completes.
 final class ModerationClientTester extends BaseTester<ModerationClient> {
   const ModerationClientTester._({
-    required super.subject,
-    required super.wsStreamController,
+    required ModerationClient moderation,
+    required super.client,
+    required super.wsTester,
     required super.feedsApi,
     required super.cdnApi,
-  });
+  }) : super(subject: moderation);
 
   /// The Moderation client being tested.
   ModerationClient get moderation => subject;
@@ -97,11 +100,11 @@ Future<ModerationClientTester> _createModerationClientTester({
   required MockWebSocketChannel webSocketChannel,
 }) {
   return createTester(
-    client: client,
     webSocketChannel: webSocketChannel,
-    create: (wsStreamController) => ModerationClientTester._(
-      subject: subject,
-      wsStreamController: wsStreamController,
+    create: (wsTester) => ModerationClientTester._(
+      moderation: subject,
+      client: client,
+      wsTester: wsTester,
       cdnApi: cdnApi,
       feedsApi: feedsApi,
     ),

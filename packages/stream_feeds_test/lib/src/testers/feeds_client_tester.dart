@@ -42,6 +42,7 @@ import 'base_tester.dart';
 void feedsClientTest(
   String description, {
   User user = const User(id: 'luke_skywalker'),
+  FutureOr<void> Function(FeedsClientTester tester)? connect,
   FutureOr<void> Function(FeedsClientTester tester)? setUp,
   required FutureOr<void> Function(FeedsClientTester tester) body,
   FutureOr<void> Function(FeedsClientTester tester)? verify,
@@ -55,6 +56,7 @@ void feedsClientTest(
     user: user,
     build: (client) => client,
     createTesterFn: _createFeedsClientTester,
+    connect: connect,
     setUp: setUp,
     body: body,
     verify: verify,
@@ -72,14 +74,11 @@ void feedsClientTest(
 /// Resources are automatically cleaned up after the test completes.
 final class FeedsClientTester extends BaseTester<StreamFeedsClient> {
   const FeedsClientTester._({
-    required super.subject,
-    required super.wsStreamController,
+    required super.client,
+    required super.wsTester,
     required super.feedsApi,
     required super.cdnApi,
-  });
-
-  /// The Stream Feeds client being tested.
-  StreamFeedsClient get client => subject;
+  }) : super(subject: client);
 }
 
 // Creates a FeedsClientTester for testing feeds client operations.
@@ -94,11 +93,10 @@ Future<FeedsClientTester> _createFeedsClientTester({
   required MockWebSocketChannel webSocketChannel,
 }) {
   return createTester(
-    client: client,
     webSocketChannel: webSocketChannel,
-    create: (wsStreamController) => FeedsClientTester._(
-      subject: subject,
-      wsStreamController: wsStreamController,
+    create: (wsTester) => FeedsClientTester._(
+      client: subject,
+      wsTester: wsTester,
       cdnApi: cdnApi,
       feedsApi: feedsApi,
     ),

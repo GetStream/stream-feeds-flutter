@@ -1,8 +1,87 @@
-import 'package:stream_feeds/src/generated/api/api.dart' as api;
 import 'package:stream_feeds/stream_feeds.dart';
 import 'package:stream_feeds_test/stream_feeds_test.dart';
 
 void main() {
+  // ============================================================
+  // FEATURE: Connection Management
+  // ============================================================
+
+  group('connect', () {
+    feedsClientTest(
+      'should connect successfully',
+      connect: (tester) => tester.mockSuccessfulAuth(tester.user.id),
+      body: (tester) async {
+        // Setup expectation for connection state transitions
+        final connectionStateExpectation = expectLater(
+          tester.client.connectionState.stream,
+          emitsInOrder([
+            isA<Initialized>(),
+            isA<Connecting>(),
+            isA<Authenticating>(),
+            isA<Connected>(),
+          ]),
+        );
+
+        // Connect the client
+        await tester.client.connect();
+        addTearDown(tester.client.disconnect);
+
+        // Verify state transitions expectation
+        await connectionStateExpectation;
+      },
+    );
+
+    feedsClientTest(
+      'should handle connection failure',
+      connect: (tester) => tester.mockFailedAuth(errorCode: 41),
+      body: (tester) async {
+        // Setup expectation for connection state transitions
+        final connectionStateExpectation = expectLater(
+          tester.client.connectionState.stream,
+          emitsInOrder([
+            isA<Initialized>(),
+            isA<Connecting>(),
+            isA<Authenticating>(),
+            isA<Disconnecting>(),
+            isA<Disconnected>(),
+          ]),
+        );
+
+        // Attempt connection - should fail
+        await expectLater(
+          tester.client.connect(),
+          throwsA(isA<ClientException>()),
+        );
+
+        // Verify state transitions expectation
+        await connectionStateExpectation;
+      },
+    );
+  });
+
+  group('disconnect', () {
+    feedsClientTest(
+      'should disconnect successfully',
+      body: (tester) async {
+        // Setup expectation for disconnection state transitions
+        final connectionStateExpectation = expectLater(
+          tester.client.connectionState.stream,
+          emitsInOrder([
+            isA<Connected>(),
+            isA<Disconnecting>(),
+            isA<Disconnected>(),
+          ]),
+        );
+
+        // Disconnect
+        await tester.client.disconnect();
+
+        // Verify state transitions expectation
+        await connectionStateExpectation;
+      },
+    );
+  });
+
   // ============================================================
   // FEATURE: System Configuration
   // ============================================================
@@ -32,22 +111,20 @@ void main() {
 
   group('upsertActivities', () {
     setUpAll(() {
-      registerFallbackValue(
-        const api.UpsertActivitiesRequest(activities: []),
-      );
+      registerFallbackValue(const UpsertActivitiesRequest(activities: []));
     });
 
     feedsClientTest(
       'should upsert activities successfully',
       body: (tester) async {
         final activities = [
-          const api.ActivityRequest(
+          const ActivityRequest(
             feeds: ['user:123'],
             id: '1',
             text: 'Hello World',
             type: 'post',
           ),
-          const api.ActivityRequest(
+          const ActivityRequest(
             feeds: ['user:456'],
             id: '2',
             text: 'Another post',
@@ -55,7 +132,7 @@ void main() {
           ),
         ];
 
-        final request = api.UpsertActivitiesRequest(activities: activities);
+        final request = UpsertActivitiesRequest(activities: activities);
 
         tester.mockApi(
           (api) => api.upsertActivities(upsertActivitiesRequest: request),
@@ -80,7 +157,7 @@ void main() {
       'should handle upsert activities failure',
       body: (tester) async {
         final activities = [
-          const api.ActivityRequest(
+          const ActivityRequest(
             feeds: ['user:123'],
             id: '1',
             text: 'Hello',
@@ -88,7 +165,7 @@ void main() {
           ),
         ];
 
-        final request = api.UpsertActivitiesRequest(activities: activities);
+        final request = UpsertActivitiesRequest(activities: activities);
 
         tester.mockApiFailure(
           (api) => api.upsertActivities(upsertActivitiesRequest: request),
@@ -110,16 +187,14 @@ void main() {
 
   group('deleteActivities', () {
     setUpAll(() {
-      registerFallbackValue(
-        const api.DeleteActivitiesRequest(ids: []),
-      );
+      registerFallbackValue(const DeleteActivitiesRequest(ids: []));
     });
 
     feedsClientTest(
       'should delete activities successfully',
       body: (tester) async {
         final ids = ['activity-1', 'activity-2'];
-        final request = api.DeleteActivitiesRequest(
+        final request = DeleteActivitiesRequest(
           ids: ids,
           hardDelete: false,
         );
@@ -148,7 +223,7 @@ void main() {
       'should handle delete activities failure',
       body: (tester) async {
         final ids = ['activity-1'];
-        final request = api.DeleteActivitiesRequest(
+        final request = DeleteActivitiesRequest(
           ids: ids,
           hardDelete: true,
         );
@@ -255,9 +330,9 @@ void main() {
   group('createDevice', () {
     setUpAll(() {
       registerFallbackValue(
-        const api.CreateDeviceRequest(
+        const CreateDeviceRequest(
           id: 'fallback',
-          pushProvider: api.CreateDeviceRequestPushProvider.firebase,
+          pushProvider: CreateDeviceRequestPushProvider.firebase,
         ),
       );
     });
@@ -269,9 +344,9 @@ void main() {
         const pushProvider = PushNotificationsProvider.firebase;
         const pushProviderName = 'MyApp Firebase';
 
-        const request = api.CreateDeviceRequest(
+        const request = CreateDeviceRequest(
           id: deviceId,
-          pushProvider: api.CreateDeviceRequestPushProvider.firebase,
+          pushProvider: CreateDeviceRequestPushProvider.firebase,
           pushProviderName: pushProviderName,
         );
 
@@ -301,9 +376,9 @@ void main() {
         const pushProvider = PushNotificationsProvider.apn;
         const pushProviderName = 'MyApp APN';
 
-        const request = api.CreateDeviceRequest(
+        const request = CreateDeviceRequest(
           id: deviceId,
-          pushProvider: api.CreateDeviceRequestPushProvider.apn,
+          pushProvider: CreateDeviceRequestPushProvider.apn,
           pushProviderName: pushProviderName,
         );
 

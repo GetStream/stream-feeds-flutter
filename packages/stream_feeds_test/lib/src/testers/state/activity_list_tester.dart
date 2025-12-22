@@ -13,9 +13,10 @@ import '../base_tester.dart';
 /// Automatically sets up WebSocket connection, client, and test infrastructure.
 /// Tests are tagged with 'activity-list' by default for filtering.
 ///
-/// [user] is optional, the authenticated user for the test client (defaults to luke_skywalker).
+/// [user] is optional, the user for whom the client is configured (defaults to luke_skywalker).
 
 /// [build] constructs the [ActivityList] under test using the provided [StreamFeedsClient].
+/// [connect] is optional, custom connection logic (defaults to successful auth + connect).
 /// [setUp] is optional and runs before [body] for setting up mocks and test state.
 /// [body] is the test callback that receives an [ActivityListTester] for interactions.
 /// [verify] is optional and runs after [body] for verifying API calls and interactions.
@@ -49,6 +50,7 @@ void activityListTest(
   String description, {
   User user = const User(id: 'luke_skywalker'),
   required ActivityList Function(StreamFeedsClient client) build,
+  FutureOr<void> Function(ActivityListTester tester)? connect,
   FutureOr<void> Function(ActivityListTester tester)? setUp,
   required FutureOr<void> Function(ActivityListTester tester) body,
   FutureOr<void> Function(ActivityListTester tester)? verify,
@@ -62,6 +64,7 @@ void activityListTest(
     user: user,
     build: build,
     createTesterFn: _createActivityListTester,
+    connect: connect,
     setUp: setUp,
     body: body,
     verify: verify,
@@ -80,7 +83,8 @@ void activityListTest(
 final class ActivityListTester extends BaseTester<ActivityList> {
   const ActivityListTester._({
     required ActivityList activityList,
-    required super.wsStreamController,
+    required super.client,
+    required super.wsTester,
     required super.feedsApi,
     required super.cdnApi,
   }) : super(subject: activityList);
@@ -141,11 +145,11 @@ Future<ActivityListTester> _createActivityListTester({
   test.addTearDown(subject.dispose);
 
   return createTester(
-    client: client,
     webSocketChannel: webSocketChannel,
-    create: (wsStreamController) => ActivityListTester._(
+    create: (wsTester) => ActivityListTester._(
       activityList: subject,
-      wsStreamController: wsStreamController,
+      client: client,
+      wsTester: wsTester,
       cdnApi: cdnApi,
       feedsApi: feedsApi,
     ),

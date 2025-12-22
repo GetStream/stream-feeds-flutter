@@ -13,9 +13,10 @@ import '../base_tester.dart';
 /// Automatically sets up WebSocket connection, client, and test infrastructure.
 /// Tests are tagged with 'activity-comment-list' by default for filtering.
 ///
-/// [user] is optional, the authenticated user for the test client (defaults to luke_skywalker).
+/// [user] is optional, the user for whom the client is configured (defaults to luke_skywalker).
 
 /// [build] constructs the [ActivityCommentList] under test using the provided [StreamFeedsClient].
+/// [connect] is optional, custom connection logic (defaults to successful auth + connect).
 /// [setUp] is optional and runs before [body] for setting up mocks and test state.
 /// [body] is the test callback that receives an [ActivityCommentListTester] for interactions.
 /// [verify] is optional and runs after [body] for verifying API calls and interactions.
@@ -45,6 +46,7 @@ void activityCommentListTest(
   String description, {
   User user = const User(id: 'luke_skywalker'),
   required ActivityCommentList Function(StreamFeedsClient client) build,
+  FutureOr<void> Function(ActivityCommentListTester tester)? connect,
   FutureOr<void> Function(ActivityCommentListTester tester)? setUp,
   required FutureOr<void> Function(ActivityCommentListTester tester) body,
   FutureOr<void> Function(ActivityCommentListTester tester)? verify,
@@ -58,6 +60,7 @@ void activityCommentListTest(
     user: user,
     build: build,
     createTesterFn: _createActivityCommentListTester,
+    connect: connect,
     setUp: setUp,
     body: body,
     verify: verify,
@@ -76,7 +79,8 @@ void activityCommentListTest(
 final class ActivityCommentListTester extends BaseTester<ActivityCommentList> {
   const ActivityCommentListTester._({
     required ActivityCommentList activityCommentList,
-    required super.wsStreamController,
+    required super.client,
+    required super.wsTester,
     required super.feedsApi,
     required super.cdnApi,
   }) : super(subject: activityCommentList);
@@ -167,11 +171,11 @@ Future<ActivityCommentListTester> _createActivityCommentListTester({
   test.addTearDown(subject.dispose);
 
   return createTester(
-    client: client,
     webSocketChannel: webSocketChannel,
-    create: (wsStreamController) => ActivityCommentListTester._(
+    create: (wsTester) => ActivityCommentListTester._(
       activityCommentList: subject,
-      wsStreamController: wsStreamController,
+      client: client,
+      wsTester: wsTester,
       cdnApi: cdnApi,
       feedsApi: feedsApi,
     ),
