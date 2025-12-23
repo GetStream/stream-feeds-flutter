@@ -56,7 +56,6 @@ import '../state/query/poll_votes_query.dart';
 import '../state/query/polls_query.dart';
 import '../ws/feeds_ws_event.dart';
 import 'endpoint_config.dart';
-import 'moderation_client.dart';
 
 class StreamFeedsClientImpl implements StreamFeedsClient {
   StreamFeedsClientImpl({

@@ -36,6 +36,26 @@ mixin ApiMockerMixin {
     return mockApiResult(apiCall, result: Result.success(result));
   }
 
+  /// Sets up a mock API failure response for the given API call.
+  ///
+  /// Use this when you need to return an error:
+  /// ```dart
+  /// tester.mockApiFailure(
+  ///   (api) => api.addActivity(...),
+  ///   error: Exception('Failed to add activity'),
+  /// );
+  /// ```
+  void mockApiFailure<T>(
+    Future<Result<T>> Function(MockDefaultApi api) apiCall, {
+    required Object error,
+    StackTrace? stackTrace,
+  }) {
+    return mockApiResult(
+      apiCall,
+      result: Result<T>.failure(error, stackTrace ?? StackTrace.current),
+    );
+  }
+
   /// Sets up a mock API response with a custom Result.
   ///
   /// Use this when you need to return a failure:

@@ -4,18 +4,19 @@ import 'package:meta/meta.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 import 'package:test/test.dart' as test;
 
-import '../helpers/mocks.dart';
-import '../helpers/test_data.dart';
-import 'base_tester.dart';
+import '../../helpers/mocks.dart';
+import '../../helpers/test_data.dart';
+import '../base_tester.dart';
 
 /// Test helper for bookmark folder list operations.
 ///
 /// Automatically sets up WebSocket connection, client, and test infrastructure.
 /// Tests are tagged with 'bookmark-folder-list' by default for filtering.
 ///
-/// [user] is optional, the authenticated user for the test client (defaults to luke_skywalker).
+/// [user] is optional, the user for whom the client is configured (defaults to luke_skywalker).
 
 /// [build] constructs the [BookmarkFolderList] under test using the provided [StreamFeedsClient].
+/// [connect] is optional, custom connection logic (defaults to successful auth + connect).
 /// [setUp] is optional and runs before [body] for setting up mocks and test state.
 /// [body] is the test callback that receives a [BookmarkFolderListTester] for interactions.
 /// [verify] is optional and runs after [body] for verifying API calls and interactions.
@@ -44,6 +45,7 @@ void bookmarkFolderListTest(
   String description, {
   User user = const User(id: 'luke_skywalker'),
   required BookmarkFolderList Function(StreamFeedsClient client) build,
+  FutureOr<void> Function(BookmarkFolderListTester tester)? connect,
   FutureOr<void> Function(BookmarkFolderListTester tester)? setUp,
   required FutureOr<void> Function(BookmarkFolderListTester tester) body,
   FutureOr<void> Function(BookmarkFolderListTester tester)? verify,
@@ -57,6 +59,7 @@ void bookmarkFolderListTest(
     user: user,
     build: build,
     createTesterFn: _createBookmarkFolderListTester,
+    connect: connect,
     setUp: setUp,
     body: body,
     verify: verify,
@@ -75,8 +78,10 @@ void bookmarkFolderListTest(
 final class BookmarkFolderListTester extends BaseTester<BookmarkFolderList> {
   const BookmarkFolderListTester._({
     required BookmarkFolderList bookmarkFolderList,
-    required super.wsStreamController,
+    required super.client,
+    required super.wsTester,
     required super.feedsApi,
+    required super.cdnApi,
   }) : super(subject: bookmarkFolderList);
 
   /// The bookmark folder list being tested.
@@ -136,6 +141,7 @@ final class BookmarkFolderListTester extends BaseTester<BookmarkFolderList> {
 Future<BookmarkFolderListTester> _createBookmarkFolderListTester({
   required BookmarkFolderList subject,
   required StreamFeedsClient client,
+  required MockCdnApi cdnApi,
   required MockDefaultApi feedsApi,
   required MockWebSocketChannel webSocketChannel,
 }) {
@@ -143,11 +149,12 @@ Future<BookmarkFolderListTester> _createBookmarkFolderListTester({
   test.addTearDown(subject.dispose);
 
   return createTester(
-    client: client,
     webSocketChannel: webSocketChannel,
-    create: (wsStreamController) => BookmarkFolderListTester._(
+    create: (wsTester) => BookmarkFolderListTester._(
       bookmarkFolderList: subject,
-      wsStreamController: wsStreamController,
+      client: client,
+      wsTester: wsTester,
+      cdnApi: cdnApi,
       feedsApi: feedsApi,
     ),
   );

@@ -4,18 +4,19 @@ import 'package:meta/meta.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 import 'package:test/test.dart' as test;
 
-import '../helpers/mocks.dart';
-import '../helpers/test_data.dart';
-import 'base_tester.dart';
+import '../../helpers/mocks.dart';
+import '../../helpers/test_data.dart';
+import '../base_tester.dart';
 
 /// Test helper for activity operations.
 ///
 /// Automatically sets up WebSocket connection, client, and test infrastructure.
 /// Tests are tagged with 'activity' by default for filtering.
 ///
-/// [user] is optional, the authenticated user for the test client (defaults to luke_skywalker).
+/// [user] is optional, the user for whom the client is configured (defaults to luke_skywalker).
 
 /// [build] constructs the [Activity] under test using the provided [StreamFeedsClient].
+/// [connect] is optional, custom connection logic (defaults to successful auth + connect).
 /// [setUp] is optional and runs before [body] for setting up mocks and test state.
 /// [body] is the test callback that receives an [ActivityTester] for interactions.
 /// [verify] is optional and runs after [body] for verifying API calls and interactions.
@@ -84,6 +85,7 @@ void activityTest(
   String description, {
   User user = const User(id: 'luke_skywalker'),
   required Activity Function(StreamFeedsClient client) build,
+  FutureOr<void> Function(ActivityTester tester)? connect,
   FutureOr<void> Function(ActivityTester tester)? setUp,
   required FutureOr<void> Function(ActivityTester tester) body,
   FutureOr<void> Function(ActivityTester tester)? verify,
@@ -97,6 +99,7 @@ void activityTest(
     user: user,
     build: build,
     createTesterFn: _createActivityTester,
+    connect: connect,
     setUp: setUp,
     body: body,
     verify: verify,
@@ -115,8 +118,10 @@ void activityTest(
 final class ActivityTester extends BaseTester<Activity> {
   const ActivityTester._({
     required Activity activity,
-    required super.wsStreamController,
+    required super.client,
+    required super.wsTester,
     required super.feedsApi,
+    required super.cdnApi,
   }) : super(subject: activity);
 
   /// The activity being tested.
@@ -184,6 +189,7 @@ final class ActivityTester extends BaseTester<Activity> {
 Future<ActivityTester> _createActivityTester({
   required Activity subject,
   required StreamFeedsClient client,
+  required MockCdnApi cdnApi,
   required MockDefaultApi feedsApi,
   required MockWebSocketChannel webSocketChannel,
 }) {
@@ -191,12 +197,13 @@ Future<ActivityTester> _createActivityTester({
   test.addTearDown(subject.dispose);
 
   return createTester(
-    client: client,
     webSocketChannel: webSocketChannel,
-    create: (wsStreamController) => ActivityTester._(
+    create: (wsTester) => ActivityTester._(
       activity: subject,
+      client: client,
+      wsTester: wsTester,
+      cdnApi: cdnApi,
       feedsApi: feedsApi,
-      wsStreamController: wsStreamController,
     ),
   );
 }

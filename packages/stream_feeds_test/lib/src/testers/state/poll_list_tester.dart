@@ -4,18 +4,19 @@ import 'package:meta/meta.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 import 'package:test/test.dart' as test;
 
-import '../helpers/mocks.dart';
-import '../helpers/test_data.dart';
-import 'base_tester.dart';
+import '../../helpers/mocks.dart';
+import '../../helpers/test_data.dart';
+import '../base_tester.dart';
 
 /// Test helper for poll list operations.
 ///
 /// Automatically sets up WebSocket connection, client, and test infrastructure.
 /// Tests are tagged with 'poll-list' by default for filtering.
 ///
-/// [user] is optional, the authenticated user for the test client (defaults to luke_skywalker).
+/// [user] is optional, the user for whom the client is configured (defaults to luke_skywalker).
 
 /// [build] constructs the [PollList] under test using the provided [StreamFeedsClient].
+/// [connect] is optional, custom connection logic (defaults to successful auth + connect).
 /// [setUp] is optional and runs before [body] for setting up mocks and test state.
 /// [body] is the test callback that receives a [PollListTester] for interactions.
 /// [verify] is optional and runs after [body] for verifying API calls and interactions.
@@ -44,6 +45,7 @@ void pollListTest(
   String description, {
   User user = const User(id: 'luke_skywalker'),
   required PollList Function(StreamFeedsClient client) build,
+  FutureOr<void> Function(PollListTester tester)? connect,
   FutureOr<void> Function(PollListTester tester)? setUp,
   required FutureOr<void> Function(PollListTester tester) body,
   FutureOr<void> Function(PollListTester tester)? verify,
@@ -57,6 +59,7 @@ void pollListTest(
     user: user,
     build: build,
     createTesterFn: _createPollListTester,
+    connect: connect,
     setUp: setUp,
     body: body,
     verify: verify,
@@ -75,8 +78,10 @@ void pollListTest(
 final class PollListTester extends BaseTester<PollList> {
   const PollListTester._({
     required PollList pollList,
-    required super.wsStreamController,
+    required super.client,
+    required super.wsTester,
     required super.feedsApi,
+    required super.cdnApi,
   }) : super(subject: pollList);
 
   /// The poll list being tested.
@@ -130,6 +135,7 @@ final class PollListTester extends BaseTester<PollList> {
 Future<PollListTester> _createPollListTester({
   required PollList subject,
   required StreamFeedsClient client,
+  required MockCdnApi cdnApi,
   required MockDefaultApi feedsApi,
   required MockWebSocketChannel webSocketChannel,
 }) {
@@ -137,11 +143,12 @@ Future<PollListTester> _createPollListTester({
   test.addTearDown(subject.dispose);
 
   return createTester(
-    client: client,
     webSocketChannel: webSocketChannel,
-    create: (wsStreamController) => PollListTester._(
+    create: (wsTester) => PollListTester._(
       pollList: subject,
-      wsStreamController: wsStreamController,
+      client: client,
+      wsTester: wsTester,
+      cdnApi: cdnApi,
       feedsApi: feedsApi,
     ),
   );

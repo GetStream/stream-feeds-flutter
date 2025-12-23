@@ -1,16 +1,18 @@
 import 'dart:convert';
 
 import 'package:mocktail/mocktail.dart';
-import 'package:stream_feeds/stream_feeds.dart' as api;
+import 'package:stream_feeds/stream_feeds.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-class MockDefaultApi extends Mock implements api.DefaultApi {}
+class MockCdnApi extends Mock implements CdnApi {}
+
+class MockDefaultApi extends Mock implements DefaultApi {}
 
 class MockWebSocketSink extends Mock implements WebSocketSink {}
 
 class MockWebSocketChannel extends Mock implements WebSocketChannel {}
 
-api.UserToken generateTestUserToken(String userId) {
+UserToken generateTestUserToken(String userId) {
   String b64UrlNoPad(Object jsonObj) {
     final bytes = utf8.encode(jsonEncode(jsonObj));
     return base64Url.encode(bytes).replaceAll('=', '');
@@ -22,5 +24,5 @@ api.UserToken generateTestUserToken(String userId) {
   final jwt = '${b64UrlNoPad(header)}.${b64UrlNoPad(payload)}.';
   // trailing dot = empty signature (valid for alg=none)
 
-  return api.UserToken(jwt);
+  return UserToken(jwt);
 }

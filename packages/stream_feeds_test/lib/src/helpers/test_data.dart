@@ -884,3 +884,194 @@ QueryModerationConfigsResponse createDefaultQueryModerationConfigsResponse({
     duration: '10ms',
   );
 }
+
+ConfigResponse createDefaultConfigResponse({
+  String key = 'default-config',
+  String team = 'default-team',
+}) {
+  return ConfigResponse(
+    key: key,
+    team: team,
+    async: true,
+    createdAt: DateTime(2021, 1, 1),
+    updatedAt: DateTime(2021, 2, 1),
+    supportedVideoCallHarmTypes: const [],
+  );
+}
+
+BanResponse createDefaultBanResponse() {
+  return const BanResponse(duration: '10ms');
+}
+
+MuteResponse createDefaultMuteResponse({
+  List<UserMute>? mutes,
+}) {
+  return MuteResponse(
+    duration: '10ms',
+    mutes: mutes,
+  );
+}
+
+BlockUsersResponse createDefaultBlockUsersResponse({
+  String blockedUserId = 'user-123',
+  String blockedByUserId = 'user-1',
+}) {
+  return BlockUsersResponse(
+    blockedUserId: blockedUserId,
+    blockedByUserId: blockedByUserId,
+    createdAt: DateTime(2021, 1, 1),
+    duration: '10ms',
+  );
+}
+
+UnblockUsersResponse createDefaultUnblockUsersResponse() {
+  return const UnblockUsersResponse(duration: '10ms');
+}
+
+GetBlockedUsersResponse createDefaultGetBlockedUsersResponse({
+  List<BlockedUserResponse> blocks = const [],
+}) {
+  return GetBlockedUsersResponse(
+    blocks: blocks,
+    duration: '10ms',
+  );
+}
+
+BlockedUserResponse createDefaultBlockedUserResponse({
+  String blockedUserId = 'user-123',
+  String userId = 'user-1',
+}) {
+  return BlockedUserResponse(
+    blockedUserId: blockedUserId,
+    blockedUser: createDefaultUserResponse(id: blockedUserId),
+    userId: userId,
+    user: createDefaultUserResponse(id: userId),
+    createdAt: DateTime(2021, 1, 1),
+  );
+}
+
+FlagResponse createDefaultFlagResponse({
+  String itemId = 'activity-123',
+}) {
+  return FlagResponse(
+    duration: '10ms',
+    itemId: itemId,
+  );
+}
+
+SubmitActionResponse createDefaultSubmitActionResponse({
+  ReviewQueueItemResponse? item,
+}) {
+  return SubmitActionResponse(
+    duration: '10ms',
+    item: item,
+  );
+}
+
+QueryReviewQueueResponse createDefaultQueryReviewQueueResponse({
+  String? next,
+  String? prev,
+  List<ReviewQueueItemResponse> items = const [],
+}) {
+  return QueryReviewQueueResponse(
+    actionConfig: const {},
+    items: items,
+    next: next,
+    prev: prev,
+    stats: const {},
+    duration: '10ms',
+  );
+}
+
+UpsertConfigResponse createDefaultUpsertConfigResponse({
+  String key = 'config-1',
+}) {
+  return UpsertConfigResponse(
+    config: createDefaultModerationConfigResponse(key: key),
+    duration: '10ms',
+  );
+}
+
+DeleteModerationConfigResponse createDefaultDeleteModerationConfigResponse() {
+  return const DeleteModerationConfigResponse(duration: '10ms');
+}
+
+GetConfigResponse createDefaultGetConfigResponse({
+  String key = 'config-1',
+  String? team,
+}) {
+  return GetConfigResponse(
+    config: createDefaultModerationConfigResponse(
+      key: key,
+      team: team ?? 'team-id',
+    ),
+    duration: '10ms',
+  );
+}
+
+UpsertActivitiesResponse createDefaultUpsertActivitiesResponse({
+  int count = 1,
+}) {
+  return UpsertActivitiesResponse(
+    activities: List.generate(
+      count,
+      (index) => createDefaultActivityResponse(id: 'activity-${index + 1}'),
+    ),
+    duration: '10ms',
+  );
+}
+
+DeleteActivitiesResponse createDefaultDeleteActivitiesResponse({
+  List<String> ids = const ['activity-1'],
+}) {
+  return DeleteActivitiesResponse(
+    deletedIds: ids,
+    duration: '10ms',
+  );
+}
+
+GetApplicationResponse createDefaultGetApplicationResponse({
+  String name = 'Test App',
+}) {
+  return GetApplicationResponse(
+    app: AppResponseFields(
+      asyncUrlEnrichEnabled: false,
+      autoTranslationEnabled: false,
+      id: 1,
+      name: name,
+      placement: 'default',
+      fileUploadConfig: const FileUploadConfig(
+        allowedFileExtensions: ['jpg', 'png', 'gif', 'mp4'],
+        allowedMimeTypes: ['image/jpeg', 'image/png', 'video/mp4'],
+        blockedFileExtensions: [],
+        blockedMimeTypes: [],
+        sizeLimit: 10485760,
+      ),
+      imageUploadConfig: const FileUploadConfig(
+        allowedFileExtensions: ['jpg', 'png', 'gif'],
+        allowedMimeTypes: ['image/jpeg', 'image/png', 'image/gif'],
+        blockedFileExtensions: [],
+        blockedMimeTypes: [],
+        sizeLimit: 5242880,
+      ),
+    ),
+    duration: '10ms',
+  );
+}
+
+ListDevicesResponse createDefaultListDevicesResponse({
+  List<DeviceResponse> devices = const [],
+}) {
+  return ListDevicesResponse(
+    devices: devices,
+    duration: '10ms',
+  );
+}
+
+DurationResponse createDefaultCreateDeviceResponse() {
+  return const DurationResponse(duration: '10ms');
+}
+
+DurationResponse createDefaultDeleteDeviceResponse() {
+  return const DurationResponse(duration: '10ms');
+}

@@ -42,6 +42,8 @@ import 'state/query/moderation_configs_query.dart';
 import 'state/query/poll_votes_query.dart';
 import 'state/query/polls_query.dart';
 
+export 'client/moderation_client.dart';
+
 /// {@template stream_feeds_client}
 /// Stream Feeds client for building scalable newsfeeds and activity streams.
 ///

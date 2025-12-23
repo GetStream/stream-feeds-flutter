@@ -4,18 +4,19 @@ import 'package:meta/meta.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 import 'package:test/test.dart' as test;
 
-import '../helpers/mocks.dart';
-import '../helpers/test_data.dart';
-import 'base_tester.dart';
+import '../../helpers/mocks.dart';
+import '../../helpers/test_data.dart';
+import '../base_tester.dart';
 
 /// Test helper for comment reply list operations.
 ///
 /// Automatically sets up WebSocket connection, client, and test infrastructure.
 /// Tests are tagged with 'comment-reply-list' by default for filtering.
 ///
-/// [user] is optional, the authenticated user for the test client (defaults to luke_skywalker).
+/// [user] is optional, the user for whom the client is configured (defaults to luke_skywalker).
 
 /// [build] constructs the [CommentReplyList] under test using the provided [StreamFeedsClient].
+/// [connect] is optional, custom connection logic (defaults to successful auth + connect).
 /// [setUp] is optional and runs before [body] for setting up mocks and test state.
 /// [body] is the test callback that receives a [CommentReplyListTester] for interactions.
 /// [verify] is optional and runs after [body] for verifying API calls and interactions.
@@ -46,6 +47,7 @@ void commentReplyListTest(
   String description, {
   User user = const User(id: 'luke_skywalker'),
   required CommentReplyList Function(StreamFeedsClient client) build,
+  FutureOr<void> Function(CommentReplyListTester tester)? connect,
   FutureOr<void> Function(CommentReplyListTester tester)? setUp,
   required FutureOr<void> Function(CommentReplyListTester tester) body,
   FutureOr<void> Function(CommentReplyListTester tester)? verify,
@@ -59,6 +61,7 @@ void commentReplyListTest(
     user: user,
     build: build,
     createTesterFn: _createCommentReplyListTester,
+    connect: connect,
     setUp: setUp,
     body: body,
     verify: verify,
@@ -77,8 +80,10 @@ void commentReplyListTest(
 final class CommentReplyListTester extends BaseTester<CommentReplyList> {
   const CommentReplyListTester._({
     required CommentReplyList commentReplyList,
-    required super.wsStreamController,
+    required super.client,
+    required super.wsTester,
     required super.feedsApi,
+    required super.cdnApi,
   }) : super(subject: commentReplyList);
 
   /// The comment reply list being tested.
@@ -161,6 +166,7 @@ final class CommentReplyListTester extends BaseTester<CommentReplyList> {
 Future<CommentReplyListTester> _createCommentReplyListTester({
   required CommentReplyList subject,
   required StreamFeedsClient client,
+  required MockCdnApi cdnApi,
   required MockDefaultApi feedsApi,
   required MockWebSocketChannel webSocketChannel,
 }) {
@@ -168,11 +174,12 @@ Future<CommentReplyListTester> _createCommentReplyListTester({
   test.addTearDown(subject.dispose);
 
   return createTester(
-    client: client,
     webSocketChannel: webSocketChannel,
-    create: (wsStreamController) => CommentReplyListTester._(
+    create: (wsTester) => CommentReplyListTester._(
       commentReplyList: subject,
-      wsStreamController: wsStreamController,
+      client: client,
+      wsTester: wsTester,
+      cdnApi: cdnApi,
       feedsApi: feedsApi,
     ),
   );

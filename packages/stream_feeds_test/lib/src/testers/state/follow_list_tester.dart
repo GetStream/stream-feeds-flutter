@@ -4,18 +4,19 @@ import 'package:meta/meta.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 import 'package:test/test.dart' as test;
 
-import '../helpers/mocks.dart';
-import '../helpers/test_data.dart';
-import 'base_tester.dart';
+import '../../helpers/mocks.dart';
+import '../../helpers/test_data.dart';
+import '../base_tester.dart';
 
 /// Test helper for follow list operations.
 ///
 /// Automatically sets up WebSocket connection, client, and test infrastructure.
 /// Tests are tagged with 'follow-list' by default for filtering.
 ///
-/// [user] is optional, the authenticated user for the test client (defaults to luke_skywalker).
+/// [user] is optional, the user for whom the client is configured (defaults to luke_skywalker).
 
 /// [build] constructs the [FollowList] under test using the provided [StreamFeedsClient].
+/// [connect] is optional, custom connection logic (defaults to successful auth + connect).
 /// [setUp] is optional and runs before [body] for setting up mocks and test state.
 /// [body] is the test callback that receives a [FollowListTester] for interactions.
 /// [verify] is optional and runs after [body] for verifying API calls and interactions.
@@ -44,6 +45,7 @@ void followListTest(
   String description, {
   User user = const User(id: 'luke_skywalker'),
   required FollowList Function(StreamFeedsClient client) build,
+  FutureOr<void> Function(FollowListTester tester)? connect,
   FutureOr<void> Function(FollowListTester tester)? setUp,
   required FutureOr<void> Function(FollowListTester tester) body,
   FutureOr<void> Function(FollowListTester tester)? verify,
@@ -57,6 +59,7 @@ void followListTest(
     user: user,
     build: build,
     createTesterFn: _createFollowListTester,
+    connect: connect,
     setUp: setUp,
     body: body,
     verify: verify,
@@ -75,8 +78,10 @@ void followListTest(
 final class FollowListTester extends BaseTester<FollowList> {
   const FollowListTester._({
     required FollowList followList,
-    required super.wsStreamController,
+    required super.client,
+    required super.wsTester,
     required super.feedsApi,
+    required super.cdnApi,
   }) : super(subject: followList);
 
   /// The follow list being tested.
@@ -139,6 +144,7 @@ final class FollowListTester extends BaseTester<FollowList> {
 Future<FollowListTester> _createFollowListTester({
   required FollowList subject,
   required StreamFeedsClient client,
+  required MockCdnApi cdnApi,
   required MockDefaultApi feedsApi,
   required MockWebSocketChannel webSocketChannel,
 }) {
@@ -146,11 +152,12 @@ Future<FollowListTester> _createFollowListTester({
   test.addTearDown(subject.dispose);
 
   return createTester(
-    client: client,
     webSocketChannel: webSocketChannel,
-    create: (wsStreamController) => FollowListTester._(
+    create: (wsTester) => FollowListTester._(
       followList: subject,
-      wsStreamController: wsStreamController,
+      client: client,
+      wsTester: wsTester,
+      cdnApi: cdnApi,
       feedsApi: feedsApi,
     ),
   );

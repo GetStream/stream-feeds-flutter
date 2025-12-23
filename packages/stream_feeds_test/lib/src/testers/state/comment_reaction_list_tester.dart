@@ -4,18 +4,19 @@ import 'package:meta/meta.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 import 'package:test/test.dart' as test;
 
-import '../helpers/mocks.dart';
-import '../helpers/test_data.dart';
-import 'base_tester.dart';
+import '../../helpers/mocks.dart';
+import '../../helpers/test_data.dart';
+import '../base_tester.dart';
 
 /// Test helper for comment reaction list operations.
 ///
 /// Automatically sets up WebSocket connection, client, and test infrastructure.
 /// Tests are tagged with 'comment-reaction-list' by default for filtering.
 ///
-/// [user] is optional, the authenticated user for the test client (defaults to luke_skywalker).
+/// [user] is optional, the user for whom the client is configured (defaults to luke_skywalker).
 
 /// [build] constructs the [CommentReactionList] under test using the provided [StreamFeedsClient].
+/// [connect] is optional, custom connection logic (defaults to successful auth + connect).
 /// [setUp] is optional and runs before [body] for setting up mocks and test state.
 /// [body] is the test callback that receives a [CommentReactionListTester] for interactions.
 /// [verify] is optional and runs after [body] for verifying API calls and interactions.
@@ -44,6 +45,7 @@ void commentReactionListTest(
   String description, {
   User user = const User(id: 'luke_skywalker'),
   required CommentReactionList Function(StreamFeedsClient client) build,
+  FutureOr<void> Function(CommentReactionListTester tester)? connect,
   FutureOr<void> Function(CommentReactionListTester tester)? setUp,
   required FutureOr<void> Function(CommentReactionListTester tester) body,
   FutureOr<void> Function(CommentReactionListTester tester)? verify,
@@ -57,6 +59,7 @@ void commentReactionListTest(
     user: user,
     build: build,
     createTesterFn: _createCommentReactionListTester,
+    connect: connect,
     setUp: setUp,
     body: body,
     verify: verify,
@@ -75,8 +78,10 @@ void commentReactionListTest(
 final class CommentReactionListTester extends BaseTester<CommentReactionList> {
   const CommentReactionListTester._({
     required CommentReactionList commentReactionList,
-    required super.wsStreamController,
+    required super.client,
+    required super.wsTester,
     required super.feedsApi,
+    required super.cdnApi,
   }) : super(subject: commentReactionList);
 
   /// The comment reaction list being tested.
@@ -141,8 +146,9 @@ final class CommentReactionListTester extends BaseTester<CommentReactionList> {
 // Automatically sets up WebSocket connection and registers cleanup handlers.
 // This function is for internal use by commentReactionListTest only.
 Future<CommentReactionListTester> _createCommentReactionListTester({
-  required StreamFeedsClient client,
   required CommentReactionList subject,
+  required StreamFeedsClient client,
+  required MockCdnApi cdnApi,
   required MockDefaultApi feedsApi,
   required MockWebSocketChannel webSocketChannel,
 }) {
@@ -150,11 +156,12 @@ Future<CommentReactionListTester> _createCommentReactionListTester({
   test.addTearDown(subject.dispose);
 
   return createTester(
-    client: client,
     webSocketChannel: webSocketChannel,
-    create: (wsStreamController) => CommentReactionListTester._(
+    create: (wsTester) => CommentReactionListTester._(
       commentReactionList: subject,
-      wsStreamController: wsStreamController,
+      client: client,
+      wsTester: wsTester,
+      cdnApi: cdnApi,
       feedsApi: feedsApi,
     ),
   );
