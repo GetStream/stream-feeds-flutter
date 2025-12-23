@@ -1,7 +1,0 @@
-name: stream_feed_flutter_workspace
-
-environment:
-  sdk: ^3.6.2
-
-dev_dependencies:
-  melos: ^6.2.0
