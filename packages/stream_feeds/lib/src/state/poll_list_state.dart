@@ -47,6 +47,17 @@ class PollListStateNotifier extends StateNotifier<PollListState> {
     );
   }
 
+  /// Handles the closure of a poll by ID.
+  void onPollClosed(String pollId) {
+    final updatedPolls = state.polls.updateWhere(
+      (it) => it.id == pollId,
+      update: (it) => it.copyWith(isClosed: true),
+      compare: pollsSort.compare,
+    );
+
+    state = state.copyWith(polls: updatedPolls);
+  }
+
   /// Handles the update of a poll.
   void onPollUpdated(PollData poll) {
     final updatedPolls = state.polls.sortedUpsert(
@@ -54,17 +65,6 @@ class PollListStateNotifier extends StateNotifier<PollListState> {
       key: (it) => it.id,
       compare: pollsSort.compare,
       update: (existing, updated) => existing.updateWith(updated),
-    );
-
-    state = state.copyWith(polls: updatedPolls);
-  }
-
-  /// Handles the closure of a poll by ID.
-  void onPollClosed(String pollId) {
-    final updatedPolls = state.polls.updateWhere(
-      (it) => it.id == pollId,
-      update: (it) => it.copyWith(isClosed: true),
-      compare: pollsSort.compare,
     );
 
     state = state.copyWith(polls: updatedPolls);
@@ -79,27 +79,11 @@ class PollListStateNotifier extends StateNotifier<PollListState> {
     state = state.copyWith(polls: updatedPolls);
   }
 
-  /// Handles the casting of a vote in a poll.
-  void onPollVoteCasted(PollData poll, PollVoteData vote) {
-    return onPollVoteChanged(poll, vote);
-  }
-
-  /// Handles the change of a vote in a poll.
-  void onPollVoteChanged(PollData poll, PollVoteData vote) {
+  /// Handles the casting or updating of a vote in a poll.
+  void onPollVoteUpserted(PollData poll, PollVoteData vote) {
     final updatedPolls = state.polls.updateWhere(
       (it) => it.id == poll.id,
       update: (it) => it.upsertVote(poll, vote, currentUserId),
-      compare: pollsSort.compare,
-    );
-
-    state = state.copyWith(polls: updatedPolls);
-  }
-
-  /// Handles the casting of an answer in a poll.
-  void onPollAnswerCasted(PollData poll, PollVoteData answer) {
-    final updatedPolls = state.polls.updateWhere(
-      (it) => it.id == poll.id,
-      update: (it) => it.upsertAnswer(poll, answer, currentUserId),
       compare: pollsSort.compare,
     );
 
@@ -111,17 +95,6 @@ class PollListStateNotifier extends StateNotifier<PollListState> {
     final updatedPolls = state.polls.updateWhere(
       (it) => it.id == poll.id,
       update: (it) => it.removeVote(poll, vote, currentUserId),
-      compare: pollsSort.compare,
-    );
-
-    state = state.copyWith(polls: updatedPolls);
-  }
-
-  /// Handles the removal of an answer in a poll.
-  void onPollAnswerRemoved(PollData poll, PollVoteData answer) {
-    final updatedPolls = state.polls.updateWhere(
-      (it) => it.id == poll.id,
-      update: (it) => it.removeAnswer(poll, answer, currentUserId),
       compare: pollsSort.compare,
     );
 

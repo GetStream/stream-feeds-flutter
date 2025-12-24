@@ -8,6 +8,7 @@ import '../models/feed_data.dart';
 import '../models/query_configuration.dart';
 import '../repository/feeds_repository.dart';
 import 'event/handler/feed_list_event_handler.dart';
+import 'event/state_update_event.dart';
 import 'feed_list_state.dart';
 import 'query/feeds_query.dart';
 import 'state_notifier_extentions.dart';
@@ -49,8 +50,8 @@ class FeedList with Disposable {
   StateNotifier<FeedListState> get notifier => _stateNotifier;
   Stream<FeedListState> get stream => _stateNotifier.stream;
 
-  final SharedEmitter<WsEvent> eventsEmitter;
-  StreamSubscription<WsEvent>? _eventsSubscription;
+  final SharedEmitter<StateUpdateEvent> eventsEmitter;
+  StreamSubscription<StateUpdateEvent>? _eventsSubscription;
 
   @override
   void dispose() {

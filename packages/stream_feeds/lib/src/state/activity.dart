@@ -21,6 +21,7 @@ import '../repository/polls_repository.dart';
 import 'activity_comment_list.dart';
 import 'activity_state.dart';
 import 'event/handler/activity_event_handler.dart';
+import 'event/state_update_event.dart';
 import 'query/activity_comments_query.dart';
 import 'state_notifier_extentions.dart';
 
@@ -91,8 +92,8 @@ class Activity with Disposable {
   Stream<ActivityState> get stream => _stateNotifier.stream;
   late final ActivityStateNotifier _stateNotifier;
 
-  final SharedEmitter<WsEvent> eventsEmitter;
-  StreamSubscription<WsEvent>? _eventsSubscription;
+  final MutableSharedEmitter<StateUpdateEvent> eventsEmitter;
+  StreamSubscription<StateUpdateEvent>? _eventsSubscription;
 
   @override
   void dispose() {
@@ -240,19 +241,11 @@ class Activity with Disposable {
     );
 
     result.onSuccess(
-      (pair) {
-        if (request.enforceUnique ?? false) {
-          return _commentsList.notifier.onCommentReactionUpdated(
-            pair.comment,
-            pair.reaction,
-          );
-        }
-
-        return _commentsList.notifier.onCommentReactionAdded(
-          pair.comment,
-          pair.reaction,
-        );
-      },
+      (pair) => _commentsList.notifier.onCommentReactionUpserted(
+        pair.comment,
+        pair.reaction,
+        enforceUnique: request.enforceUnique ?? false,
+      ),
     );
 
     return result.map((pair) => pair.reaction);

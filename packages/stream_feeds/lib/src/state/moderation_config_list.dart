@@ -7,6 +7,7 @@ import 'package:stream_core/stream_core.dart';
 import '../models/moderation_config_data.dart';
 import '../models/query_configuration.dart';
 import '../repository/moderation_repository.dart';
+import 'event/state_update_event.dart';
 import 'moderation_config_list_state.dart';
 import 'query/moderation_configs_query.dart';
 import 'state_notifier_extentions.dart';
@@ -41,8 +42,8 @@ class ModerationConfigList extends Disposable {
   ModerationConfigListStateNotifier get stateNotifier => _stateNotifier;
   late final ModerationConfigListStateNotifier _stateNotifier;
 
-  final SharedEmitter<WsEvent> eventsEmitter;
-  StreamSubscription<WsEvent>? _eventsSubscription;
+  final SharedEmitter<StateUpdateEvent> eventsEmitter;
+  StreamSubscription<StateUpdateEvent>? _eventsSubscription;
 
   /// Queries the initial list of moderation configurations based on the provided [ModerationConfigsQuery].
   ///

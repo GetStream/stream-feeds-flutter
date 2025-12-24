@@ -10,6 +10,7 @@ import '../repository/activities_repository.dart';
 import '../repository/capabilities_repository.dart';
 import 'activity_list_state.dart';
 import 'event/handler/activity_list_event_handler.dart';
+import 'event/state_update_event.dart';
 import 'query/activities_query.dart';
 import 'state_notifier_extentions.dart';
 
@@ -57,8 +58,8 @@ class ActivityList with Disposable {
   StateNotifier<ActivityListState> get notifier => _stateNotifier;
   Stream<ActivityListState> get stream => _stateNotifier.stream;
 
-  final SharedEmitter<WsEvent> eventsEmitter;
-  StreamSubscription<WsEvent>? _eventsSubscription;
+  final SharedEmitter<StateUpdateEvent> eventsEmitter;
+  StreamSubscription<StateUpdateEvent>? _eventsSubscription;
 
   @override
   void dispose() {

@@ -52,21 +52,14 @@ class CommentReactionListStateNotifier
     );
   }
 
-  /// Handles the addition of a new reaction.
-  void onReactionAdded(FeedsReactionData reaction) {
+  /// Handles the addition or update of a reaction.
+  void onReactionUpserted(
+    FeedsReactionData reaction, {
+    bool enforceUnique = false,
+  }) {
     final updatedReactions = state.reactions.upsertReaction(
       reaction,
-      compare: reactionSort.compare,
-    );
-
-    state = state.copyWith(reactions: updatedReactions);
-  }
-
-  /// Handles the update of an existing reaction.
-  void onReactionUpdated(FeedsReactionData reaction) {
-    final updatedReactions = state.reactions.upsertReaction(
-      reaction,
-      enforceUnique: true,
+      enforceUnique: enforceUnique,
       compare: reactionSort.compare,
     );
 

@@ -26,6 +26,7 @@ import '../repository/feeds_repository.dart';
 import '../repository/polls_repository.dart';
 import 'event/handler/feed_event_handler.dart';
 import 'event/on_activity_added.dart';
+import 'event/state_update_event.dart';
 import 'feed_state.dart';
 import 'member_list.dart';
 import 'query/feed_query.dart';
@@ -106,7 +107,7 @@ class Feed with Disposable {
   Stream<FeedState> get stream => _stateNotifier.stream;
   late final FeedStateNotifier _stateNotifier;
 
-  final SharedEmitter<WsEvent> eventsEmitter;
+  final MutableSharedEmitter<StateUpdateEvent> eventsEmitter;
   final CompositeSubscription _feedSubscriptions = CompositeSubscription();
 
   @override
@@ -217,7 +218,7 @@ class Feed with Disposable {
     );
 
     return result.onSuccess(
-      (_) => _stateNotifier.onActivityDeleted(id),
+      (_) => _stateNotifier.onActivityRemoved(id),
     );
   }
 
@@ -263,7 +264,7 @@ class Feed with Disposable {
   }) async {
     final result = await bookmarksRepository.addBookmark(activityId, request);
 
-    return result.onSuccess(_stateNotifier.onBookmarkAdded);
+    return result.onSuccess(_stateNotifier.onBookmarkUpserted);
   }
 
   /// Updates an existing bookmark for an activity.

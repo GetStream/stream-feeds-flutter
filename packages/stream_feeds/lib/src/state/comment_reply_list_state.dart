@@ -125,34 +125,22 @@ class CommentReplyListStateNotifier
     state = state.copyWith(replies: updatedReplies);
   }
 
-  /// Handles the addition of a reaction to a comment reply.
-  void onReplyReactionAdded(
+  /// Handles the addition or update of a reaction to a comment reply.
+  void onReplyReactionUpserted(
     CommentData reply,
-    FeedsReactionData reaction,
-  ) {
+    FeedsReactionData reaction, {
+    bool enforceUnique = false,
+  }) {
     // Update nested replies (handles both top-level and nested replies)
     final updatedReplies = state.replies.updateNested(
       (it) => it.id == reply.id,
       children: (it) => it.replies ?? [],
-      update: (found) => found.upsertReaction(reply, reaction, currentUserId),
-      updateChildren: (parent, replies) => parent.copyWith(replies: replies),
-      compare: commentSort.compare,
-    );
-
-    state = state.copyWith(replies: updatedReplies);
-  }
-
-  /// Handles the update of a reaction on a comment reply.
-  void onReplyReactionUpdated(
-    CommentData reply,
-    FeedsReactionData reaction,
-  ) {
-    // Update nested replies (handles both top-level and nested replies)
-    final updatedReplies = state.replies.updateNested(
-      (it) => it.id == reply.id,
-      children: (it) => it.replies ?? [],
-      update: (found) =>
-          found.upsertUniqueReaction(reply, reaction, currentUserId),
+      update: (found) => found.upsertReaction(
+        reply,
+        reaction,
+        currentUserId,
+        enforceUnique: enforceUnique,
+      ),
       updateChildren: (parent, replies) => parent.copyWith(replies: replies),
       compare: commentSort.compare,
     );

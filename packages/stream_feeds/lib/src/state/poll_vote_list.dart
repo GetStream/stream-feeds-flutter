@@ -8,6 +8,7 @@ import '../models/poll_vote_data.dart';
 import '../models/query_configuration.dart';
 import '../repository/polls_repository.dart';
 import 'event/handler/poll_vote_list_event_handler.dart';
+import 'event/state_update_event.dart';
 import 'poll_vote_list_state.dart';
 import 'query/poll_votes_query.dart';
 import 'state_notifier_extentions.dart';
@@ -48,8 +49,8 @@ class PollVoteList with Disposable {
   StateNotifier<PollVoteListState> get notifier => _stateNotifier;
   Stream<PollVoteListState> get stream => _stateNotifier.stream;
 
-  final SharedEmitter<WsEvent> eventsEmitter;
-  StreamSubscription<WsEvent>? _eventsSubscription;
+  final SharedEmitter<StateUpdateEvent> eventsEmitter;
+  StreamSubscription<StateUpdateEvent>? _eventsSubscription;
 
   @override
   void dispose() {

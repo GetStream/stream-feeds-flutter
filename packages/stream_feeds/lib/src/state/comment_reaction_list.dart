@@ -9,6 +9,7 @@ import '../models/query_configuration.dart';
 import '../repository/comments_repository.dart';
 import 'comment_reaction_list_state.dart';
 import 'event/handler/comment_reaction_list_event_handler.dart';
+import 'event/state_update_event.dart';
 import 'query/comment_reactions_query.dart';
 import 'state_notifier_extentions.dart';
 
@@ -49,8 +50,8 @@ class CommentReactionList with Disposable {
   StateNotifier<CommentReactionListState> get notifier => _stateNotifier;
   Stream<CommentReactionListState> get stream => _stateNotifier.stream;
 
-  final SharedEmitter<WsEvent> eventsEmitter;
-  StreamSubscription<WsEvent>? _eventsSubscription;
+  final SharedEmitter<StateUpdateEvent> eventsEmitter;
+  StreamSubscription<StateUpdateEvent>? _eventsSubscription;
 
   @override
   void dispose() {

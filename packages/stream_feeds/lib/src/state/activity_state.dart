@@ -71,25 +71,19 @@ class ActivityStateNotifier extends StateNotifier<ActivityState> {
     state = state.copyWith(activity: updatedActivity);
   }
 
-  /// Handles when a reaction is added to the activity.
-  void onReactionAdded(
+  /// Handles when a reaction is added or updated on the activity.
+  void onReactionUpserted(
     ActivityData activity,
-    FeedsReactionData reaction,
-  ) {
+    FeedsReactionData reaction, {
+    bool enforceUnique = false,
+  }) {
     final updatedActivity = state.activity?.let(
-      (it) => it.upsertReaction(activity, reaction, currentUserId),
-    );
-
-    state = state.copyWith(activity: updatedActivity);
-  }
-
-  /// Handles when a reaction is updated on the activity.
-  void onReactionUpdated(
-    ActivityData activity,
-    FeedsReactionData reaction,
-  ) {
-    final updatedActivity = state.activity?.let(
-      (it) => it.upsertUniqueReaction(activity, reaction, currentUserId),
+      (it) => it.upsertReaction(
+        activity,
+        reaction,
+        currentUserId,
+        enforceUnique: enforceUnique,
+      ),
     );
 
     state = state.copyWith(activity: updatedActivity);
@@ -107,17 +101,8 @@ class ActivityStateNotifier extends StateNotifier<ActivityState> {
     state = state.copyWith(activity: updatedActivity);
   }
 
-  /// Handles when a bookmark is added to the activity.
-  void onBookmarkAdded(BookmarkData bookmark) {
-    final updatedActivity = state.activity?.let(
-      (it) => it.upsertBookmark(bookmark, currentUserId),
-    );
-
-    state = state.copyWith(activity: updatedActivity);
-  }
-
-  /// Handles when a bookmark is updated on the activity.
-  void onBookmarkUpdated(BookmarkData bookmark) {
+  /// Handles when a bookmark is added or updated on the activity.
+  void onBookmarkUpserted(BookmarkData bookmark) {
     final updatedActivity = state.activity?.let(
       (it) => it.upsertBookmark(bookmark, currentUserId),
     );
@@ -164,41 +149,12 @@ class ActivityStateNotifier extends StateNotifier<ActivityState> {
     state = state.copyWith(activity: updatedActivity);
   }
 
-  /// Handles when a poll answer is casted.
-  void onPollAnswerCasted(PollData poll, PollVoteData answer) {
-    final updatedActivity = state.activity?.updateIf(
-      filter: (it) => it.poll?.id == poll.id,
-      update: (it) => it.copyWith(
-        poll: it.poll?.upsertAnswer(poll, answer, currentUserId),
-      ),
-    );
-
-    state = state.copyWith(activity: updatedActivity);
-  }
-
-  /// Handles when a poll vote is casted (with poll data).
-  void onPollVoteCasted(PollData poll, PollVoteData vote) {
-    return onPollVoteChanged(poll, vote);
-  }
-
-  /// Handles when a poll vote is changed.
-  void onPollVoteChanged(PollData poll, PollVoteData vote) {
+  /// Handles when a poll vote is added or updated (with poll data).
+  void onPollVoteUpserted(PollData poll, PollVoteData vote) {
     final updatedActivity = state.activity?.updateIf(
       filter: (it) => it.poll?.id == poll.id,
       update: (it) => it.copyWith(
         poll: it.poll?.upsertVote(poll, vote, currentUserId),
-      ),
-    );
-
-    state = state.copyWith(activity: updatedActivity);
-  }
-
-  /// Handles when a poll answer is removed (with poll data).
-  void onPollAnswerRemoved(PollData poll, PollVoteData answer) {
-    final updatedActivity = state.activity?.updateIf(
-      filter: (it) => it.poll?.id == poll.id,
-      update: (it) => it.copyWith(
-        poll: it.poll?.removeAnswer(poll, answer, currentUserId),
       ),
     );
 

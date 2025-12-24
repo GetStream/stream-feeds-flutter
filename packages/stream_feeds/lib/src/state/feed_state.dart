@@ -133,12 +133,7 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
   }
 
   /// Handles updates to the feed state when activity is removed.
-  void onActivityRemoved(ActivityData activity) {
-    return onActivityDeleted(activity.id);
-  }
-
-  /// Handles updates to the feed state when an activity is deleted.
-  void onActivityDeleted(String activityId) {
+  void onActivityRemoved(String activityId) {
     state = state.removeActivitiesWhere((it) => it.id == activityId);
   }
 
@@ -225,19 +220,12 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
     );
   }
 
-  /// Handles updates to the feed state when a bookmark is added.
+  /// Handles updates to the feed state when a bookmark is added or updated.
   ///
   /// Updates the activity matching [bookmark]'s activity ID by adding or updating
   /// the bookmark in its own bookmarks list. Only adds bookmarks that belong to
   /// the current user.
-  void onBookmarkAdded(BookmarkData bookmark) => onBookmarkUpdated(bookmark);
-
-  /// Handles updates to the feed state when a bookmark is updated.
-  ///
-  /// Updates the activity matching [bookmark]'s activity ID by adding or updating
-  /// the bookmark in its own bookmarks list. Only adds bookmarks that belong to
-  /// the current user.
-  void onBookmarkUpdated(BookmarkData bookmark) {
+  void onBookmarkUpserted(BookmarkData bookmark) {
     state = state.updateActivitiesWhere(
       (it) => it.id == bookmark.activity.id,
       update: (it) => it.upsertBookmark(bookmark, currentUserId),
@@ -256,11 +244,8 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
     );
   }
 
-  /// Handles updates to the feed state when a comment is added or removed.
-  void onCommentAdded(CommentData comment) => onCommentUpdated(comment);
-
-  /// Handles updates to the feed state when a comment is updated.
-  void onCommentUpdated(CommentData comment) {
+  /// Handles updates to the feed state when a comment is added or updated.
+  void onCommentUpserted(CommentData comment) {
     // Add or update the comment in the activity
     state = state.updateActivitiesWhere(
       (it) => it.id == comment.objectId,
@@ -277,31 +262,21 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
     );
   }
 
-  /// Handles updates to the feed state when a comment reaction is added.
-  void onCommentReactionAdded(
+  /// Handles updates to the feed state when a comment reaction is added or updated.
+  void onCommentReactionUpserted(
     CommentData comment,
-    FeedsReactionData reaction,
-  ) {
-    // Add the reaction to the comment in the activity
+    FeedsReactionData reaction, {
+    bool enforceUnique = false,
+  }) {
+    // Upsert the reaction on the comment in the activity
     state = state.updateActivitiesWhere(
       (it) => it.id == comment.objectId,
-      update: (it) {
-        return it.upsertCommentReaction(comment, reaction, currentUserId);
-      },
-    );
-  }
-
-  /// Handles updates to the feed state when a comment reaction is updated.
-  void onCommentReactionUpdated(
-    CommentData comment,
-    FeedsReactionData reaction,
-  ) {
-    // Update the reaction on the comment in the activity
-    state = state.updateActivitiesWhere(
-      (it) => it.id == comment.objectId,
-      update: (it) {
-        return it.upsertUniqueCommentReaction(comment, reaction, currentUserId);
-      },
+      update: (it) => it.upsertCommentReaction(
+        comment,
+        reaction,
+        currentUserId,
+        enforceUnique: enforceUnique,
+      ),
     );
   }
 
@@ -386,29 +361,21 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
     state = state.copyWith(followRequests: updatedFollowRequests);
   }
 
-  /// Handles updates to the feed state when a reaction is added.
-  void onReactionAdded(
+  /// Handles updates to the feed state when a reaction is added or updated.
+  void onReactionUpserted(
     ActivityData activity,
-    FeedsReactionData reaction,
-  ) {
-    // Add or update the reaction in the activity
+    FeedsReactionData reaction, {
+    bool enforceUnique = false,
+  }) {
+    // Upsert the reaction in the activity
     state = state.updateActivitiesWhere(
       (it) => it.id == reaction.activityId,
-      update: (it) => it.upsertReaction(activity, reaction, currentUserId),
-    );
-  }
-
-  /// Handles updates to the feed state when a reaction is updated.
-  void onReactionUpdated(
-    ActivityData activity,
-    FeedsReactionData reaction,
-  ) {
-    // Update the reaction in the activity
-    state = state.updateActivitiesWhere(
-      (it) => it.id == reaction.activityId,
-      update: (it) {
-        return it.upsertUniqueReaction(activity, reaction, currentUserId);
-      },
+      update: (it) => it.upsertReaction(
+        activity,
+        reaction,
+        currentUserId,
+        enforceUnique: enforceUnique,
+      ),
     );
   }
 
@@ -448,37 +415,12 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
     );
   }
 
-  /// Handles when a poll answer is casted.
-  void onPollAnswerCasted(PollData poll, PollVoteData answer) {
-    state = state.updateActivitiesWhere(
-      (it) => it.poll?.id == poll.id,
-      update: (it) => it.copyWith(
-        poll: it.poll?.upsertAnswer(poll, answer, currentUserId),
-      ),
-    );
-  }
-
-  /// Handles when a poll vote is casted (with poll data).
-  void onPollVoteCasted(PollData poll, PollVoteData vote) {
-    return onPollVoteChanged(poll, vote);
-  }
-
-  /// Handles when a poll vote is changed.
-  void onPollVoteChanged(PollData poll, PollVoteData vote) {
+  /// Handles when a poll answer is added or updated.
+  void onPollVoteUpserted(PollData poll, PollVoteData vote) {
     state = state.updateActivitiesWhere(
       (it) => it.poll?.id == poll.id,
       update: (it) => it.copyWith(
         poll: it.poll?.upsertVote(poll, vote, currentUserId),
-      ),
-    );
-  }
-
-  /// Handles when a poll answer is removed (with poll data).
-  void onPollAnswerRemoved(PollData poll, PollVoteData answer) {
-    state = state.updateActivitiesWhere(
-      (it) => it.poll?.id == poll.id,
-      update: (it) => it.copyWith(
-        poll: it.poll?.removeAnswer(poll, answer, currentUserId),
       ),
     );
   }

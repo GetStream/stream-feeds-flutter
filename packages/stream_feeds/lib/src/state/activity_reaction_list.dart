@@ -9,6 +9,7 @@ import '../models/query_configuration.dart';
 import '../repository/activities_repository.dart';
 import 'activity_reaction_list_state.dart';
 import 'event/handler/activity_reaction_list_event_handler.dart';
+import 'event/state_update_event.dart';
 import 'query/activity_reactions_query.dart';
 import 'state_notifier_extentions.dart';
 
@@ -51,8 +52,8 @@ class ActivityReactionList extends Disposable {
   ActivityReactionListStateNotifier get stateNotifier => _stateNotifier;
   late final ActivityReactionListStateNotifier _stateNotifier;
 
-  final SharedEmitter<WsEvent> eventsEmitter;
-  StreamSubscription<WsEvent>? _eventsSubscription;
+  final SharedEmitter<StateUpdateEvent> eventsEmitter;
+  StreamSubscription<StateUpdateEvent>? _eventsSubscription;
 
   /// Queries the initial list of activity reactions based on the provided [ActivityReactionsQuery].
   ///

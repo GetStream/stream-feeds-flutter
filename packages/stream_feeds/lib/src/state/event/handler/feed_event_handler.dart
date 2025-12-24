@@ -1,26 +1,12 @@
-import 'package:stream_core/stream_core.dart';
-
-import '../../../generated/api/models.dart' as api;
-import '../../../models/activity_data.dart';
-import '../../../models/activity_pin_data.dart';
-import '../../../models/aggregated_activity_data.dart';
-import '../../../models/bookmark_data.dart';
-import '../../../models/comment_data.dart';
-import '../../../models/feed_data.dart';
-import '../../../models/feeds_reaction_data.dart';
 import '../../../models/follow_data.dart';
-import '../../../models/mark_activity_data.dart';
-import '../../../models/poll_data.dart';
-import '../../../models/poll_vote_data.dart';
 import '../../../repository/capabilities_repository.dart';
-import '../../../resolvers/resolvers.dart';
 import '../../../utils/filter.dart';
 import '../../feed_state.dart';
-
 import '../../query/feed_query.dart';
 import '../on_activity_added.dart';
+import '../state_event_handler.dart';
+import '../state_update_event.dart';
 import 'feed_capabilities_mixin.dart';
-import 'state_event_handler.dart';
 
 class FeedEventHandler with FeedCapabilitiesMixin implements StateEventHandler {
   const FeedEventHandler({
@@ -40,236 +26,200 @@ class FeedEventHandler with FeedCapabilitiesMixin implements StateEventHandler {
   final CapabilitiesRepository capabilitiesRepository;
 
   @override
-  Future<void> handleEvent(WsEvent event) async {
-    if (event is api.ActivityAddedEvent) {
-      if (event.fid != query.fid.rawValue) return;
-      final activity = event.activity.toModel();
+  Future<void> handleEvent(StateUpdateEvent event) async {
+    if (event is ActivityAdded) {
+      // We add activities only on strict matches, i.e. we're sure they belong to the feed
+      if (!event.scope.strictlyMatches(query.fid)) return;
 
-      final insertionAction = onNewActivity(query, activity, currentUserId);
-      state.onActivityAdded(activity, insertionAction: insertionAction);
+      final action = onNewActivity(query, event.activity, currentUserId);
+      state.onActivityAdded(event.activity, insertionAction: action);
 
-      final updatedActivity = await withUpdatedFeedCapabilities(activity);
+      final updatedActivity = await withUpdatedFeedCapabilities(event.activity);
       if (updatedActivity != null) state.onActivityUpdated(updatedActivity);
 
       return;
     }
 
-    if (event is api.ActivityUpdatedEvent) {
-      if (event.fid != query.fid.rawValue) return;
+    if (event is ActivityUpdated) {
+      if (!event.scope.matches(query.fid)) return;
 
-      final activity = event.activity.toModel();
-      if (!activity.matches(query.activityFilter)) {
+      if (!event.activity.matches(query.activityFilter)) {
         // If the updated activity no longer matches the filter, remove it
-        return state.onActivityRemoved(activity);
+        return state.onActivityRemoved(event.activity.id);
       }
 
-      final updatedActivity = await withUpdatedFeedCapabilities(activity);
-      return state.onActivityUpdated(updatedActivity ?? activity);
+      final updatedActivity = await withUpdatedFeedCapabilities(event.activity);
+      return state.onActivityUpdated(updatedActivity ?? event.activity);
     }
 
-    if (event is api.ActivityDeletedEvent) {
-      if (event.fid != query.fid.rawValue) return;
-      return state.onActivityRemoved(event.activity.toModel());
+    if (event is ActivityDeleted) {
+      if (!event.scope.matches(query.fid)) return;
+      return state.onActivityRemoved(event.activityId);
     }
 
-    if (event is api.ActivityRemovedFromFeedEvent) {
-      if (event.fid != query.fid.rawValue) return;
-      return state.onActivityRemoved(event.activity.toModel());
+    if (event is ActivityRemovedFromFeed) {
+      if (!event.scope.matches(query.fid)) return;
+      return state.onActivityRemoved(event.activityId);
     }
 
-    if (event is api.ActivityPinnedEvent) {
-      if (event.fid != query.fid.rawValue) return;
-      return state.onActivityPinned(event.pinnedActivity.toModel());
+    if (event is ActivityPinned) {
+      if (!event.scope.matches(query.fid)) return;
+      return state.onActivityPinned(event.pinnedActivity);
     }
 
-    if (event is api.ActivityUnpinnedEvent) {
-      if (event.fid != query.fid.rawValue) return;
-      return state.onActivityUnpinned(event.pinnedActivity.activity.id);
+    if (event is ActivityUnpinned) {
+      if (!event.scope.matches(query.fid)) return;
+      return state.onActivityUnpinned(event.activityId);
     }
 
-    if (event is api.ActivityFeedbackEvent) {
-      final payload = event.activityFeedback;
-      final userId = payload.user.id;
-
+    if (event is ActivityHidden) {
       // Only process events for the current user
-      if (userId != currentUserId) return;
+      if (event.userId != currentUserId) return;
 
-      // Only handle hide action for now
-      if (payload.action == api.ActivityFeedbackEventPayloadAction.hide) {
-        return state.onActivityHidden(
-          activityId: payload.activityId,
-          hidden: payload.value == 'true',
-        );
-      }
+      return state.onActivityHidden(
+        activityId: event.activityId,
+        hidden: event.hidden,
+      );
     }
 
-    if (event is api.ActivityMarkEvent) {
-      if (event.fid != query.fid.rawValue) return;
-      return state.onActivityMarked(event.toModel());
+    if (event is ActivityMarked) {
+      if (!event.scope.matches(query.fid)) return;
+      return state.onActivityMarked(event.data);
     }
 
-    if (event is api.ActivityReactionAddedEvent) {
-      if (event.fid != query.fid.rawValue) return;
-
-      final activity = event.activity.toModel();
-      final reaction = event.reaction.toModel();
-      return state.onReactionAdded(activity, reaction);
+    if (event is ActivityReactionUpserted) {
+      if (!event.scope.matches(query.fid)) return;
+      return state.onReactionUpserted(
+        event.activity,
+        event.reaction,
+        enforceUnique: event.enforceUnique,
+      );
     }
 
-    if (event is api.ActivityReactionUpdatedEvent) {
-      if (event.fid != query.fid.rawValue) return;
-
-      final activity = event.activity.toModel();
-      final reaction = event.reaction.toModel();
-      return state.onReactionUpdated(activity, reaction);
+    if (event is ActivityReactionDeleted) {
+      if (!event.scope.matches(query.fid)) return;
+      return state.onReactionRemoved(event.activity, event.reaction);
     }
 
-    if (event is api.ActivityReactionDeletedEvent) {
-      if (event.fid != query.fid.rawValue) return;
-
-      final activity = event.activity.toModel();
-      final reaction = event.reaction.toModel();
-      return state.onReactionRemoved(activity, reaction);
+    if (event is BookmarkAdded) {
+      return state.onBookmarkUpserted(event.bookmark);
     }
 
-    if (event is api.BookmarkAddedEvent) {
-      return state.onBookmarkAdded(event.bookmark.toModel());
+    if (event is BookmarkUpdated) {
+      return state.onBookmarkUpserted(event.bookmark);
     }
 
-    if (event is api.BookmarkUpdatedEvent) {
-      return state.onBookmarkUpdated(event.bookmark.toModel());
+    if (event is BookmarkDeleted) {
+      return state.onBookmarkRemoved(event.bookmark);
     }
 
-    if (event is api.BookmarkDeletedEvent) {
-      return state.onBookmarkRemoved(event.bookmark.toModel());
+    if (event is CommentAdded) {
+      if (!event.scope.matches(query.fid)) return;
+      return state.onCommentUpserted(event.comment);
     }
 
-    if (event is api.CommentAddedEvent) {
-      if (event.fid != query.fid.rawValue) return;
-      return state.onCommentAdded(event.comment.toModel());
+    if (event is CommentUpdated) {
+      if (!event.scope.matches(query.fid)) return;
+      return state.onCommentUpserted(event.comment);
     }
 
-    if (event is api.CommentUpdatedEvent) {
-      if (event.fid != query.fid.rawValue) return;
-      return state.onCommentUpdated(event.comment.toModel());
+    if (event is CommentDeleted) {
+      if (!event.scope.matches(query.fid)) return;
+      return state.onCommentRemoved(event.comment);
     }
 
-    if (event is api.CommentDeletedEvent) {
-      if (event.fid != query.fid.rawValue) return;
-      return state.onCommentRemoved(event.comment.toModel());
+    if (event is CommentReactionUpserted) {
+      if (!event.scope.matches(query.fid)) return;
+      return state.onCommentReactionUpserted(
+        event.comment,
+        event.reaction,
+        enforceUnique: event.enforceUnique,
+      );
     }
 
-    if (event is api.CommentReactionAddedEvent) {
-      if (event.fid != query.fid.rawValue) return;
-
-      final comment = event.comment.toModel();
-      final reaction = event.reaction.toModel();
-      return state.onCommentReactionAdded(comment, reaction);
+    if (event is CommentReactionDeleted) {
+      if (!event.scope.matches(query.fid)) return;
+      return state.onCommentReactionRemoved(event.comment, event.reaction);
     }
 
-    if (event is api.CommentReactionUpdatedEvent) {
-      if (event.fid != query.fid.rawValue) return;
-
-      final comment = event.comment.toModel();
-      final reaction = event.reaction.toModel();
-      return state.onCommentReactionUpdated(comment, reaction);
-    }
-
-    if (event is api.CommentReactionDeletedEvent) {
-      if (event.fid != query.fid.rawValue) return;
-
-      final comment = event.comment.toModel();
-      final reaction = event.reaction.toModel();
-      return state.onCommentReactionRemoved(comment, reaction);
-    }
-
-    if (event is api.FeedDeletedEvent) {
+    if (event is FeedDeleted) {
       if (event.fid != query.fid.rawValue) return;
       return state.onFeedDeleted();
     }
 
-    if (event is api.FeedUpdatedEvent) {
-      if (event.fid != query.fid.rawValue) return;
-      return state.onFeedUpdated(event.feed.toModel());
+    if (event is FeedUpdated) {
+      if (event.feed.fid.rawValue != query.fid.rawValue) return;
+      return state.onFeedUpdated(event.feed);
     }
 
-    if (event is api.FollowCreatedEvent) {
-      if (event.fid != query.fid.rawValue) return;
-      return state.onFollowAdded(event.follow.toModel());
+    if (event is FollowAdded) {
+      if (!event.follow.matchesFeed(query.fid.rawValue)) return;
+      return state.onFollowAdded(event.follow);
     }
 
-    if (event is api.FollowDeletedEvent) {
-      if (event.fid != query.fid.rawValue) return;
-      return state.onFollowRemoved(event.follow.toModel());
+    if (event is FollowDeleted) {
+      if (!event.follow.matchesFeed(query.fid.rawValue)) return;
+      return state.onFollowRemoved(event.follow);
     }
 
-    if (event is api.FollowUpdatedEvent) {
-      if (event.fid != query.fid.rawValue) return;
-      return state.onFollowUpdated(event.follow.toModel());
+    if (event is FollowUpdated) {
+      if (!event.follow.matchesFeed(query.fid.rawValue)) return;
+      return state.onFollowUpdated(event.follow);
+    }
+
+    if (event is FollowBatchUpdate) {
+      // TODO: Optimize by filtering only relevant follows
     }
 
     // Member events are already handled in MemberListEventHandler
-    if (event is api.FeedMemberRemovedEvent) return;
-    if (event is api.FeedMemberUpdatedEvent) return;
+    if (event is FeedMemberRemoved) return;
+    if (event is FeedMemberUpdated) return;
 
-    if (event is api.NotificationFeedUpdatedEvent) {
+    if (event is NotificationFeedUpdated) {
       if (event.fid != query.fid.rawValue) return;
       return state.onNotificationFeedUpdated(
         event.notificationStatus,
-        event.aggregatedActivities?.map((it) => it.toModel()).toList(),
+        event.aggregatedActivities,
       );
     }
 
-    if (event is api.StoriesFeedUpdatedEvent) {
+    if (event is StoriesFeedUpdated) {
       if (event.fid != query.fid.rawValue) return;
-      return state.onStoriesFeedUpdated(
-        event.aggregatedActivities?.map((it) => it.toModel()).toList(),
-      );
+      return state.onStoriesFeedUpdated(event.aggregatedActivities);
     }
 
-    if (event is api.PollClosedFeedEvent) {
+    if (event is PollDeleted) {
+      return state.onPollDeleted(event.pollId);
+    }
+
+    if (event is PollClosed) {
       return state.onPollClosed(event.poll.id);
     }
 
-    if (event is api.PollDeletedFeedEvent) {
-      return state.onPollDeleted(event.poll.id);
+    if (event is PollUpdated) {
+      return state.onPollUpdated(event.poll);
     }
 
-    if (event is api.PollUpdatedFeedEvent) {
-      final poll = event.poll.toModel();
-      return state.onPollUpdated(poll);
+    if (event is PollVoteCasted) {
+      return state.onPollVoteUpserted(event.poll, event.vote);
     }
 
-    if (event is PollAnswerCastedFeedEvent) {
-      final poll = event.poll.toModel();
-      final answer = event.pollVote.toModel();
-      return state.onPollAnswerCasted(poll, answer);
+    if (event is PollVoteChanged) {
+      return state.onPollVoteUpserted(event.poll, event.vote);
     }
 
-    if (event is api.PollVoteCastedFeedEvent) {
-      final poll = event.poll.toModel();
-      final vote = event.pollVote.toModel();
-      return state.onPollVoteCasted(poll, vote);
-    }
-
-    if (event is api.PollVoteChangedFeedEvent) {
-      final poll = event.poll.toModel();
-      final vote = event.pollVote.toModel();
-      return state.onPollVoteChanged(poll, vote);
-    }
-
-    if (event is PollAnswerRemovedFeedEvent) {
-      final poll = event.poll.toModel();
-      final answer = event.pollVote.toModel();
-      return state.onPollAnswerRemoved(poll, answer);
-    }
-
-    if (event is api.PollVoteRemovedFeedEvent) {
-      final poll = event.poll.toModel();
-      final vote = event.pollVote.toModel();
-      return state.onPollVoteRemoved(poll, vote);
+    if (event is PollVoteRemoved) {
+      return state.onPollVoteRemoved(event.poll, event.vote);
     }
 
     // Handle other events if necessary
+  }
+}
+
+extension on FollowData {
+  bool matchesFeed(String fid) {
+    final matchesSource = sourceFeed.fid.rawValue == fid;
+    final matchesTarget = targetFeed.fid.rawValue == fid;
+    return matchesSource || matchesTarget;
   }
 }

@@ -9,6 +9,7 @@ import '../models/query_configuration.dart';
 import '../repository/bookmarks_repository.dart';
 import 'bookmark_list_state.dart';
 import 'event/handler/bookmark_list_event_handler.dart';
+import 'event/state_update_event.dart';
 import 'query/bookmarks_query.dart';
 import 'state_notifier_extentions.dart';
 
@@ -49,8 +50,8 @@ class BookmarkList with Disposable {
   StateNotifier<BookmarkListState> get notifier => _stateNotifier;
   Stream<BookmarkListState> get stream => _stateNotifier.stream;
 
-  final SharedEmitter<WsEvent> eventsEmitter;
-  StreamSubscription<WsEvent>? _eventsSubscription;
+  final SharedEmitter<StateUpdateEvent> eventsEmitter;
+  StreamSubscription<StateUpdateEvent>? _eventsSubscription;
 
   @override
   void dispose() {

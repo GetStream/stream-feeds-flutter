@@ -8,6 +8,7 @@ import '../models/comment_data.dart';
 import '../repository/comments_repository.dart';
 import 'comment_list_state.dart';
 import 'event/handler/comment_list_event_handler.dart';
+import 'event/state_update_event.dart';
 import 'query/comments_query.dart';
 import 'state_notifier_extentions.dart';
 
@@ -53,8 +54,8 @@ class CommentList extends Disposable {
   CommentListStateNotifier get stateNotifier => _stateNotifier;
   late final CommentListStateNotifier _stateNotifier;
 
-  final SharedEmitter<WsEvent> eventsEmitter;
-  StreamSubscription<WsEvent>? _eventsSubscription;
+  final SharedEmitter<StateUpdateEvent> eventsEmitter;
+  StreamSubscription<StateUpdateEvent>? _eventsSubscription;
 
   /// Queries the initial list of comments based on the provided [CommentsQuery].
   ///

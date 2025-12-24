@@ -8,6 +8,7 @@ import '../models/feed_member_data.dart';
 import '../models/query_configuration.dart';
 import '../repository/feeds_repository.dart';
 import 'event/handler/member_list_event_handler.dart';
+import 'event/state_update_event.dart';
 import 'member_list_state.dart';
 import 'query/members_query.dart';
 import 'state_notifier_extentions.dart';
@@ -50,8 +51,8 @@ class MemberList extends Disposable {
   MemberListStateNotifier get stateNotifier => _stateNotifier;
   late final MemberListStateNotifier _stateNotifier;
 
-  final SharedEmitter<WsEvent> eventsEmitter;
-  StreamSubscription<WsEvent>? _eventsSubscription;
+  final SharedEmitter<StateUpdateEvent> eventsEmitter;
+  StreamSubscription<StateUpdateEvent>? _eventsSubscription;
 
   /// Queries the initial list of members based on the provided [MembersQuery].
   ///

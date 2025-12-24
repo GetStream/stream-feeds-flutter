@@ -1,11 +1,7 @@
-import 'package:stream_core/stream_core.dart';
-
-import '../../../generated/api/models.dart' as api;
-import '../../../models/comment_data.dart';
-import '../../../models/feeds_reaction_data.dart';
 import '../../comment_reply_list_state.dart';
 import '../../query/comment_replies_query.dart';
-import 'state_event_handler.dart';
+import '../state_event_handler.dart';
+import '../state_update_event.dart';
 
 /// Event handler for comment reply list real-time updates.
 ///
@@ -21,55 +17,44 @@ class CommentReplyListEventHandler implements StateEventHandler {
   final CommentReplyListStateNotifier state;
 
   @override
-  void handleEvent(WsEvent event) {
-    if (event is api.CommentAddedEvent) {
-      final comment = event.comment.toModel();
-      if (comment.parentId == null) return;
+  void handleEvent(StateUpdateEvent event) {
+    if (event is CommentAdded) {
+      if (event.comment.parentId == null) return;
 
-      return state.onReplyAdded(comment);
+      return state.onReplyAdded(event.comment);
     }
 
-    if (event is api.CommentDeletedEvent) {
-      final comment = event.comment.toModel();
-      if (comment.id == query.commentId) {
+    if (event is CommentDeleted) {
+      if (event.comment.id == query.commentId) {
         // If the parent comment is deleted, clear all replies
         return state.onParentCommentDeleted();
       }
 
-      if (comment.parentId == null) return;
+      if (event.comment.parentId == null) return;
 
-      return state.onReplyRemoved(comment);
+      return state.onReplyRemoved(event.comment);
     }
 
-    if (event is api.CommentUpdatedEvent) {
-      final comment = event.comment.toModel();
-      if (comment.parentId == null) return;
+    if (event is CommentUpdated) {
+      if (event.comment.parentId == null) return;
 
-      return state.onReplyUpdated(comment);
+      return state.onReplyUpdated(event.comment);
     }
 
-    if (event is api.CommentReactionAddedEvent) {
-      final comment = event.comment.toModel();
-      if (comment.parentId == null) return;
+    if (event is CommentReactionUpserted) {
+      if (event.comment.parentId == null) return;
 
-      final reaction = event.reaction.toModel();
-      return state.onReplyReactionAdded(comment, reaction);
+      return state.onReplyReactionUpserted(
+        event.comment,
+        event.reaction,
+        enforceUnique: event.enforceUnique,
+      );
     }
 
-    if (event is api.CommentReactionUpdatedEvent) {
-      final comment = event.comment.toModel();
-      if (comment.parentId == null) return;
+    if (event is CommentReactionDeleted) {
+      if (event.comment.parentId == null) return;
 
-      final reaction = event.reaction.toModel();
-      return state.onReplyReactionUpdated(comment, reaction);
-    }
-
-    if (event is api.CommentReactionDeletedEvent) {
-      final comment = event.comment.toModel();
-      if (comment.parentId == null) return;
-
-      final reaction = event.reaction.toModel();
-      return state.onReplyReactionRemoved(comment, reaction);
+      return state.onReplyReactionRemoved(event.comment, event.reaction);
     }
 
     // Handle other comment reply list events here as needed
