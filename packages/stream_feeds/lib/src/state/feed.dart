@@ -548,7 +548,7 @@ class Feed with Disposable {
   Future<Result<ActivityData>> repost({
     required String activityId,
     String? text,
-  }) async {
+  }) {
     final request = FeedAddActivityRequest(
       type: 'post',
       text: text,
