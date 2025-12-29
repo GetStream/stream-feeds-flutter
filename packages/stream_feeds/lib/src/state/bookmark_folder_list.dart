@@ -9,8 +9,9 @@ import '../models/query_configuration.dart';
 import '../repository/bookmarks_repository.dart';
 import 'bookmark_folder_list_state.dart';
 import 'event/handler/bookmark_folder_list_event_handler.dart';
+import 'event/state_update_event.dart';
 import 'query/bookmark_folders_query.dart';
-import 'state_notifier_extentions.dart';
+import 'state_notifier_extension.dart';
 
 /// Represents a list of bookmark folders with a query and state.
 ///
@@ -25,8 +26,8 @@ class BookmarkFolderList extends Disposable {
   BookmarkFolderList({
     required this.query,
     required this.bookmarksRepository,
-    required this.eventsEmitter,
-  }) {
+    required MutableSharedEmitter<StateUpdateEvent> eventsEmitter,
+  }) : _eventsEmitter = eventsEmitter {
     _stateNotifier = BookmarkFolderListStateNotifier(
       initialState: BookmarkFolderListState(query: query),
     );
@@ -37,7 +38,7 @@ class BookmarkFolderList extends Disposable {
       state: _stateNotifier,
     );
 
-    _eventsSubscription = eventsEmitter.listen(handler.handleEvent);
+    _eventsSubscription = _eventsEmitter.listen(handler.handleEvent);
   }
 
   final BookmarkFoldersQuery query;
@@ -51,8 +52,8 @@ class BookmarkFolderList extends Disposable {
   BookmarkFolderListStateNotifier get stateNotifier => _stateNotifier;
   late final BookmarkFolderListStateNotifier _stateNotifier;
 
-  final SharedEmitter<WsEvent> eventsEmitter;
-  StreamSubscription<WsEvent>? _eventsSubscription;
+  final MutableSharedEmitter<StateUpdateEvent> _eventsEmitter;
+  StreamSubscription<StateUpdateEvent>? _eventsSubscription;
 
   /// Queries the initial list of bookmark folders based on the provided [BookmarkFoldersQuery].
   ///

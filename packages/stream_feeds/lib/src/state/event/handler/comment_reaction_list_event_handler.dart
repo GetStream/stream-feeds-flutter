@@ -1,11 +1,8 @@
-import 'package:stream_core/stream_core.dart';
-
-import '../../../generated/api/models.dart' as api;
-import '../../../models/feeds_reaction_data.dart';
 import '../../../utils/filter.dart';
 import '../../comment_reaction_list_state.dart';
 import '../../query/comment_reactions_query.dart';
-import 'state_event_handler.dart';
+import '../state_event_handler.dart';
+import '../state_update_event.dart';
 
 /// Event handler for comment reaction list real-time updates.
 ///
@@ -21,34 +18,25 @@ class CommentReactionListEventHandler implements StateEventHandler {
   final CommentReactionListStateNotifier state;
 
   @override
-  void handleEvent(WsEvent event) {
-    if (event is api.CommentDeletedEvent) {
+  void handleEvent(StateUpdateEvent event) {
+    if (event is CommentDeleted) {
       if (event.comment.id != query.commentId) return;
       return state.onCommentDeleted();
     }
 
-    if (event is api.CommentReactionAddedEvent) {
+    if (event is CommentReactionUpserted) {
       if (event.comment.id != query.commentId) return;
-      final reaction = event.reaction.toModel();
-      if (!reaction.matches(query.filter)) return;
+      if (!event.reaction.matches(query.filter)) return;
 
-      return state.onReactionAdded(reaction);
+      return state.onReactionUpserted(
+        event.reaction,
+        enforceUnique: event.enforceUnique,
+      );
     }
 
-    if (event is api.CommentReactionUpdatedEvent) {
+    if (event is CommentReactionDeleted) {
       if (event.comment.id != query.commentId) return;
-      final reaction = event.reaction.toModel();
-      if (!reaction.matches(query.filter)) {
-        // If the updated reaction no longer matches the filter, remove it
-        return state.onReactionRemoved(reaction);
-      }
-
-      return state.onReactionUpdated(reaction);
-    }
-
-    if (event is api.CommentReactionDeletedEvent) {
-      if (event.comment.id != query.commentId) return;
-      return state.onReactionRemoved(event.reaction.toModel());
+      return state.onReactionRemoved(event.reaction);
     }
 
     // Handle other comment reaction list events here as needed

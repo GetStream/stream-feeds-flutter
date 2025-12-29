@@ -1,10 +1,6 @@
-import 'package:stream_core/stream_core.dart';
-
-import '../../../generated/api/models.dart' as api;
-import '../../../models/comment_data.dart';
-import '../../../models/feeds_reaction_data.dart';
 import '../../activity_comment_list_state.dart';
-import 'state_event_handler.dart';
+import '../state_event_handler.dart';
+import '../state_update_event.dart';
 
 /// Event handler for activity comment list real-time updates.
 ///
@@ -22,68 +18,55 @@ class ActivityCommentListEventHandler implements StateEventHandler {
   final ActivityCommentListStateNotifier state;
 
   @override
-  void handleEvent(WsEvent event) {
-    if (event is api.ActivityDeletedEvent) {
+  void handleEvent(StateUpdateEvent event) {
+    if (event is ActivityDeleted) {
       // Only handle deletion for this specific activity
-      if (event.activity.id != objectId) return;
+      if (event.activityId != objectId) return;
       return state.onActivityDeleted();
     }
 
-    if (event is api.CommentAddedEvent) {
-      final comment = event.comment.toModel();
+    if (event is CommentAdded) {
       // Only handle comments for this specific activity
-      if (comment.objectId != objectId) return;
-      if (comment.objectType != objectType) return;
+      if (event.comment.objectId != objectId) return;
+      if (event.comment.objectType != objectType) return;
 
-      return state.onCommentAdded(comment);
+      return state.onCommentAdded(event.comment);
     }
 
-    if (event is api.CommentUpdatedEvent) {
-      final comment = event.comment.toModel();
+    if (event is CommentUpdated) {
       // Only handle comments for this specific activity
-      if (comment.objectId != objectId) return;
-      if (comment.objectType != objectType) return;
+      if (event.comment.objectId != objectId) return;
+      if (event.comment.objectType != objectType) return;
 
-      return state.onCommentUpdated(comment);
+      return state.onCommentUpdated(event.comment);
     }
 
-    if (event is api.CommentDeletedEvent) {
-      final comment = event.comment.toModel();
+    if (event is CommentDeleted) {
       // Only handle comments for this specific activity
-      if (comment.objectId != objectId) return;
-      if (comment.objectType != objectType) return;
+      if (event.comment.objectId != objectId) return;
+      if (event.comment.objectType != objectType) return;
 
-      return state.onCommentRemoved(comment);
+      return state.onCommentRemoved(event.comment);
     }
 
-    if (event is api.CommentReactionAddedEvent) {
-      final comment = event.comment.toModel();
+    if (event is CommentReactionUpserted) {
       // Only handle reactions for comments on this specific activity
-      if (comment.objectId != objectId) return;
-      if (comment.objectType != objectType) return;
+      if (event.comment.objectId != objectId) return;
+      if (event.comment.objectType != objectType) return;
 
-      final reaction = event.reaction.toModel();
-      return state.onCommentReactionAdded(comment, reaction);
+      return state.onCommentReactionUpserted(
+        event.comment,
+        event.reaction,
+        enforceUnique: event.enforceUnique,
+      );
     }
 
-    if (event is api.CommentReactionUpdatedEvent) {
-      final comment = event.comment.toModel();
+    if (event is CommentReactionDeleted) {
       // Only handle reactions for comments on this specific activity
-      if (comment.objectId != objectId) return;
-      if (comment.objectType != objectType) return;
+      if (event.comment.objectId != objectId) return;
+      if (event.comment.objectType != objectType) return;
 
-      final reaction = event.reaction.toModel();
-      return state.onCommentReactionUpdated(comment, reaction);
-    }
-
-    if (event is api.CommentReactionDeletedEvent) {
-      final comment = event.comment.toModel();
-      // Only handle reactions for comments on this specific activity
-      if (comment.objectId != objectId) return;
-      if (comment.objectType != objectType) return;
-
-      final reaction = event.reaction.toModel();
-      return state.onCommentReactionRemoved(comment, reaction);
+      return state.onCommentReactionRemoved(event.comment, event.reaction);
     }
 
     // Handle other comment-related events if needed

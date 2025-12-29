@@ -10,8 +10,9 @@ import '../repository/activities_repository.dart';
 import '../repository/capabilities_repository.dart';
 import 'activity_list_state.dart';
 import 'event/handler/activity_list_event_handler.dart';
+import 'event/state_update_event.dart';
 import 'query/activities_query.dart';
-import 'state_notifier_extentions.dart';
+import 'state_notifier_extension.dart';
 
 /// Represents a list of activities with a query and state.
 ///
@@ -28,11 +29,11 @@ class ActivityList with Disposable {
     required this.currentUserId,
     required this.activitiesRepository,
     required this.capabilitiesRepository,
-    required this.eventsEmitter,
-  }) {
+    required MutableSharedEmitter<StateUpdateEvent> eventsEmitter,
+  }) : _eventsEmitter = eventsEmitter {
     _stateNotifier = ActivityListStateNotifier(
-      initialState: const ActivityListState(),
       currentUserId: currentUserId,
+      initialState: const ActivityListState(),
     );
 
     // Attach event handlers for real-time updates
@@ -43,7 +44,7 @@ class ActivityList with Disposable {
       capabilitiesRepository: capabilitiesRepository,
     );
 
-    _eventsSubscription = eventsEmitter.listen(handler.handleEvent);
+    _eventsSubscription = _eventsEmitter.listen(handler.handleEvent);
   }
 
   final ActivitiesQuery query;
@@ -57,8 +58,8 @@ class ActivityList with Disposable {
   StateNotifier<ActivityListState> get notifier => _stateNotifier;
   Stream<ActivityListState> get stream => _stateNotifier.stream;
 
-  final SharedEmitter<WsEvent> eventsEmitter;
-  StreamSubscription<WsEvent>? _eventsSubscription;
+  final MutableSharedEmitter<StateUpdateEvent> _eventsEmitter;
+  StreamSubscription<StateUpdateEvent>? _eventsSubscription;
 
   @override
   void dispose() {

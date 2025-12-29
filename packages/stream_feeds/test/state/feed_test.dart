@@ -75,6 +75,8 @@ void main() {
         expect(result.isSuccess, isTrue);
         final feedData = result.getOrThrow();
         expect(feedData.name, 'updated-name');
+
+        await tester.pumpEventQueue();
         expect(tester.feedState.feed?.name, 'updated-name');
       },
       verify: (tester) => tester.verifyApi(
@@ -106,6 +108,8 @@ void main() {
         final result = await tester.feed.deleteFeed();
 
         expect(result.isSuccess, isTrue);
+
+        await tester.pumpEventQueue();
         expect(tester.feedState.feed, isNull);
       },
       verify: (tester) => tester.verifyApi(
@@ -283,6 +287,8 @@ void main() {
         final result = await tester.feed.deleteActivity(id: 'activity-1');
 
         expect(result.isSuccess, isTrue);
+
+        await tester.pumpEventQueue();
         expect(tester.feedState.activities, isEmpty);
       },
       verify: (tester) => tester.verifyApi(
@@ -951,6 +957,7 @@ void main() {
         expect(bookmark.user.id, userId);
 
         // Verify state was updated
+        await tester.pumpEventQueue();
         final updatedActivity = tester.feedState.activities.first;
         expect(updatedActivity.ownBookmarks, hasLength(1));
         expect(updatedActivity.ownBookmarks.first.id, bookmark.id);
@@ -1068,6 +1075,7 @@ void main() {
         expect(bookmark.user.id, userId);
 
         // Verify state was updated
+        await tester.pumpEventQueue();
         final updatedActivity = tester.feedState.activities.first;
         expect(updatedActivity.ownBookmarks, isEmpty);
       },

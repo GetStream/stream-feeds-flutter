@@ -8,8 +8,9 @@ import '../models/comment_data.dart';
 import '../repository/comments_repository.dart';
 import 'activity_comment_list_state.dart';
 import 'event/handler/activity_comment_list_event_handler.dart';
+import 'event/state_update_event.dart';
 import 'query/activity_comments_query.dart';
-import 'state_notifier_extentions.dart';
+import 'state_notifier_extension.dart';
 
 /// Represents a list of activity comments with a query and state.
 ///
@@ -24,12 +25,12 @@ class ActivityCommentList extends Disposable {
   ActivityCommentList({
     required this.query,
     required this.commentsRepository,
-    required this.eventsEmitter,
     required this.currentUserId,
-  }) {
+    required MutableSharedEmitter<StateUpdateEvent> eventsEmitter,
+  }) : _eventsEmitter = eventsEmitter {
     _stateNotifier = ActivityCommentListStateNotifier(
-      initialState: const ActivityCommentListState(),
       currentUserId: currentUserId,
+      initialState: const ActivityCommentListState(),
     );
 
     // Attach event handlers for real-time updates
@@ -39,7 +40,7 @@ class ActivityCommentList extends Disposable {
       state: _stateNotifier,
     );
 
-    _eventsSubscription = eventsEmitter.listen(handler.handleEvent);
+    _eventsSubscription = _eventsEmitter.listen(handler.handleEvent);
   }
 
   final ActivityCommentsQuery query;
@@ -53,8 +54,8 @@ class ActivityCommentList extends Disposable {
   ActivityCommentListStateNotifier get notifier => _stateNotifier;
   late final ActivityCommentListStateNotifier _stateNotifier;
 
-  final SharedEmitter<WsEvent> eventsEmitter;
-  StreamSubscription<WsEvent>? _eventsSubscription;
+  final MutableSharedEmitter<StateUpdateEvent> _eventsEmitter;
+  StreamSubscription<StateUpdateEvent>? _eventsSubscription;
 
   /// Queries the initial list of activity comments based on the provided [ActivityCommentsQuery].
   ///

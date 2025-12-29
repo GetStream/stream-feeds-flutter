@@ -20,9 +20,11 @@ import '../repository/comments_repository.dart';
 import '../repository/polls_repository.dart';
 import 'activity_comment_list.dart';
 import 'activity_state.dart';
+import 'event/fid_scope.dart';
 import 'event/handler/activity_event_handler.dart';
+import 'event/state_update_event.dart';
 import 'query/activity_comments_query.dart';
-import 'state_notifier_extentions.dart';
+import 'state_notifier_extension.dart';
 
 /// Represents a single activity with its data and state.
 ///
@@ -41,18 +43,18 @@ class Activity with Disposable {
     required this.commentsRepository,
     required this.pollsRepository,
     required this.capabilitiesRepository,
-    required this.eventsEmitter,
     ActivityData? initialActivityData,
-  }) {
+    required MutableSharedEmitter<StateUpdateEvent> eventsEmitter,
+  }) : _eventsEmitter = eventsEmitter {
     _commentsList = ActivityCommentList(
       query: ActivityCommentsQuery(
         objectId: activityId,
         objectType: 'activity',
         depth: 3, // Default depth for threaded comments
       ),
-      commentsRepository: commentsRepository,
-      eventsEmitter: eventsEmitter,
       currentUserId: currentUserId,
+      commentsRepository: commentsRepository,
+      eventsEmitter: _eventsEmitter,
     );
 
     final initialActivityState = ActivityState(
@@ -73,7 +75,7 @@ class Activity with Disposable {
       currentUserId: currentUserId,
     );
 
-    _eventsSubscription = eventsEmitter.listen(handler.handleEvent);
+    _eventsSubscription = _eventsEmitter.listen(handler.handleEvent);
   }
 
   final String activityId;
@@ -91,8 +93,8 @@ class Activity with Disposable {
   Stream<ActivityState> get stream => _stateNotifier.stream;
   late final ActivityStateNotifier _stateNotifier;
 
-  final SharedEmitter<WsEvent> eventsEmitter;
-  StreamSubscription<WsEvent>? _eventsSubscription;
+  final MutableSharedEmitter<StateUpdateEvent> _eventsEmitter;
+  StreamSubscription<StateUpdateEvent>? _eventsSubscription;
 
   @override
   void dispose() {
@@ -109,7 +111,10 @@ class Activity with Disposable {
     final result = await activitiesRepository.getActivity(activityId);
 
     result.onSuccess((activity) {
-      _stateNotifier.onActivityGet(activity);
+      _eventsEmitter.tryEmit(
+        ActivityUpdated(scope: FidScope.unknown, activity: activity),
+      );
+
       if (activity.currentFeed case final feed?) {
         capabilitiesRepository.cacheCapabilitiesForFeeds([feed]);
       }
@@ -128,11 +133,25 @@ class Activity with Disposable {
   /// Returns a [Result] indicating success or failure of the operation.
   Future<Result<void>> activityFeedback({
     required api.ActivityFeedbackRequest activityFeedbackRequest,
-  }) {
-    return activitiesRepository.activityFeedback(
+  }) async {
+    final result = await activitiesRepository.activityFeedback(
       activityId,
       activityFeedbackRequest,
     );
+
+    result.onSuccess(
+      (_) => activityFeedbackRequest.hide?.let(
+        (hidden) => _eventsEmitter.tryEmit(
+          ActivityHidden(
+            activityId: activityId,
+            userId: currentUserId,
+            hidden: hidden,
+          ),
+        ),
+      ),
+    );
+
+    return result;
   }
 
   /// Queries the comments for this activity.
@@ -156,7 +175,11 @@ class Activity with Disposable {
   Future<Result<CommentData>> getComment(String commentId) async {
     final result = await commentsRepository.getComment(commentId);
 
-    result.onSuccess(_commentsList.notifier.onCommentUpdated);
+    result.onSuccess(
+      (comment) => _eventsEmitter.tryEmit(
+        CommentUpdated(scope: FidScope.unknown, comment: comment),
+      ),
+    );
 
     return result;
   }
@@ -170,7 +193,9 @@ class Activity with Disposable {
     final result = await commentsRepository.addComment(request);
 
     result.onSuccess(
-      (comment) => _commentsList.notifier.onCommentAdded(comment),
+      (comment) => _eventsEmitter.tryEmit(
+        CommentAdded(scope: FidScope.unknown, comment: comment),
+      ),
     );
 
     return result;
@@ -185,7 +210,13 @@ class Activity with Disposable {
     final result = await commentsRepository.addCommentsBatch(requests);
 
     result.onSuccess(
-      (comments) => comments.forEach(_commentsList.notifier.onCommentAdded),
+      (comments) {
+        for (final comment in comments) {
+          _eventsEmitter.tryEmit(
+            CommentAdded(scope: FidScope.unknown, comment: comment),
+          );
+        }
+      },
     );
 
     return result;
@@ -205,7 +236,17 @@ class Activity with Disposable {
       hardDelete: hardDelete,
     );
 
-    result.onSuccess(_commentsList.notifier.onCommentRemoved);
+    result.onSuccess(
+      (pair) {
+        _eventsEmitter.tryEmit(
+          CommentDeleted(scope: FidScope.unknown, comment: pair.comment),
+        );
+
+        _eventsEmitter.tryEmit(
+          ActivityUpdated(scope: FidScope.unknown, activity: pair.activity),
+        );
+      },
+    );
 
     return result;
   }
@@ -222,7 +263,11 @@ class Activity with Disposable {
       request.toRequest(),
     );
 
-    result.onSuccess(_commentsList.notifier.onCommentUpdated);
+    result.onSuccess(
+      (comment) => _eventsEmitter.tryEmit(
+        CommentUpdated(scope: FidScope.unknown, comment: comment),
+      ),
+    );
 
     return result;
   }
@@ -240,19 +285,14 @@ class Activity with Disposable {
     );
 
     result.onSuccess(
-      (pair) {
-        if (request.enforceUnique ?? false) {
-          return _commentsList.notifier.onCommentReactionUpdated(
-            pair.comment,
-            pair.reaction,
-          );
-        }
-
-        return _commentsList.notifier.onCommentReactionAdded(
-          pair.comment,
-          pair.reaction,
-        );
-      },
+      (pair) => _eventsEmitter.tryEmit(
+        CommentReactionUpserted(
+          scope: FidScope.unknown,
+          comment: pair.comment,
+          reaction: pair.reaction,
+          enforceUnique: request.enforceUnique ?? false,
+        ),
+      ),
     );
 
     return result.map((pair) => pair.reaction);
@@ -271,9 +311,12 @@ class Activity with Disposable {
     );
 
     result.onSuccess(
-      (pair) => _commentsList.notifier.onCommentReactionRemoved(
-        pair.comment,
-        pair.reaction,
+      (pair) => _eventsEmitter.tryEmit(
+        CommentReactionDeleted(
+          scope: FidScope.unknown,
+          comment: pair.comment,
+          reaction: pair.reaction,
+        ),
       ),
     );
 
@@ -286,7 +329,11 @@ class Activity with Disposable {
   Future<Result<void>> pin() async {
     final result = await activitiesRepository.pin(activityId, fid);
 
-    result.onSuccess(_stateNotifier.onActivityUpdated);
+    result.onSuccess(
+      (activity) => _eventsEmitter.tryEmit(
+        ActivityUpdated(scope: FidScope.unknown, activity: activity),
+      ),
+    );
 
     return result;
   }
@@ -297,7 +344,11 @@ class Activity with Disposable {
   Future<Result<void>> unpin() async {
     final result = await activitiesRepository.unpin(activityId, fid);
 
-    result.onSuccess(_stateNotifier.onActivityUpdated);
+    result.onSuccess(
+      (activity) => _eventsEmitter.tryEmit(
+        ActivityUpdated(scope: FidScope.unknown, activity: activity),
+      ),
+    );
 
     return result;
   }
@@ -309,6 +360,8 @@ class Activity with Disposable {
     final pollIdResult = await _pollId();
     final result = await pollIdResult.flatMapAsync(pollsRepository.closePoll);
 
+    result.onSuccess((poll) => _eventsEmitter.tryEmit(PollClosed(poll: poll)));
+
     return result;
   }
 
@@ -319,6 +372,12 @@ class Activity with Disposable {
     final pollIdResult = await _pollId();
     final result = await pollIdResult.flatMapAsync(pollsRepository.deletePoll);
 
+    result.onSuccess(
+      (_) => _eventsEmitter.tryEmit(
+        PollDeleted(pollId: pollIdResult.getOrThrow()),
+      ),
+    );
+
     return result;
   }
 
@@ -328,6 +387,8 @@ class Activity with Disposable {
   Future<Result<PollData>> getPoll() async {
     final pollIdResult = await _pollId();
     final result = await pollIdResult.flatMapAsync(pollsRepository.getPoll);
+
+    result.onSuccess((poll) => _eventsEmitter.tryEmit(PollUpdated(poll: poll)));
 
     return result;
   }
@@ -343,6 +404,8 @@ class Activity with Disposable {
       return pollsRepository.updatePollPartial(pollId, request);
     });
 
+    result.onSuccess((poll) => _eventsEmitter.tryEmit(PollUpdated(poll: poll)));
+
     return result;
   }
 
@@ -351,6 +414,8 @@ class Activity with Disposable {
   /// Returns a [Result] containing the updated [PollData] or an error.
   Future<Result<PollData>> updatePoll(api.UpdatePollRequest request) async {
     final result = await pollsRepository.updatePoll(request);
+
+    result.onSuccess((poll) => _eventsEmitter.tryEmit(PollUpdated(poll: poll)));
 
     return result;
   }

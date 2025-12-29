@@ -1,11 +1,8 @@
-import 'package:stream_core/stream_core.dart';
-
-import '../../../generated/api/models.dart' as api;
-import '../../../models/follow_data.dart';
 import '../../../utils/filter.dart';
 import '../../follow_list_state.dart';
 import '../../query/follows_query.dart';
-import 'state_event_handler.dart';
+import '../state_event_handler.dart';
+import '../state_update_event.dart';
 
 /// Event handler for follow list real-time updates.
 ///
@@ -21,28 +18,25 @@ class FollowListEventHandler implements StateEventHandler {
   final FollowListStateNotifier state;
 
   @override
-  void handleEvent(WsEvent event) {
-    if (event is api.FollowCreatedEvent) {
-      final follow = event.follow.toModel();
+  void handleEvent(StateUpdateEvent event) {
+    if (event is FollowAdded) {
       // Check if the new follow matches the query filter
-      if (!follow.matches(query.filter)) return;
+      if (!event.follow.matches(query.filter)) return;
 
-      return state.onFollowAdded(follow);
+      return state.onFollowAdded(event.follow);
     }
 
-    if (event is api.FollowUpdatedEvent) {
-      final follow = event.follow.toModel();
-      if (!follow.matches(query.filter)) {
+    if (event is FollowUpdated) {
+      if (!event.follow.matches(query.filter)) {
         // If the updated follow no longer matches the query filter, remove it
-        return state.onFollowRemoved(follow.id);
+        return state.onFollowRemoved(event.follow.id);
       }
 
-      return state.onFollowUpdated(follow);
+      return state.onFollowUpdated(event.follow);
     }
 
-    if (event is api.FollowDeletedEvent) {
-      final follow = event.follow.toModel();
-      return state.onFollowRemoved(follow.id);
+    if (event is FollowDeleted) {
+      return state.onFollowRemoved(event.follow.id);
     }
 
     // Handle other follow list events here as needed

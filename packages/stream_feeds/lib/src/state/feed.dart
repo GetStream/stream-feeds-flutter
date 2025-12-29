@@ -24,13 +24,15 @@ import '../repository/capabilities_repository.dart';
 import '../repository/comments_repository.dart';
 import '../repository/feeds_repository.dart';
 import '../repository/polls_repository.dart';
+import 'event/fid_scope.dart';
 import 'event/handler/feed_event_handler.dart';
 import 'event/on_activity_added.dart';
+import 'event/state_update_event.dart';
 import 'feed_state.dart';
 import 'member_list.dart';
 import 'query/feed_query.dart';
 import 'query/members_query.dart';
-import 'state_notifier_extentions.dart';
+import 'state_notifier_extension.dart';
 
 /// A feed represents a collection of activities and provides methods to interact with them.
 ///
@@ -53,21 +55,21 @@ class Feed with Disposable {
     required this.feedsRepository,
     required this.pollsRepository,
     required this.capabilitiesRepository,
-    required this.eventsEmitter,
+    required MutableSharedEmitter<StateUpdateEvent> eventsEmitter,
     required Stream<void> onReconnectEmitter,
-  }) {
+  }) : _eventsEmitter = eventsEmitter {
     final fid = query.fid;
 
     _memberList = MemberList(
       query: MembersQuery(fid: fid),
       feedsRepository: feedsRepository,
-      eventsEmitter: eventsEmitter,
+      eventsEmitter: _eventsEmitter,
     );
 
     _stateNotifier = FeedStateNotifier(
-      initialState: FeedState(fid: fid, feedQuery: query),
       currentUserId: currentUserId,
       memberList: _memberList.stateNotifier,
+      initialState: FeedState(fid: fid, feedQuery: query),
     );
 
     // Attach event handlers for the feed events
@@ -79,7 +81,7 @@ class Feed with Disposable {
       capabilitiesRepository: capabilitiesRepository,
     );
 
-    _feedSubscriptions.add(eventsEmitter.listen(handler.handleEvent));
+    _feedSubscriptions.add(_eventsEmitter.listen(handler.handleEvent));
 
     // Automatically refetch data on reconnection
     if (query.watch) {
@@ -106,7 +108,7 @@ class Feed with Disposable {
   Stream<FeedState> get stream => _stateNotifier.stream;
   late final FeedStateNotifier _stateNotifier;
 
-  final SharedEmitter<WsEvent> eventsEmitter;
+  final MutableSharedEmitter<StateUpdateEvent> _eventsEmitter;
   final CompositeSubscription _feedSubscriptions = CompositeSubscription();
 
   @override
@@ -152,7 +154,11 @@ class Feed with Disposable {
       request: request,
     );
 
-    return result.onSuccess(_stateNotifier.onFeedUpdated);
+    result.onSuccess(
+      (feedData) => _eventsEmitter.tryEmit(FeedUpdated(feed: feedData)),
+    );
+
+    return result;
   }
 
   /// Deletes the feed.
@@ -161,12 +167,17 @@ class Feed with Disposable {
   /// soft deleted. (default is `false`).
   /// Returns a [Result] indicating success or failure of the deletion operation.
   Future<Result<void>> deleteFeed({bool hardDelete = false}) async {
+    final fid = query.fid;
     final result = await feedsRepository.deleteFeed(
-      query.fid,
+      fid,
       hardDelete: hardDelete,
     );
 
-    return result.onSuccess((_) => _stateNotifier.onFeedDeleted());
+    result.onSuccess(
+      (feedData) => _eventsEmitter.tryEmit(FeedDeleted(fid: fid.rawValue)),
+    );
+
+    return result;
   }
 
   // region Activity Methods
@@ -179,8 +190,16 @@ class Feed with Disposable {
   /// operation fails.
   Future<Result<ActivityData>> addActivity({
     required FeedAddActivityRequest request,
-  }) {
-    return activitiesRepository.addActivity(request);
+  }) async {
+    final result = await activitiesRepository.addActivity(request);
+
+    result.onSuccess(
+      (activity) => _eventsEmitter.tryEmit(
+        ActivityAdded(scope: FidScope.unknown, activity: activity),
+      ),
+    );
+
+    return result;
   }
 
   /// Updates an existing activity in the feed.
@@ -198,7 +217,13 @@ class Feed with Disposable {
       request,
     );
 
-    return result.onSuccess(_stateNotifier.onActivityUpdated);
+    result.onSuccess(
+      (activity) => _eventsEmitter.tryEmit(
+        ActivityUpdated(scope: FidScope.unknown, activity: activity),
+      ),
+    );
+
+    return result;
   }
 
   /// Deletes an activity from the feed.
@@ -216,9 +241,13 @@ class Feed with Disposable {
       hardDelete: hardDelete,
     );
 
-    return result.onSuccess(
-      (_) => _stateNotifier.onActivityDeleted(id),
+    result.onSuccess(
+      (activity) => _eventsEmitter.tryEmit(
+        ActivityDeleted(scope: FidScope.unknown, activityId: id),
+      ),
     );
+
+    return result;
   }
 
   /// Submits feedback for an activity.
@@ -230,11 +259,25 @@ class Feed with Disposable {
   Future<Result<void>> activityFeedback({
     required String activityId,
     required api.ActivityFeedbackRequest activityFeedbackRequest,
-  }) {
-    return activitiesRepository.activityFeedback(
+  }) async {
+    final result = await activitiesRepository.activityFeedback(
       activityId,
       activityFeedbackRequest,
     );
+
+    result.onSuccess(
+      (_) => activityFeedbackRequest.hide?.let(
+        (hidden) => _eventsEmitter.tryEmit(
+          ActivityHidden(
+            activityId: activityId,
+            userId: currentUserId,
+            hidden: hidden,
+          ),
+        ),
+      ),
+    );
+
+    return result;
   }
 
   /// Marks an activity as read or unread.
@@ -263,7 +306,11 @@ class Feed with Disposable {
   }) async {
     final result = await bookmarksRepository.addBookmark(activityId, request);
 
-    return result.onSuccess(_stateNotifier.onBookmarkAdded);
+    result.onSuccess(
+      (bookmark) => _eventsEmitter.tryEmit(BookmarkAdded(bookmark: bookmark)),
+    );
+
+    return result;
   }
 
   /// Updates an existing bookmark for an activity.
@@ -289,8 +336,17 @@ class Feed with Disposable {
   Future<Result<BookmarkData>> updateBookmark({
     required String activityId,
     required api.UpdateBookmarkRequest request,
-  }) {
-    return bookmarksRepository.updateBookmark(activityId, request);
+  }) async {
+    final result = await bookmarksRepository.updateBookmark(
+      activityId,
+      request,
+    );
+
+    result.onSuccess(
+      (bookmark) => _eventsEmitter.tryEmit(BookmarkUpdated(bookmark: bookmark)),
+    );
+
+    return result;
   }
 
   /// Removes an activity from the user's bookmarks.
@@ -308,7 +364,11 @@ class Feed with Disposable {
       folderId: folderId,
     );
 
-    return result.onSuccess(_stateNotifier.onBookmarkRemoved);
+    result.onSuccess(
+      (bookmark) => _eventsEmitter.tryEmit(BookmarkDeleted(bookmark: bookmark)),
+    );
+
+    return result;
   }
 
   // endregion
@@ -320,8 +380,16 @@ class Feed with Disposable {
   /// The [commentId] is the unique identifier of the comment to retrieve.
   /// Returns a [Result] containing the [CommentData] if successful, or an error if the operation
   /// fails.
-  Future<Result<CommentData>> getComment({required String commentId}) {
-    return commentsRepository.getComment(commentId);
+  Future<Result<CommentData>> getComment({required String commentId}) async {
+    final result = await commentsRepository.getComment(commentId);
+
+    result.onSuccess(
+      (comment) => _eventsEmitter.tryEmit(
+        CommentUpdated(scope: FidScope.unknown, comment: comment),
+      ),
+    );
+
+    return result;
   }
 
   /// Adds a new comment to activity with id.
@@ -331,8 +399,16 @@ class Feed with Disposable {
   /// operation fails.
   Future<Result<CommentData>> addComment({
     required ActivityAddCommentRequest request,
-  }) {
-    return commentsRepository.addComment(request);
+  }) async {
+    final result = await commentsRepository.addComment(request);
+
+    result.onSuccess(
+      (comment) => _eventsEmitter.tryEmit(
+        CommentAdded(scope: FidScope.unknown, comment: comment),
+      ),
+    );
+
+    return result;
   }
 
   /// Updates an existing comment with the provided request data.
@@ -347,16 +423,38 @@ class Feed with Disposable {
   Future<Result<CommentData>> updateComment({
     required String commentId,
     required api.UpdateCommentRequest request,
-  }) {
-    return commentsRepository.updateComment(commentId, request);
+  }) async {
+    final result = await commentsRepository.updateComment(commentId, request);
+
+    result.onSuccess(
+      (comment) => _eventsEmitter.tryEmit(
+        CommentUpdated(scope: FidScope.unknown, comment: comment),
+      ),
+    );
+
+    return result;
   }
 
   /// Removes a comment for id.
   ///
   /// The [commentId] is the unique identifier of the comment to remove.
   /// Returns a [Result] indicating success or failure of the deletion operation.
-  Future<Result<void>> deleteComment({required String commentId}) {
-    return commentsRepository.deleteComment(commentId);
+  Future<Result<void>> deleteComment({required String commentId}) async {
+    final result = await commentsRepository.deleteComment(commentId);
+
+    result.onSuccess(
+      (pair) {
+        _eventsEmitter.tryEmit(
+          CommentDeleted(scope: FidScope.unknown, comment: pair.comment),
+        );
+
+        _eventsEmitter.tryEmit(
+          ActivityUpdated(scope: FidScope.unknown, activity: pair.activity),
+        );
+      },
+    );
+
+    return result;
   }
 
   // endregion
@@ -396,23 +494,45 @@ class Feed with Disposable {
   }) async {
     final result = await feedsRepository.updateFeedMembers(query.fid, request);
 
-    return result.onSuccess(_memberList.stateNotifier.onMembersUpdated);
+    result.onSuccess(
+      (updates) => _eventsEmitter.tryEmit(
+        FeedMemberBatchUpdate(fid: query.fid.rawValue, updates: updates),
+      ),
+    );
+
+    return result;
   }
 
   /// Accepts a feed member invitation.
   ///
   /// Returns a [Result] containing the accepted [FeedMemberData] if successful, or an error if the
   /// operation fails.
-  Future<Result<FeedMemberData>> acceptFeedMember() {
-    return feedsRepository.acceptFeedMember(query.fid);
+  Future<Result<FeedMemberData>> acceptFeedMember() async {
+    final result = await feedsRepository.acceptFeedMember(query.fid);
+
+    result.onSuccess(
+      (member) => _eventsEmitter.tryEmit(
+        FeedMemberUpdated(fid: query.fid.rawValue, member: member),
+      ),
+    );
+
+    return result;
   }
 
   /// Rejects a feed member invitation.
   ///
   /// Returns a [Result] containing the rejected [FeedMemberData] if successful, or an error if the
   /// operation fails.
-  Future<Result<FeedMemberData>> rejectFeedMember() {
-    return feedsRepository.rejectFeedMember(query.fid);
+  Future<Result<FeedMemberData>> rejectFeedMember() async {
+    final result = await feedsRepository.rejectFeedMember(query.fid);
+
+    result.onSuccess(
+      (member) => _eventsEmitter.tryEmit(
+        FeedMemberUpdated(fid: query.fid.rawValue, member: member),
+      ),
+    );
+
+    return result;
   }
 
   // endregion
@@ -428,7 +548,7 @@ class Feed with Disposable {
   Future<Result<ActivityData>> repost({
     required String activityId,
     String? text,
-  }) async {
+  }) {
     final request = FeedAddActivityRequest(
       type: 'post',
       text: text,
@@ -436,9 +556,7 @@ class Feed with Disposable {
       parentId: activityId,
     );
 
-    final result = await activitiesRepository.addActivity(request);
-
-    return result.onSuccess(_stateNotifier.onActivityAdded);
+    return addActivity(request: request);
   }
 
   /// Loads more activities using the next page token from the previous query.
@@ -520,7 +638,11 @@ class Feed with Disposable {
 
     final result = await feedsRepository.follow(request);
 
-    return result.onSuccess(_stateNotifier.onFollowAdded);
+    result.onSuccess(
+      (followData) => _eventsEmitter.tryEmit(FollowAdded(follow: followData)),
+    );
+
+    return result;
   }
 
   /// Unfollows another feed.
@@ -533,12 +655,11 @@ class Feed with Disposable {
       target: targetFid,
     );
 
-    return result.onSuccess(
-      (_) => _stateNotifier.onUnfollow(
-        sourceFid: query.fid,
-        targetFid: targetFid,
-      ),
+    result.onSuccess(
+      (followData) => _eventsEmitter.tryEmit(FollowDeleted(follow: followData)),
     );
+
+    return result;
   }
 
   /// Accepts a follow request from another feed.
@@ -559,12 +680,11 @@ class Feed with Disposable {
 
     final result = await feedsRepository.acceptFollow(request);
 
-    return result.onSuccess(
-      (followData) {
-        _stateNotifier.onFollowRequestRemoved(followData.id);
-        _stateNotifier.onFollowAdded(followData);
-      },
+    result.onSuccess(
+      (followData) => _eventsEmitter.tryEmit(FollowAdded(follow: followData)),
     );
+
+    return result;
   }
 
   /// Rejects a follow request from another feed.
@@ -580,12 +700,11 @@ class Feed with Disposable {
 
     final result = await feedsRepository.rejectFollow(request);
 
-    return result.onSuccess(
-      (followData) {
-        _stateNotifier.onFollowRequestRemoved(followData.id);
-        _stateNotifier.onFollowRemoved(followData);
-      },
+    result.onSuccess(
+      (followData) => _eventsEmitter.tryEmit(FollowDeleted(follow: followData)),
     );
+
+    return result;
   }
 
   // region Reaction Methods
@@ -594,11 +713,9 @@ class Feed with Disposable {
   Future<Result<FeedsReactionData>> addReaction({
     required String activityId,
     required api.AddReactionRequest request,
-  }) =>
-      addActivityReaction(
-        activityId: activityId,
-        request: request,
-      );
+  }) {
+    return addActivityReaction(activityId: activityId, request: request);
+  }
 
   /// Adds a reaction to an activity.
   ///
@@ -609,19 +726,33 @@ class Feed with Disposable {
   Future<Result<FeedsReactionData>> addActivityReaction({
     required String activityId,
     required api.AddReactionRequest request,
-  }) {
-    return activitiesRepository.addActivityReaction(activityId, request);
+  }) async {
+    final result = await activitiesRepository.addActivityReaction(
+      activityId,
+      request,
+    );
+
+    result.onSuccess(
+      (pair) => _eventsEmitter.tryEmit(
+        ActivityReactionUpserted(
+          scope: FidScope.unknown,
+          activity: pair.activity,
+          reaction: pair.reaction,
+          enforceUnique: request.enforceUnique ?? false,
+        ),
+      ),
+    );
+
+    return result.map((response) => response.reaction);
   }
 
   @Deprecated('Use deleteActivityReaction instead')
   Future<Result<FeedsReactionData>> deleteReaction({
     required String activityId,
     required String type,
-  }) =>
-      deleteActivityReaction(
-        activityId: activityId,
-        type: type,
-      );
+  }) {
+    return deleteActivityReaction(activityId: activityId, type: type);
+  }
 
   /// Deletes a reaction from an activity.
   ///
@@ -632,8 +763,23 @@ class Feed with Disposable {
   Future<Result<FeedsReactionData>> deleteActivityReaction({
     required String activityId,
     required String type,
-  }) {
-    return activitiesRepository.deleteActivityReaction(activityId, type);
+  }) async {
+    final result = await activitiesRepository.deleteActivityReaction(
+      activityId,
+      type,
+    );
+
+    result.onSuccess(
+      (pair) => _eventsEmitter.tryEmit(
+        ActivityReactionDeleted(
+          scope: FidScope.unknown,
+          activity: pair.activity,
+          reaction: pair.reaction,
+        ),
+      ),
+    );
+
+    return result.map((response) => response.reaction);
   }
 
   /// Adds a reaction to a comment.
@@ -649,6 +795,17 @@ class Feed with Disposable {
     final result = await commentsRepository.addCommentReaction(
       commentId,
       request,
+    );
+
+    result.onSuccess(
+      (pair) => _eventsEmitter.tryEmit(
+        CommentReactionUpserted(
+          scope: FidScope.unknown,
+          comment: pair.comment,
+          reaction: pair.reaction,
+          enforceUnique: request.enforceUnique ?? false,
+        ),
+      ),
     );
 
     return result.map((response) => response.reaction);
@@ -669,6 +826,16 @@ class Feed with Disposable {
       type,
     );
 
+    result.onSuccess(
+      (pair) => _eventsEmitter.tryEmit(
+        CommentReactionDeleted(
+          scope: FidScope.unknown,
+          comment: pair.comment,
+          reaction: pair.reaction,
+        ),
+      ),
+    );
+
     return result.map((response) => response.reaction);
   }
 
@@ -686,9 +853,9 @@ class Feed with Disposable {
     required api.CreatePollRequest request,
     required String activityType,
   }) async {
-    final result = await pollsRepository.createPoll(request);
+    final createPollResult = await pollsRepository.createPoll(request);
 
-    return result.flatMapAsync((poll) {
+    final createActivityResult = await createPollResult.flatMapAsync((poll) {
       final request = FeedAddActivityRequest(
         feeds: [query.fid.rawValue],
         pollId: poll.id,
@@ -697,6 +864,14 @@ class Feed with Disposable {
 
       return activitiesRepository.addActivity(request);
     });
+
+    createActivityResult.onSuccess(
+      (activity) => _eventsEmitter.tryEmit(
+        ActivityAdded(scope: FidScope.unknown, activity: activity),
+      ),
+    );
+
+    return createActivityResult;
   }
 
   // endregion

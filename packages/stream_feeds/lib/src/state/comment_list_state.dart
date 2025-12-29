@@ -15,8 +15,8 @@ part 'comment_list_state.freezed.dart';
 /// and real-time events from the Stream Feeds API.
 class CommentListStateNotifier extends StateNotifier<CommentListState> {
   CommentListStateNotifier({
-    required CommentListState initialState,
     required this.currentUserId,
+    required CommentListState initialState,
   }) : super(initialState);
 
   final String currentUserId;
@@ -78,26 +78,19 @@ class CommentListStateNotifier extends StateNotifier<CommentListState> {
     state = state.copyWith(comments: updatedComments);
   }
 
-  void onCommentReactionAdded(
+  void onCommentReactionUpserted(
     CommentData comment,
-    FeedsReactionData reaction,
-  ) {
+    FeedsReactionData reaction, {
+    bool enforceUnique = false,
+  }) {
     final updatedComments = state.comments.updateWhere(
       (it) => it.id == comment.id,
-      update: (it) => it.upsertReaction(comment, reaction, currentUserId),
-      compare: commentSort.compare,
-    );
-
-    state = state.copyWith(comments: updatedComments);
-  }
-
-  void onCommentReactionUpdated(
-    CommentData comment,
-    FeedsReactionData reaction,
-  ) {
-    final updatedComments = state.comments.updateWhere(
-      (it) => it.id == comment.id,
-      update: (it) => it.upsertUniqueReaction(comment, reaction, currentUserId),
+      update: (it) => it.upsertReaction(
+        comment,
+        reaction,
+        currentUserId,
+        enforceUnique: enforceUnique,
+      ),
       compare: commentSort.compare,
     );
 

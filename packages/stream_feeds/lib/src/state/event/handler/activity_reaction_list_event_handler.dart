@@ -1,9 +1,6 @@
-import 'package:stream_core/stream_core.dart';
-
-import '../../../generated/api/models.dart' as api;
-import '../../../models/feeds_reaction_data.dart';
 import '../../activity_reaction_list_state.dart';
-import 'state_event_handler.dart';
+import '../state_event_handler.dart';
+import '../state_update_event.dart';
 
 /// Event handler for activity reaction list real-time updates.
 ///
@@ -19,29 +16,26 @@ class ActivityReactionListEventHandler implements StateEventHandler {
   final ActivityReactionListStateNotifier state;
 
   @override
-  void handleEvent(WsEvent event) {
-    if (event is api.ActivityDeletedEvent) {
+  void handleEvent(StateUpdateEvent event) {
+    if (event is ActivityDeleted) {
       // Only handle deletion for this specific activity
-      if (event.activity.id != activityId) return;
+      if (event.activityId != activityId) return;
       return state.onActivityDeleted();
     }
 
-    if (event is api.ActivityReactionAddedEvent) {
+    if (event is ActivityReactionUpserted) {
       // Only handle reactions for this specific activity
-      if (event.activity.id != activityId) return;
-      return state.onReactionAdded(event.reaction.toModel());
+      if (event.reaction.activityId != activityId) return;
+      return state.onReactionUpserted(
+        event.reaction,
+        enforceUnique: event.enforceUnique,
+      );
     }
 
-    if (event is api.ActivityReactionUpdatedEvent) {
+    if (event is ActivityReactionDeleted) {
       // Only handle reactions for this specific activity
-      if (event.activity.id != activityId) return;
-      return state.onReactionUpdated(event.reaction.toModel());
-    }
-
-    if (event is api.ActivityReactionDeletedEvent) {
-      // Only handle reactions for this specific activity
-      if (event.activity.id != activityId) return;
-      return state.onReactionRemoved(event.reaction.toModel());
+      if (event.reaction.activityId != activityId) return;
+      return state.onReactionRemoved(event.reaction);
     }
 
     // Handle other activity reaction events if needed

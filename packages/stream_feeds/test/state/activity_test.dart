@@ -492,6 +492,7 @@ void main() {
         expect(comment.user.id, userId);
 
         // Note: addComment updates state automatically via onCommentAdded
+        await tester.pumpEventQueue();
         expect(tester.activityState.comments, hasLength(1));
         expect(tester.activityState.comments.first.id, commentId);
       },
@@ -597,6 +598,7 @@ void main() {
         expect(result.isSuccess, isTrue);
 
         // Note: deleteComment updates state automatically via onCommentRemoved
+        await tester.pumpEventQueue();
         expect(tester.activityState.comments, isEmpty);
       },
       verify: (tester) => tester.verifyApi(
@@ -656,6 +658,7 @@ void main() {
         expect(updatedComment!.text, 'Updated comment');
 
         // Note: updateComment updates state automatically via onCommentUpdated
+        await tester.pumpEventQueue();
         expect(tester.activityState.comments, hasLength(1));
         expect(tester.activityState.comments.first.text, 'Updated comment');
       },
@@ -719,6 +722,7 @@ void main() {
         expect(comments.last.id, commentId2);
 
         // Verify state was updated via onCommentAdded
+        await tester.pumpEventQueue();
         expect(tester.activityState.comments, hasLength(2));
       },
       verify: (tester) => tester.verifyApi(
@@ -791,6 +795,7 @@ void main() {
         expect(reaction.user.id, userId);
 
         // Note: addCommentReaction updates state automatically via onCommentReactionAdded
+        await tester.pumpEventQueue();
         final updatedComment = tester.activityState.comments.first;
         expect(updatedComment.ownReactions, hasLength(1));
         expect(updatedComment.ownReactions.first.type, reactionType);
@@ -928,6 +933,7 @@ void main() {
         expect(result.isSuccess, isTrue);
 
         // Note: deleteCommentReaction updates state automatically via onCommentReactionRemoved
+        await tester.pumpEventQueue();
         final updatedComment = tester.activityState.comments.first;
         expect(updatedComment.ownReactions, isEmpty);
       },

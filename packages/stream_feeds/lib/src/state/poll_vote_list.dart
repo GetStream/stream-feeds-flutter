@@ -8,9 +8,10 @@ import '../models/poll_vote_data.dart';
 import '../models/query_configuration.dart';
 import '../repository/polls_repository.dart';
 import 'event/handler/poll_vote_list_event_handler.dart';
+import 'event/state_update_event.dart';
 import 'poll_vote_list_state.dart';
 import 'query/poll_votes_query.dart';
-import 'state_notifier_extentions.dart';
+import 'state_notifier_extension.dart';
 
 /// Represents a list of poll votes with a query and state.
 ///
@@ -25,8 +26,8 @@ class PollVoteList with Disposable {
   PollVoteList({
     required this.query,
     required this.pollsRepository,
-    required this.eventsEmitter,
-  }) {
+    required MutableSharedEmitter<StateUpdateEvent> eventsEmitter,
+  }) : _eventsEmitter = eventsEmitter {
     _stateNotifier = PollVoteListStateNotifier(
       initialState: const PollVoteListState(),
     );
@@ -36,7 +37,7 @@ class PollVoteList with Disposable {
       query: query,
       state: _stateNotifier,
     );
-    _eventsSubscription = eventsEmitter.listen(handler.handleEvent);
+    _eventsSubscription = _eventsEmitter.listen(handler.handleEvent);
   }
 
   final PollVotesQuery query;
@@ -48,8 +49,8 @@ class PollVoteList with Disposable {
   StateNotifier<PollVoteListState> get notifier => _stateNotifier;
   Stream<PollVoteListState> get stream => _stateNotifier.stream;
 
-  final SharedEmitter<WsEvent> eventsEmitter;
-  StreamSubscription<WsEvent>? _eventsSubscription;
+  final MutableSharedEmitter<StateUpdateEvent> _eventsEmitter;
+  StreamSubscription<StateUpdateEvent>? _eventsSubscription;
 
   @override
   void dispose() {

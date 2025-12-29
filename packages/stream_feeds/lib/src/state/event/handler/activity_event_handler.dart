@@ -1,16 +1,7 @@
-import 'package:stream_core/stream_core.dart';
-
-import '../../../generated/api/models.dart' as api;
-import '../../../models/activity_data.dart';
-import '../../../models/bookmark_data.dart';
 import '../../../models/feed_id.dart';
-import '../../../models/feeds_reaction_data.dart';
-import '../../../models/poll_data.dart';
-import '../../../models/poll_vote_data.dart';
-import '../../../resolvers/poll/poll_answer_casted.dart';
-import '../../../resolvers/poll/poll_answer_removed.dart';
 import '../../activity_state.dart';
-import 'state_event_handler.dart';
+import '../state_event_handler.dart';
+import '../state_update_event.dart';
 
 /// Event handler for activity real-time updates.
 ///
@@ -30,125 +21,89 @@ class ActivityEventHandler implements StateEventHandler {
   final ActivityStateNotifier state;
 
   @override
-  void handleEvent(WsEvent event) {
-    if (event is api.ActivityUpdatedEvent) {
+  void handleEvent(StateUpdateEvent event) {
+    if (event is ActivityUpdated) {
       // Only process events for this activity
       if (event.activity.id != activityId) return;
-      return state.onActivityUpdated(event.activity.toModel());
+      return state.onActivityUpdated(event.activity);
     }
 
-    if (event is api.ActivityDeletedEvent) {
+    if (event is ActivityDeleted) {
       // Only process events for this activity
-      if (event.activity.id != activityId) return;
+      if (event.activityId != activityId) return;
       return state.onActivityDeleted();
     }
 
-    if (event is api.ActivityFeedbackEvent) {
-      final payload = event.activityFeedback;
-
+    if (event is ActivityHidden) {
       // Only process events for this activity and current user
-      if (payload.activityId != activityId) return;
-      if (payload.user.id != currentUserId) return;
-
-      // Only handle hide action for now
-      if (payload.action == api.ActivityFeedbackEventPayloadAction.hide) {
-        return state.onActivityHidden(hidden: payload.value == 'true');
-      }
+      if (event.activityId != activityId) return;
+      if (event.userId != currentUserId) return;
+      return state.onActivityHidden(hidden: event.hidden);
     }
 
-    if (event is api.ActivityReactionAddedEvent) {
-      final activity = event.activity.toModel();
+    if (event is ActivityReactionUpserted) {
       // Only process events for this activity
-      if (activity.id != activityId) return;
-
-      final reaction = event.reaction.toModel();
-      return state.onReactionAdded(activity, reaction);
+      if (event.activity.id != activityId) return;
+      return state.onReactionUpserted(
+        event.activity,
+        event.reaction,
+        enforceUnique: event.enforceUnique,
+      );
     }
 
-    if (event is api.ActivityReactionUpdatedEvent) {
-      final activity = event.activity.toModel();
+    if (event is ActivityReactionDeleted) {
       // Only process events for this activity
-      if (activity.id != activityId) return;
-
-      final reaction = event.reaction.toModel();
-      return state.onReactionUpdated(activity, reaction);
+      if (event.activity.id != activityId) return;
+      return state.onReactionRemoved(event.activity, event.reaction);
     }
 
-    if (event is api.ActivityReactionDeletedEvent) {
-      final activity = event.activity.toModel();
-      // Only process events for this activity
-      if (activity.id != activityId) return;
-
-      final reaction = event.reaction.toModel();
-      return state.onReactionRemoved(activity, reaction);
-    }
-
-    if (event is api.BookmarkAddedEvent) {
+    if (event is BookmarkAdded) {
       // Only process events for this activity
       if (event.bookmark.activity.id != activityId) return;
-      return state.onBookmarkAdded(event.bookmark.toModel());
+      return state.onBookmarkUpserted(event.bookmark);
     }
 
-    if (event is api.BookmarkUpdatedEvent) {
+    if (event is BookmarkUpdated) {
       // Only process events for this activity
       if (event.bookmark.activity.id != activityId) return;
-      return state.onBookmarkUpdated(event.bookmark.toModel());
+      return state.onBookmarkUpserted(event.bookmark);
     }
 
-    if (event is api.BookmarkDeletedEvent) {
+    if (event is BookmarkDeleted) {
       // Only process events for this activity
       if (event.bookmark.activity.id != activityId) return;
-      return state.onBookmarkRemoved(event.bookmark.toModel());
+      return state.onBookmarkRemoved(event.bookmark);
     }
 
-    // Comment events are not handled in the CommentListEventHandler
-    if (event is api.CommentAddedEvent) {}
-    if (event is api.CommentUpdatedEvent) {}
-    if (event is api.CommentDeletedEvent) {}
-    if (event is api.CommentReactionAddedEvent) {}
-    if (event is api.CommentReactionUpdatedEvent) {}
-    if (event is api.CommentReactionDeletedEvent) {}
+    // Comment events are already handled in the CommentListEventHandler
+    if (event is CommentAdded) {}
+    if (event is CommentUpdated) {}
+    if (event is CommentDeleted) {}
+    if (event is CommentReactionUpserted) {}
+    if (event is CommentReactionDeleted) {}
 
-    if (event is api.PollClosedFeedEvent) {
+    if (event is PollDeleted) {
+      return state.onPollDeleted(event.pollId);
+    }
+
+    if (event is PollClosed) {
       return state.onPollClosed(event.poll.id);
     }
 
-    if (event is api.PollDeletedFeedEvent) {
-      return state.onPollDeleted(event.poll.id);
+    if (event is PollUpdated) {
+      return state.onPollUpdated(event.poll);
     }
 
-    if (event is api.PollUpdatedFeedEvent) {
-      return state.onPollUpdated(event.poll.toModel());
+    if (event is PollVoteCasted) {
+      return state.onPollVoteUpserted(event.poll, event.vote);
     }
 
-    if (event is PollAnswerCastedFeedEvent) {
-      final poll = event.poll.toModel();
-      final answer = event.pollVote.toModel();
-      return state.onPollAnswerCasted(poll, answer);
+    if (event is PollVoteChanged) {
+      return state.onPollVoteUpserted(event.poll, event.vote);
     }
 
-    if (event is api.PollVoteCastedFeedEvent) {
-      final poll = event.poll.toModel();
-      final vote = event.pollVote.toModel();
-      return state.onPollVoteCasted(poll, vote);
-    }
-
-    if (event is api.PollVoteChangedFeedEvent) {
-      final poll = event.poll.toModel();
-      final vote = event.pollVote.toModel();
-      return state.onPollVoteChanged(poll, vote);
-    }
-
-    if (event is PollAnswerRemovedFeedEvent) {
-      final poll = event.poll.toModel();
-      final answer = event.pollVote.toModel();
-      return state.onPollAnswerRemoved(poll, answer);
-    }
-
-    if (event is api.PollVoteRemovedFeedEvent) {
-      final poll = event.poll.toModel();
-      final vote = event.pollVote.toModel();
-      return state.onPollVoteRemoved(poll, vote);
+    if (event is PollVoteRemoved) {
+      return state.onPollVoteRemoved(event.poll, event.vote);
     }
 
     // Handle other activity events here as needed
