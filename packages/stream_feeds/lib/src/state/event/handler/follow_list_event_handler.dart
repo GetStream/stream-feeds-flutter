@@ -1,7 +1,3 @@
-import 'package:stream_core/stream_core.dart';
-
-import '../../../models/follow_data.dart';
-import '../../../models/model_updates.dart';
 import '../../../utils/filter.dart';
 import '../../follow_list_state.dart';
 import '../../query/follows_query.dart';

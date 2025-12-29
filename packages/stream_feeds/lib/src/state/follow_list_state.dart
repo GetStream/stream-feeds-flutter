@@ -3,7 +3,6 @@ import 'package:state_notifier/state_notifier.dart';
 import 'package:stream_core/stream_core.dart';
 
 import '../models/follow_data.dart';
-import '../models/model_updates.dart';
 import '../models/pagination_data.dart';
 import '../models/query_configuration.dart';
 import 'query/follows_query.dart';
