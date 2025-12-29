@@ -11,7 +11,7 @@ import 'event/handler/follow_list_event_handler.dart';
 import 'event/state_update_event.dart';
 import 'follow_list_state.dart';
 import 'query/follows_query.dart';
-import 'state_notifier_extentions.dart';
+import 'state_notifier_extension.dart';
 
 /// Represents a list of follows with a query and state.
 ///
@@ -26,8 +26,8 @@ class FollowList with Disposable {
   FollowList({
     required this.query,
     required this.feedsRepository,
-    required this.eventsEmitter,
-  }) {
+    required MutableSharedEmitter<StateUpdateEvent> eventsEmitter,
+  }) : _eventsEmitter = eventsEmitter {
     _stateNotifier = FollowListStateNotifier(
       initialState: const FollowListState(),
     );
@@ -38,7 +38,7 @@ class FollowList with Disposable {
       state: _stateNotifier,
     );
 
-    _eventsSubscription = eventsEmitter.listen(handler.handleEvent);
+    _eventsSubscription = _eventsEmitter.listen(handler.handleEvent);
   }
 
   final FollowsQuery query;
@@ -50,7 +50,7 @@ class FollowList with Disposable {
   StateNotifier<FollowListState> get notifier => _stateNotifier;
   Stream<FollowListState> get stream => _stateNotifier.stream;
 
-  final SharedEmitter<StateUpdateEvent> eventsEmitter;
+  final MutableSharedEmitter<StateUpdateEvent> _eventsEmitter;
   StreamSubscription<StateUpdateEvent>? _eventsSubscription;
 
   @override

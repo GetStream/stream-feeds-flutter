@@ -16,8 +16,8 @@ part 'activity_comment_list_state.freezed.dart';
 class ActivityCommentListStateNotifier
     extends StateNotifier<ActivityCommentListState> {
   ActivityCommentListStateNotifier({
-    required ActivityCommentListState initialState,
     required this.currentUserId,
+    required ActivityCommentListState initialState,
   }) : super(initialState);
 
   final String currentUserId;

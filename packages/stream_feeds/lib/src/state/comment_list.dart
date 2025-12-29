@@ -10,7 +10,7 @@ import 'comment_list_state.dart';
 import 'event/handler/comment_list_event_handler.dart';
 import 'event/state_update_event.dart';
 import 'query/comments_query.dart';
-import 'state_notifier_extentions.dart';
+import 'state_notifier_extension.dart';
 
 /// A list of comments with a query and state.
 ///
@@ -25,12 +25,12 @@ class CommentList extends Disposable {
   CommentList({
     required this.query,
     required this.commentsRepository,
-    required this.eventsEmitter,
     required this.currentUserId,
-  }) {
+    required MutableSharedEmitter<StateUpdateEvent> eventsEmitter,
+  }) : _eventsEmitter = eventsEmitter {
     _stateNotifier = CommentListStateNotifier(
-      initialState: const CommentListState(),
       currentUserId: currentUserId,
+      initialState: const CommentListState(),
     );
 
     // Attach event handlers for real-time updates
@@ -39,7 +39,7 @@ class CommentList extends Disposable {
       state: _stateNotifier,
     );
 
-    _eventsSubscription = eventsEmitter.listen(handler.handleEvent);
+    _eventsSubscription = _eventsEmitter.listen(handler.handleEvent);
   }
 
   final CommentsQuery query;
@@ -54,7 +54,7 @@ class CommentList extends Disposable {
   CommentListStateNotifier get stateNotifier => _stateNotifier;
   late final CommentListStateNotifier _stateNotifier;
 
-  final SharedEmitter<StateUpdateEvent> eventsEmitter;
+  final MutableSharedEmitter<StateUpdateEvent> _eventsEmitter;
   StreamSubscription<StateUpdateEvent>? _eventsSubscription;
 
   /// Queries the initial list of comments based on the provided [CommentsQuery].

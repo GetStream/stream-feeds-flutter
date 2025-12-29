@@ -15,8 +15,8 @@ part 'comment_list_state.freezed.dart';
 /// and real-time events from the Stream Feeds API.
 class CommentListStateNotifier extends StateNotifier<CommentListState> {
   CommentListStateNotifier({
-    required CommentListState initialState,
     required this.currentUserId,
+    required CommentListState initialState,
   }) : super(initialState);
 
   final String currentUserId;

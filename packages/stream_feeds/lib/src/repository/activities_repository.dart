@@ -195,7 +195,8 @@ class ActivitiesRepository {
   /// Creates a new reaction on the activity with [activityId] using the provided [request] data.
   ///
   /// Returns a [Result] containing the [FeedsReactionData] or an error.
-  Future<Result<FeedsReactionData>> addActivityReaction(
+  Future<Result<({ActivityData activity, FeedsReactionData reaction})>>
+      addActivityReaction(
     String activityId,
     api.AddReactionRequest request,
   ) async {
@@ -204,7 +205,12 @@ class ActivitiesRepository {
       addReactionRequest: request,
     );
 
-    return result.map((response) => response.reaction.toModel());
+    return result.map(
+      (response) => (
+        activity: response.activity.toModel(),
+        reaction: response.reaction.toModel(),
+      ),
+    );
   }
 
   /// Deletes a reaction from an activity.
@@ -212,7 +218,8 @@ class ActivitiesRepository {
   /// Removes the reaction of [type] from the activity with [activityId].
   ///
   /// Returns a [Result] containing the deleted [FeedsReactionData] or an error.
-  Future<Result<FeedsReactionData>> deleteActivityReaction(
+  Future<Result<({ActivityData activity, FeedsReactionData reaction})>>
+      deleteActivityReaction(
     String activityId,
     String type,
   ) async {
@@ -221,7 +228,12 @@ class ActivitiesRepository {
       type: type,
     );
 
-    return result.map((response) => response.reaction.toModel());
+    return result.map(
+      (response) => (
+        activity: response.activity.toModel(),
+        reaction: response.reaction.toModel(),
+      ),
+    );
   }
 
   /// Queries reactions for a specific activity.

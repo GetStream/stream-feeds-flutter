@@ -16,8 +16,8 @@ part 'poll_list_state.freezed.dart';
 /// and real-time events from the Stream Feeds API.
 class PollListStateNotifier extends StateNotifier<PollListState> {
   PollListStateNotifier({
-    required PollListState initialState,
     required this.currentUserId,
+    required PollListState initialState,
   }) : super(initialState);
 
   final String currentUserId;

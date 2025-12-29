@@ -167,10 +167,6 @@ class FeedEventHandler with FeedCapabilitiesMixin implements StateEventHandler {
       return state.onFollowUpdated(event.follow);
     }
 
-    if (event is FollowBatchUpdate) {
-      // TODO: Optimize by filtering only relevant follows
-    }
-
     // Member events are already handled in MemberListEventHandler
     if (event is FeedMemberRemoved) return;
     if (event is FeedMemberUpdated) return;

@@ -54,7 +54,7 @@ class MemberListEventHandler implements StateEventHandler {
       // We remove elements that used to match the filter but no longer do
       final (updated, removed) = event.updates.updated.partition(matchesFilter);
 
-      final removedIds = event.updates.removedIds;
+      final removedIds = [...event.updates.removedIds];
       removedIds.addAll(removed.map((it) => it.id));
 
       return state.onMembersUpdated(

@@ -10,7 +10,7 @@ import 'comment_reply_list_state.dart';
 import 'event/handler/comment_reply_list_event_handler.dart';
 import 'event/state_update_event.dart';
 import 'query/comment_replies_query.dart';
-import 'state_notifier_extentions.dart';
+import 'state_notifier_extension.dart';
 
 /// Represents a list of comment replies with a query and state.
 ///
@@ -26,12 +26,12 @@ class CommentReplyList with Disposable {
     required this.query,
     required this.currentUserId,
     required this.commentsRepository,
-    required this.eventsEmitter,
-  }) {
+    required MutableSharedEmitter<StateUpdateEvent> eventsEmitter,
+  }) : _eventsEmitter = eventsEmitter {
     _stateNotifier = CommentReplyListStateNotifier(
-      initialState: const CommentReplyListState(),
       currentUserId: currentUserId,
       parentCommentId: query.commentId,
+      initialState: const CommentReplyListState(),
     );
 
     // Attach event handlers for real-time updates
@@ -40,7 +40,7 @@ class CommentReplyList with Disposable {
       state: _stateNotifier,
     );
 
-    _eventsSubscription = eventsEmitter.listen(handler.handleEvent);
+    _eventsSubscription = _eventsEmitter.listen(handler.handleEvent);
   }
 
   final CommentRepliesQuery query;
@@ -53,7 +53,7 @@ class CommentReplyList with Disposable {
   StateNotifier<CommentReplyListState> get notifier => _stateNotifier;
   Stream<CommentReplyListState> get stream => _stateNotifier.stream;
 
-  final SharedEmitter<StateUpdateEvent> eventsEmitter;
+  final MutableSharedEmitter<StateUpdateEvent> _eventsEmitter;
   StreamSubscription<StateUpdateEvent>? _eventsSubscription;
 
   @override

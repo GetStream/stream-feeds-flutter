@@ -11,7 +11,7 @@ import 'event/handler/poll_list_event_handler.dart';
 import 'event/state_update_event.dart';
 import 'poll_list_state.dart';
 import 'query/polls_query.dart';
-import 'state_notifier_extentions.dart';
+import 'state_notifier_extension.dart';
 
 /// Represents a list of polls with a query and state.
 ///
@@ -25,13 +25,13 @@ class PollList with Disposable {
   @internal
   PollList({
     required this.query,
-    required this.pollsRepository,
-    required this.eventsEmitter,
     required this.currentUserId,
-  }) {
+    required this.pollsRepository,
+    required MutableSharedEmitter<StateUpdateEvent> eventsEmitter,
+  }) : _eventsEmitter = eventsEmitter {
     _stateNotifier = PollListStateNotifier(
-      initialState: const PollListState(),
       currentUserId: currentUserId,
+      initialState: const PollListState(),
     );
 
     // Attach event handlers for real-time updates
@@ -40,7 +40,7 @@ class PollList with Disposable {
       state: _stateNotifier,
     );
 
-    _eventsSubscription = eventsEmitter.listen(handler.handleEvent);
+    _eventsSubscription = _eventsEmitter.listen(handler.handleEvent);
   }
 
   final PollsQuery query;
@@ -53,7 +53,7 @@ class PollList with Disposable {
   StateNotifier<PollListState> get notifier => _stateNotifier;
   Stream<PollListState> get stream => _stateNotifier.stream;
 
-  final SharedEmitter<StateUpdateEvent> eventsEmitter;
+  final MutableSharedEmitter<StateUpdateEvent> _eventsEmitter;
   StreamSubscription<StateUpdateEvent>? _eventsSubscription;
 
   @override

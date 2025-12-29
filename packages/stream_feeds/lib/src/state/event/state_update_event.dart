@@ -739,14 +739,6 @@ class FollowUpdated extends StateUpdateEvent {
   final FollowData follow;
 }
 
-/// Multiple follow relationships were updated in a batch.
-class FollowBatchUpdate extends StateUpdateEvent {
-  const FollowBatchUpdate({required this.updates});
-
-  /// The batch updates to apply.
-  final ModelUpdates<FollowData> updates;
-}
-
 // endregion
 
 // region Special Feed Events

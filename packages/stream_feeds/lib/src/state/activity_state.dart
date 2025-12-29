@@ -19,9 +19,9 @@ part 'activity_state.freezed.dart';
 /// and real-time events from the Stream Feeds API.
 class ActivityStateNotifier extends StateNotifier<ActivityState> {
   ActivityStateNotifier({
-    required ActivityState initialState,
     required this.currentUserId,
     required this.commentList,
+    required ActivityState initialState,
   }) : super(initialState) {
     // Set up synchronization for comment list updates
     _setupCommentListSynchronization();
@@ -41,11 +41,6 @@ class ActivityStateNotifier extends StateNotifier<ActivityState> {
     });
   }
 
-  /// Handles the retrieval of the activity.
-  void onActivityGet(ActivityData activity) {
-    state = state.copyWith(activity: activity);
-  }
-
   /// Handles the deletion of the activity.
   void onActivityDeleted() {
     state = state.copyWith(
@@ -58,7 +53,7 @@ class ActivityStateNotifier extends StateNotifier<ActivityState> {
   /// Handles the update of an activity.
   void onActivityUpdated(ActivityData activity) {
     final currentActivity = state.activity;
-    final updatedActivity = currentActivity?.updateWith(activity);
+    final updatedActivity = currentActivity?.updateWith(activity) ?? activity;
 
     state = state.copyWith(activity: updatedActivity);
   }

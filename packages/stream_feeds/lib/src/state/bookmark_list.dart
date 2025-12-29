@@ -11,7 +11,7 @@ import 'bookmark_list_state.dart';
 import 'event/handler/bookmark_list_event_handler.dart';
 import 'event/state_update_event.dart';
 import 'query/bookmarks_query.dart';
-import 'state_notifier_extentions.dart';
+import 'state_notifier_extension.dart';
 
 /// Represents a list of bookmarks with a query and state.
 ///
@@ -26,8 +26,8 @@ class BookmarkList with Disposable {
   BookmarkList({
     required this.query,
     required this.bookmarksRepository,
-    required this.eventsEmitter,
-  }) {
+    required MutableSharedEmitter<StateUpdateEvent> eventsEmitter,
+  }) : _eventsEmitter = eventsEmitter {
     _stateNotifier = BookmarkListStateNotifier(
       initialState: const BookmarkListState(),
     );
@@ -38,7 +38,7 @@ class BookmarkList with Disposable {
       state: _stateNotifier,
     );
 
-    _eventsSubscription = eventsEmitter.listen(handler.handleEvent);
+    _eventsSubscription = _eventsEmitter.listen(handler.handleEvent);
   }
 
   final BookmarksQuery query;
@@ -50,7 +50,7 @@ class BookmarkList with Disposable {
   StateNotifier<BookmarkListState> get notifier => _stateNotifier;
   Stream<BookmarkListState> get stream => _stateNotifier.stream;
 
-  final SharedEmitter<StateUpdateEvent> eventsEmitter;
+  final MutableSharedEmitter<StateUpdateEvent> _eventsEmitter;
   StreamSubscription<StateUpdateEvent>? _eventsSubscription;
 
   @override

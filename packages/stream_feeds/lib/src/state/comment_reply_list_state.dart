@@ -16,9 +16,9 @@ part 'comment_reply_list_state.freezed.dart';
 class CommentReplyListStateNotifier
     extends StateNotifier<CommentReplyListState> {
   CommentReplyListStateNotifier({
-    required CommentReplyListState initialState,
     required this.currentUserId,
     required this.parentCommentId,
+    required CommentReplyListState initialState,
   }) : super(initialState);
 
   final String currentUserId;

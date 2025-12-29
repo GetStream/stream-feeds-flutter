@@ -34,9 +34,9 @@ part 'feed_state.freezed.dart';
 /// user interactions, and real-time events from the Stream Feeds API.
 class FeedStateNotifier extends StateNotifier<FeedState> {
   FeedStateNotifier({
-    required FeedState initialState,
     required this.currentUserId,
     required this.memberList,
+    required FeedState initialState,
   }) : super(initialState) {
     // Set up synchronization for member list updates
     _setupMemberListSynchronization();
@@ -349,16 +349,6 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
     }).toList();
 
     state = state.copyWith(following: updatedFollowing);
-  }
-
-  /// Handles updates to the feed state when a follow request is removed.
-  void onFollowRequestRemoved(String id) {
-    // Remove the follow request with the given ID
-    final updatedFollowRequests = state.followRequests.where((it) {
-      return it.id != id;
-    }).toList();
-
-    state = state.copyWith(followRequests: updatedFollowRequests);
   }
 
   /// Handles updates to the feed state when a reaction is added or updated.

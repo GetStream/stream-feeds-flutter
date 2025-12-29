@@ -462,7 +462,6 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
     return ModerationConfigList(
       query: query,
       moderationRepository: _moderationRepository,
-      eventsEmitter: _stateUpdateEmitter,
     );
   }
 

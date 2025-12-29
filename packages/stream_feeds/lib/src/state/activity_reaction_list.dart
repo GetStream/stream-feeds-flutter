@@ -11,7 +11,7 @@ import 'activity_reaction_list_state.dart';
 import 'event/handler/activity_reaction_list_event_handler.dart';
 import 'event/state_update_event.dart';
 import 'query/activity_reactions_query.dart';
-import 'state_notifier_extentions.dart';
+import 'state_notifier_extension.dart';
 
 /// Represents a list of activity reactions with a query and state.
 ///
@@ -26,8 +26,8 @@ class ActivityReactionList extends Disposable {
   ActivityReactionList({
     required this.query,
     required this.activitiesRepository,
-    required this.eventsEmitter,
-  }) {
+    required MutableSharedEmitter<StateUpdateEvent> eventsEmitter,
+  }) : _eventsEmitter = eventsEmitter {
     _stateNotifier = ActivityReactionListStateNotifier(
       initialState: ActivityReactionListState(query: query),
     );
@@ -38,7 +38,7 @@ class ActivityReactionList extends Disposable {
       state: _stateNotifier,
     );
 
-    _eventsSubscription = eventsEmitter.listen(handler.handleEvent);
+    _eventsSubscription = _eventsEmitter.listen(handler.handleEvent);
   }
 
   final ActivityReactionsQuery query;
@@ -52,7 +52,7 @@ class ActivityReactionList extends Disposable {
   ActivityReactionListStateNotifier get stateNotifier => _stateNotifier;
   late final ActivityReactionListStateNotifier _stateNotifier;
 
-  final SharedEmitter<StateUpdateEvent> eventsEmitter;
+  final MutableSharedEmitter<StateUpdateEvent> _eventsEmitter;
   StreamSubscription<StateUpdateEvent>? _eventsSubscription;
 
   /// Queries the initial list of activity reactions based on the provided [ActivityReactionsQuery].

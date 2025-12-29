@@ -1,6 +1,7 @@
 import 'package:stream_core/stream_core.dart';
 
 import '../generated/api/api.dart' as api;
+import '../models/activity_data.dart';
 import '../models/comment_data.dart';
 import '../models/feeds_reaction_data.dart';
 import '../models/pagination_data.dart';
@@ -130,7 +131,7 @@ class CommentsRepository {
   /// If [hardDelete] is true, the comment is permanently deleted; otherwise, it may be soft-deleted.
   ///
   /// Returns a [Result] containing void or an error.
-  Future<Result<CommentData>> deleteComment(
+  Future<Result<({ActivityData activity, CommentData comment})>> deleteComment(
     String commentId, {
     bool? hardDelete,
   }) async {
@@ -139,7 +140,12 @@ class CommentsRepository {
       hardDelete: hardDelete,
     );
 
-    return result.map((response) => response.comment.toModel());
+    return result.map(
+      (response) => (
+        activity: response.activity.toModel(),
+        comment: response.comment.toModel(),
+      ),
+    );
   }
 
   /// Retrieves a specific comment.

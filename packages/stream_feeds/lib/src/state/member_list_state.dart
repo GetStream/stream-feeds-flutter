@@ -78,16 +78,17 @@ class MemberListStateNotifier extends StateNotifier<MemberListState> {
 
   /// Handles updates to multiple members.
   void onMembersUpdated(ModelUpdates<FeedMemberData> updates) {
-    // Replace existing members with updated ones
-    var updatedMembers = state.members.batchReplace(
-      updates.updated,
+    // Merge updated and added members
+    var updatedMembers = state.members.merge(
+      updates.updated + updates.added,
       key: (it) => it.id,
+      compare: membersSort.compare,
     );
 
     // Remove members by their IDs
     updatedMembers = updatedMembers.whereNot((it) {
       return updates.removedIds.contains(it.id);
-    }).sorted(membersSort.compare);
+    }).toList();
 
     state = state.copyWith(members: updatedMembers);
   }

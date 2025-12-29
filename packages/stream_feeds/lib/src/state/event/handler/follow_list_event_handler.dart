@@ -43,22 +43,6 @@ class FollowListEventHandler implements StateEventHandler {
       return state.onFollowRemoved(event.follow.id);
     }
 
-    if (event is FollowBatchUpdate) {
-      // Filter added and updated follows based on the query filter
-      bool matchesFilter(FollowData it) => it.matches(query.filter);
-
-      final added = event.updates.added.where(matchesFilter).toList();
-      // We remove elements that used to match the filter but no longer do
-      final (updated, removed) = event.updates.updated.partition(matchesFilter);
-
-      final removedIds = event.updates.removedIds;
-      removedIds.addAll(removed.map((it) => it.id));
-
-      return state.onFollowsUpdated(
-        ModelUpdates(added: added, updated: updated, removedIds: removedIds),
-      );
-    }
-
     // Handle other follow list events here as needed
   }
 }

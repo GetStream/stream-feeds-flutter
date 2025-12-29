@@ -11,7 +11,7 @@ import 'event/handler/feed_list_event_handler.dart';
 import 'event/state_update_event.dart';
 import 'feed_list_state.dart';
 import 'query/feeds_query.dart';
-import 'state_notifier_extentions.dart';
+import 'state_notifier_extension.dart';
 
 /// Represents a list of feeds with a query and state.
 ///
@@ -26,8 +26,8 @@ class FeedList with Disposable {
   FeedList({
     required this.query,
     required this.feedsRepository,
-    required this.eventsEmitter,
-  }) {
+    required MutableSharedEmitter<StateUpdateEvent> eventsEmitter,
+  }) : _eventsEmitter = eventsEmitter {
     _stateNotifier = FeedListStateNotifier(
       initialState: const FeedListState(),
     );
@@ -38,7 +38,7 @@ class FeedList with Disposable {
       state: _stateNotifier,
     );
 
-    _eventsSubscription = eventsEmitter.listen(handler.handleEvent);
+    _eventsSubscription = _eventsEmitter.listen(handler.handleEvent);
   }
 
   final FeedsQuery query;
@@ -50,7 +50,7 @@ class FeedList with Disposable {
   StateNotifier<FeedListState> get notifier => _stateNotifier;
   Stream<FeedListState> get stream => _stateNotifier.stream;
 
-  final SharedEmitter<StateUpdateEvent> eventsEmitter;
+  final MutableSharedEmitter<StateUpdateEvent> _eventsEmitter;
   StreamSubscription<StateUpdateEvent>? _eventsSubscription;
 
   @override

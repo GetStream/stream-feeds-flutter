@@ -20,8 +20,8 @@ part 'activity_list_state.freezed.dart';
 /// and real-time events from the Stream Feeds API.
 class ActivityListStateNotifier extends StateNotifier<ActivityListState> {
   ActivityListStateNotifier({
-    required ActivityListState initialState,
     required this.currentUserId,
+    required ActivityListState initialState,
   }) : super(initialState);
 
   final String currentUserId;

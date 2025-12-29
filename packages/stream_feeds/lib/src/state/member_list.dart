@@ -11,7 +11,7 @@ import 'event/handler/member_list_event_handler.dart';
 import 'event/state_update_event.dart';
 import 'member_list_state.dart';
 import 'query/members_query.dart';
-import 'state_notifier_extentions.dart';
+import 'state_notifier_extension.dart';
 
 /// Represents a list of feed members with a query and state.
 ///
@@ -25,8 +25,8 @@ class MemberList extends Disposable {
   MemberList({
     required this.query,
     required this.feedsRepository,
-    required this.eventsEmitter,
-  }) {
+    required MutableSharedEmitter<StateUpdateEvent> eventsEmitter,
+  }) : _eventsEmitter = eventsEmitter {
     _stateNotifier = MemberListStateNotifier(
       initialState: const MemberListState(),
     );
@@ -37,7 +37,7 @@ class MemberList extends Disposable {
     );
 
     // Attach event handlers for the member list events
-    _eventsSubscription = eventsEmitter.listen(eventHandler.handleEvent);
+    _eventsSubscription = _eventsEmitter.listen(eventHandler.handleEvent);
   }
 
   final MembersQuery query;
@@ -51,7 +51,7 @@ class MemberList extends Disposable {
   MemberListStateNotifier get stateNotifier => _stateNotifier;
   late final MemberListStateNotifier _stateNotifier;
 
-  final SharedEmitter<StateUpdateEvent> eventsEmitter;
+  final MutableSharedEmitter<StateUpdateEvent> _eventsEmitter;
   StreamSubscription<StateUpdateEvent>? _eventsSubscription;
 
   /// Queries the initial list of members based on the provided [MembersQuery].

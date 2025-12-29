@@ -74,11 +74,6 @@ class FollowListStateNotifier extends StateNotifier<FollowListState> {
 
     state = state.copyWith(follows: updatedFollows);
   }
-
-  /// Handles batch updates to the follow list.
-  void onFollowsUpdated(ModelUpdates<FollowData> updates) {
-    // TODO: Implement applyUpdates method in Dart
-  }
 }
 
 /// An observable state object that manages the current state of a follow list.
