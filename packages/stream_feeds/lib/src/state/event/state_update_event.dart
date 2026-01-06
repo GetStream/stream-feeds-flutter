@@ -30,7 +30,7 @@ sealed class StateUpdateEvent {
   ///
   /// Maps WebSocket events to their corresponding state update events.
   /// Returns [UnknownStateUpdateEvent] for unhandled event types.
-  factory StateUpdateEvent.fromWsEvent(WsEvent event) {
+  static StateUpdateEvent? fromWsEvent(WsEvent event) {
     // Activity Events
     if (event is api.ActivityAddedEvent) {
       final fid = FidScope.of(event.fid);
@@ -81,7 +81,7 @@ sealed class StateUpdateEvent {
         );
       }
 
-      return const UnknownStateUpdateEvent();
+      return null; // Other feedback actions are not handled here
     }
 
     if (event is api.ActivityMarkEvent) {

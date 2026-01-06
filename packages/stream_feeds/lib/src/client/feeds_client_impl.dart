@@ -172,7 +172,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
     // Map WebSocket events to state update events
     _wsEventToStateMapperSubscription = events.listen((event) {
       final stateEvent = StateUpdateEvent.fromWsEvent(event);
-      _stateUpdateEmitter.tryEmit(stateEvent);
+      stateEvent?.let(_stateUpdateEmitter.tryEmit);
     });
   }
 

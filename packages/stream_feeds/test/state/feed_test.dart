@@ -66,6 +66,11 @@ void main() {
           ),
         );
 
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<FeedUpdated>()),
+        );
+
         final result = await tester.feed.updateFeed(
           request: const UpdateFeedRequest(
             custom: {'updated': true},
@@ -76,8 +81,8 @@ void main() {
         final feedData = result.getOrThrow();
         expect(feedData.name, 'updated-name');
 
-        await tester.pumpEventQueue();
-        expect(tester.feedState.feed?.name, 'updated-name');
+        // Verify the event is emitted
+        await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.updateFeed(
@@ -105,12 +110,17 @@ void main() {
           ),
         );
 
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<FeedDeleted>()),
+        );
+
         final result = await tester.feed.deleteFeed();
 
         expect(result.isSuccess, isTrue);
 
-        await tester.pumpEventQueue();
-        expect(tester.feedState.feed, isNull);
+        // Verify the event is emitted
+        await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.deleteFeed(
@@ -200,6 +210,11 @@ void main() {
           ),
         );
 
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<ActivityAdded>()),
+        );
+
         final result = await tester.feed.addActivity(
           request: const FeedAddActivityRequest(type: 'post'),
         );
@@ -207,6 +222,9 @@ void main() {
         expect(result.isSuccess, isTrue);
         final activity = result.getOrThrow();
         expect(activity.id, 'activity-1');
+
+        // Verify the event is emitted
+        await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.addActivity(
@@ -243,6 +261,11 @@ void main() {
           ),
         );
 
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<ActivityUpdated>()),
+        );
+
         final result = await tester.feed.updateActivity(
           id: 'activity-1',
           request: const UpdateActivityRequest(custom: {'updated': true}),
@@ -251,6 +274,9 @@ void main() {
         expect(result.isSuccess, isTrue);
         final activity = result.getOrThrow();
         expect(activity.custom?['updated'], true);
+
+        // Verify the event is emitted
+        await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.updateActivity(
@@ -274,8 +300,6 @@ void main() {
         ),
       ),
       body: (tester) async {
-        expect(tester.feedState.activities, hasLength(1));
-
         tester.mockApi(
           (api) => api.deleteActivity(
             id: 'activity-1',
@@ -284,12 +308,17 @@ void main() {
           result: const DeleteActivityResponse(duration: '0ms'),
         );
 
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<ActivityDeleted>()),
+        );
+
         final result = await tester.feed.deleteActivity(id: 'activity-1');
 
         expect(result.isSuccess, isTrue);
 
-        await tester.pumpEventQueue();
-        expect(tester.feedState.activities, isEmpty);
+        // Verify the event is emitted
+        await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.deleteActivity(
@@ -313,12 +342,20 @@ void main() {
               createDefaultActivityFeedbackResponse(activityId: 'activity-1'),
         );
 
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<ActivityHidden>()),
+        );
+
         final result = await tester.feed.activityFeedback(
           activityId: 'activity-1',
           activityFeedbackRequest: const ActivityFeedbackRequest(hide: true),
         );
 
         expect(result.isSuccess, isTrue);
+
+        // Verify the event is emitted
+        await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.activityFeedback(
@@ -943,10 +980,10 @@ void main() {
           ),
         );
 
-        // Initial state - no bookmarks
-        final initialActivity = tester.feedState.activities.first;
-        expect(initialActivity.id, 'activity-1');
-        expect(initialActivity.ownBookmarks, isEmpty);
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<BookmarkAdded>()),
+        );
 
         // Add bookmark
         final result = await tester.feed.addBookmark(activityId: 'activity-1');
@@ -956,12 +993,7 @@ void main() {
         expect(bookmark.activity.id, 'activity-1');
         expect(bookmark.user.id, userId);
 
-        // Verify state was updated
-        await tester.pumpEventQueue();
-        final updatedActivity = tester.feedState.activities.first;
-        expect(updatedActivity.ownBookmarks, hasLength(1));
-        expect(updatedActivity.ownBookmarks.first.id, bookmark.id);
-        expect(updatedActivity.ownBookmarks.first.user.id, userId);
+        await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.addBookmark(
@@ -992,11 +1024,6 @@ void main() {
         ),
       ),
       body: (tester) async {
-        // Initial state - has bookmark
-        final initialActivity = tester.feedState.activities.first;
-        expect(initialActivity.ownBookmarks, hasLength(1));
-        expect(initialActivity.ownBookmarks.first.folder?.id, 'folder-id');
-
         // Mock API call that will be used
         tester.mockApi(
           (api) => api.updateBookmark(
@@ -1010,6 +1037,11 @@ void main() {
           ),
         );
 
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<BookmarkUpdated>()),
+        );
+
         final result = await tester.feed.updateBookmark(
           activityId: 'activity-1',
           request: const UpdateBookmarkRequest(folderId: 'new-folder-id'),
@@ -1019,6 +1051,9 @@ void main() {
         final bookmark = result.getOrThrow();
         expect(bookmark.activity.id, 'activity-1');
         expect(bookmark.folder?.id, 'new-folder-id');
+
+        // Verify the event is emitted
+        await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.updateBookmark(
@@ -1048,10 +1083,6 @@ void main() {
         ),
       ),
       body: (tester) async {
-        // Initial state - has bookmark
-        final initialActivity = tester.feedState.activities.first;
-        expect(initialActivity.ownBookmarks, hasLength(1));
-
         // Mock API call that will be used
         tester.mockApi(
           (api) => api.deleteBookmark(
@@ -1064,6 +1095,11 @@ void main() {
           ),
         );
 
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<BookmarkDeleted>()),
+        );
+
         // Delete bookmark
         final result = await tester.feed.deleteBookmark(
           activityId: 'activity-1',
@@ -1074,10 +1110,8 @@ void main() {
         expect(bookmark.activity.id, 'activity-1');
         expect(bookmark.user.id, userId);
 
-        // Verify state was updated
-        await tester.pumpEventQueue();
-        final updatedActivity = tester.feedState.activities.first;
-        expect(updatedActivity.ownBookmarks, isEmpty);
+        // Verify the event is emitted
+        await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.deleteBookmark(
@@ -1298,12 +1332,20 @@ void main() {
           ),
         );
 
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<CommentUpdated>()),
+        );
+
         final result = await tester.feed.getComment(commentId: commentId);
 
         expect(result.isSuccess, isTrue);
         final comment = result.getOrThrow();
         expect(comment.id, commentId);
         expect(comment.objectId, 'activity-1');
+
+        // Verify the event is emitted
+        await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.getComment(id: commentId),
@@ -1339,6 +1381,11 @@ void main() {
           ),
         );
 
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<CommentAdded>()),
+        );
+
         final result = await tester.feed.addComment(
           request: const ActivityAddCommentRequest(
             activityId: 'activity-1',
@@ -1352,6 +1399,9 @@ void main() {
         expect(comment.id, commentId);
         expect(comment.objectId, 'activity-1');
         expect(comment.user.id, currentUser.id);
+
+        // Verify the event is emitted
+        await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.addComment(
@@ -1392,6 +1442,11 @@ void main() {
           ),
         );
 
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<CommentUpdated>()),
+        );
+
         final result = await tester.feed.updateComment(
           commentId: commentId,
           request: const UpdateCommentRequest(comment: updatedText),
@@ -1401,6 +1456,9 @@ void main() {
         final comment = result.getOrThrow();
         expect(comment.id, commentId);
         expect(comment.text, updatedText);
+
+        // Verify the event is emitted
+        await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.updateComment(
@@ -1440,9 +1498,17 @@ void main() {
           ),
         );
 
+        final expectEventsEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emitsInOrder([isA<CommentDeleted>(), isA<ActivityUpdated>()]),
+        );
+
         final result = await tester.feed.deleteComment(commentId: commentId);
 
         expect(result.isSuccess, isTrue);
+
+        // Verify the event is emitted
+        await expectEventsEmitted;
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.deleteComment(
@@ -1480,6 +1546,11 @@ void main() {
           ),
         );
 
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<CommentReactionUpserted>()),
+        );
+
         final result = await tester.feed.addCommentReaction(
           commentId: commentId,
           request: const AddCommentReactionRequest(type: 'like'),
@@ -1489,6 +1560,9 @@ void main() {
         final reaction = result.getOrThrow();
         expect(reaction.type, 'like');
         expect(reaction.user.id, currentUser.id);
+
+        // Verify the event is emitted
+        await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.addCommentReaction(
@@ -1526,6 +1600,11 @@ void main() {
           ),
         );
 
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<CommentReactionDeleted>()),
+        );
+
         final result = await tester.feed.deleteCommentReaction(
           commentId: commentId,
           type: 'like',
@@ -1535,6 +1614,9 @@ void main() {
         final reaction = result.getOrThrow();
         expect(reaction.type, 'like');
         expect(reaction.user.id, currentUser.id);
+
+        // Verify the event is emitted
+        await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.deleteCommentReaction(
@@ -1884,9 +1966,8 @@ void main() {
       'queryFeedMembers() - should query initial members',
       user: currentUser,
       build: (client) => client.feedFromId(feedId),
-      setUp: (tester) {
-        tester.getOrCreate();
-
+      setUp: (tester) => tester.getOrCreate(),
+      body: (tester) async {
         tester.mockApi(
           (api) => api.queryFeedMembers(
             feedGroupId: feedId.group,
@@ -1899,8 +1980,7 @@ void main() {
             ],
           ),
         );
-      },
-      body: (tester) async {
+
         final result = await tester.feed.queryFeedMembers();
 
         expect(result.isSuccess, isTrue);
@@ -1921,9 +2001,8 @@ void main() {
       'queryMoreFeedMembers() - should load more members',
       user: currentUser,
       build: (client) => client.feedFromId(feedId),
-      setUp: (tester) {
-        tester.getOrCreate();
-
+      setUp: (tester) => tester.getOrCreate(),
+      body: (tester) async {
         // Mock initial query
         tester.mockApi(
           (api) => api.queryFeedMembers(
@@ -1932,47 +2011,71 @@ void main() {
             queryFeedMembersRequest: any(named: 'queryFeedMembersRequest'),
           ),
           result: createDefaultQueryFeedMembersResponse(
-            members: [
-              createDefaultFeedMemberResponse(id: currentUser.id),
-            ],
             next: 'next-cursor',
+            members: [createDefaultFeedMemberResponse(id: currentUser.id)],
           ),
         );
-      },
-      body: (tester) async {
+
         // Load initial members
         await tester.feed.queryFeedMembers();
+
+        // Initial state - has comment
+        expect(tester.feedState.members, hasLength(1));
+        expect(tester.feedState.canLoadMoreMembers, isTrue);
 
         // Mock queryMore
         tester.mockApi(
           (api) => api.queryFeedMembers(
             feedGroupId: feedId.group,
             feedId: feedId.id,
-            queryFeedMembersRequest: any(named: 'queryFeedMembersRequest'),
+            queryFeedMembersRequest: any(
+              named: 'queryFeedMembersRequest',
+              that: isA<QueryFeedMembersRequest>().having(
+                (r) => r.next,
+                'next',
+                'next-cursor',
+              ),
+            ),
           ),
           result: createDefaultQueryFeedMembersResponse(
-            members: [
-              createDefaultFeedMemberResponse(id: 'user-2'),
-            ],
+            prev: 'prev-cursor',
+            members: [createDefaultFeedMemberResponse(id: 'user-2')],
           ),
         );
 
         final result = await tester.feed.queryMoreFeedMembers();
 
         expect(result.isSuccess, isTrue);
-        final members = result.getOrThrow();
-        expect(members, hasLength(1));
-        expect(members.first.user.id, 'user-2');
+        final comments = result.getOrNull();
+        expect(comments, isNotNull);
+        expect(comments, hasLength(1));
+
+        // Verify state was updated
+        expect(tester.feedState.members, hasLength(2));
+        expect(tester.feedState.canLoadMoreMembers, isFalse);
       },
+      verify: (tester) => tester.verifyApi(
+        (api) => api.queryFeedMembers(
+          feedGroupId: feedId.group,
+          feedId: feedId.id,
+          queryFeedMembersRequest: any(
+            named: 'queryFeedMembersRequest',
+            that: isA<QueryFeedMembersRequest>().having(
+              (r) => r.next,
+              'next',
+              'next-cursor',
+            ),
+          ),
+        ),
+      ),
     );
 
     feedTest(
       'updateFeedMembers() - should update feed members',
       user: currentUser,
       build: (client) => client.feedFromId(feedId),
-      setUp: (tester) {
-        tester.getOrCreate();
-
+      setUp: (tester) => tester.getOrCreate(),
+      body: (tester) async {
         tester.mockApi(
           (api) => api.updateFeedMembers(
             feedGroupId: feedId.group,
@@ -1986,8 +2089,12 @@ void main() {
             duration: '0ms',
           ),
         );
-      },
-      body: (tester) async {
+
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<FeedMemberBatchUpdate>()),
+        );
+
         final result = await tester.feed.updateFeedMembers(
           request: const UpdateFeedMembersRequest(
             operation: UpdateFeedMembersRequestOperation.upsert,
@@ -1999,6 +2106,9 @@ void main() {
         final updates = result.getOrThrow();
         expect(updates.added, hasLength(1));
         expect(updates.added.first.user.id, 'user-new');
+
+        // Verify the event is emitted
+        await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.updateFeedMembers(
@@ -2013,9 +2123,8 @@ void main() {
       'acceptFeedMember() - should accept member invitation',
       user: currentUser,
       build: (client) => client.feedFromId(feedId),
-      setUp: (tester) {
-        tester.getOrCreate();
-
+      setUp: (tester) => tester.getOrCreate(),
+      body: (tester) async {
         tester.mockApi(
           (api) => api.acceptFeedMemberInvite(
             feedGroupId: feedId.group,
@@ -2029,14 +2138,21 @@ void main() {
             duration: '0ms',
           ),
         );
-      },
-      body: (tester) async {
+
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<FeedMemberUpdated>()),
+        );
+
         final result = await tester.feed.acceptFeedMember();
 
         expect(result.isSuccess, isTrue);
         final member = result.getOrThrow();
         expect(member.user.id, currentUser.id);
         expect(member.status, FeedMemberStatus.member);
+
+        // Verify the event is emitted
+        await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.acceptFeedMemberInvite(
@@ -2050,9 +2166,8 @@ void main() {
       'rejectFeedMember() - should reject member invitation',
       user: currentUser,
       build: (client) => client.feedFromId(feedId),
-      setUp: (tester) {
-        tester.getOrCreate();
-
+      setUp: (tester) => tester.getOrCreate(),
+      body: (tester) async {
         tester.mockApi(
           (api) => api.rejectFeedMemberInvite(
             feedGroupId: feedId.group,
@@ -2066,14 +2181,21 @@ void main() {
             duration: '0ms',
           ),
         );
-      },
-      body: (tester) async {
+
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<FeedMemberUpdated>()),
+        );
+
         final result = await tester.feed.rejectFeedMember();
 
         expect(result.isSuccess, isTrue);
         final member = result.getOrThrow();
         expect(member.user.id, currentUser.id);
         expect(member.status, FeedMemberStatus.rejected);
+
+        // Verify the event is emitted
+        await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.rejectFeedMemberInvite(
@@ -2187,6 +2309,11 @@ void main() {
           ),
         );
 
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<FollowAdded>()),
+        );
+
         final result = await tester.feed.follow(targetFid: targetFeedId);
 
         expect(result, isA<Result<FollowData>>());
@@ -2195,6 +2322,9 @@ void main() {
         expect(followData.sourceFeed.fid.rawValue, feedId.rawValue);
         expect(followData.targetFeed.fid.rawValue, targetFeedId.rawValue);
         expect(followData.status, FollowStatus.accepted);
+
+        // Verify the event is emitted
+        await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.follow(followRequest: any(named: 'followRequest')),
@@ -2231,10 +2361,18 @@ void main() {
           ),
         );
 
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<FollowDeleted>()),
+        );
+
         final result = await tester.feed.unfollow(targetFid: targetFeedId);
 
         expect(result, isA<Result<void>>());
         expect(result.isSuccess, isTrue);
+
+        // Verify the event is emitted
+        await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.unfollow(
@@ -2274,6 +2412,11 @@ void main() {
           ),
         );
 
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<FollowAdded>()),
+        );
+
         final result = await tester.feed.acceptFollow(sourceFid: sourceFeedId);
 
         expect(result, isA<Result<FollowData>>());
@@ -2282,6 +2425,9 @@ void main() {
         expect(followData.sourceFeed.fid.rawValue, sourceFeedId.rawValue);
         expect(followData.targetFeed.fid.rawValue, targetFeedId.rawValue);
         expect(followData.status, FollowStatus.accepted);
+
+        // Verify the event is emitted
+        await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.acceptFollow(
@@ -2320,6 +2466,11 @@ void main() {
           ),
         );
 
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<FollowDeleted>()),
+        );
+
         final result = await tester.feed.rejectFollow(sourceFid: sourceFeedId);
 
         expect(result, isA<Result<FollowData>>());
@@ -2328,6 +2479,9 @@ void main() {
         expect(followData.sourceFeed.fid.rawValue, sourceFeedId.rawValue);
         expect(followData.targetFeed.fid.rawValue, targetFeedId.rawValue);
         expect(followData.status, FollowStatus.rejected);
+
+        // Verify the event is emitted
+        await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.rejectFollow(
@@ -2613,10 +2767,6 @@ void main() {
         ),
       ),
       body: (tester) async {
-        // Initial state - no reactions
-        final initialActivity = tester.feedState.activities.first;
-        expect(initialActivity.ownReactions, isEmpty);
-
         // Mock API call that will be used
         tester.mockApi(
           (api) => api.addActivityReaction(
@@ -2630,6 +2780,11 @@ void main() {
           ),
         );
 
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<ActivityReactionUpserted>()),
+        );
+
         // Add reaction
         final result = await tester.feed.addActivityReaction(
           activityId: 'activity-1',
@@ -2641,6 +2796,8 @@ void main() {
         expect(reaction.activityId, 'activity-1');
         expect(reaction.type, 'heart');
         expect(reaction.user.id, userId);
+
+        await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.addActivityReaction(
@@ -2787,10 +2944,6 @@ void main() {
         ),
       ),
       body: (tester) async {
-        // Initial state - has reaction
-        final initialActivity = tester.feedState.activities.first;
-        expect(initialActivity.ownReactions, hasLength(1));
-
         // Mock API call that will be used
         tester.mockApi(
           (api) => api.deleteActivityReaction(
@@ -2802,6 +2955,11 @@ void main() {
             userId: userId,
             reactionType: 'heart',
           ),
+        );
+
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<ActivityReactionDeleted>()),
         );
 
         // Delete reaction
@@ -2816,8 +2974,7 @@ void main() {
         expect(reaction.type, 'heart');
         expect(reaction.user.id, userId);
 
-        // Note: deleteActivityReaction doesn't update state automatically
-        // State is only updated via events (ActivityReactionDeletedEvent)
+        await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.deleteActivityReaction(

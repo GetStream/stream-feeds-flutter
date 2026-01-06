@@ -49,7 +49,10 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
   void _setupMemberListSynchronization() {
     _removeMemberListListener = memberList.addListener((memberListState) {
       // Synchronize state with the member list state
-      state = state.copyWith(members: memberListState.members);
+      state = state.copyWith(
+        members: memberListState.members,
+        membersPagination: memberListState.pagination,
+      );
     });
   }
 
@@ -67,6 +70,7 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
       // through the `memberList` state notifier.
       //
       // members: result.members.items,
+      // membersPagination: result.members.pagination,
       followRequests: result.followRequests,
       pinnedActivities: result.pinnedActivities,
       notificationStatus: result.notificationStatus,
@@ -448,6 +452,7 @@ class FeedState with _$FeedState {
     this.following = const [],
     this.followRequests = const [],
     this.members = const [],
+    this.membersPagination,
     this.pinnedActivities = const [],
     this.notificationStatus,
     this.activitiesPagination,
@@ -489,6 +494,10 @@ class FeedState with _$FeedState {
   @override
   final List<FeedMemberData> members;
 
+  /// Pagination information for [members] queries.
+  @override
+  final PaginationData? membersPagination;
+
   /// The list of pinned activities and its pinning state.
   @override
   final List<ActivityPinData> pinnedActivities;
@@ -500,6 +509,11 @@ class FeedState with _$FeedState {
   /// Pagination information for [activities] and [aggregatedActivities] queries.
   @override
   final PaginationData? activitiesPagination;
+
+  /// Indicates whether there are more members available to load.
+  ///
+  /// Returns true if there is a next page available for pagination.
+  bool get canLoadMoreMembers => membersPagination?.next != null;
 
   /// Indicates whether there are more activities available to load.
   ///
