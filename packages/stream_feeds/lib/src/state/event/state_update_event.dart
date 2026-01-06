@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 import 'package:stream_core/stream_core.dart';
 
 import '../../generated/api/models.dart' as api;
@@ -22,8 +21,7 @@ import 'fid_scope.dart';
 ///
 /// These events are typically the result of receiving a WebSocket event or
 /// having executed a successful API call that can modify the state.
-@internal
-sealed class StateUpdateEvent {
+sealed class StateUpdateEvent implements StreamEvent {
   const StateUpdateEvent();
 
   /// Creates a [StateUpdateEvent] from a [WsEvent].
@@ -322,8 +320,7 @@ sealed class StateUpdateEvent {
       return PollVoteRemoved(poll: poll, vote: vote);
     }
 
-    // Unknown event type
-    return const UnknownStateUpdateEvent();
+    return null; // Ignore unhandled events
   }
 }
 

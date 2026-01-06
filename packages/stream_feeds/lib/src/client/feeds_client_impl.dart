@@ -237,14 +237,15 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
   }
 
   @override
-  EventEmitter get events => _ws.events;
+  EventEmitter<WsEvent> get events => _ws.events;
+
+  @override
+  EventEmitter<StateUpdateEvent> get stateUpdateEvents => _stateUpdateEmitter;
+  late final _stateUpdateEmitter = MutableEventEmitter<StateUpdateEvent>();
+  StreamSubscription<WsEvent>? _wsEventToStateMapperSubscription;
 
   @override
   ConnectionStateEmitter get connectionState => _ws.connectionState;
-
-  // Emits state update events derived from WebSocket events
-  late final _stateUpdateEmitter = MutableSharedEmitter<StateUpdateEvent>();
-  StreamSubscription<WsEvent>? _wsEventToStateMapperSubscription;
 
   @override
   Future<void> connect() async {
@@ -502,7 +503,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
   }
 
   Stream<void> get onReconnectEmitter {
-    return connectionState.stream.scan(
+    return connectionState.scan(
       (state, connectionStatus, i) => switch (connectionStatus) {
         Initialized() || Connecting() => (
             wasDisconnected: state.wasDisconnected,
