@@ -171,6 +171,10 @@ class FeedEventHandler with FeedCapabilitiesMixin implements StateEventHandler {
     if (event is FeedMemberRemoved) return;
     if (event is FeedMemberUpdated) return;
 
+    if (event is FollowBatchUpdate) {
+      return state.onFollowsUpdated(event.updates);
+    }
+
     if (event is NotificationFeedUpdated) {
       if (event.fid != query.fid.rawValue) return;
       return state.onNotificationFeedUpdated(

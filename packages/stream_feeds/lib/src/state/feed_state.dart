@@ -18,6 +18,7 @@ import '../models/feeds_reaction_data.dart';
 import '../models/follow_data.dart';
 import '../models/get_or_create_feed_data.dart';
 import '../models/mark_activity_data.dart';
+import '../models/model_updates.dart';
 import '../models/pagination_data.dart';
 import '../models/poll_data.dart';
 import '../models/poll_vote_data.dart';
@@ -342,6 +343,44 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
   void onFollowUpdated(FollowData follow) {
     // Update the follow in the feed state
     state = state.updateFollow(follow);
+  }
+
+  void onFollowsUpdated(ModelUpdates<FollowData> updates) {
+    final newFollowing = <FollowData>[];
+    final newFollowers = <FollowData>[];
+    final newFollowRequests = <FollowData>[];
+
+    for (final it in updates.added) {
+      if (it.isFollowerOf(state.fid)) {
+        newFollowers.add(it);
+      } else if (it.isFollowingFeed(state.fid)) {
+        newFollowing.add(it);
+      } else if (it.isFollowRequestFor(state.fid)) {
+        newFollowRequests.add(it);
+      }
+    }
+
+    final removedFollowRequests = {...updates.removedIds};
+    // New accepted followings shouldn't count as follow requests anymore
+    removedFollowRequests.addAll(newFollowers.map((it) => it.id));
+
+    final updatedFollowing = updates
+        .copyWith(added: newFollowing)
+        .applyTo(state.following, key: (it) => it.id);
+
+    final updatedFollowers = updates
+        .copyWith(added: newFollowers)
+        .applyTo(state.followers, key: (it) => it.id);
+
+    final updatedFollowRequests = updates
+        .copyWith(added: newFollowRequests, removedIds: removedFollowRequests)
+        .applyTo(state.followRequests, key: (it) => it.id);
+
+    state = state.copyWith(
+      following: updatedFollowing,
+      followers: updatedFollowers,
+      followRequests: updatedFollowRequests,
+    );
   }
 
   /// Handles updates to the feed state when an unfollow action occurs.

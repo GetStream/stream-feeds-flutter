@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:state_notifier/state_notifier.dart';
 import 'package:stream_core/stream_core.dart';
@@ -78,17 +77,11 @@ class MemberListStateNotifier extends StateNotifier<MemberListState> {
 
   /// Handles updates to multiple members.
   void onMembersUpdated(ModelUpdates<FeedMemberData> updates) {
-    // Merge updated and added members
-    var updatedMembers = state.members.merge(
-      updates.updated + updates.added,
+    final updatedMembers = updates.applyTo(
+      state.members,
       key: (it) => it.id,
       compare: membersSort.compare,
     );
-
-    // Remove members by their IDs
-    updatedMembers = updatedMembers.whereNot((it) {
-      return updates.removedIds.contains(it.id);
-    }).toList();
 
     state = state.copyWith(members: updatedMembers);
   }
