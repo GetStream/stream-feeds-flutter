@@ -19,6 +19,7 @@ mixin _$ActivitySelectorConfig {
   String? get cutoffWindow;
   Map<String, Object?>? get filter;
   int? get minPopularity;
+  Map<String, Object?>? get params;
   List<SortParam>? get sort;
   String? get type;
 
@@ -42,6 +43,7 @@ mixin _$ActivitySelectorConfig {
             const DeepCollectionEquality().equals(other.filter, filter) &&
             (identical(other.minPopularity, minPopularity) ||
                 other.minPopularity == minPopularity) &&
+            const DeepCollectionEquality().equals(other.params, params) &&
             const DeepCollectionEquality().equals(other.sort, sort) &&
             (identical(other.type, type) || other.type == type));
   }
@@ -53,12 +55,13 @@ mixin _$ActivitySelectorConfig {
       cutoffWindow,
       const DeepCollectionEquality().hash(filter),
       minPopularity,
+      const DeepCollectionEquality().hash(params),
       const DeepCollectionEquality().hash(sort),
       type);
 
   @override
   String toString() {
-    return 'ActivitySelectorConfig(cutoffTime: $cutoffTime, cutoffWindow: $cutoffWindow, filter: $filter, minPopularity: $minPopularity, sort: $sort, type: $type)';
+    return 'ActivitySelectorConfig(cutoffTime: $cutoffTime, cutoffWindow: $cutoffWindow, filter: $filter, minPopularity: $minPopularity, params: $params, sort: $sort, type: $type)';
   }
 }
 
@@ -73,6 +76,7 @@ abstract mixin class $ActivitySelectorConfigCopyWith<$Res> {
       String? cutoffWindow,
       Map<String, Object?>? filter,
       int? minPopularity,
+      Map<String, Object?>? params,
       List<SortParam>? sort,
       String? type});
 }
@@ -94,6 +98,7 @@ class _$ActivitySelectorConfigCopyWithImpl<$Res>
     Object? cutoffWindow = freezed,
     Object? filter = freezed,
     Object? minPopularity = freezed,
+    Object? params = freezed,
     Object? sort = freezed,
     Object? type = freezed,
   }) {
@@ -114,6 +119,10 @@ class _$ActivitySelectorConfigCopyWithImpl<$Res>
           ? _self.minPopularity
           : minPopularity // ignore: cast_nullable_to_non_nullable
               as int?,
+      params: freezed == params
+          ? _self.params
+          : params // ignore: cast_nullable_to_non_nullable
+              as Map<String, Object?>?,
       sort: freezed == sort
           ? _self.sort
           : sort // ignore: cast_nullable_to_non_nullable

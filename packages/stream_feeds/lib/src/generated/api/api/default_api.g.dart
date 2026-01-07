@@ -383,6 +383,42 @@ class _DefaultApi implements DefaultApi {
     );
   }
 
+  Future<AppealResponse> _appeal({required AppealRequest appealRequest}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(appealRequest.toJson());
+    final _options = _setStreamType<Result<AppealResponse>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/moderation/appeal',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late AppealResponse _value;
+    try {
+      _value = AppealResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<AppealResponse>> appeal({
+    required AppealRequest appealRequest,
+  }) {
+    return _ResultCallAdapter<AppealResponse>().adapt(
+      () => _appeal(appealRequest: appealRequest),
+    );
+  }
+
   Future<BanResponse> _ban({required BanRequest banRequest}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -1620,6 +1656,39 @@ class _DefaultApi implements DefaultApi {
     return _ResultCallAdapter<GetApplicationResponse>().adapt(() => _getApp());
   }
 
+  Future<GetAppealResponse> _getAppeal({required String id}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<Result<GetAppealResponse>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/moderation/appeal/${id}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late GetAppealResponse _value;
+    try {
+      _value = GetAppealResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<GetAppealResponse>> getAppeal({required String id}) {
+    return _ResultCallAdapter<GetAppealResponse>().adapt(
+      () => _getAppeal(id: id),
+    );
+  }
+
   Future<GetBlockedUsersResponse> _getBlockedUsers() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -1979,6 +2048,82 @@ class _DefaultApi implements DefaultApi {
     );
   }
 
+  Future<FollowBatchResponse> _getOrCreateFollows({
+    required FollowBatchRequest followBatchRequest,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(followBatchRequest.toJson());
+    final _options = _setStreamType<Result<FollowBatchResponse>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/feeds/follows/batch/upsert',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late FollowBatchResponse _value;
+    try {
+      _value = FollowBatchResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<FollowBatchResponse>> getOrCreateFollows({
+    required FollowBatchRequest followBatchRequest,
+  }) {
+    return _ResultCallAdapter<FollowBatchResponse>().adapt(
+      () => _getOrCreateFollows(followBatchRequest: followBatchRequest),
+    );
+  }
+
+  Future<UnfollowBatchResponse> _getOrCreateUnfollows({
+    required UnfollowBatchRequest unfollowBatchRequest,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(unfollowBatchRequest.toJson());
+    final _options = _setStreamType<Result<UnfollowBatchResponse>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/feeds/unfollow/batch/upsert',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late UnfollowBatchResponse _value;
+    try {
+      _value = UnfollowBatchResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<UnfollowBatchResponse>> getOrCreateUnfollows({
+    required UnfollowBatchRequest unfollowBatchRequest,
+  }) {
+    return _ResultCallAdapter<UnfollowBatchResponse>().adapt(
+      () => _getOrCreateUnfollows(unfollowBatchRequest: unfollowBatchRequest),
+    );
+  }
+
   Future<PollResponse> _getPoll({
     required String pollId,
     String? userId,
@@ -2266,28 +2411,28 @@ class _DefaultApi implements DefaultApi {
     );
   }
 
-  Future<OwnCapabilitiesBatchResponse> _ownCapabilitiesBatch({
-    required OwnCapabilitiesBatchRequest ownCapabilitiesBatchRequest,
+  Future<OwnBatchResponse> _ownBatch({
+    required OwnBatchRequest ownBatchRequest,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(ownCapabilitiesBatchRequest.toJson());
-    final _options = _setStreamType<Result<OwnCapabilitiesBatchResponse>>(
+    _data.addAll(ownBatchRequest.toJson());
+    final _options = _setStreamType<Result<OwnBatchResponse>>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/api/v2/feeds/feeds/own_capabilities/batch',
+            '/api/v2/feeds/feeds/own/batch',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late OwnCapabilitiesBatchResponse _value;
+    late OwnBatchResponse _value;
     try {
-      _value = OwnCapabilitiesBatchResponse.fromJson(_result.data!);
+      _value = OwnBatchResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -2296,13 +2441,11 @@ class _DefaultApi implements DefaultApi {
   }
 
   @override
-  Future<Result<OwnCapabilitiesBatchResponse>> ownCapabilitiesBatch({
-    required OwnCapabilitiesBatchRequest ownCapabilitiesBatchRequest,
+  Future<Result<OwnBatchResponse>> ownBatch({
+    required OwnBatchRequest ownBatchRequest,
   }) {
-    return _ResultCallAdapter<OwnCapabilitiesBatchResponse>().adapt(
-      () => _ownCapabilitiesBatch(
-        ownCapabilitiesBatchRequest: ownCapabilitiesBatchRequest,
-      ),
+    return _ResultCallAdapter<OwnBatchResponse>().adapt(
+      () => _ownBatch(ownBatchRequest: ownBatchRequest),
     );
   }
 
@@ -2433,6 +2576,45 @@ class _DefaultApi implements DefaultApi {
         activityId: activityId,
         queryActivityReactionsRequest: queryActivityReactionsRequest,
       ),
+    );
+  }
+
+  Future<QueryAppealsResponse> _queryAppeals({
+    QueryAppealsRequest? queryAppealsRequest,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(queryAppealsRequest?.toJson() ?? <String, dynamic>{});
+    final _options = _setStreamType<Result<QueryAppealsResponse>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/moderation/appeals',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late QueryAppealsResponse _value;
+    try {
+      _value = QueryAppealsResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<QueryAppealsResponse>> queryAppeals({
+    QueryAppealsRequest? queryAppealsRequest,
+  }) {
+    return _ResultCallAdapter<QueryAppealsResponse>().adapt(
+      () => _queryAppeals(queryAppealsRequest: queryAppealsRequest),
     );
   }
 

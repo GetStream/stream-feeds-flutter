@@ -19,8 +19,11 @@ part 'egress_response.freezed.dart';
 class EgressResponse with _$EgressResponse {
   const EgressResponse({
     required this.broadcasting,
+    this.compositeRecording,
     this.frameRecording,
     this.hls,
+    this.individualRecording,
+    this.rawRecording,
     required this.rtmps,
   });
 
@@ -28,10 +31,19 @@ class EgressResponse with _$EgressResponse {
   final bool broadcasting;
 
   @override
+  final CompositeRecordingResponse? compositeRecording;
+
+  @override
   final FrameRecordingResponse? frameRecording;
 
   @override
   final EgressHLSResponse? hls;
+
+  @override
+  final IndividualRecordingResponse? individualRecording;
+
+  @override
+  final RawRecordingResponse? rawRecording;
 
   @override
   final List<EgressRTMPResponse> rtmps;

@@ -38,7 +38,6 @@ mixin _$ModerationCustomActionEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ModerationCustomActionEvent &&
-            super == other &&
             (identical(other.actionId, actionId) ||
                 other.actionId == actionId) &&
             const DeepCollectionEquality()
@@ -57,7 +56,6 @@ mixin _$ModerationCustomActionEvent {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      super.hashCode,
       actionId,
       const DeepCollectionEquality().hash(actionOptions),
       createdAt,

@@ -18,9 +18,13 @@ part 'notification_trigger.freezed.dart';
 @JsonSerializable()
 class NotificationTrigger with _$NotificationTrigger {
   const NotificationTrigger({
+    this.comment,
     required this.text,
     required this.type,
   });
+
+  @override
+  final NotificationComment? comment;
 
   @override
   final String text;

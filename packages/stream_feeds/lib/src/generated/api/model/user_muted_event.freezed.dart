@@ -34,7 +34,6 @@ mixin _$UserMutedEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is UserMutedEvent &&
-            super == other &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.targetUser, targetUser) ||
@@ -46,8 +45,8 @@ mixin _$UserMutedEvent {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, super.hashCode, createdAt,
-      targetUser, const DeepCollectionEquality().hash(targetUsers), type, user);
+  int get hashCode => Object.hash(runtimeType, createdAt, targetUser,
+      const DeepCollectionEquality().hash(targetUsers), type, user);
 
   @override
   String toString() {

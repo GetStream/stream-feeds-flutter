@@ -18,6 +18,7 @@ part 'feed_response.freezed.dart';
 @JsonSerializable()
 class FeedResponse with _$FeedResponse {
   const FeedResponse({
+    required this.activityCount,
     required this.createdAt,
     required this.createdBy,
     this.custom,
@@ -32,12 +33,16 @@ class FeedResponse with _$FeedResponse {
     required this.memberCount,
     required this.name,
     this.ownCapabilities,
+    this.ownFollowings,
     this.ownFollows,
     this.ownMembership,
     required this.pinCount,
     required this.updatedAt,
     this.visibility,
   });
+
+  @override
+  final int activityCount;
 
   @override
   @EpochDateTimeConverter()
@@ -83,6 +88,9 @@ class FeedResponse with _$FeedResponse {
   @override
   @JsonKey(unknownEnumValue: FeedOwnCapability.unknown)
   final List<FeedOwnCapability>? ownCapabilities;
+
+  @override
+  final List<FollowResponse>? ownFollowings;
 
   @override
   final List<FollowResponse>? ownFollows;

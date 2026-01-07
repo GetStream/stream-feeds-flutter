@@ -20,6 +20,7 @@ class SortParam with _$SortParam {
   const SortParam({
     required this.direction,
     required this.field,
+    required this.type,
   });
 
   @override
@@ -27,6 +28,9 @@ class SortParam with _$SortParam {
 
   @override
   final String field;
+
+  @override
+  final String type;
 
   Map<String, dynamic> toJson() => _$SortParamToJson(this);
 

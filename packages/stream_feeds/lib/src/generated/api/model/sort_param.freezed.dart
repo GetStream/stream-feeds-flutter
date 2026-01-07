@@ -17,6 +17,7 @@ T _$identity<T>(T value) => value;
 mixin _$SortParam {
   int get direction;
   String get field;
+  String get type;
 
   /// Create a copy of SortParam
   /// with the given fields replaced by the non-null parameter values.
@@ -32,15 +33,16 @@ mixin _$SortParam {
             other is SortParam &&
             (identical(other.direction, direction) ||
                 other.direction == direction) &&
-            (identical(other.field, field) || other.field == field));
+            (identical(other.field, field) || other.field == field) &&
+            (identical(other.type, type) || other.type == type));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, direction, field);
+  int get hashCode => Object.hash(runtimeType, direction, field, type);
 
   @override
   String toString() {
-    return 'SortParam(direction: $direction, field: $field)';
+    return 'SortParam(direction: $direction, field: $field, type: $type)';
   }
 }
 
@@ -49,7 +51,7 @@ abstract mixin class $SortParamCopyWith<$Res> {
   factory $SortParamCopyWith(SortParam value, $Res Function(SortParam) _then) =
       _$SortParamCopyWithImpl;
   @useResult
-  $Res call({int direction, String field});
+  $Res call({int direction, String field, String type});
 }
 
 /// @nodoc
@@ -66,6 +68,7 @@ class _$SortParamCopyWithImpl<$Res> implements $SortParamCopyWith<$Res> {
   $Res call({
     Object? direction = null,
     Object? field = null,
+    Object? type = null,
   }) {
     return _then(SortParam(
       direction: null == direction
@@ -75,6 +78,10 @@ class _$SortParamCopyWithImpl<$Res> implements $SortParamCopyWith<$Res> {
       field: null == field
           ? _self.field
           : field // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _self.type
+          : type // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }

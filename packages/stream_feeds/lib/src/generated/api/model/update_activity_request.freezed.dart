@@ -23,6 +23,7 @@ mixin _$UpdateActivityRequest {
   List<String>? get filterTags;
   List<String>? get interestTags;
   ActivityLocation? get location;
+  List<String>? get mentionedUserIds;
   String? get pollId;
   UpdateActivityRequestRestrictReplies? get restrictReplies;
   bool? get skipEnrichUrl;
@@ -56,6 +57,8 @@ mixin _$UpdateActivityRequest {
                 .equals(other.interestTags, interestTags) &&
             (identical(other.location, location) ||
                 other.location == location) &&
+            const DeepCollectionEquality()
+                .equals(other.mentionedUserIds, mentionedUserIds) &&
             (identical(other.pollId, pollId) || other.pollId == pollId) &&
             (identical(other.restrictReplies, restrictReplies) ||
                 other.restrictReplies == restrictReplies) &&
@@ -77,6 +80,7 @@ mixin _$UpdateActivityRequest {
       const DeepCollectionEquality().hash(filterTags),
       const DeepCollectionEquality().hash(interestTags),
       location,
+      const DeepCollectionEquality().hash(mentionedUserIds),
       pollId,
       restrictReplies,
       skipEnrichUrl,
@@ -85,7 +89,7 @@ mixin _$UpdateActivityRequest {
 
   @override
   String toString() {
-    return 'UpdateActivityRequest(attachments: $attachments, collectionRefs: $collectionRefs, custom: $custom, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, interestTags: $interestTags, location: $location, pollId: $pollId, restrictReplies: $restrictReplies, skipEnrichUrl: $skipEnrichUrl, text: $text, visibility: $visibility)';
+    return 'UpdateActivityRequest(attachments: $attachments, collectionRefs: $collectionRefs, custom: $custom, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, interestTags: $interestTags, location: $location, mentionedUserIds: $mentionedUserIds, pollId: $pollId, restrictReplies: $restrictReplies, skipEnrichUrl: $skipEnrichUrl, text: $text, visibility: $visibility)';
   }
 }
 
@@ -104,6 +108,7 @@ abstract mixin class $UpdateActivityRequestCopyWith<$Res> {
       List<String>? filterTags,
       List<String>? interestTags,
       ActivityLocation? location,
+      List<String>? mentionedUserIds,
       String? pollId,
       UpdateActivityRequestRestrictReplies? restrictReplies,
       bool? skipEnrichUrl,
@@ -132,6 +137,7 @@ class _$UpdateActivityRequestCopyWithImpl<$Res>
     Object? filterTags = freezed,
     Object? interestTags = freezed,
     Object? location = freezed,
+    Object? mentionedUserIds = freezed,
     Object? pollId = freezed,
     Object? restrictReplies = freezed,
     Object? skipEnrichUrl = freezed,
@@ -171,6 +177,10 @@ class _$UpdateActivityRequestCopyWithImpl<$Res>
           ? _self.location
           : location // ignore: cast_nullable_to_non_nullable
               as ActivityLocation?,
+      mentionedUserIds: freezed == mentionedUserIds
+          ? _self.mentionedUserIds
+          : mentionedUserIds // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       pollId: freezed == pollId
           ? _self.pollId
           : pollId // ignore: cast_nullable_to_non_nullable

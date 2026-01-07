@@ -16,6 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SubmitActionRequest {
   SubmitActionRequestActionType get actionType;
+  String? get appealId;
   BanActionRequest? get ban;
   BlockActionRequest? get block;
   CustomActionRequest? get custom;
@@ -24,9 +25,13 @@ mixin _$SubmitActionRequest {
   DeleteMessageRequest? get deleteMessage;
   DeleteReactionRequest? get deleteReaction;
   DeleteUserRequest? get deleteUser;
-  String get itemId;
+  String? get itemId;
   MarkReviewedRequest? get markReviewed;
+  RejectAppealRequest? get rejectAppeal;
+  RestoreActionRequest? get restore;
   ShadowBlockActionRequest? get shadowBlock;
+  UnbanActionRequest? get unban;
+  UnblockActionRequest? get unblock;
 
   /// Create a copy of SubmitActionRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -43,6 +48,8 @@ mixin _$SubmitActionRequest {
             other is SubmitActionRequest &&
             (identical(other.actionType, actionType) ||
                 other.actionType == actionType) &&
+            (identical(other.appealId, appealId) ||
+                other.appealId == appealId) &&
             (identical(other.ban, ban) || other.ban == ban) &&
             (identical(other.block, block) || other.block == block) &&
             (identical(other.custom, custom) || other.custom == custom) &&
@@ -59,14 +66,20 @@ mixin _$SubmitActionRequest {
             (identical(other.itemId, itemId) || other.itemId == itemId) &&
             (identical(other.markReviewed, markReviewed) ||
                 other.markReviewed == markReviewed) &&
+            (identical(other.rejectAppeal, rejectAppeal) ||
+                other.rejectAppeal == rejectAppeal) &&
+            (identical(other.restore, restore) || other.restore == restore) &&
             (identical(other.shadowBlock, shadowBlock) ||
-                other.shadowBlock == shadowBlock));
+                other.shadowBlock == shadowBlock) &&
+            (identical(other.unban, unban) || other.unban == unban) &&
+            (identical(other.unblock, unblock) || other.unblock == unblock));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       actionType,
+      appealId,
       ban,
       block,
       custom,
@@ -77,11 +90,15 @@ mixin _$SubmitActionRequest {
       deleteUser,
       itemId,
       markReviewed,
-      shadowBlock);
+      rejectAppeal,
+      restore,
+      shadowBlock,
+      unban,
+      unblock);
 
   @override
   String toString() {
-    return 'SubmitActionRequest(actionType: $actionType, ban: $ban, block: $block, custom: $custom, deleteActivity: $deleteActivity, deleteComment: $deleteComment, deleteMessage: $deleteMessage, deleteReaction: $deleteReaction, deleteUser: $deleteUser, itemId: $itemId, markReviewed: $markReviewed, shadowBlock: $shadowBlock)';
+    return 'SubmitActionRequest(actionType: $actionType, appealId: $appealId, ban: $ban, block: $block, custom: $custom, deleteActivity: $deleteActivity, deleteComment: $deleteComment, deleteMessage: $deleteMessage, deleteReaction: $deleteReaction, deleteUser: $deleteUser, itemId: $itemId, markReviewed: $markReviewed, rejectAppeal: $rejectAppeal, restore: $restore, shadowBlock: $shadowBlock, unban: $unban, unblock: $unblock)';
   }
 }
 
@@ -93,6 +110,7 @@ abstract mixin class $SubmitActionRequestCopyWith<$Res> {
   @useResult
   $Res call(
       {SubmitActionRequestActionType actionType,
+      String? appealId,
       BanActionRequest? ban,
       BlockActionRequest? block,
       CustomActionRequest? custom,
@@ -101,9 +119,13 @@ abstract mixin class $SubmitActionRequestCopyWith<$Res> {
       DeleteMessageRequest? deleteMessage,
       DeleteReactionRequest? deleteReaction,
       DeleteUserRequest? deleteUser,
-      String itemId,
+      String? itemId,
       MarkReviewedRequest? markReviewed,
-      ShadowBlockActionRequest? shadowBlock});
+      RejectAppealRequest? rejectAppeal,
+      RestoreActionRequest? restore,
+      ShadowBlockActionRequest? shadowBlock,
+      UnbanActionRequest? unban,
+      UnblockActionRequest? unblock});
 }
 
 /// @nodoc
@@ -120,6 +142,7 @@ class _$SubmitActionRequestCopyWithImpl<$Res>
   @override
   $Res call({
     Object? actionType = null,
+    Object? appealId = freezed,
     Object? ban = freezed,
     Object? block = freezed,
     Object? custom = freezed,
@@ -128,15 +151,23 @@ class _$SubmitActionRequestCopyWithImpl<$Res>
     Object? deleteMessage = freezed,
     Object? deleteReaction = freezed,
     Object? deleteUser = freezed,
-    Object? itemId = null,
+    Object? itemId = freezed,
     Object? markReviewed = freezed,
+    Object? rejectAppeal = freezed,
+    Object? restore = freezed,
     Object? shadowBlock = freezed,
+    Object? unban = freezed,
+    Object? unblock = freezed,
   }) {
     return _then(SubmitActionRequest(
       actionType: null == actionType
           ? _self.actionType
           : actionType // ignore: cast_nullable_to_non_nullable
               as SubmitActionRequestActionType,
+      appealId: freezed == appealId
+          ? _self.appealId
+          : appealId // ignore: cast_nullable_to_non_nullable
+              as String?,
       ban: freezed == ban
           ? _self.ban
           : ban // ignore: cast_nullable_to_non_nullable
@@ -169,18 +200,34 @@ class _$SubmitActionRequestCopyWithImpl<$Res>
           ? _self.deleteUser
           : deleteUser // ignore: cast_nullable_to_non_nullable
               as DeleteUserRequest?,
-      itemId: null == itemId
+      itemId: freezed == itemId
           ? _self.itemId
           : itemId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       markReviewed: freezed == markReviewed
           ? _self.markReviewed
           : markReviewed // ignore: cast_nullable_to_non_nullable
               as MarkReviewedRequest?,
+      rejectAppeal: freezed == rejectAppeal
+          ? _self.rejectAppeal
+          : rejectAppeal // ignore: cast_nullable_to_non_nullable
+              as RejectAppealRequest?,
+      restore: freezed == restore
+          ? _self.restore
+          : restore // ignore: cast_nullable_to_non_nullable
+              as RestoreActionRequest?,
       shadowBlock: freezed == shadowBlock
           ? _self.shadowBlock
           : shadowBlock // ignore: cast_nullable_to_non_nullable
               as ShadowBlockActionRequest?,
+      unban: freezed == unban
+          ? _self.unban
+          : unban // ignore: cast_nullable_to_non_nullable
+              as UnbanActionRequest?,
+      unblock: freezed == unblock
+          ? _self.unblock
+          : unblock // ignore: cast_nullable_to_non_nullable
+              as UnblockActionRequest?,
     ));
   }
 }

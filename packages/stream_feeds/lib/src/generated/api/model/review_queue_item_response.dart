@@ -21,6 +21,7 @@ class ReviewQueueItemResponse with _$ReviewQueueItemResponse {
     required this.actions,
     this.activity,
     required this.aiTextSeverity,
+    this.appeal,
     this.assignedTo,
     required this.bans,
     this.call,
@@ -60,6 +61,9 @@ class ReviewQueueItemResponse with _$ReviewQueueItemResponse {
 
   @override
   final String aiTextSeverity;
+
+  @override
+  final AppealItemResponse? appeal;
 
   @override
   final UserResponse? assignedTo;

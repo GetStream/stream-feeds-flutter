@@ -16,6 +16,9 @@ ReviewQueueItemResponse _$ReviewQueueItemResponseFromJson(
           ? null
           : EnrichedActivity.fromJson(json['activity'] as Map<String, dynamic>),
       aiTextSeverity: json['ai_text_severity'] as String,
+      appeal: json['appeal'] == null
+          ? null
+          : AppealItemResponse.fromJson(json['appeal'] as Map<String, dynamic>),
       assignedTo: json['assigned_to'] == null
           ? null
           : UserResponse.fromJson(json['assigned_to'] as Map<String, dynamic>),
@@ -90,6 +93,7 @@ Map<String, dynamic> _$ReviewQueueItemResponseToJson(
       'actions': instance.actions.map((e) => e.toJson()).toList(),
       'activity': instance.activity?.toJson(),
       'ai_text_severity': instance.aiTextSeverity,
+      'appeal': instance.appeal?.toJson(),
       'assigned_to': instance.assignedTo?.toJson(),
       'bans': instance.bans.map((e) => e.toJson()).toList(),
       'call': instance.call?.toJson(),

@@ -38,6 +38,7 @@ class UpdateActivityRequest with _$UpdateActivityRequest {
     this.filterTags,
     this.interestTags,
     this.location,
+    this.mentionedUserIds,
     this.pollId,
     this.restrictReplies,
     this.skipEnrichUrl,
@@ -69,6 +70,9 @@ class UpdateActivityRequest with _$UpdateActivityRequest {
 
   @override
   final ActivityLocation? location;
+
+  @override
+  final List<String>? mentionedUserIds;
 
   @override
   final String? pollId;

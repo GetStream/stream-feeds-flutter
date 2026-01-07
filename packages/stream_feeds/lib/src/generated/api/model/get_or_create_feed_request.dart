@@ -19,10 +19,12 @@ part 'get_or_create_feed_request.freezed.dart';
 class GetOrCreateFeedRequest with _$GetOrCreateFeedRequest {
   const GetOrCreateFeedRequest({
     this.data,
+    this.enrichmentOptions,
     this.externalRanking,
     this.filter,
     this.followersPagination,
     this.followingPagination,
+    this.idAround,
     this.interestWeights,
     this.limit,
     this.memberPagination,
@@ -36,6 +38,9 @@ class GetOrCreateFeedRequest with _$GetOrCreateFeedRequest {
   final FeedInput? data;
 
   @override
+  final EnrichmentOptions? enrichmentOptions;
+
+  @override
   final Map<String, Object?>? externalRanking;
 
   @override
@@ -46,6 +51,9 @@ class GetOrCreateFeedRequest with _$GetOrCreateFeedRequest {
 
   @override
   final PagerRequest? followingPagination;
+
+  @override
+  final String? idAround;
 
   @override
   final Map<String, double>? interestWeights;

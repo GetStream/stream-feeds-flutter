@@ -22,6 +22,7 @@ class ActivitySelectorConfig with _$ActivitySelectorConfig {
     this.cutoffWindow,
     this.filter,
     this.minPopularity,
+    this.params,
     this.sort,
     this.type,
   });
@@ -38,6 +39,9 @@ class ActivitySelectorConfig with _$ActivitySelectorConfig {
 
   @override
   final int? minPopularity;
+
+  @override
+  final Map<String, Object?>? params;
 
   @override
   final List<SortParam>? sort;

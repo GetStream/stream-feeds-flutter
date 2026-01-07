@@ -16,8 +16,11 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$EgressResponse {
   bool get broadcasting;
+  CompositeRecordingResponse? get compositeRecording;
   FrameRecordingResponse? get frameRecording;
   EgressHLSResponse? get hls;
+  IndividualRecordingResponse? get individualRecording;
+  RawRecordingResponse? get rawRecording;
   List<EgressRTMPResponse> get rtmps;
 
   /// Create a copy of EgressResponse
@@ -35,19 +38,32 @@ mixin _$EgressResponse {
             other is EgressResponse &&
             (identical(other.broadcasting, broadcasting) ||
                 other.broadcasting == broadcasting) &&
+            (identical(other.compositeRecording, compositeRecording) ||
+                other.compositeRecording == compositeRecording) &&
             (identical(other.frameRecording, frameRecording) ||
                 other.frameRecording == frameRecording) &&
             (identical(other.hls, hls) || other.hls == hls) &&
+            (identical(other.individualRecording, individualRecording) ||
+                other.individualRecording == individualRecording) &&
+            (identical(other.rawRecording, rawRecording) ||
+                other.rawRecording == rawRecording) &&
             const DeepCollectionEquality().equals(other.rtmps, rtmps));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, broadcasting, frameRecording,
-      hls, const DeepCollectionEquality().hash(rtmps));
+  int get hashCode => Object.hash(
+      runtimeType,
+      broadcasting,
+      compositeRecording,
+      frameRecording,
+      hls,
+      individualRecording,
+      rawRecording,
+      const DeepCollectionEquality().hash(rtmps));
 
   @override
   String toString() {
-    return 'EgressResponse(broadcasting: $broadcasting, frameRecording: $frameRecording, hls: $hls, rtmps: $rtmps)';
+    return 'EgressResponse(broadcasting: $broadcasting, compositeRecording: $compositeRecording, frameRecording: $frameRecording, hls: $hls, individualRecording: $individualRecording, rawRecording: $rawRecording, rtmps: $rtmps)';
   }
 }
 
@@ -59,8 +75,11 @@ abstract mixin class $EgressResponseCopyWith<$Res> {
   @useResult
   $Res call(
       {bool broadcasting,
+      CompositeRecordingResponse? compositeRecording,
       FrameRecordingResponse? frameRecording,
       EgressHLSResponse? hls,
+      IndividualRecordingResponse? individualRecording,
+      RawRecordingResponse? rawRecording,
       List<EgressRTMPResponse> rtmps});
 }
 
@@ -78,8 +97,11 @@ class _$EgressResponseCopyWithImpl<$Res>
   @override
   $Res call({
     Object? broadcasting = null,
+    Object? compositeRecording = freezed,
     Object? frameRecording = freezed,
     Object? hls = freezed,
+    Object? individualRecording = freezed,
+    Object? rawRecording = freezed,
     Object? rtmps = null,
   }) {
     return _then(EgressResponse(
@@ -87,6 +109,10 @@ class _$EgressResponseCopyWithImpl<$Res>
           ? _self.broadcasting
           : broadcasting // ignore: cast_nullable_to_non_nullable
               as bool,
+      compositeRecording: freezed == compositeRecording
+          ? _self.compositeRecording
+          : compositeRecording // ignore: cast_nullable_to_non_nullable
+              as CompositeRecordingResponse?,
       frameRecording: freezed == frameRecording
           ? _self.frameRecording
           : frameRecording // ignore: cast_nullable_to_non_nullable
@@ -95,6 +121,14 @@ class _$EgressResponseCopyWithImpl<$Res>
           ? _self.hls
           : hls // ignore: cast_nullable_to_non_nullable
               as EgressHLSResponse?,
+      individualRecording: freezed == individualRecording
+          ? _self.individualRecording
+          : individualRecording // ignore: cast_nullable_to_non_nullable
+              as IndividualRecordingResponse?,
+      rawRecording: freezed == rawRecording
+          ? _self.rawRecording
+          : rawRecording // ignore: cast_nullable_to_non_nullable
+              as RawRecordingResponse?,
       rtmps: null == rtmps
           ? _self.rtmps
           : rtmps // ignore: cast_nullable_to_non_nullable

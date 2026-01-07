@@ -14,6 +14,7 @@ ActivitySelectorConfig _$ActivitySelectorConfigFromJson(
       cutoffWindow: json['cutoff_window'] as String?,
       filter: json['filter'] as Map<String, dynamic>?,
       minPopularity: (json['min_popularity'] as num?)?.toInt(),
+      params: json['params'] as Map<String, dynamic>?,
       sort: (json['sort'] as List<dynamic>?)
           ?.map((e) => SortParam.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -27,6 +28,7 @@ Map<String, dynamic> _$ActivitySelectorConfigToJson(
       'cutoff_window': instance.cutoffWindow,
       'filter': instance.filter,
       'min_popularity': instance.minPopularity,
+      'params': instance.params,
       'sort': instance.sort?.map((e) => e.toJson()).toList(),
       'type': instance.type,
     };

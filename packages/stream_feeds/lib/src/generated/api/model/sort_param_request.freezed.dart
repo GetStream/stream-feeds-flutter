@@ -17,6 +17,7 @@ T _$identity<T>(T value) => value;
 mixin _$SortParamRequest {
   int? get direction;
   String? get field;
+  SortParamRequestType? get type;
 
   /// Create a copy of SortParamRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -33,15 +34,16 @@ mixin _$SortParamRequest {
             other is SortParamRequest &&
             (identical(other.direction, direction) ||
                 other.direction == direction) &&
-            (identical(other.field, field) || other.field == field));
+            (identical(other.field, field) || other.field == field) &&
+            (identical(other.type, type) || other.type == type));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, direction, field);
+  int get hashCode => Object.hash(runtimeType, direction, field, type);
 
   @override
   String toString() {
-    return 'SortParamRequest(direction: $direction, field: $field)';
+    return 'SortParamRequest(direction: $direction, field: $field, type: $type)';
   }
 }
 
@@ -51,7 +53,7 @@ abstract mixin class $SortParamRequestCopyWith<$Res> {
           SortParamRequest value, $Res Function(SortParamRequest) _then) =
       _$SortParamRequestCopyWithImpl;
   @useResult
-  $Res call({int? direction, String? field});
+  $Res call({int? direction, String? field, SortParamRequestType? type});
 }
 
 /// @nodoc
@@ -69,6 +71,7 @@ class _$SortParamRequestCopyWithImpl<$Res>
   $Res call({
     Object? direction = freezed,
     Object? field = freezed,
+    Object? type = freezed,
   }) {
     return _then(SortParamRequest(
       direction: freezed == direction
@@ -79,6 +82,10 @@ class _$SortParamRequestCopyWithImpl<$Res>
           ? _self.field
           : field // ignore: cast_nullable_to_non_nullable
               as String?,
+      type: freezed == type
+          ? _self.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as SortParamRequestType?,
     ));
   }
 }

@@ -29,6 +29,9 @@ UpdateActivityRequest _$UpdateActivityRequestFromJson(
       location: json['location'] == null
           ? null
           : ActivityLocation.fromJson(json['location'] as Map<String, dynamic>),
+      mentionedUserIds: (json['mentioned_user_ids'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       pollId: json['poll_id'] as String?,
       restrictReplies: $enumDecodeNullable(
           _$UpdateActivityRequestRestrictRepliesEnumMap,
@@ -51,6 +54,7 @@ Map<String, dynamic> _$UpdateActivityRequestToJson(
       'filter_tags': instance.filterTags,
       'interest_tags': instance.interestTags,
       'location': instance.location?.toJson(),
+      'mentioned_user_ids': instance.mentionedUserIds,
       'poll_id': instance.pollId,
       'restrict_replies': _$UpdateActivityRequestRestrictRepliesEnumMap[
           instance.restrictReplies],

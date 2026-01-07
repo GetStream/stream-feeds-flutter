@@ -16,10 +16,12 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$GetOrCreateFeedRequest {
   FeedInput? get data;
+  EnrichmentOptions? get enrichmentOptions;
   Map<String, Object?>? get externalRanking;
   Map<String, Object?>? get filter;
   PagerRequest? get followersPagination;
   PagerRequest? get followingPagination;
+  String? get idAround;
   Map<String, double>? get interestWeights;
   int? get limit;
   PagerRequest? get memberPagination;
@@ -42,6 +44,8 @@ mixin _$GetOrCreateFeedRequest {
         (other.runtimeType == runtimeType &&
             other is GetOrCreateFeedRequest &&
             (identical(other.data, data) || other.data == data) &&
+            (identical(other.enrichmentOptions, enrichmentOptions) ||
+                other.enrichmentOptions == enrichmentOptions) &&
             const DeepCollectionEquality()
                 .equals(other.externalRanking, externalRanking) &&
             const DeepCollectionEquality().equals(other.filter, filter) &&
@@ -49,6 +53,8 @@ mixin _$GetOrCreateFeedRequest {
                 other.followersPagination == followersPagination) &&
             (identical(other.followingPagination, followingPagination) ||
                 other.followingPagination == followingPagination) &&
+            (identical(other.idAround, idAround) ||
+                other.idAround == idAround) &&
             const DeepCollectionEquality()
                 .equals(other.interestWeights, interestWeights) &&
             (identical(other.limit, limit) || other.limit == limit) &&
@@ -64,10 +70,12 @@ mixin _$GetOrCreateFeedRequest {
   int get hashCode => Object.hash(
       runtimeType,
       data,
+      enrichmentOptions,
       const DeepCollectionEquality().hash(externalRanking),
       const DeepCollectionEquality().hash(filter),
       followersPagination,
       followingPagination,
+      idAround,
       const DeepCollectionEquality().hash(interestWeights),
       limit,
       memberPagination,
@@ -78,7 +86,7 @@ mixin _$GetOrCreateFeedRequest {
 
   @override
   String toString() {
-    return 'GetOrCreateFeedRequest(data: $data, externalRanking: $externalRanking, filter: $filter, followersPagination: $followersPagination, followingPagination: $followingPagination, interestWeights: $interestWeights, limit: $limit, memberPagination: $memberPagination, next: $next, prev: $prev, view: $view, watch: $watch)';
+    return 'GetOrCreateFeedRequest(data: $data, enrichmentOptions: $enrichmentOptions, externalRanking: $externalRanking, filter: $filter, followersPagination: $followersPagination, followingPagination: $followingPagination, idAround: $idAround, interestWeights: $interestWeights, limit: $limit, memberPagination: $memberPagination, next: $next, prev: $prev, view: $view, watch: $watch)';
   }
 }
 
@@ -90,10 +98,12 @@ abstract mixin class $GetOrCreateFeedRequestCopyWith<$Res> {
   @useResult
   $Res call(
       {FeedInput? data,
+      EnrichmentOptions? enrichmentOptions,
       Map<String, Object?>? externalRanking,
       Map<String, Object?>? filter,
       PagerRequest? followersPagination,
       PagerRequest? followingPagination,
+      String? idAround,
       Map<String, double>? interestWeights,
       int? limit,
       PagerRequest? memberPagination,
@@ -117,10 +127,12 @@ class _$GetOrCreateFeedRequestCopyWithImpl<$Res>
   @override
   $Res call({
     Object? data = freezed,
+    Object? enrichmentOptions = freezed,
     Object? externalRanking = freezed,
     Object? filter = freezed,
     Object? followersPagination = freezed,
     Object? followingPagination = freezed,
+    Object? idAround = freezed,
     Object? interestWeights = freezed,
     Object? limit = freezed,
     Object? memberPagination = freezed,
@@ -134,6 +146,10 @@ class _$GetOrCreateFeedRequestCopyWithImpl<$Res>
           ? _self.data
           : data // ignore: cast_nullable_to_non_nullable
               as FeedInput?,
+      enrichmentOptions: freezed == enrichmentOptions
+          ? _self.enrichmentOptions
+          : enrichmentOptions // ignore: cast_nullable_to_non_nullable
+              as EnrichmentOptions?,
       externalRanking: freezed == externalRanking
           ? _self.externalRanking
           : externalRanking // ignore: cast_nullable_to_non_nullable
@@ -150,6 +166,10 @@ class _$GetOrCreateFeedRequestCopyWithImpl<$Res>
           ? _self.followingPagination
           : followingPagination // ignore: cast_nullable_to_non_nullable
               as PagerRequest?,
+      idAround: freezed == idAround
+          ? _self.idAround
+          : idAround // ignore: cast_nullable_to_non_nullable
+              as String?,
       interestWeights: freezed == interestWeights
           ? _self.interestWeights
           : interestWeights // ignore: cast_nullable_to_non_nullable

@@ -18,15 +18,20 @@ class CapabilitiesRepository {
   Future<Result<Map<String, List<FeedOwnCapability>>>> fetchCapabilities({
     required List<String> feeds,
   }) async {
-    final result = await _api.ownCapabilitiesBatch(
-      ownCapabilitiesBatchRequest: api.OwnCapabilitiesBatchRequest(
-        feeds: feeds,
-      ),
+    final result = await _api.ownBatch(
+      ownBatchRequest: api.OwnBatchRequest(feeds: feeds),
     );
 
     return result.map((response) {
-      _mergeWithCache(response.capabilities);
-      return response.capabilities;
+      final ownCapabilities = <String, List<FeedOwnCapability>>{};
+      for (final MapEntry(:key, :value) in response.data.entries) {
+        if (value.ownCapabilities case final capabilities?) {
+          ownCapabilities[key] = capabilities;
+        }
+      }
+
+      _mergeWithCache(ownCapabilities);
+      return ownCapabilities;
     });
   }
 

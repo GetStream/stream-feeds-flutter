@@ -18,9 +18,13 @@ part 'submit_action_response.freezed.dart';
 @JsonSerializable()
 class SubmitActionResponse with _$SubmitActionResponse {
   const SubmitActionResponse({
+    this.appealItem,
     required this.duration,
     this.item,
   });
+
+  @override
+  final AppealItemResponse? appealItem;
 
   @override
   final String duration;

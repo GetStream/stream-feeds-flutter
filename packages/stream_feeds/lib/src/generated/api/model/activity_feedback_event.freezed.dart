@@ -35,7 +35,6 @@ mixin _$ActivityFeedbackEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ActivityFeedbackEvent &&
-            super == other &&
             (identical(other.activityFeedback, activityFeedback) ||
                 other.activityFeedback == activityFeedback) &&
             (identical(other.createdAt, createdAt) ||
@@ -48,15 +47,8 @@ mixin _$ActivityFeedbackEvent {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      super.hashCode,
-      activityFeedback,
-      createdAt,
-      const DeepCollectionEquality().hash(custom),
-      receivedAt,
-      type,
-      user);
+  int get hashCode => Object.hash(runtimeType, activityFeedback, createdAt,
+      const DeepCollectionEquality().hash(custom), receivedAt, type, user);
 
   @override
   String toString() {

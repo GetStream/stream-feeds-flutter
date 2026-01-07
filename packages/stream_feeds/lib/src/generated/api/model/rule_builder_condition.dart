@@ -29,6 +29,8 @@ class RuleBuilderCondition with _$RuleBuilderCondition {
     this.userCreatedWithinParams,
     this.userCustomPropertyParams,
     this.userFlagCountRuleParams,
+    this.userIdenticalContentCountParams,
+    this.userRoleParams,
     this.userRuleParams,
     this.videoContentParams,
     this.videoRuleParams,
@@ -66,6 +68,12 @@ class RuleBuilderCondition with _$RuleBuilderCondition {
 
   @override
   final FlagCountRuleParameters? userFlagCountRuleParams;
+
+  @override
+  final UserIdenticalContentCountParameters? userIdenticalContentCountParams;
+
+  @override
+  final UserRoleParameters? userRoleParams;
 
   @override
   final UserRuleParameters? userRuleParams;

@@ -19,10 +19,22 @@ part 'update_feed_request.freezed.dart';
 class UpdateFeedRequest with _$UpdateFeedRequest {
   const UpdateFeedRequest({
     this.custom,
+    this.description,
+    this.filterTags,
+    this.name,
   });
 
   @override
   final Map<String, Object?>? custom;
+
+  @override
+  final String? description;
+
+  @override
+  final List<String>? filterTags;
+
+  @override
+  final String? name;
 
   Map<String, dynamic> toJson() => _$UpdateFeedRequestToJson(this);
 

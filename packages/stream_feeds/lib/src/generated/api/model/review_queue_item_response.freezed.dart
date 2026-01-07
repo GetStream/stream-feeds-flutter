@@ -18,6 +18,7 @@ mixin _$ReviewQueueItemResponse {
   List<ActionLogResponse> get actions;
   EnrichedActivity? get activity;
   String get aiTextSeverity;
+  AppealItemResponse? get appeal;
   UserResponse? get assignedTo;
   List<Ban> get bans;
   CallResponse? get call;
@@ -66,6 +67,7 @@ mixin _$ReviewQueueItemResponse {
                 other.activity == activity) &&
             (identical(other.aiTextSeverity, aiTextSeverity) ||
                 other.aiTextSeverity == aiTextSeverity) &&
+            (identical(other.appeal, appeal) || other.appeal == appeal) &&
             (identical(other.assignedTo, assignedTo) ||
                 other.assignedTo == assignedTo) &&
             const DeepCollectionEquality().equals(other.bans, bans) &&
@@ -124,6 +126,7 @@ mixin _$ReviewQueueItemResponse {
         const DeepCollectionEquality().hash(actions),
         activity,
         aiTextSeverity,
+        appeal,
         assignedTo,
         const DeepCollectionEquality().hash(bans),
         call,
@@ -157,7 +160,7 @@ mixin _$ReviewQueueItemResponse {
 
   @override
   String toString() {
-    return 'ReviewQueueItemResponse(actions: $actions, activity: $activity, aiTextSeverity: $aiTextSeverity, assignedTo: $assignedTo, bans: $bans, call: $call, completedAt: $completedAt, configKey: $configKey, createdAt: $createdAt, entityCreator: $entityCreator, entityCreatorId: $entityCreatorId, entityId: $entityId, entityType: $entityType, feedsV2Activity: $feedsV2Activity, feedsV2Reaction: $feedsV2Reaction, feedsV3Activity: $feedsV3Activity, feedsV3Comment: $feedsV3Comment, flags: $flags, flagsCount: $flagsCount, id: $id, languages: $languages, latestModeratorAction: $latestModeratorAction, message: $message, moderationPayload: $moderationPayload, reaction: $reaction, recommendedAction: $recommendedAction, reviewedAt: $reviewedAt, reviewedBy: $reviewedBy, severity: $severity, status: $status, teams: $teams, updatedAt: $updatedAt)';
+    return 'ReviewQueueItemResponse(actions: $actions, activity: $activity, aiTextSeverity: $aiTextSeverity, appeal: $appeal, assignedTo: $assignedTo, bans: $bans, call: $call, completedAt: $completedAt, configKey: $configKey, createdAt: $createdAt, entityCreator: $entityCreator, entityCreatorId: $entityCreatorId, entityId: $entityId, entityType: $entityType, feedsV2Activity: $feedsV2Activity, feedsV2Reaction: $feedsV2Reaction, feedsV3Activity: $feedsV3Activity, feedsV3Comment: $feedsV3Comment, flags: $flags, flagsCount: $flagsCount, id: $id, languages: $languages, latestModeratorAction: $latestModeratorAction, message: $message, moderationPayload: $moderationPayload, reaction: $reaction, recommendedAction: $recommendedAction, reviewedAt: $reviewedAt, reviewedBy: $reviewedBy, severity: $severity, status: $status, teams: $teams, updatedAt: $updatedAt)';
   }
 }
 
@@ -171,6 +174,7 @@ abstract mixin class $ReviewQueueItemResponseCopyWith<$Res> {
       {List<ActionLogResponse> actions,
       EnrichedActivity? activity,
       String aiTextSeverity,
+      AppealItemResponse? appeal,
       UserResponse? assignedTo,
       List<Ban> bans,
       CallResponse? call,
@@ -218,6 +222,7 @@ class _$ReviewQueueItemResponseCopyWithImpl<$Res>
     Object? actions = null,
     Object? activity = freezed,
     Object? aiTextSeverity = null,
+    Object? appeal = freezed,
     Object? assignedTo = freezed,
     Object? bans = null,
     Object? call = freezed,
@@ -261,6 +266,10 @@ class _$ReviewQueueItemResponseCopyWithImpl<$Res>
           ? _self.aiTextSeverity
           : aiTextSeverity // ignore: cast_nullable_to_non_nullable
               as String,
+      appeal: freezed == appeal
+          ? _self.appeal
+          : appeal // ignore: cast_nullable_to_non_nullable
+              as AppealItemResponse?,
       assignedTo: freezed == assignedTo
           ? _self.assignedTo
           : assignedTo // ignore: cast_nullable_to_non_nullable
