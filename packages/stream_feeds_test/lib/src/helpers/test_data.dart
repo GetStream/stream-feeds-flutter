@@ -261,6 +261,7 @@ FeedResponse createDefaultFeedResponse({
   int followingCount = 0,
   List<FeedOwnCapability>? ownCapabilities,
   FeedMemberResponse? ownMembership,
+  List<FollowResponse>? ownFollowings,
   List<FollowResponse>? ownFollows,
 }) {
   return FeedResponse(
@@ -280,6 +281,7 @@ FeedResponse createDefaultFeedResponse({
     updatedAt: DateTime.now(),
     ownCapabilities: ownCapabilities,
     ownMembership: ownMembership,
+    ownFollowings: ownFollowings,
     ownFollows: ownFollows,
   );
 }
@@ -821,6 +823,8 @@ FeedSuggestionResponse createDefaultFeedSuggestionResponse({
   Map<String, double>? algorithmScores,
   String? reason,
   double? recommendationScore,
+  List<FollowResponse>? ownFollowings,
+  List<FollowResponse>? ownFollows,
 }) {
   return FeedSuggestionResponse(
     id: id,
@@ -840,6 +844,8 @@ FeedSuggestionResponse createDefaultFeedSuggestionResponse({
     algorithmScores: algorithmScores,
     reason: reason,
     recommendationScore: recommendationScore,
+    ownFollowings: ownFollowings,
+    ownFollows: ownFollows,
   );
 }
 

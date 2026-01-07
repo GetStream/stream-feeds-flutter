@@ -32,6 +32,7 @@ class FeedData with _$FeedData {
     required this.name,
     required this.ownCapabilities,
     this.ownMembership,
+    this.ownFollowings,
     this.ownFollows,
     required this.pinCount,
     required this.updatedAt,
@@ -99,6 +100,10 @@ class FeedData with _$FeedData {
   @override
   final FeedMemberData? ownMembership;
 
+  /// The feeds that the current user is following from this feed.
+  @override
+  final List<FollowData>? ownFollowings;
+
   /// The follow relationships of the current user in the feed.
   @override
   final List<FollowData>? ownFollows;
@@ -143,6 +148,7 @@ extension FeedResponseMapper on FeedResponse {
       name: name,
       ownCapabilities: ownCapabilities ?? const [],
       ownMembership: ownMembership?.toModel(),
+      ownFollowings: ownFollowings?.map((f) => f.toModel()).toList(),
       ownFollows: ownFollows?.map((f) => f.toModel()).toList(),
       pinCount: pinCount,
       updatedAt: updatedAt,
@@ -157,7 +163,7 @@ extension FeedDataMutations on FeedData {
   /// Updates this feed with new data while preserving own data.
   ///
   /// Merges [updated] feed data with this instance, preserving [ownCapabilities],
-  /// [ownMembership], and [ownFollows] from this instance when not provided. This
+  /// [ownMembership], [ownFollowings], and [ownFollows] from this instance when not provided. This
   /// ensures that user-specific data is not lost when updating from WebSocket events.
   ///
   /// Returns a new [FeedData] instance with the merged data.
@@ -165,6 +171,7 @@ extension FeedDataMutations on FeedData {
     FeedData updated, {
     List<FeedOwnCapability>? ownCapabilities,
     FeedMemberData? ownMembership,
+    List<FollowData>? ownFollowings,
     List<FollowData>? ownFollows,
   }) {
     return updated.copyWith(
@@ -172,6 +179,7 @@ extension FeedDataMutations on FeedData {
       // as they may not be reliable from WS events.
       ownCapabilities: ownCapabilities ?? this.ownCapabilities,
       ownMembership: ownMembership ?? this.ownMembership,
+      ownFollowings: ownFollowings ?? this.ownFollowings,
       ownFollows: ownFollows ?? this.ownFollows,
     );
   }
