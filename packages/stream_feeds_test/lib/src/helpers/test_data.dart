@@ -1034,6 +1034,56 @@ DeleteActivitiesResponse createDefaultDeleteActivitiesResponse({
   );
 }
 
+AppealResponse createDefaultAppealResponse({
+  String appealId = 'appeal-123',
+}) {
+  return AppealResponse(
+    appealId: appealId,
+    duration: '10ms',
+  );
+}
+
+AppealItemResponse createDefaultAppealItemResponse({
+  String id = 'appeal-123',
+  String entityId = 'activity-123',
+  String entityType = 'activity',
+  String status = 'pending',
+  String appealReason = 'This was a mistake',
+}) {
+  return AppealItemResponse(
+    id: id,
+    entityId: entityId,
+    entityType: entityType,
+    status: status,
+    appealReason: appealReason,
+    createdAt: DateTime(2021, 1, 1),
+    updatedAt: DateTime(2021, 2, 1),
+    user: createDefaultUserResponse(),
+  );
+}
+
+GetAppealResponse createDefaultGetAppealResponse({
+  AppealItemResponse? item,
+}) {
+  return GetAppealResponse(
+    item: item ?? createDefaultAppealItemResponse(),
+    duration: '10ms',
+  );
+}
+
+QueryAppealsResponse createDefaultQueryAppealsResponse({
+  String? next,
+  String? prev,
+  List<AppealItemResponse> items = const [],
+}) {
+  return QueryAppealsResponse(
+    items: items.isEmpty ? [createDefaultAppealItemResponse()] : items,
+    next: next,
+    prev: prev,
+    duration: '10ms',
+  );
+}
+
 GetApplicationResponse createDefaultGetApplicationResponse({
   String name = 'Test App',
 }) {
