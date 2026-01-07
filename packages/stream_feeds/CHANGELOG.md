@@ -1,5 +1,7 @@
 ## Upcoming
 - Added missing state updates for the websocket events.
+- Add appeal-related methods to moderation client: `appeal`, `getAppeal`, and `queryAppeals`.
+- Add `activityCount` field to `FeedData` model to track the number of activities in a feed.
 
 ## 0.5.0
 - [BREAKING] Unified `ThreadedCommentData` into `CommentData` to handle both flat and threaded comments.
