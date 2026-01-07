@@ -15,6 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$FeedData {
+  int get activityCount;
   DateTime get createdAt;
   UserData get createdBy;
   DateTime? get deletedAt;
@@ -47,6 +48,8 @@ mixin _$FeedData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is FeedData &&
+            (identical(other.activityCount, activityCount) ||
+                other.activityCount == activityCount) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.createdBy, createdBy) ||
@@ -85,6 +88,7 @@ mixin _$FeedData {
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
+        activityCount,
         createdAt,
         createdBy,
         deletedAt,
@@ -108,7 +112,7 @@ mixin _$FeedData {
 
   @override
   String toString() {
-    return 'FeedData(createdAt: $createdAt, createdBy: $createdBy, deletedAt: $deletedAt, description: $description, fid: $fid, filterTags: $filterTags, followerCount: $followerCount, followingCount: $followingCount, groupId: $groupId, id: $id, memberCount: $memberCount, name: $name, ownCapabilities: $ownCapabilities, ownMembership: $ownMembership, ownFollows: $ownFollows, pinCount: $pinCount, updatedAt: $updatedAt, visibility: $visibility, custom: $custom)';
+    return 'FeedData(activityCount: $activityCount, createdAt: $createdAt, createdBy: $createdBy, deletedAt: $deletedAt, description: $description, fid: $fid, filterTags: $filterTags, followerCount: $followerCount, followingCount: $followingCount, groupId: $groupId, id: $id, memberCount: $memberCount, name: $name, ownCapabilities: $ownCapabilities, ownMembership: $ownMembership, ownFollows: $ownFollows, pinCount: $pinCount, updatedAt: $updatedAt, visibility: $visibility, custom: $custom)';
   }
 }
 
@@ -118,7 +122,8 @@ abstract mixin class $FeedDataCopyWith<$Res> {
       _$FeedDataCopyWithImpl;
   @useResult
   $Res call(
-      {DateTime createdAt,
+      {int activityCount,
+      DateTime createdAt,
       UserData createdBy,
       DateTime? deletedAt,
       String description,
@@ -151,6 +156,7 @@ class _$FeedDataCopyWithImpl<$Res> implements $FeedDataCopyWith<$Res> {
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? activityCount = null,
     Object? createdAt = null,
     Object? createdBy = null,
     Object? deletedAt = freezed,
@@ -172,6 +178,10 @@ class _$FeedDataCopyWithImpl<$Res> implements $FeedDataCopyWith<$Res> {
     Object? custom = freezed,
   }) {
     return _then(FeedData(
+      activityCount: null == activityCount
+          ? _self.activityCount
+          : activityCount // ignore: cast_nullable_to_non_nullable
+              as int,
       createdAt: null == createdAt
           ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable

@@ -54,6 +54,7 @@ extension FeedSuggestionResponseMapper on FeedSuggestionResponse {
   FeedSuggestionData toModel() {
     return FeedSuggestionData(
       feed: FeedData(
+        activityCount: activityCount,
         createdAt: createdAt,
         createdBy: createdBy.toModel(),
         deletedAt: deletedAt,

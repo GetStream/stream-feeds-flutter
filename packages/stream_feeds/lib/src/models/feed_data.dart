@@ -17,6 +17,7 @@ part 'feed_data.freezed.dart';
 class FeedData with _$FeedData {
   /// Creates a new [FeedData] instance.
   const FeedData({
+    required this.activityCount,
     required this.createdAt,
     required this.createdBy,
     this.deletedAt,
@@ -37,6 +38,10 @@ class FeedData with _$FeedData {
     this.visibility,
     this.custom,
   });
+
+  /// The number of activities in the feed.
+  @override
+  final int activityCount;
 
   /// The date and time when the feed was created.
   @override
@@ -123,6 +128,7 @@ extension FeedResponseMapper on FeedResponse {
   /// from the API response with proper field mapping and type conversions.
   FeedData toModel() {
     return FeedData(
+      activityCount: activityCount,
       createdAt: createdAt,
       createdBy: createdBy.toModel(),
       deletedAt: deletedAt,
