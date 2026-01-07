@@ -194,7 +194,8 @@ class ActivitiesRepository {
   ///
   /// Creates a new reaction on the activity with [activityId] using the provided [request] data.
   ///
-  /// Returns a [Result] containing the [FeedsReactionData] or an error.
+  /// Returns a [Result] containing a record with the updated [ActivityData] and
+  /// created [FeedsReactionData] or an error.
   Future<Result<({ActivityData activity, FeedsReactionData reaction})>>
       addActivityReaction(
     String activityId,

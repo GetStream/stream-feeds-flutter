@@ -216,7 +216,7 @@ class FeedsRepository {
   ///
   /// Unfollows the [target] feed from the [source] feed.
   ///
-  /// Returns a [Result] containing void or an error.
+  /// Returns a [Result] containing the removed [FollowData] or an error.
   Future<Result<FollowData>> unfollow({
     required FeedId source,
     required FeedId target,

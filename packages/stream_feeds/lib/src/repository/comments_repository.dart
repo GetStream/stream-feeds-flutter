@@ -130,7 +130,8 @@ class CommentsRepository {
   ///
   /// If [hardDelete] is true, the comment is permanently deleted; otherwise, it may be soft-deleted.
   ///
-  /// Returns a [Result] containing void or an error.
+  /// Returns a [Result] containing a record with the related [ActivityData] and
+  /// deleted [CommentData] or an error.
   Future<Result<({ActivityData activity, CommentData comment})>> deleteComment(
     String commentId, {
     bool? hardDelete,
