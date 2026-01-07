@@ -217,7 +217,9 @@ class ActivitiesRepository {
   ///
   /// Removes the reaction of [type] from the activity with [activityId].
   ///
-  /// Returns a [Result] containing the deleted [FeedsReactionData] or an error.
+  /// Returns a [Result] containing a record with keys `activity` and `reaction`.
+  /// The `activity` field contains the updated [ActivityData] after the reaction
+  /// was removed, and the `reaction` field contains the deleted [FeedsReactionData].
   Future<Result<({ActivityData activity, FeedsReactionData reaction})>>
       deleteActivityReaction(
     String activityId,

@@ -27,7 +27,7 @@ sealed class StateUpdateEvent implements StreamEvent {
   /// Creates a [StateUpdateEvent] from a [WsEvent].
   ///
   /// Maps WebSocket events to their corresponding state update events.
-  /// Returns [UnknownStateUpdateEvent] for unhandled event types.
+  /// Returns null for unhandled event types.
   static StateUpdateEvent? fromWsEvent(WsEvent event) {
     // Activity Events
     if (event is api.ActivityAddedEvent) {
@@ -847,8 +847,3 @@ class PollVoteChanged extends StateUpdateEvent {
 }
 
 // endregion
-
-/// An unknown state update event.
-class UnknownStateUpdateEvent extends StateUpdateEvent {
-  const UnknownStateUpdateEvent();
-}
