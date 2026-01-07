@@ -1,13 +1,8 @@
-import 'package:stream_core/stream_core.dart';
-
-import '../../../generated/api/models.dart' as api;
-
-import '../../../models/comment_data.dart';
-import '../../../models/feeds_reaction_data.dart';
 import '../../../utils/filter.dart';
 import '../../comment_list_state.dart';
 import '../../query/comments_query.dart';
-import 'state_event_handler.dart';
+import '../state_event_handler.dart';
+import '../state_update_event.dart';
 
 /// Event handler for comment list real-time updates.
 ///
@@ -22,45 +17,37 @@ class CommentListEventHandler implements StateEventHandler {
   final CommentListStateNotifier state;
 
   @override
-  void handleEvent(WsEvent event) {
-    if (event is api.CommentAddedEvent) {
-      final comment = event.comment.toModel();
+  void handleEvent(StateUpdateEvent event) {
+    if (event is CommentAdded) {
       // Check if the new comment matches the query filter
-      if (!comment.matches(query.filter)) return;
+      if (!event.comment.matches(query.filter)) return;
 
-      return state.onCommentAdded(comment);
+      return state.onCommentAdded(event.comment);
     }
 
-    if (event is api.CommentUpdatedEvent) {
-      final comment = event.comment.toModel();
-      if (!comment.matches(query.filter)) {
+    if (event is CommentUpdated) {
+      if (!event.comment.matches(query.filter)) {
         // If the updated comment no longer matches the filter, remove it
-        return state.onCommentRemoved(comment.id);
+        return state.onCommentRemoved(event.comment.id);
       }
 
-      return state.onCommentUpdated(comment);
+      return state.onCommentUpdated(event.comment);
     }
 
-    if (event is api.CommentDeletedEvent) {
+    if (event is CommentDeleted) {
       return state.onCommentRemoved(event.comment.id);
     }
 
-    if (event is api.CommentReactionAddedEvent) {
-      final comment = event.comment.toModel();
-      final reaction = event.reaction.toModel();
-      return state.onCommentReactionAdded(comment, reaction);
+    if (event is CommentReactionUpserted) {
+      return state.onCommentReactionUpserted(
+        event.comment,
+        event.reaction,
+        enforceUnique: event.enforceUnique,
+      );
     }
 
-    if (event is api.CommentReactionUpdatedEvent) {
-      final comment = event.comment.toModel();
-      final reaction = event.reaction.toModel();
-      return state.onCommentReactionUpdated(comment, reaction);
-    }
-
-    if (event is api.CommentReactionDeletedEvent) {
-      final comment = event.comment.toModel();
-      final reaction = event.reaction.toModel();
-      return state.onCommentReactionRemoved(comment, reaction);
+    if (event is CommentReactionDeleted) {
+      return state.onCommentReactionRemoved(event.comment, event.reaction);
     }
 
     // Handle other comment-related events if needed

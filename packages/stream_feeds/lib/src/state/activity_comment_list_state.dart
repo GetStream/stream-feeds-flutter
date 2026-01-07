@@ -16,8 +16,8 @@ part 'activity_comment_list_state.freezed.dart';
 class ActivityCommentListStateNotifier
     extends StateNotifier<ActivityCommentListState> {
   ActivityCommentListStateNotifier({
-    required ActivityCommentListState initialState,
     required this.currentUserId,
+    required ActivityCommentListState initialState,
   }) : super(initialState);
 
   final String currentUserId;
@@ -120,32 +120,21 @@ class ActivityCommentListStateNotifier
     state = state.copyWith(comments: updatedComments);
   }
 
-  /// Handles the addition of a reaction to a comment.
-  void onCommentReactionAdded(
+  /// Handles the upsertion of a reaction on a comment.
+  void onCommentReactionUpserted(
     CommentData comment,
-    FeedsReactionData reaction,
-  ) {
+    FeedsReactionData reaction, {
+    bool enforceUnique = false,
+  }) {
     final updatedComments = state.comments.updateNested(
       (it) => it.id == comment.id,
       children: (it) => it.replies ?? [],
-      update: (found) => found.upsertReaction(comment, reaction, currentUserId),
-      updateChildren: (parent, replies) => parent.copyWith(replies: replies),
-      compare: commentSort.compare,
-    );
-
-    state = state.copyWith(comments: updatedComments);
-  }
-
-  /// Handles the update of a reaction on a comment.
-  void onCommentReactionUpdated(
-    CommentData comment,
-    FeedsReactionData reaction,
-  ) {
-    final updatedComments = state.comments.updateNested(
-      (it) => it.id == comment.id,
-      children: (it) => it.replies ?? [],
-      update: (found) =>
-          found.upsertUniqueReaction(comment, reaction, currentUserId),
+      update: (found) => found.upsertReaction(
+        comment,
+        reaction,
+        currentUserId,
+        enforceUnique: enforceUnique,
+      ),
       updateChildren: (parent, replies) => parent.copyWith(replies: replies),
       compare: commentSort.compare,
     );

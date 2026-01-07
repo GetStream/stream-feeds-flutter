@@ -398,7 +398,7 @@ void main() {
             poll: createDefaultPollResponse(id: 'different-poll-id'),
             pollVote: createDefaultPollVoteResponse(
               id: 'vote-1',
-              pollId: query.pollId,
+              pollId: 'different-poll-id',
             ),
           ),
         );

@@ -21,7 +21,6 @@ import '../repository/devices_repository.dart';
 import '../repository/feeds_repository.dart';
 import '../repository/moderation_repository.dart';
 import '../repository/polls_repository.dart';
-import '../resolvers/resolvers.dart' as event_resolvers;
 import '../state/activity.dart';
 import '../state/activity_comment_list.dart';
 import '../state/activity_list.dart';
@@ -32,6 +31,7 @@ import '../state/comment_list.dart';
 import '../state/comment_reaction_list.dart';
 import '../state/comment_reply_list.dart';
 import '../state/event/on_activity_added.dart';
+import '../state/event/state_update_event.dart';
 import '../state/feed.dart';
 import '../state/feed_list.dart';
 import '../state/follow_list.dart';
@@ -105,10 +105,6 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
       ),
       messageCodec: const FeedsWsCodec(),
       onConnectionEstablished: _authenticateUser,
-      eventResolvers: [
-        event_resolvers.pollAnswerCastedFeedEventResolver,
-        event_resolvers.pollAnswerRemovedFeedEventResolver,
-      ],
       wsProvider: wsProvider,
     );
 
@@ -172,6 +168,12 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
     moderation = ModerationClient(_moderationRepository);
 
     // endregion
+
+    // Map WebSocket events to state update events
+    _wsEventToStateMapperSubscription = events.listen((event) {
+      final stateEvent = StateUpdateEvent.fromWsEvent(event);
+      stateEvent?.let(_stateUpdateEmitter.tryEmit);
+    });
   }
 
   final String apiKey;
@@ -235,7 +237,12 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
   }
 
   @override
-  EventEmitter get events => _ws.events;
+  EventEmitter<WsEvent> get events => _ws.events;
+
+  @override
+  EventEmitter<StateUpdateEvent> get stateUpdateEvents => _stateUpdateEmitter;
+  late final _stateUpdateEmitter = MutableEventEmitter<StateUpdateEvent>();
+  StreamSubscription<WsEvent>? _wsEventToStateMapperSubscription;
 
   @override
   ConnectionStateEmitter get connectionState => _ws.connectionState;
@@ -262,6 +269,9 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
 
   @override
   Future<void> disconnect() async {
+    await _wsEventToStateMapperSubscription?.cancel();
+    await _stateUpdateEmitter.close();
+
     await _connectionRecoveryHandler.dispose();
     await _ws.disconnect();
   }
@@ -280,9 +290,9 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
       commentsRepository: _commentsRepository,
       feedsRepository: _feedsRepository,
       pollsRepository: _pollsRepository,
-      eventsEmitter: events,
-      onReconnectEmitter: onReconnectEmitter,
       capabilitiesRepository: _capabilitiesRepository,
+      onReconnectEmitter: onReconnectEmitter,
+      eventsEmitter: _stateUpdateEmitter,
     );
   }
 
@@ -291,7 +301,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
     return FeedList(
       query: query,
       feedsRepository: _feedsRepository,
-      eventsEmitter: events,
+      eventsEmitter: _stateUpdateEmitter,
     );
   }
 
@@ -300,7 +310,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
     return FollowList(
       query: query,
       feedsRepository: _feedsRepository,
-      eventsEmitter: events,
+      eventsEmitter: _stateUpdateEmitter,
     );
   }
 
@@ -311,15 +321,15 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
     ActivityData? initialData,
   }) {
     return Activity(
-      activityId: activityId,
       fid: fid,
+      activityId: activityId,
       currentUserId: user.id,
+      initialActivityData: initialData,
       activitiesRepository: _activitiesRepository,
       commentsRepository: _commentsRepository,
       pollsRepository: _pollsRepository,
       capabilitiesRepository: _capabilitiesRepository,
-      eventsEmitter: events,
-      initialActivityData: initialData,
+      eventsEmitter: _stateUpdateEmitter,
     );
   }
 
@@ -330,7 +340,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
       currentUserId: user.id,
       activitiesRepository: _activitiesRepository,
       capabilitiesRepository: _capabilitiesRepository,
-      eventsEmitter: events,
+      eventsEmitter: _stateUpdateEmitter,
     );
   }
 
@@ -359,7 +369,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
     return ActivityReactionList(
       query: query,
       activitiesRepository: _activitiesRepository,
-      eventsEmitter: events,
+      eventsEmitter: _stateUpdateEmitter,
     );
   }
 
@@ -368,7 +378,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
     return BookmarkList(
       query: query,
       bookmarksRepository: _bookmarksRepository,
-      eventsEmitter: events,
+      eventsEmitter: _stateUpdateEmitter,
     );
   }
 
@@ -377,7 +387,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
     return BookmarkFolderList(
       query: query,
       bookmarksRepository: _bookmarksRepository,
-      eventsEmitter: events,
+      eventsEmitter: _stateUpdateEmitter,
     );
   }
 
@@ -385,9 +395,9 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
   CommentList commentList(CommentsQuery query) {
     return CommentList(
       query: query,
-      commentsRepository: _commentsRepository,
-      eventsEmitter: events,
       currentUserId: user.id,
+      commentsRepository: _commentsRepository,
+      eventsEmitter: _stateUpdateEmitter,
     );
   }
 
@@ -395,9 +405,9 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
   ActivityCommentList activityCommentList(ActivityCommentsQuery query) {
     return ActivityCommentList(
       query: query,
-      commentsRepository: _commentsRepository,
-      eventsEmitter: events,
       currentUserId: user.id,
+      commentsRepository: _commentsRepository,
+      eventsEmitter: _stateUpdateEmitter,
     );
   }
 
@@ -407,7 +417,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
       query: query,
       currentUserId: user.id,
       commentsRepository: _commentsRepository,
-      eventsEmitter: events,
+      eventsEmitter: _stateUpdateEmitter,
     );
   }
 
@@ -416,7 +426,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
     return CommentReactionList(
       query: query,
       commentsRepository: _commentsRepository,
-      eventsEmitter: events,
+      eventsEmitter: _stateUpdateEmitter,
     );
   }
 
@@ -425,7 +435,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
     return MemberList(
       query: query,
       feedsRepository: _feedsRepository,
-      eventsEmitter: events,
+      eventsEmitter: _stateUpdateEmitter,
     );
   }
 
@@ -434,7 +444,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
     return PollVoteList(
       query: query,
       pollsRepository: _pollsRepository,
-      eventsEmitter: events,
+      eventsEmitter: _stateUpdateEmitter,
     );
   }
 
@@ -442,9 +452,9 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
   PollList pollList(PollsQuery query) {
     return PollList(
       query: query,
-      pollsRepository: _pollsRepository,
-      eventsEmitter: events,
       currentUserId: user.id,
+      pollsRepository: _pollsRepository,
+      eventsEmitter: _stateUpdateEmitter,
     );
   }
 
@@ -453,7 +463,6 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
     return ModerationConfigList(
       query: query,
       moderationRepository: _moderationRepository,
-      eventsEmitter: events,
     );
   }
 
@@ -494,7 +503,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
   }
 
   Stream<void> get onReconnectEmitter {
-    return connectionState.stream.scan(
+    return connectionState.scan(
       (state, connectionStatus, i) => switch (connectionStatus) {
         Initialized() || Connecting() => (
             wasDisconnected: state.wasDisconnected,

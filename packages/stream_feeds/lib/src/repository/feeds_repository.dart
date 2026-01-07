@@ -216,15 +216,17 @@ class FeedsRepository {
   ///
   /// Unfollows the [target] feed from the [source] feed.
   ///
-  /// Returns a [Result] containing void or an error.
-  Future<Result<void>> unfollow({
+  /// Returns a [Result] containing the removed [FollowData] or an error.
+  Future<Result<FollowData>> unfollow({
     required FeedId source,
     required FeedId target,
-  }) {
-    return _api.unfollow(
+  }) async {
+    final result = await _api.unfollow(
       source: source.rawValue,
       target: target.rawValue,
     );
+
+    return result.map((response) => response.follow.toModel());
   }
 
   /// Accepts a follow request.

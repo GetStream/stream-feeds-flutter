@@ -3,7 +3,7 @@
 import 'package:meta/meta.dart';
 import 'package:state_notifier/state_notifier.dart';
 
-extension StateNotifierExtensions<T> on StateNotifier<T> {
+extension StateNotifierExtension<T> on StateNotifier<T> {
   @internal
   T get value => state;
 }

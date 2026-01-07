@@ -13,7 +13,7 @@ void main() {
       body: (tester) async {
         // Setup expectation for connection state transitions
         final connectionStateExpectation = expectLater(
-          tester.client.connectionState.stream,
+          tester.client.connectionState,
           emitsInOrder([
             isA<Initialized>(),
             isA<Connecting>(),
@@ -37,7 +37,7 @@ void main() {
       body: (tester) async {
         // Setup expectation for connection state transitions
         final connectionStateExpectation = expectLater(
-          tester.client.connectionState.stream,
+          tester.client.connectionState,
           emitsInOrder([
             isA<Initialized>(),
             isA<Connecting>(),
@@ -65,7 +65,7 @@ void main() {
       body: (tester) async {
         // Setup expectation for disconnection state transitions
         final connectionStateExpectation = expectLater(
-          tester.client.connectionState.stream,
+          tester.client.connectionState,
           emitsInOrder([
             isA<Connected>(),
             isA<Disconnecting>(),

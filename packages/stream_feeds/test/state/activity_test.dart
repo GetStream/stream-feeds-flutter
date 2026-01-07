@@ -15,10 +15,18 @@ void main() {
       'fetch activity and comments',
       build: (client) => client.activity(activityId: activityId, fid: fid),
       body: (tester) async {
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<ActivityUpdated>()),
+        );
+
         final result = await tester.get();
 
         expect(result, isA<Result<ActivityData>>());
         expect(result.getOrNull()?.id, activityId);
+
+        // Verify the event is emitted
+        await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.getActivity(id: activityId),
@@ -104,12 +112,20 @@ void main() {
           ),
         );
 
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<CommentUpdated>()),
+        );
+
         final result = await tester.activity.getComment(commentId);
 
         expect(result.isSuccess, isTrue);
         final comment = result.getOrNull();
         expect(comment, isNotNull);
         expect(comment!.id, commentId);
+
+        // Verify the event is emitted
+        await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.getComment(id: 'comment-1'),
@@ -135,12 +151,20 @@ void main() {
           ),
         );
 
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<PollUpdated>()),
+        );
+
         final result = await tester.activity.getPoll();
 
         expect(result.isSuccess, isTrue);
         final poll = result.getOrNull();
         expect(poll, isNotNull);
         expect(poll!.id, pollId);
+
+        // Verify the event is emitted
+        await expectEventEmitted;
       },
       verify: (tester) {
         final pollId = tester.activityState.poll!.id;
@@ -395,9 +419,17 @@ void main() {
           ),
         );
 
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<ActivityUpdated>()),
+        );
+
         final result = await tester.activity.pin();
 
         expect(result.isSuccess, isTrue);
+
+        // Verify the event is emitted
+        await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.pinActivity(
@@ -427,9 +459,17 @@ void main() {
           ),
         );
 
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<ActivityUpdated>()),
+        );
+
         final result = await tester.activity.unpin();
 
         expect(result.isSuccess, isTrue);
+
+        // Verify the event is emitted
+        await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.unpinActivity(
@@ -476,6 +516,11 @@ void main() {
         // Initial state - no comments
         expect(tester.activityState.comments, isEmpty);
 
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<CommentAdded>()),
+        );
+
         // Add comment
         final result = await tester.activity.addComment(
           request: const ActivityAddCommentRequest(
@@ -491,9 +536,8 @@ void main() {
         expect(comment.text, 'Test comment');
         expect(comment.user.id, userId);
 
-        // Note: addComment updates state automatically via onCommentAdded
-        expect(tester.activityState.comments, hasLength(1));
-        expect(tester.activityState.comments.first.id, commentId);
+        // Verify the event is emitted
+        await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.addComment(
@@ -573,10 +617,6 @@ void main() {
         ),
       ),
       body: (tester) async {
-        // Initial state - has comment
-        expect(tester.activityState.comments, hasLength(1));
-        expect(tester.activityState.comments.first.id, commentId);
-
         // Mock API call that will be used
         tester.mockApi(
           (api) => api.deleteComment(
@@ -591,13 +631,18 @@ void main() {
           ),
         );
 
+        final expectEventsEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emitsInOrder([isA<CommentDeleted>(), isA<ActivityUpdated>()]),
+        );
+
         // Delete comment
         final result = await tester.activity.deleteComment(commentId);
 
         expect(result.isSuccess, isTrue);
 
-        // Note: deleteComment updates state automatically via onCommentRemoved
-        expect(tester.activityState.comments, isEmpty);
+        // Verify the event is emitted
+        await expectEventsEmitted;
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.deleteComment(
@@ -624,10 +669,6 @@ void main() {
         ),
       ),
       body: (tester) async {
-        // Initial state - has comment
-        expect(tester.activityState.comments, hasLength(1));
-        expect(tester.activityState.comments.first.text, 'Original comment');
-
         // Mock API call that will be used
         tester.mockApi(
           (api) => api.updateComment(
@@ -640,6 +681,11 @@ void main() {
             text: 'Updated comment',
             userId: userId,
           ),
+        );
+
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<CommentUpdated>()),
         );
 
         // Update comment
@@ -655,9 +701,8 @@ void main() {
         expect(updatedComment, isNotNull);
         expect(updatedComment!.text, 'Updated comment');
 
-        // Note: updateComment updates state automatically via onCommentUpdated
-        expect(tester.activityState.comments, hasLength(1));
-        expect(tester.activityState.comments.first.text, 'Updated comment');
+        // Verify the event is emitted
+        await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.updateComment(
@@ -700,6 +745,11 @@ void main() {
           ),
         );
 
+        final expectEventsEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emitsInOrder([isA<CommentAdded>(), isA<CommentAdded>()]),
+        );
+
         final result = await tester.activity.addCommentsBatch([
           const ActivityAddCommentRequest(
             activityId: activityId,
@@ -718,8 +768,8 @@ void main() {
         expect(comments!.first.id, commentId1);
         expect(comments.last.id, commentId2);
 
-        // Verify state was updated via onCommentAdded
-        expect(tester.activityState.comments, hasLength(2));
+        // Verify the event is emitted
+        await expectEventsEmitted;
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.addCommentsBatch(
@@ -759,11 +809,6 @@ void main() {
         ),
       ),
       body: (tester) async {
-        // Initial state - comment has no reactions
-        final initialComment = tester.activityState.comments.first;
-        expect(initialComment.id, commentId);
-        expect(initialComment.ownReactions, isEmpty);
-
         // Mock API call that will be used
         tester.mockApi(
           (api) => api.addCommentReaction(
@@ -778,6 +823,11 @@ void main() {
           ),
         );
 
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<CommentReactionUpserted>()),
+        );
+
         // Add reaction
         final result = await tester.activity.addCommentReaction(
           commentId: commentId,
@@ -790,10 +840,8 @@ void main() {
         expect(reaction!.type, reactionType);
         expect(reaction.user.id, userId);
 
-        // Note: addCommentReaction updates state automatically via onCommentReactionAdded
-        final updatedComment = tester.activityState.comments.first;
-        expect(updatedComment.ownReactions, hasLength(1));
-        expect(updatedComment.ownReactions.first.type, reactionType);
+        // Verify the event is emitted
+        await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.addCommentReaction(
@@ -900,11 +948,6 @@ void main() {
         ),
       ),
       body: (tester) async {
-        // Initial state - comment has reaction
-        final initialComment = tester.activityState.comments.first;
-        expect(initialComment.ownReactions, hasLength(1));
-        expect(initialComment.ownReactions.first.type, reactionType);
-
         // Mock API call that will be used
         tester.mockApi(
           (api) => api.deleteCommentReaction(
@@ -919,6 +962,11 @@ void main() {
           ),
         );
 
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<CommentReactionDeleted>()),
+        );
+
         // Delete reaction
         final result = await tester.activity.deleteCommentReaction(
           commentId,
@@ -927,9 +975,8 @@ void main() {
 
         expect(result.isSuccess, isTrue);
 
-        // Note: deleteCommentReaction updates state automatically via onCommentReactionRemoved
-        final updatedComment = tester.activityState.comments.first;
-        expect(updatedComment.ownReactions, isEmpty);
+        // Verify the event is emitted
+        await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.deleteCommentReaction(
@@ -1380,6 +1427,11 @@ void main() {
           ),
         );
 
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<PollUpdated>()),
+        );
+
         final result = await tester.activity.updatePollPartial(
           const UpdatePollPartialRequest(set: {'name': 'Updated Poll Name'}),
         );
@@ -1388,6 +1440,9 @@ void main() {
         final poll = result.getOrNull();
         expect(poll, isNotNull);
         expect(poll!.name, 'Updated Poll Name');
+
+        // Verify the event is emitted
+        await expectEventEmitted;
       },
       verify: (tester) {
         final pollId = tester.activityState.poll!.id;
@@ -1428,6 +1483,11 @@ void main() {
           ),
         );
 
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<PollUpdated>()),
+        );
+
         final result = await tester.activity.updatePoll(
           UpdatePollRequest(
             id: pollId,
@@ -1439,6 +1499,9 @@ void main() {
         final poll = result.getOrNull();
         expect(poll, isNotNull);
         expect(poll!.name, 'Updated Poll Name');
+
+        // Verify the event is emitted
+        await expectEventEmitted;
       },
       verify: (tester) {
         final pollId = tester.activityState.poll!.id;

@@ -17,6 +17,7 @@ export 'state/comment_reaction_list_state.dart';
 export 'state/comment_reply_list.dart';
 export 'state/comment_reply_list_state.dart';
 export 'state/event/on_activity_added.dart';
+export 'state/event/state_update_event.dart';
 export 'state/feed.dart';
 export 'state/feed_list.dart';
 export 'state/feed_list_state.dart';

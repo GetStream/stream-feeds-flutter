@@ -151,6 +151,37 @@ abstract base class BaseTester<S> with ApiMockerMixin, CdnMockerMixin {
   Future<void> pumpEventQueue({int times = 20}) {
     return test.pumpEventQueue(times: times);
   }
+
+  /// Disposes resources held by this tester.
+  ///
+  /// This method is called automatically after each test completes. Subclasses
+  /// can override this method to perform cleanup of resources such as stream
+  /// subscriptions, controllers, or other state that needs explicit disposal.
+  ///
+  /// Subclasses that override this method should call `super.dispose()` to
+  /// ensure any base cleanup is performed.
+  ///
+  /// Example:
+  /// ```dart
+  /// // Automatic cleanup (default)
+  /// feedTest('...', body: (tester) async {
+  ///   // Test code - dispose called automatically after test completes
+  ///   await tester.feed.addActivity(...);
+  /// });
+  ///
+  /// // Subclass override example
+  /// class CustomTester extends BaseTester<Feed> {
+  ///   StreamSubscription? _subscription;
+  ///
+  ///   @override
+  ///   Future<void> dispose() async {
+  ///     await _subscription?.cancel();
+  ///     await super.dispose();
+  ///   }
+  /// }
+  /// ```
+  @mustCallSuper
+  Future<void> dispose() async {}
 }
 
 /// Creates a tester instance with WebSocket support.
@@ -160,6 +191,7 @@ abstract base class BaseTester<S> with ApiMockerMixin, CdnMockerMixin {
 /// - Creates a WebSocket stream controller
 /// - Sets up WebSocket tester with the mock channel
 /// - Registers cleanup for the stream controller
+/// - Registers tester disposal cleanup
 ///
 /// The [create] callback receives the [WebSocketTester] instance and should
 /// return the concrete tester instance.
@@ -179,7 +211,11 @@ Future<T> createTester<T extends BaseTester<Object?>>({
     streamController: wsStreamController,
   );
 
-  return create(ws);
+  // Create the tester instance
+  final tester = create(ws);
+  test.addTearDown(tester.dispose); // Dispose tester after test
+
+  return tester;
 }
 
 /// Generic test helper for state objects with WebSocket support.

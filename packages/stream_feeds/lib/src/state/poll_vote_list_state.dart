@@ -51,19 +51,8 @@ class PollVoteListStateNotifier extends StateNotifier<PollVoteListState> {
     );
   }
 
-  /// Handles the addition of a new poll vote.
-  void onPollVoteAdded(PollVoteData vote) {
-    final updatedVotes = state.votes.sortedUpsert(
-      vote,
-      key: (it) => it.id,
-      compare: votesSort.compare,
-    );
-
-    state = state.copyWith(votes: updatedVotes);
-  }
-
-  /// Handles the update of a poll vote.
-  void onPollVoteUpdated(PollVoteData vote) {
+  /// Handles the addition or update of a poll vote.
+  void onPollVoteUpserted(PollVoteData vote) {
     final updatedVotes = state.votes.sortedUpsert(
       vote,
       key: (it) => it.id,

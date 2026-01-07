@@ -19,6 +19,7 @@ import 'state/comment_list.dart';
 import 'state/comment_reaction_list.dart';
 import 'state/comment_reply_list.dart';
 import 'state/event/on_activity_added.dart';
+import 'state/event/state_update_event.dart';
 import 'state/feed.dart';
 import 'state/feed_list.dart';
 import 'state/follow_list.dart';
@@ -179,7 +180,30 @@ abstract interface class StreamFeedsClient {
   /// events of a specific subtype of [WsEvent].
   EventEmitter get events;
 
+  /// The connection state emitter for monitoring WebSocket connection status.
+  ///
+  /// Emits connection state changes including [Connected], [Connecting],
+  /// [Disconnected], and [Disconnecting] states.
+  ///
+  /// Example:
+  /// ```dart
+  /// client.connectionState.listen((state) {
+  ///   if (state is Connected) {
+  ///     print('Connected to Stream');
+  ///   } else if (state is Disconnected) {
+  ///     print('Disconnected: ${state.source.closeReason}');
+  ///   }
+  /// });
+  /// ```
   ConnectionStateEmitter get connectionState;
+
+  /// The state update events emitter for testing purposes only.
+  ///
+  /// This emitter is exposed only for internal testing and should not be
+  /// accessed in production code. Use the [events] emitter for WebSocket
+  /// events instead.
+  @visibleForTesting
+  SharedEmitter<StateUpdateEvent> get stateUpdateEvents;
 
   /// Updates the system environment information used by the client.
   ///

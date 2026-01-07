@@ -220,28 +220,6 @@ extension PollDataMutations on PollData {
     );
   }
 
-  /// Adds or updates an answer in this poll.
-  ///
-  /// Updates the own votes and answers list by adding or updating [answer]. Only adds answers
-  /// that belong to [currentUserId].
-  ///
-  /// Returns a new [PollData] instance with the updated own votes and answers.
-  PollData upsertAnswer(
-    PollData updatedPoll,
-    PollVoteData answer,
-    String currentUserId,
-  ) {
-    final updatedOwnVotesAndAnswers = ownVotesAndAnswers.let((it) {
-      if (answer.userId != currentUserId) return it;
-      return it.upsert(answer, key: (it) => it.id);
-    });
-
-    return updateWith(
-      updatedPoll,
-      ownVotesAndAnswers: updatedOwnVotesAndAnswers,
-    );
-  }
-
   /// Removes a vote from this poll.
   ///
   /// Updates the own votes and answers list by removing [vote]. Only removes votes
@@ -256,28 +234,6 @@ extension PollDataMutations on PollData {
     final updatedOwnVotesAndAnswers = ownVotesAndAnswers.let((it) {
       if (vote.userId != currentUserId) return it;
       return it.where((it) => it.id != vote.id).toList();
-    });
-
-    return updateWith(
-      updatedPoll,
-      ownVotesAndAnswers: updatedOwnVotesAndAnswers,
-    );
-  }
-
-  /// Removes an answer from this poll.
-  ///
-  /// Updates the own votes and answers list by removing [answer]. Only removes answers
-  /// that belong to [currentUserId].
-  ///
-  /// Returns a new [PollData] instance with the updated own votes and answers.
-  PollData removeAnswer(
-    PollData updatedPoll,
-    PollVoteData answer,
-    String currentUserId,
-  ) {
-    final updatedOwnVotesAndAnswers = ownVotesAndAnswers.let((it) {
-      if (answer.userId != currentUserId) return it;
-      return it.where((it) => it.id != answer.id).toList();
     });
 
     return updateWith(

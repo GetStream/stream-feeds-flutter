@@ -1,12 +1,8 @@
-import 'package:stream_core/stream_core.dart';
-
-import '../../../generated/api/models.dart' as api;
-import '../../../models/bookmark_data.dart';
-import '../../../models/bookmark_folder_data.dart';
 import '../../../utils/filter.dart';
 import '../../bookmark_list_state.dart';
 import '../../query/bookmarks_query.dart';
-import 'state_event_handler.dart';
+import '../state_event_handler.dart';
+import '../state_update_event.dart';
 
 /// Event handler for bookmark list real-time updates.
 ///
@@ -22,36 +18,33 @@ class BookmarkListEventHandler implements StateEventHandler {
   final BookmarkListStateNotifier state;
 
   @override
-  void handleEvent(WsEvent event) {
-    if (event is api.BookmarkFolderDeletedEvent) {
-      return state.onBookmarkFolderRemoved(event.bookmarkFolder.id);
+  void handleEvent(StateUpdateEvent event) {
+    if (event is BookmarkFolderDeleted) {
+      return state.onBookmarkFolderRemoved(event.folderId);
     }
 
-    if (event is api.BookmarkFolderUpdatedEvent) {
-      return state.onBookmarkFolderUpdated(event.bookmarkFolder.toModel());
+    if (event is BookmarkFolderUpdated) {
+      return state.onBookmarkFolderUpdated(event.folder);
     }
 
-    if (event is api.BookmarkAddedEvent) {
-      final bookmark = event.bookmark.toModel();
+    if (event is BookmarkAdded) {
       // Check if the new bookmark matches the query filter
-      if (!bookmark.matches(query.filter)) return;
+      if (!event.bookmark.matches(query.filter)) return;
 
-      return state.onBookmarkAdded(bookmark);
+      return state.onBookmarkAdded(event.bookmark);
     }
 
-    if (event is api.BookmarkUpdatedEvent) {
-      final bookmark = event.bookmark.toModel();
-      if (!bookmark.matches(query.filter)) {
+    if (event is BookmarkUpdated) {
+      if (!event.bookmark.matches(query.filter)) {
         // If the updated bookmark no longer matches the filter, remove it
-        return state.onBookmarkRemoved(bookmark.id);
+        return state.onBookmarkRemoved(event.bookmark.id);
       }
 
-      return state.onBookmarkUpdated(bookmark);
+      return state.onBookmarkUpdated(event.bookmark);
     }
 
-    if (event is api.BookmarkDeletedEvent) {
-      final bookmark = event.bookmark.toModel();
-      return state.onBookmarkRemoved(bookmark.id);
+    if (event is BookmarkDeleted) {
+      return state.onBookmarkRemoved(event.bookmark.id);
     }
 
     // Handle other bookmark list events if needed

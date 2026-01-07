@@ -1,11 +1,8 @@
-import 'package:stream_core/stream_core.dart';
-
-import '../../../generated/api/models.dart' as api;
-import '../../../models/poll_vote_data.dart';
 import '../../../utils/filter.dart';
 import '../../poll_vote_list_state.dart';
 import '../../query/poll_votes_query.dart';
-import 'state_event_handler.dart';
+import '../state_event_handler.dart';
+import '../state_update_event.dart';
 
 /// Event handler for poll vote list real-time updates.
 ///
@@ -21,39 +18,36 @@ class PollVoteListEventHandler implements StateEventHandler {
   final PollVoteListStateNotifier state;
 
   @override
-  void handleEvent(WsEvent event) {
-    if (event is api.PollDeletedFeedEvent) {
-      if (event.poll.id != query.pollId) return;
+  void handleEvent(StateUpdateEvent event) {
+    if (event is PollDeleted) {
+      if (event.pollId != query.pollId) return;
       return state.onPollDeleted();
     }
 
-    if (event is api.PollVoteCastedFeedEvent) {
+    if (event is PollVoteCasted) {
       // Only handle votes for this specific poll
-      if (event.pollVote.pollId != query.pollId) return;
+      if (event.vote.pollId != query.pollId) return;
+      // Check if the vote matches the query filter
+      if (!event.vote.matches(query.filter)) return;
 
-      final pollVote = event.pollVote.toModel();
-      if (!pollVote.matches(query.filter)) return;
-
-      return state.onPollVoteAdded(pollVote);
+      return state.onPollVoteUpserted(event.vote);
     }
 
-    if (event is api.PollVoteChangedFeedEvent) {
+    if (event is PollVoteChanged) {
       // Only handle votes for this specific poll
-      if (event.pollVote.pollId != query.pollId) return;
-
-      final pollVote = event.pollVote.toModel();
-      if (!pollVote.matches(query.filter)) {
+      if (event.vote.pollId != query.pollId) return;
+      if (!event.vote.matches(query.filter)) {
         // If the updated poll vote no longer matches the filter, remove it
-        return state.onPollVoteRemoved(pollVote.id);
+        return state.onPollVoteRemoved(event.vote.id);
       }
 
-      return state.onPollVoteUpdated(pollVote);
+      return state.onPollVoteUpserted(event.vote);
     }
 
-    if (event is api.PollVoteRemovedFeedEvent) {
+    if (event is PollVoteRemoved) {
       // Only handle votes for this specific poll
-      if (event.poll.id != query.pollId) return;
-      return state.onPollVoteRemoved(event.pollVote.id);
+      if (event.vote.pollId != query.pollId) return;
+      return state.onPollVoteRemoved(event.vote.id);
     }
 
     // Handle other poll vote list events here as needed
