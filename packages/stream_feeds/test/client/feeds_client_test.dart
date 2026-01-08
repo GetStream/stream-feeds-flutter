@@ -722,4 +722,258 @@ void main() {
       },
     );
   });
+
+  // ============================================================
+  // FEATURE: Collections Operations
+  // ============================================================
+
+  group('readCollections', () {
+    feedsClientTest(
+      'should read collections successfully',
+      body: (tester) async {
+        const refs = ['collection:123', 'collection:456'];
+
+        final collection1 = createDefaultCollectionResponse(
+          id: '123',
+          name: 'collection_1',
+        );
+        final collection2 = createDefaultCollectionResponse(
+          id: '456',
+          name: 'collection_2',
+        );
+
+        final response = createDefaultReadCollectionsResponse(
+          collections: [collection1, collection2],
+        );
+
+        tester.mockApi(
+          (api) => api.readCollections(collectionRefs: refs),
+          result: response,
+        );
+
+        final result = await tester.client.readCollections(refs: refs);
+
+        expect(result.isSuccess, isTrue);
+        final readResponse = result.getOrThrow();
+        expect(readResponse.collections.length, equals(2));
+        expect(readResponse.collections[0].id, equals('123'));
+        expect(readResponse.collections[1].id, equals('456'));
+
+        tester.verifyApi((api) => api.readCollections(collectionRefs: refs));
+      },
+    );
+
+    feedsClientTest(
+      'should handle read collections failure',
+      body: (tester) async {
+        const refs = ['collection:invalid'];
+
+        tester.mockApiFailure(
+          (api) => api.readCollections(collectionRefs: refs),
+          error: Exception('Failed to read collections'),
+        );
+
+        final result = await tester.client.readCollections(refs: refs);
+
+        expect(result.isFailure, isTrue);
+
+        tester.verifyApi((api) => api.readCollections(collectionRefs: refs));
+      },
+    );
+  });
+
+  group('createCollections', () {
+    setUpAll(() {
+      registerFallbackValue(
+        const CreateCollectionsRequest(collections: []),
+      );
+    });
+
+    feedsClientTest(
+      'should create collections successfully',
+      body: (tester) async {
+        const request = CreateCollectionsRequest(
+          collections: [
+            CollectionRequest(
+              id: '123',
+              name: 'my_new_collection',
+              custom: {'key': 'value'},
+            ),
+          ],
+        );
+
+        final collection = createDefaultCollectionResponse(
+          id: '123',
+          name: 'my_new_collection',
+        );
+
+        final response = createDefaultCreateCollectionsResponse(
+          collections: [collection],
+        );
+
+        tester.mockApi(
+          (api) => api.createCollections(createCollectionsRequest: request),
+          result: response,
+        );
+
+        final result = await tester.client.createCollections(request: request);
+
+        expect(result.isSuccess, isTrue);
+        final createResponse = result.getOrThrow();
+        expect(createResponse.collections.length, equals(1));
+        expect(createResponse.collections[0].id, equals('123'));
+        expect(createResponse.collections[0].name, equals('my_new_collection'));
+
+        tester.verifyApi(
+          (api) => api.createCollections(createCollectionsRequest: request),
+        );
+      },
+    );
+
+    feedsClientTest(
+      'should handle create collections failure',
+      body: (tester) async {
+        const request = CreateCollectionsRequest(
+          collections: [
+            CollectionRequest(
+              id: 'invalid',
+              name: 'invalid_collection',
+              custom: {},
+            ),
+          ],
+        );
+
+        tester.mockApiFailure(
+          (api) => api.createCollections(createCollectionsRequest: request),
+          error: Exception('Failed to create collections'),
+        );
+
+        final result = await tester.client.createCollections(request: request);
+
+        expect(result.isFailure, isTrue);
+
+        tester.verifyApi(
+          (api) => api.createCollections(createCollectionsRequest: request),
+        );
+      },
+    );
+  });
+
+  group('updateCollections', () {
+    setUpAll(() {
+      registerFallbackValue(
+        const UpdateCollectionsRequest(collections: []),
+      );
+    });
+
+    feedsClientTest(
+      'should update collections successfully',
+      body: (tester) async {
+        const request = UpdateCollectionsRequest(
+          collections: [
+            UpdateCollectionRequest(
+              id: '123',
+              name: 'my_collection',
+              custom: {'updated_key': 'updated_value'},
+            ),
+          ],
+        );
+
+        final collection = createDefaultCollectionResponse(
+          id: '123',
+          name: 'my_collection',
+        );
+
+        final response = createDefaultUpdateCollectionsResponse(
+          collections: [collection],
+        );
+
+        tester.mockApi(
+          (api) => api.updateCollections(updateCollectionsRequest: request),
+          result: response,
+        );
+
+        final result = await tester.client.updateCollections(request: request);
+
+        expect(result.isSuccess, isTrue);
+        final updateResponse = result.getOrThrow();
+        expect(updateResponse.collections.length, equals(1));
+        expect(updateResponse.collections[0].id, equals('123'));
+
+        tester.verifyApi(
+          (api) => api.updateCollections(updateCollectionsRequest: request),
+        );
+      },
+    );
+
+    feedsClientTest(
+      'should handle update collections failure',
+      body: (tester) async {
+        const request = UpdateCollectionsRequest(
+          collections: [
+            UpdateCollectionRequest(
+              id: 'invalid',
+              name: 'invalid_collection',
+              custom: {},
+            ),
+          ],
+        );
+
+        tester.mockApiFailure(
+          (api) => api.updateCollections(updateCollectionsRequest: request),
+          error: Exception('Failed to update collections'),
+        );
+
+        final result = await tester.client.updateCollections(request: request);
+
+        expect(result.isFailure, isTrue);
+
+        tester.verifyApi(
+          (api) => api.updateCollections(updateCollectionsRequest: request),
+        );
+      },
+    );
+  });
+
+  group('deleteCollections', () {
+    feedsClientTest(
+      'should delete collections successfully',
+      body: (tester) async {
+        const refs = ['collection:123', 'collection:456'];
+
+        final response = createDefaultDeleteCollectionsResponse();
+
+        tester.mockApi(
+          (api) => api.deleteCollections(collectionRefs: refs),
+          result: response,
+        );
+
+        final result = await tester.client.deleteCollections(refs: refs);
+
+        expect(result.isSuccess, isTrue);
+        final deleteResponse = result.getOrThrow();
+        expect(deleteResponse.duration, isNotEmpty);
+
+        tester.verifyApi((api) => api.deleteCollections(collectionRefs: refs));
+      },
+    );
+
+    feedsClientTest(
+      'should handle delete collections failure',
+      body: (tester) async {
+        const refs = ['collection:invalid'];
+
+        tester.mockApiFailure(
+          (api) => api.deleteCollections(collectionRefs: refs),
+          error: Exception('Failed to delete collections'),
+        );
+
+        final result = await tester.client.deleteCollections(refs: refs);
+
+        expect(result.isFailure, isTrue);
+
+        tester.verifyApi((api) => api.deleteCollections(collectionRefs: refs));
+      },
+    );
+  });
 }
