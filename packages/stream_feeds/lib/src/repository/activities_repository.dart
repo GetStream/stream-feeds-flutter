@@ -89,6 +89,29 @@ class ActivitiesRepository {
     return result.map((response) => response.activity.toModel());
   }
 
+  /// Partially updates an existing activity.
+  ///
+  /// Updates only the specified fields of the activity with [activityId]
+  /// using the provided [request] data. This allows for efficient updates
+  /// without fetching the entire activity first.
+  ///
+  /// Use the [request] to specify:
+  /// - `set`: A map of fields to set or update
+  /// - `unset`: A list of field names to remove
+  ///
+  /// Returns a [Result] containing the updated [ActivityData] or an error.
+  Future<Result<ActivityData>> updateActivityPartial(
+    String activityId,
+    api.UpdateActivityPartialRequest request,
+  ) async {
+    final result = await _api.updateActivityPartial(
+      id: activityId,
+      updateActivityPartialRequest: request,
+    );
+
+    return result.map((response) => response.activity.toModel());
+  }
+
   /// Upserts multiple activities.
   ///
   /// Creates or updates the provided [activities] in a single batch operation.

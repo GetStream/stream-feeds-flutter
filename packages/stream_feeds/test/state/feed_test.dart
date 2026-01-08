@@ -287,6 +287,63 @@ void main() {
     );
 
     feedTest(
+      'updateActivityPartial() - should partially update activity',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: [
+            createDefaultActivityResponse(
+              id: 'activity-1',
+              feeds: [feedId.rawValue],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        tester.mockApi(
+          (api) => api.updateActivityPartial(
+            id: 'activity-1',
+            updateActivityPartialRequest:
+                any(named: 'updateActivityPartialRequest'),
+          ),
+          result: UpdateActivityPartialResponse(
+            duration: '0ms',
+            activity: createDefaultActivityResponse(
+              id: 'activity-1',
+              feeds: [feedId.rawValue],
+            ).copyWith(custom: {'updated': true}),
+          ),
+        );
+
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<ActivityUpdated>()),
+        );
+
+        final result = await tester.feed.updateActivityPartial(
+          id: 'activity-1',
+          request: const UpdateActivityPartialRequest(
+            set: {'text': 'Updated text'},
+          ),
+        );
+
+        expect(result.isSuccess, isTrue);
+        final activity = result.getOrThrow();
+        expect(activity.custom?['updated'], true);
+
+        // Verify the event is emitted
+        await expectEventEmitted;
+      },
+      verify: (tester) => tester.verifyApi(
+        (api) => api.updateActivityPartial(
+          id: 'activity-1',
+          updateActivityPartialRequest:
+              any(named: 'updateActivityPartialRequest'),
+        ),
+      ),
+    );
+
+    feedTest(
       'deleteActivity() - should delete activity from feed',
       build: (client) => client.feedFromId(feedId),
       setUp: (tester) => tester.getOrCreate(

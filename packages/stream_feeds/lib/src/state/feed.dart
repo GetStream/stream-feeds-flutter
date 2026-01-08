@@ -226,6 +226,48 @@ class Feed with Disposable {
     return result;
   }
 
+  /// Partially updates an existing activity in the feed.
+  ///
+  /// This method allows updating only specific fields of an activity without
+  /// having to fetch and resend the entire activity object. This is more efficient
+  /// than using [updateActivity] when only a few fields need to be changed.
+  ///
+  /// The [id] is the unique identifier of the activity to update.
+  /// The [request] contains the partial update data:
+  /// - Use [UpdateActivityPartialRequest.set] to specify fields to update or add
+  /// - Use [UpdateActivityPartialRequest.unset] to specify field names to remove
+  ///
+  /// Example:
+  /// ```dart
+  /// final updatedActivity = await feed.updateActivityPartial(
+  ///   id: 'activity-123',
+  ///   request: const UpdateActivityPartialRequest(
+  ///     set: {'text': 'Updated text', 'custom': {'field': 'value'}},
+  ///     unset: ['oldField'],
+  ///   ),
+  /// );
+  /// ```
+  ///
+  /// Returns a [Result] containing the updated [ActivityData] if successful, or an error if the
+  /// operation fails.
+  Future<Result<ActivityData>> updateActivityPartial({
+    required String id,
+    required api.UpdateActivityPartialRequest request,
+  }) async {
+    final result = await activitiesRepository.updateActivityPartial(
+      id,
+      request,
+    );
+
+    result.onSuccess(
+      (activity) => _eventsEmitter.tryEmit(
+        ActivityUpdated(scope: FidScope.unknown, activity: activity),
+      ),
+    );
+
+    return result;
+  }
+
   /// Deletes an activity from the feed.
   ///
   /// The [id] is the unique identifier of the activity to delete.
