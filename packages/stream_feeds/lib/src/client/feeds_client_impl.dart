@@ -9,8 +9,11 @@ import '../feeds_client.dart';
 import '../generated/api/api.dart' as api;
 import '../models/activity_data.dart';
 import '../models/app_data.dart';
+import '../models/batch_follow_data.dart';
 import '../models/feed_id.dart';
 import '../models/feeds_config.dart';
+import '../models/follow_data.dart';
+import '../models/model_updates.dart';
 import '../models/push_notifications_config.dart';
 import '../repository/activities_repository.dart';
 import '../repository/app_repository.dart';
@@ -500,6 +503,42 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
   @override
   Future<Result<void>> deleteImage({required String url}) {
     return _cdnClient.deleteImage(url);
+  }
+
+  @override
+  Future<Result<BatchFollowData>> getOrCreateFollows(
+    api.FollowBatchRequest request,
+  ) async {
+    final result = await _feedsRepository.getOrCreateFollows(request);
+
+    result.onSuccess((data) {
+      final createdIds = data.created.map((f) => f.id).toSet();
+      final updates = ModelUpdates<FollowData>(
+        added: data.created,
+        updated: data.follows.where((f) => !createdIds.contains(f.id)).toList(),
+      );
+
+      _stateUpdateEmitter.tryEmit(FollowBatchUpdate(updates: updates));
+    });
+
+    return result;
+  }
+
+  @override
+  Future<Result<List<FollowData>>> getOrCreateUnfollows(
+    api.UnfollowBatchRequest request,
+  ) async {
+    final result = await _feedsRepository.getOrCreateUnfollows(request);
+
+    result.onSuccess((data) {
+      final updates = ModelUpdates<FollowData>(
+        removedIds: data.map((f) => f.id).toSet(),
+      );
+
+      _stateUpdateEmitter.tryEmit(FollowBatchUpdate(updates: updates));
+    });
+
+    return result;
   }
 
   Stream<void> get onReconnectEmitter {

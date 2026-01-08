@@ -4,6 +4,7 @@ import '../generated/api/api.dart' as api;
 import '../models/activity_data.dart';
 import '../models/activity_pin_data.dart';
 import '../models/aggregated_activity_data.dart';
+import '../models/batch_follow_data.dart';
 import '../models/feed_data.dart';
 import '../models/feed_id.dart';
 import '../models/feed_member_data.dart';
@@ -63,7 +64,8 @@ class FeedsRepository {
         feed: response.feed.toModel(),
         followers: rawFollowers.where((f) => f.isFollowerOf(fid)).toList(),
         following: rawFollowing.where((f) => f.isFollowingFeed(fid)).toList(),
-        followRequests: rawFollowers.where((f) => f.isFollowRequest).toList(),
+        followRequests:
+            rawFollowers.where((f) => f.isFollowRequestFor(fid)).toList(),
         members: PaginationResult(
           items: response.members.map((m) => m.toModel()).toList(),
           pagination: switch (response.memberPagination) {
@@ -229,6 +231,36 @@ class FeedsRepository {
     return result.map((response) => response.follow.toModel());
   }
 
+  /// Creates or updates multiple follow relationships in a batch operation.
+  ///
+  /// Creates or updates follow relationships using the provided [request] data.
+  ///
+  /// Returns a [Result] containing a [BatchFollowData] with the follows or an error.
+  Future<Result<BatchFollowData>> getOrCreateFollows(
+    api.FollowBatchRequest request,
+  ) async {
+    final result = await _api.getOrCreateFollows(followBatchRequest: request);
+
+    return result.map((response) => response.toModel());
+  }
+
+  /// Removes multiple follow relationships in a batch operation.
+  ///
+  /// Unfollows multiple feeds using the provided [request] data.
+  ///
+  /// Returns a [Result] containing a list of [FollowData] with the unfollowed feeds or an error.
+  Future<Result<List<FollowData>>> getOrCreateUnfollows(
+    api.UnfollowBatchRequest request,
+  ) async {
+    final result = await _api.getOrCreateUnfollows(
+      unfollowBatchRequest: request,
+    );
+
+    return result.map(
+      (response) => response.follows.map((f) => f.toModel()).toList(),
+    );
+  }
+
   /// Accepts a follow request.
   ///
   /// Approves a follow request using the provided [request] data.
@@ -281,7 +313,7 @@ class FeedsRepository {
     return result.map(
       (response) => ModelUpdates(
         added: response.added.map((m) => m.toModel()).toList(),
-        removedIds: response.removedIds,
+        removedIds: response.removedIds.toSet(),
         updated: response.updated.map((m) => m.toModel()).toList(),
       ),
     );

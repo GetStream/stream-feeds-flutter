@@ -3,6 +3,7 @@
 - Add appeal-related methods to moderation client: `appeal`, `getAppeal`, and `queryAppeals`.
 - Add `activityCount` field to `FeedData` model to track the number of activities in a feed.
 - Add `ownFollowings` field to `FeedData` model to track feeds that the current user is following from this feed.
+- Add batch follow and unfollow support.
 
 ## 0.5.0
 - [BREAKING] Unified `ThreadedCommentData` into `CommentData` to handle both flat and threaded comments.

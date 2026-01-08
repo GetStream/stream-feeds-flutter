@@ -6,8 +6,10 @@ import 'client/moderation_client.dart';
 import 'generated/api/api.dart' as api;
 import 'models/activity_data.dart';
 import 'models/app_data.dart';
+import 'models/batch_follow_data.dart';
 import 'models/feed_id.dart';
 import 'models/feeds_config.dart';
+import 'models/follow_data.dart';
 import 'models/push_notifications_config.dart';
 import 'state/activity.dart';
 import 'state/activity_comment_list.dart';
@@ -778,6 +780,77 @@ abstract interface class StreamFeedsClient {
   ///
   /// Returns a [Result] indicating success or failure of the deletion operation.
   Future<Result<void>> deleteImage({required String url});
+
+  /// Creates or updates multiple follow relationships in a batch operation.
+  ///
+  /// Creates or updates follow relationships for multiple feeds using the provided [request] data.
+  /// Returns both newly created follows and existing follows that were already present.
+  ///
+  /// Example:
+  /// ```dart
+  /// final result = await client.getOrCreateFollows(
+  ///   api.FollowBatchRequest(
+  ///     follows: [
+  ///       api.FollowRequest(
+  ///         source: FeedId.user('john').rawValue,
+  ///         target: FeedId.user('jane').rawValue,
+  ///       ),
+  ///       api.FollowRequest(
+  ///         source: FeedId.user('john').rawValue,
+  ///         target: FeedId.user('bob').rawValue,
+  ///       ),
+  ///     ],
+  ///   ),
+  /// );
+  ///
+  /// switch (result) {
+  ///   case Success(value: final batchFollowData):
+  ///     print('Created ${batchFollowData.created.length} new follows');
+  ///     print('Total follows: ${batchFollowData.follows.length}');
+  ///   case Failure(error: final error):
+  ///     print('Failed to get or create follows: $error');
+  /// }
+  /// ```
+  ///
+  /// Returns a [Result] containing a [BatchFollowData] with the follows or an error.
+  Future<Result<BatchFollowData>> getOrCreateFollows(
+    api.FollowBatchRequest request,
+  );
+
+  /// Removes multiple follow relationships in a batch operation.
+  ///
+  /// Unfollows multiple feeds using the provided [request] data. Returns the list of
+  /// follow relationships that were removed.
+  ///
+  /// Example:
+  /// ```dart
+  /// final result = await client.getOrCreateUnfollows(
+  ///   api.UnfollowBatchRequest(
+  ///     follows: [
+  ///       api.FollowPair(
+  ///         source: FeedId.user('john').rawValue,
+  ///         target: FeedId.user('jane').rawValue,
+  ///       ),
+  ///       api.FollowPair(
+  ///         source: FeedId.user('john').rawValue,
+  ///         target: FeedId.user('bob').rawValue,
+  ///       ),
+  ///     ],
+  ///   ),
+  /// );
+  ///
+  /// switch (result) {
+  ///   case Success(value: final unfollowedFollows):
+  ///     print('Unfollowed ${unfollowedFollows.length} feeds');
+  ///   case Failure(error: final error):
+  ///     print('Failed to unfollow feeds: $error');
+  /// }
+  /// ```
+  ///
+  /// Returns a [Result] containing a list of [FollowData] with the unfollowed feeds or an error.
+  Future<Result<List<FollowData>>> getOrCreateUnfollows(
+    api.UnfollowBatchRequest request,
+  );
 
   /// The moderation client for managing moderation-related operations.
   ///

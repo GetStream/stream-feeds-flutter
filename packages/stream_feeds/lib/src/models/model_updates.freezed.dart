@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ModelUpdates<T> {
   List<T> get added;
-  List<String> get removedIds;
+  Set<String> get removedIds;
   List<T> get updated;
 
   /// Create a copy of ModelUpdates
@@ -57,7 +57,7 @@ abstract mixin class $ModelUpdatesCopyWith<T, $Res> {
           ModelUpdates<T> value, $Res Function(ModelUpdates<T>) _then) =
       _$ModelUpdatesCopyWithImpl;
   @useResult
-  $Res call({List<T> added, List<String> removedIds, List<T> updated});
+  $Res call({List<T> added, Set<String> removedIds, List<T> updated});
 }
 
 /// @nodoc
@@ -85,7 +85,7 @@ class _$ModelUpdatesCopyWithImpl<T, $Res>
       removedIds: null == removedIds
           ? _self.removedIds
           : removedIds // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as Set<String>,
       updated: null == updated
           ? _self.updated
           : updated // ignore: cast_nullable_to_non_nullable

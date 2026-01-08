@@ -714,6 +714,26 @@ FollowResponse createDefaultFollowResponse({
   );
 }
 
+FollowBatchResponse createDefaultFollowBatchResponse({
+  List<FollowResponse> created = const [],
+  List<FollowResponse> follows = const [],
+}) {
+  return FollowBatchResponse(
+    created: created,
+    duration: '10ms',
+    follows: follows,
+  );
+}
+
+UnfollowBatchResponse createDefaultUnfollowBatchResponse({
+  List<FollowResponse> follows = const [],
+}) {
+  return UnfollowBatchResponse(
+    duration: '10ms',
+    follows: follows,
+  );
+}
+
 BookmarkFolderResponse createDefaultBookmarkFolderResponse({
   String id = 'folder-id',
   String name = 'My Folder',

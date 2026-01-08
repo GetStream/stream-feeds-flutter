@@ -519,4 +519,207 @@ void main() {
       },
     );
   });
+
+  // ============================================================
+  // FEATURE: Batch Follow Operations
+  // ============================================================
+
+  group('getOrCreateFollows', () {
+    setUpAll(() {
+      registerFallbackValue(
+        const FollowBatchRequest(follows: []),
+      );
+    });
+
+    feedsClientTest(
+      'should get or create follows successfully',
+      body: (tester) async {
+        const johnFid = FeedId.user('john');
+        const janeFid = FeedId.user('jane');
+        const bobFid = FeedId.user('bob');
+
+        final request = FollowBatchRequest(
+          follows: [
+            FollowRequest(
+              source: johnFid.rawValue,
+              target: janeFid.rawValue,
+            ),
+            FollowRequest(
+              source: johnFid.rawValue,
+              target: bobFid.rawValue,
+            ),
+          ],
+        );
+
+        final createdFollow = createDefaultFollowResponse(
+          sourceId: johnFid.id,
+          targetId: janeFid.id,
+        );
+        final existingFollow = createDefaultFollowResponse(
+          sourceId: johnFid.id,
+          targetId: bobFid.id,
+        );
+
+        final response = createDefaultFollowBatchResponse(
+          created: [createdFollow],
+          follows: [createdFollow, existingFollow],
+        );
+
+        tester.mockApi(
+          (api) => api.getOrCreateFollows(followBatchRequest: request),
+          result: response,
+        );
+
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<FollowBatchUpdate>()),
+        );
+
+        final result = await tester.client.getOrCreateFollows(request);
+
+        expect(result.isSuccess, isTrue);
+        final batchFollowData = result.getOrThrow();
+        expect(batchFollowData.created.length, equals(1));
+        expect(batchFollowData.follows.length, equals(2));
+        expect(batchFollowData.created[0].targetFeed.fid.id, equals('jane'));
+        expect(batchFollowData.follows[0].targetFeed.fid.id, equals('jane'));
+        expect(batchFollowData.follows[1].targetFeed.fid.id, equals('bob'));
+
+        // Verify the event is emitted
+        await expectEventEmitted;
+
+        tester.verifyApi(
+          (api) => api.getOrCreateFollows(followBatchRequest: request),
+        );
+      },
+    );
+
+    feedsClientTest(
+      'should handle get or create follows failure',
+      body: (tester) async {
+        const johnFid = FeedId.user('john');
+        const janeFid = FeedId.user('jane');
+
+        final request = FollowBatchRequest(
+          follows: [
+            FollowRequest(
+              source: johnFid.rawValue,
+              target: janeFid.rawValue,
+            ),
+          ],
+        );
+
+        tester.mockApiFailure(
+          (api) => api.getOrCreateFollows(followBatchRequest: request),
+          error: Exception('Failed to get or create follows'),
+        );
+
+        final result = await tester.client.getOrCreateFollows(request);
+
+        expect(result.isFailure, isTrue);
+
+        tester.verifyApi(
+          (api) => api.getOrCreateFollows(followBatchRequest: request),
+        );
+      },
+    );
+  });
+
+  group('getOrCreateUnfollows', () {
+    setUpAll(() {
+      registerFallbackValue(
+        const UnfollowBatchRequest(follows: []),
+      );
+    });
+
+    feedsClientTest(
+      'should get or create unfollows successfully',
+      body: (tester) async {
+        const johnFid = FeedId.user('john');
+        const janeFid = FeedId.user('jane');
+        const bobFid = FeedId.user('bob');
+
+        final request = UnfollowBatchRequest(
+          follows: [
+            FollowPair(
+              source: johnFid.rawValue,
+              target: janeFid.rawValue,
+            ),
+            FollowPair(
+              source: johnFid.rawValue,
+              target: bobFid.rawValue,
+            ),
+          ],
+        );
+
+        final unfollowedFollow1 = createDefaultFollowResponse(
+          sourceId: johnFid.id,
+          targetId: janeFid.id,
+        );
+        final unfollowedFollow2 = createDefaultFollowResponse(
+          sourceId: johnFid.id,
+          targetId: bobFid.id,
+        );
+
+        final response = createDefaultUnfollowBatchResponse(
+          follows: [unfollowedFollow1, unfollowedFollow2],
+        );
+
+        tester.mockApi(
+          (api) => api.getOrCreateUnfollows(unfollowBatchRequest: request),
+          result: response,
+        );
+
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<FollowBatchUpdate>()),
+        );
+
+        final result = await tester.client.getOrCreateUnfollows(request);
+
+        expect(result.isSuccess, isTrue);
+        final unfollowedFollows = result.getOrThrow();
+        expect(unfollowedFollows.length, equals(2));
+        expect(unfollowedFollows[0].targetFeed.fid.id, equals('jane'));
+        expect(unfollowedFollows[1].targetFeed.fid.id, equals('bob'));
+
+        // Verify the event is emitted
+        await expectEventEmitted;
+
+        tester.verifyApi(
+          (api) => api.getOrCreateUnfollows(unfollowBatchRequest: request),
+        );
+      },
+    );
+
+    feedsClientTest(
+      'should handle get or create unfollows failure',
+      body: (tester) async {
+        const johnFid = FeedId.user('john');
+        const janeFid = FeedId.user('jane');
+
+        final request = UnfollowBatchRequest(
+          follows: [
+            FollowPair(
+              source: johnFid.rawValue,
+              target: janeFid.rawValue,
+            ),
+          ],
+        );
+
+        tester.mockApiFailure(
+          (api) => api.getOrCreateUnfollows(unfollowBatchRequest: request),
+          error: Exception('Failed to get or create unfollows'),
+        );
+
+        final result = await tester.client.getOrCreateUnfollows(request);
+
+        expect(result.isFailure, isTrue);
+
+        tester.verifyApi(
+          (api) => api.getOrCreateUnfollows(unfollowBatchRequest: request),
+        );
+      },
+    );
+  });
 }
