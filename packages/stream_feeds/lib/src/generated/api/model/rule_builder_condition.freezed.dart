@@ -26,6 +26,8 @@ mixin _$RuleBuilderCondition {
   UserCreatedWithinParameters? get userCreatedWithinParams;
   UserCustomPropertyParameters? get userCustomPropertyParams;
   FlagCountRuleParameters? get userFlagCountRuleParams;
+  UserIdenticalContentCountParameters? get userIdenticalContentCountParams;
+  UserRoleParameters? get userRoleParams;
   UserRuleParameters? get userRuleParams;
   VideoContentParameters? get videoContentParams;
   VideoRuleParameters? get videoRuleParams;
@@ -60,15 +62,19 @@ mixin _$RuleBuilderCondition {
             (identical(other.textRuleParams, textRuleParams) ||
                 other.textRuleParams == textRuleParams) &&
             (identical(other.type, type) || other.type == type) &&
-            (identical(
-                    other.userCreatedWithinParams, userCreatedWithinParams) ||
+            (identical(other.userCreatedWithinParams, userCreatedWithinParams) ||
                 other.userCreatedWithinParams == userCreatedWithinParams) &&
             (identical(
                     other.userCustomPropertyParams, userCustomPropertyParams) ||
                 other.userCustomPropertyParams == userCustomPropertyParams) &&
-            (identical(
-                    other.userFlagCountRuleParams, userFlagCountRuleParams) ||
+            (identical(other.userFlagCountRuleParams, userFlagCountRuleParams) ||
                 other.userFlagCountRuleParams == userFlagCountRuleParams) &&
+            (identical(other.userIdenticalContentCountParams,
+                    userIdenticalContentCountParams) ||
+                other.userIdenticalContentCountParams ==
+                    userIdenticalContentCountParams) &&
+            (identical(other.userRoleParams, userRoleParams) ||
+                other.userRoleParams == userRoleParams) &&
             (identical(other.userRuleParams, userRuleParams) ||
                 other.userRuleParams == userRuleParams) &&
             (identical(other.videoContentParams, videoContentParams) ||
@@ -91,13 +97,15 @@ mixin _$RuleBuilderCondition {
       userCreatedWithinParams,
       userCustomPropertyParams,
       userFlagCountRuleParams,
+      userIdenticalContentCountParams,
+      userRoleParams,
       userRuleParams,
       videoContentParams,
       videoRuleParams);
 
   @override
   String toString() {
-    return 'RuleBuilderCondition(confidence: $confidence, contentCountRuleParams: $contentCountRuleParams, contentFlagCountRuleParams: $contentFlagCountRuleParams, imageContentParams: $imageContentParams, imageRuleParams: $imageRuleParams, textContentParams: $textContentParams, textRuleParams: $textRuleParams, type: $type, userCreatedWithinParams: $userCreatedWithinParams, userCustomPropertyParams: $userCustomPropertyParams, userFlagCountRuleParams: $userFlagCountRuleParams, userRuleParams: $userRuleParams, videoContentParams: $videoContentParams, videoRuleParams: $videoRuleParams)';
+    return 'RuleBuilderCondition(confidence: $confidence, contentCountRuleParams: $contentCountRuleParams, contentFlagCountRuleParams: $contentFlagCountRuleParams, imageContentParams: $imageContentParams, imageRuleParams: $imageRuleParams, textContentParams: $textContentParams, textRuleParams: $textRuleParams, type: $type, userCreatedWithinParams: $userCreatedWithinParams, userCustomPropertyParams: $userCustomPropertyParams, userFlagCountRuleParams: $userFlagCountRuleParams, userIdenticalContentCountParams: $userIdenticalContentCountParams, userRoleParams: $userRoleParams, userRuleParams: $userRuleParams, videoContentParams: $videoContentParams, videoRuleParams: $videoRuleParams)';
   }
 }
 
@@ -119,6 +127,8 @@ abstract mixin class $RuleBuilderConditionCopyWith<$Res> {
       UserCreatedWithinParameters? userCreatedWithinParams,
       UserCustomPropertyParameters? userCustomPropertyParams,
       FlagCountRuleParameters? userFlagCountRuleParams,
+      UserIdenticalContentCountParameters? userIdenticalContentCountParams,
+      UserRoleParameters? userRoleParams,
       UserRuleParameters? userRuleParams,
       VideoContentParameters? videoContentParams,
       VideoRuleParameters? videoRuleParams});
@@ -148,6 +158,8 @@ class _$RuleBuilderConditionCopyWithImpl<$Res>
     Object? userCreatedWithinParams = freezed,
     Object? userCustomPropertyParams = freezed,
     Object? userFlagCountRuleParams = freezed,
+    Object? userIdenticalContentCountParams = freezed,
+    Object? userRoleParams = freezed,
     Object? userRuleParams = freezed,
     Object? videoContentParams = freezed,
     Object? videoRuleParams = freezed,
@@ -197,6 +209,15 @@ class _$RuleBuilderConditionCopyWithImpl<$Res>
           ? _self.userFlagCountRuleParams
           : userFlagCountRuleParams // ignore: cast_nullable_to_non_nullable
               as FlagCountRuleParameters?,
+      userIdenticalContentCountParams: freezed ==
+              userIdenticalContentCountParams
+          ? _self.userIdenticalContentCountParams
+          : userIdenticalContentCountParams // ignore: cast_nullable_to_non_nullable
+              as UserIdenticalContentCountParameters?,
+      userRoleParams: freezed == userRoleParams
+          ? _self.userRoleParams
+          : userRoleParams // ignore: cast_nullable_to_non_nullable
+              as UserRoleParameters?,
       userRuleParams: freezed == userRuleParams
           ? _self.userRuleParams
           : userRuleParams // ignore: cast_nullable_to_non_nullable

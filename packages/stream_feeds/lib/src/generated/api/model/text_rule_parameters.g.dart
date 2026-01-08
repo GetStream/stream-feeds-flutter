@@ -18,6 +18,11 @@ TextRuleParameters _$TextRuleParametersFromJson(Map<String, dynamic> json) =>
       llmHarmLabels: (json['llm_harm_labels'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
+      semanticFilterMinThreshold:
+          (json['semantic_filter_min_threshold'] as num?)?.toDouble(),
+      semanticFilterNames: (json['semantic_filter_names'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       severity: json['severity'] as String?,
       threshold: (json['threshold'] as num?)?.toInt(),
       timeWindow: json['time_window'] as String?,
@@ -29,6 +34,8 @@ Map<String, dynamic> _$TextRuleParametersToJson(TextRuleParameters instance) =>
       'contains_url': instance.containsUrl,
       'harm_labels': instance.harmLabels,
       'llm_harm_labels': instance.llmHarmLabels,
+      'semantic_filter_min_threshold': instance.semanticFilterMinThreshold,
+      'semantic_filter_names': instance.semanticFilterNames,
       'severity': instance.severity,
       'threshold': instance.threshold,
       'time_window': instance.timeWindow,

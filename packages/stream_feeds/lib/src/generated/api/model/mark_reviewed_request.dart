@@ -19,11 +19,15 @@ part 'mark_reviewed_request.freezed.dart';
 class MarkReviewedRequest with _$MarkReviewedRequest {
   const MarkReviewedRequest({
     this.contentToMarkAsReviewedLimit,
+    this.decisionReason,
     this.disableMarkingContentAsReviewed,
   });
 
   @override
   final int? contentToMarkAsReviewedLimit;
+
+  @override
+  final String? decisionReason;
 
   @override
   final bool? disableMarkingContentAsReviewed;

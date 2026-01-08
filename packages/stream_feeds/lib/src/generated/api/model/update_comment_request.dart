@@ -18,11 +18,15 @@ part 'update_comment_request.freezed.dart';
 @JsonSerializable()
 class UpdateCommentRequest with _$UpdateCommentRequest {
   const UpdateCommentRequest({
+    this.attachments,
     this.comment,
     this.custom,
     this.skipEnrichUrl,
     this.skipPush,
   });
+
+  @override
+  final List<Attachment>? attachments;
 
   @override
   final String? comment;

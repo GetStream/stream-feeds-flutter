@@ -68,6 +68,11 @@ abstract interface class DefaultApi {
     @Body() required AddCommentsBatchRequest addCommentsBatchRequest,
   });
 
+  @POST('/api/v2/moderation/appeal')
+  Future<Result<AppealResponse>> appeal({
+    @Body() required AppealRequest appealRequest,
+  });
+
   @POST('/api/v2/moderation/ban')
   Future<Result<BanResponse>> ban({
     @Body() required BanRequest banRequest,
@@ -245,6 +250,11 @@ abstract interface class DefaultApi {
   @GET('/api/v2/app')
   Future<Result<GetApplicationResponse>> getApp();
 
+  @GET('/api/v2/moderation/appeal/{id}')
+  Future<Result<GetAppealResponse>> getAppeal({
+    @Path('id') required String id,
+  });
+
   @GET('/api/v2/users/block')
   Future<Result<GetBlockedUsersResponse>> getBlockedUsers();
 
@@ -300,6 +310,16 @@ abstract interface class DefaultApi {
     @Body() GetOrCreateFeedRequest? getOrCreateFeedRequest,
   });
 
+  @POST('/api/v2/feeds/follows/batch/upsert')
+  Future<Result<FollowBatchResponse>> getOrCreateFollows({
+    @Body() required FollowBatchRequest followBatchRequest,
+  });
+
+  @POST('/api/v2/feeds/unfollow/batch/upsert')
+  Future<Result<UnfollowBatchResponse>> getOrCreateUnfollows({
+    @Body() required UnfollowBatchRequest unfollowBatchRequest,
+  });
+
   @GET('/api/v2/polls/{poll_id}')
   Future<Result<PollResponse>> getPoll({
     @Path('poll_id') required String pollId,
@@ -342,9 +362,9 @@ abstract interface class DefaultApi {
     @Body() required MuteRequest muteRequest,
   });
 
-  @POST('/api/v2/feeds/feeds/own_capabilities/batch')
-  Future<Result<OwnCapabilitiesBatchResponse>> ownCapabilitiesBatch({
-    @Body() required OwnCapabilitiesBatchRequest ownCapabilitiesBatchRequest,
+  @POST('/api/v2/feeds/feeds/own/batch')
+  Future<Result<OwnBatchResponse>> ownBatch({
+    @Body() required OwnBatchRequest ownBatchRequest,
   });
 
   @POST(
@@ -364,6 +384,11 @@ abstract interface class DefaultApi {
   Future<Result<QueryActivityReactionsResponse>> queryActivityReactions({
     @Path('activity_id') required String activityId,
     @Body() QueryActivityReactionsRequest? queryActivityReactionsRequest,
+  });
+
+  @POST('/api/v2/moderation/appeals')
+  Future<Result<QueryAppealsResponse>> queryAppeals({
+    @Body() QueryAppealsRequest? queryAppealsRequest,
   });
 
   @POST('/api/v2/feeds/bookmark_folders/query')

@@ -10,22 +10,26 @@ import 'package:stream_core/stream_core.dart' as core;
 
 import '../models.dart';
 
-part 'own_capabilities_batch_request.g.dart';
-part 'own_capabilities_batch_request.freezed.dart';
+part 'own_batch_request.g.dart';
+part 'own_batch_request.freezed.dart';
 
 @freezed
 @immutable
 @JsonSerializable()
-class OwnCapabilitiesBatchRequest with _$OwnCapabilitiesBatchRequest {
-  const OwnCapabilitiesBatchRequest({
+class OwnBatchRequest with _$OwnBatchRequest {
+  const OwnBatchRequest({
     required this.feeds,
+    this.fields,
   });
 
   @override
   final List<String> feeds;
 
-  Map<String, dynamic> toJson() => _$OwnCapabilitiesBatchRequestToJson(this);
+  @override
+  final List<String>? fields;
 
-  static OwnCapabilitiesBatchRequest fromJson(Map<String, dynamic> json) =>
-      _$OwnCapabilitiesBatchRequestFromJson(json);
+  Map<String, dynamic> toJson() => _$OwnBatchRequestToJson(this);
+
+  static OwnBatchRequest fromJson(Map<String, dynamic> json) =>
+      _$OwnBatchRequestFromJson(json);
 }

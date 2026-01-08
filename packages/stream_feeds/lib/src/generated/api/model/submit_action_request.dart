@@ -37,6 +37,8 @@ enum SubmitActionRequestActionType {
   kickUser,
   @JsonValue('mark_reviewed')
   markReviewed,
+  @JsonValue('reject_appeal')
+  rejectAppeal,
   @JsonValue('restore')
   restore,
   @JsonValue('shadow_block')
@@ -57,6 +59,7 @@ enum SubmitActionRequestActionType {
 class SubmitActionRequest with _$SubmitActionRequest {
   const SubmitActionRequest({
     required this.actionType,
+    this.appealId,
     this.ban,
     this.block,
     this.custom,
@@ -65,14 +68,21 @@ class SubmitActionRequest with _$SubmitActionRequest {
     this.deleteMessage,
     this.deleteReaction,
     this.deleteUser,
-    required this.itemId,
+    this.itemId,
     this.markReviewed,
+    this.rejectAppeal,
+    this.restore,
     this.shadowBlock,
+    this.unban,
+    this.unblock,
   });
 
   @override
   @JsonKey(unknownEnumValue: SubmitActionRequestActionType.unknown)
   final SubmitActionRequestActionType actionType;
+
+  @override
+  final String? appealId;
 
   @override
   final BanActionRequest? ban;
@@ -99,13 +109,25 @@ class SubmitActionRequest with _$SubmitActionRequest {
   final DeleteUserRequest? deleteUser;
 
   @override
-  final String itemId;
+  final String? itemId;
 
   @override
   final MarkReviewedRequest? markReviewed;
 
   @override
+  final RejectAppealRequest? rejectAppeal;
+
+  @override
+  final RestoreActionRequest? restore;
+
+  @override
   final ShadowBlockActionRequest? shadowBlock;
+
+  @override
+  final UnbanActionRequest? unban;
+
+  @override
+  final UnblockActionRequest? unblock;
 
   Map<String, dynamic> toJson() => _$SubmitActionRequestToJson(this);
 

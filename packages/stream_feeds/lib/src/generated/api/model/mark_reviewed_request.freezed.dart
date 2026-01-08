@@ -16,6 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$MarkReviewedRequest {
   int? get contentToMarkAsReviewedLimit;
+  String? get decisionReason;
   bool? get disableMarkingContentAsReviewed;
 
   /// Create a copy of MarkReviewedRequest
@@ -35,6 +36,8 @@ mixin _$MarkReviewedRequest {
                     contentToMarkAsReviewedLimit) ||
                 other.contentToMarkAsReviewedLimit ==
                     contentToMarkAsReviewedLimit) &&
+            (identical(other.decisionReason, decisionReason) ||
+                other.decisionReason == decisionReason) &&
             (identical(other.disableMarkingContentAsReviewed,
                     disableMarkingContentAsReviewed) ||
                 other.disableMarkingContentAsReviewed ==
@@ -43,11 +46,11 @@ mixin _$MarkReviewedRequest {
 
   @override
   int get hashCode => Object.hash(runtimeType, contentToMarkAsReviewedLimit,
-      disableMarkingContentAsReviewed);
+      decisionReason, disableMarkingContentAsReviewed);
 
   @override
   String toString() {
-    return 'MarkReviewedRequest(contentToMarkAsReviewedLimit: $contentToMarkAsReviewedLimit, disableMarkingContentAsReviewed: $disableMarkingContentAsReviewed)';
+    return 'MarkReviewedRequest(contentToMarkAsReviewedLimit: $contentToMarkAsReviewedLimit, decisionReason: $decisionReason, disableMarkingContentAsReviewed: $disableMarkingContentAsReviewed)';
   }
 }
 
@@ -59,6 +62,7 @@ abstract mixin class $MarkReviewedRequestCopyWith<$Res> {
   @useResult
   $Res call(
       {int? contentToMarkAsReviewedLimit,
+      String? decisionReason,
       bool? disableMarkingContentAsReviewed});
 }
 
@@ -76,6 +80,7 @@ class _$MarkReviewedRequestCopyWithImpl<$Res>
   @override
   $Res call({
     Object? contentToMarkAsReviewedLimit = freezed,
+    Object? decisionReason = freezed,
     Object? disableMarkingContentAsReviewed = freezed,
   }) {
     return _then(MarkReviewedRequest(
@@ -83,6 +88,10 @@ class _$MarkReviewedRequestCopyWithImpl<$Res>
           ? _self.contentToMarkAsReviewedLimit
           : contentToMarkAsReviewedLimit // ignore: cast_nullable_to_non_nullable
               as int?,
+      decisionReason: freezed == decisionReason
+          ? _self.decisionReason
+          : decisionReason // ignore: cast_nullable_to_non_nullable
+              as String?,
       disableMarkingContentAsReviewed: freezed ==
               disableMarkingContentAsReviewed
           ? _self.disableMarkingContentAsReviewed

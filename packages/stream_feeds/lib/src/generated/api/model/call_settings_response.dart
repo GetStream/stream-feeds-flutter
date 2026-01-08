@@ -23,8 +23,10 @@ class CallSettingsResponse with _$CallSettingsResponse {
     required this.broadcasting,
     required this.frameRecording,
     required this.geofencing,
+    required this.individualRecording,
     this.ingress,
     required this.limits,
+    required this.rawRecording,
     required this.recording,
     required this.ring,
     required this.screensharing,
@@ -50,10 +52,16 @@ class CallSettingsResponse with _$CallSettingsResponse {
   final GeofenceSettingsResponse geofencing;
 
   @override
+  final IndividualRecordingSettingsResponse individualRecording;
+
+  @override
   final IngressSettingsResponse? ingress;
 
   @override
   final LimitsSettingsResponse limits;
+
+  @override
+  final RawRecordingSettingsResponse rawRecording;
 
   @override
   final RecordSettingsResponse recording;

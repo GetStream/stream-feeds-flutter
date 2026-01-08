@@ -118,6 +118,45 @@ class ModerationRepository {
     return result;
   }
 
+  /// Submits an appeal for a moderation decision.
+  ///
+  /// Allows users to appeal moderation actions using the data in [appealRequest].
+  ///
+  /// Returns a [Result] containing an [api.AppealResponse] or an error.
+  Future<Result<api.AppealResponse>> appeal(
+    api.AppealRequest appealRequest,
+  ) async {
+    final result = await _api.appeal(appealRequest: appealRequest);
+
+    return result;
+  }
+
+  /// Gets an appeal by ID.
+  ///
+  /// Retrieves the appeal identified by [id].
+  ///
+  /// Returns a [Result] containing a [api.GetAppealResponse] or an error.
+  Future<Result<api.GetAppealResponse>> getAppeal(String id) async {
+    final result = await _api.getAppeal(id: id);
+
+    return result;
+  }
+
+  /// Queries appeals.
+  ///
+  /// Retrieves appeals using the specified [queryAppealsRequest] filters and pagination.
+  ///
+  /// Returns a [Result] containing a [api.QueryAppealsResponse] or an error.
+  Future<Result<api.QueryAppealsResponse>> queryAppeals(
+    api.QueryAppealsRequest? queryAppealsRequest,
+  ) async {
+    final result = await _api.queryAppeals(
+      queryAppealsRequest: queryAppealsRequest,
+    );
+
+    return result;
+  }
+
   /// Submits a moderation action.
   ///
   /// Executes a moderation decision using the data in [submitActionRequest].

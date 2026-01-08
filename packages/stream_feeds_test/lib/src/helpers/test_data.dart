@@ -256,10 +256,12 @@ FeedResponse createDefaultFeedResponse({
   String groupId = 'group',
   String name = 'name',
   String description = 'description',
+  int activityCount = 0,
   int followerCount = 0,
   int followingCount = 0,
   List<FeedOwnCapability>? ownCapabilities,
   FeedMemberResponse? ownMembership,
+  List<FollowResponse>? ownFollowings,
   List<FollowResponse>? ownFollows,
 }) {
   return FeedResponse(
@@ -271,6 +273,7 @@ FeedResponse createDefaultFeedResponse({
     visibility: FeedVisibility.public,
     createdAt: DateTime(2021, 1, 1),
     createdBy: createDefaultUserResponse(),
+    activityCount: activityCount,
     followerCount: followerCount,
     followingCount: followingCount,
     memberCount: 0,
@@ -278,6 +281,7 @@ FeedResponse createDefaultFeedResponse({
     updatedAt: DateTime.now(),
     ownCapabilities: ownCapabilities,
     ownMembership: ownMembership,
+    ownFollowings: ownFollowings,
     ownFollows: ownFollows,
   );
 }
@@ -815,9 +819,12 @@ FeedSuggestionResponse createDefaultFeedSuggestionResponse({
   String id = 'suggestion-id',
   String groupId = 'user',
   String feedId = 'john',
+  int activityCount = 0,
   Map<String, double>? algorithmScores,
   String? reason,
   double? recommendationScore,
+  List<FollowResponse>? ownFollowings,
+  List<FollowResponse>? ownFollows,
 }) {
   return FeedSuggestionResponse(
     id: id,
@@ -828,6 +835,7 @@ FeedSuggestionResponse createDefaultFeedSuggestionResponse({
     visibility: FeedVisibility.public,
     createdAt: DateTime(2021, 1, 1),
     createdBy: createDefaultUserResponse(),
+    activityCount: activityCount,
     followerCount: 100,
     followingCount: 50,
     memberCount: 10,
@@ -836,6 +844,8 @@ FeedSuggestionResponse createDefaultFeedSuggestionResponse({
     algorithmScores: algorithmScores,
     reason: reason,
     recommendationScore: recommendationScore,
+    ownFollowings: ownFollowings,
+    ownFollows: ownFollows,
   );
 }
 
@@ -1026,6 +1036,56 @@ DeleteActivitiesResponse createDefaultDeleteActivitiesResponse({
 }) {
   return DeleteActivitiesResponse(
     deletedIds: ids,
+    duration: '10ms',
+  );
+}
+
+AppealResponse createDefaultAppealResponse({
+  String appealId = 'appeal-123',
+}) {
+  return AppealResponse(
+    appealId: appealId,
+    duration: '10ms',
+  );
+}
+
+AppealItemResponse createDefaultAppealItemResponse({
+  String id = 'appeal-123',
+  String entityId = 'activity-123',
+  String entityType = 'activity',
+  String status = 'pending',
+  String appealReason = 'This was a mistake',
+}) {
+  return AppealItemResponse(
+    id: id,
+    entityId: entityId,
+    entityType: entityType,
+    status: status,
+    appealReason: appealReason,
+    createdAt: DateTime(2021, 1, 1),
+    updatedAt: DateTime(2021, 2, 1),
+    user: createDefaultUserResponse(),
+  );
+}
+
+GetAppealResponse createDefaultGetAppealResponse({
+  AppealItemResponse? item,
+}) {
+  return GetAppealResponse(
+    item: item ?? createDefaultAppealItemResponse(),
+    duration: '10ms',
+  );
+}
+
+QueryAppealsResponse createDefaultQueryAppealsResponse({
+  String? next,
+  String? prev,
+  List<AppealItemResponse> items = const [],
+}) {
+  return QueryAppealsResponse(
+    items: items.isEmpty ? [createDefaultAppealItemResponse()] : items,
+    next: next,
+    prev: prev,
     duration: '10ms',
   );
 }

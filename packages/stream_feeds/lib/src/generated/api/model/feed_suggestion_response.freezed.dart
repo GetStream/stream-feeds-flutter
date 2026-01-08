@@ -15,6 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$FeedSuggestionResponse {
+  int get activityCount;
   Map<String, double>? get algorithmScores;
   DateTime get createdAt;
   UserResponse get createdBy;
@@ -30,6 +31,7 @@ mixin _$FeedSuggestionResponse {
   int get memberCount;
   String get name;
   List<FeedOwnCapability>? get ownCapabilities;
+  List<FollowResponse>? get ownFollowings;
   List<FollowResponse>? get ownFollows;
   FeedMemberResponse? get ownMembership;
   int get pinCount;
@@ -51,6 +53,8 @@ mixin _$FeedSuggestionResponse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is FeedSuggestionResponse &&
+            (identical(other.activityCount, activityCount) ||
+                other.activityCount == activityCount) &&
             const DeepCollectionEquality()
                 .equals(other.algorithmScores, algorithmScores) &&
             (identical(other.createdAt, createdAt) ||
@@ -77,6 +81,8 @@ mixin _$FeedSuggestionResponse {
             const DeepCollectionEquality()
                 .equals(other.ownCapabilities, ownCapabilities) &&
             const DeepCollectionEquality()
+                .equals(other.ownFollowings, ownFollowings) &&
+            const DeepCollectionEquality()
                 .equals(other.ownFollows, ownFollows) &&
             (identical(other.ownMembership, ownMembership) ||
                 other.ownMembership == ownMembership) &&
@@ -94,6 +100,7 @@ mixin _$FeedSuggestionResponse {
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
+        activityCount,
         const DeepCollectionEquality().hash(algorithmScores),
         createdAt,
         createdBy,
@@ -109,6 +116,7 @@ mixin _$FeedSuggestionResponse {
         memberCount,
         name,
         const DeepCollectionEquality().hash(ownCapabilities),
+        const DeepCollectionEquality().hash(ownFollowings),
         const DeepCollectionEquality().hash(ownFollows),
         ownMembership,
         pinCount,
@@ -120,7 +128,7 @@ mixin _$FeedSuggestionResponse {
 
   @override
   String toString() {
-    return 'FeedSuggestionResponse(algorithmScores: $algorithmScores, createdAt: $createdAt, createdBy: $createdBy, custom: $custom, deletedAt: $deletedAt, description: $description, feed: $feed, filterTags: $filterTags, followerCount: $followerCount, followingCount: $followingCount, groupId: $groupId, id: $id, memberCount: $memberCount, name: $name, ownCapabilities: $ownCapabilities, ownFollows: $ownFollows, ownMembership: $ownMembership, pinCount: $pinCount, reason: $reason, recommendationScore: $recommendationScore, updatedAt: $updatedAt, visibility: $visibility)';
+    return 'FeedSuggestionResponse(activityCount: $activityCount, algorithmScores: $algorithmScores, createdAt: $createdAt, createdBy: $createdBy, custom: $custom, deletedAt: $deletedAt, description: $description, feed: $feed, filterTags: $filterTags, followerCount: $followerCount, followingCount: $followingCount, groupId: $groupId, id: $id, memberCount: $memberCount, name: $name, ownCapabilities: $ownCapabilities, ownFollowings: $ownFollowings, ownFollows: $ownFollows, ownMembership: $ownMembership, pinCount: $pinCount, reason: $reason, recommendationScore: $recommendationScore, updatedAt: $updatedAt, visibility: $visibility)';
   }
 }
 
@@ -131,7 +139,8 @@ abstract mixin class $FeedSuggestionResponseCopyWith<$Res> {
       _$FeedSuggestionResponseCopyWithImpl;
   @useResult
   $Res call(
-      {Map<String, double>? algorithmScores,
+      {int activityCount,
+      Map<String, double>? algorithmScores,
       DateTime createdAt,
       UserResponse createdBy,
       Map<String, Object?>? custom,
@@ -146,6 +155,7 @@ abstract mixin class $FeedSuggestionResponseCopyWith<$Res> {
       int memberCount,
       String name,
       List<FeedOwnCapability>? ownCapabilities,
+      List<FollowResponse>? ownFollowings,
       List<FollowResponse>? ownFollows,
       FeedMemberResponse? ownMembership,
       int pinCount,
@@ -168,6 +178,7 @@ class _$FeedSuggestionResponseCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? activityCount = null,
     Object? algorithmScores = freezed,
     Object? createdAt = null,
     Object? createdBy = null,
@@ -183,6 +194,7 @@ class _$FeedSuggestionResponseCopyWithImpl<$Res>
     Object? memberCount = null,
     Object? name = null,
     Object? ownCapabilities = freezed,
+    Object? ownFollowings = freezed,
     Object? ownFollows = freezed,
     Object? ownMembership = freezed,
     Object? pinCount = null,
@@ -192,6 +204,10 @@ class _$FeedSuggestionResponseCopyWithImpl<$Res>
     Object? visibility = freezed,
   }) {
     return _then(FeedSuggestionResponse(
+      activityCount: null == activityCount
+          ? _self.activityCount
+          : activityCount // ignore: cast_nullable_to_non_nullable
+              as int,
       algorithmScores: freezed == algorithmScores
           ? _self.algorithmScores
           : algorithmScores // ignore: cast_nullable_to_non_nullable
@@ -252,6 +268,10 @@ class _$FeedSuggestionResponseCopyWithImpl<$Res>
           ? _self.ownCapabilities
           : ownCapabilities // ignore: cast_nullable_to_non_nullable
               as List<FeedOwnCapability>?,
+      ownFollowings: freezed == ownFollowings
+          ? _self.ownFollowings
+          : ownFollowings // ignore: cast_nullable_to_non_nullable
+              as List<FollowResponse>?,
       ownFollows: freezed == ownFollows
           ? _self.ownFollows
           : ownFollows // ignore: cast_nullable_to_non_nullable

@@ -15,6 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$FeedData {
+  int get activityCount;
   DateTime get createdAt;
   UserData get createdBy;
   DateTime? get deletedAt;
@@ -29,6 +30,7 @@ mixin _$FeedData {
   String get name;
   List<FeedOwnCapability> get ownCapabilities;
   FeedMemberData? get ownMembership;
+  List<FollowData>? get ownFollowings;
   List<FollowData>? get ownFollows;
   int get pinCount;
   DateTime get updatedAt;
@@ -47,6 +49,8 @@ mixin _$FeedData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is FeedData &&
+            (identical(other.activityCount, activityCount) ||
+                other.activityCount == activityCount) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.createdBy, createdBy) ||
@@ -72,6 +76,8 @@ mixin _$FeedData {
             (identical(other.ownMembership, ownMembership) ||
                 other.ownMembership == ownMembership) &&
             const DeepCollectionEquality()
+                .equals(other.ownFollowings, ownFollowings) &&
+            const DeepCollectionEquality()
                 .equals(other.ownFollows, ownFollows) &&
             (identical(other.pinCount, pinCount) ||
                 other.pinCount == pinCount) &&
@@ -85,6 +91,7 @@ mixin _$FeedData {
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
+        activityCount,
         createdAt,
         createdBy,
         deletedAt,
@@ -99,6 +106,7 @@ mixin _$FeedData {
         name,
         const DeepCollectionEquality().hash(ownCapabilities),
         ownMembership,
+        const DeepCollectionEquality().hash(ownFollowings),
         const DeepCollectionEquality().hash(ownFollows),
         pinCount,
         updatedAt,
@@ -108,7 +116,7 @@ mixin _$FeedData {
 
   @override
   String toString() {
-    return 'FeedData(createdAt: $createdAt, createdBy: $createdBy, deletedAt: $deletedAt, description: $description, fid: $fid, filterTags: $filterTags, followerCount: $followerCount, followingCount: $followingCount, groupId: $groupId, id: $id, memberCount: $memberCount, name: $name, ownCapabilities: $ownCapabilities, ownMembership: $ownMembership, ownFollows: $ownFollows, pinCount: $pinCount, updatedAt: $updatedAt, visibility: $visibility, custom: $custom)';
+    return 'FeedData(activityCount: $activityCount, createdAt: $createdAt, createdBy: $createdBy, deletedAt: $deletedAt, description: $description, fid: $fid, filterTags: $filterTags, followerCount: $followerCount, followingCount: $followingCount, groupId: $groupId, id: $id, memberCount: $memberCount, name: $name, ownCapabilities: $ownCapabilities, ownMembership: $ownMembership, ownFollowings: $ownFollowings, ownFollows: $ownFollows, pinCount: $pinCount, updatedAt: $updatedAt, visibility: $visibility, custom: $custom)';
   }
 }
 
@@ -118,7 +126,8 @@ abstract mixin class $FeedDataCopyWith<$Res> {
       _$FeedDataCopyWithImpl;
   @useResult
   $Res call(
-      {DateTime createdAt,
+      {int activityCount,
+      DateTime createdAt,
       UserData createdBy,
       DateTime? deletedAt,
       String description,
@@ -132,6 +141,7 @@ abstract mixin class $FeedDataCopyWith<$Res> {
       String name,
       List<FeedOwnCapability> ownCapabilities,
       FeedMemberData? ownMembership,
+      List<FollowData>? ownFollowings,
       List<FollowData>? ownFollows,
       int pinCount,
       DateTime updatedAt,
@@ -151,6 +161,7 @@ class _$FeedDataCopyWithImpl<$Res> implements $FeedDataCopyWith<$Res> {
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? activityCount = null,
     Object? createdAt = null,
     Object? createdBy = null,
     Object? deletedAt = freezed,
@@ -165,6 +176,7 @@ class _$FeedDataCopyWithImpl<$Res> implements $FeedDataCopyWith<$Res> {
     Object? name = null,
     Object? ownCapabilities = null,
     Object? ownMembership = freezed,
+    Object? ownFollowings = freezed,
     Object? ownFollows = freezed,
     Object? pinCount = null,
     Object? updatedAt = null,
@@ -172,6 +184,10 @@ class _$FeedDataCopyWithImpl<$Res> implements $FeedDataCopyWith<$Res> {
     Object? custom = freezed,
   }) {
     return _then(FeedData(
+      activityCount: null == activityCount
+          ? _self.activityCount
+          : activityCount // ignore: cast_nullable_to_non_nullable
+              as int,
       createdAt: null == createdAt
           ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -228,6 +244,10 @@ class _$FeedDataCopyWithImpl<$Res> implements $FeedDataCopyWith<$Res> {
           ? _self.ownMembership
           : ownMembership // ignore: cast_nullable_to_non_nullable
               as FeedMemberData?,
+      ownFollowings: freezed == ownFollowings
+          ? _self.ownFollowings
+          : ownFollowings // ignore: cast_nullable_to_non_nullable
+              as List<FollowData>?,
       ownFollows: freezed == ownFollows
           ? _self.ownFollows
           : ownFollows // ignore: cast_nullable_to_non_nullable

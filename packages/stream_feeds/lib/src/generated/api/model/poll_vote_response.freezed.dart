@@ -16,6 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PollVoteResponse {
   String get duration;
+  PollResponseData? get poll;
   PollVoteResponseData? get vote;
 
   /// Create a copy of PollVoteResponse
@@ -33,15 +34,16 @@ mixin _$PollVoteResponse {
             other is PollVoteResponse &&
             (identical(other.duration, duration) ||
                 other.duration == duration) &&
+            (identical(other.poll, poll) || other.poll == poll) &&
             (identical(other.vote, vote) || other.vote == vote));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, duration, vote);
+  int get hashCode => Object.hash(runtimeType, duration, poll, vote);
 
   @override
   String toString() {
-    return 'PollVoteResponse(duration: $duration, vote: $vote)';
+    return 'PollVoteResponse(duration: $duration, poll: $poll, vote: $vote)';
   }
 }
 
@@ -51,7 +53,8 @@ abstract mixin class $PollVoteResponseCopyWith<$Res> {
           PollVoteResponse value, $Res Function(PollVoteResponse) _then) =
       _$PollVoteResponseCopyWithImpl;
   @useResult
-  $Res call({String duration, PollVoteResponseData? vote});
+  $Res call(
+      {String duration, PollResponseData? poll, PollVoteResponseData? vote});
 }
 
 /// @nodoc
@@ -68,6 +71,7 @@ class _$PollVoteResponseCopyWithImpl<$Res>
   @override
   $Res call({
     Object? duration = null,
+    Object? poll = freezed,
     Object? vote = freezed,
   }) {
     return _then(PollVoteResponse(
@@ -75,6 +79,10 @@ class _$PollVoteResponseCopyWithImpl<$Res>
           ? _self.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as String,
+      poll: freezed == poll
+          ? _self.poll
+          : poll // ignore: cast_nullable_to_non_nullable
+              as PollResponseData?,
       vote: freezed == vote
           ? _self.vote
           : vote // ignore: cast_nullable_to_non_nullable

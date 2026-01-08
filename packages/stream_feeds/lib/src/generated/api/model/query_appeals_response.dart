@@ -10,26 +10,34 @@ import 'package:stream_core/stream_core.dart' as core;
 
 import '../models.dart';
 
-part 'own_capabilities_batch_response.g.dart';
-part 'own_capabilities_batch_response.freezed.dart';
+part 'query_appeals_response.g.dart';
+part 'query_appeals_response.freezed.dart';
 
 @freezed
 @immutable
 @JsonSerializable()
-class OwnCapabilitiesBatchResponse with _$OwnCapabilitiesBatchResponse {
-  const OwnCapabilitiesBatchResponse({
-    required this.capabilities,
+class QueryAppealsResponse with _$QueryAppealsResponse {
+  const QueryAppealsResponse({
     required this.duration,
+    required this.items,
+    this.next,
+    this.prev,
   });
-
-  @override
-  final Map<String, List<FeedOwnCapability>> capabilities;
 
   @override
   final String duration;
 
-  Map<String, dynamic> toJson() => _$OwnCapabilitiesBatchResponseToJson(this);
+  @override
+  final List<AppealItemResponse> items;
 
-  static OwnCapabilitiesBatchResponse fromJson(Map<String, dynamic> json) =>
-      _$OwnCapabilitiesBatchResponseFromJson(json);
+  @override
+  final String? next;
+
+  @override
+  final String? prev;
+
+  Map<String, dynamic> toJson() => _$QueryAppealsResponseToJson(this);
+
+  static QueryAppealsResponse fromJson(Map<String, dynamic> json) =>
+      _$QueryAppealsResponseFromJson(json);
 }

@@ -20,8 +20,10 @@ mixin _$CallSettingsResponse {
   BroadcastSettingsResponse get broadcasting;
   FrameRecordingSettingsResponse get frameRecording;
   GeofenceSettingsResponse get geofencing;
+  IndividualRecordingSettingsResponse get individualRecording;
   IngressSettingsResponse? get ingress;
   LimitsSettingsResponse get limits;
+  RawRecordingSettingsResponse get rawRecording;
   RecordSettingsResponse get recording;
   RingSettingsResponse get ring;
   ScreensharingSettingsResponse get screensharing;
@@ -52,8 +54,12 @@ mixin _$CallSettingsResponse {
                 other.frameRecording == frameRecording) &&
             (identical(other.geofencing, geofencing) ||
                 other.geofencing == geofencing) &&
+            (identical(other.individualRecording, individualRecording) ||
+                other.individualRecording == individualRecording) &&
             (identical(other.ingress, ingress) || other.ingress == ingress) &&
             (identical(other.limits, limits) || other.limits == limits) &&
+            (identical(other.rawRecording, rawRecording) ||
+                other.rawRecording == rawRecording) &&
             (identical(other.recording, recording) ||
                 other.recording == recording) &&
             (identical(other.ring, ring) || other.ring == ring) &&
@@ -75,8 +81,10 @@ mixin _$CallSettingsResponse {
       broadcasting,
       frameRecording,
       geofencing,
+      individualRecording,
       ingress,
       limits,
+      rawRecording,
       recording,
       ring,
       screensharing,
@@ -87,7 +95,7 @@ mixin _$CallSettingsResponse {
 
   @override
   String toString() {
-    return 'CallSettingsResponse(audio: $audio, backstage: $backstage, broadcasting: $broadcasting, frameRecording: $frameRecording, geofencing: $geofencing, ingress: $ingress, limits: $limits, recording: $recording, ring: $ring, screensharing: $screensharing, session: $session, thumbnails: $thumbnails, transcription: $transcription, video: $video)';
+    return 'CallSettingsResponse(audio: $audio, backstage: $backstage, broadcasting: $broadcasting, frameRecording: $frameRecording, geofencing: $geofencing, individualRecording: $individualRecording, ingress: $ingress, limits: $limits, rawRecording: $rawRecording, recording: $recording, ring: $ring, screensharing: $screensharing, session: $session, thumbnails: $thumbnails, transcription: $transcription, video: $video)';
   }
 }
 
@@ -103,8 +111,10 @@ abstract mixin class $CallSettingsResponseCopyWith<$Res> {
       BroadcastSettingsResponse broadcasting,
       FrameRecordingSettingsResponse frameRecording,
       GeofenceSettingsResponse geofencing,
+      IndividualRecordingSettingsResponse individualRecording,
       IngressSettingsResponse? ingress,
       LimitsSettingsResponse limits,
+      RawRecordingSettingsResponse rawRecording,
       RecordSettingsResponse recording,
       RingSettingsResponse ring,
       ScreensharingSettingsResponse screensharing,
@@ -132,8 +142,10 @@ class _$CallSettingsResponseCopyWithImpl<$Res>
     Object? broadcasting = null,
     Object? frameRecording = null,
     Object? geofencing = null,
+    Object? individualRecording = null,
     Object? ingress = freezed,
     Object? limits = null,
+    Object? rawRecording = null,
     Object? recording = null,
     Object? ring = null,
     Object? screensharing = null,
@@ -163,6 +175,10 @@ class _$CallSettingsResponseCopyWithImpl<$Res>
           ? _self.geofencing
           : geofencing // ignore: cast_nullable_to_non_nullable
               as GeofenceSettingsResponse,
+      individualRecording: null == individualRecording
+          ? _self.individualRecording
+          : individualRecording // ignore: cast_nullable_to_non_nullable
+              as IndividualRecordingSettingsResponse,
       ingress: freezed == ingress
           ? _self.ingress
           : ingress // ignore: cast_nullable_to_non_nullable
@@ -171,6 +187,10 @@ class _$CallSettingsResponseCopyWithImpl<$Res>
           ? _self.limits
           : limits // ignore: cast_nullable_to_non_nullable
               as LimitsSettingsResponse,
+      rawRecording: null == rawRecording
+          ? _self.rawRecording
+          : rawRecording // ignore: cast_nullable_to_non_nullable
+              as RawRecordingSettingsResponse,
       recording: null == recording
           ? _self.recording
           : recording // ignore: cast_nullable_to_non_nullable

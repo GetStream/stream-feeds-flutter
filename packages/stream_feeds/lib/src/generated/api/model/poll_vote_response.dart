@@ -19,11 +19,15 @@ part 'poll_vote_response.freezed.dart';
 class PollVoteResponse with _$PollVoteResponse {
   const PollVoteResponse({
     required this.duration,
+    this.poll,
     this.vote,
   });
 
   @override
   final String duration;
+
+  @override
+  final PollResponseData? poll;
 
   @override
   final PollVoteResponseData? vote;

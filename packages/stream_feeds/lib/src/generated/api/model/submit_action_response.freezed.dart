@@ -15,6 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$SubmitActionResponse {
+  AppealItemResponse? get appealItem;
   String get duration;
   ReviewQueueItemResponse? get item;
 
@@ -31,17 +32,19 @@ mixin _$SubmitActionResponse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is SubmitActionResponse &&
+            (identical(other.appealItem, appealItem) ||
+                other.appealItem == appealItem) &&
             (identical(other.duration, duration) ||
                 other.duration == duration) &&
             (identical(other.item, item) || other.item == item));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, duration, item);
+  int get hashCode => Object.hash(runtimeType, appealItem, duration, item);
 
   @override
   String toString() {
-    return 'SubmitActionResponse(duration: $duration, item: $item)';
+    return 'SubmitActionResponse(appealItem: $appealItem, duration: $duration, item: $item)';
   }
 }
 
@@ -51,7 +54,10 @@ abstract mixin class $SubmitActionResponseCopyWith<$Res> {
           $Res Function(SubmitActionResponse) _then) =
       _$SubmitActionResponseCopyWithImpl;
   @useResult
-  $Res call({String duration, ReviewQueueItemResponse? item});
+  $Res call(
+      {AppealItemResponse? appealItem,
+      String duration,
+      ReviewQueueItemResponse? item});
 }
 
 /// @nodoc
@@ -67,10 +73,15 @@ class _$SubmitActionResponseCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? appealItem = freezed,
     Object? duration = null,
     Object? item = freezed,
   }) {
     return _then(SubmitActionResponse(
+      appealItem: freezed == appealItem
+          ? _self.appealItem
+          : appealItem // ignore: cast_nullable_to_non_nullable
+              as AppealItemResponse?,
       duration: null == duration
           ? _self.duration
           : duration // ignore: cast_nullable_to_non_nullable

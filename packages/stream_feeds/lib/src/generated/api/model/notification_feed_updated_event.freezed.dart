@@ -39,7 +39,6 @@ mixin _$NotificationFeedUpdatedEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is NotificationFeedUpdatedEvent &&
-            super == other &&
             const DeepCollectionEquality()
                 .equals(other.aggregatedActivities, aggregatedActivities) &&
             (identical(other.createdAt, createdAt) ||
@@ -59,7 +58,6 @@ mixin _$NotificationFeedUpdatedEvent {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      super.hashCode,
       const DeepCollectionEquality().hash(aggregatedActivities),
       createdAt,
       const DeepCollectionEquality().hash(custom),

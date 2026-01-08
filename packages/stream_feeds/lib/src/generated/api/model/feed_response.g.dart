@@ -7,6 +7,7 @@ part of 'feed_response.dart';
 // **************************************************************************
 
 FeedResponse _$FeedResponseFromJson(Map<String, dynamic> json) => FeedResponse(
+      activityCount: (json['activity_count'] as num).toInt(),
       createdAt: const EpochDateTimeConverter()
           .fromJson((json['created_at'] as num).toInt()),
       createdBy:
@@ -29,6 +30,9 @@ FeedResponse _$FeedResponseFromJson(Map<String, dynamic> json) => FeedResponse(
           ?.map((e) => $enumDecode(_$FeedOwnCapabilityEnumMap, e,
               unknownValue: FeedOwnCapability.unknown))
           .toList(),
+      ownFollowings: (json['own_followings'] as List<dynamic>?)
+          ?.map((e) => FollowResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
       ownFollows: (json['own_follows'] as List<dynamic>?)
           ?.map((e) => FollowResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -44,6 +48,7 @@ FeedResponse _$FeedResponseFromJson(Map<String, dynamic> json) => FeedResponse(
 
 Map<String, dynamic> _$FeedResponseToJson(FeedResponse instance) =>
     <String, dynamic>{
+      'activity_count': instance.activityCount,
       'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
       'created_by': instance.createdBy.toJson(),
       'custom': instance.custom,
@@ -61,6 +66,7 @@ Map<String, dynamic> _$FeedResponseToJson(FeedResponse instance) =>
       'own_capabilities': instance.ownCapabilities
           ?.map((e) => _$FeedOwnCapabilityEnumMap[e]!)
           .toList(),
+      'own_followings': instance.ownFollowings?.map((e) => e.toJson()).toList(),
       'own_follows': instance.ownFollows?.map((e) => e.toJson()).toList(),
       'own_membership': instance.ownMembership?.toJson(),
       'pin_count': instance.pinCount,

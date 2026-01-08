@@ -18,9 +18,13 @@ part 'follow_batch_response.freezed.dart';
 @JsonSerializable()
 class FollowBatchResponse with _$FollowBatchResponse {
   const FollowBatchResponse({
+    required this.created,
     required this.duration,
     required this.follows,
   });
+
+  @override
+  final List<FollowResponse> created;
 
   @override
   final String duration;

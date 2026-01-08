@@ -19,12 +19,16 @@ CallSettingsResponse _$CallSettingsResponseFromJson(
           json['frame_recording'] as Map<String, dynamic>),
       geofencing: GeofenceSettingsResponse.fromJson(
           json['geofencing'] as Map<String, dynamic>),
+      individualRecording: IndividualRecordingSettingsResponse.fromJson(
+          json['individual_recording'] as Map<String, dynamic>),
       ingress: json['ingress'] == null
           ? null
           : IngressSettingsResponse.fromJson(
               json['ingress'] as Map<String, dynamic>),
       limits: LimitsSettingsResponse.fromJson(
           json['limits'] as Map<String, dynamic>),
+      rawRecording: RawRecordingSettingsResponse.fromJson(
+          json['raw_recording'] as Map<String, dynamic>),
       recording: RecordSettingsResponse.fromJson(
           json['recording'] as Map<String, dynamic>),
       ring: RingSettingsResponse.fromJson(json['ring'] as Map<String, dynamic>),
@@ -48,8 +52,10 @@ Map<String, dynamic> _$CallSettingsResponseToJson(
       'broadcasting': instance.broadcasting.toJson(),
       'frame_recording': instance.frameRecording.toJson(),
       'geofencing': instance.geofencing.toJson(),
+      'individual_recording': instance.individualRecording.toJson(),
       'ingress': instance.ingress?.toJson(),
       'limits': instance.limits.toJson(),
+      'raw_recording': instance.rawRecording.toJson(),
       'recording': instance.recording.toJson(),
       'ring': instance.ring.toJson(),
       'screensharing': instance.screensharing.toJson(),

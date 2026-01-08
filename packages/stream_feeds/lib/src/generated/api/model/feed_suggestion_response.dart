@@ -18,6 +18,7 @@ part 'feed_suggestion_response.freezed.dart';
 @JsonSerializable()
 class FeedSuggestionResponse with _$FeedSuggestionResponse {
   const FeedSuggestionResponse({
+    required this.activityCount,
     this.algorithmScores,
     required this.createdAt,
     required this.createdBy,
@@ -33,6 +34,7 @@ class FeedSuggestionResponse with _$FeedSuggestionResponse {
     required this.memberCount,
     required this.name,
     this.ownCapabilities,
+    this.ownFollowings,
     this.ownFollows,
     this.ownMembership,
     required this.pinCount,
@@ -41,6 +43,9 @@ class FeedSuggestionResponse with _$FeedSuggestionResponse {
     required this.updatedAt,
     this.visibility,
   });
+
+  @override
+  final int activityCount;
 
   @override
   final Map<String, double>? algorithmScores;
@@ -89,6 +94,9 @@ class FeedSuggestionResponse with _$FeedSuggestionResponse {
   @override
   @JsonKey(unknownEnumValue: FeedOwnCapability.unknown)
   final List<FeedOwnCapability>? ownCapabilities;
+
+  @override
+  final List<FollowResponse>? ownFollowings;
 
   @override
   final List<FollowResponse>? ownFollows;

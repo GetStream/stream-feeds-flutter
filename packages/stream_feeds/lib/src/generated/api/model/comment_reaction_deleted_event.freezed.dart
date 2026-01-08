@@ -38,7 +38,6 @@ mixin _$CommentReactionDeletedEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is CommentReactionDeletedEvent &&
-            super == other &&
             (identical(other.comment, comment) || other.comment == comment) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
@@ -56,7 +55,6 @@ mixin _$CommentReactionDeletedEvent {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      super.hashCode,
       comment,
       createdAt,
       const DeepCollectionEquality().hash(custom),

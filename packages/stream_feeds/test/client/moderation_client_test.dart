@@ -283,6 +283,156 @@ void main() {
   });
 
   // ============================================================
+  // FEATURE: Appeal Operations
+  // ============================================================
+
+  group('appeal', () {
+    setUpAll(() {
+      registerFallbackValue(
+        const AppealRequest(
+          entityId: 'fallback',
+          entityType: 'fallback',
+          appealReason: 'fallback',
+        ),
+      );
+    });
+
+    moderationClientTest(
+      'should submit appeal successfully',
+      body: (tester) async {
+        const request = AppealRequest(
+          entityId: 'activity-123',
+          entityType: 'activity',
+          appealReason: 'This was a mistake',
+        );
+
+        tester.mockApi(
+          (api) => api.appeal(appealRequest: request),
+          result: createDefaultAppealResponse(appealId: 'appeal-123'),
+        );
+
+        final result = await tester.moderation.appeal(appealRequest: request);
+
+        expect(result.isSuccess, isTrue);
+        tester.verifyApi((api) => api.appeal(appealRequest: request));
+      },
+    );
+
+    moderationClientTest(
+      'should handle appeal failure',
+      body: (tester) async {
+        const request = AppealRequest(
+          entityId: 'activity-123',
+          entityType: 'activity',
+          appealReason: 'This was a mistake',
+        );
+
+        tester.mockApiFailure(
+          (api) => api.appeal(appealRequest: request),
+          error: Exception('Failed to submit appeal'),
+        );
+
+        final result = await tester.moderation.appeal(appealRequest: request);
+
+        expect(result.isFailure, isTrue);
+        tester.verifyApi((api) => api.appeal(appealRequest: request));
+      },
+    );
+  });
+
+  group('getAppeal', () {
+    moderationClientTest(
+      'should get appeal successfully',
+      body: (tester) async {
+        const appealId = 'appeal-123';
+
+        tester.mockApi(
+          (api) => api.getAppeal(id: appealId),
+          result: createDefaultGetAppealResponse(
+            item: createDefaultAppealItemResponse(id: appealId),
+          ),
+        );
+
+        final result = await tester.moderation.getAppeal(id: appealId);
+
+        expect(result.isSuccess, isTrue);
+        tester.verifyApi((api) => api.getAppeal(id: appealId));
+      },
+    );
+
+    moderationClientTest(
+      'should handle get appeal failure',
+      body: (tester) async {
+        const appealId = 'appeal-123';
+
+        tester.mockApiFailure(
+          (api) => api.getAppeal(id: appealId),
+          error: Exception('Appeal not found'),
+        );
+
+        final result = await tester.moderation.getAppeal(id: appealId);
+
+        expect(result.isFailure, isTrue);
+        tester.verifyApi((api) => api.getAppeal(id: appealId));
+      },
+    );
+  });
+
+  group('queryAppeals', () {
+    setUpAll(() {
+      registerFallbackValue(const QueryAppealsRequest());
+    });
+
+    moderationClientTest(
+      'should query appeals successfully',
+      body: (tester) async {
+        const request = QueryAppealsRequest(limit: 20);
+
+        tester.mockApi(
+          (api) => api.queryAppeals(queryAppealsRequest: request),
+          result: createDefaultQueryAppealsResponse(
+            next: 'next-cursor',
+            items: [
+              createDefaultAppealItemResponse(id: 'appeal-1'),
+              createDefaultAppealItemResponse(id: 'appeal-2'),
+            ],
+          ),
+        );
+
+        final result = await tester.moderation.queryAppeals(
+          queryAppealsRequest: request,
+        );
+
+        expect(result.isSuccess, isTrue);
+        tester.verifyApi(
+          (api) => api.queryAppeals(queryAppealsRequest: request),
+        );
+      },
+    );
+
+    moderationClientTest(
+      'should handle query appeals failure',
+      body: (tester) async {
+        const request = QueryAppealsRequest();
+
+        tester.mockApiFailure(
+          (api) => api.queryAppeals(queryAppealsRequest: request),
+          error: Exception('Failed to query appeals'),
+        );
+
+        final result = await tester.moderation.queryAppeals(
+          queryAppealsRequest: request,
+        );
+
+        expect(result.isFailure, isTrue);
+        tester.verifyApi(
+          (api) => api.queryAppeals(queryAppealsRequest: request),
+        );
+      },
+    );
+  });
+
+  // ============================================================
   // FEATURE: Moderation Actions
   // ============================================================
 

@@ -12,6 +12,10 @@ GetOrCreateFeedRequest _$GetOrCreateFeedRequestFromJson(
       data: json['data'] == null
           ? null
           : FeedInput.fromJson(json['data'] as Map<String, dynamic>),
+      enrichmentOptions: json['enrichment_options'] == null
+          ? null
+          : EnrichmentOptions.fromJson(
+              json['enrichment_options'] as Map<String, dynamic>),
       externalRanking: json['external_ranking'] as Map<String, dynamic>?,
       filter: json['filter'] as Map<String, dynamic>?,
       followersPagination: json['followers_pagination'] == null
@@ -22,6 +26,7 @@ GetOrCreateFeedRequest _$GetOrCreateFeedRequestFromJson(
           ? null
           : PagerRequest.fromJson(
               json['following_pagination'] as Map<String, dynamic>),
+      idAround: json['id_around'] as String?,
       interestWeights: (json['interest_weights'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, (e as num).toDouble()),
       ),
@@ -40,10 +45,12 @@ Map<String, dynamic> _$GetOrCreateFeedRequestToJson(
         GetOrCreateFeedRequest instance) =>
     <String, dynamic>{
       'data': instance.data?.toJson(),
+      'enrichment_options': instance.enrichmentOptions?.toJson(),
       'external_ranking': instance.externalRanking,
       'filter': instance.filter,
       'followers_pagination': instance.followersPagination?.toJson(),
       'following_pagination': instance.followingPagination?.toJson(),
+      'id_around': instance.idAround,
       'interest_weights': instance.interestWeights,
       'limit': instance.limit,
       'member_pagination': instance.memberPagination?.toJson(),

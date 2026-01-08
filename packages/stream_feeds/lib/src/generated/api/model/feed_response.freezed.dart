@@ -15,6 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$FeedResponse {
+  int get activityCount;
   DateTime get createdAt;
   UserResponse get createdBy;
   Map<String, Object?>? get custom;
@@ -29,6 +30,7 @@ mixin _$FeedResponse {
   int get memberCount;
   String get name;
   List<FeedOwnCapability>? get ownCapabilities;
+  List<FollowResponse>? get ownFollowings;
   List<FollowResponse>? get ownFollows;
   FeedMemberResponse? get ownMembership;
   int get pinCount;
@@ -48,6 +50,8 @@ mixin _$FeedResponse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is FeedResponse &&
+            (identical(other.activityCount, activityCount) ||
+                other.activityCount == activityCount) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.createdBy, createdBy) ||
@@ -72,6 +76,8 @@ mixin _$FeedResponse {
             const DeepCollectionEquality()
                 .equals(other.ownCapabilities, ownCapabilities) &&
             const DeepCollectionEquality()
+                .equals(other.ownFollowings, ownFollowings) &&
+            const DeepCollectionEquality()
                 .equals(other.ownFollows, ownFollows) &&
             (identical(other.ownMembership, ownMembership) ||
                 other.ownMembership == ownMembership) &&
@@ -86,6 +92,7 @@ mixin _$FeedResponse {
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
+        activityCount,
         createdAt,
         createdBy,
         const DeepCollectionEquality().hash(custom),
@@ -100,6 +107,7 @@ mixin _$FeedResponse {
         memberCount,
         name,
         const DeepCollectionEquality().hash(ownCapabilities),
+        const DeepCollectionEquality().hash(ownFollowings),
         const DeepCollectionEquality().hash(ownFollows),
         ownMembership,
         pinCount,
@@ -109,7 +117,7 @@ mixin _$FeedResponse {
 
   @override
   String toString() {
-    return 'FeedResponse(createdAt: $createdAt, createdBy: $createdBy, custom: $custom, deletedAt: $deletedAt, description: $description, feed: $feed, filterTags: $filterTags, followerCount: $followerCount, followingCount: $followingCount, groupId: $groupId, id: $id, memberCount: $memberCount, name: $name, ownCapabilities: $ownCapabilities, ownFollows: $ownFollows, ownMembership: $ownMembership, pinCount: $pinCount, updatedAt: $updatedAt, visibility: $visibility)';
+    return 'FeedResponse(activityCount: $activityCount, createdAt: $createdAt, createdBy: $createdBy, custom: $custom, deletedAt: $deletedAt, description: $description, feed: $feed, filterTags: $filterTags, followerCount: $followerCount, followingCount: $followingCount, groupId: $groupId, id: $id, memberCount: $memberCount, name: $name, ownCapabilities: $ownCapabilities, ownFollowings: $ownFollowings, ownFollows: $ownFollows, ownMembership: $ownMembership, pinCount: $pinCount, updatedAt: $updatedAt, visibility: $visibility)';
   }
 }
 
@@ -120,7 +128,8 @@ abstract mixin class $FeedResponseCopyWith<$Res> {
       _$FeedResponseCopyWithImpl;
   @useResult
   $Res call(
-      {DateTime createdAt,
+      {int activityCount,
+      DateTime createdAt,
       UserResponse createdBy,
       Map<String, Object?>? custom,
       DateTime? deletedAt,
@@ -134,6 +143,7 @@ abstract mixin class $FeedResponseCopyWith<$Res> {
       int memberCount,
       String name,
       List<FeedOwnCapability>? ownCapabilities,
+      List<FollowResponse>? ownFollowings,
       List<FollowResponse>? ownFollows,
       FeedMemberResponse? ownMembership,
       int pinCount,
@@ -153,6 +163,7 @@ class _$FeedResponseCopyWithImpl<$Res> implements $FeedResponseCopyWith<$Res> {
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? activityCount = null,
     Object? createdAt = null,
     Object? createdBy = null,
     Object? custom = freezed,
@@ -167,6 +178,7 @@ class _$FeedResponseCopyWithImpl<$Res> implements $FeedResponseCopyWith<$Res> {
     Object? memberCount = null,
     Object? name = null,
     Object? ownCapabilities = freezed,
+    Object? ownFollowings = freezed,
     Object? ownFollows = freezed,
     Object? ownMembership = freezed,
     Object? pinCount = null,
@@ -174,6 +186,10 @@ class _$FeedResponseCopyWithImpl<$Res> implements $FeedResponseCopyWith<$Res> {
     Object? visibility = freezed,
   }) {
     return _then(FeedResponse(
+      activityCount: null == activityCount
+          ? _self.activityCount
+          : activityCount // ignore: cast_nullable_to_non_nullable
+              as int,
       createdAt: null == createdAt
           ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -230,6 +246,10 @@ class _$FeedResponseCopyWithImpl<$Res> implements $FeedResponseCopyWith<$Res> {
           ? _self.ownCapabilities
           : ownCapabilities // ignore: cast_nullable_to_non_nullable
               as List<FeedOwnCapability>?,
+      ownFollowings: freezed == ownFollowings
+          ? _self.ownFollowings
+          : ownFollowings // ignore: cast_nullable_to_non_nullable
+              as List<FollowResponse>?,
       ownFollows: freezed == ownFollows
           ? _self.ownFollows
           : ownFollows // ignore: cast_nullable_to_non_nullable

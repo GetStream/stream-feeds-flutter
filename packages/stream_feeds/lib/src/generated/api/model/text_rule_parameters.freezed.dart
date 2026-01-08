@@ -19,6 +19,8 @@ mixin _$TextRuleParameters {
   bool? get containsUrl;
   List<String>? get harmLabels;
   Map<String, String>? get llmHarmLabels;
+  double? get semanticFilterMinThreshold;
+  List<String>? get semanticFilterNames;
   String? get severity;
   int? get threshold;
   String? get timeWindow;
@@ -44,6 +46,12 @@ mixin _$TextRuleParameters {
                 .equals(other.harmLabels, harmLabels) &&
             const DeepCollectionEquality()
                 .equals(other.llmHarmLabels, llmHarmLabels) &&
+            (identical(other.semanticFilterMinThreshold,
+                    semanticFilterMinThreshold) ||
+                other.semanticFilterMinThreshold ==
+                    semanticFilterMinThreshold) &&
+            const DeepCollectionEquality()
+                .equals(other.semanticFilterNames, semanticFilterNames) &&
             (identical(other.severity, severity) ||
                 other.severity == severity) &&
             (identical(other.threshold, threshold) ||
@@ -59,13 +67,15 @@ mixin _$TextRuleParameters {
       containsUrl,
       const DeepCollectionEquality().hash(harmLabels),
       const DeepCollectionEquality().hash(llmHarmLabels),
+      semanticFilterMinThreshold,
+      const DeepCollectionEquality().hash(semanticFilterNames),
       severity,
       threshold,
       timeWindow);
 
   @override
   String toString() {
-    return 'TextRuleParameters(blocklistMatch: $blocklistMatch, containsUrl: $containsUrl, harmLabels: $harmLabels, llmHarmLabels: $llmHarmLabels, severity: $severity, threshold: $threshold, timeWindow: $timeWindow)';
+    return 'TextRuleParameters(blocklistMatch: $blocklistMatch, containsUrl: $containsUrl, harmLabels: $harmLabels, llmHarmLabels: $llmHarmLabels, semanticFilterMinThreshold: $semanticFilterMinThreshold, semanticFilterNames: $semanticFilterNames, severity: $severity, threshold: $threshold, timeWindow: $timeWindow)';
   }
 }
 
@@ -80,6 +90,8 @@ abstract mixin class $TextRuleParametersCopyWith<$Res> {
       bool? containsUrl,
       List<String>? harmLabels,
       Map<String, String>? llmHarmLabels,
+      double? semanticFilterMinThreshold,
+      List<String>? semanticFilterNames,
       String? severity,
       int? threshold,
       String? timeWindow});
@@ -102,6 +114,8 @@ class _$TextRuleParametersCopyWithImpl<$Res>
     Object? containsUrl = freezed,
     Object? harmLabels = freezed,
     Object? llmHarmLabels = freezed,
+    Object? semanticFilterMinThreshold = freezed,
+    Object? semanticFilterNames = freezed,
     Object? severity = freezed,
     Object? threshold = freezed,
     Object? timeWindow = freezed,
@@ -123,6 +137,14 @@ class _$TextRuleParametersCopyWithImpl<$Res>
           ? _self.llmHarmLabels
           : llmHarmLabels // ignore: cast_nullable_to_non_nullable
               as Map<String, String>?,
+      semanticFilterMinThreshold: freezed == semanticFilterMinThreshold
+          ? _self.semanticFilterMinThreshold
+          : semanticFilterMinThreshold // ignore: cast_nullable_to_non_nullable
+              as double?,
+      semanticFilterNames: freezed == semanticFilterNames
+          ? _self.semanticFilterNames
+          : semanticFilterNames // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       severity: freezed == severity
           ? _self.severity
           : severity // ignore: cast_nullable_to_non_nullable

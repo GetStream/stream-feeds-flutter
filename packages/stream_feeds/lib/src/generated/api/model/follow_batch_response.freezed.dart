@@ -15,6 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$FollowBatchResponse {
+  List<FollowResponse> get created;
   String get duration;
   List<FollowResponse> get follows;
 
@@ -31,6 +32,7 @@ mixin _$FollowBatchResponse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is FollowBatchResponse &&
+            const DeepCollectionEquality().equals(other.created, created) &&
             (identical(other.duration, duration) ||
                 other.duration == duration) &&
             const DeepCollectionEquality().equals(other.follows, follows));
@@ -38,11 +40,14 @@ mixin _$FollowBatchResponse {
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, duration, const DeepCollectionEquality().hash(follows));
+      runtimeType,
+      const DeepCollectionEquality().hash(created),
+      duration,
+      const DeepCollectionEquality().hash(follows));
 
   @override
   String toString() {
-    return 'FollowBatchResponse(duration: $duration, follows: $follows)';
+    return 'FollowBatchResponse(created: $created, duration: $duration, follows: $follows)';
   }
 }
 
@@ -52,7 +57,10 @@ abstract mixin class $FollowBatchResponseCopyWith<$Res> {
           FollowBatchResponse value, $Res Function(FollowBatchResponse) _then) =
       _$FollowBatchResponseCopyWithImpl;
   @useResult
-  $Res call({String duration, List<FollowResponse> follows});
+  $Res call(
+      {List<FollowResponse> created,
+      String duration,
+      List<FollowResponse> follows});
 }
 
 /// @nodoc
@@ -68,10 +76,15 @@ class _$FollowBatchResponseCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? created = null,
     Object? duration = null,
     Object? follows = null,
   }) {
     return _then(FollowBatchResponse(
+      created: null == created
+          ? _self.created
+          : created // ignore: cast_nullable_to_non_nullable
+              as List<FollowResponse>,
       duration: null == duration
           ? _self.duration
           : duration // ignore: cast_nullable_to_non_nullable

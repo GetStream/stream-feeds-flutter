@@ -22,6 +22,8 @@ class TextRuleParameters with _$TextRuleParameters {
     this.containsUrl,
     this.harmLabels,
     this.llmHarmLabels,
+    this.semanticFilterMinThreshold,
+    this.semanticFilterNames,
     this.severity,
     this.threshold,
     this.timeWindow,
@@ -38,6 +40,12 @@ class TextRuleParameters with _$TextRuleParameters {
 
   @override
   final Map<String, String>? llmHarmLabels;
+
+  @override
+  final double? semanticFilterMinThreshold;
+
+  @override
+  final List<String>? semanticFilterNames;
 
   @override
   final String? severity;

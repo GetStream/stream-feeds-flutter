@@ -15,6 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$NotificationTrigger {
+  NotificationComment? get comment;
   String get text;
   String get type;
 
@@ -31,16 +32,17 @@ mixin _$NotificationTrigger {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is NotificationTrigger &&
+            (identical(other.comment, comment) || other.comment == comment) &&
             (identical(other.text, text) || other.text == text) &&
             (identical(other.type, type) || other.type == type));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, text, type);
+  int get hashCode => Object.hash(runtimeType, comment, text, type);
 
   @override
   String toString() {
-    return 'NotificationTrigger(text: $text, type: $type)';
+    return 'NotificationTrigger(comment: $comment, text: $text, type: $type)';
   }
 }
 
@@ -50,7 +52,7 @@ abstract mixin class $NotificationTriggerCopyWith<$Res> {
           NotificationTrigger value, $Res Function(NotificationTrigger) _then) =
       _$NotificationTriggerCopyWithImpl;
   @useResult
-  $Res call({String text, String type});
+  $Res call({NotificationComment? comment, String text, String type});
 }
 
 /// @nodoc
@@ -66,10 +68,15 @@ class _$NotificationTriggerCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? comment = freezed,
     Object? text = null,
     Object? type = null,
   }) {
     return _then(NotificationTrigger(
+      comment: freezed == comment
+          ? _self.comment
+          : comment // ignore: cast_nullable_to_non_nullable
+              as NotificationComment?,
       text: null == text
           ? _self.text
           : text // ignore: cast_nullable_to_non_nullable

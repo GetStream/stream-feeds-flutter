@@ -36,7 +36,6 @@ mixin _$HealthCheckEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is HealthCheckEvent &&
-            super == other &&
             (identical(other.cid, cid) || other.cid == cid) &&
             (identical(other.connectionId, connectionId) ||
                 other.connectionId == connectionId) &&
@@ -50,16 +49,8 @@ mixin _$HealthCheckEvent {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      super.hashCode,
-      cid,
-      connectionId,
-      createdAt,
-      const DeepCollectionEquality().hash(custom),
-      me,
-      receivedAt,
-      type);
+  int get hashCode => Object.hash(runtimeType, cid, connectionId, createdAt,
+      const DeepCollectionEquality().hash(custom), me, receivedAt, type);
 
   @override
   String toString() {
@@ -157,7 +148,6 @@ mixin _$ConnectedEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ConnectedEvent &&
-            super == other &&
             (identical(other.connectionId, connectionId) ||
                 other.connectionId == connectionId) &&
             (identical(other.createdAt, createdAt) ||
@@ -167,8 +157,8 @@ mixin _$ConnectedEvent {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, super.hashCode, connectionId, createdAt, me, type);
+  int get hashCode =>
+      Object.hash(runtimeType, connectionId, createdAt, me, type);
 
   @override
   String toString() {
@@ -248,7 +238,6 @@ mixin _$ConnectionErrorEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ConnectionErrorEvent &&
-            super == other &&
             (identical(other.connectionId, connectionId) ||
                 other.connectionId == connectionId) &&
             (identical(other.createdAt, createdAt) ||
@@ -258,8 +247,8 @@ mixin _$ConnectionErrorEvent {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, super.hashCode, connectionId, createdAt, error, type);
+  int get hashCode =>
+      Object.hash(runtimeType, connectionId, createdAt, error, type);
 
   @override
   String toString() {

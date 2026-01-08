@@ -15,6 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$UpdateCommentRequest {
+  List<Attachment>? get attachments;
   String? get comment;
   Map<String, Object?>? get custom;
   bool? get skipEnrichUrl;
@@ -33,6 +34,8 @@ mixin _$UpdateCommentRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is UpdateCommentRequest &&
+            const DeepCollectionEquality()
+                .equals(other.attachments, attachments) &&
             (identical(other.comment, comment) || other.comment == comment) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
             (identical(other.skipEnrichUrl, skipEnrichUrl) ||
@@ -42,12 +45,17 @@ mixin _$UpdateCommentRequest {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, comment,
-      const DeepCollectionEquality().hash(custom), skipEnrichUrl, skipPush);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(attachments),
+      comment,
+      const DeepCollectionEquality().hash(custom),
+      skipEnrichUrl,
+      skipPush);
 
   @override
   String toString() {
-    return 'UpdateCommentRequest(comment: $comment, custom: $custom, skipEnrichUrl: $skipEnrichUrl, skipPush: $skipPush)';
+    return 'UpdateCommentRequest(attachments: $attachments, comment: $comment, custom: $custom, skipEnrichUrl: $skipEnrichUrl, skipPush: $skipPush)';
   }
 }
 
@@ -58,7 +66,8 @@ abstract mixin class $UpdateCommentRequestCopyWith<$Res> {
       _$UpdateCommentRequestCopyWithImpl;
   @useResult
   $Res call(
-      {String? comment,
+      {List<Attachment>? attachments,
+      String? comment,
       Map<String, Object?>? custom,
       bool? skipEnrichUrl,
       bool? skipPush});
@@ -77,12 +86,17 @@ class _$UpdateCommentRequestCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? attachments = freezed,
     Object? comment = freezed,
     Object? custom = freezed,
     Object? skipEnrichUrl = freezed,
     Object? skipPush = freezed,
   }) {
     return _then(UpdateCommentRequest(
+      attachments: freezed == attachments
+          ? _self.attachments
+          : attachments // ignore: cast_nullable_to_non_nullable
+              as List<Attachment>?,
       comment: freezed == comment
           ? _self.comment
           : comment // ignore: cast_nullable_to_non_nullable
