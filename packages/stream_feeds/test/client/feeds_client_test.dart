@@ -873,7 +873,7 @@ void main() {
           collections: [
             UpdateCollectionRequest(
               id: '123',
-              name: 'my_collection',
+              name: 'my_new_collection',
               custom: {'updated_key': 'updated_value'},
             ),
           ],
@@ -881,7 +881,7 @@ void main() {
 
         final collection = createDefaultCollectionResponse(
           id: '123',
-          name: 'my_collection',
+          name: 'my_new_collection',
         );
 
         final response = createDefaultUpdateCollectionsResponse(
