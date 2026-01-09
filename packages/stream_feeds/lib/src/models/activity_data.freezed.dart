@@ -17,6 +17,7 @@ T _$identity<T>(T value) => value;
 mixin _$ActivityData {
   List<Attachment> get attachments;
   int get bookmarkCount;
+  Map<String, CollectionData> get collections;
   int get commentCount;
   List<CommentData> get comments;
   DateTime get createdAt;
@@ -71,6 +72,8 @@ mixin _$ActivityData {
                 .equals(other.attachments, attachments) &&
             (identical(other.bookmarkCount, bookmarkCount) ||
                 other.bookmarkCount == bookmarkCount) &&
+            const DeepCollectionEquality()
+                .equals(other.collections, collections) &&
             (identical(other.commentCount, commentCount) ||
                 other.commentCount == commentCount) &&
             const DeepCollectionEquality().equals(other.comments, comments) &&
@@ -138,6 +141,7 @@ mixin _$ActivityData {
         runtimeType,
         const DeepCollectionEquality().hash(attachments),
         bookmarkCount,
+        const DeepCollectionEquality().hash(collections),
         commentCount,
         const DeepCollectionEquality().hash(comments),
         createdAt,
@@ -178,7 +182,7 @@ mixin _$ActivityData {
 
   @override
   String toString() {
-    return 'ActivityData(attachments: $attachments, bookmarkCount: $bookmarkCount, commentCount: $commentCount, comments: $comments, createdAt: $createdAt, currentFeed: $currentFeed, deletedAt: $deletedAt, editedAt: $editedAt, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, id: $id, interestTags: $interestTags, isWatched: $isWatched, latestReactions: $latestReactions, location: $location, mentionedUsers: $mentionedUsers, moderation: $moderation, notificationContext: $notificationContext, ownBookmarks: $ownBookmarks, ownReactions: $ownReactions, parent: $parent, poll: $poll, popularity: $popularity, hidden: $hidden, preview: $preview, reactionCount: $reactionCount, reactionGroups: $reactionGroups, score: $score, searchData: $searchData, shareCount: $shareCount, text: $text, type: $type, updatedAt: $updatedAt, user: $user, visibility: $visibility, visibilityTag: $visibilityTag, custom: $custom)';
+    return 'ActivityData(attachments: $attachments, bookmarkCount: $bookmarkCount, collections: $collections, commentCount: $commentCount, comments: $comments, createdAt: $createdAt, currentFeed: $currentFeed, deletedAt: $deletedAt, editedAt: $editedAt, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, id: $id, interestTags: $interestTags, isWatched: $isWatched, latestReactions: $latestReactions, location: $location, mentionedUsers: $mentionedUsers, moderation: $moderation, notificationContext: $notificationContext, ownBookmarks: $ownBookmarks, ownReactions: $ownReactions, parent: $parent, poll: $poll, popularity: $popularity, hidden: $hidden, preview: $preview, reactionCount: $reactionCount, reactionGroups: $reactionGroups, score: $score, searchData: $searchData, shareCount: $shareCount, text: $text, type: $type, updatedAt: $updatedAt, user: $user, visibility: $visibility, visibilityTag: $visibilityTag, custom: $custom)';
   }
 }
 
@@ -191,6 +195,7 @@ abstract mixin class $ActivityDataCopyWith<$Res> {
   $Res call(
       {List<Attachment> attachments,
       int bookmarkCount,
+      Map<String, CollectionData> collections,
       int commentCount,
       List<CommentData> comments,
       DateTime createdAt,
@@ -243,6 +248,7 @@ class _$ActivityDataCopyWithImpl<$Res> implements $ActivityDataCopyWith<$Res> {
   $Res call({
     Object? attachments = null,
     Object? bookmarkCount = null,
+    Object? collections = null,
     Object? commentCount = null,
     Object? comments = null,
     Object? createdAt = null,
@@ -289,6 +295,10 @@ class _$ActivityDataCopyWithImpl<$Res> implements $ActivityDataCopyWith<$Res> {
           ? _self.bookmarkCount
           : bookmarkCount // ignore: cast_nullable_to_non_nullable
               as int,
+      collections: null == collections
+          ? _self.collections
+          : collections // ignore: cast_nullable_to_non_nullable
+              as Map<String, CollectionData>,
       commentCount: null == commentCount
           ? _self.commentCount
           : commentCount // ignore: cast_nullable_to_non_nullable

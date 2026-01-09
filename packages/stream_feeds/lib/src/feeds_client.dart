@@ -658,7 +658,7 @@ abstract interface class StreamFeedsClient {
   /// switch (result) {
   ///   case Success(value: final appData):
   ///     print('App name: ${appData.name}');
-  ///     print('File upload enabled: ${appData.fileUploadConfig.enabled}');
+  ///     print('File upload size limit: ${appData.fileUploadConfig.sizeLimit}');
   ///   case Failure(error: final error):
   ///     print('Failed to get app data: $error');
   /// }
@@ -745,7 +745,7 @@ abstract interface class StreamFeedsClient {
   /// Example:
   /// ```dart
   /// final result = await client.deleteFile(
-  ///   'https://cdn.stream.io/uploads/video.mp4'
+  ///   url: 'https://cdn.stream.io/uploads/video.mp4',
   /// );
   ///
   /// switch (result) {
@@ -767,7 +767,7 @@ abstract interface class StreamFeedsClient {
   /// Example:
   /// ```dart
   /// final result = await client.deleteImage(
-  ///   'https://cdn.stream.io/uploads/photo.jpg'
+  ///   url: 'https://cdn.stream.io/uploads/photo.jpg',
   /// );
   ///
   /// switch (result) {
@@ -852,6 +852,115 @@ abstract interface class StreamFeedsClient {
     api.UnfollowBatchRequest request,
   );
 
+  /// Reads collections by their references.
+  ///
+  /// By default, users can only read their own collections.
+  ///
+  /// Example:
+  /// ```dart
+  /// final result = await client.readCollections(
+  ///   refs: ['collection:123', 'collection:456'],
+  /// );
+  ///
+  /// switch (result) {
+  ///   case Success(value: final response):
+  ///     print('Found ${response.collections.length} collections');
+  ///   case Failure(error: final error):
+  ///     print('Failed to read collections: $error');
+  /// }
+  /// ```
+  ///
+  /// Returns a [Result] containing [api.ReadCollectionsResponse] or an error.
+  Future<Result<api.ReadCollectionsResponse>> readCollections({
+    required List<String> refs,
+  });
+
+  /// Creates new collections in a batch operation.
+  ///
+  /// Collections are data objects that can be attached to activities for managing
+  /// shared data across multiple activities.
+  ///
+  /// Example:
+  /// ```dart
+  /// final result = await client.createCollections(
+  ///   request: api.CreateCollectionsRequest(
+  ///     collections: [
+  ///       api.CollectionRequest(
+  ///         id: '123',
+  ///         name: 'my_collection',
+  ///         custom: const {'key': 'value'},
+  ///       ),
+  ///     ],
+  ///   ),
+  /// );
+  ///
+  /// switch (result) {
+  ///   case Success(value: final response):
+  ///     print('Created ${response.collections.length} collections');
+  ///   case Failure(error: final error):
+  ///     print('Failed to create collections: $error');
+  /// }
+  /// ```
+  ///
+  /// Returns a [Result] containing [api.CreateCollectionsResponse] or an error.
+  Future<Result<api.CreateCollectionsResponse>> createCollections({
+    required api.CreateCollectionsRequest request,
+  });
+
+  /// Updates existing collections in a batch operation.
+  ///
+  /// Only the custom data field is updatable. Users can only update their own collections.
+  ///
+  /// Example:
+  /// ```dart
+  /// final result = await client.updateCollections(
+  ///   request: api.UpdateCollectionsRequest(
+  ///     collections: [
+  ///       api.UpdateCollectionRequest(
+  ///         id: '123',
+  ///         name: 'my_collection',
+  ///         custom: const {'updated_key': 'updated_value'},
+  ///       ),
+  ///     ],
+  ///   ),
+  /// );
+  ///
+  /// switch (result) {
+  ///   case Success(value: final response):
+  ///     print('Updated ${response.collections.length} collections');
+  ///   case Failure(error: final error):
+  ///     print('Failed to update collections: $error');
+  /// }
+  /// ```
+  ///
+  /// Returns a [Result] containing [api.UpdateCollectionsResponse] or an error.
+  Future<Result<api.UpdateCollectionsResponse>> updateCollections({
+    required api.UpdateCollectionsRequest request,
+  });
+
+  /// Deletes collections in a batch operation.
+  ///
+  /// Users can only delete their own collections.
+  ///
+  /// Example:
+  /// ```dart
+  /// final result = await client.deleteCollections(
+  ///   refs: ['collection:123', 'collection:456'],
+  /// );
+  ///
+  /// switch (result) {
+  ///   case Success(value: final response):
+  ///     print('Deleted collections successfully');
+  ///   case Failure(error: final error):
+  ///     print('Failed to delete collections: $error');
+  /// }
+  /// ```
+  ///
+  /// Returns a [Result] containing [api.DeleteCollectionsResponse] or an error.
+  Future<Result<api.DeleteCollectionsResponse>> deleteCollections({
+    required List<String> refs,
+  });
+
   /// The moderation client for managing moderation-related operations.
   ///
   /// Provides access to moderation configurations, content moderation, and moderation-related
@@ -882,11 +991,12 @@ extension StreamFeedsClientHelpers on StreamFeedsClient {
   /// final userFeed = client.feed('user', 'john');
   /// final timelineFeed = client.feed('timeline', 'flat');
   ///
-  /// // Add an activity
+  /// // Add an activity with collection references
   /// final result = await userFeed.addActivity(FeedAddActivityRequest(
-  ///   verb: 'post',
-  ///   object: 'picture:1',
-  ///   extraData: {'message': 'Check out this picture!'},
+  ///   type: 'post',
+  ///   text: 'Check out this picture!',
+  ///   custom: {'object': 'picture:1'},
+  ///   collectionRefs: ['my_collection:123'],
   /// ));
   ///
   /// // Listen to state changes

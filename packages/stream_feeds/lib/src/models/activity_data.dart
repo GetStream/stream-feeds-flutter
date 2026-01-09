@@ -5,6 +5,7 @@ import 'package:stream_core/stream_core.dart';
 
 import '../generated/api/models.dart';
 import 'bookmark_data.dart';
+import 'collection_data.dart';
 import 'comment_data.dart';
 import 'feed_data.dart';
 import 'feeds_reaction_data.dart';
@@ -27,6 +28,7 @@ class ActivityData with _$ActivityData {
   const ActivityData({
     this.attachments = const [],
     this.bookmarkCount = 0,
+    this.collections = const {},
     this.commentCount = 0,
     this.comments = const [],
     required this.createdAt,
@@ -72,6 +74,13 @@ class ActivityData with _$ActivityData {
   /// The number of bookmarks this activity has received.
   @override
   final int bookmarkCount;
+
+  /// Collections attached to this activity.
+  ///
+  /// A map of collection references to their enriched data. Collection references
+  /// are in the format "collection_name:collection_id".
+  @override
+  final Map<String, CollectionData> collections;
 
   /// The total number of comments on this activity.
   @override
@@ -264,6 +273,10 @@ extension ActivityResponseMapper on ActivityResponse {
     return ActivityData(
       attachments: attachments,
       bookmarkCount: bookmarkCount,
+      collections: {
+        for (final entry in collections.entries)
+          entry.key: entry.value.toModel(),
+      },
       commentCount: commentCount,
       comments: [...comments.map((c) => c.toModel())],
       createdAt: createdAt,

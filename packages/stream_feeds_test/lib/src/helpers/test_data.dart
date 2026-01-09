@@ -86,6 +86,7 @@ ActivityResponse createDefaultActivityResponse({
   String type = 'post',
   String userId = 'user-1',
   List<String> feeds = const [],
+  Map<String, EnrichedCollectionResponse> collections = const {},
   PollResponseData? poll,
   bool hidden = false,
   bool? isWatched,
@@ -121,7 +122,7 @@ ActivityResponse createDefaultActivityResponse({
     id: id,
     attachments: const [],
     bookmarkCount: ownBookmarks.length,
-    collections: const {},
+    collections: collections,
     commentCount: comments.length,
     comments: comments,
     createdAt: DateTime(2021, 1, 1),
@@ -1049,6 +1050,75 @@ UpsertActivitiesResponse createDefaultUpsertActivitiesResponse({
     ),
     duration: '10ms',
   );
+}
+
+CollectionResponse createDefaultCollectionResponse({
+  String id = 'collection-123',
+  String name = 'my_collection',
+  String? userId,
+  Map<String, Object?>? custom,
+  DateTime? createdAt,
+  DateTime? updatedAt,
+}) {
+  return CollectionResponse(
+    id: id,
+    name: name,
+    userId: userId,
+    custom: custom,
+    createdAt: createdAt ?? DateTime(2021, 1, 1),
+    updatedAt: updatedAt ?? DateTime(2021, 2, 1),
+  );
+}
+
+EnrichedCollectionResponse createDefaultEnrichedCollectionResponse({
+  String id = 'collection-123',
+  String name = 'my_collection',
+  EnrichedCollectionResponseStatus status = EnrichedCollectionResponseStatus.ok,
+  String? userId,
+  Map<String, Object?>? custom,
+  DateTime? createdAt,
+  DateTime? updatedAt,
+}) {
+  return EnrichedCollectionResponse(
+    id: id,
+    name: name,
+    status: status,
+    userId: userId,
+    custom: custom,
+    createdAt: createdAt ?? DateTime(2021, 1, 1),
+    updatedAt: updatedAt ?? DateTime(2021, 2, 1),
+  );
+}
+
+ReadCollectionsResponse createDefaultReadCollectionsResponse({
+  List<CollectionResponse> collections = const [],
+}) {
+  return ReadCollectionsResponse(
+    collections: collections,
+    duration: '10ms',
+  );
+}
+
+CreateCollectionsResponse createDefaultCreateCollectionsResponse({
+  List<CollectionResponse> collections = const [],
+}) {
+  return CreateCollectionsResponse(
+    collections: collections,
+    duration: '10ms',
+  );
+}
+
+UpdateCollectionsResponse createDefaultUpdateCollectionsResponse({
+  List<CollectionResponse> collections = const [],
+}) {
+  return UpdateCollectionsResponse(
+    collections: collections,
+    duration: '10ms',
+  );
+}
+
+DeleteCollectionsResponse createDefaultDeleteCollectionsResponse() {
+  return const DeleteCollectionsResponse(duration: '10ms');
 }
 
 DeleteActivitiesResponse createDefaultDeleteActivitiesResponse({
