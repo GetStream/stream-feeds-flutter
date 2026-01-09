@@ -17,6 +17,7 @@ T _$identity<T>(T value) => value;
 mixin _$FeedAddActivityRequest {
   List<Attachment>? get attachments;
   List<StreamAttachment>? get attachmentUploads;
+  List<String>? get collectionRefs;
   Map<String, Object>? get custom;
   String? get expiresAt;
   List<String> get feeds;
@@ -50,6 +51,8 @@ mixin _$FeedAddActivityRequest {
                 .equals(other.attachments, attachments) &&
             const DeepCollectionEquality()
                 .equals(other.attachmentUploads, attachmentUploads) &&
+            const DeepCollectionEquality()
+                .equals(other.collectionRefs, collectionRefs) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
             (identical(other.expiresAt, expiresAt) ||
                 other.expiresAt == expiresAt) &&
@@ -81,6 +84,7 @@ mixin _$FeedAddActivityRequest {
       runtimeType,
       const DeepCollectionEquality().hash(attachments),
       const DeepCollectionEquality().hash(attachmentUploads),
+      const DeepCollectionEquality().hash(collectionRefs),
       const DeepCollectionEquality().hash(custom),
       expiresAt,
       const DeepCollectionEquality().hash(feeds),
@@ -99,7 +103,7 @@ mixin _$FeedAddActivityRequest {
 
   @override
   String toString() {
-    return 'FeedAddActivityRequest(attachments: $attachments, attachmentUploads: $attachmentUploads, custom: $custom, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, id: $id, interestTags: $interestTags, location: $location, mentionedUserIds: $mentionedUserIds, parentId: $parentId, pollId: $pollId, searchData: $searchData, text: $text, type: $type, visibility: $visibility, visibilityTag: $visibilityTag)';
+    return 'FeedAddActivityRequest(attachments: $attachments, attachmentUploads: $attachmentUploads, collectionRefs: $collectionRefs, custom: $custom, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, id: $id, interestTags: $interestTags, location: $location, mentionedUserIds: $mentionedUserIds, parentId: $parentId, pollId: $pollId, searchData: $searchData, text: $text, type: $type, visibility: $visibility, visibilityTag: $visibilityTag)';
   }
 }
 
@@ -114,6 +118,7 @@ abstract mixin class $FeedAddActivityRequestCopyWith<$Res> {
       List<String> feeds,
       List<Attachment>? attachments,
       List<StreamAttachment>? attachmentUploads,
+      List<String>? collectionRefs,
       Map<String, Object>? custom,
       String? expiresAt,
       List<String>? filterTags,
@@ -146,6 +151,7 @@ class _$FeedAddActivityRequestCopyWithImpl<$Res>
     Object? feeds = null,
     Object? attachments = freezed,
     Object? attachmentUploads = freezed,
+    Object? collectionRefs = freezed,
     Object? custom = freezed,
     Object? expiresAt = freezed,
     Object? filterTags = freezed,
@@ -177,6 +183,10 @@ class _$FeedAddActivityRequestCopyWithImpl<$Res>
           ? _self.attachmentUploads
           : attachmentUploads // ignore: cast_nullable_to_non_nullable
               as List<StreamAttachment>?,
+      collectionRefs: freezed == collectionRefs
+          ? _self.collectionRefs
+          : collectionRefs // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       custom: freezed == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable

@@ -21,6 +21,7 @@ class FeedAddActivityRequest
     this.feeds = const [],
     this.attachments,
     this.attachmentUploads,
+    this.collectionRefs,
     this.custom,
     this.expiresAt,
     this.filterTags,
@@ -44,6 +45,13 @@ class FeedAddActivityRequest
   /// activity to the feeds.
   @override
   final List<StreamAttachment>? attachmentUploads;
+
+  /// Optional list of collection references to attach to the activity.
+  ///
+  /// Collections are added to activities in the form of collection references
+  /// "collection_name:collection_id". An activity can reference up to 10 collections.
+  @override
+  final List<String>? collectionRefs;
 
   /// Custom data associated with the activity.
   @override
@@ -129,6 +137,7 @@ extension FeedAddActivityRequestMapper on FeedAddActivityRequest {
       type: type,
       feeds: feeds,
       attachments: attachments,
+      collectionRefs: collectionRefs,
       custom: custom,
       expiresAt: expiresAt,
       filterTags: filterTags,

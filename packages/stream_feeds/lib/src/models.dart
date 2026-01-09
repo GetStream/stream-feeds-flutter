@@ -5,6 +5,7 @@ export 'models/app_data.dart';
 export 'models/batch_follow_data.dart';
 export 'models/bookmark_data.dart';
 export 'models/bookmark_folder_data.dart';
+export 'models/collection_data.dart';
 export 'models/comment_data.dart';
 export 'models/feed_data.dart';
 export 'models/feed_id.dart';

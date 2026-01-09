@@ -19,6 +19,7 @@ import '../repository/activities_repository.dart';
 import '../repository/app_repository.dart';
 import '../repository/bookmarks_repository.dart';
 import '../repository/capabilities_repository.dart';
+import '../repository/collections_repository.dart';
 import '../repository/comments_repository.dart';
 import '../repository/devices_repository.dart';
 import '../repository/feeds_repository.dart';
@@ -161,6 +162,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
     _activitiesRepository = ActivitiesRepository(feedsApi, attachmentUploader);
     _appRepository = AppRepository(feedsApi);
     _bookmarksRepository = BookmarksRepository(feedsApi);
+    _collectionsRepository = CollectionsRepository(feedsApi);
     _commentsRepository = CommentsRepository(feedsApi, attachmentUploader);
     _devicesRepository = DevicesRepository(feedsApi);
     _feedsRepository = FeedsRepository(feedsApi);
@@ -198,6 +200,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
   late final ActivitiesRepository _activitiesRepository;
   late final AppRepository _appRepository;
   late final BookmarksRepository _bookmarksRepository;
+  late final CollectionsRepository _collectionsRepository;
   late final CommentsRepository _commentsRepository;
   late final DevicesRepository _devicesRepository;
   late final FeedsRepository _feedsRepository;
@@ -539,6 +542,34 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
     });
 
     return result;
+  }
+
+  @override
+  Future<Result<api.ReadCollectionsResponse>> readCollections({
+    required List<String> refs,
+  }) {
+    return _collectionsRepository.readCollections(refs: refs);
+  }
+
+  @override
+  Future<Result<api.CreateCollectionsResponse>> createCollections({
+    required api.CreateCollectionsRequest request,
+  }) {
+    return _collectionsRepository.createCollections(request: request);
+  }
+
+  @override
+  Future<Result<api.UpdateCollectionsResponse>> updateCollections({
+    required api.UpdateCollectionsRequest request,
+  }) {
+    return _collectionsRepository.updateCollections(request: request);
+  }
+
+  @override
+  Future<Result<api.DeleteCollectionsResponse>> deleteCollections({
+    required List<String> refs,
+  }) {
+    return _collectionsRepository.deleteCollections(refs: refs);
   }
 
   Stream<void> get onReconnectEmitter {
