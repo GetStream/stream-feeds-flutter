@@ -234,22 +234,10 @@ class Feed with Disposable {
   ///
   /// The [id] is the unique identifier of the activity to update.
   /// The [request] contains the partial update data:
-  /// - Use [UpdateActivityPartialRequest.set] to specify fields to update or add
-  /// - Use [UpdateActivityPartialRequest.unset] to specify field names to remove
+  /// - Use the `set` field to specify fields to update or add
+  /// - Use the `unset` field to specify field names to remove
   ///
-  /// Example:
-  /// ```dart
-  /// final updatedActivity = await feed.updateActivityPartial(
-  ///   id: 'activity-123',
-  ///   request: const UpdateActivityPartialRequest(
-  ///     set: {'text': 'Updated text', 'custom': {'field': 'value'}},
-  ///     unset: ['oldField'],
-  ///   ),
-  /// );
-  /// ```
-  ///
-  /// Returns a [Result] containing the updated [ActivityData] if successful, or an error if the
-  /// operation fails.
+  /// Returns a [Result] containing the updated [ActivityData] or an error.
   Future<Result<ActivityData>> updateActivityPartial({
     required String id,
     required api.UpdateActivityPartialRequest request,

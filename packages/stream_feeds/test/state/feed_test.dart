@@ -303,15 +303,16 @@ void main() {
         tester.mockApi(
           (api) => api.updateActivityPartial(
             id: 'activity-1',
-            updateActivityPartialRequest:
-                any(named: 'updateActivityPartialRequest'),
+            updateActivityPartialRequest: any(
+              named: 'updateActivityPartialRequest',
+            ),
           ),
           result: UpdateActivityPartialResponse(
             duration: '0ms',
             activity: createDefaultActivityResponse(
               id: 'activity-1',
               feeds: [feedId.rawValue],
-            ).copyWith(custom: {'updated': true}),
+            ).copyWith(text: 'Updated text'),
           ),
         );
 
@@ -329,7 +330,7 @@ void main() {
 
         expect(result.isSuccess, isTrue);
         final activity = result.getOrThrow();
-        expect(activity.custom?['updated'], true);
+        expect(activity.text, 'Updated text');
 
         // Verify the event is emitted
         await expectEventEmitted;
@@ -337,8 +338,9 @@ void main() {
       verify: (tester) => tester.verifyApi(
         (api) => api.updateActivityPartial(
           id: 'activity-1',
-          updateActivityPartialRequest:
-              any(named: 'updateActivityPartialRequest'),
+          updateActivityPartialRequest: any(
+            named: 'updateActivityPartialRequest',
+          ),
         ),
       ),
     );

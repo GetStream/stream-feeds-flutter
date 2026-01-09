@@ -92,8 +92,11 @@ Future<void> updatingAndDeletingActivities() async {
   // Partially update an activity - only updates specified fields
   final partiallyUpdatedActivity = await feed.updateActivityPartial(
     id: '123',
-    request: const ActivityPartialUpdateRequest(
-      set: {'text': 'Updated text', 'custom': {'field': 'value'}},
+    request: const UpdateActivityPartialRequest(
+      set: {
+        'text': 'Updated text',
+        'custom': {'field': 'value'},
+      },
       unset: ['oldField'], // Remove specific fields
     ),
   );
