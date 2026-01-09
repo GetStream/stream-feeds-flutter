@@ -4,6 +4,7 @@
 - Add `activityCount` field to `FeedData` model to track the number of activities in a feed.
 - Add `ownFollowings` field to `FeedData` model to track feeds that the current user is following from this feed.
 - Add batch follow and unfollow support.
+- Add `updateActivityPartial` method to `Feed` for partially updating activities.
 - Add collections API methods: `readCollections`, `createCollections`, `updateCollections`, and `deleteCollections`.
 - Add `CollectionData` model and `collections` field to `ActivityData` for enriched collection data.
 - Add `collectionRefs` field to `FeedAddActivityRequest` to attach collections to activities.
