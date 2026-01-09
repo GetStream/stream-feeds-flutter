@@ -137,8 +137,7 @@ class NotificationFeed extends StatelessWidget {
           }
 
           final activity = activities[index];
-          final read = notificationStatus?.readActivities;
-          final isUnread = read?.contains(activity.group) != true;
+          final isUnread = !_isNotificationRead(activity, notificationStatus);
 
           return Padding(
             padding: const EdgeInsets.all(8),
@@ -153,6 +152,21 @@ class NotificationFeed extends StatelessWidget {
     );
   }
 
+  bool _isNotificationRead(
+    AggregatedActivityData activity,
+    NotificationStatusResponse? notificationStatus,
+  ) {
+    final readActivities = notificationStatus?.readActivities ?? [];
+    // Check if the activity group is in the read activities list
+    if (readActivities.contains(activity.group)) return true;
+
+    final lastReadAt = notificationStatus?.lastReadAt;
+    if (lastReadAt == null) return false;
+
+    // If not, check if the activity's updatedAt is before lastReadAt
+    return activity.updatedAt.isBefore(lastReadAt);
+  }
+
   bool _hasUnreadNotifications(
     List<AggregatedActivityData> activities,
     NotificationStatusResponse? notificationStatus,
@@ -160,7 +174,15 @@ class NotificationFeed extends StatelessWidget {
     if (activities.isEmpty) return false;
 
     final read = notificationStatus?.readActivities ?? [];
-    return activities.any((activity) => !read.contains(activity.group));
+    // Check if there are any activities not in the read list
+    var hasUnread = activities.any((it) => !read.contains(it.group));
+
+    if (notificationStatus?.lastReadAt case final lastReadAt?) {
+      // Further check against lastReadAt timestamp
+      hasUnread &= activities.any((it) => it.updatedAt.isAfter(lastReadAt));
+    }
+
+    return hasUnread;
   }
 
   Future<void> _onMarkAllRead() async {
