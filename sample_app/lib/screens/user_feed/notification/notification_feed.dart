@@ -173,16 +173,8 @@ class NotificationFeed extends StatelessWidget {
   ) {
     if (activities.isEmpty) return false;
 
-    final read = notificationStatus?.readActivities ?? [];
-    // Check if there are any activities not in the read list
-    var hasUnread = activities.any((it) => !read.contains(it.group));
-
-    if (notificationStatus?.lastReadAt case final lastReadAt?) {
-      // Further check against lastReadAt timestamp
-      hasUnread &= activities.any((it) => it.updatedAt.isAfter(lastReadAt));
-    }
-
-    return hasUnread;
+    // Check if any activity is unread
+    return activities.any((it) => !_isNotificationRead(it, notificationStatus));
   }
 
   Future<void> _onMarkAllRead() async {
