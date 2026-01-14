@@ -1,4 +1,4 @@
-## Upcoming
+## 0.5.1
 - Added missing state updates for the websocket events.
 - Add appeal-related methods to moderation client: `appeal`, `getAppeal`, and `queryAppeals`.
 - Add `activityCount` field to `FeedData` model to track the number of activities in a feed.

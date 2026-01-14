@@ -10,6 +10,6 @@ dependencies:
   collection: ^1.18.0
   meta: ^1.9.1
   mocktail: ^1.0.4
-  stream_feeds: ^0.5.0
+  stream_feeds: ^0.5.1
   test: ^1.25.8
   web_socket_channel: ^3.0.1
