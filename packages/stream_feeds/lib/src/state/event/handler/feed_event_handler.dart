@@ -28,7 +28,8 @@ class FeedEventHandler with FeedCapabilitiesMixin implements StateEventHandler {
   @override
   Future<void> handleEvent(StateUpdateEvent event) async {
     if (event is ActivityAdded) {
-      if (!event.scope.matches(query.fid)) return;
+      // We add activities only on strict matches, i.e. we're sure they belong to the feed
+      if (!event.scope.strictlyMatches(query.fid)) return;
 
       final action = onNewActivity(query, event.activity, currentUserId);
       state.onActivityAdded(event.activity, insertionAction: action);
