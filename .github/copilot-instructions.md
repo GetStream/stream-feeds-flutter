@@ -117,10 +117,12 @@ lib/
 ### Core Principles
 
 1. **Pure Dart SDK**: No Flutter dependencies in `packages/stream_feeds/`—can be used outside Flutter
-2. **Immutable Data**: All models use `@freezed` with const constructors (Freezed 3.0 syntax with `@override`)
-3. **Result Pattern**: Repository methods return `Result<T>`, NOT exceptions
+2. **Immutable Data**: All models use `@freezed` with const constructors (Freezed 3.0 mixed mode syntax with `@override`)
+3. **Result Pattern**: Repository methods return `Result<T>`, NOT exceptions—use early returns for validation/errors
 4. **Public API Separation**: Only files in `lib/` root are public; everything in `lib/src/` is internal
 5. **StateNotifier**: Reactive state management for high-level state objects
+6. **Data Mapping**: Use extension functions (`.toModel()`) for API-to-domain conversions, NOT mapper classes
+7. **Constructor Injection**: Dependencies injected through constructors for testability
 
 ### Naming Conventions
 
@@ -233,9 +235,23 @@ melos run test:all      # Run tests
 melos bootstrap && melos run analyze && melos run format:verify && melos run test:all
 ```
 
+## Implementation Patterns
+
+For detailed implementation patterns and coding standards, refer to the Cursor rules in `.cursor/rules/`:
+
+- **`.cursor/rules/project-overview.mdc`**: Development context, architecture, and design principles
+- **`.cursor/rules/patterns/data-models.mdc`**: Freezed 3.0 mixed mode syntax for immutable data classes
+- **`.cursor/rules/patterns/repository-pattern.mdc`**: Result-based repository pattern with error handling
+- **`.cursor/rules/patterns/state-management.mdc`**: StateNotifier-based reactive state patterns
+- **`.cursor/rules/patterns/query-specifications.mdc`**: Type-safe query specification patterns
+- **`.cursor/rules/patterns/documentation-style.mdc`**: API documentation standards
+
+These files contain comprehensive implementation guides, code examples, and success criteria for each pattern used in the SDK.
+
 ## Additional Resources
 
 - **AGENTS.md**: Comprehensive AI agent documentation with detailed patterns
 - **README.md**: User-facing documentation and getting started guide
+- **`.cursor/rules/`**: Detailed Cursor AI rules and implementation patterns (see above)
 - **API Docs**: https://getstream.io/activity-feeds/docs/flutter/
 - **Melos Docs**: https://melos.invertase.dev/
