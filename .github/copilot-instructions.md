@@ -11,8 +11,6 @@ This is the **official Flutter/Dart SDK** for Stream Feeds API v3, a scalable ac
 
 **Technologies**: Dart 3.6.2+, Flutter 3.27.4+, Melos for monorepo management
 
-**Note**: Activity Feeds V3 is in closed alpha—not for production use yet.
-
 ## Setup and Bootstrap
 
 **ALWAYS** run `melos bootstrap` first when working with this repository:
