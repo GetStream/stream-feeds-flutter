@@ -4,8 +4,6 @@ This is the official Flutter SDK for StreamFeeds, a platform for building apps w
 
 For detailed examples and supported features, please check out our [docs](https://getstream.io/activity-feeds/docs/flutter/).
 
-Note: Activity Feeds V3 is in closed alpha — do not use it in production (just yet).
-
 ## What is Stream?
 
 Stream allows developers to rapidly deploy scalable feeds, chat messaging and video with an industry leading 99.999% uptime SLA guarantee.
