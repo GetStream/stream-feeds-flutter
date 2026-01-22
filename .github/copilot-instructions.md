@@ -10,7 +10,7 @@ This is the **official Flutter/Dart SDK** for Stream Feeds API v3, a scalable ac
 - **Sample App** (`sample_app/`): Flutter demo application
 - **Documentation** (`docs/`): Code snippets and examples
 
-**Languages/Frameworks**: Dart 3.6+, Flutter 3.27+
+**Languages/Frameworks**: Dart SDK ^3.6.2, Flutter >=3.27.4
 
 ## Build and Test Commands
 
@@ -81,26 +81,27 @@ cd sample_app && flutter build apk --release
 
 ### Data Models
 
-- Use `@freezed` for all data classes with Freezed 3.0 mixed mode syntax
-- All fields must use `@override` annotations
+- Use `@freezed` for all data classes with Freezed 3.0 syntax
+- Fields are declared with `@override` annotations below the constructor
 - Models representing entities should have an `id` field
 - Place `custom` data fields last in constructors
 
 ```dart
 @freezed
-class ActivityData with _$ActivityData {
-  const ActivityData({
+class FeedData with _$FeedData {
+  /// Creates a new [FeedData] instance.
+  const FeedData({
     required this.id,
-    required this.user,
+    required this.name,
     this.custom,
   });
 
   @override
   final String id;
   @override
-  final UserData user;
+  final String name;
   @override
-  final Map<String, Object>? custom;
+  final Map<String, Object?>? custom;
 }
 ```
 
