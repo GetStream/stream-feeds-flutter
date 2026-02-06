@@ -1,4 +1,5 @@
 ## 0.5.1
+- [BREAKING] Changed `ActivityCommentList.state` getter return type from `StateNotifier<ActivityCommentListState>` to `ActivityCommentListState` to be consistent with all other state classes.
 - Added missing state updates for the websocket events.
 - Add appeal-related methods to moderation client: `appeal`, `getAppeal`, and `queryAppeals`.
 - Add `activityCount` field to `FeedData` model to track the number of activities in a feed.

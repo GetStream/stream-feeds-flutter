@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:state_notifier/state_notifier.dart';
 import 'package:stream_core/stream_core.dart';
 
 import '../models/comment_data.dart';
@@ -47,7 +46,7 @@ class ActivityCommentList extends Disposable {
   final CommentsRepository commentsRepository;
   final String currentUserId;
 
-  StateNotifier<ActivityCommentListState> get state => notifier;
+  ActivityCommentListState get state => notifier.value;
   Stream<ActivityCommentListState> get stream => notifier.stream;
 
   @internal
