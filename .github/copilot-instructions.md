@@ -119,9 +119,6 @@ lib/
 3. **Result Pattern**: Repository methods return `Result<T>`, NOT exceptions—use early returns for validation/errors
 4. **Public API Separation**: Only files in `lib/` root are public; everything in `lib/src/` is internal
 5. **StateNotifier**: Reactive state management for high-level state objects
-   - State classes in `lib/src/state/` must expose a `state` getter returning the **unwrapped state value** (e.g., `FeedState get state => notifier.value;`), NOT the `StateNotifier` wrapper
-   - The `StateNotifier` wrapper itself should be accessible via a separate `notifier` (or `stateNotifier`) property for stream listening
-   - The `stream` getter should return the state stream (e.g., `Stream<FeedState> get stream => notifier.stream;`)
 6. **Data Mapping**: Use extension functions (`.toModel()`) for API-to-domain conversions, NOT mapper classes
 7. **Constructor Injection**: Dependencies injected through constructors for testability
 
