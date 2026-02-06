@@ -146,6 +146,37 @@ When editing `@freezed` models:
 
 ## CI/CD and Validation
 
+### PR Title Convention
+
+PR titles **must** follow the [Conventional Commits](https://www.conventionalcommits.org/) format with a **required scope**, enforced by the `conventional_pr_title` CI workflow (`.github/workflows/pr_title.yml`):
+
+```
+<type>(<scope>): <description>
+```
+
+**Allowed scopes** (maps to packages):
+- `llc` → `packages/stream_feeds` (main SDK / low-level client)
+- `repo` → repository-level changes
+- `samples` → `sample_app/`
+
+Examples: `fix(llc): correct state getter return type`, `feat(llc): add new API method`, `chore(repo): update CI config`
+
+### Changelog Convention
+
+Each package has its own `CHANGELOG.md`. New changes go under an `## Upcoming` section at the top of the file:
+
+```markdown
+## Upcoming
+- [BREAKING] Description of breaking change.
+- Description of new feature or fix.
+
+## 0.5.1
+- Previous release entries...
+```
+
+- Use `[BREAKING]` prefix for breaking changes
+- The `semantic_changelog_update` CI check verifies that changelog updates match the PR scope (e.g., `fix(llc)` requires changes in `packages/stream_feeds/CHANGELOG.md`)
+
 ### GitHub Actions Workflow
 
 The main workflow (`.github/workflows/stream_feeds_flutter_workflow.yml`) runs on PRs and main branch:

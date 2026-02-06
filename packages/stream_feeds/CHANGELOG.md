@@ -1,3 +1,6 @@
+## Upcoming
+- [BREAKING] Changed `ActivityCommentList.state` getter return type from `StateNotifier<ActivityCommentListState>` to `ActivityCommentListState` to be consistent with all other state classes.
+
 ## 0.5.1
 - Added missing state updates for the websocket events.
 - Add appeal-related methods to moderation client: `appeal`, `getAppeal`, and `queryAppeals`.
