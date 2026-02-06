@@ -119,6 +119,9 @@ lib/
 3. **Result Pattern**: Repository methods return `Result<T>`, NOT exceptions—use early returns for validation/errors
 4. **Public API Separation**: Only files in `lib/` root are public; everything in `lib/src/` is internal
 5. **StateNotifier**: Reactive state management for high-level state objects
+   - State classes in `lib/src/state/` must expose a `state` getter returning the **unwrapped state value** (e.g., `FeedState get state => notifier.value;`), NOT the `StateNotifier` wrapper
+   - The `StateNotifier` wrapper itself should be accessible via a separate `notifier` (or `stateNotifier`) property for stream listening
+   - The `stream` getter should return the state stream (e.g., `Stream<FeedState> get stream => notifier.stream;`)
 6. **Data Mapping**: Use extension functions (`.toModel()`) for API-to-domain conversions, NOT mapper classes
 7. **Constructor Injection**: Dependencies injected through constructors for testability
 
@@ -145,6 +148,37 @@ When editing `@freezed` models:
 - Include examples for complex APIs
 
 ## CI/CD and Validation
+
+### PR Title Convention
+
+PR titles **must** follow the [Conventional Commits](https://www.conventionalcommits.org/) format with a **required scope**, enforced by the `conventional_pr_title` CI workflow (`.github/workflows/pr_title.yml`):
+
+```
+<type>(<scope>): <description>
+```
+
+**Allowed scopes** (maps to packages):
+- `llc` → `packages/stream_feeds` (main SDK / low-level client)
+- `repo` → repository-level changes
+- `samples` → `sample_app/`
+
+Examples: `fix(llc): correct state getter return type`, `feat(llc): add new API method`, `chore(repo): update CI config`
+
+### Changelog Convention
+
+Each package has its own `CHANGELOG.md`. New changes go under an `## Upcoming` section at the top of the file:
+
+```markdown
+## Upcoming
+- [BREAKING] Description of breaking change.
+- Description of new feature or fix.
+
+## 0.5.1
+- Previous release entries...
+```
+
+- Use `[BREAKING]` prefix for breaking changes
+- The `semantic_changelog_update` CI check verifies that changelog updates match the PR scope (e.g., `fix(llc)` requires changes in `packages/stream_feeds/CHANGELOG.md`)
 
 ### GitHub Actions Workflow
 
