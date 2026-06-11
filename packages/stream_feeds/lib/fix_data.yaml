@@ -1,6 +1,6 @@
 # Docs on data driven fixes: https://github.com/flutter/flutter/blob/master/docs/contributing/Data-driven-Fixes.md
 
-version: 1
+version: 2
 transforms:
   #region Version 0.3.1: Rename of addReaction and deleteReaction to more specific names addActivityReaction and deleteActivityReaction
   - title: "rename addReaction to addActivityReaction"
@@ -32,14 +32,14 @@ transforms:
     changes:
       - kind: 'rename'
         newName: 'UnfollowPair'
-  - title: "rename ActivityLocation to FeedsActivityLocation"
+  - title: "rename ActivityLocation to Location"
     date: "2026-06-11"
     element:
       uris: ['package:stream_feeds/stream_feeds.dart']
       typedef: 'ActivityLocation'
     changes:
       - kind: 'rename'
-        newName: 'FeedsActivityLocation'
+        newName: 'Location'
   - title: "rename OwnUser to OwnUserResponse"
     date: "2026-06-11"
     element:

@@ -9,12 +9,9 @@ import 'generated/api/models.dart';
 @Deprecated('Renamed to UnfollowPair. Migrate to UnfollowPair.')
 typedef FollowPair = UnfollowPair;
 
-/// Use [FeedsActivityLocation] instead.
-///
-/// Note: `FeedAddActivityRequest.location` now accepts `LocationCoordinate`
-/// from `package:stream_core/stream_core.dart`, not `FeedsActivityLocation`.
-@Deprecated('Renamed to FeedsActivityLocation. Migrate to FeedsActivityLocation.')
-typedef ActivityLocation = FeedsActivityLocation;
+/// Use [Location] instead.
+@Deprecated('Renamed to Location. Migrate to Location.')
+typedef ActivityLocation = Location;
 
 /// Use [OwnUserResponse] instead.
 @Deprecated('Renamed to OwnUserResponse. Migrate to OwnUserResponse.')

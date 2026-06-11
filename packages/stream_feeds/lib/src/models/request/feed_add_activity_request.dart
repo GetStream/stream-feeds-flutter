@@ -93,7 +93,7 @@ class FeedAddActivityRequest with _$FeedAddActivityRequest implements HasAttachm
 
   /// Optional location data for the activity.
   @override
-  final LocationCoordinate? location;
+  final Location? location;
 
   /// Optional list of user IDs mentioned in the activity.
   @override
@@ -165,9 +165,7 @@ extension FeedAddActivityRequestMapper on FeedAddActivityRequest {
       filterTags: filterTags,
       id: id,
       interestTags: interestTags,
-      location: location?.let(
-        (it) => Location(lat: it.latitude, lng: it.longitude),
-      ),
+      location: location,
       mentionedUserIds: mentionedUserIds,
       parentId: parentId,
       pollId: pollId,

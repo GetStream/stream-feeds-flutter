@@ -24,7 +24,7 @@ mixin _$FeedAddActivityRequest {
   List<String>? get filterTags;
   String? get id;
   List<String>? get interestTags;
-  LocationCoordinate? get location;
+  Location? get location;
   List<String>? get mentionedUserIds;
   String? get parentId;
   String? get pollId;
@@ -150,7 +150,7 @@ abstract mixin class $FeedAddActivityRequestCopyWith<$Res> {
     List<String>? filterTags,
     String? id,
     List<String>? interestTags,
-    LocationCoordinate? location,
+    Location? location,
     List<String>? mentionedUserIds,
     String? parentId,
     String? pollId,
@@ -249,7 +249,7 @@ class _$FeedAddActivityRequestCopyWithImpl<$Res> implements $FeedAddActivityRequ
         location: freezed == location
             ? _self.location
             : location // ignore: cast_nullable_to_non_nullable
-                  as LocationCoordinate?,
+                  as Location?,
         mentionedUserIds: freezed == mentionedUserIds
             ? _self.mentionedUserIds
             : mentionedUserIds // ignore: cast_nullable_to_non_nullable
