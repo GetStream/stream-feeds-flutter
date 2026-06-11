@@ -10,8 +10,7 @@ class CapabilitiesRepository {
   final api.DefaultApi _api;
   final Map<String, List<FeedOwnCapability>> _capabilities = {};
 
-  late final Batcher<String, Result<Map<String, List<FeedOwnCapability>>>>
-      _fetchBatcher = Batcher(
+  late final Batcher<String, Result<Map<String, List<FeedOwnCapability>>>> _fetchBatcher = Batcher(
     action: (feeds) => _fetchWithRetry(feeds: feeds),
   );
 
@@ -26,9 +25,7 @@ class CapabilitiesRepository {
       final ownCapabilities = <String, List<FeedOwnCapability>>{};
       for (final MapEntry(:key, :value) in response.data.entries) {
         if (value.ownCapabilities case final capabilities?) {
-          ownCapabilities[key] = capabilities
-              .map((e) => FeedOwnCapability.values.byName(e.name))
-              .toList();
+          ownCapabilities[key] = capabilities.map((e) => FeedOwnCapability.values.byName(e.name)).toList();
         }
       }
 
@@ -48,8 +45,7 @@ class CapabilitiesRepository {
   }
 
   Future<List<FeedOwnCapability>?> getCapabilities(String feed) async {
-    return _capabilities[feed] ??
-        (await _fetchBatchedFeedCapabilities(feed)).getOrNull();
+    return _capabilities[feed] ?? (await _fetchBatchedFeedCapabilities(feed)).getOrNull();
   }
 
   void dispose() {

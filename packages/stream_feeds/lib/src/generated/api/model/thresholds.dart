@@ -34,6 +34,5 @@ class Thresholds with _$Thresholds {
 
   Map<String, dynamic> toJson() => _$ThresholdsToJson(this);
 
-  static Thresholds fromJson(Map<String, dynamic> json) =>
-      _$ThresholdsFromJson(json);
+  static Thresholds fromJson(Map<String, dynamic> json) => _$ThresholdsFromJson(json);
 }

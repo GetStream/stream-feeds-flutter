@@ -34,6 +34,5 @@ class CallRuleActionSequence with _$CallRuleActionSequence {
 
   Map<String, dynamic> toJson() => _$CallRuleActionSequenceToJson(this);
 
-  static CallRuleActionSequence fromJson(Map<String, dynamic> json) =>
-      _$CallRuleActionSequenceFromJson(json);
+  static CallRuleActionSequence fromJson(Map<String, dynamic> json) => _$CallRuleActionSequenceFromJson(json);
 }

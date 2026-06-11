@@ -30,6 +30,5 @@ class GetActionConfigResponse with _$GetActionConfigResponse {
 
   Map<String, dynamic> toJson() => _$GetActionConfigResponseToJson(this);
 
-  static GetActionConfigResponse fromJson(Map<String, dynamic> json) =>
-      _$GetActionConfigResponseFromJson(json);
+  static GetActionConfigResponse fromJson(Map<String, dynamic> json) => _$GetActionConfigResponseFromJson(json);
 }

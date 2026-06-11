@@ -14,11 +14,10 @@ class StreamPollController extends ValueNotifier<CreatePollState> {
   factory StreamPollController({
     CreatePollState? poll,
     PollConfig? config,
-  }) =>
-      StreamPollController._(
-        config ?? const PollConfig(),
-        poll ?? CreatePollState.empty(),
-      );
+  }) => StreamPollController._(
+    config ?? const PollConfig(),
+    poll ?? CreatePollState.empty(),
+  );
 
   StreamPollController._(this.config, super._value);
 
@@ -49,8 +48,7 @@ class StreamPollController extends ValueNotifier<CreatePollState> {
       final name = value.name;
       final (:min, :max) = nameRange;
 
-      if (min != null && name.length < min ||
-          max != null && name.length > max) {
+      if (min != null && name.length < min || max != null && name.length > max) {
         invalidErrors.add(
           PollValidationError.nameRange(name, range: nameRange),
         );
@@ -74,8 +72,7 @@ class StreamPollController extends ValueNotifier<CreatePollState> {
       final nonEmptyOptions = [...options.where((it) => it.text.isNotEmpty)];
       final (:min, :max) = optionsRange;
 
-      if (min != null && nonEmptyOptions.length < min ||
-          max != null && nonEmptyOptions.length > max) {
+      if (min != null && nonEmptyOptions.length < min || max != null && nonEmptyOptions.length > max) {
         invalidErrors.add(
           PollValidationError.optionsRange(options, range: optionsRange),
         );
@@ -88,8 +85,7 @@ class StreamPollController extends ValueNotifier<CreatePollState> {
         if (config.allowedVotesRange case final allowedVotesRange?) {
           final (:min, :max) = allowedVotesRange;
 
-          if (min != null && maxVotesAllowed < min ||
-              max != null && maxVotesAllowed > max) {
+          if (min != null && maxVotesAllowed < min || max != null && maxVotesAllowed > max) {
             invalidErrors.add(
               PollValidationError.maxVotesAllowed(
                 maxVotesAllowed,

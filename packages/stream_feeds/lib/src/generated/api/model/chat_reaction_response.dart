@@ -56,6 +56,5 @@ class ChatReactionResponse with _$ChatReactionResponse {
 
   Map<String, dynamic> toJson() => _$ChatReactionResponseToJson(this);
 
-  static ChatReactionResponse fromJson(Map<String, dynamic> json) =>
-      _$ChatReactionResponseFromJson(json);
+  static ChatReactionResponse fromJson(Map<String, dynamic> json) => _$ChatReactionResponseFromJson(json);
 }

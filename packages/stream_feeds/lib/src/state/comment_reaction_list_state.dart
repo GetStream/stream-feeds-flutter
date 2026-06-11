@@ -13,8 +13,7 @@ part 'comment_reaction_list_state.freezed.dart';
 ///
 /// Provides methods to update the comment reaction list state in response to data changes
 /// and real-time events from the Stream Feeds API.
-class CommentReactionListStateNotifier
-    extends StateNotifier<CommentReactionListState> {
+class CommentReactionListStateNotifier extends StateNotifier<CommentReactionListState> {
   CommentReactionListStateNotifier({
     required CommentReactionListState initialState,
   }) : super(initialState);

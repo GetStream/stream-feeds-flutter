@@ -54,6 +54,5 @@ class QueryReviewQueueResponse with _$QueryReviewQueueResponse {
 
   Map<String, dynamic> toJson() => _$QueryReviewQueueResponseToJson(this);
 
-  static QueryReviewQueueResponse fromJson(Map<String, dynamic> json) =>
-      _$QueryReviewQueueResponseFromJson(json);
+  static QueryReviewQueueResponse fromJson(Map<String, dynamic> json) => _$QueryReviewQueueResponseFromJson(json);
 }

@@ -102,6 +102,5 @@ class EnrichmentOptions with _$EnrichmentOptions {
 
   Map<String, dynamic> toJson() => _$EnrichmentOptionsToJson(this);
 
-  static EnrichmentOptions fromJson(Map<String, dynamic> json) =>
-      _$EnrichmentOptionsFromJson(json);
+  static EnrichmentOptions fromJson(Map<String, dynamic> json) => _$EnrichmentOptionsFromJson(json);
 }

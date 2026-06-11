@@ -60,8 +60,7 @@ void main() {
         );
 
         // Query more folders
-        final result =
-            await tester.bookmarkFolderList.queryMoreBookmarkFolders();
+        final result = await tester.bookmarkFolderList.queryMoreBookmarkFolders();
 
         expect(result.isSuccess, isTrue);
         final folders = result.getOrNull();
@@ -95,8 +94,7 @@ void main() {
         expect(tester.bookmarkFolderListState.bookmarkFolders, hasLength(1));
         expect(tester.bookmarkFolderListState.canLoadMore, isFalse);
         // Query more folders (should return empty immediately)
-        final result =
-            await tester.bookmarkFolderList.queryMoreBookmarkFolders();
+        final result = await tester.bookmarkFolderList.queryMoreBookmarkFolders();
 
         expect(result.isSuccess, isTrue);
         final folders = result.getOrNull();

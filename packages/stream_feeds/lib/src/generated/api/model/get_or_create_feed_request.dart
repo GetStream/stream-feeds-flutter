@@ -82,6 +82,5 @@ class GetOrCreateFeedRequest with _$GetOrCreateFeedRequest {
 
   Map<String, dynamic> toJson() => _$GetOrCreateFeedRequestToJson(this);
 
-  static GetOrCreateFeedRequest fromJson(Map<String, dynamic> json) =>
-      _$GetOrCreateFeedRequestFromJson(json);
+  static GetOrCreateFeedRequest fromJson(Map<String, dynamic> json) => _$GetOrCreateFeedRequestFromJson(json);
 }

@@ -56,6 +56,5 @@ class CommentRestoredEvent extends core.WsEvent with _$CommentRestoredEvent {
 
   Map<String, dynamic> toJson() => _$CommentRestoredEventToJson(this);
 
-  static CommentRestoredEvent fromJson(Map<String, dynamic> json) =>
-      _$CommentRestoredEventFromJson(json);
+  static CommentRestoredEvent fromJson(Map<String, dynamic> json) => _$CommentRestoredEventFromJson(json);
 }

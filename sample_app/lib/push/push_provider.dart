@@ -8,14 +8,14 @@ class PushProvider {
   const PushProvider.firebase({
     required this.name,
     TokenStreamProvider tokenStreamProvider = _firebaseTokenProvider,
-  })  : _tokenStreamProvider = tokenStreamProvider,
-        type = PushNotificationsProvider.firebase;
+  }) : _tokenStreamProvider = tokenStreamProvider,
+       type = PushNotificationsProvider.firebase;
 
   const PushProvider.apn({
     required this.name,
     TokenStreamProvider tokenStreamProvider = _apnTokenProvider,
-  })  : _tokenStreamProvider = tokenStreamProvider,
-        type = PushNotificationsProvider.apn;
+  }) : _tokenStreamProvider = tokenStreamProvider,
+       type = PushNotificationsProvider.apn;
 
   static Stream<String> _firebaseTokenProvider() async* {
     final initialToken = await FirebaseMessaging.instance.getToken();

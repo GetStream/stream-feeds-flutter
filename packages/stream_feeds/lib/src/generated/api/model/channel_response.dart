@@ -98,7 +98,7 @@ enum ChannelResponseOwnCapabilities {
   @JsonValue('upload-file')
   uploadFile,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -230,6 +230,5 @@ class ChannelResponse with _$ChannelResponse {
 
   Map<String, dynamic> toJson() => _$ChannelResponseToJson(this);
 
-  static ChannelResponse fromJson(Map<String, dynamic> json) =>
-      _$ChannelResponseFromJson(json);
+  static ChannelResponse fromJson(Map<String, dynamic> json) => _$ChannelResponseFromJson(json);
 }

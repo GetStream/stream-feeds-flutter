@@ -26,6 +26,5 @@ class ActivityFilterConfig with _$ActivityFilterConfig {
 
   Map<String, dynamic> toJson() => _$ActivityFilterConfigToJson(this);
 
-  static ActivityFilterConfig fromJson(Map<String, dynamic> json) =>
-      _$ActivityFilterConfigFromJson(json);
+  static ActivityFilterConfig fromJson(Map<String, dynamic> json) => _$ActivityFilterConfigFromJson(json);
 }

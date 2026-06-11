@@ -278,8 +278,7 @@ void main() {
       setUp: (tester) => tester.get(),
       body: (tester) async {
         // Initial state - has 'like' reaction
-        final existingReaction =
-            tester.commentReactionListState.reactions.first;
+        final existingReaction = tester.commentReactionListState.reactions.first;
         expect(existingReaction.type, 'like');
 
         // Emit event to replace 'like' with 'fire'
@@ -320,8 +319,7 @@ void main() {
       build: (client) => client.commentReactionList(query),
       setUp: (tester) => tester.get(),
       body: (tester) async {
-        final existingReaction =
-            tester.commentReactionListState.reactions.first;
+        final existingReaction = tester.commentReactionListState.reactions.first;
 
         // Emit event for different comment
         await tester.emitEvent(
@@ -335,13 +333,14 @@ void main() {
               id: 'different-comment-id',
               objectId: activityId,
             ),
-            reaction: createDefaultReactionResponse(
-              commentId: 'different-comment-id',
-              reactionType: reactionType,
-              userId: existingReaction.user.id,
-            ).copyWith(
-              custom: const {'updated': true},
-            ),
+            reaction:
+                createDefaultReactionResponse(
+                  commentId: 'different-comment-id',
+                  reactionType: reactionType,
+                  userId: existingReaction.user.id,
+                ).copyWith(
+                  custom: const {'updated': true},
+                ),
           ),
         );
 
@@ -359,8 +358,7 @@ void main() {
         // Verify initial state
         expect(tester.commentReactionListState.reactions, hasLength(3));
 
-        final reactionToDelete =
-            tester.commentReactionListState.reactions.first;
+        final reactionToDelete = tester.commentReactionListState.reactions.first;
 
         // Emit event
         await tester.emitEvent(
@@ -384,8 +382,7 @@ void main() {
         // Verify reaction was removed
         expect(tester.commentReactionListState.reactions, hasLength(2));
         expect(
-          tester.commentReactionListState.reactions
-              .any((r) => r.id == reactionToDelete.id),
+          tester.commentReactionListState.reactions.any((r) => r.id == reactionToDelete.id),
           isFalse,
         );
       },
@@ -399,8 +396,7 @@ void main() {
         // Verify initial state
         expect(tester.commentReactionListState.reactions, hasLength(3));
 
-        final reactionToDelete =
-            tester.commentReactionListState.reactions.first;
+        final reactionToDelete = tester.commentReactionListState.reactions.first;
 
         // Emit event for different comment
         await tester.emitEvent(

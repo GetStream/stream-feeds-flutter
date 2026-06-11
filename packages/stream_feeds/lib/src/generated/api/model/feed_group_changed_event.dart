@@ -56,6 +56,5 @@ class FeedGroupChangedEvent extends core.WsEvent with _$FeedGroupChangedEvent {
 
   Map<String, dynamic> toJson() => _$FeedGroupChangedEventToJson(this);
 
-  static FeedGroupChangedEvent fromJson(Map<String, dynamic> json) =>
-      _$FeedGroupChangedEventFromJson(json);
+  static FeedGroupChangedEvent fromJson(Map<String, dynamic> json) => _$FeedGroupChangedEventFromJson(json);
 }

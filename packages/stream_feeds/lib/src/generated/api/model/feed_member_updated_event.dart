@@ -16,8 +16,7 @@ part 'feed_member_updated_event.freezed.dart';
 @freezed
 @immutable
 @JsonSerializable()
-class FeedMemberUpdatedEvent extends core.WsEvent
-    with _$FeedMemberUpdatedEvent {
+class FeedMemberUpdatedEvent extends core.WsEvent with _$FeedMemberUpdatedEvent {
   const FeedMemberUpdatedEvent({
     required this.createdAt,
     required this.custom,
@@ -57,6 +56,5 @@ class FeedMemberUpdatedEvent extends core.WsEvent
 
   Map<String, dynamic> toJson() => _$FeedMemberUpdatedEventToJson(this);
 
-  static FeedMemberUpdatedEvent fromJson(Map<String, dynamic> json) =>
-      _$FeedMemberUpdatedEventFromJson(json);
+  static FeedMemberUpdatedEvent fromJson(Map<String, dynamic> json) => _$FeedMemberUpdatedEventFromJson(json);
 }

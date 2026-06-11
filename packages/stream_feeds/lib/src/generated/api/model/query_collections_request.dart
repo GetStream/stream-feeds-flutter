@@ -42,6 +42,5 @@ class QueryCollectionsRequest with _$QueryCollectionsRequest {
 
   Map<String, dynamic> toJson() => _$QueryCollectionsRequestToJson(this);
 
-  static QueryCollectionsRequest fromJson(Map<String, dynamic> json) =>
-      _$QueryCollectionsRequestFromJson(json);
+  static QueryCollectionsRequest fromJson(Map<String, dynamic> json) => _$QueryCollectionsRequestFromJson(json);
 }

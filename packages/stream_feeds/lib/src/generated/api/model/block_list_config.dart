@@ -38,6 +38,5 @@ class BlockListConfig with _$BlockListConfig {
 
   Map<String, dynamic> toJson() => _$BlockListConfigToJson(this);
 
-  static BlockListConfig fromJson(Map<String, dynamic> json) =>
-      _$BlockListConfigFromJson(json);
+  static BlockListConfig fromJson(Map<String, dynamic> json) => _$BlockListConfigFromJson(json);
 }

@@ -29,7 +29,7 @@ import 'app_module.dart' as _i460;
 import 'session_module.dart' as _i849;
 
 extension GetItInjectableX on _i174.GetIt {
-// initializes the registration of main-scope dependencies inside of GetIt
+  // initializes the registration of main-scope dependencies inside of GetIt
   Future<_i174.GetIt> init({
     String? environment,
     _i526.EnvironmentFilter? environmentFilter,
@@ -49,10 +49,12 @@ extension GetItInjectableX on _i174.GetIt {
       preResolve: true,
     );
     gh.lazySingleton<_i460.LocalNotification>(
-        () => appModule.localNotifications);
+      () => appModule.localNotifications,
+    );
     gh.lazySingleton<_i161.InternetConnection>(() => appModule.internet);
     gh.lazySingleton<_i825.AppPreferences>(
-        () => _i825.AppPreferences(gh<_i460.SharedPreferences>()));
+      () => _i825.AppPreferences(gh<_i460.SharedPreferences>()),
+    );
     gh.factory<_i235.PushProvider>(
       () => appModule.androidPush,
       instanceName: 'firebase',
@@ -61,37 +63,47 @@ extension GetItInjectableX on _i174.GetIt {
       () => appModule.iosPush,
       instanceName: 'apn',
     );
-    gh.lazySingleton<_i250.NetworkStateProvider>(() =>
-        _i571.InternetStateProvider(checker: gh<_i161.InternetConnection>()));
+    gh.lazySingleton<_i250.NetworkStateProvider>(
+      () =>
+          _i571.InternetStateProvider(checker: gh<_i161.InternetConnection>()),
+    );
     gh.lazySingleton<_i250.LifecycleStateProvider>(
-        () => _i615.AppLifecycleStateProvider());
+      () => _i615.AppLifecycleStateProvider(),
+    );
     gh.lazySingleton<_i902.NotificationService>(
       () => _i902.NotificationService(gh<_i460.LocalNotification>()),
       dispose: (i) => i.dispose(),
     );
-    gh.lazySingleton<_i817.AuthController>(() => _i817.AuthController(
-          gh<_i825.AppPreferences>(),
-          gh<_i235.PushProvider>(instanceName: 'apn'),
-          gh<_i235.PushProvider>(instanceName: 'firebase'),
-          gh<_i250.NetworkStateProvider>(),
-          gh<_i250.LifecycleStateProvider>(),
-        ));
+    gh.lazySingleton<_i817.AuthController>(
+      () => _i817.AuthController(
+        gh<_i825.AppPreferences>(),
+        gh<_i235.PushProvider>(instanceName: 'apn'),
+        gh<_i235.PushProvider>(instanceName: 'firebase'),
+        gh<_i250.NetworkStateProvider>(),
+        gh<_i250.LifecycleStateProvider>(),
+      ),
+    );
     gh.factory<_i253.AuthGuard>(
-        () => _i253.AuthGuard(gh<_i817.AuthController>()));
+      () => _i253.AuthGuard(gh<_i817.AuthController>()),
+    );
     gh.lazySingleton<_i783.AppRouter>(
-        () => _i783.AppRouter(gh<_i253.AuthGuard>()));
+      () => _i783.AppRouter(gh<_i253.AuthGuard>()),
+    );
     return this;
   }
 
-// initializes the registration of session-scope dependencies inside of GetIt
+  // initializes the registration of session-scope dependencies inside of GetIt
   _i174.GetIt initSessionScope({_i174.ScopeDisposeFunc? dispose}) {
     return _i526.GetItHelper(this).initScope(
       'session',
       dispose: dispose,
       init: (_i526.GetItHelper gh) {
         final sessionModule = _$SessionModule();
-        gh.lazySingleton<_i250.StreamFeedsClient>(() =>
-            sessionModule.authenticatedFeedsClient(gh<_i817.AuthController>()));
+        gh.lazySingleton<_i250.StreamFeedsClient>(
+          () => sessionModule.authenticatedFeedsClient(
+            gh<_i817.AuthController>(),
+          ),
+        );
       },
     );
   }

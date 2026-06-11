@@ -7,18 +7,13 @@ part of 'flood_config.dart';
 // **************************************************************************
 
 FloodConfig _$FloodConfigFromJson(Map<String, dynamic> json) => FloodConfig(
-      identical: json['identical'] == null
-          ? null
-          : FloodIdenticalConfig.fromJson(
-              json['identical'] as Map<String, dynamic>),
-      similar: json['similar'] == null
-          ? null
-          : FloodSimilarConfig.fromJson(
-              json['similar'] as Map<String, dynamic>),
-    );
+  identical: json['identical'] == null
+      ? null
+      : FloodIdenticalConfig.fromJson(json['identical'] as Map<String, dynamic>),
+  similar: json['similar'] == null ? null : FloodSimilarConfig.fromJson(json['similar'] as Map<String, dynamic>),
+);
 
-Map<String, dynamic> _$FloodConfigToJson(FloodConfig instance) =>
-    <String, dynamic>{
-      'identical': instance.identical?.toJson(),
-      'similar': instance.similar?.toJson(),
-    };
+Map<String, dynamic> _$FloodConfigToJson(FloodConfig instance) => <String, dynamic>{
+  'identical': instance.identical?.toJson(),
+  'similar': instance.similar?.toJson(),
+};

@@ -26,6 +26,5 @@ class UpdateCollectionsRequest with _$UpdateCollectionsRequest {
 
   Map<String, dynamic> toJson() => _$UpdateCollectionsRequestToJson(this);
 
-  static UpdateCollectionsRequest fromJson(Map<String, dynamic> json) =>
-      _$UpdateCollectionsRequestFromJson(json);
+  static UpdateCollectionsRequest fromJson(Map<String, dynamic> json) => _$UpdateCollectionsRequestFromJson(json);
 }

@@ -30,6 +30,5 @@ class AddCommentsBatchResponse with _$AddCommentsBatchResponse {
 
   Map<String, dynamic> toJson() => _$AddCommentsBatchResponseToJson(this);
 
-  static AddCommentsBatchResponse fromJson(Map<String, dynamic> json) =>
-      _$AddCommentsBatchResponseFromJson(json);
+  static AddCommentsBatchResponse fromJson(Map<String, dynamic> json) => _$AddCommentsBatchResponseFromJson(json);
 }

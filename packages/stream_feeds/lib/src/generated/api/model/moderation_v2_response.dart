@@ -54,6 +54,5 @@ class ModerationV2Response with _$ModerationV2Response {
 
   Map<String, dynamic> toJson() => _$ModerationV2ResponseToJson(this);
 
-  static ModerationV2Response fromJson(Map<String, dynamic> json) =>
-      _$ModerationV2ResponseFromJson(json);
+  static ModerationV2Response fromJson(Map<String, dynamic> json) => _$ModerationV2ResponseFromJson(json);
 }

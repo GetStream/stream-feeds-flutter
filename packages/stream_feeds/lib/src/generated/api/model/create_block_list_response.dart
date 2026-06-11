@@ -30,6 +30,5 @@ class CreateBlockListResponse with _$CreateBlockListResponse {
 
   Map<String, dynamic> toJson() => _$CreateBlockListResponseToJson(this);
 
-  static CreateBlockListResponse fromJson(Map<String, dynamic> json) =>
-      _$CreateBlockListResponseFromJson(json);
+  static CreateBlockListResponse fromJson(Map<String, dynamic> json) => _$CreateBlockListResponseFromJson(json);
 }

@@ -30,6 +30,5 @@ class UpsertActionConfigResponse with _$UpsertActionConfigResponse {
 
   Map<String, dynamic> toJson() => _$UpsertActionConfigResponseToJson(this);
 
-  static UpsertActionConfigResponse fromJson(Map<String, dynamic> json) =>
-      _$UpsertActionConfigResponseFromJson(json);
+  static UpsertActionConfigResponse fromJson(Map<String, dynamic> json) => _$UpsertActionConfigResponseFromJson(json);
 }

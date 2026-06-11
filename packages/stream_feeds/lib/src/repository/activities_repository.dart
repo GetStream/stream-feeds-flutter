@@ -219,8 +219,7 @@ class ActivitiesRepository {
   ///
   /// Returns a [Result] containing a record with the updated [ActivityData] and
   /// created [FeedsReactionData] or an error.
-  Future<Result<({ActivityData activity, FeedsReactionData reaction})>>
-      addActivityReaction(
+  Future<Result<({ActivityData activity, FeedsReactionData reaction})>> addActivityReaction(
     String activityId,
     api.AddReactionRequest request,
   ) async {
@@ -244,8 +243,7 @@ class ActivitiesRepository {
   /// Returns a [Result] containing a record with keys `activity` and `reaction`.
   /// The `activity` field contains the updated [ActivityData] after the reaction
   /// was removed, and the `reaction` field contains the deleted [FeedsReactionData].
-  Future<Result<({ActivityData activity, FeedsReactionData reaction})>>
-      deleteActivityReaction(
+  Future<Result<({ActivityData activity, FeedsReactionData reaction})>> deleteActivityReaction(
     String activityId,
     String type,
   ) async {

@@ -30,6 +30,5 @@ class UpdateCollectionsResponse with _$UpdateCollectionsResponse {
 
   Map<String, dynamic> toJson() => _$UpdateCollectionsResponseToJson(this);
 
-  static UpdateCollectionsResponse fromJson(Map<String, dynamic> json) =>
-      _$UpdateCollectionsResponseFromJson(json);
+  static UpdateCollectionsResponse fromJson(Map<String, dynamic> json) => _$UpdateCollectionsResponseFromJson(json);
 }

@@ -385,8 +385,7 @@ void main() {
         );
 
         // Verify nested reply was removed
-        final updatedTopLevelComment =
-            tester.activityCommentListState.comments.first;
+        final updatedTopLevelComment = tester.activityCommentListState.comments.first;
         expect(updatedTopLevelComment.replies, isEmpty);
         expect(updatedTopLevelComment.replyCount, 0);
         // Top-level comment should still exist
@@ -455,8 +454,7 @@ void main() {
         );
 
         // Verify deep nested reply was removed
-        final updatedTopLevelComment =
-            tester.activityCommentListState.comments.first;
+        final updatedTopLevelComment = tester.activityCommentListState.comments.first;
         final updatedSecondLevelComment = updatedTopLevelComment.replies!.first;
         expect(updatedSecondLevelComment.replies, isEmpty);
         expect(updatedSecondLevelComment.replyCount, 0);
@@ -483,8 +481,7 @@ void main() {
             createdAt: DateTime.timestamp(),
             custom: const {},
             fid: 'user:john',
-            activity:
-                createDefaultActivityResponse(id: 'different-activity-id'),
+            activity: createDefaultActivityResponse(id: 'different-activity-id'),
             comment: createDefaultCommentResponse(
               id: commentId,
               objectId: 'different-activity-id',
@@ -707,8 +704,7 @@ void main() {
             createdAt: DateTime.timestamp(),
             custom: const {},
             fid: 'user:john',
-            activity:
-                createDefaultActivityResponse(id: 'different-activity-id'),
+            activity: createDefaultActivityResponse(id: 'different-activity-id'),
             comment: createDefaultCommentResponse(
               id: 'different-comment-id',
               objectId: 'different-activity-id',

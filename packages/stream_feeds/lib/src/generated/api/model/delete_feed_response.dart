@@ -30,6 +30,5 @@ class DeleteFeedResponse with _$DeleteFeedResponse {
 
   Map<String, dynamic> toJson() => _$DeleteFeedResponseToJson(this);
 
-  static DeleteFeedResponse fromJson(Map<String, dynamic> json) =>
-      _$DeleteFeedResponseFromJson(json);
+  static DeleteFeedResponse fromJson(Map<String, dynamic> json) => _$DeleteFeedResponseFromJson(json);
 }

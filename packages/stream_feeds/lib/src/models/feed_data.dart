@@ -158,8 +158,7 @@ extension FeedResponseMapper on FeedResponse {
       ),
       memberCount: memberCount,
       name: name,
-      ownCapabilities:
-          ownCapabilities?.map((e) => e.toModel()).toList() ?? const [],
+      ownCapabilities: ownCapabilities?.map((e) => e.toModel()).toList() ?? const [],
       ownMembership: ownMembership?.toModel(),
       ownFollowings: ownFollowings?.map((f) => f.toModel()).toList(),
       ownFollows: ownFollows?.map((f) => f.toModel()).toList(),

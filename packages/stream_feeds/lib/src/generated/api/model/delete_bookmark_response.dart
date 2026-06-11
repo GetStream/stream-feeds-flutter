@@ -30,6 +30,5 @@ class DeleteBookmarkResponse with _$DeleteBookmarkResponse {
 
   Map<String, dynamic> toJson() => _$DeleteBookmarkResponseToJson(this);
 
-  static DeleteBookmarkResponse fromJson(Map<String, dynamic> json) =>
-      _$DeleteBookmarkResponseFromJson(json);
+  static DeleteBookmarkResponse fromJson(Map<String, dynamic> json) => _$DeleteBookmarkResponseFromJson(json);
 }

@@ -34,6 +34,5 @@ class SortParamRequest with _$SortParamRequest {
 
   Map<String, dynamic> toJson() => _$SortParamRequestToJson(this);
 
-  static SortParamRequest fromJson(Map<String, dynamic> json) =>
-      _$SortParamRequestFromJson(json);
+  static SortParamRequest fromJson(Map<String, dynamic> json) => _$SortParamRequestFromJson(json);
 }

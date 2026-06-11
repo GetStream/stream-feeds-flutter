@@ -7,9 +7,9 @@ part of 'data.dart';
 // **************************************************************************
 
 Data _$DataFromJson(Map<String, dynamic> json) => Data(
-      id: json['id'] as String,
-    );
+  id: json['id'] as String,
+);
 
 Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
-      'id': instance.id,
-    };
+  'id': instance.id,
+};

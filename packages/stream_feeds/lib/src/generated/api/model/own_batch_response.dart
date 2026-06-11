@@ -30,6 +30,5 @@ class OwnBatchResponse with _$OwnBatchResponse {
 
   Map<String, dynamic> toJson() => _$OwnBatchResponseToJson(this);
 
-  static OwnBatchResponse fromJson(Map<String, dynamic> json) =>
-      _$OwnBatchResponseFromJson(json);
+  static OwnBatchResponse fromJson(Map<String, dynamic> json) => _$OwnBatchResponseFromJson(json);
 }

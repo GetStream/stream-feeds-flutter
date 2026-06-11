@@ -38,6 +38,5 @@ class GetOrCreateFollowResponse with _$GetOrCreateFollowResponse {
 
   Map<String, dynamic> toJson() => _$GetOrCreateFollowResponseToJson(this);
 
-  static GetOrCreateFollowResponse fromJson(Map<String, dynamic> json) =>
-      _$GetOrCreateFollowResponseFromJson(json);
+  static GetOrCreateFollowResponse fromJson(Map<String, dynamic> json) => _$GetOrCreateFollowResponseFromJson(json);
 }

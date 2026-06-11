@@ -40,8 +40,7 @@ class _UserCommentsState extends State<UserComments> {
   @override
   void didUpdateWidget(covariant UserComments oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.activityId != widget.activityId ||
-        oldWidget.feed != widget.feed) {
+    if (oldWidget.activityId != widget.activityId || oldWidget.feed != widget.feed) {
       activity.dispose();
       _getActivity();
     }
@@ -160,15 +159,15 @@ class _UserCommentsState extends State<UserComments> {
           if (index == comments.length) {
             return switch (canLoadMore) {
               true => TextButton(
-                  onPressed: activity.queryMoreComments,
-                  child: const Text('Load more...'),
-                ),
+                onPressed: activity.queryMoreComments,
+                child: const Text('Load more...'),
+              ),
               false => const Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Center(
-                    child: Text('End of comments'),
-                  ),
+                padding: EdgeInsets.all(16),
+                child: Center(
+                  child: Text('End of comments'),
                 ),
+              ),
             };
           }
 

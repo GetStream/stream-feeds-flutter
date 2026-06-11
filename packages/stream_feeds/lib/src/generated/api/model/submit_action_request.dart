@@ -58,7 +58,7 @@ enum SubmitActionRequestActionType {
   @JsonValue('unmask')
   unmask,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -151,6 +151,5 @@ class SubmitActionRequest with _$SubmitActionRequest {
 
   Map<String, dynamic> toJson() => _$SubmitActionRequestToJson(this);
 
-  static SubmitActionRequest fromJson(Map<String, dynamic> json) =>
-      _$SubmitActionRequestFromJson(json);
+  static SubmitActionRequest fromJson(Map<String, dynamic> json) => _$SubmitActionRequestFromJson(json);
 }

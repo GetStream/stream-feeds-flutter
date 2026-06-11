@@ -30,6 +30,5 @@ class BulkAppealResult with _$BulkAppealResult {
 
   Map<String, dynamic> toJson() => _$BulkAppealResultToJson(this);
 
-  static BulkAppealResult fromJson(Map<String, dynamic> json) =>
-      _$BulkAppealResultFromJson(json);
+  static BulkAppealResult fromJson(Map<String, dynamic> json) => _$BulkAppealResultFromJson(json);
 }

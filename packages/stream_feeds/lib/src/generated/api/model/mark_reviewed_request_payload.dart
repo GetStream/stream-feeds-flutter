@@ -34,6 +34,5 @@ class MarkReviewedRequestPayload with _$MarkReviewedRequestPayload {
 
   Map<String, dynamic> toJson() => _$MarkReviewedRequestPayloadToJson(this);
 
-  static MarkReviewedRequestPayload fromJson(Map<String, dynamic> json) =>
-      _$MarkReviewedRequestPayloadFromJson(json);
+  static MarkReviewedRequestPayload fromJson(Map<String, dynamic> json) => _$MarkReviewedRequestPayloadFromJson(json);
 }

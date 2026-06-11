@@ -94,6 +94,5 @@ class FeedGroup with _$FeedGroup {
 
   Map<String, dynamic> toJson() => _$FeedGroupToJson(this);
 
-  static FeedGroup fromJson(Map<String, dynamic> json) =>
-      _$FeedGroupFromJson(json);
+  static FeedGroup fromJson(Map<String, dynamic> json) => _$FeedGroupFromJson(json);
 }

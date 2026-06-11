@@ -74,7 +74,7 @@ enum FeedOwnDataOwnCapabilities {
   @JsonValue('update-own-comment')
   updateOwnComment,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -103,6 +103,5 @@ class FeedOwnData with _$FeedOwnData {
 
   Map<String, dynamic> toJson() => _$FeedOwnDataToJson(this);
 
-  static FeedOwnData fromJson(Map<String, dynamic> json) =>
-      _$FeedOwnDataFromJson(json);
+  static FeedOwnData fromJson(Map<String, dynamic> json) => _$FeedOwnDataFromJson(json);
 }

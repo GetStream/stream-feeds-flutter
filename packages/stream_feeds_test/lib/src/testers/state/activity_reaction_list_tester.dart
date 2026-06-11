@@ -75,8 +75,7 @@ void activityReactionListTest(
 /// Provides helper methods for emitting events and verifying activity reaction list state.
 ///
 /// Resources are automatically cleaned up after the test completes.
-final class ActivityReactionListTester
-    extends BaseTester<ActivityReactionList> {
+final class ActivityReactionListTester extends BaseTester<ActivityReactionList> {
   const ActivityReactionListTester._({
     required ActivityReactionList activityReactionList,
     required super.client,
@@ -108,12 +107,12 @@ final class ActivityReactionListTester
   Future<Result<List<FeedsReactionData>>> get({
     QueryActivityReactionsResponse Function(
       QueryActivityReactionsResponse,
-    )? modifyResponse,
+    )?
+    modifyResponse,
   }) {
     final query = activityReactionList.query;
 
-    final defaultReactionListResponse =
-        createDefaultQueryActivityReactionsResponse(
+    final defaultReactionListResponse = createDefaultQueryActivityReactionsResponse(
       reactions: [
         createDefaultReactionResponse(activityId: query.activityId),
         createDefaultReactionResponse(

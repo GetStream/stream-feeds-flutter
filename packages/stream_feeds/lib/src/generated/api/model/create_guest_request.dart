@@ -26,6 +26,5 @@ class CreateGuestRequest with _$CreateGuestRequest {
 
   Map<String, dynamic> toJson() => _$CreateGuestRequestToJson(this);
 
-  static CreateGuestRequest fromJson(Map<String, dynamic> json) =>
-      _$CreateGuestRequestFromJson(json);
+  static CreateGuestRequest fromJson(Map<String, dynamic> json) => _$CreateGuestRequestFromJson(json);
 }

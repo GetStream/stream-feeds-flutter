@@ -30,6 +30,5 @@ class NotificationContext with _$NotificationContext {
 
   Map<String, dynamic> toJson() => _$NotificationContextToJson(this);
 
-  static NotificationContext fromJson(Map<String, dynamic> json) =>
-      _$NotificationContextFromJson(json);
+  static NotificationContext fromJson(Map<String, dynamic> json) => _$NotificationContextFromJson(json);
 }

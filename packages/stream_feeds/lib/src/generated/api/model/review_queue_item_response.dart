@@ -175,6 +175,5 @@ class ReviewQueueItemResponse with _$ReviewQueueItemResponse {
 
   Map<String, dynamic> toJson() => _$ReviewQueueItemResponseToJson(this);
 
-  static ReviewQueueItemResponse fromJson(Map<String, dynamic> json) =>
-      _$ReviewQueueItemResponseFromJson(json);
+  static ReviewQueueItemResponse fromJson(Map<String, dynamic> json) => _$ReviewQueueItemResponseFromJson(json);
 }

@@ -30,6 +30,5 @@ class FeedsNotificationContext with _$FeedsNotificationContext {
 
   Map<String, dynamic> toJson() => _$FeedsNotificationContextToJson(this);
 
-  static FeedsNotificationContext fromJson(Map<String, dynamic> json) =>
-      _$FeedsNotificationContextFromJson(json);
+  static FeedsNotificationContext fromJson(Map<String, dynamic> json) => _$FeedsNotificationContextFromJson(json);
 }

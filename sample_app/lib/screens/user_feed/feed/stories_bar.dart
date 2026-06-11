@@ -106,8 +106,7 @@ class _FullScreenStory extends StatefulWidget {
   State<_FullScreenStory> createState() => _FullScreenStoryState();
 }
 
-class _FullScreenStoryState extends State<_FullScreenStory>
-    with TickerProviderStateMixin {
+class _FullScreenStoryState extends State<_FullScreenStory> with TickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _animation;
 
@@ -196,8 +195,7 @@ class _FullScreenStoryState extends State<_FullScreenStory>
                                   flex: ((1 - _animation.value) * 1000).toInt(),
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: context.appColors.accentPrimary
-                                          .withValues(alpha: 0.3),
+                                      color: context.appColors.accentPrimary.withValues(alpha: 0.3),
                                       borderRadius: const BorderRadius.only(
                                         topRight: Radius.circular(8),
                                         bottomRight: Radius.circular(8),
@@ -211,8 +209,7 @@ class _FullScreenStoryState extends State<_FullScreenStory>
                           )
                         : Container(
                             decoration: BoxDecoration(
-                              color: context.appColors.accentPrimary
-                                  .withValues(alpha: i <= index ? 1.0 : 0.3),
+                              color: context.appColors.accentPrimary.withValues(alpha: i <= index ? 1.0 : 0.3),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             height: 16,

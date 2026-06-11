@@ -20,7 +20,7 @@ enum FriendReactionsOptionsType {
   @JsonValue('mutual')
   mutual,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -45,6 +45,5 @@ class FriendReactionsOptions with _$FriendReactionsOptions {
 
   Map<String, dynamic> toJson() => _$FriendReactionsOptionsToJson(this);
 
-  static FriendReactionsOptions fromJson(Map<String, dynamic> json) =>
-      _$FriendReactionsOptionsFromJson(json);
+  static FriendReactionsOptions fromJson(Map<String, dynamic> json) => _$FriendReactionsOptionsFromJson(json);
 }

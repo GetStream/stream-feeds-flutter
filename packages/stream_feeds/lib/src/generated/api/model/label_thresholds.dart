@@ -30,6 +30,5 @@ class LabelThresholds with _$LabelThresholds {
 
   Map<String, dynamic> toJson() => _$LabelThresholdsToJson(this);
 
-  static LabelThresholds fromJson(Map<String, dynamic> json) =>
-      _$LabelThresholdsFromJson(json);
+  static LabelThresholds fromJson(Map<String, dynamic> json) => _$LabelThresholdsFromJson(json);
 }

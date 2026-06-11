@@ -48,6 +48,5 @@ class ActivityFeedbackEvent extends core.WsEvent with _$ActivityFeedbackEvent {
 
   Map<String, dynamic> toJson() => _$ActivityFeedbackEventToJson(this);
 
-  static ActivityFeedbackEvent fromJson(Map<String, dynamic> json) =>
-      _$ActivityFeedbackEventFromJson(json);
+  static ActivityFeedbackEvent fromJson(Map<String, dynamic> json) => _$ActivityFeedbackEventFromJson(json);
 }

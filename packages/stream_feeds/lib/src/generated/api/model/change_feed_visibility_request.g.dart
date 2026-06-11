@@ -6,28 +6,24 @@ part of 'change_feed_visibility_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ChangeFeedVisibilityRequest _$ChangeFeedVisibilityRequestFromJson(
-        Map<String, dynamic> json) =>
+ChangeFeedVisibilityRequest _$ChangeFeedVisibilityRequestFromJson(Map<String, dynamic> json) =>
     ChangeFeedVisibilityRequest(
       pendingFollowsAction: $enumDecodeNullable(
-          _$ChangeFeedVisibilityRequestPendingFollowsActionEnumMap,
-          json['pending_follows_action'],
-          unknownValue:
-              ChangeFeedVisibilityRequestPendingFollowsAction.unknown),
+        _$ChangeFeedVisibilityRequestPendingFollowsActionEnumMap,
+        json['pending_follows_action'],
+        unknownValue: ChangeFeedVisibilityRequestPendingFollowsAction.unknown,
+      ),
       visibility: $enumDecode(
-          _$ChangeFeedVisibilityRequestVisibilityEnumMap, json['visibility'],
-          unknownValue: ChangeFeedVisibilityRequestVisibility.unknown),
+        _$ChangeFeedVisibilityRequestVisibilityEnumMap,
+        json['visibility'],
+        unknownValue: ChangeFeedVisibilityRequestVisibility.unknown,
+      ),
     );
 
-Map<String, dynamic> _$ChangeFeedVisibilityRequestToJson(
-        ChangeFeedVisibilityRequest instance) =>
-    <String, dynamic>{
-      'pending_follows_action':
-          _$ChangeFeedVisibilityRequestPendingFollowsActionEnumMap[
-              instance.pendingFollowsAction],
-      'visibility':
-          _$ChangeFeedVisibilityRequestVisibilityEnumMap[instance.visibility]!,
-    };
+Map<String, dynamic> _$ChangeFeedVisibilityRequestToJson(ChangeFeedVisibilityRequest instance) => <String, dynamic>{
+  'pending_follows_action': _$ChangeFeedVisibilityRequestPendingFollowsActionEnumMap[instance.pendingFollowsAction],
+  'visibility': _$ChangeFeedVisibilityRequestVisibilityEnumMap[instance.visibility]!,
+};
 
 const _$ChangeFeedVisibilityRequestPendingFollowsActionEnumMap = {
   ChangeFeedVisibilityRequestPendingFollowsAction.autoApprove: 'auto_approve',

@@ -38,6 +38,5 @@ class ClosedCaptionRuleParameters with _$ClosedCaptionRuleParameters {
 
   Map<String, dynamic> toJson() => _$ClosedCaptionRuleParametersToJson(this);
 
-  static ClosedCaptionRuleParameters fromJson(Map<String, dynamic> json) =>
-      _$ClosedCaptionRuleParametersFromJson(json);
+  static ClosedCaptionRuleParameters fromJson(Map<String, dynamic> json) => _$ClosedCaptionRuleParametersFromJson(json);
 }

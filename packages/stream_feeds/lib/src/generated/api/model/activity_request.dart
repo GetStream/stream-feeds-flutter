@@ -22,7 +22,7 @@ enum ActivityRequestRestrictReplies {
   @JsonValue('people_i_follow')
   peopleIFollow,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -34,7 +34,7 @@ enum ActivityRequestVisibility {
   @JsonValue('tag')
   tag,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -137,6 +137,5 @@ class ActivityRequest with _$ActivityRequest {
 
   Map<String, dynamic> toJson() => _$ActivityRequestToJson(this);
 
-  static ActivityRequest fromJson(Map<String, dynamic> json) =>
-      _$ActivityRequestFromJson(json);
+  static ActivityRequest fromJson(Map<String, dynamic> json) => _$ActivityRequestFromJson(json);
 }

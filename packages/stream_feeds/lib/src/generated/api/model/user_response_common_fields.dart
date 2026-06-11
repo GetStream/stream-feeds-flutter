@@ -100,6 +100,5 @@ class UserResponseCommonFields with _$UserResponseCommonFields {
 
   Map<String, dynamic> toJson() => _$UserResponseCommonFieldsToJson(this);
 
-  static UserResponseCommonFields fromJson(Map<String, dynamic> json) =>
-      _$UserResponseCommonFieldsFromJson(json);
+  static UserResponseCommonFields fromJson(Map<String, dynamic> json) => _$UserResponseCommonFieldsFromJson(json);
 }

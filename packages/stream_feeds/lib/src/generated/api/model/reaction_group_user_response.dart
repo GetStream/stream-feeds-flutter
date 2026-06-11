@@ -35,6 +35,5 @@ class ReactionGroupUserResponse with _$ReactionGroupUserResponse {
 
   Map<String, dynamic> toJson() => _$ReactionGroupUserResponseToJson(this);
 
-  static ReactionGroupUserResponse fromJson(Map<String, dynamic> json) =>
-      _$ReactionGroupUserResponseFromJson(json);
+  static ReactionGroupUserResponse fromJson(Map<String, dynamic> json) => _$ReactionGroupUserResponseFromJson(json);
 }

@@ -24,8 +24,7 @@ class ShadowBlockActionRequestPayload with _$ShadowBlockActionRequestPayload {
   @override
   final String? reason;
 
-  Map<String, dynamic> toJson() =>
-      _$ShadowBlockActionRequestPayloadToJson(this);
+  Map<String, dynamic> toJson() => _$ShadowBlockActionRequestPayloadToJson(this);
 
   static ShadowBlockActionRequestPayload fromJson(Map<String, dynamic> json) =>
       _$ShadowBlockActionRequestPayloadFromJson(json);

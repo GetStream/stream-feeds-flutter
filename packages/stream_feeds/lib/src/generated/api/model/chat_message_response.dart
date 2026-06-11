@@ -224,6 +224,5 @@ class ChatMessageResponse with _$ChatMessageResponse {
 
   Map<String, dynamic> toJson() => _$ChatMessageResponseToJson(this);
 
-  static ChatMessageResponse fromJson(Map<String, dynamic> json) =>
-      _$ChatMessageResponseFromJson(json);
+  static ChatMessageResponse fromJson(Map<String, dynamic> json) => _$ChatMessageResponseFromJson(json);
 }

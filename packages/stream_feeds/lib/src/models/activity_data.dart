@@ -308,8 +308,7 @@ extension ActivityResponseMapper on ActivityResponse {
       attachments: attachments,
       bookmarkCount: bookmarkCount,
       collections: {
-        for (final entry in collections.entries)
-          entry.key: entry.value.toModel(),
+        for (final entry in collections.entries) entry.key: entry.value.toModel(),
       },
       commentCount: commentCount,
       comments: [...comments.map((c) => c.toModel())],
@@ -347,8 +346,7 @@ extension ActivityResponseMapper on ActivityResponse {
       preview: preview,
       reactionCount: reactionCount,
       reactionGroups: {
-        for (final entry in reactionGroups.entries)
-          entry.key: entry.value.toModel(),
+        for (final entry in reactionGroups.entries) entry.key: entry.value.toModel(),
       },
       score: score,
       searchData: searchData,

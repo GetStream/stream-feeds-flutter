@@ -46,6 +46,5 @@ class QueryBookmarksRequest with _$QueryBookmarksRequest {
 
   Map<String, dynamic> toJson() => _$QueryBookmarksRequestToJson(this);
 
-  static QueryBookmarksRequest fromJson(Map<String, dynamic> json) =>
-      _$QueryBookmarksRequestFromJson(json);
+  static QueryBookmarksRequest fromJson(Map<String, dynamic> json) => _$QueryBookmarksRequestFromJson(json);
 }

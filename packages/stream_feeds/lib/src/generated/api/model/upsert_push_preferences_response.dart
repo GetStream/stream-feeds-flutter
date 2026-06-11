@@ -27,8 +27,7 @@ class UpsertPushPreferencesResponse with _$UpsertPushPreferencesResponse {
   final String duration;
 
   @override
-  final Map<String, Map<String, ChannelPushPreferencesResponse>>
-      userChannelPreferences;
+  final Map<String, Map<String, ChannelPushPreferencesResponse>> userChannelPreferences;
 
   @override
   final Map<String, PushPreferencesResponse> userPreferences;

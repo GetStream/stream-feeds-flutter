@@ -6,8 +6,7 @@ part of 'feeds_notification_parent_activity.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-FeedsNotificationParentActivity _$FeedsNotificationParentActivityFromJson(
-        Map<String, dynamic> json) =>
+FeedsNotificationParentActivity _$FeedsNotificationParentActivityFromJson(Map<String, dynamic> json) =>
     FeedsNotificationParentActivity(
       attachments: (json['attachments'] as List<dynamic>?)
           ?.map((e) => Attachment.fromJson(e as Map<String, dynamic>))
@@ -18,8 +17,7 @@ FeedsNotificationParentActivity _$FeedsNotificationParentActivityFromJson(
       userId: json['user_id'] as String?,
     );
 
-Map<String, dynamic> _$FeedsNotificationParentActivityToJson(
-        FeedsNotificationParentActivity instance) =>
+Map<String, dynamic> _$FeedsNotificationParentActivityToJson(FeedsNotificationParentActivity instance) =>
     <String, dynamic>{
       'attachments': instance.attachments?.map((e) => e.toJson()).toList(),
       'id': instance.id,

@@ -42,6 +42,5 @@ class QueryBookmarkFoldersRequest with _$QueryBookmarkFoldersRequest {
 
   Map<String, dynamic> toJson() => _$QueryBookmarkFoldersRequestToJson(this);
 
-  static QueryBookmarkFoldersRequest fromJson(Map<String, dynamic> json) =>
-      _$QueryBookmarkFoldersRequestFromJson(json);
+  static QueryBookmarkFoldersRequest fromJson(Map<String, dynamic> json) => _$QueryBookmarkFoldersRequestFromJson(json);
 }

@@ -30,6 +30,5 @@ class ListDevicesResponse with _$ListDevicesResponse {
 
   Map<String, dynamic> toJson() => _$ListDevicesResponseToJson(this);
 
-  static ListDevicesResponse fromJson(Map<String, dynamic> json) =>
-      _$ListDevicesResponseFromJson(json);
+  static ListDevicesResponse fromJson(Map<String, dynamic> json) => _$ListDevicesResponseFromJson(json);
 }

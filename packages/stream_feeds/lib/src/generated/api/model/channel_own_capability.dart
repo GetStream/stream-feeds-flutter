@@ -94,5 +94,5 @@ enum ChannelOwnCapability {
   @JsonValue('upload-file')
   uploadFile,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }

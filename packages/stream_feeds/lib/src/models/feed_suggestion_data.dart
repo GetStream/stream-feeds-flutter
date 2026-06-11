@@ -75,8 +75,7 @@ extension FeedSuggestionResponseMapper on FeedSuggestionResponse {
         ),
         memberCount: memberCount,
         name: name,
-        ownCapabilities:
-            ownCapabilities?.map((e) => e.toModel()).toList() ?? const [],
+        ownCapabilities: ownCapabilities?.map((e) => e.toModel()).toList() ?? const [],
         ownMembership: ownMembership?.toModel(),
         ownFollowings: ownFollowings?.map((f) => f.toModel()).toList(),
         ownFollows: ownFollows?.map((f) => f.toModel()).toList(),
@@ -93,15 +92,13 @@ extension FeedSuggestionResponseMapper on FeedSuggestionResponse {
 }
 
 /// Extension to map [FeedSuggestionResponseOwnCapabilities] to the canonical [FeedOwnCapability].
-extension FeedSuggestionResponseOwnCapabilitiesMapper
-    on FeedSuggestionResponseOwnCapabilities {
+extension FeedSuggestionResponseOwnCapabilitiesMapper on FeedSuggestionResponseOwnCapabilities {
   /// Converts this response-specific capability enum to the canonical [FeedOwnCapability].
   FeedOwnCapability toModel() => FeedOwnCapability.values.byName(name);
 }
 
 /// Extension to map [FeedSuggestionResponseVisibility] to its wire-value string.
-extension FeedSuggestionResponseVisibilityMapper
-    on FeedSuggestionResponseVisibility {
+extension FeedSuggestionResponseVisibilityMapper on FeedSuggestionResponseVisibility {
   /// Returns the API wire value string for this visibility.
   String toModel() {
     return switch (this) {

@@ -39,6 +39,5 @@ class UpdateLiveLocationRequest with _$UpdateLiveLocationRequest {
 
   Map<String, dynamic> toJson() => _$UpdateLiveLocationRequestToJson(this);
 
-  static UpdateLiveLocationRequest fromJson(Map<String, dynamic> json) =>
-      _$UpdateLiveLocationRequestFromJson(json);
+  static UpdateLiveLocationRequest fromJson(Map<String, dynamic> json) => _$UpdateLiveLocationRequestFromJson(json);
 }

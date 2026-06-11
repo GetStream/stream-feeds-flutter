@@ -898,8 +898,7 @@ void main() {
               createdAt: DateTime.timestamp(),
               custom: const {},
               fid: feedId.rawValue,
-              activity:
-                  createDefaultActivityResponse(id: 'activity-4').copyWith(
+              activity: createDefaultActivityResponse(id: 'activity-4').copyWith(
                 type: 'post', // Matches first condition
                 filterTags: ['general'], // Doesn't match second condition
               ),
@@ -936,13 +935,14 @@ void main() {
               createdAt: DateTime.timestamp(),
               custom: const {},
               fid: feedId.rawValue,
-              activity: createDefaultActivityResponse(
-                id: 'activity-4',
-                userId: 'luke_skywalker',
-              ).copyWith(
-                type: 'post', // Matches first condition
-                filterTags: ['general'], // Doesn't match second condition
-              ),
+              activity:
+                  createDefaultActivityResponse(
+                    id: 'activity-4',
+                    userId: 'luke_skywalker',
+                  ).copyWith(
+                    type: 'post', // Matches first condition
+                    filterTags: ['general'], // Doesn't match second condition
+                  ),
             ),
           );
 
@@ -1391,8 +1391,7 @@ void main() {
         // Verify the event is emitted
         await expectEventEmitted;
       },
-      verify: (tester) =>
-          tester.verifyApi((api) => api.getComment(id: commentId)),
+      verify: (tester) => tester.verifyApi((api) => api.getComment(id: commentId)),
     );
 
     feedTest(
@@ -1447,8 +1446,7 @@ void main() {
         await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
-        (api) =>
-            api.addComment(addCommentRequest: any(named: 'addCommentRequest')),
+        (api) => api.addComment(addCommentRequest: any(named: 'addCommentRequest')),
       ),
     );
 
@@ -2714,8 +2712,7 @@ void main() {
 
     feedTest(
       'FollowUpdatedEvent - should update follow relationship',
-      build: (client) =>
-          client.feedFromQuery(const FeedQuery(fid: feedId, followerLimit: 10)),
+      build: (client) => client.feedFromQuery(const FeedQuery(fid: feedId, followerLimit: 10)),
       setUp: (tester) => tester.getOrCreate(
         modifyResponse: (it) => it.copyWith(
           feed: createDefaultFeedResponse(
@@ -3010,8 +3007,7 @@ void main() {
         await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
-        (api) =>
-            api.deleteActivityReaction(activityId: 'activity-1', type: 'heart'),
+        (api) => api.deleteActivityReaction(activityId: 'activity-1', type: 'heart'),
       ),
     );
 

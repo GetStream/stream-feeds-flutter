@@ -90,8 +90,7 @@ class PollOptionsListView extends StatelessWidget {
               case PollVotingMode.limited:
                 return _handleVoteAction(
                   option,
-                  checked:
-                      checked && poll.ownVotes.length < poll.maxVotesAllowed!,
+                  checked: checked && poll.ownVotes.length < poll.maxVotesAllowed!,
                 );
             }
           },
@@ -230,9 +229,9 @@ class OptionVoters extends StatelessWidget {
     this.overlap = 0.5,
     required this.voters,
   }) : assert(
-          overlap >= 0 && overlap <= 1,
-          'Overlap must be between 0 and 1',
-        );
+         overlap >= 0 && overlap <= 1,
+         'Overlap must be between 0 and 1',
+       );
 
   /// The radius of the avatars.
   final double radius;
@@ -363,8 +362,7 @@ class OptionVotesProgressBar extends StatelessWidget {
 
 extension on PollData {
   PollVoteData? currentUserVoteFor(PollOptionData option) {
-    return ownVotesAndAnswers
-        .firstWhereOrNull((it) => it.optionId == option.id);
+    return ownVotesAndAnswers.firstWhereOrNull((it) => it.optionId == option.id);
   }
 
   bool hasCurrentUserVotedFor(PollOptionData option) {

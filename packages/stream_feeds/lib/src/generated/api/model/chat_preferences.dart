@@ -54,6 +54,5 @@ class ChatPreferences with _$ChatPreferences {
 
   Map<String, dynamic> toJson() => _$ChatPreferencesToJson(this);
 
-  static ChatPreferences fromJson(Map<String, dynamic> json) =>
-      _$ChatPreferencesFromJson(json);
+  static ChatPreferences fromJson(Map<String, dynamic> json) => _$ChatPreferencesFromJson(json);
 }

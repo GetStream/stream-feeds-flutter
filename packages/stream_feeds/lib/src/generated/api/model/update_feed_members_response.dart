@@ -38,6 +38,5 @@ class UpdateFeedMembersResponse with _$UpdateFeedMembersResponse {
 
   Map<String, dynamic> toJson() => _$UpdateFeedMembersResponseToJson(this);
 
-  static UpdateFeedMembersResponse fromJson(Map<String, dynamic> json) =>
-      _$UpdateFeedMembersResponseFromJson(json);
+  static UpdateFeedMembersResponse fromJson(Map<String, dynamic> json) => _$UpdateFeedMembersResponseFromJson(json);
 }

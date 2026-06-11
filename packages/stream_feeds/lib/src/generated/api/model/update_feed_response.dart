@@ -30,6 +30,5 @@ class UpdateFeedResponse with _$UpdateFeedResponse {
 
   Map<String, dynamic> toJson() => _$UpdateFeedResponseToJson(this);
 
-  static UpdateFeedResponse fromJson(Map<String, dynamic> json) =>
-      _$UpdateFeedResponseFromJson(json);
+  static UpdateFeedResponse fromJson(Map<String, dynamic> json) => _$UpdateFeedResponseFromJson(json);
 }

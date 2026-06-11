@@ -34,6 +34,5 @@ class KeyframeOCRRuleParameters with _$KeyframeOCRRuleParameters {
 
   Map<String, dynamic> toJson() => _$KeyframeOCRRuleParametersToJson(this);
 
-  static KeyframeOCRRuleParameters fromJson(Map<String, dynamic> json) =>
-      _$KeyframeOCRRuleParametersFromJson(json);
+  static KeyframeOCRRuleParameters fromJson(Map<String, dynamic> json) => _$KeyframeOCRRuleParametersFromJson(json);
 }

@@ -48,6 +48,5 @@ class BookmarkFolderResponse with _$BookmarkFolderResponse {
 
   Map<String, dynamic> toJson() => _$BookmarkFolderResponseToJson(this);
 
-  static BookmarkFolderResponse fromJson(Map<String, dynamic> json) =>
-      _$BookmarkFolderResponseFromJson(json);
+  static BookmarkFolderResponse fromJson(Map<String, dynamic> json) => _$BookmarkFolderResponseFromJson(json);
 }

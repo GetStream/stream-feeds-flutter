@@ -65,8 +65,7 @@ class HealthCheckEvent extends WsEvent with _$HealthCheckEvent {
 
   Map<String, dynamic> toJson() => _$HealthCheckEventToJson(this);
 
-  static HealthCheckEvent fromJson(Map<String, dynamic> json) =>
-      _$HealthCheckEventFromJson(json);
+  static HealthCheckEvent fromJson(Map<String, dynamic> json) => _$HealthCheckEventFromJson(json);
 }
 
 /// A WebSocket event sent when the connection is established successfully.
@@ -111,8 +110,7 @@ class ConnectedEvent extends WsEvent with _$ConnectedEvent {
   }
 
   /// Creates a [ConnectedEvent] from JSON data.
-  static ConnectedEvent fromJson(Map<String, dynamic> json) =>
-      _$ConnectedEventFromJson(json);
+  static ConnectedEvent fromJson(Map<String, dynamic> json) => _$ConnectedEventFromJson(json);
 }
 
 /// A WebSocket event sent when there is an error in the connection.
@@ -151,6 +149,5 @@ class ConnectionErrorEvent extends WsEvent with _$ConnectionErrorEvent {
   final String type;
 
   /// Creates a [ConnectionErrorEvent] from JSON data.
-  static ConnectionErrorEvent fromJson(Map<String, dynamic> json) =>
-      _$ConnectionErrorEventFromJson(json);
+  static ConnectionErrorEvent fromJson(Map<String, dynamic> json) => _$ConnectionErrorEventFromJson(json);
 }

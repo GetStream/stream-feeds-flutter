@@ -26,6 +26,5 @@ class BypassActionRequest with _$BypassActionRequest {
 
   Map<String, dynamic> toJson() => _$BypassActionRequestToJson(this);
 
-  static BypassActionRequest fromJson(Map<String, dynamic> json) =>
-      _$BypassActionRequestFromJson(json);
+  static BypassActionRequest fromJson(Map<String, dynamic> json) => _$BypassActionRequestFromJson(json);
 }

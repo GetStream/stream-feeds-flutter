@@ -11,9 +11,7 @@ part 'activity_add_comment_request.freezed.dart';
 /// Contains comment content, attachments, mentions, and custom metadata
 /// needed to create a new comment on an activity.
 @freezed
-class ActivityAddCommentRequest
-    with _$ActivityAddCommentRequest
-    implements HasAttachments<ActivityAddCommentRequest> {
+class ActivityAddCommentRequest with _$ActivityAddCommentRequest implements HasAttachments<ActivityAddCommentRequest> {
   /// Creates a new [ActivityAddCommentRequest] instance.
   const ActivityAddCommentRequest({
     required this.activityId,

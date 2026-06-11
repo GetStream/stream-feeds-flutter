@@ -68,6 +68,5 @@ class AggregatedActivityResponse with _$AggregatedActivityResponse {
 
   Map<String, dynamic> toJson() => _$AggregatedActivityResponseToJson(this);
 
-  static AggregatedActivityResponse fromJson(Map<String, dynamic> json) =>
-      _$AggregatedActivityResponseFromJson(json);
+  static AggregatedActivityResponse fromJson(Map<String, dynamic> json) => _$AggregatedActivityResponseFromJson(json);
 }

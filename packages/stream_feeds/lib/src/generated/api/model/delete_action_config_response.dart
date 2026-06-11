@@ -30,6 +30,5 @@ class DeleteActionConfigResponse with _$DeleteActionConfigResponse {
 
   Map<String, dynamic> toJson() => _$DeleteActionConfigResponseToJson(this);
 
-  static DeleteActionConfigResponse fromJson(Map<String, dynamic> json) =>
-      _$DeleteActionConfigResponseFromJson(json);
+  static DeleteActionConfigResponse fromJson(Map<String, dynamic> json) => _$DeleteActionConfigResponseFromJson(json);
 }

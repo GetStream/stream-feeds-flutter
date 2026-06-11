@@ -30,6 +30,5 @@ class RestoreActivityResponse with _$RestoreActivityResponse {
 
   Map<String, dynamic> toJson() => _$RestoreActivityResponseToJson(this);
 
-  static RestoreActivityResponse fromJson(Map<String, dynamic> json) =>
-      _$RestoreActivityResponseFromJson(json);
+  static RestoreActivityResponse fromJson(Map<String, dynamic> json) => _$RestoreActivityResponseFromJson(json);
 }

@@ -74,6 +74,5 @@ class DraftPayloadResponse with _$DraftPayloadResponse {
 
   Map<String, dynamic> toJson() => _$DraftPayloadResponseToJson(this);
 
-  static DraftPayloadResponse fromJson(Map<String, dynamic> json) =>
-      _$DraftPayloadResponseFromJson(json);
+  static DraftPayloadResponse fromJson(Map<String, dynamic> json) => _$DraftPayloadResponseFromJson(json);
 }

@@ -38,6 +38,5 @@ class QueryCollectionsResponse with _$QueryCollectionsResponse {
 
   Map<String, dynamic> toJson() => _$QueryCollectionsResponseToJson(this);
 
-  static QueryCollectionsResponse fromJson(Map<String, dynamic> json) =>
-      _$QueryCollectionsResponseFromJson(json);
+  static QueryCollectionsResponse fromJson(Map<String, dynamic> json) => _$QueryCollectionsResponseFromJson(json);
 }

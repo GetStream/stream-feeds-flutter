@@ -30,6 +30,5 @@ class CreateUserGroupResponse with _$CreateUserGroupResponse {
 
   Map<String, dynamic> toJson() => _$CreateUserGroupResponseToJson(this);
 
-  static CreateUserGroupResponse fromJson(Map<String, dynamic> json) =>
-      _$CreateUserGroupResponseFromJson(json);
+  static CreateUserGroupResponse fromJson(Map<String, dynamic> json) => _$CreateUserGroupResponseFromJson(json);
 }

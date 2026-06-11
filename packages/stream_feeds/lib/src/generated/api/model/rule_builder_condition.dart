@@ -118,6 +118,5 @@ class RuleBuilderCondition with _$RuleBuilderCondition {
 
   Map<String, dynamic> toJson() => _$RuleBuilderConditionToJson(this);
 
-  static RuleBuilderCondition fromJson(Map<String, dynamic> json) =>
-      _$RuleBuilderConditionFromJson(json);
+  static RuleBuilderCondition fromJson(Map<String, dynamic> json) => _$RuleBuilderConditionFromJson(json);
 }

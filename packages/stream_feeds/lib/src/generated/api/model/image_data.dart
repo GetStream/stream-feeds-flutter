@@ -42,6 +42,5 @@ class ImageData with _$ImageData {
 
   Map<String, dynamic> toJson() => _$ImageDataToJson(this);
 
-  static ImageData fromJson(Map<String, dynamic> json) =>
-      _$ImageDataFromJson(json);
+  static ImageData fromJson(Map<String, dynamic> json) => _$ImageDataFromJson(json);
 }

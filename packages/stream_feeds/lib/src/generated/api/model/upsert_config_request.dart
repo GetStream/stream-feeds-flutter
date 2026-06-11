@@ -94,6 +94,5 @@ class UpsertConfigRequest with _$UpsertConfigRequest {
 
   Map<String, dynamic> toJson() => _$UpsertConfigRequestToJson(this);
 
-  static UpsertConfigRequest fromJson(Map<String, dynamic> json) =>
-      _$UpsertConfigRequestFromJson(json);
+  static UpsertConfigRequest fromJson(Map<String, dynamic> json) => _$UpsertConfigRequestFromJson(json);
 }

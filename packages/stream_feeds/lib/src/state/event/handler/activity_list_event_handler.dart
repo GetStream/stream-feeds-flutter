@@ -10,9 +10,7 @@ import 'feed_capabilities_mixin.dart';
 ///
 /// Processes WebSocket events related to activities and their associated content
 /// (reactions, comments, bookmarks) and updates the activity list state accordingly.
-class ActivityListEventHandler
-    with FeedCapabilitiesMixin
-    implements StateEventHandler {
+class ActivityListEventHandler with FeedCapabilitiesMixin implements StateEventHandler {
   const ActivityListEventHandler({
     required this.query,
     required this.state,

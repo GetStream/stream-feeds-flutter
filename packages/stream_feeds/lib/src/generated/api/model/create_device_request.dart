@@ -24,7 +24,7 @@ enum CreateDeviceRequestPushProvider {
   @JsonValue('xiaomi')
   xiaomi,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -57,6 +57,5 @@ class CreateDeviceRequest with _$CreateDeviceRequest {
 
   Map<String, dynamic> toJson() => _$CreateDeviceRequestToJson(this);
 
-  static CreateDeviceRequest fromJson(Map<String, dynamic> json) =>
-      _$CreateDeviceRequestFromJson(json);
+  static CreateDeviceRequest fromJson(Map<String, dynamic> json) => _$CreateDeviceRequestFromJson(json);
 }

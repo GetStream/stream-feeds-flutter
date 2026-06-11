@@ -26,6 +26,5 @@ class OnlyUserID with _$OnlyUserID {
 
   Map<String, dynamic> toJson() => _$OnlyUserIDToJson(this);
 
-  static OnlyUserID fromJson(Map<String, dynamic> json) =>
-      _$OnlyUserIDFromJson(json);
+  static OnlyUserID fromJson(Map<String, dynamic> json) => _$OnlyUserIDFromJson(json);
 }

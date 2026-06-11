@@ -28,7 +28,7 @@ enum CreateBlockListRequestType {
   @JsonValue('word')
   word,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -65,6 +65,5 @@ class CreateBlockListRequest with _$CreateBlockListRequest {
 
   Map<String, dynamic> toJson() => _$CreateBlockListRequestToJson(this);
 
-  static CreateBlockListRequest fromJson(Map<String, dynamic> json) =>
-      _$CreateBlockListRequestFromJson(json);
+  static CreateBlockListRequest fromJson(Map<String, dynamic> json) => _$CreateBlockListRequestFromJson(json);
 }

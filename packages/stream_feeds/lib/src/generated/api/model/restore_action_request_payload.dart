@@ -26,6 +26,5 @@ class RestoreActionRequestPayload with _$RestoreActionRequestPayload {
 
   Map<String, dynamic> toJson() => _$RestoreActionRequestPayloadToJson(this);
 
-  static RestoreActionRequestPayload fromJson(Map<String, dynamic> json) =>
-      _$RestoreActionRequestPayloadFromJson(json);
+  static RestoreActionRequestPayload fromJson(Map<String, dynamic> json) => _$RestoreActionRequestPayloadFromJson(json);
 }

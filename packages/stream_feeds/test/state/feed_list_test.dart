@@ -119,8 +119,7 @@ void main() {
             createdAt: DateTime.timestamp(),
             custom: const {},
             fid: feedId.rawValue,
-            feed:
-                createDefaultFeedResponse(id: feedId.id, groupId: feedId.group),
+            feed: createDefaultFeedResponse(id: feedId.id, groupId: feedId.group),
             members: const [],
             user: UserResponseCommonFields(
               id: 'user-id',

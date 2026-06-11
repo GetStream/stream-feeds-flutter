@@ -285,8 +285,7 @@ void main() {
             createdAt: DateTime.timestamp(),
             custom: const {},
             fid: 'user:john',
-            activity:
-                createDefaultActivityResponse(id: 'different-activity-id'),
+            activity: createDefaultActivityResponse(id: 'different-activity-id'),
             reaction: createDefaultReactionResponse(
               activityId: 'different-activity-id',
               reactionType: reactionType,
@@ -383,8 +382,7 @@ void main() {
             createdAt: DateTime.timestamp(),
             custom: const {},
             fid: 'user:john',
-            activity:
-                createDefaultActivityResponse(id: 'different-activity-id'),
+            activity: createDefaultActivityResponse(id: 'different-activity-id'),
           ),
         );
 

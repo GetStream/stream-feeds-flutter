@@ -38,6 +38,5 @@ class DeleteCommentRequestPayload with _$DeleteCommentRequestPayload {
 
   Map<String, dynamic> toJson() => _$DeleteCommentRequestPayloadToJson(this);
 
-  static DeleteCommentRequestPayload fromJson(Map<String, dynamic> json) =>
-      _$DeleteCommentRequestPayloadFromJson(json);
+  static DeleteCommentRequestPayload fromJson(Map<String, dynamic> json) => _$DeleteCommentRequestPayloadFromJson(json);
 }

@@ -36,6 +36,5 @@ class FeedsReactionGroupResponse with _$FeedsReactionGroupResponse {
 
   Map<String, dynamic> toJson() => _$FeedsReactionGroupResponseToJson(this);
 
-  static FeedsReactionGroupResponse fromJson(Map<String, dynamic> json) =>
-      _$FeedsReactionGroupResponseFromJson(json);
+  static FeedsReactionGroupResponse fromJson(Map<String, dynamic> json) => _$FeedsReactionGroupResponseFromJson(json);
 }

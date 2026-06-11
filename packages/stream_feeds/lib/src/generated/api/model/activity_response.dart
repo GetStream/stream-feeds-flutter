@@ -22,7 +22,7 @@ enum ActivityResponseRestrictReplies {
   @JsonValue('people_i_follow')
   peopleIFollow,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -34,7 +34,7 @@ enum ActivityResponseVisibility {
   @JsonValue('tag')
   tag,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -245,6 +245,5 @@ class ActivityResponse with _$ActivityResponse {
 
   Map<String, dynamic> toJson() => _$ActivityResponseToJson(this);
 
-  static ActivityResponse fromJson(Map<String, dynamic> json) =>
-      _$ActivityResponseFromJson(json);
+  static ActivityResponse fromJson(Map<String, dynamic> json) => _$ActivityResponseFromJson(json);
 }

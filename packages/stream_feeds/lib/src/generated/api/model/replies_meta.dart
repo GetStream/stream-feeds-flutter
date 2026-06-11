@@ -38,6 +38,5 @@ class RepliesMeta with _$RepliesMeta {
 
   Map<String, dynamic> toJson() => _$RepliesMetaToJson(this);
 
-  static RepliesMeta fromJson(Map<String, dynamic> json) =>
-      _$RepliesMetaFromJson(json);
+  static RepliesMeta fromJson(Map<String, dynamic> json) => _$RepliesMetaFromJson(json);
 }

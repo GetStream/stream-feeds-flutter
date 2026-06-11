@@ -71,6 +71,5 @@ class AddCommentRequest with _$AddCommentRequest {
 
   Map<String, dynamic> toJson() => _$AddCommentRequestToJson(this);
 
-  static AddCommentRequest fromJson(Map<String, dynamic> json) =>
-      _$AddCommentRequestFromJson(json);
+  static AddCommentRequest fromJson(Map<String, dynamic> json) => _$AddCommentRequestFromJson(json);
 }

@@ -52,6 +52,5 @@ class FeedsBookmarkResponse with _$FeedsBookmarkResponse {
 
   Map<String, dynamic> toJson() => _$FeedsBookmarkResponseToJson(this);
 
-  static FeedsBookmarkResponse fromJson(Map<String, dynamic> json) =>
-      _$FeedsBookmarkResponseFromJson(json);
+  static FeedsBookmarkResponse fromJson(Map<String, dynamic> json) => _$FeedsBookmarkResponseFromJson(json);
 }

@@ -38,6 +38,5 @@ class ImageSize with _$ImageSize {
 
   Map<String, dynamic> toJson() => _$ImageSizeToJson(this);
 
-  static ImageSize fromJson(Map<String, dynamic> json) =>
-      _$ImageSizeFromJson(json);
+  static ImageSize fromJson(Map<String, dynamic> json) => _$ImageSizeFromJson(json);
 }

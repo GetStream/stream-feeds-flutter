@@ -50,6 +50,5 @@ class DeleteUserRequestPayload with _$DeleteUserRequestPayload {
 
   Map<String, dynamic> toJson() => _$DeleteUserRequestPayloadToJson(this);
 
-  static DeleteUserRequestPayload fromJson(Map<String, dynamic> json) =>
-      _$DeleteUserRequestPayloadFromJson(json);
+  static DeleteUserRequestPayload fromJson(Map<String, dynamic> json) => _$DeleteUserRequestPayloadFromJson(json);
 }

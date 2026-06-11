@@ -34,6 +34,5 @@ class ImageContentParameters with _$ImageContentParameters {
 
   Map<String, dynamic> toJson() => _$ImageContentParametersToJson(this);
 
-  static ImageContentParameters fromJson(Map<String, dynamic> json) =>
-      _$ImageContentParametersFromJson(json);
+  static ImageContentParameters fromJson(Map<String, dynamic> json) => _$ImageContentParametersFromJson(json);
 }

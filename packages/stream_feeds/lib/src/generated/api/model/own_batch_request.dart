@@ -30,6 +30,5 @@ class OwnBatchRequest with _$OwnBatchRequest {
 
   Map<String, dynamic> toJson() => _$OwnBatchRequestToJson(this);
 
-  static OwnBatchRequest fromJson(Map<String, dynamic> json) =>
-      _$OwnBatchRequestFromJson(json);
+  static OwnBatchRequest fromJson(Map<String, dynamic> json) => _$OwnBatchRequestFromJson(json);
 }

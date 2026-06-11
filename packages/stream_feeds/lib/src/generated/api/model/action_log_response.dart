@@ -71,6 +71,5 @@ class ActionLogResponse with _$ActionLogResponse {
 
   Map<String, dynamic> toJson() => _$ActionLogResponseToJson(this);
 
-  static ActionLogResponse fromJson(Map<String, dynamic> json) =>
-      _$ActionLogResponseFromJson(json);
+  static ActionLogResponse fromJson(Map<String, dynamic> json) => _$ActionLogResponseFromJson(json);
 }

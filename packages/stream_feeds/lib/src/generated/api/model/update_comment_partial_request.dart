@@ -47,6 +47,5 @@ class UpdateCommentPartialRequest with _$UpdateCommentPartialRequest {
 
   Map<String, dynamic> toJson() => _$UpdateCommentPartialRequestToJson(this);
 
-  static UpdateCommentPartialRequest fromJson(Map<String, dynamic> json) =>
-      _$UpdateCommentPartialRequestFromJson(json);
+  static UpdateCommentPartialRequest fromJson(Map<String, dynamic> json) => _$UpdateCommentPartialRequestFromJson(json);
 }

@@ -26,6 +26,5 @@ class ReadReceiptsResponse with _$ReadReceiptsResponse {
 
   Map<String, dynamic> toJson() => _$ReadReceiptsResponseToJson(this);
 
-  static ReadReceiptsResponse fromJson(Map<String, dynamic> json) =>
-      _$ReadReceiptsResponseFromJson(json);
+  static ReadReceiptsResponse fromJson(Map<String, dynamic> json) => _$ReadReceiptsResponseFromJson(json);
 }

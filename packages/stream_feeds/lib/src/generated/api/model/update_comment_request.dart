@@ -55,6 +55,5 @@ class UpdateCommentRequest with _$UpdateCommentRequest {
 
   Map<String, dynamic> toJson() => _$UpdateCommentRequestToJson(this);
 
-  static UpdateCommentRequest fromJson(Map<String, dynamic> json) =>
-      _$UpdateCommentRequestFromJson(json);
+  static UpdateCommentRequest fromJson(Map<String, dynamic> json) => _$UpdateCommentRequestFromJson(json);
 }

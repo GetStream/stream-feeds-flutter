@@ -15,6 +15,10 @@ analyzer:
     - packages/*/lib/**/*.*.dart
     # - packages/stream_feeds/lib/src/generated/**
 
+formatter:
+  page_width: 120
+  trailing_commas: preserve
+
 linter:
   rules:
     ## Disabled rules because the repository doesn't respect them (yet)

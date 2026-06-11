@@ -56,6 +56,5 @@ class MembershipLevelResponse with _$MembershipLevelResponse {
 
   Map<String, dynamic> toJson() => _$MembershipLevelResponseToJson(this);
 
-  static MembershipLevelResponse fromJson(Map<String, dynamic> json) =>
-      _$MembershipLevelResponseFromJson(json);
+  static MembershipLevelResponse fromJson(Map<String, dynamic> json) => _$MembershipLevelResponseFromJson(json);
 }

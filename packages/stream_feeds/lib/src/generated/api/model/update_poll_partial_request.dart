@@ -30,6 +30,5 @@ class UpdatePollPartialRequest with _$UpdatePollPartialRequest {
 
   Map<String, dynamic> toJson() => _$UpdatePollPartialRequestToJson(this);
 
-  static UpdatePollPartialRequest fromJson(Map<String, dynamic> json) =>
-      _$UpdatePollPartialRequestFromJson(json);
+  static UpdatePollPartialRequest fromJson(Map<String, dynamic> json) => _$UpdatePollPartialRequestFromJson(json);
 }

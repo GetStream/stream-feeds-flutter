@@ -12,9 +12,7 @@ part 'feed_add_activity_request.freezed.dart';
 /// needed to create a new activity across multiple feeds. Supports advanced
 /// features like location data, visibility controls, and file attachments.
 @freezed
-class FeedAddActivityRequest
-    with _$FeedAddActivityRequest
-    implements HasAttachments<FeedAddActivityRequest> {
+class FeedAddActivityRequest with _$FeedAddActivityRequest implements HasAttachments<FeedAddActivityRequest> {
   /// Creates a new [FeedAddActivityRequest] instance.
   const FeedAddActivityRequest({
     required this.type,

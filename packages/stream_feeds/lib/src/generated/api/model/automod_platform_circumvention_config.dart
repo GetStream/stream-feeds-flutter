@@ -16,8 +16,7 @@ part 'automod_platform_circumvention_config.freezed.dart';
 @freezed
 @immutable
 @JsonSerializable()
-class AutomodPlatformCircumventionConfig
-    with _$AutomodPlatformCircumventionConfig {
+class AutomodPlatformCircumventionConfig with _$AutomodPlatformCircumventionConfig {
   const AutomodPlatformCircumventionConfig({
     this.async,
     required this.enabled,
@@ -33,10 +32,8 @@ class AutomodPlatformCircumventionConfig
   @override
   final List<AutomodRule> rules;
 
-  Map<String, dynamic> toJson() =>
-      _$AutomodPlatformCircumventionConfigToJson(this);
+  Map<String, dynamic> toJson() => _$AutomodPlatformCircumventionConfigToJson(this);
 
-  static AutomodPlatformCircumventionConfig fromJson(
-          Map<String, dynamic> json) =>
+  static AutomodPlatformCircumventionConfig fromJson(Map<String, dynamic> json) =>
       _$AutomodPlatformCircumventionConfigFromJson(json);
 }

@@ -6,20 +6,17 @@ part of 'block_list_rule.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-BlockListRule _$BlockListRuleFromJson(Map<String, dynamic> json) =>
-    BlockListRule(
-      action: $enumDecode(_$BlockListRuleActionEnumMap, json['action'],
-          unknownValue: BlockListRuleAction.unknown),
-      name: json['name'] as String,
-      team: json['team'] as String,
-    );
+BlockListRule _$BlockListRuleFromJson(Map<String, dynamic> json) => BlockListRule(
+  action: $enumDecode(_$BlockListRuleActionEnumMap, json['action'], unknownValue: BlockListRuleAction.unknown),
+  name: json['name'] as String,
+  team: json['team'] as String,
+);
 
-Map<String, dynamic> _$BlockListRuleToJson(BlockListRule instance) =>
-    <String, dynamic>{
-      'action': _$BlockListRuleActionEnumMap[instance.action]!,
-      'name': instance.name,
-      'team': instance.team,
-    };
+Map<String, dynamic> _$BlockListRuleToJson(BlockListRule instance) => <String, dynamic>{
+  'action': _$BlockListRuleActionEnumMap[instance.action]!,
+  'name': instance.name,
+  'team': instance.team,
+};
 
 const _$BlockListRuleActionEnumMap = {
   BlockListRuleAction.bounce: 'bounce',

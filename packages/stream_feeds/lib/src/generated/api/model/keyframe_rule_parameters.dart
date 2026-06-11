@@ -38,6 +38,5 @@ class KeyframeRuleParameters with _$KeyframeRuleParameters {
 
   Map<String, dynamic> toJson() => _$KeyframeRuleParametersToJson(this);
 
-  static KeyframeRuleParameters fromJson(Map<String, dynamic> json) =>
-      _$KeyframeRuleParametersFromJson(json);
+  static KeyframeRuleParameters fromJson(Map<String, dynamic> json) => _$KeyframeRuleParametersFromJson(json);
 }

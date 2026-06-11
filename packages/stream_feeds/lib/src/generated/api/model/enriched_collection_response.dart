@@ -20,7 +20,7 @@ enum EnrichedCollectionResponseStatus {
   @JsonValue('ok')
   ok,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -63,6 +63,5 @@ class EnrichedCollectionResponse with _$EnrichedCollectionResponse {
 
   Map<String, dynamic> toJson() => _$EnrichedCollectionResponseToJson(this);
 
-  static EnrichedCollectionResponse fromJson(Map<String, dynamic> json) =>
-      _$EnrichedCollectionResponseFromJson(json);
+  static EnrichedCollectionResponse fromJson(Map<String, dynamic> json) => _$EnrichedCollectionResponseFromJson(json);
 }

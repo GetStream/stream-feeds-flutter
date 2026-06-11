@@ -34,6 +34,5 @@ class UpsertActivitiesResponse with _$UpsertActivitiesResponse {
 
   Map<String, dynamic> toJson() => _$UpsertActivitiesResponseToJson(this);
 
-  static UpsertActivitiesResponse fromJson(Map<String, dynamic> json) =>
-      _$UpsertActivitiesResponseFromJson(json);
+  static UpsertActivitiesResponse fromJson(Map<String, dynamic> json) => _$UpsertActivitiesResponseFromJson(json);
 }

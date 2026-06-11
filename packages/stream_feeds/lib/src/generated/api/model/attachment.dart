@@ -110,6 +110,5 @@ class Attachment with _$Attachment {
 
   Map<String, dynamic> toJson() => _$AttachmentToJson(this);
 
-  static Attachment fromJson(Map<String, dynamic> json) =>
-      _$AttachmentFromJson(json);
+  static Attachment fromJson(Map<String, dynamic> json) => _$AttachmentFromJson(json);
 }

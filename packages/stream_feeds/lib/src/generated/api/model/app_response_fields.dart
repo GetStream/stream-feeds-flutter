@@ -50,6 +50,5 @@ class AppResponseFields with _$AppResponseFields {
 
   Map<String, dynamic> toJson() => _$AppResponseFieldsToJson(this);
 
-  static AppResponseFields fromJson(Map<String, dynamic> json) =>
-      _$AppResponseFieldsFromJson(json);
+  static AppResponseFields fromJson(Map<String, dynamic> json) => _$AppResponseFieldsFromJson(json);
 }

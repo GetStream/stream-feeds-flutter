@@ -16,8 +16,7 @@ part 'feed_group_restored_event.freezed.dart';
 @freezed
 @immutable
 @JsonSerializable()
-class FeedGroupRestoredEvent extends core.WsEvent
-    with _$FeedGroupRestoredEvent {
+class FeedGroupRestoredEvent extends core.WsEvent with _$FeedGroupRestoredEvent {
   const FeedGroupRestoredEvent({
     required this.createdAt,
     required this.custom,
@@ -53,6 +52,5 @@ class FeedGroupRestoredEvent extends core.WsEvent
 
   Map<String, dynamic> toJson() => _$FeedGroupRestoredEventToJson(this);
 
-  static FeedGroupRestoredEvent fromJson(Map<String, dynamic> json) =>
-      _$FeedGroupRestoredEventFromJson(json);
+  static FeedGroupRestoredEvent fromJson(Map<String, dynamic> json) => _$FeedGroupRestoredEventFromJson(json);
 }

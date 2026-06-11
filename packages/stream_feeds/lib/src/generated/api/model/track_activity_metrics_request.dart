@@ -26,6 +26,5 @@ class TrackActivityMetricsRequest with _$TrackActivityMetricsRequest {
 
   Map<String, dynamic> toJson() => _$TrackActivityMetricsRequestToJson(this);
 
-  static TrackActivityMetricsRequest fromJson(Map<String, dynamic> json) =>
-      _$TrackActivityMetricsRequestFromJson(json);
+  static TrackActivityMetricsRequest fromJson(Map<String, dynamic> json) => _$TrackActivityMetricsRequestFromJson(json);
 }

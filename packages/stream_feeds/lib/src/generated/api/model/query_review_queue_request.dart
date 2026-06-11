@@ -62,6 +62,5 @@ class QueryReviewQueueRequest with _$QueryReviewQueueRequest {
 
   Map<String, dynamic> toJson() => _$QueryReviewQueueRequestToJson(this);
 
-  static QueryReviewQueueRequest fromJson(Map<String, dynamic> json) =>
-      _$QueryReviewQueueRequestFromJson(json);
+  static QueryReviewQueueRequest fromJson(Map<String, dynamic> json) => _$QueryReviewQueueRequestFromJson(json);
 }

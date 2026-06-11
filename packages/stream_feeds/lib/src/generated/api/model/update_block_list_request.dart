@@ -38,6 +38,5 @@ class UpdateBlockListRequest with _$UpdateBlockListRequest {
 
   Map<String, dynamic> toJson() => _$UpdateBlockListRequestToJson(this);
 
-  static UpdateBlockListRequest fromJson(Map<String, dynamic> json) =>
-      _$UpdateBlockListRequestFromJson(json);
+  static UpdateBlockListRequest fromJson(Map<String, dynamic> json) => _$UpdateBlockListRequestFromJson(json);
 }

@@ -30,6 +30,5 @@ class UserRoleParameters with _$UserRoleParameters {
 
   Map<String, dynamic> toJson() => _$UserRoleParametersToJson(this);
 
-  static UserRoleParameters fromJson(Map<String, dynamic> json) =>
-      _$UserRoleParametersFromJson(json);
+  static UserRoleParameters fromJson(Map<String, dynamic> json) => _$UserRoleParametersFromJson(json);
 }

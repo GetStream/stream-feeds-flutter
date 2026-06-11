@@ -26,6 +26,5 @@ class RejectAppealRequestPayload with _$RejectAppealRequestPayload {
 
   Map<String, dynamic> toJson() => _$RejectAppealRequestPayloadToJson(this);
 
-  static RejectAppealRequestPayload fromJson(Map<String, dynamic> json) =>
-      _$RejectAppealRequestPayloadFromJson(json);
+  static RejectAppealRequestPayload fromJson(Map<String, dynamic> json) => _$RejectAppealRequestPayloadFromJson(json);
 }

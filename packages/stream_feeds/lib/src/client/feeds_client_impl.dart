@@ -82,11 +82,11 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
     final userTokenProvider = switch ((user.type, tokenProvider)) {
       (UserType.regular, final provider?) => provider,
       (UserType.regular, null) => throw ArgumentError(
-          'TokenProvider must be provided for regular users.',
-        ),
+        'TokenProvider must be provided for regular users.',
+      ),
       (UserType.anonymous || UserType.guest, _) => TokenProvider.static(
-          UserToken.anonymous(userId: user.id),
-        ),
+        UserToken.anonymous(userId: user.id),
+      ),
     };
 
     _tokenManager = TokenManager(
@@ -133,22 +133,23 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
       return null; // No connection ID available
     });
 
-    final httpClient = StreamCoreHttpClient(
-      options: BaseOptions(
-        baseUrl: endpointConfig.baseFeedsUrl,
-        connectTimeout: const Duration(seconds: 6),
-        receiveTimeout: const Duration(seconds: 6),
-      ),
-    ).apply(
-      (client) => client.interceptors.addAll([
-        ApiKeyInterceptor(apiKey),
-        HeadersInterceptor(_systemEnvironmentManager),
-        if (user.type != UserType.anonymous) connectionIdInterceptor,
-        AuthInterceptor(client, _tokenManager),
-        const ApiErrorInterceptor(),
-        LoggingInterceptor(requestHeader: true),
-      ]),
-    );
+    final httpClient =
+        StreamCoreHttpClient(
+          options: BaseOptions(
+            baseUrl: endpointConfig.baseFeedsUrl,
+            connectTimeout: const Duration(seconds: 6),
+            receiveTimeout: const Duration(seconds: 6),
+          ),
+        ).apply(
+          (client) => client.interceptors.addAll([
+            ApiKeyInterceptor(apiKey),
+            HeadersInterceptor(_systemEnvironmentManager),
+            if (user.type != UserType.anonymous) connectionIdInterceptor,
+            AuthInterceptor(client, _tokenManager),
+            const ApiErrorInterceptor(),
+            LoggingInterceptor(requestHeader: true),
+          ]),
+        );
 
     // endregion
 
@@ -573,23 +574,25 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
   }
 
   Stream<void> get onReconnectEmitter {
-    return connectionState.scan(
-      (state, connectionStatus, i) => switch (connectionStatus) {
-        Initialized() || Connecting() => (
-            wasDisconnected: state.wasDisconnected,
-            reconnected: false,
-          ),
-        Disconnecting() || Disconnected() => (
-            wasDisconnected: true,
-            reconnected: false,
-          ),
-        Connected() => (
-            wasDisconnected: false,
-            reconnected: state.wasDisconnected,
-          ),
-        _ => state,
-      },
-      (wasDisconnected: false, reconnected: false),
-    ).mapNotNull((state) => state.reconnected ? () : null);
+    return connectionState
+        .scan(
+          (state, connectionStatus, i) => switch (connectionStatus) {
+            Initialized() || Connecting() => (
+              wasDisconnected: state.wasDisconnected,
+              reconnected: false,
+            ),
+            Disconnecting() || Disconnected() => (
+              wasDisconnected: true,
+              reconnected: false,
+            ),
+            Connected() => (
+              wasDisconnected: false,
+              reconnected: state.wasDisconnected,
+            ),
+            _ => state,
+          },
+          (wasDisconnected: false, reconnected: false),
+        )
+        .mapNotNull((state) => state.reconnected ? () : null);
   }
 }

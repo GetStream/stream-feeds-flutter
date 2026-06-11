@@ -42,6 +42,5 @@ class AppealRequest with _$AppealRequest {
 
   Map<String, dynamic> toJson() => _$AppealRequestToJson(this);
 
-  static AppealRequest fromJson(Map<String, dynamic> json) =>
-      _$AppealRequestFromJson(json);
+  static AppealRequest fromJson(Map<String, dynamic> json) => _$AppealRequestFromJson(json);
 }

@@ -26,7 +26,7 @@ enum QueryCommentsRequestSort {
   @JsonValue('top')
   top,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -63,6 +63,5 @@ class QueryCommentsRequest with _$QueryCommentsRequest {
 
   Map<String, dynamic> toJson() => _$QueryCommentsRequestToJson(this);
 
-  static QueryCommentsRequest fromJson(Map<String, dynamic> json) =>
-      _$QueryCommentsRequestFromJson(json);
+  static QueryCommentsRequest fromJson(Map<String, dynamic> json) => _$QueryCommentsRequestFromJson(json);
 }

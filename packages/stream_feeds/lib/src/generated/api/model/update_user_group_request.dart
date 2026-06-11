@@ -34,6 +34,5 @@ class UpdateUserGroupRequest with _$UpdateUserGroupRequest {
 
   Map<String, dynamic> toJson() => _$UpdateUserGroupRequestToJson(this);
 
-  static UpdateUserGroupRequest fromJson(Map<String, dynamic> json) =>
-      _$UpdateUserGroupRequestFromJson(json);
+  static UpdateUserGroupRequest fromJson(Map<String, dynamic> json) => _$UpdateUserGroupRequestFromJson(json);
 }

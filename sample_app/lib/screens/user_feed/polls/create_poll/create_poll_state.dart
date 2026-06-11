@@ -20,16 +20,16 @@ class CreatePollState with _$CreatePollState {
   });
 
   CreatePollState.empty()
-      : allowAnswers = false,
-        allowUserSuggestedOptions = false,
-        description = '',
-        enforceUniqueVote = true,
-        id = null,
-        isClosed = false,
-        maxVotesAllowed = null,
-        name = '',
-        options = [PollOptionInputState(text: '')],
-        votingVisibility = VotingVisibility.public;
+    : allowAnswers = false,
+      allowUserSuggestedOptions = false,
+      description = '',
+      enforceUniqueVote = true,
+      id = null,
+      isClosed = false,
+      maxVotesAllowed = null,
+      name = '',
+      options = [PollOptionInputState(text: '')],
+      votingVisibility = VotingVisibility.public;
 
   @override
   final bool allowAnswers;

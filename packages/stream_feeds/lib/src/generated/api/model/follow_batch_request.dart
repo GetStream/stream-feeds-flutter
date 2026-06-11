@@ -30,6 +30,5 @@ class FollowBatchRequest with _$FollowBatchRequest {
 
   Map<String, dynamic> toJson() => _$FollowBatchRequestToJson(this);
 
-  static FollowBatchRequest fromJson(Map<String, dynamic> json) =>
-      _$FollowBatchRequestFromJson(json);
+  static FollowBatchRequest fromJson(Map<String, dynamic> json) => _$FollowBatchRequestFromJson(json);
 }

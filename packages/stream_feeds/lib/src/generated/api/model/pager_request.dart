@@ -34,6 +34,5 @@ class PagerRequest with _$PagerRequest {
 
   Map<String, dynamic> toJson() => _$PagerRequestToJson(this);
 
-  static PagerRequest fromJson(Map<String, dynamic> json) =>
-      _$PagerRequestFromJson(json);
+  static PagerRequest fromJson(Map<String, dynamic> json) => _$PagerRequestFromJson(json);
 }

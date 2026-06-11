@@ -34,6 +34,5 @@ class BulkActionAppealsResponse with _$BulkActionAppealsResponse {
 
   Map<String, dynamic> toJson() => _$BulkActionAppealsResponseToJson(this);
 
-  static BulkActionAppealsResponse fromJson(Map<String, dynamic> json) =>
-      _$BulkActionAppealsResponseFromJson(json);
+  static BulkActionAppealsResponse fromJson(Map<String, dynamic> json) => _$BulkActionAppealsResponseFromJson(json);
 }

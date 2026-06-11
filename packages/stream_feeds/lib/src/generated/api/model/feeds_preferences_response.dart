@@ -54,6 +54,5 @@ class FeedsPreferencesResponse with _$FeedsPreferencesResponse {
 
   Map<String, dynamic> toJson() => _$FeedsPreferencesResponseToJson(this);
 
-  static FeedsPreferencesResponse fromJson(Map<String, dynamic> json) =>
-      _$FeedsPreferencesResponseFromJson(json);
+  static FeedsPreferencesResponse fromJson(Map<String, dynamic> json) => _$FeedsPreferencesResponseFromJson(json);
 }

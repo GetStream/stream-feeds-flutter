@@ -38,6 +38,5 @@ class FeedsNotificationTrigger with _$FeedsNotificationTrigger {
 
   Map<String, dynamic> toJson() => _$FeedsNotificationTriggerToJson(this);
 
-  static FeedsNotificationTrigger fromJson(Map<String, dynamic> json) =>
-      _$FeedsNotificationTriggerFromJson(json);
+  static FeedsNotificationTrigger fromJson(Map<String, dynamic> json) => _$FeedsNotificationTriggerFromJson(json);
 }

@@ -30,6 +30,5 @@ class UpsertActivitiesRequest with _$UpsertActivitiesRequest {
 
   Map<String, dynamic> toJson() => _$UpsertActivitiesRequestToJson(this);
 
-  static UpsertActivitiesRequest fromJson(Map<String, dynamic> json) =>
-      _$UpsertActivitiesRequestFromJson(json);
+  static UpsertActivitiesRequest fromJson(Map<String, dynamic> json) => _$UpsertActivitiesRequestFromJson(json);
 }

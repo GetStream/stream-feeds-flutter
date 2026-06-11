@@ -30,6 +30,5 @@ class VideoContentParameters with _$VideoContentParameters {
 
   Map<String, dynamic> toJson() => _$VideoContentParametersToJson(this);
 
-  static VideoContentParameters fromJson(Map<String, dynamic> json) =>
-      _$VideoContentParametersFromJson(json);
+  static VideoContentParameters fromJson(Map<String, dynamic> json) => _$VideoContentParametersFromJson(json);
 }

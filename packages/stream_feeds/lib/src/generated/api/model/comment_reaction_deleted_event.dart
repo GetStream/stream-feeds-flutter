@@ -16,8 +16,7 @@ part 'comment_reaction_deleted_event.freezed.dart';
 @freezed
 @immutable
 @JsonSerializable()
-class CommentReactionDeletedEvent extends core.WsEvent
-    with _$CommentReactionDeletedEvent {
+class CommentReactionDeletedEvent extends core.WsEvent with _$CommentReactionDeletedEvent {
   const CommentReactionDeletedEvent({
     required this.comment,
     required this.createdAt,
@@ -57,6 +56,5 @@ class CommentReactionDeletedEvent extends core.WsEvent
 
   Map<String, dynamic> toJson() => _$CommentReactionDeletedEventToJson(this);
 
-  static CommentReactionDeletedEvent fromJson(Map<String, dynamic> json) =>
-      _$CommentReactionDeletedEventFromJson(json);
+  static CommentReactionDeletedEvent fromJson(Map<String, dynamic> json) => _$CommentReactionDeletedEventFromJson(json);
 }

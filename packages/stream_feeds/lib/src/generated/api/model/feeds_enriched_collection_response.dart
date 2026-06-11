@@ -50,8 +50,7 @@ class FeedsEnrichedCollectionResponse with _$FeedsEnrichedCollectionResponse {
   @override
   final String userId;
 
-  Map<String, dynamic> toJson() =>
-      _$FeedsEnrichedCollectionResponseToJson(this);
+  Map<String, dynamic> toJson() => _$FeedsEnrichedCollectionResponseToJson(this);
 
   static FeedsEnrichedCollectionResponse fromJson(Map<String, dynamic> json) =>
       _$FeedsEnrichedCollectionResponseFromJson(json);

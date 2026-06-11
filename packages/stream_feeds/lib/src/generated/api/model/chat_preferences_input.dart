@@ -20,7 +20,7 @@ enum ChatPreferencesInputChannelMentions {
   @JsonValue('none')
   none,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -30,7 +30,7 @@ enum ChatPreferencesInputDefaultPreference {
   @JsonValue('none')
   none,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -40,7 +40,7 @@ enum ChatPreferencesInputDirectMentions {
   @JsonValue('none')
   none,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -50,7 +50,7 @@ enum ChatPreferencesInputGroupMentions {
   @JsonValue('none')
   none,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -60,7 +60,7 @@ enum ChatPreferencesInputHereMentions {
   @JsonValue('none')
   none,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -70,7 +70,7 @@ enum ChatPreferencesInputRoleMentions {
   @JsonValue('none')
   none,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -80,7 +80,7 @@ enum ChatPreferencesInputThreadReplies {
   @JsonValue('none')
   none,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -127,6 +127,5 @@ class ChatPreferencesInput with _$ChatPreferencesInput {
 
   Map<String, dynamic> toJson() => _$ChatPreferencesInputToJson(this);
 
-  static ChatPreferencesInput fromJson(Map<String, dynamic> json) =>
-      _$ChatPreferencesInputFromJson(json);
+  static ChatPreferencesInput fromJson(Map<String, dynamic> json) => _$ChatPreferencesInputFromJson(json);
 }

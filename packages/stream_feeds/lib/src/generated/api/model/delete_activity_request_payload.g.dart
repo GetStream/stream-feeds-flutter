@@ -6,8 +6,7 @@ part of 'delete_activity_request_payload.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-DeleteActivityRequestPayload _$DeleteActivityRequestPayloadFromJson(
-        Map<String, dynamic> json) =>
+DeleteActivityRequestPayload _$DeleteActivityRequestPayloadFromJson(Map<String, dynamic> json) =>
     DeleteActivityRequestPayload(
       entityId: json['entity_id'] as String?,
       entityType: json['entity_type'] as String?,
@@ -15,11 +14,9 @@ DeleteActivityRequestPayload _$DeleteActivityRequestPayloadFromJson(
       reason: json['reason'] as String?,
     );
 
-Map<String, dynamic> _$DeleteActivityRequestPayloadToJson(
-        DeleteActivityRequestPayload instance) =>
-    <String, dynamic>{
-      'entity_id': instance.entityId,
-      'entity_type': instance.entityType,
-      'hard_delete': instance.hardDelete,
-      'reason': instance.reason,
-    };
+Map<String, dynamic> _$DeleteActivityRequestPayloadToJson(DeleteActivityRequestPayload instance) => <String, dynamic>{
+  'entity_id': instance.entityId,
+  'entity_type': instance.entityType,
+  'hard_delete': instance.hardDelete,
+  'reason': instance.reason,
+};

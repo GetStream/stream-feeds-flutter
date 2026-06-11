@@ -54,6 +54,5 @@ class ChatModerationV2Response with _$ChatModerationV2Response {
 
   Map<String, dynamic> toJson() => _$ChatModerationV2ResponseToJson(this);
 
-  static ChatModerationV2Response fromJson(Map<String, dynamic> json) =>
-      _$ChatModerationV2ResponseFromJson(json);
+  static ChatModerationV2Response fromJson(Map<String, dynamic> json) => _$ChatModerationV2ResponseFromJson(json);
 }

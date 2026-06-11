@@ -30,6 +30,5 @@ class CreateFeedsBatchRequest with _$CreateFeedsBatchRequest {
 
   Map<String, dynamic> toJson() => _$CreateFeedsBatchRequestToJson(this);
 
-  static CreateFeedsBatchRequest fromJson(Map<String, dynamic> json) =>
-      _$CreateFeedsBatchRequestFromJson(json);
+  static CreateFeedsBatchRequest fromJson(Map<String, dynamic> json) => _$CreateFeedsBatchRequestFromJson(json);
 }

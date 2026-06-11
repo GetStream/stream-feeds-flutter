@@ -34,6 +34,5 @@ class TrackActivityMetricsEvent with _$TrackActivityMetricsEvent {
 
   Map<String, dynamic> toJson() => _$TrackActivityMetricsEventToJson(this);
 
-  static TrackActivityMetricsEvent fromJson(Map<String, dynamic> json) =>
-      _$TrackActivityMetricsEventFromJson(json);
+  static TrackActivityMetricsEvent fromJson(Map<String, dynamic> json) => _$TrackActivityMetricsEventFromJson(json);
 }

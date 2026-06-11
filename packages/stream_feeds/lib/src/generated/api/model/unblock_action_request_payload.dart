@@ -26,6 +26,5 @@ class UnblockActionRequestPayload with _$UnblockActionRequestPayload {
 
   Map<String, dynamic> toJson() => _$UnblockActionRequestPayloadToJson(this);
 
-  static UnblockActionRequestPayload fromJson(Map<String, dynamic> json) =>
-      _$UnblockActionRequestPayloadFromJson(json);
+  static UnblockActionRequestPayload fromJson(Map<String, dynamic> json) => _$UnblockActionRequestPayloadFromJson(json);
 }

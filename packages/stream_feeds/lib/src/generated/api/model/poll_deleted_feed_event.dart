@@ -52,6 +52,5 @@ class PollDeletedFeedEvent extends core.WsEvent with _$PollDeletedFeedEvent {
 
   Map<String, dynamic> toJson() => _$PollDeletedFeedEventToJson(this);
 
-  static PollDeletedFeedEvent fromJson(Map<String, dynamic> json) =>
-      _$PollDeletedFeedEventFromJson(json);
+  static PollDeletedFeedEvent fromJson(Map<String, dynamic> json) => _$PollDeletedFeedEventFromJson(json);
 }

@@ -30,6 +30,5 @@ class ActivityFeedbackResponse with _$ActivityFeedbackResponse {
 
   Map<String, dynamic> toJson() => _$ActivityFeedbackResponseToJson(this);
 
-  static ActivityFeedbackResponse fromJson(Map<String, dynamic> json) =>
-      _$ActivityFeedbackResponseFromJson(json);
+  static ActivityFeedbackResponse fromJson(Map<String, dynamic> json) => _$ActivityFeedbackResponseFromJson(json);
 }

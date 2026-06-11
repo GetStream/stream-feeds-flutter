@@ -16,8 +16,7 @@ part 'notification_feed_updated_event.freezed.dart';
 @freezed
 @immutable
 @JsonSerializable()
-class NotificationFeedUpdatedEvent extends core.WsEvent
-    with _$NotificationFeedUpdatedEvent {
+class NotificationFeedUpdatedEvent extends core.WsEvent with _$NotificationFeedUpdatedEvent {
   const NotificationFeedUpdatedEvent({
     this.aggregatedActivities,
     required this.createdAt,

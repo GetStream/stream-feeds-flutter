@@ -8,8 +8,7 @@ late TokenProvider token;
 late BanRequest banRequest;
 
 Future<void> overview() async {
-  final client =
-      StreamFeedsClient(apiKey: apiKey, user: user, tokenProvider: token);
+  final client = StreamFeedsClient(apiKey: apiKey, user: user, tokenProvider: token);
   final moderation = client.moderation;
 }
 
@@ -37,14 +36,12 @@ Future<void> muteUsers() async {
 
 Future<void> blockUsers() async {
   const blockRequest = BlockUsersRequest(blockedUserId: 'user-123');
-  final response =
-      await client.moderation.blockUsers(blockUsersRequest: blockRequest);
+  final response = await client.moderation.blockUsers(blockUsersRequest: blockRequest);
 }
 
 Future<void> unblockUsers() async {
   const unblockRequest = UnblockUsersRequest(blockedUserId: 'user-123');
-  final response =
-      await client.moderation.unblockUsers(unblockUsersRequest: unblockRequest);
+  final response = await client.moderation.unblockUsers(unblockUsersRequest: unblockRequest);
 }
 
 Future<void> getBlockedUsers() async {
@@ -72,17 +69,15 @@ Future<void> submitModerationActions() async {
     itemId: 'user-123',
   );
 
-  final response =
-      await client.moderation.submitAction(submitActionRequest: actionRequest);
+  final response = await client.moderation.submitAction(submitActionRequest: actionRequest);
 }
 
 Future<void> queryReviewQueue() async {
   const queryRequest = QueryReviewQueueRequest(
-      // Query parameters for filtering and pagination
-      );
+    // Query parameters for filtering and pagination
+  );
 
-  final reviewQueue = await client.moderation
-      .queryReviewQueue(queryReviewQueueRequest: queryRequest);
+  final reviewQueue = await client.moderation.queryReviewQueue(queryReviewQueueRequest: queryRequest);
 }
 
 Future<void> upsertModerationConfig() async {
@@ -104,11 +99,10 @@ Future<void> deleteModerationConfig() async {
 
 Future<void> queryModerationConfigs() async {
   const queryRequest = ModerationConfigsQuery(
-      // Query parameters for filtering and pagination
-      );
+    // Query parameters for filtering and pagination
+  );
 
-  final configs = await client.moderation
-      .queryModerationConfigs(queryModerationConfigsRequest: queryRequest);
+  final configs = await client.moderation.queryModerationConfigs(queryModerationConfigsRequest: queryRequest);
 }
 
 Future<void> errorHandling() async {

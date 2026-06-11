@@ -34,6 +34,5 @@ class GetOrCreateUnfollowResponse with _$GetOrCreateUnfollowResponse {
 
   Map<String, dynamic> toJson() => _$GetOrCreateUnfollowResponseToJson(this);
 
-  static GetOrCreateUnfollowResponse fromJson(Map<String, dynamic> json) =>
-      _$GetOrCreateUnfollowResponseFromJson(json);
+  static GetOrCreateUnfollowResponse fromJson(Map<String, dynamic> json) => _$GetOrCreateUnfollowResponseFromJson(json);
 }

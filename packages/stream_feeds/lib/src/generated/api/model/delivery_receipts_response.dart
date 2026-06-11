@@ -26,6 +26,5 @@ class DeliveryReceiptsResponse with _$DeliveryReceiptsResponse {
 
   Map<String, dynamic> toJson() => _$DeliveryReceiptsResponseToJson(this);
 
-  static DeliveryReceiptsResponse fromJson(Map<String, dynamic> json) =>
-      _$DeliveryReceiptsResponseFromJson(json);
+  static DeliveryReceiptsResponse fromJson(Map<String, dynamic> json) => _$DeliveryReceiptsResponseFromJson(json);
 }

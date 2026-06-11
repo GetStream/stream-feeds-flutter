@@ -30,6 +30,5 @@ class BulkAppealError with _$BulkAppealError {
 
   Map<String, dynamic> toJson() => _$BulkAppealErrorToJson(this);
 
-  static BulkAppealError fromJson(Map<String, dynamic> json) =>
-      _$BulkAppealErrorFromJson(json);
+  static BulkAppealError fromJson(Map<String, dynamic> json) => _$BulkAppealErrorFromJson(json);
 }

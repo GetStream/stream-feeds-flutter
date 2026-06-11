@@ -183,8 +183,7 @@ class CommentsRepository {
   ///
   /// Returns a [Result] containing a record with the updated [CommentData] and created
   /// [FeedsReactionData] or an error.
-  Future<Result<({CommentData comment, FeedsReactionData reaction})>>
-      addCommentReaction(
+  Future<Result<({CommentData comment, FeedsReactionData reaction})>> addCommentReaction(
     String commentId,
     api.AddCommentReactionRequest request,
   ) async {
@@ -207,8 +206,7 @@ class CommentsRepository {
   ///
   /// Returns a [Result] containing a record with the updated [CommentData] and deleted
   /// [FeedsReactionData] or an error.
-  Future<Result<({CommentData comment, FeedsReactionData reaction})>>
-      deleteCommentReaction(
+  Future<Result<({CommentData comment, FeedsReactionData reaction})>> deleteCommentReaction(
     String commentId,
     String type,
   ) async {

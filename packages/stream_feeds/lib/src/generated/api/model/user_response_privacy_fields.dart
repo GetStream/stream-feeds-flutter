@@ -108,6 +108,5 @@ class UserResponsePrivacyFields with _$UserResponsePrivacyFields {
 
   Map<String, dynamic> toJson() => _$UserResponsePrivacyFieldsToJson(this);
 
-  static UserResponsePrivacyFields fromJson(Map<String, dynamic> json) =>
-      _$UserResponsePrivacyFieldsFromJson(json);
+  static UserResponsePrivacyFields fromJson(Map<String, dynamic> json) => _$UserResponsePrivacyFieldsFromJson(json);
 }

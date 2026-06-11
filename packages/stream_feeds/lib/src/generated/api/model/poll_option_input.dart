@@ -30,6 +30,5 @@ class PollOptionInput with _$PollOptionInput {
 
   Map<String, dynamic> toJson() => _$PollOptionInputToJson(this);
 
-  static PollOptionInput fromJson(Map<String, dynamic> json) =>
-      _$PollOptionInputFromJson(json);
+  static PollOptionInput fromJson(Map<String, dynamic> json) => _$PollOptionInputFromJson(json);
 }

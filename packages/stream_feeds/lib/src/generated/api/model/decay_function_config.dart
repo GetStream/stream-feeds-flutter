@@ -46,6 +46,5 @@ class DecayFunctionConfig with _$DecayFunctionConfig {
 
   Map<String, dynamic> toJson() => _$DecayFunctionConfigToJson(this);
 
-  static DecayFunctionConfig fromJson(Map<String, dynamic> json) =>
-      _$DecayFunctionConfigFromJson(json);
+  static DecayFunctionConfig fromJson(Map<String, dynamic> json) => _$DecayFunctionConfigFromJson(json);
 }

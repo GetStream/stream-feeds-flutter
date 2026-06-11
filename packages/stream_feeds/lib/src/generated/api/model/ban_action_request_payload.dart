@@ -22,7 +22,7 @@ enum BanActionRequestPayloadDeleteMessages {
   @JsonValue('soft')
   soft,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -71,6 +71,5 @@ class BanActionRequestPayload with _$BanActionRequestPayload {
 
   Map<String, dynamic> toJson() => _$BanActionRequestPayloadToJson(this);
 
-  static BanActionRequestPayload fromJson(Map<String, dynamic> json) =>
-      _$BanActionRequestPayloadFromJson(json);
+  static BanActionRequestPayload fromJson(Map<String, dynamic> json) => _$BanActionRequestPayloadFromJson(json);
 }

@@ -80,6 +80,5 @@ class UserUnbannedEvent extends core.WsEvent with _$UserUnbannedEvent {
 
   Map<String, dynamic> toJson() => _$UserUnbannedEventToJson(this);
 
-  static UserUnbannedEvent fromJson(Map<String, dynamic> json) =>
-      _$UserUnbannedEventFromJson(json);
+  static UserUnbannedEvent fromJson(Map<String, dynamic> json) => _$UserUnbannedEventFromJson(json);
 }

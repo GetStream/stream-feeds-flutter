@@ -30,6 +30,5 @@ class AppealResponse with _$AppealResponse {
 
   Map<String, dynamic> toJson() => _$AppealResponseToJson(this);
 
-  static AppealResponse fromJson(Map<String, dynamic> json) =>
-      _$AppealResponseFromJson(json);
+  static AppealResponse fromJson(Map<String, dynamic> json) => _$AppealResponseFromJson(json);
 }

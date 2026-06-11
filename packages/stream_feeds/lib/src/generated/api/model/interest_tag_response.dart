@@ -30,6 +30,5 @@ class InterestTagResponse with _$InterestTagResponse {
 
   Map<String, dynamic> toJson() => _$InterestTagResponseToJson(this);
 
-  static InterestTagResponse fromJson(Map<String, dynamic> json) =>
-      _$InterestTagResponseFromJson(json);
+  static InterestTagResponse fromJson(Map<String, dynamic> json) => _$InterestTagResponseFromJson(json);
 }

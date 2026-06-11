@@ -16,8 +16,7 @@ part 'moderation_flagged_event.freezed.dart';
 @freezed
 @immutable
 @JsonSerializable()
-class ModerationFlaggedEvent extends core.WsEvent
-    with _$ModerationFlaggedEvent {
+class ModerationFlaggedEvent extends core.WsEvent with _$ModerationFlaggedEvent {
   const ModerationFlaggedEvent({
     required this.contentType,
     required this.createdAt,
@@ -49,6 +48,5 @@ class ModerationFlaggedEvent extends core.WsEvent
 
   Map<String, dynamic> toJson() => _$ModerationFlaggedEventToJson(this);
 
-  static ModerationFlaggedEvent fromJson(Map<String, dynamic> json) =>
-      _$ModerationFlaggedEventFromJson(json);
+  static ModerationFlaggedEvent fromJson(Map<String, dynamic> json) => _$ModerationFlaggedEventFromJson(json);
 }

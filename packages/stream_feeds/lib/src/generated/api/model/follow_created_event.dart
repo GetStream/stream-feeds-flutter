@@ -52,6 +52,5 @@ class FollowCreatedEvent extends core.WsEvent with _$FollowCreatedEvent {
 
   Map<String, dynamic> toJson() => _$FollowCreatedEventToJson(this);
 
-  static FollowCreatedEvent fromJson(Map<String, dynamic> json) =>
-      _$FollowCreatedEventFromJson(json);
+  static FollowCreatedEvent fromJson(Map<String, dynamic> json) => _$FollowCreatedEventFromJson(json);
 }

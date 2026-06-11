@@ -95,8 +95,7 @@ class AppEffects {
     return AppEffects(
       borderTop: BoxShadow.lerp(a.borderTop, b.borderTop, t)!,
       borderBottom: BoxShadow.lerp(a.borderBottom, b.borderBottom, t)!,
-      shadowIconButton:
-          BoxShadow.lerp(a.shadowIconButton, b.shadowIconButton, t)!,
+      shadowIconButton: BoxShadow.lerp(a.shadowIconButton, b.shadowIconButton, t)!,
       modalShadow: BoxShadow.lerp(a.modalShadow, b.modalShadow, t)!,
     );
   }

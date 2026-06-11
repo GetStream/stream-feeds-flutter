@@ -20,7 +20,7 @@ enum ChangeFeedVisibilityRequestPendingFollowsAction {
   @JsonValue('reject')
   reject,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -36,7 +36,7 @@ enum ChangeFeedVisibilityRequestVisibility {
   @JsonValue('visible')
   visible,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -49,8 +49,7 @@ class ChangeFeedVisibilityRequest with _$ChangeFeedVisibilityRequest {
   });
 
   @override
-  @JsonKey(
-      unknownEnumValue: ChangeFeedVisibilityRequestPendingFollowsAction.unknown)
+  @JsonKey(unknownEnumValue: ChangeFeedVisibilityRequestPendingFollowsAction.unknown)
   final ChangeFeedVisibilityRequestPendingFollowsAction? pendingFollowsAction;
 
   @override
@@ -59,6 +58,5 @@ class ChangeFeedVisibilityRequest with _$ChangeFeedVisibilityRequest {
 
   Map<String, dynamic> toJson() => _$ChangeFeedVisibilityRequestToJson(this);
 
-  static ChangeFeedVisibilityRequest fromJson(Map<String, dynamic> json) =>
-      _$ChangeFeedVisibilityRequestFromJson(json);
+  static ChangeFeedVisibilityRequest fromJson(Map<String, dynamic> json) => _$ChangeFeedVisibilityRequestFromJson(json);
 }

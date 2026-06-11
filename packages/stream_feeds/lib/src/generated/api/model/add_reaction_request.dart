@@ -47,6 +47,5 @@ class AddReactionRequest with _$AddReactionRequest {
 
   Map<String, dynamic> toJson() => _$AddReactionRequestToJson(this);
 
-  static AddReactionRequest fromJson(Map<String, dynamic> json) =>
-      _$AddReactionRequestFromJson(json);
+  static AddReactionRequest fromJson(Map<String, dynamic> json) => _$AddReactionRequestFromJson(json);
 }

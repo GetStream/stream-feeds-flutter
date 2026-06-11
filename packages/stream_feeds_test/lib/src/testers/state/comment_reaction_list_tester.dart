@@ -107,12 +107,12 @@ final class CommentReactionListTester extends BaseTester<CommentReactionList> {
   Future<Result<List<FeedsReactionData>>> get({
     QueryCommentReactionsResponse Function(
       QueryCommentReactionsResponse,
-    )? modifyResponse,
+    )?
+    modifyResponse,
   }) {
     final query = commentReactionList.query;
 
-    final defaultReactionListResponse =
-        createDefaultQueryCommentReactionsResponse(
+    final defaultReactionListResponse = createDefaultQueryCommentReactionsResponse(
       reactions: [
         createDefaultReactionResponse(commentId: query.commentId),
         createDefaultReactionResponse(

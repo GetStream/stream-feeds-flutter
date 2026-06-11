@@ -30,6 +30,5 @@ class FileUploadRequest with _$FileUploadRequest {
 
   Map<String, dynamic> toJson() => _$FileUploadRequestToJson(this);
 
-  static FileUploadRequest fromJson(Map<String, dynamic> json) =>
-      _$FileUploadRequestFromJson(json);
+  static FileUploadRequest fromJson(Map<String, dynamic> json) => _$FileUploadRequestFromJson(json);
 }

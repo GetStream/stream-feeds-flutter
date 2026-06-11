@@ -30,6 +30,5 @@ class AddUserGroupMembersResponse with _$AddUserGroupMembersResponse {
 
   Map<String, dynamic> toJson() => _$AddUserGroupMembersResponseToJson(this);
 
-  static AddUserGroupMembersResponse fromJson(Map<String, dynamic> json) =>
-      _$AddUserGroupMembersResponseFromJson(json);
+  static AddUserGroupMembersResponse fromJson(Map<String, dynamic> json) => _$AddUserGroupMembersResponseFromJson(json);
 }

@@ -44,6 +44,5 @@ class ActivityPinResponse with _$ActivityPinResponse {
 
   Map<String, dynamic> toJson() => _$ActivityPinResponseToJson(this);
 
-  static ActivityPinResponse fromJson(Map<String, dynamic> json) =>
-      _$ActivityPinResponseFromJson(json);
+  static ActivityPinResponse fromJson(Map<String, dynamic> json) => _$ActivityPinResponseFromJson(json);
 }

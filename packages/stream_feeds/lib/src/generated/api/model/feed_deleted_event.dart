@@ -52,6 +52,5 @@ class FeedDeletedEvent extends core.WsEvent with _$FeedDeletedEvent {
 
   Map<String, dynamic> toJson() => _$FeedDeletedEventToJson(this);
 
-  static FeedDeletedEvent fromJson(Map<String, dynamic> json) =>
-      _$FeedDeletedEventFromJson(json);
+  static FeedDeletedEvent fromJson(Map<String, dynamic> json) => _$FeedDeletedEventFromJson(json);
 }

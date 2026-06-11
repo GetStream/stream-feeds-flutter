@@ -112,6 +112,5 @@ class EntityCreatorResponse with _$EntityCreatorResponse {
 
   Map<String, dynamic> toJson() => _$EntityCreatorResponseToJson(this);
 
-  static EntityCreatorResponse fromJson(Map<String, dynamic> json) =>
-      _$EntityCreatorResponseFromJson(json);
+  static EntityCreatorResponse fromJson(Map<String, dynamic> json) => _$EntityCreatorResponseFromJson(json);
 }

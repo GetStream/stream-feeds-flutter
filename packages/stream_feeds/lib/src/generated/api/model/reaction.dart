@@ -93,6 +93,5 @@ class Reaction with _$Reaction {
 
   Map<String, dynamic> toJson() => _$ReactionToJson(this);
 
-  static Reaction fromJson(Map<String, dynamic> json) =>
-      _$ReactionFromJson(json);
+  static Reaction fromJson(Map<String, dynamic> json) => _$ReactionFromJson(json);
 }

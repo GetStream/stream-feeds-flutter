@@ -224,6 +224,5 @@ class MessageResponse with _$MessageResponse {
 
   Map<String, dynamic> toJson() => _$MessageResponseToJson(this);
 
-  static MessageResponse fromJson(Map<String, dynamic> json) =>
-      _$MessageResponseFromJson(json);
+  static MessageResponse fromJson(Map<String, dynamic> json) => _$MessageResponseFromJson(json);
 }

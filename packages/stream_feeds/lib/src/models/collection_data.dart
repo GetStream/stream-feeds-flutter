@@ -86,8 +86,7 @@ extension EnrichedCollectionResponseMapper on EnrichedCollectionResponse {
 }
 
 /// Extension function to convert an [EnrichedCollectionResponseStatus] to a [CollectionStatus].
-extension EnrichedCollectionResponseStatusMapper
-    on EnrichedCollectionResponseStatus {
+extension EnrichedCollectionResponseStatusMapper on EnrichedCollectionResponseStatus {
   /// Converts this API status enum to a domain [CollectionStatus] extension type.
   CollectionStatus toModel() {
     return switch (this) {

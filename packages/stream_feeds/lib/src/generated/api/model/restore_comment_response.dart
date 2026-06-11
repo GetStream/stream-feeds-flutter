@@ -34,6 +34,5 @@ class RestoreCommentResponse with _$RestoreCommentResponse {
 
   Map<String, dynamic> toJson() => _$RestoreCommentResponseToJson(this);
 
-  static RestoreCommentResponse fromJson(Map<String, dynamic> json) =>
-      _$RestoreCommentResponseFromJson(json);
+  static RestoreCommentResponse fromJson(Map<String, dynamic> json) => _$RestoreCommentResponseFromJson(json);
 }

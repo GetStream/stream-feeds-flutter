@@ -38,6 +38,5 @@ class SubmitActionResponse with _$SubmitActionResponse {
 
   Map<String, dynamic> toJson() => _$SubmitActionResponseToJson(this);
 
-  static SubmitActionResponse fromJson(Map<String, dynamic> json) =>
-      _$SubmitActionResponseFromJson(json);
+  static SubmitActionResponse fromJson(Map<String, dynamic> json) => _$SubmitActionResponseFromJson(json);
 }

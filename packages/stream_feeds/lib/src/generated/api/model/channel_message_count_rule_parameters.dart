@@ -16,8 +16,7 @@ part 'channel_message_count_rule_parameters.freezed.dart';
 @freezed
 @immutable
 @JsonSerializable()
-class ChannelMessageCountRuleParameters
-    with _$ChannelMessageCountRuleParameters {
+class ChannelMessageCountRuleParameters with _$ChannelMessageCountRuleParameters {
   const ChannelMessageCountRuleParameters({
     this.operator,
     this.threshold,
@@ -29,10 +28,8 @@ class ChannelMessageCountRuleParameters
   @override
   final int? threshold;
 
-  Map<String, dynamic> toJson() =>
-      _$ChannelMessageCountRuleParametersToJson(this);
+  Map<String, dynamic> toJson() => _$ChannelMessageCountRuleParametersToJson(this);
 
-  static ChannelMessageCountRuleParameters fromJson(
-          Map<String, dynamic> json) =>
+  static ChannelMessageCountRuleParameters fromJson(Map<String, dynamic> json) =>
       _$ChannelMessageCountRuleParametersFromJson(json);
 }

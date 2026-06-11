@@ -34,6 +34,5 @@ class EscalationMetadata with _$EscalationMetadata {
 
   Map<String, dynamic> toJson() => _$EscalationMetadataToJson(this);
 
-  static EscalationMetadata fromJson(Map<String, dynamic> json) =>
-      _$EscalationMetadataFromJson(json);
+  static EscalationMetadata fromJson(Map<String, dynamic> json) => _$EscalationMetadataFromJson(json);
 }

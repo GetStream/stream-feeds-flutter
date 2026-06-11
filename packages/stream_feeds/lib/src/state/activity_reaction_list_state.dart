@@ -13,8 +13,7 @@ part 'activity_reaction_list_state.freezed.dart';
 ///
 /// Provides methods to update the activity reaction list state in response to data changes
 /// and real-time events from the Stream Feeds API.
-class ActivityReactionListStateNotifier
-    extends StateNotifier<ActivityReactionListState> {
+class ActivityReactionListStateNotifier extends StateNotifier<ActivityReactionListState> {
   ActivityReactionListStateNotifier({
     required ActivityReactionListState initialState,
   }) : super(initialState);

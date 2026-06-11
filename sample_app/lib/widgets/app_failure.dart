@@ -54,13 +54,11 @@ class _AppFailureState extends State<AppFailure> {
                     width: 100,
                     height: 100,
                     decoration: BoxDecoration(
-                      color:
-                          context.appColors.accentError.withValues(alpha: 0.08),
+                      color: context.appColors.accentError.withValues(alpha: 0.08),
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: context.appColors.accentError
-                              .withValues(alpha: 0.2),
+                          color: context.appColors.accentError.withValues(alpha: 0.2),
                           blurRadius: 20,
                           offset: const Offset(0, 8),
                         ),
@@ -103,15 +101,12 @@ class _AppFailureState extends State<AppFailure> {
 
                   // Error type chip with improved styling
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     decoration: BoxDecoration(
-                      color:
-                          context.appColors.accentError.withValues(alpha: 0.1),
+                      color: context.appColors.accentError.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(
-                        color: context.appColors.accentError
-                            .withValues(alpha: 0.2),
+                        color: context.appColors.accentError.withValues(alpha: 0.2),
                       ),
                     ),
                     child: Row(
@@ -189,13 +184,11 @@ class _AppFailureState extends State<AppFailure> {
                     SizedBox(
                       width: double.infinity,
                       child: OutlinedButton.icon(
-                        onPressed: () =>
-                            setState(() => _showDetails = !_showDetails),
+                        onPressed: () => setState(() => _showDetails = !_showDetails),
                         style: OutlinedButton.styleFrom(
                           foregroundColor: context.appColors.accentPrimary,
                           side: BorderSide(
-                            color: context.appColors.accentPrimary
-                                .withValues(alpha: 0.3),
+                            color: context.appColors.accentPrimary.withValues(alpha: 0.3),
                           ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -207,9 +200,7 @@ class _AppFailureState extends State<AppFailure> {
                           size: 20,
                         ),
                         label: Text(
-                          _showDetails
-                              ? 'Hide Technical Details'
-                              : 'Show Technical Details',
+                          _showDetails ? 'Hide Technical Details' : 'Show Technical Details',
                           style: context.appTextStyles.bodyBold.copyWith(
                             color: context.appColors.accentPrimary,
                           ),
@@ -237,8 +228,7 @@ class _AppFailureState extends State<AppFailure> {
                             width: double.infinity,
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
-                              color: context.appColors.borders
-                                  .withValues(alpha: 0.3),
+                              color: context.appColors.borders.withValues(alpha: 0.3),
                               borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(15),
                                 topRight: Radius.circular(15),
@@ -254,8 +244,7 @@ class _AppFailureState extends State<AppFailure> {
                                 const SizedBox(width: 8),
                                 Text(
                                   'Stack Trace',
-                                  style:
-                                      context.appTextStyles.bodyBold.copyWith(
+                                  style: context.appTextStyles.bodyBold.copyWith(
                                     color: context.appColors.textLowEmphasis,
                                   ),
                                 ),

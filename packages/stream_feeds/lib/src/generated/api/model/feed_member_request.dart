@@ -42,6 +42,5 @@ class FeedMemberRequest with _$FeedMemberRequest {
 
   Map<String, dynamic> toJson() => _$FeedMemberRequestToJson(this);
 
-  static FeedMemberRequest fromJson(Map<String, dynamic> json) =>
-      _$FeedMemberRequestFromJson(json);
+  static FeedMemberRequest fromJson(Map<String, dynamic> json) => _$FeedMemberRequestFromJson(json);
 }

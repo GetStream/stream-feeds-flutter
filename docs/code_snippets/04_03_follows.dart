@@ -9,9 +9,13 @@ late Feed timeline;
 Future<void> followsAndUnfollows() async {
   // Follow a user
   final timeline = client.feed(group: 'timeline', id: 'john');
-  await timeline.follow(targetFid: const FeedId(group: 'user', id: 'tom'));
+  await timeline.follow(
+    targetFid: const FeedId(group: 'user', id: 'tom'),
+  );
   // Follow a stock
-  await timeline.follow(targetFid: const FeedId(group: 'stock', id: 'apple'));
+  await timeline.follow(
+    targetFid: const FeedId(group: 'stock', id: 'apple'),
+  );
   // Follow with more fields
   await timeline.follow(
     targetFid: const FeedId(group: 'stock', id: 'apple'),
@@ -53,8 +57,7 @@ Future<void> followRequests() async {
   // Adam requesting to follow the feed
   final adamTimeline = adamClient.feed(group: 'timeline', id: 'adam');
   await adamTimeline.getOrCreate();
-  final followRequest =
-      await adamTimeline.follow(targetFid: saraFeed.fid); // user:sara
+  final followRequest = await adamTimeline.follow(targetFid: saraFeed.fid); // user:sara
   print(followRequest.getOrNull()?.status); // .pending
   // Sara accepting
   await saraFeed.acceptFollow(

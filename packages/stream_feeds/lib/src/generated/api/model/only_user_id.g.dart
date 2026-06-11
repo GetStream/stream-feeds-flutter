@@ -7,10 +7,9 @@ part of 'only_user_id.dart';
 // **************************************************************************
 
 OnlyUserID _$OnlyUserIDFromJson(Map<String, dynamic> json) => OnlyUserID(
-      id: json['id'] as String,
-    );
+  id: json['id'] as String,
+);
 
-Map<String, dynamic> _$OnlyUserIDToJson(OnlyUserID instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-    };
+Map<String, dynamic> _$OnlyUserIDToJson(OnlyUserID instance) => <String, dynamic>{
+  'id': instance.id,
+};

@@ -52,6 +52,5 @@ class PollClosedFeedEvent extends core.WsEvent with _$PollClosedFeedEvent {
 
   Map<String, dynamic> toJson() => _$PollClosedFeedEventToJson(this);
 
-  static PollClosedFeedEvent fromJson(Map<String, dynamic> json) =>
-      _$PollClosedFeedEventFromJson(json);
+  static PollClosedFeedEvent fromJson(Map<String, dynamic> json) => _$PollClosedFeedEventFromJson(json);
 }

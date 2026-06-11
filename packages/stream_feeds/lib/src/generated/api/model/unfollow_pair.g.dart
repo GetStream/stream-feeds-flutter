@@ -7,14 +7,13 @@ part of 'unfollow_pair.dart';
 // **************************************************************************
 
 UnfollowPair _$UnfollowPairFromJson(Map<String, dynamic> json) => UnfollowPair(
-      keepHistory: json['keep_history'] as bool?,
-      source: json['source'] as String,
-      target: json['target'] as String,
-    );
+  keepHistory: json['keep_history'] as bool?,
+  source: json['source'] as String,
+  target: json['target'] as String,
+);
 
-Map<String, dynamic> _$UnfollowPairToJson(UnfollowPair instance) =>
-    <String, dynamic>{
-      'keep_history': instance.keepHistory,
-      'source': instance.source,
-      'target': instance.target,
-    };
+Map<String, dynamic> _$UnfollowPairToJson(UnfollowPair instance) => <String, dynamic>{
+  'keep_history': instance.keepHistory,
+  'source': instance.source,
+  'target': instance.target,
+};

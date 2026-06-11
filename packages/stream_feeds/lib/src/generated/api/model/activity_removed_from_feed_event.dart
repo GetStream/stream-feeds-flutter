@@ -16,8 +16,7 @@ part 'activity_removed_from_feed_event.freezed.dart';
 @freezed
 @immutable
 @JsonSerializable()
-class ActivityRemovedFromFeedEvent extends core.WsEvent
-    with _$ActivityRemovedFromFeedEvent {
+class ActivityRemovedFromFeedEvent extends core.WsEvent with _$ActivityRemovedFromFeedEvent {
   const ActivityRemovedFromFeedEvent({
     required this.activity,
     required this.createdAt,

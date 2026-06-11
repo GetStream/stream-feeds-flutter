@@ -30,6 +30,5 @@ class RuleBuilderConditionGroup with _$RuleBuilderConditionGroup {
 
   Map<String, dynamic> toJson() => _$RuleBuilderConditionGroupToJson(this);
 
-  static RuleBuilderConditionGroup fromJson(Map<String, dynamic> json) =>
-      _$RuleBuilderConditionGroupFromJson(json);
+  static RuleBuilderConditionGroup fromJson(Map<String, dynamic> json) => _$RuleBuilderConditionGroupFromJson(json);
 }

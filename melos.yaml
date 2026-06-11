@@ -14,8 +14,8 @@ command:
   bootstrap:
     # Dart and Flutter environment used in the project.
     environment:
-      sdk: ^3.6.2
-      flutter: ">=3.27.4"
+      sdk: ^3.8.0
+      flutter: ">=3.32.0"
 
     # List of all the dependencies used in the project.
     dependencies:

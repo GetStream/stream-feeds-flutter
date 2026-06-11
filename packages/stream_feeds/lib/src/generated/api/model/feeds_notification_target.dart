@@ -58,6 +58,5 @@ class FeedsNotificationTarget with _$FeedsNotificationTarget {
 
   Map<String, dynamic> toJson() => _$FeedsNotificationTargetToJson(this);
 
-  static FeedsNotificationTarget fromJson(Map<String, dynamic> json) =>
-      _$FeedsNotificationTargetFromJson(json);
+  static FeedsNotificationTarget fromJson(Map<String, dynamic> json) => _$FeedsNotificationTargetFromJson(json);
 }

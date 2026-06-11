@@ -72,6 +72,5 @@ class ActivityMarkEvent extends core.WsEvent with _$ActivityMarkEvent {
 
   Map<String, dynamic> toJson() => _$ActivityMarkEventToJson(this);
 
-  static ActivityMarkEvent fromJson(Map<String, dynamic> json) =>
-      _$ActivityMarkEventFromJson(json);
+  static ActivityMarkEvent fromJson(Map<String, dynamic> json) => _$ActivityMarkEventFromJson(json);
 }

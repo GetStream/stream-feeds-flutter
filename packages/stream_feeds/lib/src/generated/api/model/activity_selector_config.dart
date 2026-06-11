@@ -51,6 +51,5 @@ class ActivitySelectorConfig with _$ActivitySelectorConfig {
 
   Map<String, dynamic> toJson() => _$ActivitySelectorConfigToJson(this);
 
-  static ActivitySelectorConfig fromJson(Map<String, dynamic> json) =>
-      _$ActivitySelectorConfigFromJson(json);
+  static ActivitySelectorConfig fromJson(Map<String, dynamic> json) => _$ActivitySelectorConfigFromJson(json);
 }

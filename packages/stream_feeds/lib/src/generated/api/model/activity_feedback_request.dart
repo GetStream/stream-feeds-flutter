@@ -34,6 +34,5 @@ class ActivityFeedbackRequest with _$ActivityFeedbackRequest {
 
   Map<String, dynamic> toJson() => _$ActivityFeedbackRequestToJson(this);
 
-  static ActivityFeedbackRequest fromJson(Map<String, dynamic> json) =>
-      _$ActivityFeedbackRequestFromJson(json);
+  static ActivityFeedbackRequest fromJson(Map<String, dynamic> json) => _$ActivityFeedbackRequestFromJson(json);
 }

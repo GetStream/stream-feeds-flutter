@@ -30,6 +30,5 @@ class PushNotificationConfig with _$PushNotificationConfig {
 
   Map<String, dynamic> toJson() => _$PushNotificationConfigToJson(this);
 
-  static PushNotificationConfig fromJson(Map<String, dynamic> json) =>
-      _$PushNotificationConfigFromJson(json);
+  static PushNotificationConfig fromJson(Map<String, dynamic> json) => _$PushNotificationConfigFromJson(json);
 }

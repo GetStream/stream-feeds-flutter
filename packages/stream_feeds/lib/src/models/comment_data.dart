@@ -338,8 +338,7 @@ extension CommentResponseMapper on CommentResponse {
       parentId: parentId,
       reactionCount: reactionCount,
       reactionGroups: {
-        for (final entry in {...?reactionGroups?.entries})
-          entry.key: entry.value.toModel(),
+        for (final entry in {...?reactionGroups?.entries}) entry.key: entry.value.toModel(),
       },
       replies: null, // Comments don't have replies loaded by default
       replyCount: replyCount,
@@ -380,8 +379,7 @@ extension ThreadedCommentResponseMapper on ThreadedCommentResponse {
       parentId: parentId,
       reactionCount: reactionCount,
       reactionGroups: {
-        for (final entry in {...?reactionGroups?.entries})
-          entry.key: entry.value.toModel(),
+        for (final entry in {...?reactionGroups?.entries}) entry.key: entry.value.toModel(),
       },
       replies: replies?.map((e) => e.toModel()).toList(),
       replyCount: replyCount,

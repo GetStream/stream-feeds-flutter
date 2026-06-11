@@ -50,6 +50,5 @@ class UpdateFeedRequest with _$UpdateFeedRequest {
 
   Map<String, dynamic> toJson() => _$UpdateFeedRequestToJson(this);
 
-  static UpdateFeedRequest fromJson(Map<String, dynamic> json) =>
-      _$UpdateFeedRequestFromJson(json);
+  static UpdateFeedRequest fromJson(Map<String, dynamic> json) => _$UpdateFeedRequestFromJson(json);
 }

@@ -5,9 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 
 @LazySingleton(as: LifecycleStateProvider)
-class AppLifecycleStateProvider
-    with Disposable, WidgetsBindingObserver
-    implements LifecycleStateProvider {
+class AppLifecycleStateProvider with Disposable, WidgetsBindingObserver implements LifecycleStateProvider {
   AppLifecycleStateProvider() {
     // Start listening to lifecycle changes.
     WidgetsBinding.instance.addObserver(this);

@@ -30,6 +30,5 @@ class CreatePollOptionRequest with _$CreatePollOptionRequest {
 
   Map<String, dynamic> toJson() => _$CreatePollOptionRequestToJson(this);
 
-  static CreatePollOptionRequest fromJson(Map<String, dynamic> json) =>
-      _$CreatePollOptionRequestFromJson(json);
+  static CreatePollOptionRequest fromJson(Map<String, dynamic> json) => _$CreatePollOptionRequestFromJson(json);
 }

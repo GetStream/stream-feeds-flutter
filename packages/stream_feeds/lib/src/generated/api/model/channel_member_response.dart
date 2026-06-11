@@ -110,6 +110,5 @@ class ChannelMemberResponse with _$ChannelMemberResponse {
 
   Map<String, dynamic> toJson() => _$ChannelMemberResponseToJson(this);
 
-  static ChannelMemberResponse fromJson(Map<String, dynamic> json) =>
-      _$ChannelMemberResponseFromJson(json);
+  static ChannelMemberResponse fromJson(Map<String, dynamic> json) => _$ChannelMemberResponseFromJson(json);
 }

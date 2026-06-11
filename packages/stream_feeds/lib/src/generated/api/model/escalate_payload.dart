@@ -34,6 +34,5 @@ class EscalatePayload with _$EscalatePayload {
 
   Map<String, dynamic> toJson() => _$EscalatePayloadToJson(this);
 
-  static EscalatePayload fromJson(Map<String, dynamic> json) =>
-      _$EscalatePayloadFromJson(json);
+  static EscalatePayload fromJson(Map<String, dynamic> json) => _$EscalatePayloadFromJson(json);
 }

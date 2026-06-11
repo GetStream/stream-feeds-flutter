@@ -26,6 +26,5 @@ class PinActivityRequest with _$PinActivityRequest {
 
   Map<String, dynamic> toJson() => _$PinActivityRequestToJson(this);
 
-  static PinActivityRequest fromJson(Map<String, dynamic> json) =>
-      _$PinActivityRequestFromJson(json);
+  static PinActivityRequest fromJson(Map<String, dynamic> json) => _$PinActivityRequestFromJson(json);
 }

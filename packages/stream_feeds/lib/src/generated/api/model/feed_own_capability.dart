@@ -70,5 +70,5 @@ enum FeedOwnCapability {
   @JsonValue('update-own-comment')
   updateOwnComment,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }

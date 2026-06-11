@@ -6,8 +6,7 @@ part of 'moderation_action_config_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ModerationActionConfigResponse _$ModerationActionConfigResponseFromJson(
-        Map<String, dynamic> json) =>
+ModerationActionConfigResponse _$ModerationActionConfigResponseFromJson(Map<String, dynamic> json) =>
     ModerationActionConfigResponse(
       action: json['action'] as String,
       custom: json['custom'] as Map<String, dynamic>?,
@@ -19,8 +18,7 @@ ModerationActionConfigResponse _$ModerationActionConfigResponseFromJson(
       queueType: json['queue_type'] as String?,
     );
 
-Map<String, dynamic> _$ModerationActionConfigResponseToJson(
-        ModerationActionConfigResponse instance) =>
+Map<String, dynamic> _$ModerationActionConfigResponseToJson(ModerationActionConfigResponse instance) =>
     <String, dynamic>{
       'action': instance.action,
       'custom': instance.custom,

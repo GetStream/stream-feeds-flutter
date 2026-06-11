@@ -16,8 +16,7 @@ part 'content_custom_property_count_parameters.freezed.dart';
 @freezed
 @immutable
 @JsonSerializable()
-class ContentCustomPropertyCountParameters
-    with _$ContentCustomPropertyCountParameters {
+class ContentCustomPropertyCountParameters with _$ContentCustomPropertyCountParameters {
   const ContentCustomPropertyCountParameters({
     this.operator,
     this.propertyKey,
@@ -37,10 +36,8 @@ class ContentCustomPropertyCountParameters
   @override
   final String? timeWindow;
 
-  Map<String, dynamic> toJson() =>
-      _$ContentCustomPropertyCountParametersToJson(this);
+  Map<String, dynamic> toJson() => _$ContentCustomPropertyCountParametersToJson(this);
 
-  static ContentCustomPropertyCountParameters fromJson(
-          Map<String, dynamic> json) =>
+  static ContentCustomPropertyCountParameters fromJson(Map<String, dynamic> json) =>
       _$ContentCustomPropertyCountParametersFromJson(json);
 }

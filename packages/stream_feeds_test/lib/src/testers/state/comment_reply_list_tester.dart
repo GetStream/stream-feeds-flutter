@@ -109,7 +109,8 @@ final class CommentReplyListTester extends BaseTester<CommentReplyList> {
   Future<Result<List<CommentData>>> get({
     GetCommentRepliesResponse Function(
       GetCommentRepliesResponse,
-    )? modifyResponse,
+    )?
+    modifyResponse,
   }) {
     final query = commentReplyList.query;
 

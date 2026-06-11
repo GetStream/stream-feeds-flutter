@@ -28,7 +28,7 @@ enum AWSRekognitionRuleAction {
   @JsonValue('shadow')
   shadow,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -57,6 +57,5 @@ class AWSRekognitionRule with _$AWSRekognitionRule {
 
   Map<String, dynamic> toJson() => _$AWSRekognitionRuleToJson(this);
 
-  static AWSRekognitionRule fromJson(Map<String, dynamic> json) =>
-      _$AWSRekognitionRuleFromJson(json);
+  static AWSRekognitionRule fromJson(Map<String, dynamic> json) => _$AWSRekognitionRuleFromJson(json);
 }

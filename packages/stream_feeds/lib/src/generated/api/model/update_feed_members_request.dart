@@ -22,7 +22,7 @@ enum UpdateFeedMembersRequestOperation {
   @JsonValue('upsert')
   upsert,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -55,6 +55,5 @@ class UpdateFeedMembersRequest with _$UpdateFeedMembersRequest {
 
   Map<String, dynamic> toJson() => _$UpdateFeedMembersRequestToJson(this);
 
-  static UpdateFeedMembersRequest fromJson(Map<String, dynamic> json) =>
-      _$UpdateFeedMembersRequestFromJson(json);
+  static UpdateFeedMembersRequest fromJson(Map<String, dynamic> json) => _$UpdateFeedMembersRequestFromJson(json);
 }

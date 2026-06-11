@@ -52,6 +52,5 @@ class FollowDeletedEvent extends core.WsEvent with _$FollowDeletedEvent {
 
   Map<String, dynamic> toJson() => _$FollowDeletedEventToJson(this);
 
-  static FollowDeletedEvent fromJson(Map<String, dynamic> json) =>
-      _$FollowDeletedEventFromJson(json);
+  static FollowDeletedEvent fromJson(Map<String, dynamic> json) => _$FollowDeletedEventFromJson(json);
 }

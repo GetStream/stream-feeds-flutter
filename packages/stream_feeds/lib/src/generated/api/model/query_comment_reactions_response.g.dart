@@ -6,8 +6,7 @@ part of 'query_comment_reactions_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-QueryCommentReactionsResponse _$QueryCommentReactionsResponseFromJson(
-        Map<String, dynamic> json) =>
+QueryCommentReactionsResponse _$QueryCommentReactionsResponseFromJson(Map<String, dynamic> json) =>
     QueryCommentReactionsResponse(
       duration: json['duration'] as String,
       next: json['next'] as String?,
@@ -17,11 +16,9 @@ QueryCommentReactionsResponse _$QueryCommentReactionsResponseFromJson(
           .toList(),
     );
 
-Map<String, dynamic> _$QueryCommentReactionsResponseToJson(
-        QueryCommentReactionsResponse instance) =>
-    <String, dynamic>{
-      'duration': instance.duration,
-      'next': instance.next,
-      'prev': instance.prev,
-      'reactions': instance.reactions.map((e) => e.toJson()).toList(),
-    };
+Map<String, dynamic> _$QueryCommentReactionsResponseToJson(QueryCommentReactionsResponse instance) => <String, dynamic>{
+  'duration': instance.duration,
+  'next': instance.next,
+  'prev': instance.prev,
+  'reactions': instance.reactions.map((e) => e.toJson()).toList(),
+};

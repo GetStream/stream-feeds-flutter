@@ -48,6 +48,5 @@ class BanInfoResponse with _$BanInfoResponse {
 
   Map<String, dynamic> toJson() => _$BanInfoResponseToJson(this);
 
-  static BanInfoResponse fromJson(Map<String, dynamic> json) =>
-      _$BanInfoResponseFromJson(json);
+  static BanInfoResponse fromJson(Map<String, dynamic> json) => _$BanInfoResponseFromJson(json);
 }

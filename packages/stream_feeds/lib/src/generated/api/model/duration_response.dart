@@ -26,6 +26,5 @@ class DurationResponse with _$DurationResponse {
 
   Map<String, dynamic> toJson() => _$DurationResponseToJson(this);
 
-  static DurationResponse fromJson(Map<String, dynamic> json) =>
-      _$DurationResponseFromJson(json);
+  static DurationResponse fromJson(Map<String, dynamic> json) => _$DurationResponseFromJson(json);
 }

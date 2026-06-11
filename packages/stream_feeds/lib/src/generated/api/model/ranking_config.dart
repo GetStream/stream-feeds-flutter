@@ -38,6 +38,5 @@ class RankingConfig with _$RankingConfig {
 
   Map<String, dynamic> toJson() => _$RankingConfigToJson(this);
 
-  static RankingConfig fromJson(Map<String, dynamic> json) =>
-      _$RankingConfigFromJson(json);
+  static RankingConfig fromJson(Map<String, dynamic> json) => _$RankingConfigFromJson(json);
 }

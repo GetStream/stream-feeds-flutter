@@ -42,6 +42,5 @@ class NotificationParentActivity with _$NotificationParentActivity {
 
   Map<String, dynamic> toJson() => _$NotificationParentActivityToJson(this);
 
-  static NotificationParentActivity fromJson(Map<String, dynamic> json) =>
-      _$NotificationParentActivityFromJson(json);
+  static NotificationParentActivity fromJson(Map<String, dynamic> json) => _$NotificationParentActivityFromJson(json);
 }

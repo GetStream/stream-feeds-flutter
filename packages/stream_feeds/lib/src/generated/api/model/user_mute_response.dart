@@ -45,6 +45,5 @@ class UserMuteResponse with _$UserMuteResponse {
 
   Map<String, dynamic> toJson() => _$UserMuteResponseToJson(this);
 
-  static UserMuteResponse fromJson(Map<String, dynamic> json) =>
-      _$UserMuteResponseFromJson(json);
+  static UserMuteResponse fromJson(Map<String, dynamic> json) => _$UserMuteResponseFromJson(json);
 }

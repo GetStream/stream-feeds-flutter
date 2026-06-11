@@ -26,6 +26,5 @@ class BlockActionRequestPayload with _$BlockActionRequestPayload {
 
   Map<String, dynamic> toJson() => _$BlockActionRequestPayloadToJson(this);
 
-  static BlockActionRequestPayload fromJson(Map<String, dynamic> json) =>
-      _$BlockActionRequestPayloadFromJson(json);
+  static BlockActionRequestPayload fromJson(Map<String, dynamic> json) => _$BlockActionRequestPayloadFromJson(json);
 }

@@ -7,20 +7,17 @@ part of 'role.dart';
 // **************************************************************************
 
 Role _$RoleFromJson(Map<String, dynamic> json) => Role(
-      createdAt: const EpochDateTimeConverter()
-          .fromJson((json['created_at'] as num).toInt()),
-      custom: json['custom'] as bool,
-      name: json['name'] as String,
-      scopes:
-          (json['scopes'] as List<dynamic>).map((e) => e as String).toList(),
-      updatedAt: const EpochDateTimeConverter()
-          .fromJson((json['updated_at'] as num).toInt()),
-    );
+  createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
+  custom: json['custom'] as bool,
+  name: json['name'] as String,
+  scopes: (json['scopes'] as List<dynamic>).map((e) => e as String).toList(),
+  updatedAt: const EpochDateTimeConverter().fromJson((json['updated_at'] as num).toInt()),
+);
 
 Map<String, dynamic> _$RoleToJson(Role instance) => <String, dynamic>{
-      'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
-      'custom': instance.custom,
-      'name': instance.name,
-      'scopes': instance.scopes,
-      'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
-    };
+  'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
+  'custom': instance.custom,
+  'name': instance.name,
+  'scopes': instance.scopes,
+  'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
+};

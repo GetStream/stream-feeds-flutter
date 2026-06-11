@@ -47,6 +47,5 @@ class PushPreferencesResponse with _$PushPreferencesResponse {
 
   Map<String, dynamic> toJson() => _$PushPreferencesResponseToJson(this);
 
-  static PushPreferencesResponse fromJson(Map<String, dynamic> json) =>
-      _$PushPreferencesResponseFromJson(json);
+  static PushPreferencesResponse fromJson(Map<String, dynamic> json) => _$PushPreferencesResponseFromJson(json);
 }

@@ -38,6 +38,5 @@ class ImageRuleParameters with _$ImageRuleParameters {
 
   Map<String, dynamic> toJson() => _$ImageRuleParametersToJson(this);
 
-  static ImageRuleParameters fromJson(Map<String, dynamic> json) =>
-      _$ImageRuleParametersFromJson(json);
+  static ImageRuleParameters fromJson(Map<String, dynamic> json) => _$ImageRuleParametersFromJson(json);
 }

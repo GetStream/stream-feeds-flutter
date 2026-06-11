@@ -16,12 +16,10 @@ class StreamFeedsSampleAppContent extends StatefulWidget {
   final UserCredentials? credentials;
 
   @override
-  State<StreamFeedsSampleAppContent> createState() =>
-      _StreamFeedsSampleAppContentState();
+  State<StreamFeedsSampleAppContent> createState() => _StreamFeedsSampleAppContentState();
 }
 
-class _StreamFeedsSampleAppContentState
-    extends State<StreamFeedsSampleAppContent> {
+class _StreamFeedsSampleAppContentState extends State<StreamFeedsSampleAppContent> {
   late final _appRouter = locator<AppRouter>();
   late final _authController = locator<AuthController>();
   late final _notificationService = locator<NotificationService>();

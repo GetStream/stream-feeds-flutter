@@ -30,11 +30,11 @@ class _CdnApi implements CdnApi {
     _data.files.addAll(file.map((i) => MapEntry('file', i)));
     final _options = _setStreamType<Result<FileUploadResponse>>(
       Options(
-        method: 'POST',
-        headers: _headers,
-        extra: _extra,
-        contentType: 'multipart/form-data',
-      )
+            method: 'POST',
+            headers: _headers,
+            extra: _extra,
+            contentType: 'multipart/form-data',
+          )
           .compose(
             _dio.options,
             '/api/v2/uploads/file',
@@ -84,11 +84,11 @@ class _CdnApi implements CdnApi {
     _data.files.addAll(file.map((i) => MapEntry('file', i)));
     final _options = _setStreamType<Result<ImageUploadResponse>>(
       Options(
-        method: 'POST',
-        headers: _headers,
-        extra: _extra,
-        contentType: 'multipart/form-data',
-      )
+            method: 'POST',
+            headers: _headers,
+            extra: _extra,
+            contentType: 'multipart/form-data',
+          )
           .compose(
             _dio.options,
             '/api/v2/uploads/image',
@@ -209,8 +209,7 @@ class _CdnApi implements CdnApi {
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
-        !(requestOptions.responseType == ResponseType.bytes ||
-            requestOptions.responseType == ResponseType.stream)) {
+        !(requestOptions.responseType == ResponseType.bytes || requestOptions.responseType == ResponseType.stream)) {
       if (T == String) {
         requestOptions.responseType = ResponseType.plain;
       } else {

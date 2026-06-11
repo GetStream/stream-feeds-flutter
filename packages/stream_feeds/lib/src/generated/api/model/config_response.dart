@@ -104,6 +104,5 @@ class ConfigResponse with _$ConfigResponse {
 
   Map<String, dynamic> toJson() => _$ConfigResponseToJson(this);
 
-  static ConfigResponse fromJson(Map<String, dynamic> json) =>
-      _$ConfigResponseFromJson(json);
+  static ConfigResponse fromJson(Map<String, dynamic> json) => _$ConfigResponseFromJson(json);
 }

@@ -34,6 +34,5 @@ class UnbanActionRequestPayload with _$UnbanActionRequestPayload {
 
   Map<String, dynamic> toJson() => _$UnbanActionRequestPayloadToJson(this);
 
-  static UnbanActionRequestPayload fromJson(Map<String, dynamic> json) =>
-      _$UnbanActionRequestPayloadFromJson(json);
+  static UnbanActionRequestPayload fromJson(Map<String, dynamic> json) => _$UnbanActionRequestPayloadFromJson(json);
 }

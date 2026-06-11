@@ -46,6 +46,5 @@ class FlagRequest with _$FlagRequest {
 
   Map<String, dynamic> toJson() => _$FlagRequestToJson(this);
 
-  static FlagRequest fromJson(Map<String, dynamic> json) =>
-      _$FlagRequestFromJson(json);
+  static FlagRequest fromJson(Map<String, dynamic> json) => _$FlagRequestFromJson(json);
 }

@@ -59,6 +59,5 @@ class DeviceResponse with _$DeviceResponse {
 
   Map<String, dynamic> toJson() => _$DeviceResponseToJson(this);
 
-  static DeviceResponse fromJson(Map<String, dynamic> json) =>
-      _$DeviceResponseFromJson(json);
+  static DeviceResponse fromJson(Map<String, dynamic> json) => _$DeviceResponseFromJson(json);
 }

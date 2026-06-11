@@ -26,7 +26,7 @@ enum FeedInputVisibility {
   @JsonValue('visible')
   visible,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -67,6 +67,5 @@ class FeedInput with _$FeedInput {
 
   Map<String, dynamic> toJson() => _$FeedInputToJson(this);
 
-  static FeedInput fromJson(Map<String, dynamic> json) =>
-      _$FeedInputFromJson(json);
+  static FeedInput fromJson(Map<String, dynamic> json) => _$FeedInputFromJson(json);
 }

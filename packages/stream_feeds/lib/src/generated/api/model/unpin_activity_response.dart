@@ -38,6 +38,5 @@ class UnpinActivityResponse with _$UnpinActivityResponse {
 
   Map<String, dynamic> toJson() => _$UnpinActivityResponseToJson(this);
 
-  static UnpinActivityResponse fromJson(Map<String, dynamic> json) =>
-      _$UnpinActivityResponseFromJson(json);
+  static UnpinActivityResponse fromJson(Map<String, dynamic> json) => _$UnpinActivityResponseFromJson(json);
 }

@@ -184,8 +184,7 @@ PollResponseData createDefaultPollResponse({
     true => latestVotesByOption,
     _ => latestVotes.fold(
       <String, List<PollVoteResponseData>>{},
-      (prev, curr) => prev
-        ..update(curr.optionId, (it) => [curr, ...it], ifAbsent: () => [curr]),
+      (prev, curr) => prev..update(curr.optionId, (it) => [curr, ...it], ifAbsent: () => [curr]),
     ),
   };
 

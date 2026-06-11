@@ -64,6 +64,5 @@ class BookmarkResponse with _$BookmarkResponse {
 
   Map<String, dynamic> toJson() => _$BookmarkResponseToJson(this);
 
-  static BookmarkResponse fromJson(Map<String, dynamic> json) =>
-      _$BookmarkResponseFromJson(json);
+  static BookmarkResponse fromJson(Map<String, dynamic> json) => _$BookmarkResponseFromJson(json);
 }

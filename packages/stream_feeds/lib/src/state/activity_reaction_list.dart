@@ -58,8 +58,7 @@ class ActivityReactionList extends Disposable {
   /// Queries the initial list of activity reactions based on the provided [ActivityReactionsQuery].
   ///
   /// Returns a [Result] containing a list of [FeedsReactionData] or an error.
-  Future<Result<List<FeedsReactionData>>> get() =>
-      _queryActivityReactions(query);
+  Future<Result<List<FeedsReactionData>>> get() => _queryActivityReactions(query);
 
   /// Loads more activity reactions based on the current pagination state.
   ///

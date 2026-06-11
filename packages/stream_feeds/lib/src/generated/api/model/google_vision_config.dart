@@ -26,6 +26,5 @@ class GoogleVisionConfig with _$GoogleVisionConfig {
 
   Map<String, dynamic> toJson() => _$GoogleVisionConfigToJson(this);
 
-  static GoogleVisionConfig fromJson(Map<String, dynamic> json) =>
-      _$GoogleVisionConfigFromJson(json);
+  static GoogleVisionConfig fromJson(Map<String, dynamic> json) => _$GoogleVisionConfigFromJson(json);
 }

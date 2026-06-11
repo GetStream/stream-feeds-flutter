@@ -30,6 +30,5 @@ class UpdateCommentResponse with _$UpdateCommentResponse {
 
   Map<String, dynamic> toJson() => _$UpdateCommentResponseToJson(this);
 
-  static UpdateCommentResponse fromJson(Map<String, dynamic> json) =>
-      _$UpdateCommentResponseFromJson(json);
+  static UpdateCommentResponse fromJson(Map<String, dynamic> json) => _$UpdateCommentResponseFromJson(json);
 }

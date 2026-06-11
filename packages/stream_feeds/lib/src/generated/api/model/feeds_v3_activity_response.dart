@@ -219,6 +219,5 @@ class FeedsV3ActivityResponse with _$FeedsV3ActivityResponse {
 
   Map<String, dynamic> toJson() => _$FeedsV3ActivityResponseToJson(this);
 
-  static FeedsV3ActivityResponse fromJson(Map<String, dynamic> json) =>
-      _$FeedsV3ActivityResponseFromJson(json);
+  static FeedsV3ActivityResponse fromJson(Map<String, dynamic> json) => _$FeedsV3ActivityResponseFromJson(json);
 }

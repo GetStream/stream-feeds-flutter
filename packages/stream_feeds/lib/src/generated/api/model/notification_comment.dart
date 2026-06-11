@@ -38,6 +38,5 @@ class NotificationComment with _$NotificationComment {
 
   Map<String, dynamic> toJson() => _$NotificationCommentToJson(this);
 
-  static NotificationComment fromJson(Map<String, dynamic> json) =>
-      _$NotificationCommentFromJson(json);
+  static NotificationComment fromJson(Map<String, dynamic> json) => _$NotificationCommentFromJson(json);
 }

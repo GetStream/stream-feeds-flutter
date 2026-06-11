@@ -22,7 +22,7 @@ enum BanRequestDeleteMessages {
   @JsonValue('soft')
   soft,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -71,6 +71,5 @@ class BanRequest with _$BanRequest {
 
   Map<String, dynamic> toJson() => _$BanRequestToJson(this);
 
-  static BanRequest fromJson(Map<String, dynamic> json) =>
-      _$BanRequestFromJson(json);
+  static BanRequest fromJson(Map<String, dynamic> json) => _$BanRequestFromJson(json);
 }

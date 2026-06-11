@@ -38,6 +38,5 @@ class AddCommentReactionResponse with _$AddCommentReactionResponse {
 
   Map<String, dynamic> toJson() => _$AddCommentReactionResponseToJson(this);
 
-  static AddCommentReactionResponse fromJson(Map<String, dynamic> json) =>
-      _$AddCommentReactionResponseFromJson(json);
+  static AddCommentReactionResponse fromJson(Map<String, dynamic> json) => _$AddCommentReactionResponseFromJson(json);
 }

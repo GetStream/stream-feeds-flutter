@@ -66,13 +66,10 @@ extension PushNotificationsProviderMapper on PushNotificationsProvider {
   /// Converts this push notification provider to an API enum.
   CreateDeviceRequestPushProvider toRequest() {
     return switch (this) {
-      PushNotificationsProvider.firebase =>
-        CreateDeviceRequestPushProvider.firebase,
+      PushNotificationsProvider.firebase => CreateDeviceRequestPushProvider.firebase,
       PushNotificationsProvider.apn => CreateDeviceRequestPushProvider.apn,
-      PushNotificationsProvider.huawei =>
-        CreateDeviceRequestPushProvider.huawei,
-      PushNotificationsProvider.xiaomi =>
-        CreateDeviceRequestPushProvider.xiaomi,
+      PushNotificationsProvider.huawei => CreateDeviceRequestPushProvider.huawei,
+      PushNotificationsProvider.xiaomi => CreateDeviceRequestPushProvider.xiaomi,
     };
   }
 }

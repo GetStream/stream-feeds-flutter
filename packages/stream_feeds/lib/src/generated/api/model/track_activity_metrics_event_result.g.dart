@@ -6,8 +6,7 @@ part of 'track_activity_metrics_event_result.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-TrackActivityMetricsEventResult _$TrackActivityMetricsEventResultFromJson(
-        Map<String, dynamic> json) =>
+TrackActivityMetricsEventResult _$TrackActivityMetricsEventResultFromJson(Map<String, dynamic> json) =>
     TrackActivityMetricsEventResult(
       activityId: json['activity_id'] as String,
       allowed: json['allowed'] as bool,
@@ -15,8 +14,7 @@ TrackActivityMetricsEventResult _$TrackActivityMetricsEventResultFromJson(
       metric: json['metric'] as String,
     );
 
-Map<String, dynamic> _$TrackActivityMetricsEventResultToJson(
-        TrackActivityMetricsEventResult instance) =>
+Map<String, dynamic> _$TrackActivityMetricsEventResultToJson(TrackActivityMetricsEventResult instance) =>
     <String, dynamic>{
       'activity_id': instance.activityId,
       'allowed': instance.allowed,

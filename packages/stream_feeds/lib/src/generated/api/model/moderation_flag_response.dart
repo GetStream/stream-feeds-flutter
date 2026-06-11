@@ -84,6 +84,5 @@ class ModerationFlagResponse with _$ModerationFlagResponse {
 
   Map<String, dynamic> toJson() => _$ModerationFlagResponseToJson(this);
 
-  static ModerationFlagResponse fromJson(Map<String, dynamic> json) =>
-      _$ModerationFlagResponseFromJson(json);
+  static ModerationFlagResponse fromJson(Map<String, dynamic> json) => _$ModerationFlagResponseFromJson(json);
 }

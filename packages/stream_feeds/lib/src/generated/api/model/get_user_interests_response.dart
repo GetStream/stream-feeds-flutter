@@ -30,6 +30,5 @@ class GetUserInterestsResponse with _$GetUserInterestsResponse {
 
   Map<String, dynamic> toJson() => _$GetUserInterestsResponseToJson(this);
 
-  static GetUserInterestsResponse fromJson(Map<String, dynamic> json) =>
-      _$GetUserInterestsResponseFromJson(json);
+  static GetUserInterestsResponse fromJson(Map<String, dynamic> json) => _$GetUserInterestsResponseFromJson(json);
 }

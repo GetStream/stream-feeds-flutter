@@ -36,8 +36,7 @@ class TrackActivityMetricsEventResult with _$TrackActivityMetricsEventResult {
   @override
   final String metric;
 
-  Map<String, dynamic> toJson() =>
-      _$TrackActivityMetricsEventResultToJson(this);
+  Map<String, dynamic> toJson() => _$TrackActivityMetricsEventResultToJson(this);
 
   static TrackActivityMetricsEventResult fromJson(Map<String, dynamic> json) =>
       _$TrackActivityMetricsEventResultFromJson(json);

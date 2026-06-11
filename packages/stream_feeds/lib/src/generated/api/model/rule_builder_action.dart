@@ -50,7 +50,7 @@ enum RuleBuilderActionType {
   @JsonValue('webhook_only')
   webhookOnly,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -83,6 +83,5 @@ class RuleBuilderAction with _$RuleBuilderAction {
 
   Map<String, dynamic> toJson() => _$RuleBuilderActionToJson(this);
 
-  static RuleBuilderAction fromJson(Map<String, dynamic> json) =>
-      _$RuleBuilderActionFromJson(json);
+  static RuleBuilderAction fromJson(Map<String, dynamic> json) => _$RuleBuilderActionFromJson(json);
 }

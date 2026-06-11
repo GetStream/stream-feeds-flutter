@@ -26,6 +26,5 @@ class TypingIndicatorsResponse with _$TypingIndicatorsResponse {
 
   Map<String, dynamic> toJson() => _$TypingIndicatorsResponseToJson(this);
 
-  static TypingIndicatorsResponse fromJson(Map<String, dynamic> json) =>
-      _$TypingIndicatorsResponseFromJson(json);
+  static TypingIndicatorsResponse fromJson(Map<String, dynamic> json) => _$TypingIndicatorsResponseFromJson(json);
 }

@@ -38,6 +38,5 @@ class AggregationConfig with _$AggregationConfig {
 
   Map<String, dynamic> toJson() => _$AggregationConfigToJson(this);
 
-  static AggregationConfig fromJson(Map<String, dynamic> json) =>
-      _$AggregationConfigFromJson(json);
+  static AggregationConfig fromJson(Map<String, dynamic> json) => _$AggregationConfigFromJson(json);
 }

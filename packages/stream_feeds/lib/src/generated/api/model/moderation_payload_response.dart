@@ -38,6 +38,5 @@ class ModerationPayloadResponse with _$ModerationPayloadResponse {
 
   Map<String, dynamic> toJson() => _$ModerationPayloadResponseToJson(this);
 
-  static ModerationPayloadResponse fromJson(Map<String, dynamic> json) =>
-      _$ModerationPayloadResponseFromJson(json);
+  static ModerationPayloadResponse fromJson(Map<String, dynamic> json) => _$ModerationPayloadResponseFromJson(json);
 }

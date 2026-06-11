@@ -58,6 +58,5 @@ class TextRuleParameters with _$TextRuleParameters {
 
   Map<String, dynamic> toJson() => _$TextRuleParametersToJson(this);
 
-  static TextRuleParameters fromJson(Map<String, dynamic> json) =>
-      _$TextRuleParametersFromJson(json);
+  static TextRuleParameters fromJson(Map<String, dynamic> json) => _$TextRuleParametersFromJson(json);
 }

@@ -38,6 +38,5 @@ class FilterConfigResponse with _$FilterConfigResponse {
 
   Map<String, dynamic> toJson() => _$FilterConfigResponseToJson(this);
 
-  static FilterConfigResponse fromJson(Map<String, dynamic> json) =>
-      _$FilterConfigResponseFromJson(json);
+  static FilterConfigResponse fromJson(Map<String, dynamic> json) => _$FilterConfigResponseFromJson(json);
 }

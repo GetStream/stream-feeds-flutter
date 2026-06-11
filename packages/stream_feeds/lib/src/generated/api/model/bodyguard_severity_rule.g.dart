@@ -6,22 +6,23 @@ part of 'bodyguard_severity_rule.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-BodyguardSeverityRule _$BodyguardSeverityRuleFromJson(
-        Map<String, dynamic> json) =>
-    BodyguardSeverityRule(
-      action: $enumDecode(_$BodyguardSeverityRuleActionEnumMap, json['action'],
-          unknownValue: BodyguardSeverityRuleAction.unknown),
-      severity: $enumDecode(
-          _$BodyguardSeverityRuleSeverityEnumMap, json['severity'],
-          unknownValue: BodyguardSeverityRuleSeverity.unknown),
-    );
+BodyguardSeverityRule _$BodyguardSeverityRuleFromJson(Map<String, dynamic> json) => BodyguardSeverityRule(
+  action: $enumDecode(
+    _$BodyguardSeverityRuleActionEnumMap,
+    json['action'],
+    unknownValue: BodyguardSeverityRuleAction.unknown,
+  ),
+  severity: $enumDecode(
+    _$BodyguardSeverityRuleSeverityEnumMap,
+    json['severity'],
+    unknownValue: BodyguardSeverityRuleSeverity.unknown,
+  ),
+);
 
-Map<String, dynamic> _$BodyguardSeverityRuleToJson(
-        BodyguardSeverityRule instance) =>
-    <String, dynamic>{
-      'action': _$BodyguardSeverityRuleActionEnumMap[instance.action]!,
-      'severity': _$BodyguardSeverityRuleSeverityEnumMap[instance.severity]!,
-    };
+Map<String, dynamic> _$BodyguardSeverityRuleToJson(BodyguardSeverityRule instance) => <String, dynamic>{
+  'action': _$BodyguardSeverityRuleActionEnumMap[instance.action]!,
+  'severity': _$BodyguardSeverityRuleSeverityEnumMap[instance.severity]!,
+};
 
 const _$BodyguardSeverityRuleActionEnumMap = {
   BodyguardSeverityRuleAction.bounce: 'bounce',

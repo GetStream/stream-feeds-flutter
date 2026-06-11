@@ -51,6 +51,5 @@ class DraftResponse with _$DraftResponse {
 
   Map<String, dynamic> toJson() => _$DraftResponseToJson(this);
 
-  static DraftResponse fromJson(Map<String, dynamic> json) =>
-      _$DraftResponseFromJson(json);
+  static DraftResponse fromJson(Map<String, dynamic> json) => _$DraftResponseFromJson(json);
 }

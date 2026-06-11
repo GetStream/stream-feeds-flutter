@@ -26,7 +26,7 @@ enum BulkActionAppealsRequestActionType {
   @JsonValue('unblock')
   unblock,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -67,6 +67,5 @@ class BulkActionAppealsRequest with _$BulkActionAppealsRequest {
 
   Map<String, dynamic> toJson() => _$BulkActionAppealsRequestToJson(this);
 
-  static BulkActionAppealsRequest fromJson(Map<String, dynamic> json) =>
-      _$BulkActionAppealsRequestFromJson(json);
+  static BulkActionAppealsRequest fromJson(Map<String, dynamic> json) => _$BulkActionAppealsRequestFromJson(json);
 }

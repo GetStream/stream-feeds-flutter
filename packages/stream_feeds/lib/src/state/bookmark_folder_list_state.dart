@@ -13,8 +13,7 @@ part 'bookmark_folder_list_state.freezed.dart';
 ///
 /// Provides methods to update the bookmark folder list state in response to data changes
 /// and real-time events from the Stream Feeds API.
-class BookmarkFolderListStateNotifier
-    extends StateNotifier<BookmarkFolderListState> {
+class BookmarkFolderListStateNotifier extends StateNotifier<BookmarkFolderListState> {
   BookmarkFolderListStateNotifier({
     required BookmarkFolderListState initialState,
   }) : super(initialState);

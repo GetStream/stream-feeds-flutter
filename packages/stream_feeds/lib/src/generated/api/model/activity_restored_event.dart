@@ -56,6 +56,5 @@ class ActivityRestoredEvent extends core.WsEvent with _$ActivityRestoredEvent {
 
   Map<String, dynamic> toJson() => _$ActivityRestoredEventToJson(this);
 
-  static ActivityRestoredEvent fromJson(Map<String, dynamic> json) =>
-      _$ActivityRestoredEventFromJson(json);
+  static ActivityRestoredEvent fromJson(Map<String, dynamic> json) => _$ActivityRestoredEventFromJson(json);
 }

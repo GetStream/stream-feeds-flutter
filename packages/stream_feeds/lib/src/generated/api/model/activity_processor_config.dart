@@ -34,6 +34,5 @@ class ActivityProcessorConfig with _$ActivityProcessorConfig {
 
   Map<String, dynamic> toJson() => _$ActivityProcessorConfigToJson(this);
 
-  static ActivityProcessorConfig fromJson(Map<String, dynamic> json) =>
-      _$ActivityProcessorConfigFromJson(json);
+  static ActivityProcessorConfig fromJson(Map<String, dynamic> json) => _$ActivityProcessorConfigFromJson(json);
 }

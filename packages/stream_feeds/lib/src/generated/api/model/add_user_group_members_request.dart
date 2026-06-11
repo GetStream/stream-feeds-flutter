@@ -34,6 +34,5 @@ class AddUserGroupMembersRequest with _$AddUserGroupMembersRequest {
 
   Map<String, dynamic> toJson() => _$AddUserGroupMembersRequestToJson(this);
 
-  static AddUserGroupMembersRequest fromJson(Map<String, dynamic> json) =>
-      _$AddUserGroupMembersRequestFromJson(json);
+  static AddUserGroupMembersRequest fromJson(Map<String, dynamic> json) => _$AddUserGroupMembersRequestFromJson(json);
 }

@@ -46,6 +46,5 @@ class TextContentParameters with _$TextContentParameters {
 
   Map<String, dynamic> toJson() => _$TextContentParametersToJson(this);
 
-  static TextContentParameters fromJson(Map<String, dynamic> json) =>
-      _$TextContentParametersFromJson(json);
+  static TextContentParameters fromJson(Map<String, dynamic> json) => _$TextContentParametersFromJson(json);
 }

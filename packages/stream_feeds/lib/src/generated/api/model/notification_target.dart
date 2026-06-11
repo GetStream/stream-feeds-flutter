@@ -58,6 +58,5 @@ class NotificationTarget with _$NotificationTarget {
 
   Map<String, dynamic> toJson() => _$NotificationTargetToJson(this);
 
-  static NotificationTarget fromJson(Map<String, dynamic> json) =>
-      _$NotificationTargetFromJson(json);
+  static NotificationTarget fromJson(Map<String, dynamic> json) => _$NotificationTargetFromJson(json);
 }

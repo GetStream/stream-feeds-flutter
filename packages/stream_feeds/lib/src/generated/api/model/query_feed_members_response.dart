@@ -38,6 +38,5 @@ class QueryFeedMembersResponse with _$QueryFeedMembersResponse {
 
   Map<String, dynamic> toJson() => _$QueryFeedMembersResponseToJson(this);
 
-  static QueryFeedMembersResponse fromJson(Map<String, dynamic> json) =>
-      _$QueryFeedMembersResponseFromJson(json);
+  static QueryFeedMembersResponse fromJson(Map<String, dynamic> json) => _$QueryFeedMembersResponseFromJson(json);
 }

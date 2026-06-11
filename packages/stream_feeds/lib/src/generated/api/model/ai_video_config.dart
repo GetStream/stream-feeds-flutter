@@ -34,6 +34,5 @@ class AIVideoConfig with _$AIVideoConfig {
 
   Map<String, dynamic> toJson() => _$AIVideoConfigToJson(this);
 
-  static AIVideoConfig fromJson(Map<String, dynamic> json) =>
-      _$AIVideoConfigFromJson(json);
+  static AIVideoConfig fromJson(Map<String, dynamic> json) => _$AIVideoConfigFromJson(json);
 }

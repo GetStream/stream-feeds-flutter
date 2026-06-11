@@ -26,6 +26,5 @@ class CallTypeRuleParameters with _$CallTypeRuleParameters {
 
   Map<String, dynamic> toJson() => _$CallTypeRuleParametersToJson(this);
 
-  static CallTypeRuleParameters fromJson(Map<String, dynamic> json) =>
-      _$CallTypeRuleParametersFromJson(json);
+  static CallTypeRuleParameters fromJson(Map<String, dynamic> json) => _$CallTypeRuleParametersFromJson(json);
 }

@@ -48,6 +48,5 @@ class UserDeactivatedEvent extends core.WsEvent with _$UserDeactivatedEvent {
 
   Map<String, dynamic> toJson() => _$UserDeactivatedEventToJson(this);
 
-  static UserDeactivatedEvent fromJson(Map<String, dynamic> json) =>
-      _$UserDeactivatedEventFromJson(json);
+  static UserDeactivatedEvent fromJson(Map<String, dynamic> json) => _$UserDeactivatedEventFromJson(json);
 }

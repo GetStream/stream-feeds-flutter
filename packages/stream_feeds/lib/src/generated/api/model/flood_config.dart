@@ -30,6 +30,5 @@ class FloodConfig with _$FloodConfig {
 
   Map<String, dynamic> toJson() => _$FloodConfigToJson(this);
 
-  static FloodConfig fromJson(Map<String, dynamic> json) =>
-      _$FloodConfigFromJson(json);
+  static FloodConfig fromJson(Map<String, dynamic> json) => _$FloodConfigFromJson(json);
 }

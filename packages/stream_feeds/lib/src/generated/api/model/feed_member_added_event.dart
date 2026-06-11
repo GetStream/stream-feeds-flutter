@@ -56,6 +56,5 @@ class FeedMemberAddedEvent extends core.WsEvent with _$FeedMemberAddedEvent {
 
   Map<String, dynamic> toJson() => _$FeedMemberAddedEventToJson(this);
 
-  static FeedMemberAddedEvent fromJson(Map<String, dynamic> json) =>
-      _$FeedMemberAddedEventFromJson(json);
+  static FeedMemberAddedEvent fromJson(Map<String, dynamic> json) => _$FeedMemberAddedEventFromJson(json);
 }

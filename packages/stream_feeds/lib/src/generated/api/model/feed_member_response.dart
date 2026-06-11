@@ -22,7 +22,7 @@ enum FeedMemberResponseStatus {
   @JsonValue('rejected')
   rejected,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -75,6 +75,5 @@ class FeedMemberResponse with _$FeedMemberResponse {
 
   Map<String, dynamic> toJson() => _$FeedMemberResponseToJson(this);
 
-  static FeedMemberResponse fromJson(Map<String, dynamic> json) =>
-      _$FeedMemberResponseFromJson(json);
+  static FeedMemberResponse fromJson(Map<String, dynamic> json) => _$FeedMemberResponseFromJson(json);
 }

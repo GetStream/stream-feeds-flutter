@@ -30,6 +30,5 @@ class StoriesConfig with _$StoriesConfig {
 
   Map<String, dynamic> toJson() => _$StoriesConfigToJson(this);
 
-  static StoriesConfig fromJson(Map<String, dynamic> json) =>
-      _$StoriesConfigFromJson(json);
+  static StoriesConfig fromJson(Map<String, dynamic> json) => _$StoriesConfigFromJson(json);
 }

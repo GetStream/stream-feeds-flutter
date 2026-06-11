@@ -50,6 +50,5 @@ class ChatPreferencesResponse with _$ChatPreferencesResponse {
 
   Map<String, dynamic> toJson() => _$ChatPreferencesResponseToJson(this);
 
-  static ChatPreferencesResponse fromJson(Map<String, dynamic> json) =>
-      _$ChatPreferencesResponseFromJson(json);
+  static ChatPreferencesResponse fromJson(Map<String, dynamic> json) => _$ChatPreferencesResponseFromJson(json);
 }

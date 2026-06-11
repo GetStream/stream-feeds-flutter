@@ -42,6 +42,5 @@ class FloodSimilarConfig with _$FloodSimilarConfig {
 
   Map<String, dynamic> toJson() => _$FloodSimilarConfigToJson(this);
 
-  static FloodSimilarConfig fromJson(Map<String, dynamic> json) =>
-      _$FloodSimilarConfigFromJson(json);
+  static FloodSimilarConfig fromJson(Map<String, dynamic> json) => _$FloodSimilarConfigFromJson(json);
 }

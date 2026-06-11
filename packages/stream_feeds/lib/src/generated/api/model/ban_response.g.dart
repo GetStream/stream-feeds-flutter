@@ -7,10 +7,9 @@ part of 'ban_response.dart';
 // **************************************************************************
 
 BanResponse _$BanResponseFromJson(Map<String, dynamic> json) => BanResponse(
-      duration: json['duration'] as String,
-    );
+  duration: json['duration'] as String,
+);
 
-Map<String, dynamic> _$BanResponseToJson(BanResponse instance) =>
-    <String, dynamic>{
-      'duration': instance.duration,
-    };
+Map<String, dynamic> _$BanResponseToJson(BanResponse instance) => <String, dynamic>{
+  'duration': instance.duration,
+};

@@ -38,6 +38,5 @@ class QueryFollowsResponse with _$QueryFollowsResponse {
 
   Map<String, dynamic> toJson() => _$QueryFollowsResponseToJson(this);
 
-  static QueryFollowsResponse fromJson(Map<String, dynamic> json) =>
-      _$QueryFollowsResponseFromJson(json);
+  static QueryFollowsResponse fromJson(Map<String, dynamic> json) => _$QueryFollowsResponseFromJson(json);
 }

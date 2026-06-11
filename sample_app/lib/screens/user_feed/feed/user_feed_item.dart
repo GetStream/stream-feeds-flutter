@@ -149,8 +149,7 @@ class _ActivityBody extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (text.isNotEmpty) Text(text),
-        if (data.poll case final poll?)
-          ShowPollWidget(poll: poll, activity: activity, feed: feed),
+        if (data.poll case final poll?) ShowPollWidget(poll: poll, activity: activity, feed: feed),
         if (attachments.isNotEmpty) ...[
           AttachmentGrid(
             attachments: attachments,

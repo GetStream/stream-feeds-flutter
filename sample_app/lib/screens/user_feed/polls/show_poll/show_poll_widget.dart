@@ -20,8 +20,7 @@ class ShowPollWidget extends StatefulWidget {
   State<ShowPollWidget> createState() => _ShowPollWidgetState();
 }
 
-class _ShowPollWidgetState extends State<ShowPollWidget>
-    with AutomaticKeepAliveClientMixin {
+class _ShowPollWidgetState extends State<ShowPollWidget> with AutomaticKeepAliveClientMixin {
   StreamFeedsClient get client => locator<StreamFeedsClient>();
   late Activity activity;
 

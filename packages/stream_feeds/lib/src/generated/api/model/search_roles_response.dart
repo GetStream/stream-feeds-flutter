@@ -30,6 +30,5 @@ class SearchRolesResponse with _$SearchRolesResponse {
 
   Map<String, dynamic> toJson() => _$SearchRolesResponseToJson(this);
 
-  static SearchRolesResponse fromJson(Map<String, dynamic> json) =>
-      _$SearchRolesResponseFromJson(json);
+  static SearchRolesResponse fromJson(Map<String, dynamic> json) => _$SearchRolesResponseFromJson(json);
 }

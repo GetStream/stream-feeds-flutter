@@ -54,6 +54,5 @@ class UpsertActionConfigItem with _$UpsertActionConfigItem {
 
   Map<String, dynamic> toJson() => _$UpsertActionConfigItemToJson(this);
 
-  static UpsertActionConfigItem fromJson(Map<String, dynamic> json) =>
-      _$UpsertActionConfigItemFromJson(json);
+  static UpsertActionConfigItem fromJson(Map<String, dynamic> json) => _$UpsertActionConfigItemFromJson(json);
 }

@@ -22,7 +22,7 @@ enum WSAuthMessageProducts {
   @JsonValue('video')
   video,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -43,6 +43,5 @@ class WSAuthMessage with _$WSAuthMessage {
 
   Map<String, dynamic> toJson() => _$WSAuthMessageToJson(this);
 
-  static WSAuthMessage fromJson(Map<String, dynamic> json) =>
-      _$WSAuthMessageFromJson(json);
+  static WSAuthMessage fromJson(Map<String, dynamic> json) => _$WSAuthMessageFromJson(json);
 }

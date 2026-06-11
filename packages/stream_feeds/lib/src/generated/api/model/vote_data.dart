@@ -30,6 +30,5 @@ class VoteData with _$VoteData {
 
   Map<String, dynamic> toJson() => _$VoteDataToJson(this);
 
-  static VoteData fromJson(Map<String, dynamic> json) =>
-      _$VoteDataFromJson(json);
+  static VoteData fromJson(Map<String, dynamic> json) => _$VoteDataFromJson(json);
 }

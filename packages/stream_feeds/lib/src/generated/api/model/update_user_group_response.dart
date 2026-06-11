@@ -30,6 +30,5 @@ class UpdateUserGroupResponse with _$UpdateUserGroupResponse {
 
   Map<String, dynamic> toJson() => _$UpdateUserGroupResponseToJson(this);
 
-  static UpdateUserGroupResponse fromJson(Map<String, dynamic> json) =>
-      _$UpdateUserGroupResponseFromJson(json);
+  static UpdateUserGroupResponse fromJson(Map<String, dynamic> json) => _$UpdateUserGroupResponseFromJson(json);
 }

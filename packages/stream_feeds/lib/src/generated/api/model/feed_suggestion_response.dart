@@ -74,7 +74,7 @@ enum FeedSuggestionResponseOwnCapabilities {
   @JsonValue('update-own-comment')
   updateOwnComment,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -90,7 +90,7 @@ enum FeedSuggestionResponseVisibility {
   @JsonValue('visible')
   visible,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -207,6 +207,5 @@ class FeedSuggestionResponse with _$FeedSuggestionResponse {
 
   Map<String, dynamic> toJson() => _$FeedSuggestionResponseToJson(this);
 
-  static FeedSuggestionResponse fromJson(Map<String, dynamic> json) =>
-      _$FeedSuggestionResponseFromJson(json);
+  static FeedSuggestionResponse fromJson(Map<String, dynamic> json) => _$FeedSuggestionResponseFromJson(json);
 }

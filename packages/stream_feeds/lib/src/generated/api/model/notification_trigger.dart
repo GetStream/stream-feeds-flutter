@@ -38,6 +38,5 @@ class NotificationTrigger with _$NotificationTrigger {
 
   Map<String, dynamic> toJson() => _$NotificationTriggerToJson(this);
 
-  static NotificationTrigger fromJson(Map<String, dynamic> json) =>
-      _$NotificationTriggerFromJson(json);
+  static NotificationTrigger fromJson(Map<String, dynamic> json) => _$NotificationTriggerFromJson(json);
 }

@@ -32,7 +32,7 @@ enum BlockListRuleAction {
   @JsonValue('shadow')
   shadow,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -57,6 +57,5 @@ class BlockListRule with _$BlockListRule {
 
   Map<String, dynamic> toJson() => _$BlockListRuleToJson(this);
 
-  static BlockListRule fromJson(Map<String, dynamic> json) =>
-      _$BlockListRuleFromJson(json);
+  static BlockListRule fromJson(Map<String, dynamic> json) => _$BlockListRuleFromJson(json);
 }

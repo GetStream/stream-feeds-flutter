@@ -26,6 +26,5 @@ class BlockUsersRequest with _$BlockUsersRequest {
 
   Map<String, dynamic> toJson() => _$BlockUsersRequestToJson(this);
 
-  static BlockUsersRequest fromJson(Map<String, dynamic> json) =>
-      _$BlockUsersRequestFromJson(json);
+  static BlockUsersRequest fromJson(Map<String, dynamic> json) => _$BlockUsersRequestFromJson(json);
 }

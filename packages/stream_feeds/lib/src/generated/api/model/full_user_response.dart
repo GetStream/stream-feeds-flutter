@@ -149,6 +149,5 @@ class FullUserResponse with _$FullUserResponse {
 
   Map<String, dynamic> toJson() => _$FullUserResponseToJson(this);
 
-  static FullUserResponse fromJson(Map<String, dynamic> json) =>
-      _$FullUserResponseFromJson(json);
+  static FullUserResponse fromJson(Map<String, dynamic> json) => _$FullUserResponseFromJson(json);
 }

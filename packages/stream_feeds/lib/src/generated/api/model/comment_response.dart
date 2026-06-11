@@ -26,7 +26,7 @@ enum CommentResponseStatus {
   @JsonValue('shadow_blocked')
   shadowBlocked,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -147,6 +147,5 @@ class CommentResponse with _$CommentResponse {
 
   Map<String, dynamic> toJson() => _$CommentResponseToJson(this);
 
-  static CommentResponse fromJson(Map<String, dynamic> json) =>
-      _$CommentResponseFromJson(json);
+  static CommentResponse fromJson(Map<String, dynamic> json) => _$CommentResponseFromJson(json);
 }

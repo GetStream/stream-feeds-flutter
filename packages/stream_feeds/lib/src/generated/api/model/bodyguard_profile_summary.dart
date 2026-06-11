@@ -34,6 +34,5 @@ class BodyguardProfileSummary with _$BodyguardProfileSummary {
 
   Map<String, dynamic> toJson() => _$BodyguardProfileSummaryToJson(this);
 
-  static BodyguardProfileSummary fromJson(Map<String, dynamic> json) =>
-      _$BodyguardProfileSummaryFromJson(json);
+  static BodyguardProfileSummary fromJson(Map<String, dynamic> json) => _$BodyguardProfileSummaryFromJson(json);
 }

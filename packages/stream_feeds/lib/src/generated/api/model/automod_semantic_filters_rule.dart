@@ -28,7 +28,7 @@ enum AutomodSemanticFiltersRuleAction {
   @JsonValue('shadow')
   shadow,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -53,6 +53,5 @@ class AutomodSemanticFiltersRule with _$AutomodSemanticFiltersRule {
 
   Map<String, dynamic> toJson() => _$AutomodSemanticFiltersRuleToJson(this);
 
-  static AutomodSemanticFiltersRule fromJson(Map<String, dynamic> json) =>
-      _$AutomodSemanticFiltersRuleFromJson(json);
+  static AutomodSemanticFiltersRule fromJson(Map<String, dynamic> json) => _$AutomodSemanticFiltersRuleFromJson(json);
 }

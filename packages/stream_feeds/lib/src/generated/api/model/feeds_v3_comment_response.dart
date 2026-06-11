@@ -130,6 +130,5 @@ class FeedsV3CommentResponse with _$FeedsV3CommentResponse {
 
   Map<String, dynamic> toJson() => _$FeedsV3CommentResponseToJson(this);
 
-  static FeedsV3CommentResponse fromJson(Map<String, dynamic> json) =>
-      _$FeedsV3CommentResponseFromJson(json);
+  static FeedsV3CommentResponse fromJson(Map<String, dynamic> json) => _$FeedsV3CommentResponseFromJson(json);
 }

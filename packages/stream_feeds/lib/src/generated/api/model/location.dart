@@ -30,6 +30,5 @@ class Location with _$Location {
 
   Map<String, dynamic> toJson() => _$LocationToJson(this);
 
-  static Location fromJson(Map<String, dynamic> json) =>
-      _$LocationFromJson(json);
+  static Location fromJson(Map<String, dynamic> json) => _$LocationFromJson(json);
 }

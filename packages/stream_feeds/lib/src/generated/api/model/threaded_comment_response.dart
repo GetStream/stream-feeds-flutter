@@ -26,7 +26,7 @@ enum ThreadedCommentResponseStatus {
   @JsonValue('shadow_blocked')
   shadowBlocked,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -155,6 +155,5 @@ class ThreadedCommentResponse with _$ThreadedCommentResponse {
 
   Map<String, dynamic> toJson() => _$ThreadedCommentResponseToJson(this);
 
-  static ThreadedCommentResponse fromJson(Map<String, dynamic> json) =>
-      _$ThreadedCommentResponseFromJson(json);
+  static ThreadedCommentResponse fromJson(Map<String, dynamic> json) => _$ThreadedCommentResponseFromJson(json);
 }

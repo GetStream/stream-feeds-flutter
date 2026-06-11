@@ -42,6 +42,5 @@ class GetCommentsResponse with _$GetCommentsResponse {
 
   Map<String, dynamic> toJson() => _$GetCommentsResponseToJson(this);
 
-  static GetCommentsResponse fromJson(Map<String, dynamic> json) =>
-      _$GetCommentsResponseFromJson(json);
+  static GetCommentsResponse fromJson(Map<String, dynamic> json) => _$GetCommentsResponseFromJson(json);
 }

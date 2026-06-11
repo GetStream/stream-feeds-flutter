@@ -45,6 +45,5 @@ class ChannelMute with _$ChannelMute {
 
   Map<String, dynamic> toJson() => _$ChannelMuteToJson(this);
 
-  static ChannelMute fromJson(Map<String, dynamic> json) =>
-      _$ChannelMuteFromJson(json);
+  static ChannelMute fromJson(Map<String, dynamic> json) => _$ChannelMuteFromJson(json);
 }

@@ -30,6 +30,5 @@ class MuteRequest with _$MuteRequest {
 
   Map<String, dynamic> toJson() => _$MuteRequestToJson(this);
 
-  static MuteRequest fromJson(Map<String, dynamic> json) =>
-      _$MuteRequestFromJson(json);
+  static MuteRequest fromJson(Map<String, dynamic> json) => _$MuteRequestFromJson(json);
 }

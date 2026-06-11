@@ -6,8 +6,7 @@ part of 'query_activity_reactions_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-QueryActivityReactionsResponse _$QueryActivityReactionsResponseFromJson(
-        Map<String, dynamic> json) =>
+QueryActivityReactionsResponse _$QueryActivityReactionsResponseFromJson(Map<String, dynamic> json) =>
     QueryActivityReactionsResponse(
       duration: json['duration'] as String,
       next: json['next'] as String?,
@@ -17,8 +16,7 @@ QueryActivityReactionsResponse _$QueryActivityReactionsResponseFromJson(
           .toList(),
     );
 
-Map<String, dynamic> _$QueryActivityReactionsResponseToJson(
-        QueryActivityReactionsResponse instance) =>
+Map<String, dynamic> _$QueryActivityReactionsResponseToJson(QueryActivityReactionsResponse instance) =>
     <String, dynamic>{
       'duration': instance.duration,
       'next': instance.next,

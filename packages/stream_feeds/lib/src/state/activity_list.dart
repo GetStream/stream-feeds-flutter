@@ -110,10 +110,7 @@ class ActivityList with Disposable {
         );
 
         capabilitiesRepository.cacheCapabilitiesForFeeds(
-          activitiesData.items
-              .map((activity) => activity.currentFeed)
-              .nonNulls
-              .toList(),
+          activitiesData.items.map((activity) => activity.currentFeed).nonNulls.toList(),
         );
       },
     );

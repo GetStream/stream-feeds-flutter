@@ -17,8 +17,7 @@ abstract interface class DefaultApi {
     String? baseUrl,
   }) = _DefaultApi;
 
-  @POST(
-      '/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/members/accept')
+  @POST('/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/members/accept')
   Future<Result<AcceptFeedMemberInviteResponse>> acceptFeedMemberInvite({
     @Path('feed_id') required String feedId,
     @Path('feed_group_id') required String feedGroupId,
@@ -102,14 +101,12 @@ abstract interface class DefaultApi {
 
   @POST('/api/v2/moderation/action_config/bulk_delete')
   Future<Result<BulkDeleteActionConfigResponse>> bulkDeleteActionConfig({
-    @Body()
-    required BulkDeleteActionConfigRequest bulkDeleteActionConfigRequest,
+    @Body() required BulkDeleteActionConfigRequest bulkDeleteActionConfigRequest,
   });
 
   @POST('/api/v2/moderation/action_config/bulk')
   Future<Result<BulkUpsertActionConfigResponse>> bulkUpsertActionConfig({
-    @Body()
-    required BulkUpsertActionConfigRequest bulkUpsertActionConfigRequest,
+    @Body() required BulkUpsertActionConfigRequest bulkUpsertActionConfigRequest,
   });
 
   @POST('/api/v2/feeds/activities/{activity_id}/polls/{poll_id}/vote')
@@ -119,8 +116,7 @@ abstract interface class DefaultApi {
     @Body() CastPollVoteRequest? castPollVoteRequest,
   });
 
-  @POST(
-      '/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/change_visibility')
+  @POST('/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/change_visibility')
   Future<Result<ChangeFeedVisibilityResponse>> changeFeedVisibility({
     @Path('feed_group_id') required String feedGroupId,
     @Path('feed_id') required String feedId,
@@ -276,8 +272,7 @@ abstract interface class DefaultApi {
     @Query('user_id') String? userId,
   });
 
-  @DELETE(
-      '/api/v2/feeds/activities/{activity_id}/polls/{poll_id}/vote/{vote_id}')
+  @DELETE('/api/v2/feeds/activities/{activity_id}/polls/{poll_id}/vote/{vote_id}')
   Future<Result<PollVoteResponse>> deletePollVote({
     @Path('activity_id') required String activityId,
     @Path('poll_id') required String pollId,
@@ -455,8 +450,7 @@ abstract interface class DefaultApi {
     @Query('json') WSAuthMessage? json,
   });
 
-  @POST(
-      '/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/activities/mark/batch')
+  @POST('/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/activities/mark/batch')
   Future<Result<DurationResponse>> markActivity({
     @Path('feed_group_id') required String feedGroupId,
     @Path('feed_id') required String feedId,
@@ -473,8 +467,7 @@ abstract interface class DefaultApi {
     @Body() required OwnBatchRequest ownBatchRequest,
   });
 
-  @POST(
-      '/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/activities/{activity_id}/pin')
+  @POST('/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/activities/{activity_id}/pin')
   Future<Result<PinActivityResponse>> pinActivity({
     @Path('feed_group_id') required String feedGroupId,
     @Path('feed_id') required String feedId,
@@ -524,8 +517,7 @@ abstract interface class DefaultApi {
     @Body() required QueryCommentsRequest queryCommentsRequest,
   });
 
-  @POST(
-      '/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/members/query')
+  @POST('/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/members/query')
   Future<Result<QueryFeedMembersResponse>> queryFeedMembers({
     @Path('feed_group_id') required String feedGroupId,
     @Path('feed_id') required String feedId,
@@ -547,8 +539,7 @@ abstract interface class DefaultApi {
     @Body() QueryModerationConfigsRequest? queryModerationConfigsRequest,
   });
 
-  @POST(
-      '/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/pinned_activities/query')
+  @POST('/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/pinned_activities/query')
   Future<Result<QueryPinnedActivitiesResponse>> queryPinnedActivities({
     @Path('feed_group_id') required String feedGroupId,
     @Path('feed_id') required String feedId,
@@ -583,8 +574,7 @@ abstract interface class DefaultApi {
     @Query('collection_refs') List<String>? collectionRefs,
   });
 
-  @POST(
-      '/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/members/reject')
+  @POST('/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/members/reject')
   Future<Result<RejectFeedMemberInviteResponse>> rejectFeedMemberInvite({
     @Path('feed_group_id') required String feedGroupId,
     @Path('feed_id') required String feedId,
@@ -598,8 +588,7 @@ abstract interface class DefaultApi {
   @POST('/api/v2/usergroups/{id}/members/delete')
   Future<Result<RemoveUserGroupMembersResponse>> removeUserGroupMembers({
     @Path('id') required String id,
-    @Body()
-    required RemoveUserGroupMembersRequest removeUserGroupMembersRequest,
+    @Body() required RemoveUserGroupMembersRequest removeUserGroupMembersRequest,
   });
 
   @POST('/api/v2/feeds/activities/{id}/restore')
@@ -661,8 +650,7 @@ abstract interface class DefaultApi {
     @Query('enrich_own_fields') bool? enrichOwnFields,
   });
 
-  @DELETE(
-      '/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/activities/{activity_id}/pin')
+  @DELETE('/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/activities/{activity_id}/pin')
   Future<Result<UnpinActivityResponse>> unpinActivity({
     @Path('feed_group_id') required String feedGroupId,
     @Path('feed_id') required String feedId,
@@ -765,8 +753,7 @@ abstract interface class DefaultApi {
   });
 
   @POST('/api/v2/push_preferences')
-  Future<Result<UpsertPushPreferencesResponse>>
-      updatePushNotificationPreferences({
+  Future<Result<UpsertPushPreferencesResponse>> updatePushNotificationPreferences({
     @Body() required UpsertPushPreferencesRequest upsertPushPreferencesRequest,
   });
 

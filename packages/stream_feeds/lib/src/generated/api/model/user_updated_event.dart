@@ -44,6 +44,5 @@ class UserUpdatedEvent extends core.WsEvent with _$UserUpdatedEvent {
 
   Map<String, dynamic> toJson() => _$UserUpdatedEventToJson(this);
 
-  static UserUpdatedEvent fromJson(Map<String, dynamic> json) =>
-      _$UserUpdatedEventFromJson(json);
+  static UserUpdatedEvent fromJson(Map<String, dynamic> json) => _$UserUpdatedEventFromJson(json);
 }

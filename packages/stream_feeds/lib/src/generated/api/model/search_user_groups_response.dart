@@ -30,6 +30,5 @@ class SearchUserGroupsResponse with _$SearchUserGroupsResponse {
 
   Map<String, dynamic> toJson() => _$SearchUserGroupsResponseToJson(this);
 
-  static SearchUserGroupsResponse fromJson(Map<String, dynamic> json) =>
-      _$SearchUserGroupsResponseFromJson(json);
+  static SearchUserGroupsResponse fromJson(Map<String, dynamic> json) => _$SearchUserGroupsResponseFromJson(json);
 }

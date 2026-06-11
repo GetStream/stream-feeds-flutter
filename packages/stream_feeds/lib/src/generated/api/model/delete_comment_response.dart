@@ -34,6 +34,5 @@ class DeleteCommentResponse with _$DeleteCommentResponse {
 
   Map<String, dynamic> toJson() => _$DeleteCommentResponseToJson(this);
 
-  static DeleteCommentResponse fromJson(Map<String, dynamic> json) =>
-      _$DeleteCommentResponseFromJson(json);
+  static DeleteCommentResponse fromJson(Map<String, dynamic> json) => _$DeleteCommentResponseFromJson(json);
 }

@@ -69,6 +69,5 @@ class SharedLocationResponseData with _$SharedLocationResponseData {
 
   Map<String, dynamic> toJson() => _$SharedLocationResponseDataToJson(this);
 
-  static SharedLocationResponseData fromJson(Map<String, dynamic> json) =>
-      _$SharedLocationResponseDataFromJson(json);
+  static SharedLocationResponseData fromJson(Map<String, dynamic> json) => _$SharedLocationResponseDataFromJson(json);
 }

@@ -512,12 +512,13 @@ void main() {
         final existingBookmark = initialActivity.ownBookmarks.first;
 
         // Emit event with updated bookmark
-        final updatedBookmarkResponse = createDefaultBookmarkResponse(
-          activityId: activityId,
-          userId: userId,
-        ).copyWith(
-          custom: const {'updated': true},
-        );
+        final updatedBookmarkResponse =
+            createDefaultBookmarkResponse(
+              activityId: activityId,
+              userId: userId,
+            ).copyWith(
+              custom: const {'updated': true},
+            );
 
         await tester.emitEvent(
           BookmarkUpdatedEvent(
@@ -1124,8 +1125,7 @@ void main() {
           // Initial state - has poll with vote on option-1
           final initialActivity = tester.activityListState.activities.first;
           expect(initialActivity.poll, isNotNull);
-          final votesInOption1 =
-              initialActivity.poll!.latestVotesByOption['option-1'];
+          final votesInOption1 = initialActivity.poll!.latestVotesByOption['option-1'];
           expect(votesInOption1, hasLength(1));
 
           final changedVote = createDefaultPollVoteResponse(
@@ -1441,11 +1441,12 @@ void main() {
             createdAt: DateTime.timestamp(),
             custom: const {},
             fid: 'fid',
-            activity: createDefaultActivityResponse(
-              id: 'activity-1',
-            ).copyWith(
-              filterTags: ['general'], // Doesn't match second condition
-            ),
+            activity:
+                createDefaultActivityResponse(
+                  id: 'activity-1',
+                ).copyWith(
+                  filterTags: ['general'], // Doesn't match second condition
+                ),
           ),
         );
 
@@ -1475,11 +1476,12 @@ void main() {
             createdAt: DateTime.timestamp(),
             custom: const {},
             fid: 'fid',
-            activity: createDefaultActivityResponse(
-              id: 'activity-1',
-            ).copyWith(
-              filterTags: ['general'], // Doesn't match second condition
-            ),
+            activity:
+                createDefaultActivityResponse(
+                  id: 'activity-1',
+                ).copyWith(
+                  filterTags: ['general'], // Doesn't match second condition
+                ),
           ),
         );
 

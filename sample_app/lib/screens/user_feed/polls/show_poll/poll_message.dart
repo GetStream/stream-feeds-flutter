@@ -62,9 +62,7 @@ class PollMessage extends StatelessWidget {
       );
 
       if (optionText == null) return;
-      activity
-          .createPollOption(CreatePollOptionRequest(text: optionText))
-          .ignore();
+      activity.createPollOption(CreatePollOptionRequest(text: optionText)).ignore();
     }
 
     return ConstrainedBox(

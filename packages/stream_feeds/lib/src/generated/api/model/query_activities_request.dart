@@ -50,6 +50,5 @@ class QueryActivitiesRequest with _$QueryActivitiesRequest {
 
   Map<String, dynamic> toJson() => _$QueryActivitiesRequestToJson(this);
 
-  static QueryActivitiesRequest fromJson(Map<String, dynamic> json) =>
-      _$QueryActivitiesRequestFromJson(json);
+  static QueryActivitiesRequest fromJson(Map<String, dynamic> json) => _$QueryActivitiesRequestFromJson(json);
 }

@@ -34,6 +34,5 @@ class UnfollowPair with _$UnfollowPair {
 
   Map<String, dynamic> toJson() => _$UnfollowPairToJson(this);
 
-  static UnfollowPair fromJson(Map<String, dynamic> json) =>
-      _$UnfollowPairFromJson(json);
+  static UnfollowPair fromJson(Map<String, dynamic> json) => _$UnfollowPairFromJson(json);
 }

@@ -12,16 +12,14 @@ Future<void> creatingNotificationActivities() async {
   // Eric follows Jane
   await ericFeed.follow(
     targetFid: janeFeed.fid,
-    createNotificationActivity:
-        true, // When true Jane's notification feed will be updated with follow activity
+    createNotificationActivity: true, // When true Jane's notification feed will be updated with follow activity
   );
   // Eric comments on Jane's activity
   await ericFeed.addComment(
     request: ActivityAddCommentRequest(
       comment: 'Agree!',
       activityId: janeActivity.activityId,
-      createNotificationActivity:
-          true, // When true Jane's notification feed will be updated with comment activity
+      createNotificationActivity: true, // When true Jane's notification feed will be updated with comment activity
     ),
   );
   // Eric reacts to Jane's activity
@@ -29,8 +27,7 @@ Future<void> creatingNotificationActivities() async {
     activityId: janeActivity.activityId,
     request: const AddReactionRequest(
       type: 'like',
-      createNotificationActivity:
-          true, // When true Jane's notification feed will be updated with reaction activity
+      createNotificationActivity: true, // When true Jane's notification feed will be updated with reaction activity
     ),
   );
   // Eric reacts to a comment posted to Jane's activity by Sara

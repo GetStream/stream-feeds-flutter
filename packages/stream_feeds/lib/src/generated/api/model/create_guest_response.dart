@@ -34,6 +34,5 @@ class CreateGuestResponse with _$CreateGuestResponse {
 
   Map<String, dynamic> toJson() => _$CreateGuestResponseToJson(this);
 
-  static CreateGuestResponse fromJson(Map<String, dynamic> json) =>
-      _$CreateGuestResponseFromJson(json);
+  static CreateGuestResponse fromJson(Map<String, dynamic> json) => _$CreateGuestResponseFromJson(json);
 }

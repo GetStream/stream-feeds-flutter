@@ -34,6 +34,5 @@ class SingleFollowResponse with _$SingleFollowResponse {
 
   Map<String, dynamic> toJson() => _$SingleFollowResponseToJson(this);
 
-  static SingleFollowResponse fromJson(Map<String, dynamic> json) =>
-      _$SingleFollowResponseFromJson(json);
+  static SingleFollowResponse fromJson(Map<String, dynamic> json) => _$SingleFollowResponseFromJson(json);
 }

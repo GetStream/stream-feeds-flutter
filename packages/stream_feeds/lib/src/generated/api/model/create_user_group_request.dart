@@ -42,6 +42,5 @@ class CreateUserGroupRequest with _$CreateUserGroupRequest {
 
   Map<String, dynamic> toJson() => _$CreateUserGroupRequestToJson(this);
 
-  static CreateUserGroupRequest fromJson(Map<String, dynamic> json) =>
-      _$CreateUserGroupRequestFromJson(json);
+  static CreateUserGroupRequest fromJson(Map<String, dynamic> json) => _$CreateUserGroupRequestFromJson(json);
 }

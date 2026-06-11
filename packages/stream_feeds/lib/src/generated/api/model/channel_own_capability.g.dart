@@ -35,8 +35,7 @@ const _$ChannelOwnCapabilityEnumMap = {
   ChannelOwnCapability.sendPoll: 'send-poll',
   ChannelOwnCapability.sendReaction: 'send-reaction',
   ChannelOwnCapability.sendReply: 'send-reply',
-  ChannelOwnCapability.sendRestrictedVisibilityMessage:
-      'send-restricted-visibility-message',
+  ChannelOwnCapability.sendRestrictedVisibilityMessage: 'send-restricted-visibility-message',
   ChannelOwnCapability.sendTypingEvents: 'send-typing-events',
   ChannelOwnCapability.setChannelCooldown: 'set-channel-cooldown',
   ChannelOwnCapability.shareLocation: 'share-location',

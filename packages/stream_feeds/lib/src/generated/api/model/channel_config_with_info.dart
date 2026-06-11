@@ -22,7 +22,7 @@ enum ChannelConfigWithInfoAutomod {
   @JsonValue('simple')
   simple,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -34,7 +34,7 @@ enum ChannelConfigWithInfoAutomodBehavior {
   @JsonValue('shadow_block')
   shadowBlock,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -46,7 +46,7 @@ enum ChannelConfigWithInfoBlocklistBehavior {
   @JsonValue('shadow_block')
   shadowBlock,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -62,7 +62,7 @@ enum ChannelConfigWithInfoPushLevel {
   @JsonValue('none')
   none,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -228,6 +228,5 @@ class ChannelConfigWithInfo with _$ChannelConfigWithInfo {
 
   Map<String, dynamic> toJson() => _$ChannelConfigWithInfoToJson(this);
 
-  static ChannelConfigWithInfo fromJson(Map<String, dynamic> json) =>
-      _$ChannelConfigWithInfoFromJson(json);
+  static ChannelConfigWithInfo fromJson(Map<String, dynamic> json) => _$ChannelConfigWithInfoFromJson(json);
 }

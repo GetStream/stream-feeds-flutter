@@ -57,6 +57,5 @@ class ChatReminderResponseData with _$ChatReminderResponseData {
 
   Map<String, dynamic> toJson() => _$ChatReminderResponseDataToJson(this);
 
-  static ChatReminderResponseData fromJson(Map<String, dynamic> json) =>
-      _$ChatReminderResponseDataFromJson(json);
+  static ChatReminderResponseData fromJson(Map<String, dynamic> json) => _$ChatReminderResponseDataFromJson(json);
 }

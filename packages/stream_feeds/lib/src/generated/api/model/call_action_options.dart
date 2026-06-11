@@ -50,6 +50,5 @@ class CallActionOptions with _$CallActionOptions {
 
   Map<String, dynamic> toJson() => _$CallActionOptionsToJson(this);
 
-  static CallActionOptions fromJson(Map<String, dynamic> json) =>
-      _$CallActionOptionsFromJson(json);
+  static CallActionOptions fromJson(Map<String, dynamic> json) => _$CallActionOptionsFromJson(json);
 }

@@ -52,6 +52,5 @@ class UserGroupResponse with _$UserGroupResponse {
 
   Map<String, dynamic> toJson() => _$UserGroupResponseToJson(this);
 
-  static UserGroupResponse fromJson(Map<String, dynamic> json) =>
-      _$UserGroupResponseFromJson(json);
+  static UserGroupResponse fromJson(Map<String, dynamic> json) => _$UserGroupResponseFromJson(json);
 }

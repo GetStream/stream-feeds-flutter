@@ -34,6 +34,5 @@ class AddActivityResponse with _$AddActivityResponse {
 
   Map<String, dynamic> toJson() => _$AddActivityResponseToJson(this);
 
-  static AddActivityResponse fromJson(Map<String, dynamic> json) =>
-      _$AddActivityResponseFromJson(json);
+  static AddActivityResponse fromJson(Map<String, dynamic> json) => _$AddActivityResponseFromJson(json);
 }

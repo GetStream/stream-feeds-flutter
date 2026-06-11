@@ -67,15 +67,15 @@ class UserFeed extends StatelessWidget {
                 SliverToBoxAdapter(
                   child: switch (canLoadMore) {
                     true => TextButton(
-                        onPressed: timelineFeed.queryMoreActivities,
-                        child: const Text('Load more...'),
-                      ),
+                      onPressed: timelineFeed.queryMoreActivities,
+                      child: const Text('Load more...'),
+                    ),
                     false => const Padding(
-                        padding: EdgeInsets.all(16),
-                        child: Center(
-                          child: Text('End of feed'),
-                        ),
-                      )
+                      padding: EdgeInsets.all(16),
+                      child: Center(
+                        child: Text('End of feed'),
+                      ),
+                    ),
                   },
                 ),
             ],

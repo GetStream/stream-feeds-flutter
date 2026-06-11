@@ -6,22 +6,18 @@ part of 'feeds_enriched_collection_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-FeedsEnrichedCollectionResponse _$FeedsEnrichedCollectionResponseFromJson(
-        Map<String, dynamic> json) =>
+FeedsEnrichedCollectionResponse _$FeedsEnrichedCollectionResponseFromJson(Map<String, dynamic> json) =>
     FeedsEnrichedCollectionResponse(
-      createdAt: const EpochDateTimeConverter()
-          .fromJson((json['created_at'] as num).toInt()),
+      createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
       custom: json['custom'] as Map<String, dynamic>,
       id: json['id'] as String,
       name: json['name'] as String,
       status: json['status'] as String,
-      updatedAt: const EpochDateTimeConverter()
-          .fromJson((json['updated_at'] as num).toInt()),
+      updatedAt: const EpochDateTimeConverter().fromJson((json['updated_at'] as num).toInt()),
       userId: json['user_id'] as String,
     );
 
-Map<String, dynamic> _$FeedsEnrichedCollectionResponseToJson(
-        FeedsEnrichedCollectionResponse instance) =>
+Map<String, dynamic> _$FeedsEnrichedCollectionResponseToJson(FeedsEnrichedCollectionResponse instance) =>
     <String, dynamic>{
       'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
       'custom': instance.custom,

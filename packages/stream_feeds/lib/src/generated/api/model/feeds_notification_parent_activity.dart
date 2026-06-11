@@ -40,8 +40,7 @@ class FeedsNotificationParentActivity with _$FeedsNotificationParentActivity {
   @override
   final String? userId;
 
-  Map<String, dynamic> toJson() =>
-      _$FeedsNotificationParentActivityToJson(this);
+  Map<String, dynamic> toJson() => _$FeedsNotificationParentActivityToJson(this);
 
   static FeedsNotificationParentActivity fromJson(Map<String, dynamic> json) =>
       _$FeedsNotificationParentActivityFromJson(json);

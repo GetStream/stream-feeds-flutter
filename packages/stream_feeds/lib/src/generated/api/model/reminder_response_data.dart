@@ -61,6 +61,5 @@ class ReminderResponseData with _$ReminderResponseData {
 
   Map<String, dynamic> toJson() => _$ReminderResponseDataToJson(this);
 
-  static ReminderResponseData fromJson(Map<String, dynamic> json) =>
-      _$ReminderResponseDataFromJson(json);
+  static ReminderResponseData fromJson(Map<String, dynamic> json) => _$ReminderResponseDataFromJson(json);
 }

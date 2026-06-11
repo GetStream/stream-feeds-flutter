@@ -38,6 +38,5 @@ class FloodIdenticalConfig with _$FloodIdenticalConfig {
 
   Map<String, dynamic> toJson() => _$FloodIdenticalConfigToJson(this);
 
-  static FloodIdenticalConfig fromJson(Map<String, dynamic> json) =>
-      _$FloodIdenticalConfigFromJson(json);
+  static FloodIdenticalConfig fromJson(Map<String, dynamic> json) => _$FloodIdenticalConfigFromJson(json);
 }

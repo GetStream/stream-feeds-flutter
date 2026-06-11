@@ -106,6 +106,5 @@ class CallResponse with _$CallResponse {
 
   Map<String, dynamic> toJson() => _$CallResponseToJson(this);
 
-  static CallResponse fromJson(Map<String, dynamic> json) =>
-      _$CallResponseFromJson(json);
+  static CallResponse fromJson(Map<String, dynamic> json) => _$CallResponseFromJson(json);
 }

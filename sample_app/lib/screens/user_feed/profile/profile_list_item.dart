@@ -65,8 +65,7 @@ class FollowRequestListItem extends StatelessWidget {
         ),
       ),
       title: Text(
-        followRequest.sourceFeed.createdBy.name ??
-            followRequest.sourceFeed.createdBy.id,
+        followRequest.sourceFeed.createdBy.name ?? followRequest.sourceFeed.createdBy.id,
         style: context.appTextStyles.body,
       ),
       subtitle: Text(

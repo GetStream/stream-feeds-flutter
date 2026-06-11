@@ -56,6 +56,5 @@ class ActivityUpdatedEvent extends core.WsEvent with _$ActivityUpdatedEvent {
 
   Map<String, dynamic> toJson() => _$ActivityUpdatedEventToJson(this);
 
-  static ActivityUpdatedEvent fromJson(Map<String, dynamic> json) =>
-      _$ActivityUpdatedEventFromJson(json);
+  static ActivityUpdatedEvent fromJson(Map<String, dynamic> json) => _$ActivityUpdatedEventFromJson(json);
 }

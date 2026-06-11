@@ -20,7 +20,7 @@ enum FollowResponsePushPreference {
   @JsonValue('none')
   none,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -32,7 +32,7 @@ enum FollowResponseStatus {
   @JsonValue('rejected')
   rejected,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -90,6 +90,5 @@ class FollowResponse with _$FollowResponse {
 
   Map<String, dynamic> toJson() => _$FollowResponseToJson(this);
 
-  static FollowResponse fromJson(Map<String, dynamic> json) =>
-      _$FollowResponseFromJson(json);
+  static FollowResponse fromJson(Map<String, dynamic> json) => _$FollowResponseFromJson(json);
 }

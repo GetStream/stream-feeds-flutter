@@ -38,6 +38,5 @@ class QueryActivitiesResponse with _$QueryActivitiesResponse {
 
   Map<String, dynamic> toJson() => _$QueryActivitiesResponseToJson(this);
 
-  static QueryActivitiesResponse fromJson(Map<String, dynamic> json) =>
-      _$QueryActivitiesResponseFromJson(json);
+  static QueryActivitiesResponse fromJson(Map<String, dynamic> json) => _$QueryActivitiesResponseFromJson(json);
 }

@@ -26,6 +26,5 @@ class BanResponse with _$BanResponse {
 
   Map<String, dynamic> toJson() => _$BanResponseToJson(this);
 
-  static BanResponse fromJson(Map<String, dynamic> json) =>
-      _$BanResponseFromJson(json);
+  static BanResponse fromJson(Map<String, dynamic> json) => _$BanResponseFromJson(json);
 }

@@ -30,6 +30,5 @@ class FeedsActivityLocation with _$FeedsActivityLocation {
 
   Map<String, dynamic> toJson() => _$FeedsActivityLocationToJson(this);
 
-  static FeedsActivityLocation fromJson(Map<String, dynamic> json) =>
-      _$FeedsActivityLocationFromJson(json);
+  static FeedsActivityLocation fromJson(Map<String, dynamic> json) => _$FeedsActivityLocationFromJson(json);
 }

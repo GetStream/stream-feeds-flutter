@@ -38,6 +38,5 @@ class FeedsNotificationComment with _$FeedsNotificationComment {
 
   Map<String, dynamic> toJson() => _$FeedsNotificationCommentToJson(this);
 
-  static FeedsNotificationComment fromJson(Map<String, dynamic> json) =>
-      _$FeedsNotificationCommentFromJson(json);
+  static FeedsNotificationComment fromJson(Map<String, dynamic> json) => _$FeedsNotificationCommentFromJson(json);
 }

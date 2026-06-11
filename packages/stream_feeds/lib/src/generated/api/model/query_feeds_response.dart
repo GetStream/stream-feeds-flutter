@@ -38,6 +38,5 @@ class QueryFeedsResponse with _$QueryFeedsResponse {
 
   Map<String, dynamic> toJson() => _$QueryFeedsResponseToJson(this);
 
-  static QueryFeedsResponse fromJson(Map<String, dynamic> json) =>
-      _$QueryFeedsResponseFromJson(json);
+  static QueryFeedsResponse fromJson(Map<String, dynamic> json) => _$QueryFeedsResponseFromJson(json);
 }

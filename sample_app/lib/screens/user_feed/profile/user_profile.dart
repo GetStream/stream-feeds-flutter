@@ -160,9 +160,7 @@ class _UserProfileContent extends StatelessWidget {
     final feedMembers = timelineState.members;
 
     // We always follow ourselves, so we don't need to show it in the following list
-    final following = timelineState.following
-        .where((it) => it.targetFeed.id != currentUser.id)
-        .toList();
+    final following = timelineState.following.where((it) => it.targetFeed.id != currentUser.id).toList();
     final followingCount = math.max(
       0,
       (timelineState.feed?.followingCount ?? 0) - 1,
@@ -174,8 +172,8 @@ class _UserProfileContent extends StatelessWidget {
 
     final followRequests = userState.followRequests;
 
-    final followIncludesCurrentUser = following
-            .any((it) => it.targetFeed.id == currentUser.id) ||
+    final followIncludesCurrentUser =
+        following.any((it) => it.targetFeed.id == currentUser.id) ||
         (followSuggestions?.any((it) => it.fid.id == currentUser.id) ?? false);
 
     return SingleChildScrollView(
@@ -208,10 +206,8 @@ class _UserProfileContent extends StatelessWidget {
             emptyMessage: 'No pending requests',
             itemBuilder: (followRequest) => FollowRequestListItem(
               followRequest: followRequest,
-              onAcceptPressed: () =>
-                  onAcceptFollow(followRequest.sourceFeed.fid),
-              onRejectPressed: () =>
-                  onRejectFollow(followRequest.sourceFeed.fid),
+              onAcceptPressed: () => onAcceptFollow(followRequest.sourceFeed.fid),
+              onRejectPressed: () => onRejectFollow(followRequest.sourceFeed.fid),
             ),
           ),
 
@@ -233,8 +229,7 @@ class _UserProfileContent extends StatelessWidget {
           ProfileSection<FeedData>(
             title: 'Suggested',
             items: [
-              if (!followIncludesCurrentUser && userState.feed != null)
-                userState.feed!,
+              if (!followIncludesCurrentUser && userState.feed != null) userState.feed!,
               ...(followSuggestions ?? []),
             ],
             emptyMessage: 'No suggestions available',

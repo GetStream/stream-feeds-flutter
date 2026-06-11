@@ -30,6 +30,5 @@ class UpdateBlockListResponse with _$UpdateBlockListResponse {
 
   Map<String, dynamic> toJson() => _$UpdateBlockListResponseToJson(this);
 
-  static UpdateBlockListResponse fromJson(Map<String, dynamic> json) =>
-      _$UpdateBlockListResponseFromJson(json);
+  static UpdateBlockListResponse fromJson(Map<String, dynamic> json) => _$UpdateBlockListResponseFromJson(json);
 }

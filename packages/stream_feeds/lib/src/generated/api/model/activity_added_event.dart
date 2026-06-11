@@ -56,6 +56,5 @@ class ActivityAddedEvent extends core.WsEvent with _$ActivityAddedEvent {
 
   Map<String, dynamic> toJson() => _$ActivityAddedEventToJson(this);
 
-  static ActivityAddedEvent fromJson(Map<String, dynamic> json) =>
-      _$ActivityAddedEventFromJson(json);
+  static ActivityAddedEvent fromJson(Map<String, dynamic> json) => _$ActivityAddedEventFromJson(json);
 }

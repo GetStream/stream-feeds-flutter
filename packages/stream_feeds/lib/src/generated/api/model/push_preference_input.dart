@@ -22,7 +22,7 @@ enum PushPreferenceInputCallLevel {
   @JsonValue('none')
   none,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -40,7 +40,7 @@ enum PushPreferenceInputChatLevel {
   @JsonValue('none')
   none,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -52,7 +52,7 @@ enum PushPreferenceInputFeedsLevel {
   @JsonValue('none')
   none,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -104,6 +104,5 @@ class PushPreferenceInput with _$PushPreferenceInput {
 
   Map<String, dynamic> toJson() => _$PushPreferenceInputToJson(this);
 
-  static PushPreferenceInput fromJson(Map<String, dynamic> json) =>
-      _$PushPreferenceInputFromJson(json);
+  static PushPreferenceInput fromJson(Map<String, dynamic> json) => _$PushPreferenceInputFromJson(json);
 }

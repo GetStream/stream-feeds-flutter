@@ -6,14 +6,12 @@ part of 'stories_config.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-StoriesConfig _$StoriesConfigFromJson(Map<String, dynamic> json) =>
-    StoriesConfig(
-      skipWatched: json['skip_watched'] as bool?,
-      trackWatched: json['track_watched'] as bool?,
-    );
+StoriesConfig _$StoriesConfigFromJson(Map<String, dynamic> json) => StoriesConfig(
+  skipWatched: json['skip_watched'] as bool?,
+  trackWatched: json['track_watched'] as bool?,
+);
 
-Map<String, dynamic> _$StoriesConfigToJson(StoriesConfig instance) =>
-    <String, dynamic>{
-      'skip_watched': instance.skipWatched,
-      'track_watched': instance.trackWatched,
-    };
+Map<String, dynamic> _$StoriesConfigToJson(StoriesConfig instance) => <String, dynamic>{
+  'skip_watched': instance.skipWatched,
+  'track_watched': instance.trackWatched,
+};

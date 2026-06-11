@@ -26,7 +26,7 @@ enum FeedRequestVisibility {
   @JsonValue('visible')
   visible,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -79,6 +79,5 @@ class FeedRequest with _$FeedRequest {
 
   Map<String, dynamic> toJson() => _$FeedRequestToJson(this);
 
-  static FeedRequest fromJson(Map<String, dynamic> json) =>
-      _$FeedRequestFromJson(json);
+  static FeedRequest fromJson(Map<String, dynamic> json) => _$FeedRequestFromJson(json);
 }

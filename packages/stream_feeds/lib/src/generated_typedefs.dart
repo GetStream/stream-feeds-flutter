@@ -13,8 +13,7 @@ typedef FollowPair = UnfollowPair;
 ///
 /// Note: `FeedAddActivityRequest.location` now accepts `LocationCoordinate`
 /// from `package:stream_core/stream_core.dart`, not `FeedsActivityLocation`.
-@Deprecated(
-    'Renamed to FeedsActivityLocation. Migrate to FeedsActivityLocation.')
+@Deprecated('Renamed to FeedsActivityLocation. Migrate to FeedsActivityLocation.')
 typedef ActivityLocation = FeedsActivityLocation;
 
 /// Use [OwnUserResponse] instead.
@@ -32,8 +31,7 @@ typedef UserMute = UserMuteResponse;
 typedef Poll = PollResponseData;
 
 /// Use [PollOptionResponseData] instead.
-@Deprecated(
-    'Renamed to PollOptionResponseData. Migrate to PollOptionResponseData.')
+@Deprecated('Renamed to PollOptionResponseData. Migrate to PollOptionResponseData.')
 typedef PollOption = PollOptionResponseData;
 
 /// Use [PollVoteResponseData] instead.
@@ -45,8 +43,7 @@ typedef PollVote = PollVoteResponseData;
 // ---------------------------------------------------------------------------
 
 /// Use [BanActionRequestPayload] instead.
-@Deprecated(
-    'Renamed to BanActionRequestPayload. Migrate to BanActionRequestPayload.')
+@Deprecated('Renamed to BanActionRequestPayload. Migrate to BanActionRequestPayload.')
 typedef BanActionRequest = BanActionRequestPayload;
 
 /// Use [BanActionRequestPayloadDeleteMessages] instead.
@@ -57,8 +54,7 @@ typedef BanActionRequest = BanActionRequestPayload;
 typedef BanActionRequestDeleteMessages = BanActionRequestPayloadDeleteMessages;
 
 /// Use [BlockActionRequestPayload] instead.
-@Deprecated(
-    'Renamed to BlockActionRequestPayload. Migrate to BlockActionRequestPayload.')
+@Deprecated('Renamed to BlockActionRequestPayload. Migrate to BlockActionRequestPayload.')
 typedef BlockActionRequest = BlockActionRequestPayload;
 
 /// Use [ShadowBlockActionRequestPayload] instead.
@@ -69,13 +65,11 @@ typedef BlockActionRequest = BlockActionRequestPayload;
 typedef ShadowBlockActionRequest = ShadowBlockActionRequestPayload;
 
 /// Use [CustomActionRequestPayload] instead.
-@Deprecated(
-    'Renamed to CustomActionRequestPayload. Migrate to CustomActionRequestPayload.')
+@Deprecated('Renamed to CustomActionRequestPayload. Migrate to CustomActionRequestPayload.')
 typedef CustomActionRequest = CustomActionRequestPayload;
 
 /// Use [DeleteUserRequestPayload] instead.
-@Deprecated(
-    'Renamed to DeleteUserRequestPayload. Migrate to DeleteUserRequestPayload.')
+@Deprecated('Renamed to DeleteUserRequestPayload. Migrate to DeleteUserRequestPayload.')
 typedef DeleteUserRequest = DeleteUserRequestPayload;
 
 /// Use [DeleteActivityRequestPayload] instead.
@@ -121,8 +115,7 @@ typedef RejectAppealRequest = RejectAppealRequestPayload;
 typedef RestoreActionRequest = RestoreActionRequestPayload;
 
 /// Use [UnbanActionRequestPayload] instead.
-@Deprecated(
-    'Renamed to UnbanActionRequestPayload. Migrate to UnbanActionRequestPayload.')
+@Deprecated('Renamed to UnbanActionRequestPayload. Migrate to UnbanActionRequestPayload.')
 typedef UnbanActionRequest = UnbanActionRequestPayload;
 
 /// Use [UnblockActionRequestPayload] instead.

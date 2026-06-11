@@ -38,6 +38,5 @@ class AIImageLabelDefinition with _$AIImageLabelDefinition {
 
   Map<String, dynamic> toJson() => _$AIImageLabelDefinitionToJson(this);
 
-  static AIImageLabelDefinition fromJson(Map<String, dynamic> json) =>
-      _$AIImageLabelDefinitionFromJson(json);
+  static AIImageLabelDefinition fromJson(Map<String, dynamic> json) => _$AIImageLabelDefinitionFromJson(json);
 }

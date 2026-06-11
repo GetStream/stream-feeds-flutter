@@ -20,7 +20,7 @@ enum FeedsPreferencesComment {
   @JsonValue('none')
   none,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -30,7 +30,7 @@ enum FeedsPreferencesCommentMention {
   @JsonValue('none')
   none,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -40,7 +40,7 @@ enum FeedsPreferencesCommentReaction {
   @JsonValue('none')
   none,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -50,7 +50,7 @@ enum FeedsPreferencesCommentReply {
   @JsonValue('none')
   none,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -60,7 +60,7 @@ enum FeedsPreferencesFollow {
   @JsonValue('none')
   none,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -70,7 +70,7 @@ enum FeedsPreferencesMention {
   @JsonValue('none')
   none,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -80,7 +80,7 @@ enum FeedsPreferencesReaction {
   @JsonValue('none')
   none,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -131,6 +131,5 @@ class FeedsPreferences with _$FeedsPreferences {
 
   Map<String, dynamic> toJson() => _$FeedsPreferencesToJson(this);
 
-  static FeedsPreferences fromJson(Map<String, dynamic> json) =>
-      _$FeedsPreferencesFromJson(json);
+  static FeedsPreferences fromJson(Map<String, dynamic> json) => _$FeedsPreferencesFromJson(json);
 }

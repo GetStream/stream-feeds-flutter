@@ -20,7 +20,7 @@ enum UpdateFollowRequestPushPreference {
   @JsonValue('none')
   none,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -74,6 +74,5 @@ class UpdateFollowRequest with _$UpdateFollowRequest {
 
   Map<String, dynamic> toJson() => _$UpdateFollowRequestToJson(this);
 
-  static UpdateFollowRequest fromJson(Map<String, dynamic> json) =>
-      _$UpdateFollowRequestFromJson(json);
+  static UpdateFollowRequest fromJson(Map<String, dynamic> json) => _$UpdateFollowRequestFromJson(json);
 }

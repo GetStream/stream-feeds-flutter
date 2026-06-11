@@ -30,6 +30,5 @@ class CustomActionRequestPayload with _$CustomActionRequestPayload {
 
   Map<String, dynamic> toJson() => _$CustomActionRequestPayloadToJson(this);
 
-  static CustomActionRequestPayload fromJson(Map<String, dynamic> json) =>
-      _$CustomActionRequestPayloadFromJson(json);
+  static CustomActionRequestPayload fromJson(Map<String, dynamic> json) => _$CustomActionRequestPayloadFromJson(json);
 }

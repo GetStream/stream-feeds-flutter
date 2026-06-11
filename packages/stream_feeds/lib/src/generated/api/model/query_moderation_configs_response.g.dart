@@ -6,8 +6,7 @@ part of 'query_moderation_configs_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-QueryModerationConfigsResponse _$QueryModerationConfigsResponseFromJson(
-        Map<String, dynamic> json) =>
+QueryModerationConfigsResponse _$QueryModerationConfigsResponseFromJson(Map<String, dynamic> json) =>
     QueryModerationConfigsResponse(
       configs: (json['configs'] as List<dynamic>)
           .map((e) => ConfigResponse.fromJson(e as Map<String, dynamic>))
@@ -17,8 +16,7 @@ QueryModerationConfigsResponse _$QueryModerationConfigsResponseFromJson(
       prev: json['prev'] as String?,
     );
 
-Map<String, dynamic> _$QueryModerationConfigsResponseToJson(
-        QueryModerationConfigsResponse instance) =>
+Map<String, dynamic> _$QueryModerationConfigsResponseToJson(QueryModerationConfigsResponse instance) =>
     <String, dynamic>{
       'configs': instance.configs.map((e) => e.toJson()).toList(),
       'duration': instance.duration,

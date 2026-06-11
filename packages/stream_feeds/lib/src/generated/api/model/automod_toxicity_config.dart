@@ -34,6 +34,5 @@ class AutomodToxicityConfig with _$AutomodToxicityConfig {
 
   Map<String, dynamic> toJson() => _$AutomodToxicityConfigToJson(this);
 
-  static AutomodToxicityConfig fromJson(Map<String, dynamic> json) =>
-      _$AutomodToxicityConfigFromJson(json);
+  static AutomodToxicityConfig fromJson(Map<String, dynamic> json) => _$AutomodToxicityConfigFromJson(json);
 }

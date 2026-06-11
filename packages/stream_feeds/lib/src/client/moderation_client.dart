@@ -195,11 +195,9 @@ class ModerationClient {
   /// Retrieves moderation configurations using the specified [queryModerationConfigsRequest] filters and pagination.
   ///
   /// Returns a [Result] containing a [PaginationResult] of [ModerationConfigData] or an error.
-  Future<Result<PaginationResult<ModerationConfigData>>>
-      queryModerationConfigs({
+  Future<Result<PaginationResult<ModerationConfigData>>> queryModerationConfigs({
     required ModerationConfigsQuery queryModerationConfigsRequest,
   }) {
-    return _moderationRepository
-        .queryModerationConfigs(queryModerationConfigsRequest);
+    return _moderationRepository.queryModerationConfigs(queryModerationConfigsRequest);
   }
 }

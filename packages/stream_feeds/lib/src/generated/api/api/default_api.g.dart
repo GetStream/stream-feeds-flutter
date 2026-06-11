@@ -1838,8 +1838,7 @@ class _DefaultApi implements DefaultApi {
     String? userId,
   }) {
     return _ResultCallAdapter<DurationResponse>().adapt(
-      () =>
-          _deletePollOption(pollId: pollId, optionId: optionId, userId: userId),
+      () => _deletePollOption(pollId: pollId, optionId: optionId, userId: userId),
     );
   }
 
@@ -4590,8 +4589,7 @@ class _DefaultApi implements DefaultApi {
     UpdateActivityRequest? updateActivityRequest,
   }) {
     return _ResultCallAdapter<UpdateActivityResponse>().adapt(
-      () =>
-          _updateActivity(id: id, updateActivityRequest: updateActivityRequest),
+      () => _updateActivity(id: id, updateActivityRequest: updateActivityRequest),
     );
   }
 
@@ -5266,8 +5264,7 @@ class _DefaultApi implements DefaultApi {
   }
 
   @override
-  Future<Result<UpsertPushPreferencesResponse>>
-      updatePushNotificationPreferences({
+  Future<Result<UpsertPushPreferencesResponse>> updatePushNotificationPreferences({
     required UpsertPushPreferencesRequest upsertPushPreferencesRequest,
   }) {
     return _ResultCallAdapter<UpsertPushPreferencesResponse>().adapt(
@@ -5595,8 +5592,7 @@ class _DefaultApi implements DefaultApi {
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
-        !(requestOptions.responseType == ResponseType.bytes ||
-            requestOptions.responseType == ResponseType.stream)) {
+        !(requestOptions.responseType == ResponseType.bytes || requestOptions.responseType == ResponseType.stream)) {
       if (T == String) {
         requestOptions.responseType = ResponseType.plain;
       } else {
