@@ -422,6 +422,7 @@ class SeparatedReorderableListView extends ReorderableListView {
     super.physics,
     super.shrinkWrap,
     super.anchor,
+    // ignore: deprecated_member_use fix when min flutter version is 3.41.0
     super.cacheExtent,
     super.dragStartBehavior,
     super.keyboardDismissBehavior,
@@ -451,12 +452,14 @@ class SeparatedReorderableListView extends ReorderableListView {
 
            return separator;
          },
+         // ignore: deprecated_member_use fix when min flutter version is 3.41.0
          onReorder: (int oldIndex, int newIndex) {
            // Adjust the indexes due to an issue in the ReorderableListView
            // which isn't going to be fixed in the near future.
            //
            // issue: https://github.com/flutter/flutter/issues/24786
            if (newIndex > oldIndex) {
+             // ignore: parameter_assignments
              newIndex -= 1;
            }
 
