@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_int_literals, avoid_redundant_argument_values
+
 import 'package:stream_feeds/stream_feeds.dart';
 import 'package:stream_feeds_test/stream_feeds_test.dart';
 
@@ -173,7 +175,7 @@ void main() {
     test('maps fid from feed raw value', () {
       final response = createDefaultFeedResponse(id: 'john', groupId: 'user');
       final result = response.toModel();
-      expect(result.fid, FeedId(group: 'user', id: 'john'));
+      expect(result.fid, const FeedId(group: 'user', id: 'john'));
     });
 
     test('maps createdBy user', () {

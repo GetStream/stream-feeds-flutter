@@ -1,6 +1,5 @@
-// ignore_for_file: avoid_relative_imports_for_non_public_files
+// ignore_for_file: avoid_redundant_argument_values, avoid_relative_imports_for_non_public_files
 
-import 'package:stream_core/stream_core.dart';
 import 'package:stream_feeds/src/repository/capabilities_repository.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 import 'package:stream_feeds_test/stream_feeds_test.dart';
@@ -28,7 +27,7 @@ void main() {
           ownBatchRequest: any(named: 'ownBatchRequest'),
         ),
       ).thenAnswer(
-        (_) async => Result.success(
+        (_) async => const Result.success(
           OwnBatchResponse(
             duration: '10ms',
             data: {
@@ -65,7 +64,7 @@ void main() {
           ownBatchRequest: any(named: 'ownBatchRequest'),
         ),
       ).thenAnswer(
-        (_) async => Result.success(
+        (_) async => const Result.success(
           OwnBatchResponse(
             duration: '10ms',
             data: {
@@ -90,10 +89,10 @@ void main() {
           ownBatchRequest: any(named: 'ownBatchRequest'),
         ),
       ).thenAnswer(
-        (_) async => Result.success(
+        (_) async => const Result.success(
           OwnBatchResponse(
             duration: '10ms',
-            data: {'user:john': const FeedOwnData(ownCapabilities: null)},
+            data: {'user:john': FeedOwnData(ownCapabilities: null)},
           ),
         ),
       );
@@ -110,7 +109,7 @@ void main() {
           ownBatchRequest: any(named: 'ownBatchRequest'),
         ),
       ).thenAnswer(
-        (_) async => Result.success(
+        (_) async => const Result.success(
           OwnBatchResponse(
             duration: '10ms',
             data: {

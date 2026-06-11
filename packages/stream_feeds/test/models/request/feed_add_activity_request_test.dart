@@ -1,11 +1,11 @@
-// ignore_for_file: avoid_relative_imports_for_non_public_files
+// ignore_for_file: prefer_int_literals, avoid_redundant_argument_values, avoid_relative_imports_for_non_public_files
 
 // Import the internal file to access FeedAddActivityRequestMapper.toRequest()
 // which is intentionally not re-exported from the public stream_feeds.dart.
 // We import only from the internal source and stream_feeds_test to avoid
 // type-identity conflicts caused by double-importing generated types.
-import '../../../lib/src/generated/api/models.dart' show Location;
-import '../../../lib/src/models/request/feed_add_activity_request.dart';
+import 'package:stream_feeds/src/generated/api/models.dart' show Location;
+import 'package:stream_feeds/src/models/request/feed_add_activity_request.dart';
 import 'package:stream_feeds_test/stream_feeds_test.dart';
 
 void main() {

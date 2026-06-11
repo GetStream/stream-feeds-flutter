@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_redundant_argument_values
+
 import 'package:stream_feeds/stream_feeds.dart';
 import 'package:stream_feeds_test/stream_feeds_test.dart';
 
