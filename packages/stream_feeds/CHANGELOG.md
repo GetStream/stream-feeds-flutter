@@ -1,4 +1,52 @@
 ## Upcoming
+
+### New fields
+- Added `isRead` and `isSeen` fields to `ActivityData` and `AggregatedActivityData` for notification-feed read/seen state.
+- Added `friendReactionCount` and `friendReactions` fields to `ActivityData` to expose reactions from friends.
+- Added `metrics` field to `ActivityData` for server-side activity metrics (impressions, clicks, etc.).
+- Added `bookmarkCount` and `editedAt` fields to `CommentData`.
+- Added `location` (`LocationCoordinate?`) field to `FeedData`.
+- Added `createNotificationActivity`, `skipPush`, and `enrichOwnFields` optional flags to `FeedAddActivityRequest`.
+
+### WebSocket events
+- `ActivityRestoredEvent` and `CommentRestoredEvent` are now handled: restored items are upserted back into feed/list state.
+
+### Deprecated — renamed types (backwards-compatible aliases added)
+The following generated types were renamed in the underlying API. Deprecated `typedef` aliases
+have been added so existing code continues to compile with a deprecation warning. Migrate to
+the new names at your earliest convenience.
+
+| Old name | New name |
+|---|---|
+| `FollowPair` | `UnfollowPair` |
+| `ActivityLocation` | `FeedsActivityLocation` |
+| `OwnUser` | `OwnUserResponse` |
+| `UserMute` | `UserMuteResponse` |
+| `Poll` | `PollResponseData` |
+| `PollOption` | `PollOptionResponseData` |
+| `PollVote` | `PollVoteResponseData` |
+| `BanActionRequest` | `BanActionRequestPayload` |
+| `BanActionRequestDeleteMessages` | `BanActionRequestPayloadDeleteMessages` |
+| `BlockActionRequest` | `BlockActionRequestPayload` |
+| `ShadowBlockActionRequest` | `ShadowBlockActionRequestPayload` |
+| `CustomActionRequest` | `CustomActionRequestPayload` |
+| `DeleteUserRequest` | `DeleteUserRequestPayload` |
+| `DeleteActivityRequest` | `DeleteActivityRequestPayload` |
+| `DeleteCommentRequest` | `DeleteCommentRequestPayload` |
+| `DeleteReactionRequest` | `DeleteReactionRequestPayload` |
+| `DeleteMessageRequest` | `DeleteMessageRequestPayload` |
+| `MarkReviewedRequest` | `MarkReviewedRequestPayload` |
+| `RejectAppealRequest` | `RejectAppealRequestPayload` |
+| `RestoreActionRequest` | `RestoreActionRequestPayload` |
+| `UnbanActionRequest` | `UnbanActionRequestPayload` |
+| `UnblockActionRequest` | `UnblockActionRequestPayload` |
+
+### [BREAKING]
+
+- [BREAKING] `FeedAddActivityRequest.location` field type changed from `ActivityLocation?` to `LocationCoordinate?` (from `package:stream_core`). Migrate: replace `ActivityLocation(lat: x, lng: y)` with `LocationCoordinate(latitude: x, longitude: y)`.
+- [BREAKING] `Ban` class removed. Replaced by `BanInfoResponse` which has a different field structure: `target` → `user`, `shadow: bool` (required) → `shadow: bool?` (optional), `channel` field removed.
+- [BREAKING] `PollResponseData.votingVisibility` is now a required field (was optional in the old `Poll` class). Code constructing `Poll`/`PollResponseData` directly (e.g. in tests) must supply `votingVisibility`.
+- [BREAKING] The following types were removed from the public API. They belonged to video/call/chat functionality not relevant to the Feeds SDK and should not have been exported: `AudioSettingsResponse`, `BackstageSettingsResponse`, `BroadcastSettingsResponse`, `CallIngressResponse`, `CallParticipantResponse`, `CallSessionResponse`, `CallSettingsResponse`, `Channel`, `ChannelConfig`, `ChannelMember`, `ChannelMemberLookup`, `ChannelPushPreferences`, `CompositeRecordingResponse`, `ConfigOverrides`, `DeliveryReceipts`, `DenormalizedChannelFields`, `Device`, `EgressHlsResponse`, `EgressResponse`, `EgressRtmpResponse`, `FrameRecordingResponse`, `FrameRecordingSettingsResponse`, `GeofenceSettingsResponse`, `HlsSettingsResponse`, `IndividualRecordingResponse`, `IndividualRecordingSettingsResponse`, `IngressAudioEncodingResponse`, `IngressSettingsResponse`, `IngressSourceResponse`, `IngressVideoEncodingResponse`, `IngressVideoLayerResponse`, `LimitsSettingsResponse`, `Message`, `MessageReminder`, `ModerationActionConfig`, `NoiseCancellationSettings`, `PrivacySettings`, `RawRecordingResponse`, `RawRecordingSettingsResponse`, `ReadReceipts`, `RecordSettingsResponse`, `RingSettingsResponse`, `RtmpIngress`, `RtmpSettingsResponse`, `ScreensharingSettingsResponse`, `SessionSettingsResponse`, `SharedLocation`, `SpeechSegmentConfig`, `SrtIngress`, `TargetResolution`, `ThumbnailResponse`, `ThumbnailsSettingsResponse`, `TranscriptionSettingsResponse`, `TranslationSettings`, `TypingIndicators`, `UserMutedEvent`, `VideoSettingsResponse`, `WhipIngress`.
 - [BREAKING] Changed `ActivityCommentList.state` getter return type from `StateNotifier<ActivityCommentListState>` to `ActivityCommentListState` to be consistent with all other state classes.
 
 ## 0.5.1

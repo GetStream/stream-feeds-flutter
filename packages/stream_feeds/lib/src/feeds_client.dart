@@ -827,11 +827,11 @@ abstract interface class StreamFeedsClient {
   /// final result = await client.getOrCreateUnfollows(
   ///   api.UnfollowBatchRequest(
   ///     follows: [
-  ///       api.FollowPair(
+  ///       api.UnfollowPair(
   ///         source: FeedId.user('john').rawValue,
   ///         target: FeedId.user('jane').rawValue,
   ///       ),
-  ///       api.FollowPair(
+  ///       api.UnfollowPair(
   ///         source: FeedId.user('john').rawValue,
   ///         target: FeedId.user('bob').rawValue,
   ///       ),
