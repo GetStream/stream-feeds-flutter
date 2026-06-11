@@ -72,7 +72,7 @@ class NotificationService extends Disposable {
 
     final result = await runSafely(
       () => _localNotification.initialize(
-        initSettings,
+        settings: initSettings,
         onDidReceiveNotificationResponse: _onBackgroundLocalMessageTap,
       ),
     );
@@ -97,9 +97,7 @@ class NotificationService extends Disposable {
     }
   }
 
-  Future<void> showLocalNotification(
-    FeedsNotification notification,
-  ) {
+  Future<void> showLocalNotification(FeedsNotification notification) {
     const androidDetails = AndroidNotificationDetails(
       notificationChannelId,
       notificationChannelName,
@@ -120,10 +118,10 @@ class NotificationService extends Disposable {
     final payload = {'data': notification.toJson()};
 
     return _localNotification.show(
-      notification.hashCode,
-      notification.title ?? 'New Notification',
-      notification.body ?? 'You have a new notification.',
-      notificationDetails,
+      id: notification.hashCode,
+      title: notification.title ?? 'New Notification',
+      body: notification.body ?? 'You have a new notification.',
+      notificationDetails: notificationDetails,
       payload: jsonEncode(payload),
     );
   }
@@ -218,10 +216,7 @@ class NotificationService extends Disposable {
 
   // endregion
 
-  void _onMessageTap(
-    RemoteMessage message, {
-    required DeviceState appState,
-  }) {
+  void _onMessageTap(RemoteMessage message, {required DeviceState appState}) {
     final data = message.data;
     if (data.isEmpty) return;
 

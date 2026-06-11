@@ -50,7 +50,7 @@ class AttachmentPicker extends StatelessWidget {
 
   Future<void> _pickImages(BuildContext context) async {
     try {
-      final result = await FilePicker.platform.pickFiles(
+      final result = await FilePicker.pickFiles(
         type: FileType.image,
         allowMultiple: true,
         withData: true, // Load bytes for web compatibility
@@ -73,7 +73,7 @@ class AttachmentPicker extends StatelessWidget {
 
   Future<void> _pickVideos(BuildContext context) async {
     try {
-      final result = await FilePicker.platform.pickFiles(
+      final result = await FilePicker.pickFiles(
         type: FileType.video,
         allowMultiple: true,
         withData: true, // Load bytes for web compatibility
@@ -148,19 +148,13 @@ class _AttachmentButton extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 12),
             decoration: BoxDecoration(
-              border: Border.all(
-                color: context.appColors.borders,
-              ),
+              border: Border.all(color: context.appColors.borders),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
-                  icon,
-                  color: context.appColors.accentPrimary,
-                  size: 24,
-                ),
+                Icon(icon, color: context.appColors.accentPrimary, size: 24),
                 const SizedBox(height: 4),
                 Text(
                   label,
