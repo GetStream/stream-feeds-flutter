@@ -919,7 +919,7 @@ BanResponse createDefaultBanResponse() {
   return const BanResponse(duration: '10ms');
 }
 
-MuteResponse createDefaultMuteResponse({List<UserMute>? mutes}) {
+MuteResponse createDefaultMuteResponse({List<UserMuteResponse>? mutes}) {
   return MuteResponse(duration: '10ms', mutes: mutes);
 }
 

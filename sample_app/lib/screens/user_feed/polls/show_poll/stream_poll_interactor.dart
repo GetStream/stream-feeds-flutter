@@ -63,7 +63,7 @@ class StreamPollInteractor extends StatelessWidget {
 
   /// Callback invoked when the user wants to remove a vote.
   ///
-  /// The [PollVote] parameter is the vote the user wants to remove.
+  /// The [PollVoteResponseData] parameter is the vote the user wants to remove.
   final ValueChanged<PollVoteData>? onRemoveVote;
 
   /// Callback invoked when the user wants to end the voting.

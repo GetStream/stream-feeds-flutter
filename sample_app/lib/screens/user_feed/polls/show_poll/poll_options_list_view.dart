@@ -31,12 +31,12 @@ class PollOptionsListView extends StatelessWidget {
 
   /// Callback invoked when the user wants to cast a vote.
   ///
-  /// The [PollOption] parameter is the option the user wants to vote for.
+  /// The [PollOptionResponseData] parameter is the option the user wants to vote for.
   final ValueChanged<PollOptionData>? onCastVote;
 
   /// Callback invoked when the user wants to remove a vote.
   ///
-  /// The [PollVote] parameter is the vote the user wants to remove.
+  /// The [PollVoteResponseData] parameter is the vote the user wants to remove.
   final ValueChanged<PollVoteData>? onRemoveVote;
 
   void _handleVoteRemoval(PollOptionData option) {
@@ -65,7 +65,7 @@ class PollOptionsListView extends StatelessWidget {
       shrinkWrap: true,
       itemCount: options.length,
       physics: const NeverScrollableScrollPhysics(),
-      separatorBuilder: (_, __) => const SizedBox(height: 8),
+      separatorBuilder: (_, _) => const SizedBox(height: 8),
       itemBuilder: (context, index) {
         final option = options.elementAt(index);
         return PollOptionItem(

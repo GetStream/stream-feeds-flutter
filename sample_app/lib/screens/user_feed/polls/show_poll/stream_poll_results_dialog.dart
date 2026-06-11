@@ -309,7 +309,7 @@ class PollVotesByOptionItem extends StatelessWidget {
                 shrinkWrap: true,
                 itemCount: votes.length,
                 physics: const NeverScrollableScrollPhysics(),
-                separatorBuilder: (_, __) => const SizedBox(height: 16),
+                separatorBuilder: (_, _) => const SizedBox(height: 16),
                 itemBuilder: (context, index) {
                   final pollVote = votes.elementAt(index);
                   return StreamPollVoteListTile(

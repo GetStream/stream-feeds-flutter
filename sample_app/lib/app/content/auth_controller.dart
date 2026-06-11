@@ -56,7 +56,7 @@ class AuthController extends ValueNotifier<AuthState> {
 
     value = result.fold(
       onSuccess: (_) => Authenticated(credentials.user, client),
-      onFailure: (_, __) => const Unauthenticated(),
+      onFailure: (_, _) => const Unauthenticated(),
     );
   }
 

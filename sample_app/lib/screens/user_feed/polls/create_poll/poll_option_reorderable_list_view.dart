@@ -359,7 +359,7 @@ class _PollOptionReorderableListViewState extends State<PollOptionReorderableLis
             itemCount: _options.length,
             physics: const NeverScrollableScrollPhysics(),
             proxyDecorator: _proxyDecorator,
-            separatorBuilder: (_, __) => const SizedBox(height: 8),
+            separatorBuilder: (_, _) => const SizedBox(height: 8),
             onReorderStart: (_) => FocusScope.of(context).unfocus(),
             onReorder: _onOptionReorder,
             itemBuilder: (context, index) {

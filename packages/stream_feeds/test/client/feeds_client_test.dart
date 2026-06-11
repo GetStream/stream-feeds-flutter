@@ -641,11 +641,11 @@ void main() {
 
         final request = UnfollowBatchRequest(
           follows: [
-            FollowPair(
+            UnfollowPair(
               source: johnFid.rawValue,
               target: janeFid.rawValue,
             ),
-            FollowPair(
+            UnfollowPair(
               source: johnFid.rawValue,
               target: bobFid.rawValue,
             ),
@@ -700,7 +700,7 @@ void main() {
 
         final request = UnfollowBatchRequest(
           follows: [
-            FollowPair(
+            UnfollowPair(
               source: johnFid.rawValue,
               target: janeFid.rawValue,
             ),

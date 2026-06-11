@@ -14,8 +14,8 @@ command:
   bootstrap:
     # Dart and Flutter environment used in the project.
     environment:
-      sdk: ^3.9.0
-      flutter: ">=3.35.0"
+      sdk: ^3.10.0
+      flutter: ">=3.38.0"
 
     # List of all the dependencies used in the project.
     dependencies:
@@ -101,6 +101,12 @@ scripts:
     description: |
       Run `dart analyze` in all packages.
        Flags all compiler `errors` in the project.
+
+
+  fix:apply:
+    run: dart fix --apply
+    description: |
+      Run `dart fix --apply` in all packages.
 
   format:
     run: dart format .

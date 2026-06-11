@@ -223,7 +223,7 @@ class _UserCommentsState extends State<UserComments> {
         createNotificationActivity: true,
         custom: {
           // Add emoji code only if available
-          if (reaction.emojiCode case final code?) 'emoji_code': code,
+          'emoji_code': ?reaction.emojiCode,
         },
       ),
     );
