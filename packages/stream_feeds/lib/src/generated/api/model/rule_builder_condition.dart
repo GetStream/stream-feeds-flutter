@@ -18,11 +18,19 @@ part 'rule_builder_condition.freezed.dart';
 @JsonSerializable()
 class RuleBuilderCondition with _$RuleBuilderCondition {
   const RuleBuilderCondition({
+    this.callCustomPropertyParams,
+    this.callTypeRuleParams,
+    this.callViolationCountParams,
+    this.channelMessageCountRuleParams,
+    this.closedCaptionRuleParams,
     this.confidence,
     this.contentCountRuleParams,
+    this.contentCustomPropertyCountParams,
     this.contentFlagCountRuleParams,
     this.imageContentParams,
     this.imageRuleParams,
+    this.keyframeOcrRuleParams,
+    this.keyframeRuleParams,
     this.textContentParams,
     this.textRuleParams,
     this.type,
@@ -37,10 +45,28 @@ class RuleBuilderCondition with _$RuleBuilderCondition {
   });
 
   @override
+  final CallCustomPropertyParameters? callCustomPropertyParams;
+
+  @override
+  final CallTypeRuleParameters? callTypeRuleParams;
+
+  @override
+  final CallViolationCountParameters? callViolationCountParams;
+
+  @override
+  final ChannelMessageCountRuleParameters? channelMessageCountRuleParams;
+
+  @override
+  final ClosedCaptionRuleParameters? closedCaptionRuleParams;
+
+  @override
   final double? confidence;
 
   @override
   final ContentCountRuleParameters? contentCountRuleParams;
+
+  @override
+  final ContentCustomPropertyCountParameters? contentCustomPropertyCountParams;
 
   @override
   final FlagCountRuleParameters? contentFlagCountRuleParams;
@@ -50,6 +76,12 @@ class RuleBuilderCondition with _$RuleBuilderCondition {
 
   @override
   final ImageRuleParameters? imageRuleParams;
+
+  @override
+  final KeyframeOCRRuleParameters? keyframeOcrRuleParams;
+
+  @override
+  final KeyframeRuleParameters? keyframeRuleParams;
 
   @override
   final TextContentParameters? textContentParams;

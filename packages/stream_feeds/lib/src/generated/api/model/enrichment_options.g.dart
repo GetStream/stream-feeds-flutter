@@ -9,6 +9,8 @@ part of 'enrichment_options.dart';
 EnrichmentOptions _$EnrichmentOptionsFromJson(Map<String, dynamic> json) =>
     EnrichmentOptions(
       enrichOwnFollowings: json['enrich_own_followings'] as bool?,
+      includeFlatActivities: json['include_flat_activities'] as bool?,
+      includeScoreVars: json['include_score_vars'] as bool?,
       skipActivity: json['skip_activity'] as bool?,
       skipActivityCollections: json['skip_activity_collections'] as bool?,
       skipActivityComments: json['skip_activity_comments'] as bool?,
@@ -33,6 +35,8 @@ EnrichmentOptions _$EnrichmentOptionsFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$EnrichmentOptionsToJson(EnrichmentOptions instance) =>
     <String, dynamic>{
       'enrich_own_followings': instance.enrichOwnFollowings,
+      'include_flat_activities': instance.includeFlatActivities,
+      'include_score_vars': instance.includeScoreVars,
       'skip_activity': instance.skipActivity,
       'skip_activity_collections': instance.skipActivityCollections,
       'skip_activity_comments': instance.skipActivityComments,

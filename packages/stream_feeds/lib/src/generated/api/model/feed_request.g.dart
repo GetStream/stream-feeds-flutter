@@ -15,6 +15,9 @@ FeedRequest _$FeedRequestFromJson(Map<String, dynamic> json) => FeedRequest(
       filterTags: (json['filter_tags'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+      location: json['location'] == null
+          ? null
+          : Location.fromJson(json['location'] as Map<String, dynamic>),
       members: (json['members'] as List<dynamic>?)
           ?.map((e) => FeedMemberRequest.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -32,6 +35,7 @@ Map<String, dynamic> _$FeedRequestToJson(FeedRequest instance) =>
       'feed_group_id': instance.feedGroupId,
       'feed_id': instance.feedId,
       'filter_tags': instance.filterTags,
+      'location': instance.location?.toJson(),
       'members': instance.members?.map((e) => e.toJson()).toList(),
       'name': instance.name,
       'visibility': _$FeedRequestVisibilityEnumMap[instance.visibility],

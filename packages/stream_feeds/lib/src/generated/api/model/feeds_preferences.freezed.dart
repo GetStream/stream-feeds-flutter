@@ -16,6 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$FeedsPreferences {
   FeedsPreferencesComment? get comment;
+  FeedsPreferencesCommentMention? get commentMention;
   FeedsPreferencesCommentReaction? get commentReaction;
   FeedsPreferencesCommentReply? get commentReply;
   Map<String, String>? get customActivityTypes;
@@ -37,6 +38,8 @@ mixin _$FeedsPreferences {
         (other.runtimeType == runtimeType &&
             other is FeedsPreferences &&
             (identical(other.comment, comment) || other.comment == comment) &&
+            (identical(other.commentMention, commentMention) ||
+                other.commentMention == commentMention) &&
             (identical(other.commentReaction, commentReaction) ||
                 other.commentReaction == commentReaction) &&
             (identical(other.commentReply, commentReply) ||
@@ -53,6 +56,7 @@ mixin _$FeedsPreferences {
   int get hashCode => Object.hash(
       runtimeType,
       comment,
+      commentMention,
       commentReaction,
       commentReply,
       const DeepCollectionEquality().hash(customActivityTypes),
@@ -62,7 +66,7 @@ mixin _$FeedsPreferences {
 
   @override
   String toString() {
-    return 'FeedsPreferences(comment: $comment, commentReaction: $commentReaction, commentReply: $commentReply, customActivityTypes: $customActivityTypes, follow: $follow, mention: $mention, reaction: $reaction)';
+    return 'FeedsPreferences(comment: $comment, commentMention: $commentMention, commentReaction: $commentReaction, commentReply: $commentReply, customActivityTypes: $customActivityTypes, follow: $follow, mention: $mention, reaction: $reaction)';
   }
 }
 
@@ -74,6 +78,7 @@ abstract mixin class $FeedsPreferencesCopyWith<$Res> {
   @useResult
   $Res call(
       {FeedsPreferencesComment? comment,
+      FeedsPreferencesCommentMention? commentMention,
       FeedsPreferencesCommentReaction? commentReaction,
       FeedsPreferencesCommentReply? commentReply,
       Map<String, String>? customActivityTypes,
@@ -96,6 +101,7 @@ class _$FeedsPreferencesCopyWithImpl<$Res>
   @override
   $Res call({
     Object? comment = freezed,
+    Object? commentMention = freezed,
     Object? commentReaction = freezed,
     Object? commentReply = freezed,
     Object? customActivityTypes = freezed,
@@ -108,6 +114,10 @@ class _$FeedsPreferencesCopyWithImpl<$Res>
           ? _self.comment
           : comment // ignore: cast_nullable_to_non_nullable
               as FeedsPreferencesComment?,
+      commentMention: freezed == commentMention
+          ? _self.commentMention
+          : commentMention // ignore: cast_nullable_to_non_nullable
+              as FeedsPreferencesCommentMention?,
       commentReaction: freezed == commentReaction
           ? _self.commentReaction
           : commentReaction // ignore: cast_nullable_to_non_nullable

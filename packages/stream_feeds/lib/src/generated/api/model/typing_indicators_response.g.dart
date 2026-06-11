@@ -9,7 +9,7 @@ part of 'typing_indicators_response.dart';
 TypingIndicatorsResponse _$TypingIndicatorsResponseFromJson(
         Map<String, dynamic> json) =>
     TypingIndicatorsResponse(
-      enabled: json['enabled'] as bool,
+      enabled: json['enabled'] as bool?,
     );
 
 Map<String, dynamic> _$TypingIndicatorsResponseToJson(

@@ -40,6 +40,8 @@ abstract class WSClientEvent<T extends core.WsEvent> {
           ActivityReactionUpdatedEvent.fromJson(json)),
       "feeds.activity.removed_from_feed" => _ActivityRemovedFromFeedEvent(
           ActivityRemovedFromFeedEvent.fromJson(json)),
+      "feeds.activity.restored" =>
+        _ActivityRestoredEvent(ActivityRestoredEvent.fromJson(json)),
       "feeds.activity.unpinned" =>
         _ActivityUnpinnedEvent(ActivityUnpinnedEvent.fromJson(json)),
       "feeds.activity.updated" =>
@@ -64,6 +66,8 @@ abstract class WSClientEvent<T extends core.WsEvent> {
           CommentReactionDeletedEvent.fromJson(json)),
       "feeds.comment.reaction.updated" => _CommentReactionUpdatedEvent(
           CommentReactionUpdatedEvent.fromJson(json)),
+      "feeds.comment.restored" =>
+        _CommentRestoredEvent(CommentRestoredEvent.fromJson(json)),
       "feeds.comment.updated" =>
         _CommentUpdatedEvent(CommentUpdatedEvent.fromJson(json)),
       "feeds.feed.created" =>
@@ -76,6 +80,8 @@ abstract class WSClientEvent<T extends core.WsEvent> {
         _FeedGroupChangedEvent(FeedGroupChangedEvent.fromJson(json)),
       "feeds.feed_group.deleted" =>
         _FeedGroupDeletedEvent(FeedGroupDeletedEvent.fromJson(json)),
+      "feeds.feed_group.restored" =>
+        _FeedGroupRestoredEvent(FeedGroupRestoredEvent.fromJson(json)),
       "feeds.feed_member.added" =>
         _FeedMemberAddedEvent(FeedMemberAddedEvent.fromJson(json)),
       "feeds.feed_member.removed" =>
@@ -106,8 +112,16 @@ abstract class WSClientEvent<T extends core.WsEvent> {
         _StoriesFeedUpdatedEvent(StoriesFeedUpdatedEvent.fromJson(json)),
       "moderation.custom_action" => _ModerationCustomActionEvent(
           ModerationCustomActionEvent.fromJson(json)),
+      "moderation.flagged" =>
+        _ModerationFlaggedEvent(ModerationFlaggedEvent.fromJson(json)),
       "moderation.mark_reviewed" => _ModerationMarkReviewedEvent(
           ModerationMarkReviewedEvent.fromJson(json)),
+      "user.banned" => _UserBannedEvent(UserBannedEvent.fromJson(json)),
+      "user.deactivated" =>
+        _UserDeactivatedEvent(UserDeactivatedEvent.fromJson(json)),
+      "user.reactivated" =>
+        _UserReactivatedEvent(UserReactivatedEvent.fromJson(json)),
+      "user.unbanned" => _UserUnbannedEvent(UserUnbannedEvent.fromJson(json)),
       "user.updated" => _UserUpdatedEvent(UserUpdatedEvent.fromJson(json)),
       _ => _UnknownWSClientEvent(UnknownWSClientEvent(eventType, json)),
     };
@@ -183,6 +197,13 @@ class _ActivityReactionUpdatedEvent
 class _ActivityRemovedFromFeedEvent
     extends WSClientEvent<ActivityRemovedFromFeedEvent> {
   const _ActivityRemovedFromFeedEvent(super.wrapped);
+
+  @override
+  String get type => wrapped.type;
+}
+
+class _ActivityRestoredEvent extends WSClientEvent<ActivityRestoredEvent> {
+  const _ActivityRestoredEvent(super.wrapped);
 
   @override
   String get type => wrapped.type;
@@ -277,6 +298,13 @@ class _CommentReactionUpdatedEvent
   String get type => wrapped.type;
 }
 
+class _CommentRestoredEvent extends WSClientEvent<CommentRestoredEvent> {
+  const _CommentRestoredEvent(super.wrapped);
+
+  @override
+  String get type => wrapped.type;
+}
+
 class _CommentUpdatedEvent extends WSClientEvent<CommentUpdatedEvent> {
   const _CommentUpdatedEvent(super.wrapped);
 
@@ -314,6 +342,13 @@ class _FeedGroupChangedEvent extends WSClientEvent<FeedGroupChangedEvent> {
 
 class _FeedGroupDeletedEvent extends WSClientEvent<FeedGroupDeletedEvent> {
   const _FeedGroupDeletedEvent(super.wrapped);
+
+  @override
+  String get type => wrapped.type;
+}
+
+class _FeedGroupRestoredEvent extends WSClientEvent<FeedGroupRestoredEvent> {
+  const _FeedGroupRestoredEvent(super.wrapped);
 
   @override
   String get type => wrapped.type;
@@ -428,9 +463,44 @@ class _ModerationCustomActionEvent
   String get type => wrapped.type;
 }
 
+class _ModerationFlaggedEvent extends WSClientEvent<ModerationFlaggedEvent> {
+  const _ModerationFlaggedEvent(super.wrapped);
+
+  @override
+  String get type => wrapped.type;
+}
+
 class _ModerationMarkReviewedEvent
     extends WSClientEvent<ModerationMarkReviewedEvent> {
   const _ModerationMarkReviewedEvent(super.wrapped);
+
+  @override
+  String get type => wrapped.type;
+}
+
+class _UserBannedEvent extends WSClientEvent<UserBannedEvent> {
+  const _UserBannedEvent(super.wrapped);
+
+  @override
+  String get type => wrapped.type;
+}
+
+class _UserDeactivatedEvent extends WSClientEvent<UserDeactivatedEvent> {
+  const _UserDeactivatedEvent(super.wrapped);
+
+  @override
+  String get type => wrapped.type;
+}
+
+class _UserReactivatedEvent extends WSClientEvent<UserReactivatedEvent> {
+  const _UserReactivatedEvent(super.wrapped);
+
+  @override
+  String get type => wrapped.type;
+}
+
+class _UserUnbannedEvent extends WSClientEvent<UserUnbannedEvent> {
+  const _UserUnbannedEvent(super.wrapped);
 
   @override
   String get type => wrapped.type;

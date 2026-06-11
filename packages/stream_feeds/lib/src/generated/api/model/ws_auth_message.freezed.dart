@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$WSAuthMessage {
-  List<String>? get products;
+  List<WSAuthMessageProducts>? get products;
   String get token;
 
   /// Create a copy of WSAuthMessage
@@ -51,7 +51,7 @@ abstract mixin class $WSAuthMessageCopyWith<$Res> {
           WSAuthMessage value, $Res Function(WSAuthMessage) _then) =
       _$WSAuthMessageCopyWithImpl;
   @useResult
-  $Res call({List<String>? products, String token});
+  $Res call({List<WSAuthMessageProducts>? products, String token});
 }
 
 /// @nodoc
@@ -74,7 +74,7 @@ class _$WSAuthMessageCopyWithImpl<$Res>
       products: freezed == products
           ? _self.products
           : products // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
+              as List<WSAuthMessageProducts>?,
       token: null == token
           ? _self.token
           : token // ignore: cast_nullable_to_non_nullable

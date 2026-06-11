@@ -19,10 +19,14 @@ part 'upsert_activities_request.freezed.dart';
 class UpsertActivitiesRequest with _$UpsertActivitiesRequest {
   const UpsertActivitiesRequest({
     required this.activities,
+    this.enrichOwnFields,
   });
 
   @override
   final List<ActivityRequest> activities;
+
+  @override
+  final bool? enrichOwnFields;
 
   Map<String, dynamic> toJson() => _$UpsertActivitiesRequestToJson(this);
 

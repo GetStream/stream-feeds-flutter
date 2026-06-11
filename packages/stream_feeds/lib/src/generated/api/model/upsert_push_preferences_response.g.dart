@@ -15,13 +15,15 @@ UpsertPushPreferencesResponse _$UpsertPushPreferencesResponseFromJson(
         (k, e) => MapEntry(
             k,
             (e as Map<String, dynamic>).map(
-              (k, e) => MapEntry(k,
-                  ChannelPushPreferences.fromJson(e as Map<String, dynamic>)),
+              (k, e) => MapEntry(
+                  k,
+                  ChannelPushPreferencesResponse.fromJson(
+                      e as Map<String, dynamic>)),
             )),
       ),
       userPreferences: (json['user_preferences'] as Map<String, dynamic>).map(
-        (k, e) =>
-            MapEntry(k, PushPreferences.fromJson(e as Map<String, dynamic>)),
+        (k, e) => MapEntry(
+            k, PushPreferencesResponse.fromJson(e as Map<String, dynamic>)),
       ),
     );
 

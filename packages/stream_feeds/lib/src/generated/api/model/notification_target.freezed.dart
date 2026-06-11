@@ -17,8 +17,10 @@ T _$identity<T>(T value) => value;
 mixin _$NotificationTarget {
   List<Attachment>? get attachments;
   NotificationComment? get comment;
+  Map<String, Object?>? get custom;
   String get id;
   String? get name;
+  NotificationParentActivity? get parentActivity;
   String? get text;
   String? get type;
   String? get userId;
@@ -39,8 +41,11 @@ mixin _$NotificationTarget {
             const DeepCollectionEquality()
                 .equals(other.attachments, attachments) &&
             (identical(other.comment, comment) || other.comment == comment) &&
+            const DeepCollectionEquality().equals(other.custom, custom) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.parentActivity, parentActivity) ||
+                other.parentActivity == parentActivity) &&
             (identical(other.text, text) || other.text == text) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.userId, userId) || other.userId == userId));
@@ -51,15 +56,17 @@ mixin _$NotificationTarget {
       runtimeType,
       const DeepCollectionEquality().hash(attachments),
       comment,
+      const DeepCollectionEquality().hash(custom),
       id,
       name,
+      parentActivity,
       text,
       type,
       userId);
 
   @override
   String toString() {
-    return 'NotificationTarget(attachments: $attachments, comment: $comment, id: $id, name: $name, text: $text, type: $type, userId: $userId)';
+    return 'NotificationTarget(attachments: $attachments, comment: $comment, custom: $custom, id: $id, name: $name, parentActivity: $parentActivity, text: $text, type: $type, userId: $userId)';
   }
 }
 
@@ -72,8 +79,10 @@ abstract mixin class $NotificationTargetCopyWith<$Res> {
   $Res call(
       {List<Attachment>? attachments,
       NotificationComment? comment,
+      Map<String, Object?>? custom,
       String id,
       String? name,
+      NotificationParentActivity? parentActivity,
       String? text,
       String? type,
       String? userId});
@@ -94,8 +103,10 @@ class _$NotificationTargetCopyWithImpl<$Res>
   $Res call({
     Object? attachments = freezed,
     Object? comment = freezed,
+    Object? custom = freezed,
     Object? id = null,
     Object? name = freezed,
+    Object? parentActivity = freezed,
     Object? text = freezed,
     Object? type = freezed,
     Object? userId = freezed,
@@ -109,6 +120,10 @@ class _$NotificationTargetCopyWithImpl<$Res>
           ? _self.comment
           : comment // ignore: cast_nullable_to_non_nullable
               as NotificationComment?,
+      custom: freezed == custom
+          ? _self.custom
+          : custom // ignore: cast_nullable_to_non_nullable
+              as Map<String, Object?>?,
       id: null == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -117,6 +132,10 @@ class _$NotificationTargetCopyWithImpl<$Res>
           ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
+      parentActivity: freezed == parentActivity
+          ? _self.parentActivity
+          : parentActivity // ignore: cast_nullable_to_non_nullable
+              as NotificationParentActivity?,
       text: freezed == text
           ? _self.text
           : text // ignore: cast_nullable_to_non_nullable

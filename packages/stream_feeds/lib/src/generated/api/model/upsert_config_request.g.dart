@@ -48,6 +48,9 @@ UpsertConfigRequest _$UpsertConfigRequestFromJson(Map<String, dynamic> json) =>
           ? null
           : AITextConfig.fromJson(
               json['bodyguard_config'] as Map<String, dynamic>),
+      floodConfig: json['flood_config'] == null
+          ? null
+          : FloodConfig.fromJson(json['flood_config'] as Map<String, dynamic>),
       googleVisionConfig: json['google_vision_config'] == null
           ? null
           : GoogleVisionConfig.fromJson(
@@ -86,6 +89,7 @@ Map<String, dynamic> _$UpsertConfigRequestToJson(
       'aws_rekognition_config': instance.awsRekognitionConfig?.toJson(),
       'block_list_config': instance.blockListConfig?.toJson(),
       'bodyguard_config': instance.bodyguardConfig?.toJson(),
+      'flood_config': instance.floodConfig?.toJson(),
       'google_vision_config': instance.googleVisionConfig?.toJson(),
       'key': instance.key,
       'llm_config': instance.llmConfig?.toJson(),

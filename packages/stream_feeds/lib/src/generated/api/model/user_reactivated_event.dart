@@ -19,8 +19,11 @@ part 'user_reactivated_event.freezed.dart';
 class UserReactivatedEvent extends core.WsEvent with _$UserReactivatedEvent {
   const UserReactivatedEvent({
     required this.createdAt,
+    this.createdBy,
+    required this.custom,
+    this.receivedAt,
     required this.type,
-    this.user,
+    required this.user,
   });
 
   @override
@@ -28,10 +31,20 @@ class UserReactivatedEvent extends core.WsEvent with _$UserReactivatedEvent {
   final DateTime createdAt;
 
   @override
+  final UserResponseCommonFields? createdBy;
+
+  @override
+  final Map<String, Object?> custom;
+
+  @override
+  @EpochDateTimeConverter()
+  final DateTime? receivedAt;
+
+  @override
   final String type;
 
   @override
-  final User? user;
+  final UserResponseCommonFields user;
 
   Map<String, dynamic> toJson() => _$UserReactivatedEventToJson(this);
 

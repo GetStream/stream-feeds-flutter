@@ -16,6 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$UpsertActivitiesRequest {
   List<ActivityRequest> get activities;
+  bool? get enrichOwnFields;
 
   /// Create a copy of UpsertActivitiesRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -31,16 +32,18 @@ mixin _$UpsertActivitiesRequest {
         (other.runtimeType == runtimeType &&
             other is UpsertActivitiesRequest &&
             const DeepCollectionEquality()
-                .equals(other.activities, activities));
+                .equals(other.activities, activities) &&
+            (identical(other.enrichOwnFields, enrichOwnFields) ||
+                other.enrichOwnFields == enrichOwnFields));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(activities));
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(activities), enrichOwnFields);
 
   @override
   String toString() {
-    return 'UpsertActivitiesRequest(activities: $activities)';
+    return 'UpsertActivitiesRequest(activities: $activities, enrichOwnFields: $enrichOwnFields)';
   }
 }
 
@@ -50,7 +53,7 @@ abstract mixin class $UpsertActivitiesRequestCopyWith<$Res> {
           $Res Function(UpsertActivitiesRequest) _then) =
       _$UpsertActivitiesRequestCopyWithImpl;
   @useResult
-  $Res call({List<ActivityRequest> activities});
+  $Res call({List<ActivityRequest> activities, bool? enrichOwnFields});
 }
 
 /// @nodoc
@@ -67,12 +70,17 @@ class _$UpsertActivitiesRequestCopyWithImpl<$Res>
   @override
   $Res call({
     Object? activities = null,
+    Object? enrichOwnFields = freezed,
   }) {
     return _then(UpsertActivitiesRequest(
       activities: null == activities
           ? _self.activities
           : activities // ignore: cast_nullable_to_non_nullable
               as List<ActivityRequest>,
+      enrichOwnFields: freezed == enrichOwnFields
+          ? _self.enrichOwnFields
+          : enrichOwnFields // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }

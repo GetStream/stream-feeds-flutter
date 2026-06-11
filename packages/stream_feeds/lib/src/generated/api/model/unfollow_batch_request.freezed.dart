@@ -15,7 +15,9 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$UnfollowBatchRequest {
-  List<FollowPair> get follows;
+  bool? get deleteNotificationActivity;
+  bool? get enrichOwnFields;
+  List<UnfollowPair> get follows;
 
   /// Create a copy of UnfollowBatchRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -30,16 +32,22 @@ mixin _$UnfollowBatchRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is UnfollowBatchRequest &&
+            (identical(other.deleteNotificationActivity,
+                    deleteNotificationActivity) ||
+                other.deleteNotificationActivity ==
+                    deleteNotificationActivity) &&
+            (identical(other.enrichOwnFields, enrichOwnFields) ||
+                other.enrichOwnFields == enrichOwnFields) &&
             const DeepCollectionEquality().equals(other.follows, follows));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(follows));
+  int get hashCode => Object.hash(runtimeType, deleteNotificationActivity,
+      enrichOwnFields, const DeepCollectionEquality().hash(follows));
 
   @override
   String toString() {
-    return 'UnfollowBatchRequest(follows: $follows)';
+    return 'UnfollowBatchRequest(deleteNotificationActivity: $deleteNotificationActivity, enrichOwnFields: $enrichOwnFields, follows: $follows)';
   }
 }
 
@@ -49,7 +57,10 @@ abstract mixin class $UnfollowBatchRequestCopyWith<$Res> {
           $Res Function(UnfollowBatchRequest) _then) =
       _$UnfollowBatchRequestCopyWithImpl;
   @useResult
-  $Res call({List<FollowPair> follows});
+  $Res call(
+      {bool? deleteNotificationActivity,
+      bool? enrichOwnFields,
+      List<UnfollowPair> follows});
 }
 
 /// @nodoc
@@ -65,13 +76,23 @@ class _$UnfollowBatchRequestCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? deleteNotificationActivity = freezed,
+    Object? enrichOwnFields = freezed,
     Object? follows = null,
   }) {
     return _then(UnfollowBatchRequest(
+      deleteNotificationActivity: freezed == deleteNotificationActivity
+          ? _self.deleteNotificationActivity
+          : deleteNotificationActivity // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      enrichOwnFields: freezed == enrichOwnFields
+          ? _self.enrichOwnFields
+          : enrichOwnFields // ignore: cast_nullable_to_non_nullable
+              as bool?,
       follows: null == follows
           ? _self.follows
           : follows // ignore: cast_nullable_to_non_nullable
-              as List<FollowPair>,
+              as List<UnfollowPair>,
     ));
   }
 }

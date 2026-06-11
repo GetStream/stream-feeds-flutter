@@ -18,12 +18,17 @@ part 'add_comment_reaction_request.freezed.dart';
 @JsonSerializable()
 class AddCommentReactionRequest with _$AddCommentReactionRequest {
   const AddCommentReactionRequest({
+    this.copyCustomToNotification,
     this.createNotificationActivity,
     this.custom,
     this.enforceUnique,
     this.skipPush,
     required this.type,
   });
+
+  @Deprecated('This field is deprecated.')
+  @override
+  final bool? copyCustomToNotification;
 
   @override
   final bool? createNotificationActivity;

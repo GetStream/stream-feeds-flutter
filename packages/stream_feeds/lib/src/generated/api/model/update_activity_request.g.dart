@@ -15,7 +15,9 @@ UpdateActivityRequest _$UpdateActivityRequestFromJson(
       collectionRefs: (json['collection_refs'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+      copyCustomToNotification: json['copy_custom_to_notification'] as bool?,
       custom: json['custom'] as Map<String, dynamic>?,
+      enrichOwnFields: json['enrich_own_fields'] as bool?,
       expiresAt: _$JsonConverterFromJson<int, DateTime>(
           json['expires_at'], const EpochDateTimeConverter().fromJson),
       feeds:
@@ -23,12 +25,13 @@ UpdateActivityRequest _$UpdateActivityRequestFromJson(
       filterTags: (json['filter_tags'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+      handleMentionNotifications: json['handle_mention_notifications'] as bool?,
       interestTags: (json['interest_tags'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
       location: json['location'] == null
           ? null
-          : ActivityLocation.fromJson(json['location'] as Map<String, dynamic>),
+          : Location.fromJson(json['location'] as Map<String, dynamic>),
       mentionedUserIds: (json['mentioned_user_ids'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
@@ -37,9 +40,14 @@ UpdateActivityRequest _$UpdateActivityRequestFromJson(
           _$UpdateActivityRequestRestrictRepliesEnumMap,
           json['restrict_replies'],
           unknownValue: UpdateActivityRequestRestrictReplies.unknown),
+      runActivityProcessors: json['run_activity_processors'] as bool?,
+      searchData: json['search_data'] as Map<String, dynamic>?,
       skipEnrichUrl: json['skip_enrich_url'] as bool?,
       text: json['text'] as String?,
-      visibility: json['visibility'] as String?,
+      visibility: $enumDecodeNullable(
+          _$UpdateActivityRequestVisibilityEnumMap, json['visibility'],
+          unknownValue: UpdateActivityRequestVisibility.unknown),
+      visibilityTag: json['visibility_tag'] as String?,
     );
 
 Map<String, dynamic> _$UpdateActivityRequestToJson(
@@ -47,20 +55,27 @@ Map<String, dynamic> _$UpdateActivityRequestToJson(
     <String, dynamic>{
       'attachments': instance.attachments?.map((e) => e.toJson()).toList(),
       'collection_refs': instance.collectionRefs,
+      'copy_custom_to_notification': instance.copyCustomToNotification,
       'custom': instance.custom,
+      'enrich_own_fields': instance.enrichOwnFields,
       'expires_at': _$JsonConverterToJson<int, DateTime>(
           instance.expiresAt, const EpochDateTimeConverter().toJson),
       'feeds': instance.feeds,
       'filter_tags': instance.filterTags,
+      'handle_mention_notifications': instance.handleMentionNotifications,
       'interest_tags': instance.interestTags,
       'location': instance.location?.toJson(),
       'mentioned_user_ids': instance.mentionedUserIds,
       'poll_id': instance.pollId,
       'restrict_replies': _$UpdateActivityRequestRestrictRepliesEnumMap[
           instance.restrictReplies],
+      'run_activity_processors': instance.runActivityProcessors,
+      'search_data': instance.searchData,
       'skip_enrich_url': instance.skipEnrichUrl,
       'text': instance.text,
-      'visibility': instance.visibility,
+      'visibility':
+          _$UpdateActivityRequestVisibilityEnumMap[instance.visibility],
+      'visibility_tag': instance.visibilityTag,
     };
 
 Value? _$JsonConverterFromJson<Json, Value>(
@@ -74,6 +89,13 @@ const _$UpdateActivityRequestRestrictRepliesEnumMap = {
   UpdateActivityRequestRestrictReplies.nobody: 'nobody',
   UpdateActivityRequestRestrictReplies.peopleIFollow: 'people_i_follow',
   UpdateActivityRequestRestrictReplies.unknown: '_unknown',
+};
+
+const _$UpdateActivityRequestVisibilityEnumMap = {
+  UpdateActivityRequestVisibility.private: 'private',
+  UpdateActivityRequestVisibility.public: 'public',
+  UpdateActivityRequestVisibility.tag: 'tag',
+  UpdateActivityRequestVisibility.unknown: '_unknown',
 };
 
 Json? _$JsonConverterToJson<Json, Value>(

@@ -29,8 +29,12 @@ enum PushPreferenceInputCallLevel {
 enum PushPreferenceInputChatLevel {
   @JsonValue('all')
   all,
+  @JsonValue('all_mentions')
+  allMentions,
   @JsonValue('default')
   default_,
+  @JsonValue('direct_mentions')
+  directMentions,
   @JsonValue('mentions')
   mentions,
   @JsonValue('none')
@@ -59,6 +63,7 @@ class PushPreferenceInput with _$PushPreferenceInput {
     this.callLevel,
     this.channelCid,
     this.chatLevel,
+    this.chatPreferences,
     this.disabledUntil,
     this.feedsLevel,
     this.feedsPreferences,
@@ -76,6 +81,9 @@ class PushPreferenceInput with _$PushPreferenceInput {
   @override
   @JsonKey(unknownEnumValue: PushPreferenceInputChatLevel.unknown)
   final PushPreferenceInputChatLevel? chatLevel;
+
+  @override
+  final ChatPreferencesInput? chatPreferences;
 
   @override
   @EpochDateTimeConverter()

@@ -28,13 +28,18 @@ mixin _$ActivityResponse {
   DateTime? get expiresAt;
   List<String> get feeds;
   List<String> get filterTags;
+  int? get friendReactionCount;
+  List<FeedsReactionResponse>? get friendReactions;
   bool get hidden;
   String get id;
   List<String> get interestTags;
+  bool? get isRead;
+  bool? get isSeen;
   bool? get isWatched;
   List<FeedsReactionResponse> get latestReactions;
-  ActivityLocation? get location;
+  Location? get location;
   List<UserResponse> get mentionedUsers;
+  Map<String, int>? get metrics;
   ModerationV2Response? get moderation;
   String? get moderationAction;
   NotificationContext? get notificationContext;
@@ -45,10 +50,12 @@ mixin _$ActivityResponse {
   int get popularity;
   bool get preview;
   int get reactionCount;
-  Map<String, ReactionGroupResponse> get reactionGroups;
-  String get restrictReplies;
+  Map<String, FeedsReactionGroupResponse> get reactionGroups;
+  ActivityResponseRestrictReplies get restrictReplies;
   double get score;
+  Map<String, Object?>? get scoreVars;
   Map<String, Object?> get searchData;
+  String? get selectorSource;
   int get shareCount;
   String? get text;
   String get type;
@@ -93,10 +100,16 @@ mixin _$ActivityResponse {
             const DeepCollectionEquality().equals(other.feeds, feeds) &&
             const DeepCollectionEquality()
                 .equals(other.filterTags, filterTags) &&
+            (identical(other.friendReactionCount, friendReactionCount) ||
+                other.friendReactionCount == friendReactionCount) &&
+            const DeepCollectionEquality()
+                .equals(other.friendReactions, friendReactions) &&
             (identical(other.hidden, hidden) || other.hidden == hidden) &&
             (identical(other.id, id) || other.id == id) &&
             const DeepCollectionEquality()
                 .equals(other.interestTags, interestTags) &&
+            (identical(other.isRead, isRead) || other.isRead == isRead) &&
+            (identical(other.isSeen, isSeen) || other.isSeen == isSeen) &&
             (identical(other.isWatched, isWatched) ||
                 other.isWatched == isWatched) &&
             const DeepCollectionEquality()
@@ -105,6 +118,7 @@ mixin _$ActivityResponse {
                 other.location == location) &&
             const DeepCollectionEquality()
                 .equals(other.mentionedUsers, mentionedUsers) &&
+            const DeepCollectionEquality().equals(other.metrics, metrics) &&
             (identical(other.moderation, moderation) ||
                 other.moderation == moderation) &&
             (identical(other.moderationAction, moderationAction) ||
@@ -127,8 +141,11 @@ mixin _$ActivityResponse {
             (identical(other.restrictReplies, restrictReplies) ||
                 other.restrictReplies == restrictReplies) &&
             (identical(other.score, score) || other.score == score) &&
+            const DeepCollectionEquality().equals(other.scoreVars, scoreVars) &&
             const DeepCollectionEquality()
                 .equals(other.searchData, searchData) &&
+            (identical(other.selectorSource, selectorSource) ||
+                other.selectorSource == selectorSource) &&
             (identical(other.shareCount, shareCount) ||
                 other.shareCount == shareCount) &&
             (identical(other.text, text) || other.text == text) &&
@@ -158,13 +175,18 @@ mixin _$ActivityResponse {
         expiresAt,
         const DeepCollectionEquality().hash(feeds),
         const DeepCollectionEquality().hash(filterTags),
+        friendReactionCount,
+        const DeepCollectionEquality().hash(friendReactions),
         hidden,
         id,
         const DeepCollectionEquality().hash(interestTags),
+        isRead,
+        isSeen,
         isWatched,
         const DeepCollectionEquality().hash(latestReactions),
         location,
         const DeepCollectionEquality().hash(mentionedUsers),
+        const DeepCollectionEquality().hash(metrics),
         moderation,
         moderationAction,
         notificationContext,
@@ -178,7 +200,9 @@ mixin _$ActivityResponse {
         const DeepCollectionEquality().hash(reactionGroups),
         restrictReplies,
         score,
+        const DeepCollectionEquality().hash(scoreVars),
         const DeepCollectionEquality().hash(searchData),
+        selectorSource,
         shareCount,
         text,
         type,
@@ -190,7 +214,7 @@ mixin _$ActivityResponse {
 
   @override
   String toString() {
-    return 'ActivityResponse(attachments: $attachments, bookmarkCount: $bookmarkCount, collections: $collections, commentCount: $commentCount, comments: $comments, createdAt: $createdAt, currentFeed: $currentFeed, custom: $custom, deletedAt: $deletedAt, editedAt: $editedAt, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, hidden: $hidden, id: $id, interestTags: $interestTags, isWatched: $isWatched, latestReactions: $latestReactions, location: $location, mentionedUsers: $mentionedUsers, moderation: $moderation, moderationAction: $moderationAction, notificationContext: $notificationContext, ownBookmarks: $ownBookmarks, ownReactions: $ownReactions, parent: $parent, poll: $poll, popularity: $popularity, preview: $preview, reactionCount: $reactionCount, reactionGroups: $reactionGroups, restrictReplies: $restrictReplies, score: $score, searchData: $searchData, shareCount: $shareCount, text: $text, type: $type, updatedAt: $updatedAt, user: $user, visibility: $visibility, visibilityTag: $visibilityTag)';
+    return 'ActivityResponse(attachments: $attachments, bookmarkCount: $bookmarkCount, collections: $collections, commentCount: $commentCount, comments: $comments, createdAt: $createdAt, currentFeed: $currentFeed, custom: $custom, deletedAt: $deletedAt, editedAt: $editedAt, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, friendReactionCount: $friendReactionCount, friendReactions: $friendReactions, hidden: $hidden, id: $id, interestTags: $interestTags, isRead: $isRead, isSeen: $isSeen, isWatched: $isWatched, latestReactions: $latestReactions, location: $location, mentionedUsers: $mentionedUsers, metrics: $metrics, moderation: $moderation, moderationAction: $moderationAction, notificationContext: $notificationContext, ownBookmarks: $ownBookmarks, ownReactions: $ownReactions, parent: $parent, poll: $poll, popularity: $popularity, preview: $preview, reactionCount: $reactionCount, reactionGroups: $reactionGroups, restrictReplies: $restrictReplies, score: $score, scoreVars: $scoreVars, searchData: $searchData, selectorSource: $selectorSource, shareCount: $shareCount, text: $text, type: $type, updatedAt: $updatedAt, user: $user, visibility: $visibility, visibilityTag: $visibilityTag)';
   }
 }
 
@@ -214,13 +238,18 @@ abstract mixin class $ActivityResponseCopyWith<$Res> {
       DateTime? expiresAt,
       List<String> feeds,
       List<String> filterTags,
+      int? friendReactionCount,
+      List<FeedsReactionResponse>? friendReactions,
       bool hidden,
       String id,
       List<String> interestTags,
+      bool? isRead,
+      bool? isSeen,
       bool? isWatched,
       List<FeedsReactionResponse> latestReactions,
-      ActivityLocation? location,
+      Location? location,
       List<UserResponse> mentionedUsers,
+      Map<String, int>? metrics,
       ModerationV2Response? moderation,
       String? moderationAction,
       NotificationContext? notificationContext,
@@ -231,10 +260,12 @@ abstract mixin class $ActivityResponseCopyWith<$Res> {
       int popularity,
       bool preview,
       int reactionCount,
-      Map<String, ReactionGroupResponse> reactionGroups,
-      String restrictReplies,
+      Map<String, FeedsReactionGroupResponse> reactionGroups,
+      ActivityResponseRestrictReplies restrictReplies,
       double score,
+      Map<String, Object?>? scoreVars,
       Map<String, Object?> searchData,
+      String? selectorSource,
       int shareCount,
       String? text,
       String type,
@@ -270,13 +301,18 @@ class _$ActivityResponseCopyWithImpl<$Res>
     Object? expiresAt = freezed,
     Object? feeds = null,
     Object? filterTags = null,
+    Object? friendReactionCount = freezed,
+    Object? friendReactions = freezed,
     Object? hidden = null,
     Object? id = null,
     Object? interestTags = null,
+    Object? isRead = freezed,
+    Object? isSeen = freezed,
     Object? isWatched = freezed,
     Object? latestReactions = null,
     Object? location = freezed,
     Object? mentionedUsers = null,
+    Object? metrics = freezed,
     Object? moderation = freezed,
     Object? moderationAction = freezed,
     Object? notificationContext = freezed,
@@ -290,7 +326,9 @@ class _$ActivityResponseCopyWithImpl<$Res>
     Object? reactionGroups = null,
     Object? restrictReplies = null,
     Object? score = null,
+    Object? scoreVars = freezed,
     Object? searchData = null,
+    Object? selectorSource = freezed,
     Object? shareCount = null,
     Object? text = freezed,
     Object? type = null,
@@ -352,6 +390,14 @@ class _$ActivityResponseCopyWithImpl<$Res>
           ? _self.filterTags
           : filterTags // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      friendReactionCount: freezed == friendReactionCount
+          ? _self.friendReactionCount
+          : friendReactionCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      friendReactions: freezed == friendReactions
+          ? _self.friendReactions
+          : friendReactions // ignore: cast_nullable_to_non_nullable
+              as List<FeedsReactionResponse>?,
       hidden: null == hidden
           ? _self.hidden
           : hidden // ignore: cast_nullable_to_non_nullable
@@ -364,6 +410,14 @@ class _$ActivityResponseCopyWithImpl<$Res>
           ? _self.interestTags
           : interestTags // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      isRead: freezed == isRead
+          ? _self.isRead
+          : isRead // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isSeen: freezed == isSeen
+          ? _self.isSeen
+          : isSeen // ignore: cast_nullable_to_non_nullable
+              as bool?,
       isWatched: freezed == isWatched
           ? _self.isWatched
           : isWatched // ignore: cast_nullable_to_non_nullable
@@ -375,11 +429,15 @@ class _$ActivityResponseCopyWithImpl<$Res>
       location: freezed == location
           ? _self.location
           : location // ignore: cast_nullable_to_non_nullable
-              as ActivityLocation?,
+              as Location?,
       mentionedUsers: null == mentionedUsers
           ? _self.mentionedUsers
           : mentionedUsers // ignore: cast_nullable_to_non_nullable
               as List<UserResponse>,
+      metrics: freezed == metrics
+          ? _self.metrics
+          : metrics // ignore: cast_nullable_to_non_nullable
+              as Map<String, int>?,
       moderation: freezed == moderation
           ? _self.moderation
           : moderation // ignore: cast_nullable_to_non_nullable
@@ -423,19 +481,27 @@ class _$ActivityResponseCopyWithImpl<$Res>
       reactionGroups: null == reactionGroups
           ? _self.reactionGroups
           : reactionGroups // ignore: cast_nullable_to_non_nullable
-              as Map<String, ReactionGroupResponse>,
+              as Map<String, FeedsReactionGroupResponse>,
       restrictReplies: null == restrictReplies
           ? _self.restrictReplies
           : restrictReplies // ignore: cast_nullable_to_non_nullable
-              as String,
+              as ActivityResponseRestrictReplies,
       score: null == score
           ? _self.score
           : score // ignore: cast_nullable_to_non_nullable
               as double,
+      scoreVars: freezed == scoreVars
+          ? _self.scoreVars
+          : scoreVars // ignore: cast_nullable_to_non_nullable
+              as Map<String, Object?>?,
       searchData: null == searchData
           ? _self.searchData
           : searchData // ignore: cast_nullable_to_non_nullable
               as Map<String, Object?>,
+      selectorSource: freezed == selectorSource
+          ? _self.selectorSource
+          : selectorSource // ignore: cast_nullable_to_non_nullable
+              as String?,
       shareCount: null == shareCount
           ? _self.shareCount
           : shareCount // ignore: cast_nullable_to_non_nullable

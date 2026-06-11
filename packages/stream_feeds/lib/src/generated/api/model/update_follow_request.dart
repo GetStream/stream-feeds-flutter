@@ -28,8 +28,11 @@ enum UpdateFollowRequestPushPreference {
 @JsonSerializable()
 class UpdateFollowRequest with _$UpdateFollowRequest {
   const UpdateFollowRequest({
+    this.activityCopyLimit,
+    this.copyCustomToNotification,
     this.createNotificationActivity,
     this.custom,
+    this.enrichOwnFields,
     this.followerRole,
     this.pushPreference,
     this.skipPush,
@@ -38,10 +41,20 @@ class UpdateFollowRequest with _$UpdateFollowRequest {
   });
 
   @override
+  final int? activityCopyLimit;
+
+  @Deprecated('This field is deprecated.')
+  @override
+  final bool? copyCustomToNotification;
+
+  @override
   final bool? createNotificationActivity;
 
   @override
   final Map<String, Object?>? custom;
+
+  @override
+  final bool? enrichOwnFields;
 
   @override
   final String? followerRole;

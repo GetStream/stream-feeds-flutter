@@ -19,6 +19,7 @@ mixin _$AppealRequest {
   List<String>? get attachments;
   String get entityId;
   String get entityType;
+  String? get reviewQueueItemId;
 
   /// Create a copy of AppealRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -40,16 +41,23 @@ mixin _$AppealRequest {
             (identical(other.entityId, entityId) ||
                 other.entityId == entityId) &&
             (identical(other.entityType, entityType) ||
-                other.entityType == entityType));
+                other.entityType == entityType) &&
+            (identical(other.reviewQueueItemId, reviewQueueItemId) ||
+                other.reviewQueueItemId == reviewQueueItemId));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, appealReason,
-      const DeepCollectionEquality().hash(attachments), entityId, entityType);
+  int get hashCode => Object.hash(
+      runtimeType,
+      appealReason,
+      const DeepCollectionEquality().hash(attachments),
+      entityId,
+      entityType,
+      reviewQueueItemId);
 
   @override
   String toString() {
-    return 'AppealRequest(appealReason: $appealReason, attachments: $attachments, entityId: $entityId, entityType: $entityType)';
+    return 'AppealRequest(appealReason: $appealReason, attachments: $attachments, entityId: $entityId, entityType: $entityType, reviewQueueItemId: $reviewQueueItemId)';
   }
 }
 
@@ -63,7 +71,8 @@ abstract mixin class $AppealRequestCopyWith<$Res> {
       {String appealReason,
       List<String>? attachments,
       String entityId,
-      String entityType});
+      String entityType,
+      String? reviewQueueItemId});
 }
 
 /// @nodoc
@@ -83,6 +92,7 @@ class _$AppealRequestCopyWithImpl<$Res>
     Object? attachments = freezed,
     Object? entityId = null,
     Object? entityType = null,
+    Object? reviewQueueItemId = freezed,
   }) {
     return _then(AppealRequest(
       appealReason: null == appealReason
@@ -101,6 +111,10 @@ class _$AppealRequestCopyWithImpl<$Res>
           ? _self.entityType
           : entityType // ignore: cast_nullable_to_non_nullable
               as String,
+      reviewQueueItemId: freezed == reviewQueueItemId
+          ? _self.reviewQueueItemId
+          : reviewQueueItemId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }

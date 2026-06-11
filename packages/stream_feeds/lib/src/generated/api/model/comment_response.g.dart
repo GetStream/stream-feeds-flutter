@@ -11,6 +11,7 @@ CommentResponse _$CommentResponseFromJson(Map<String, dynamic> json) =>
       attachments: (json['attachments'] as List<dynamic>?)
           ?.map((e) => Attachment.fromJson(e as Map<String, dynamic>))
           .toList(),
+      bookmarkCount: (json['bookmark_count'] as num).toInt(),
       confidenceScore: (json['confidence_score'] as num).toDouble(),
       controversyScore: (json['controversy_score'] as num?)?.toDouble(),
       createdAt: const EpochDateTimeConverter()
@@ -19,6 +20,8 @@ CommentResponse _$CommentResponseFromJson(Map<String, dynamic> json) =>
       deletedAt: _$JsonConverterFromJson<int, DateTime>(
           json['deleted_at'], const EpochDateTimeConverter().fromJson),
       downvoteCount: (json['downvote_count'] as num).toInt(),
+      editedAt: _$JsonConverterFromJson<int, DateTime>(
+          json['edited_at'], const EpochDateTimeConverter().fromJson),
       id: json['id'] as String,
       latestReactions: (json['latest_reactions'] as List<dynamic>?)
           ?.map(
@@ -40,11 +43,12 @@ CommentResponse _$CommentResponseFromJson(Map<String, dynamic> json) =>
       reactionCount: (json['reaction_count'] as num).toInt(),
       reactionGroups: (json['reaction_groups'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(
-            k, ReactionGroupResponse.fromJson(e as Map<String, dynamic>)),
+            k, FeedsReactionGroupResponse.fromJson(e as Map<String, dynamic>)),
       ),
       replyCount: (json['reply_count'] as num).toInt(),
       score: (json['score'] as num).toInt(),
-      status: json['status'] as String,
+      status: $enumDecode(_$CommentResponseStatusEnumMap, json['status'],
+          unknownValue: CommentResponseStatus.unknown),
       text: json['text'] as String?,
       updatedAt: const EpochDateTimeConverter()
           .fromJson((json['updated_at'] as num).toInt()),
@@ -55,6 +59,7 @@ CommentResponse _$CommentResponseFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$CommentResponseToJson(CommentResponse instance) =>
     <String, dynamic>{
       'attachments': instance.attachments?.map((e) => e.toJson()).toList(),
+      'bookmark_count': instance.bookmarkCount,
       'confidence_score': instance.confidenceScore,
       'controversy_score': instance.controversyScore,
       'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
@@ -62,6 +67,8 @@ Map<String, dynamic> _$CommentResponseToJson(CommentResponse instance) =>
       'deleted_at': _$JsonConverterToJson<int, DateTime>(
           instance.deletedAt, const EpochDateTimeConverter().toJson),
       'downvote_count': instance.downvoteCount,
+      'edited_at': _$JsonConverterToJson<int, DateTime>(
+          instance.editedAt, const EpochDateTimeConverter().toJson),
       'id': instance.id,
       'latest_reactions':
           instance.latestReactions?.map((e) => e.toJson()).toList(),
@@ -77,7 +84,7 @@ Map<String, dynamic> _$CommentResponseToJson(CommentResponse instance) =>
           instance.reactionGroups?.map((k, e) => MapEntry(k, e.toJson())),
       'reply_count': instance.replyCount,
       'score': instance.score,
-      'status': instance.status,
+      'status': _$CommentResponseStatusEnumMap[instance.status]!,
       'text': instance.text,
       'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
       'upvote_count': instance.upvoteCount,
@@ -89,6 +96,15 @@ Value? _$JsonConverterFromJson<Json, Value>(
   Value? Function(Json json) fromJson,
 ) =>
     json == null ? null : fromJson(json as Json);
+
+const _$CommentResponseStatusEnumMap = {
+  CommentResponseStatus.active: 'active',
+  CommentResponseStatus.deleted: 'deleted',
+  CommentResponseStatus.hidden: 'hidden',
+  CommentResponseStatus.removed: 'removed',
+  CommentResponseStatus.shadowBlocked: 'shadow_blocked',
+  CommentResponseStatus.unknown: '_unknown',
+};
 
 Json? _$JsonConverterToJson<Json, Value>(
   Value? value,

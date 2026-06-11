@@ -17,6 +17,7 @@ T _$identity<T>(T value) => value;
 mixin _$PushPreferencesResponse {
   String? get callLevel;
   String? get chatLevel;
+  ChatPreferencesResponse? get chatPreferences;
   DateTime? get disabledUntil;
   String? get feedsLevel;
   FeedsPreferencesResponse? get feedsPreferences;
@@ -38,6 +39,8 @@ mixin _$PushPreferencesResponse {
                 other.callLevel == callLevel) &&
             (identical(other.chatLevel, chatLevel) ||
                 other.chatLevel == chatLevel) &&
+            (identical(other.chatPreferences, chatPreferences) ||
+                other.chatPreferences == chatPreferences) &&
             (identical(other.disabledUntil, disabledUntil) ||
                 other.disabledUntil == disabledUntil) &&
             (identical(other.feedsLevel, feedsLevel) ||
@@ -48,11 +51,11 @@ mixin _$PushPreferencesResponse {
 
   @override
   int get hashCode => Object.hash(runtimeType, callLevel, chatLevel,
-      disabledUntil, feedsLevel, feedsPreferences);
+      chatPreferences, disabledUntil, feedsLevel, feedsPreferences);
 
   @override
   String toString() {
-    return 'PushPreferencesResponse(callLevel: $callLevel, chatLevel: $chatLevel, disabledUntil: $disabledUntil, feedsLevel: $feedsLevel, feedsPreferences: $feedsPreferences)';
+    return 'PushPreferencesResponse(callLevel: $callLevel, chatLevel: $chatLevel, chatPreferences: $chatPreferences, disabledUntil: $disabledUntil, feedsLevel: $feedsLevel, feedsPreferences: $feedsPreferences)';
   }
 }
 
@@ -65,6 +68,7 @@ abstract mixin class $PushPreferencesResponseCopyWith<$Res> {
   $Res call(
       {String? callLevel,
       String? chatLevel,
+      ChatPreferencesResponse? chatPreferences,
       DateTime? disabledUntil,
       String? feedsLevel,
       FeedsPreferencesResponse? feedsPreferences});
@@ -85,6 +89,7 @@ class _$PushPreferencesResponseCopyWithImpl<$Res>
   $Res call({
     Object? callLevel = freezed,
     Object? chatLevel = freezed,
+    Object? chatPreferences = freezed,
     Object? disabledUntil = freezed,
     Object? feedsLevel = freezed,
     Object? feedsPreferences = freezed,
@@ -98,6 +103,10 @@ class _$PushPreferencesResponseCopyWithImpl<$Res>
           ? _self.chatLevel
           : chatLevel // ignore: cast_nullable_to_non_nullable
               as String?,
+      chatPreferences: freezed == chatPreferences
+          ? _self.chatPreferences
+          : chatPreferences // ignore: cast_nullable_to_non_nullable
+              as ChatPreferencesResponse?,
       disabledUntil: freezed == disabledUntil
           ? _self.disabledUntil
           : disabledUntil // ignore: cast_nullable_to_non_nullable

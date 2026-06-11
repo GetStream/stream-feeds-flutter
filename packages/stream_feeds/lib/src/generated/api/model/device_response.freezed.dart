@@ -18,6 +18,7 @@ mixin _$DeviceResponse {
   DateTime get createdAt;
   bool? get disabled;
   String? get disabledReason;
+  String? get hardwareId;
   String get id;
   String get pushProvider;
   String? get pushProviderName;
@@ -43,6 +44,8 @@ mixin _$DeviceResponse {
                 other.disabled == disabled) &&
             (identical(other.disabledReason, disabledReason) ||
                 other.disabledReason == disabledReason) &&
+            (identical(other.hardwareId, hardwareId) ||
+                other.hardwareId == hardwareId) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.pushProvider, pushProvider) ||
                 other.pushProvider == pushProvider) &&
@@ -53,12 +56,21 @@ mixin _$DeviceResponse {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, createdAt, disabled,
-      disabledReason, id, pushProvider, pushProviderName, userId, voip);
+  int get hashCode => Object.hash(
+      runtimeType,
+      createdAt,
+      disabled,
+      disabledReason,
+      hardwareId,
+      id,
+      pushProvider,
+      pushProviderName,
+      userId,
+      voip);
 
   @override
   String toString() {
-    return 'DeviceResponse(createdAt: $createdAt, disabled: $disabled, disabledReason: $disabledReason, id: $id, pushProvider: $pushProvider, pushProviderName: $pushProviderName, userId: $userId, voip: $voip)';
+    return 'DeviceResponse(createdAt: $createdAt, disabled: $disabled, disabledReason: $disabledReason, hardwareId: $hardwareId, id: $id, pushProvider: $pushProvider, pushProviderName: $pushProviderName, userId: $userId, voip: $voip)';
   }
 }
 
@@ -72,6 +84,7 @@ abstract mixin class $DeviceResponseCopyWith<$Res> {
       {DateTime createdAt,
       bool? disabled,
       String? disabledReason,
+      String? hardwareId,
       String id,
       String pushProvider,
       String? pushProviderName,
@@ -95,6 +108,7 @@ class _$DeviceResponseCopyWithImpl<$Res>
     Object? createdAt = null,
     Object? disabled = freezed,
     Object? disabledReason = freezed,
+    Object? hardwareId = freezed,
     Object? id = null,
     Object? pushProvider = null,
     Object? pushProviderName = freezed,
@@ -113,6 +127,10 @@ class _$DeviceResponseCopyWithImpl<$Res>
       disabledReason: freezed == disabledReason
           ? _self.disabledReason
           : disabledReason // ignore: cast_nullable_to_non_nullable
+              as String?,
+      hardwareId: freezed == hardwareId
+          ? _self.hardwareId
+          : hardwareId // ignore: cast_nullable_to_non_nullable
               as String?,
       id: null == id
           ? _self.id

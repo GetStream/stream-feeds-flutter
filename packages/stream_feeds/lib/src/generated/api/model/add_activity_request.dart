@@ -44,7 +44,10 @@ class AddActivityRequest with _$AddActivityRequest {
   const AddActivityRequest({
     this.attachments,
     this.collectionRefs,
+    this.copyCustomToNotification,
+    this.createNotificationActivity,
     this.custom,
+    this.enrichOwnFields,
     this.expiresAt,
     required this.feeds,
     this.filterTags,
@@ -57,6 +60,7 @@ class AddActivityRequest with _$AddActivityRequest {
     this.restrictReplies,
     this.searchData,
     this.skipEnrichUrl,
+    this.skipPush,
     this.text,
     required this.type,
     this.visibility,
@@ -69,8 +73,18 @@ class AddActivityRequest with _$AddActivityRequest {
   @override
   final List<String>? collectionRefs;
 
+  @Deprecated('This field is deprecated.')
+  @override
+  final bool? copyCustomToNotification;
+
+  @override
+  final bool? createNotificationActivity;
+
   @override
   final Map<String, Object?>? custom;
+
+  @override
+  final bool? enrichOwnFields;
 
   @override
   final String? expiresAt;
@@ -88,7 +102,7 @@ class AddActivityRequest with _$AddActivityRequest {
   final List<String>? interestTags;
 
   @override
-  final ActivityLocation? location;
+  final Location? location;
 
   @override
   final List<String>? mentionedUserIds;
@@ -108,6 +122,9 @@ class AddActivityRequest with _$AddActivityRequest {
 
   @override
   final bool? skipEnrichUrl;
+
+  @override
+  final bool? skipPush;
 
   @override
   final String? text;

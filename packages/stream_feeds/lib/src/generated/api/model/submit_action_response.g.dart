@@ -13,6 +13,7 @@ SubmitActionResponse _$SubmitActionResponseFromJson(
           ? null
           : AppealItemResponse.fromJson(
               json['appeal_item'] as Map<String, dynamic>),
+      autoRestoreWarning: json['auto_restore_warning'] as String?,
       duration: json['duration'] as String,
       item: json['item'] == null
           ? null
@@ -24,6 +25,7 @@ Map<String, dynamic> _$SubmitActionResponseToJson(
         SubmitActionResponse instance) =>
     <String, dynamic>{
       'appeal_item': instance.appealItem?.toJson(),
+      'auto_restore_warning': instance.autoRestoreWarning,
       'duration': instance.duration,
       'item': instance.item?.toJson(),
     };

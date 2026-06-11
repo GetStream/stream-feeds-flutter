@@ -17,19 +17,23 @@ T _$identity<T>(T value) => value;
 mixin _$AddActivityRequest {
   List<Attachment>? get attachments;
   List<String>? get collectionRefs;
+  bool? get copyCustomToNotification;
+  bool? get createNotificationActivity;
   Map<String, Object?>? get custom;
+  bool? get enrichOwnFields;
   String? get expiresAt;
   List<String> get feeds;
   List<String>? get filterTags;
   String? get id;
   List<String>? get interestTags;
-  ActivityLocation? get location;
+  Location? get location;
   List<String>? get mentionedUserIds;
   String? get parentId;
   String? get pollId;
   AddActivityRequestRestrictReplies? get restrictReplies;
   Map<String, Object?>? get searchData;
   bool? get skipEnrichUrl;
+  bool? get skipPush;
   String? get text;
   String get type;
   AddActivityRequestVisibility? get visibility;
@@ -52,7 +56,16 @@ mixin _$AddActivityRequest {
                 .equals(other.attachments, attachments) &&
             const DeepCollectionEquality()
                 .equals(other.collectionRefs, collectionRefs) &&
+            (identical(
+                    other.copyCustomToNotification, copyCustomToNotification) ||
+                other.copyCustomToNotification == copyCustomToNotification) &&
+            (identical(other.createNotificationActivity,
+                    createNotificationActivity) ||
+                other.createNotificationActivity ==
+                    createNotificationActivity) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
+            (identical(other.enrichOwnFields, enrichOwnFields) ||
+                other.enrichOwnFields == enrichOwnFields) &&
             (identical(other.expiresAt, expiresAt) ||
                 other.expiresAt == expiresAt) &&
             const DeepCollectionEquality().equals(other.feeds, feeds) &&
@@ -74,6 +87,8 @@ mixin _$AddActivityRequest {
                 .equals(other.searchData, searchData) &&
             (identical(other.skipEnrichUrl, skipEnrichUrl) ||
                 other.skipEnrichUrl == skipEnrichUrl) &&
+            (identical(other.skipPush, skipPush) ||
+                other.skipPush == skipPush) &&
             (identical(other.text, text) || other.text == text) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.visibility, visibility) ||
@@ -87,7 +102,10 @@ mixin _$AddActivityRequest {
         runtimeType,
         const DeepCollectionEquality().hash(attachments),
         const DeepCollectionEquality().hash(collectionRefs),
+        copyCustomToNotification,
+        createNotificationActivity,
         const DeepCollectionEquality().hash(custom),
+        enrichOwnFields,
         expiresAt,
         const DeepCollectionEquality().hash(feeds),
         const DeepCollectionEquality().hash(filterTags),
@@ -100,6 +118,7 @@ mixin _$AddActivityRequest {
         restrictReplies,
         const DeepCollectionEquality().hash(searchData),
         skipEnrichUrl,
+        skipPush,
         text,
         type,
         visibility,
@@ -108,7 +127,7 @@ mixin _$AddActivityRequest {
 
   @override
   String toString() {
-    return 'AddActivityRequest(attachments: $attachments, collectionRefs: $collectionRefs, custom: $custom, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, id: $id, interestTags: $interestTags, location: $location, mentionedUserIds: $mentionedUserIds, parentId: $parentId, pollId: $pollId, restrictReplies: $restrictReplies, searchData: $searchData, skipEnrichUrl: $skipEnrichUrl, text: $text, type: $type, visibility: $visibility, visibilityTag: $visibilityTag)';
+    return 'AddActivityRequest(attachments: $attachments, collectionRefs: $collectionRefs, copyCustomToNotification: $copyCustomToNotification, createNotificationActivity: $createNotificationActivity, custom: $custom, enrichOwnFields: $enrichOwnFields, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, id: $id, interestTags: $interestTags, location: $location, mentionedUserIds: $mentionedUserIds, parentId: $parentId, pollId: $pollId, restrictReplies: $restrictReplies, searchData: $searchData, skipEnrichUrl: $skipEnrichUrl, skipPush: $skipPush, text: $text, type: $type, visibility: $visibility, visibilityTag: $visibilityTag)';
   }
 }
 
@@ -121,19 +140,23 @@ abstract mixin class $AddActivityRequestCopyWith<$Res> {
   $Res call(
       {List<Attachment>? attachments,
       List<String>? collectionRefs,
+      bool? copyCustomToNotification,
+      bool? createNotificationActivity,
       Map<String, Object?>? custom,
+      bool? enrichOwnFields,
       String? expiresAt,
       List<String> feeds,
       List<String>? filterTags,
       String? id,
       List<String>? interestTags,
-      ActivityLocation? location,
+      Location? location,
       List<String>? mentionedUserIds,
       String? parentId,
       String? pollId,
       AddActivityRequestRestrictReplies? restrictReplies,
       Map<String, Object?>? searchData,
       bool? skipEnrichUrl,
+      bool? skipPush,
       String? text,
       String type,
       AddActivityRequestVisibility? visibility,
@@ -155,7 +178,10 @@ class _$AddActivityRequestCopyWithImpl<$Res>
   $Res call({
     Object? attachments = freezed,
     Object? collectionRefs = freezed,
+    Object? copyCustomToNotification = freezed,
+    Object? createNotificationActivity = freezed,
     Object? custom = freezed,
+    Object? enrichOwnFields = freezed,
     Object? expiresAt = freezed,
     Object? feeds = null,
     Object? filterTags = freezed,
@@ -168,6 +194,7 @@ class _$AddActivityRequestCopyWithImpl<$Res>
     Object? restrictReplies = freezed,
     Object? searchData = freezed,
     Object? skipEnrichUrl = freezed,
+    Object? skipPush = freezed,
     Object? text = freezed,
     Object? type = null,
     Object? visibility = freezed,
@@ -182,10 +209,22 @@ class _$AddActivityRequestCopyWithImpl<$Res>
           ? _self.collectionRefs
           : collectionRefs // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      copyCustomToNotification: freezed == copyCustomToNotification
+          ? _self.copyCustomToNotification
+          : copyCustomToNotification // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      createNotificationActivity: freezed == createNotificationActivity
+          ? _self.createNotificationActivity
+          : createNotificationActivity // ignore: cast_nullable_to_non_nullable
+              as bool?,
       custom: freezed == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
               as Map<String, Object?>?,
+      enrichOwnFields: freezed == enrichOwnFields
+          ? _self.enrichOwnFields
+          : enrichOwnFields // ignore: cast_nullable_to_non_nullable
+              as bool?,
       expiresAt: freezed == expiresAt
           ? _self.expiresAt
           : expiresAt // ignore: cast_nullable_to_non_nullable
@@ -209,7 +248,7 @@ class _$AddActivityRequestCopyWithImpl<$Res>
       location: freezed == location
           ? _self.location
           : location // ignore: cast_nullable_to_non_nullable
-              as ActivityLocation?,
+              as Location?,
       mentionedUserIds: freezed == mentionedUserIds
           ? _self.mentionedUserIds
           : mentionedUserIds // ignore: cast_nullable_to_non_nullable
@@ -233,6 +272,10 @@ class _$AddActivityRequestCopyWithImpl<$Res>
       skipEnrichUrl: freezed == skipEnrichUrl
           ? _self.skipEnrichUrl
           : skipEnrichUrl // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      skipPush: freezed == skipPush
+          ? _self.skipPush
+          : skipPush // ignore: cast_nullable_to_non_nullable
               as bool?,
       text: freezed == text
           ? _self.text

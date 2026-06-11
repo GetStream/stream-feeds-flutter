@@ -16,6 +16,7 @@ GetCommentRepliesResponse _$GetCommentRepliesResponseFromJson(
       duration: json['duration'] as String,
       next: json['next'] as String?,
       prev: json['prev'] as String?,
+      sort: json['sort'] as String,
     );
 
 Map<String, dynamic> _$GetCommentRepliesResponseToJson(
@@ -25,4 +26,5 @@ Map<String, dynamic> _$GetCommentRepliesResponseToJson(
       'duration': instance.duration,
       'next': instance.next,
       'prev': instance.prev,
+      'sort': instance.sort,
     };

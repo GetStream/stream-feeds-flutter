@@ -22,6 +22,7 @@ mixin _$ChannelConfigWithInfo {
   String? get blocklist;
   ChannelConfigWithInfoBlocklistBehavior? get blocklistBehavior;
   List<BlockListOptions>? get blocklists;
+  ChatPreferences? get chatPreferences;
   List<Command> get commands;
   bool get connectEvents;
   bool get countMessages;
@@ -36,6 +37,7 @@ mixin _$ChannelConfigWithInfo {
   int? get partitionSize;
   String? get partitionTtl;
   bool get polls;
+  ChannelConfigWithInfoPushLevel? get pushLevel;
   bool get pushNotifications;
   bool get quotes;
   bool get reactions;
@@ -77,6 +79,8 @@ mixin _$ChannelConfigWithInfo {
                 other.blocklistBehavior == blocklistBehavior) &&
             const DeepCollectionEquality()
                 .equals(other.blocklists, blocklists) &&
+            (identical(other.chatPreferences, chatPreferences) ||
+                other.chatPreferences == chatPreferences) &&
             const DeepCollectionEquality().equals(other.commands, commands) &&
             (identical(other.connectEvents, connectEvents) ||
                 other.connectEvents == connectEvents) &&
@@ -100,6 +104,8 @@ mixin _$ChannelConfigWithInfo {
             (identical(other.partitionTtl, partitionTtl) ||
                 other.partitionTtl == partitionTtl) &&
             (identical(other.polls, polls) || other.polls == polls) &&
+            (identical(other.pushLevel, pushLevel) ||
+                other.pushLevel == pushLevel) &&
             (identical(other.pushNotifications, pushNotifications) ||
                 other.pushNotifications == pushNotifications) &&
             (identical(other.quotes, quotes) || other.quotes == quotes) &&
@@ -138,6 +144,7 @@ mixin _$ChannelConfigWithInfo {
         blocklist,
         blocklistBehavior,
         const DeepCollectionEquality().hash(blocklists),
+        chatPreferences,
         const DeepCollectionEquality().hash(commands),
         connectEvents,
         countMessages,
@@ -152,6 +159,7 @@ mixin _$ChannelConfigWithInfo {
         partitionSize,
         partitionTtl,
         polls,
+        pushLevel,
         pushNotifications,
         quotes,
         reactions,
@@ -170,7 +178,7 @@ mixin _$ChannelConfigWithInfo {
 
   @override
   String toString() {
-    return 'ChannelConfigWithInfo(allowedFlagReasons: $allowedFlagReasons, automod: $automod, automodBehavior: $automodBehavior, automodThresholds: $automodThresholds, blocklist: $blocklist, blocklistBehavior: $blocklistBehavior, blocklists: $blocklists, commands: $commands, connectEvents: $connectEvents, countMessages: $countMessages, createdAt: $createdAt, customEvents: $customEvents, deliveryEvents: $deliveryEvents, grants: $grants, markMessagesPending: $markMessagesPending, maxMessageLength: $maxMessageLength, mutes: $mutes, name: $name, partitionSize: $partitionSize, partitionTtl: $partitionTtl, polls: $polls, pushNotifications: $pushNotifications, quotes: $quotes, reactions: $reactions, readEvents: $readEvents, reminders: $reminders, replies: $replies, search: $search, sharedLocations: $sharedLocations, skipLastMsgUpdateForSystemMsgs: $skipLastMsgUpdateForSystemMsgs, typingEvents: $typingEvents, updatedAt: $updatedAt, uploads: $uploads, urlEnrichment: $urlEnrichment, userMessageReminders: $userMessageReminders)';
+    return 'ChannelConfigWithInfo(allowedFlagReasons: $allowedFlagReasons, automod: $automod, automodBehavior: $automodBehavior, automodThresholds: $automodThresholds, blocklist: $blocklist, blocklistBehavior: $blocklistBehavior, blocklists: $blocklists, chatPreferences: $chatPreferences, commands: $commands, connectEvents: $connectEvents, countMessages: $countMessages, createdAt: $createdAt, customEvents: $customEvents, deliveryEvents: $deliveryEvents, grants: $grants, markMessagesPending: $markMessagesPending, maxMessageLength: $maxMessageLength, mutes: $mutes, name: $name, partitionSize: $partitionSize, partitionTtl: $partitionTtl, polls: $polls, pushLevel: $pushLevel, pushNotifications: $pushNotifications, quotes: $quotes, reactions: $reactions, readEvents: $readEvents, reminders: $reminders, replies: $replies, search: $search, sharedLocations: $sharedLocations, skipLastMsgUpdateForSystemMsgs: $skipLastMsgUpdateForSystemMsgs, typingEvents: $typingEvents, updatedAt: $updatedAt, uploads: $uploads, urlEnrichment: $urlEnrichment, userMessageReminders: $userMessageReminders)';
   }
 }
 
@@ -188,6 +196,7 @@ abstract mixin class $ChannelConfigWithInfoCopyWith<$Res> {
       String? blocklist,
       ChannelConfigWithInfoBlocklistBehavior? blocklistBehavior,
       List<BlockListOptions>? blocklists,
+      ChatPreferences? chatPreferences,
       List<Command> commands,
       bool connectEvents,
       bool countMessages,
@@ -202,6 +211,7 @@ abstract mixin class $ChannelConfigWithInfoCopyWith<$Res> {
       int? partitionSize,
       String? partitionTtl,
       bool polls,
+      ChannelConfigWithInfoPushLevel? pushLevel,
       bool pushNotifications,
       bool quotes,
       bool reactions,
@@ -238,6 +248,7 @@ class _$ChannelConfigWithInfoCopyWithImpl<$Res>
     Object? blocklist = freezed,
     Object? blocklistBehavior = freezed,
     Object? blocklists = freezed,
+    Object? chatPreferences = freezed,
     Object? commands = null,
     Object? connectEvents = null,
     Object? countMessages = null,
@@ -252,6 +263,7 @@ class _$ChannelConfigWithInfoCopyWithImpl<$Res>
     Object? partitionSize = freezed,
     Object? partitionTtl = freezed,
     Object? polls = null,
+    Object? pushLevel = freezed,
     Object? pushNotifications = null,
     Object? quotes = null,
     Object? reactions = null,
@@ -296,6 +308,10 @@ class _$ChannelConfigWithInfoCopyWithImpl<$Res>
           ? _self.blocklists
           : blocklists // ignore: cast_nullable_to_non_nullable
               as List<BlockListOptions>?,
+      chatPreferences: freezed == chatPreferences
+          ? _self.chatPreferences
+          : chatPreferences // ignore: cast_nullable_to_non_nullable
+              as ChatPreferences?,
       commands: null == commands
           ? _self.commands
           : commands // ignore: cast_nullable_to_non_nullable
@@ -352,6 +368,10 @@ class _$ChannelConfigWithInfoCopyWithImpl<$Res>
           ? _self.polls
           : polls // ignore: cast_nullable_to_non_nullable
               as bool,
+      pushLevel: freezed == pushLevel
+          ? _self.pushLevel
+          : pushLevel // ignore: cast_nullable_to_non_nullable
+              as ChannelConfigWithInfoPushLevel?,
       pushNotifications: null == pushNotifications
           ? _self.pushNotifications
           : pushNotifications // ignore: cast_nullable_to_non_nullable

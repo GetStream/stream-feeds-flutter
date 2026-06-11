@@ -36,21 +36,31 @@ ActivityResponse _$ActivityResponseFromJson(Map<String, dynamic> json) =>
       filterTags: (json['filter_tags'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
+      friendReactionCount: (json['friend_reaction_count'] as num?)?.toInt(),
+      friendReactions: (json['friend_reactions'] as List<dynamic>?)
+          ?.map(
+              (e) => FeedsReactionResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
       hidden: json['hidden'] as bool,
       id: json['id'] as String,
       interestTags: (json['interest_tags'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
+      isRead: json['is_read'] as bool?,
+      isSeen: json['is_seen'] as bool?,
       isWatched: json['is_watched'] as bool?,
       latestReactions: (json['latest_reactions'] as List<dynamic>)
           .map((e) => FeedsReactionResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
       location: json['location'] == null
           ? null
-          : ActivityLocation.fromJson(json['location'] as Map<String, dynamic>),
+          : Location.fromJson(json['location'] as Map<String, dynamic>),
       mentionedUsers: (json['mentioned_users'] as List<dynamic>)
           .map((e) => UserResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
+      metrics: (json['metrics'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, (e as num).toInt()),
+      ),
       moderation: json['moderation'] == null
           ? null
           : ModerationV2Response.fromJson(
@@ -77,11 +87,15 @@ ActivityResponse _$ActivityResponseFromJson(Map<String, dynamic> json) =>
       reactionCount: (json['reaction_count'] as num).toInt(),
       reactionGroups: (json['reaction_groups'] as Map<String, dynamic>).map(
         (k, e) => MapEntry(
-            k, ReactionGroupResponse.fromJson(e as Map<String, dynamic>)),
+            k, FeedsReactionGroupResponse.fromJson(e as Map<String, dynamic>)),
       ),
-      restrictReplies: json['restrict_replies'] as String,
+      restrictReplies: $enumDecode(
+          _$ActivityResponseRestrictRepliesEnumMap, json['restrict_replies'],
+          unknownValue: ActivityResponseRestrictReplies.unknown),
       score: (json['score'] as num).toDouble(),
+      scoreVars: json['score_vars'] as Map<String, dynamic>?,
       searchData: json['search_data'] as Map<String, dynamic>,
+      selectorSource: json['selector_source'] as String?,
       shareCount: (json['share_count'] as num).toInt(),
       text: json['text'] as String?,
       type: json['type'] as String,
@@ -113,15 +127,21 @@ Map<String, dynamic> _$ActivityResponseToJson(ActivityResponse instance) =>
           instance.expiresAt, const EpochDateTimeConverter().toJson),
       'feeds': instance.feeds,
       'filter_tags': instance.filterTags,
+      'friend_reaction_count': instance.friendReactionCount,
+      'friend_reactions':
+          instance.friendReactions?.map((e) => e.toJson()).toList(),
       'hidden': instance.hidden,
       'id': instance.id,
       'interest_tags': instance.interestTags,
+      'is_read': instance.isRead,
+      'is_seen': instance.isSeen,
       'is_watched': instance.isWatched,
       'latest_reactions':
           instance.latestReactions.map((e) => e.toJson()).toList(),
       'location': instance.location?.toJson(),
       'mentioned_users':
           instance.mentionedUsers.map((e) => e.toJson()).toList(),
+      'metrics': instance.metrics,
       'moderation': instance.moderation?.toJson(),
       'moderation_action': instance.moderationAction,
       'notification_context': instance.notificationContext?.toJson(),
@@ -134,9 +154,12 @@ Map<String, dynamic> _$ActivityResponseToJson(ActivityResponse instance) =>
       'reaction_count': instance.reactionCount,
       'reaction_groups':
           instance.reactionGroups.map((k, e) => MapEntry(k, e.toJson())),
-      'restrict_replies': instance.restrictReplies,
+      'restrict_replies':
+          _$ActivityResponseRestrictRepliesEnumMap[instance.restrictReplies]!,
       'score': instance.score,
+      'score_vars': instance.scoreVars,
       'search_data': instance.searchData,
+      'selector_source': instance.selectorSource,
       'share_count': instance.shareCount,
       'text': instance.text,
       'type': instance.type,
@@ -151,6 +174,13 @@ Value? _$JsonConverterFromJson<Json, Value>(
   Value? Function(Json json) fromJson,
 ) =>
     json == null ? null : fromJson(json as Json);
+
+const _$ActivityResponseRestrictRepliesEnumMap = {
+  ActivityResponseRestrictReplies.everyone: 'everyone',
+  ActivityResponseRestrictReplies.nobody: 'nobody',
+  ActivityResponseRestrictReplies.peopleIFollow: 'people_i_follow',
+  ActivityResponseRestrictReplies.unknown: '_unknown',
+};
 
 const _$ActivityResponseVisibilityEnumMap = {
   ActivityResponseVisibility.private: 'private',

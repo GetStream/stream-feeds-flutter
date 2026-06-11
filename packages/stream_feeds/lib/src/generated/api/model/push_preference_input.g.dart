@@ -15,6 +15,10 @@ PushPreferenceInput _$PushPreferenceInputFromJson(Map<String, dynamic> json) =>
       chatLevel: $enumDecodeNullable(
           _$PushPreferenceInputChatLevelEnumMap, json['chat_level'],
           unknownValue: PushPreferenceInputChatLevel.unknown),
+      chatPreferences: json['chat_preferences'] == null
+          ? null
+          : ChatPreferencesInput.fromJson(
+              json['chat_preferences'] as Map<String, dynamic>),
       disabledUntil: _$JsonConverterFromJson<int, DateTime>(
           json['disabled_until'], const EpochDateTimeConverter().fromJson),
       feedsLevel: $enumDecodeNullable(
@@ -34,6 +38,7 @@ Map<String, dynamic> _$PushPreferenceInputToJson(
       'call_level': _$PushPreferenceInputCallLevelEnumMap[instance.callLevel],
       'channel_cid': instance.channelCid,
       'chat_level': _$PushPreferenceInputChatLevelEnumMap[instance.chatLevel],
+      'chat_preferences': instance.chatPreferences?.toJson(),
       'disabled_until': _$JsonConverterToJson<int, DateTime>(
           instance.disabledUntil, const EpochDateTimeConverter().toJson),
       'feeds_level':
@@ -52,7 +57,9 @@ const _$PushPreferenceInputCallLevelEnumMap = {
 
 const _$PushPreferenceInputChatLevelEnumMap = {
   PushPreferenceInputChatLevel.all: 'all',
+  PushPreferenceInputChatLevel.allMentions: 'all_mentions',
   PushPreferenceInputChatLevel.default_: 'default',
+  PushPreferenceInputChatLevel.directMentions: 'direct_mentions',
   PushPreferenceInputChatLevel.mentions: 'mentions',
   PushPreferenceInputChatLevel.none: 'none',
   PushPreferenceInputChatLevel.unknown: '_unknown',

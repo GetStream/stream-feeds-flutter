@@ -28,6 +28,7 @@ class UpsertConfigRequest with _$UpsertConfigRequest {
     this.awsRekognitionConfig,
     this.blockListConfig,
     this.bodyguardConfig,
+    this.floodConfig,
     this.googleVisionConfig,
     required this.key,
     this.llmConfig,
@@ -66,6 +67,9 @@ class UpsertConfigRequest with _$UpsertConfigRequest {
 
   @override
   final AITextConfig? bodyguardConfig;
+
+  @override
+  final FloodConfig? floodConfig;
 
   @override
   final GoogleVisionConfig? googleVisionConfig;

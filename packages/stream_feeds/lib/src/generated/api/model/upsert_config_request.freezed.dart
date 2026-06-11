@@ -25,6 +25,7 @@ mixin _$UpsertConfigRequest {
   AIImageConfig? get awsRekognitionConfig;
   BlockListConfig? get blockListConfig;
   AITextConfig? get bodyguardConfig;
+  FloodConfig? get floodConfig;
   GoogleVisionConfig? get googleVisionConfig;
   String get key;
   LLMConfig? get llmConfig;
@@ -69,6 +70,8 @@ mixin _$UpsertConfigRequest {
                 other.blockListConfig == blockListConfig) &&
             (identical(other.bodyguardConfig, bodyguardConfig) ||
                 other.bodyguardConfig == bodyguardConfig) &&
+            (identical(other.floodConfig, floodConfig) ||
+                other.floodConfig == floodConfig) &&
             (identical(other.googleVisionConfig, googleVisionConfig) ||
                 other.googleVisionConfig == googleVisionConfig) &&
             (identical(other.key, key) || other.key == key) &&
@@ -96,6 +99,7 @@ mixin _$UpsertConfigRequest {
       awsRekognitionConfig,
       blockListConfig,
       bodyguardConfig,
+      floodConfig,
       googleVisionConfig,
       key,
       llmConfig,
@@ -106,7 +110,7 @@ mixin _$UpsertConfigRequest {
 
   @override
   String toString() {
-    return 'UpsertConfigRequest(aiImageConfig: $aiImageConfig, aiTextConfig: $aiTextConfig, aiVideoConfig: $aiVideoConfig, async: $async, automodPlatformCircumventionConfig: $automodPlatformCircumventionConfig, automodSemanticFiltersConfig: $automodSemanticFiltersConfig, automodToxicityConfig: $automodToxicityConfig, awsRekognitionConfig: $awsRekognitionConfig, blockListConfig: $blockListConfig, bodyguardConfig: $bodyguardConfig, googleVisionConfig: $googleVisionConfig, key: $key, llmConfig: $llmConfig, ruleBuilderConfig: $ruleBuilderConfig, team: $team, velocityFilterConfig: $velocityFilterConfig, videoCallRuleConfig: $videoCallRuleConfig)';
+    return 'UpsertConfigRequest(aiImageConfig: $aiImageConfig, aiTextConfig: $aiTextConfig, aiVideoConfig: $aiVideoConfig, async: $async, automodPlatformCircumventionConfig: $automodPlatformCircumventionConfig, automodSemanticFiltersConfig: $automodSemanticFiltersConfig, automodToxicityConfig: $automodToxicityConfig, awsRekognitionConfig: $awsRekognitionConfig, blockListConfig: $blockListConfig, bodyguardConfig: $bodyguardConfig, floodConfig: $floodConfig, googleVisionConfig: $googleVisionConfig, key: $key, llmConfig: $llmConfig, ruleBuilderConfig: $ruleBuilderConfig, team: $team, velocityFilterConfig: $velocityFilterConfig, videoCallRuleConfig: $videoCallRuleConfig)';
   }
 }
 
@@ -127,6 +131,7 @@ abstract mixin class $UpsertConfigRequestCopyWith<$Res> {
       AIImageConfig? awsRekognitionConfig,
       BlockListConfig? blockListConfig,
       AITextConfig? bodyguardConfig,
+      FloodConfig? floodConfig,
       GoogleVisionConfig? googleVisionConfig,
       String key,
       LLMConfig? llmConfig,
@@ -159,6 +164,7 @@ class _$UpsertConfigRequestCopyWithImpl<$Res>
     Object? awsRekognitionConfig = freezed,
     Object? blockListConfig = freezed,
     Object? bodyguardConfig = freezed,
+    Object? floodConfig = freezed,
     Object? googleVisionConfig = freezed,
     Object? key = null,
     Object? llmConfig = freezed,
@@ -209,6 +215,10 @@ class _$UpsertConfigRequestCopyWithImpl<$Res>
           ? _self.bodyguardConfig
           : bodyguardConfig // ignore: cast_nullable_to_non_nullable
               as AITextConfig?,
+      floodConfig: freezed == floodConfig
+          ? _self.floodConfig
+          : floodConfig // ignore: cast_nullable_to_non_nullable
+              as FloodConfig?,
       googleVisionConfig: freezed == googleVisionConfig
           ? _self.googleVisionConfig
           : googleVisionConfig // ignore: cast_nullable_to_non_nullable

@@ -19,12 +19,16 @@ part 'image_rule_parameters.freezed.dart';
 class ImageRuleParameters with _$ImageRuleParameters {
   const ImageRuleParameters({
     this.harmLabels,
+    this.minConfidence,
     this.threshold,
     this.timeWindow,
   });
 
   @override
   final List<String>? harmLabels;
+
+  @override
+  final double? minConfidence;
 
   @override
   final int? threshold;

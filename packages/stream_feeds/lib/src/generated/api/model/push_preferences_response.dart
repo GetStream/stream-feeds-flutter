@@ -20,6 +20,7 @@ class PushPreferencesResponse with _$PushPreferencesResponse {
   const PushPreferencesResponse({
     this.callLevel,
     this.chatLevel,
+    this.chatPreferences,
     this.disabledUntil,
     this.feedsLevel,
     this.feedsPreferences,
@@ -30,6 +31,9 @@ class PushPreferencesResponse with _$PushPreferencesResponse {
 
   @override
   final String? chatLevel;
+
+  @override
+  final ChatPreferencesResponse? chatPreferences;
 
   @override
   @EpochDateTimeConverter()

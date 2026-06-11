@@ -19,10 +19,14 @@ part 'video_content_parameters.freezed.dart';
 class VideoContentParameters with _$VideoContentParameters {
   const VideoContentParameters({
     this.harmLabels,
+    this.labelOperator,
   });
 
   @override
   final List<String>? harmLabels;
+
+  @override
+  final String? labelOperator;
 
   Map<String, dynamic> toJson() => _$VideoContentParametersToJson(this);
 

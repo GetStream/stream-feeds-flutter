@@ -12,6 +12,7 @@ AWSRekognitionRule _$AWSRekognitionRuleFromJson(Map<String, dynamic> json) =>
           unknownValue: AWSRekognitionRuleAction.unknown),
       label: json['label'] as String,
       minConfidence: (json['min_confidence'] as num).toDouble(),
+      subclassifications: json['subclassifications'] as Map<String, dynamic>?,
     );
 
 Map<String, dynamic> _$AWSRekognitionRuleToJson(AWSRekognitionRule instance) =>
@@ -19,6 +20,7 @@ Map<String, dynamic> _$AWSRekognitionRuleToJson(AWSRekognitionRule instance) =>
       'action': _$AWSRekognitionRuleActionEnumMap[instance.action]!,
       'label': instance.label,
       'min_confidence': instance.minConfidence,
+      'subclassifications': instance.subclassifications,
     };
 
 const _$AWSRekognitionRuleActionEnumMap = {

@@ -37,6 +37,7 @@ class FeedInput with _$FeedInput {
     this.custom,
     this.description,
     this.filterTags,
+    this.location,
     this.members,
     this.name,
     this.visibility,
@@ -50,6 +51,9 @@ class FeedInput with _$FeedInput {
 
   @override
   final List<String>? filterTags;
+
+  @override
+  final Location? location;
 
   @override
   final List<FeedMemberRequest>? members;

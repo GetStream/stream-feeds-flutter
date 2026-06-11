@@ -25,6 +25,18 @@ enum UpdateActivityRequestRestrictReplies {
   unknown;
 }
 
+@JsonEnum(alwaysCreate: true)
+enum UpdateActivityRequestVisibility {
+  @JsonValue('private')
+  private,
+  @JsonValue('public')
+  public,
+  @JsonValue('tag')
+  tag,
+  @JsonValue('_unknown')
+  unknown;
+}
+
 @freezed
 @immutable
 @JsonSerializable()
@@ -32,18 +44,24 @@ class UpdateActivityRequest with _$UpdateActivityRequest {
   const UpdateActivityRequest({
     this.attachments,
     this.collectionRefs,
+    this.copyCustomToNotification,
     this.custom,
+    this.enrichOwnFields,
     this.expiresAt,
     this.feeds,
     this.filterTags,
+    this.handleMentionNotifications,
     this.interestTags,
     this.location,
     this.mentionedUserIds,
     this.pollId,
     this.restrictReplies,
+    this.runActivityProcessors,
+    this.searchData,
     this.skipEnrichUrl,
     this.text,
     this.visibility,
+    this.visibilityTag,
   });
 
   @override
@@ -52,8 +70,15 @@ class UpdateActivityRequest with _$UpdateActivityRequest {
   @override
   final List<String>? collectionRefs;
 
+  @Deprecated('This field is deprecated.')
+  @override
+  final bool? copyCustomToNotification;
+
   @override
   final Map<String, Object?>? custom;
+
+  @override
+  final bool? enrichOwnFields;
 
   @override
   @EpochDateTimeConverter()
@@ -66,10 +91,13 @@ class UpdateActivityRequest with _$UpdateActivityRequest {
   final List<String>? filterTags;
 
   @override
+  final bool? handleMentionNotifications;
+
+  @override
   final List<String>? interestTags;
 
   @override
-  final ActivityLocation? location;
+  final Location? location;
 
   @override
   final List<String>? mentionedUserIds;
@@ -82,13 +110,23 @@ class UpdateActivityRequest with _$UpdateActivityRequest {
   final UpdateActivityRequestRestrictReplies? restrictReplies;
 
   @override
+  final bool? runActivityProcessors;
+
+  @override
+  final Map<String, Object?>? searchData;
+
+  @override
   final bool? skipEnrichUrl;
 
   @override
   final String? text;
 
   @override
-  final String? visibility;
+  @JsonKey(unknownEnumValue: UpdateActivityRequestVisibility.unknown)
+  final UpdateActivityRequestVisibility? visibility;
+
+  @override
+  final String? visibilityTag;
 
   Map<String, dynamic> toJson() => _$UpdateActivityRequestToJson(this);
 

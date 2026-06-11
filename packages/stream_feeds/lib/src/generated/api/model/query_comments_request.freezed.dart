@@ -16,6 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$QueryCommentsRequest {
   Map<String, Object?> get filter;
+  String? get idAround;
   int? get limit;
   String? get next;
   String? get prev;
@@ -35,6 +36,8 @@ mixin _$QueryCommentsRequest {
         (other.runtimeType == runtimeType &&
             other is QueryCommentsRequest &&
             const DeepCollectionEquality().equals(other.filter, filter) &&
+            (identical(other.idAround, idAround) ||
+                other.idAround == idAround) &&
             (identical(other.limit, limit) || other.limit == limit) &&
             (identical(other.next, next) || other.next == next) &&
             (identical(other.prev, prev) || other.prev == prev) &&
@@ -42,12 +45,18 @@ mixin _$QueryCommentsRequest {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(filter), limit, next, prev, sort);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(filter),
+      idAround,
+      limit,
+      next,
+      prev,
+      sort);
 
   @override
   String toString() {
-    return 'QueryCommentsRequest(filter: $filter, limit: $limit, next: $next, prev: $prev, sort: $sort)';
+    return 'QueryCommentsRequest(filter: $filter, idAround: $idAround, limit: $limit, next: $next, prev: $prev, sort: $sort)';
   }
 }
 
@@ -59,6 +68,7 @@ abstract mixin class $QueryCommentsRequestCopyWith<$Res> {
   @useResult
   $Res call(
       {Map<String, Object?> filter,
+      String? idAround,
       int? limit,
       String? next,
       String? prev,
@@ -79,6 +89,7 @@ class _$QueryCommentsRequestCopyWithImpl<$Res>
   @override
   $Res call({
     Object? filter = null,
+    Object? idAround = freezed,
     Object? limit = freezed,
     Object? next = freezed,
     Object? prev = freezed,
@@ -89,6 +100,10 @@ class _$QueryCommentsRequestCopyWithImpl<$Res>
           ? _self.filter
           : filter // ignore: cast_nullable_to_non_nullable
               as Map<String, Object?>,
+      idAround: freezed == idAround
+          ? _self.idAround
+          : idAround // ignore: cast_nullable_to_non_nullable
+              as String?,
       limit: freezed == limit
           ? _self.limit
           : limit // ignore: cast_nullable_to_non_nullable

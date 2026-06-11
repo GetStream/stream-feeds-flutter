@@ -26,6 +26,10 @@ GetOrCreateFeedRequest _$GetOrCreateFeedRequestFromJson(
           ? null
           : PagerRequest.fromJson(
               json['following_pagination'] as Map<String, dynamic>),
+      friendReactionsOptions: json['friend_reactions_options'] == null
+          ? null
+          : FriendReactionsOptions.fromJson(
+              json['friend_reactions_options'] as Map<String, dynamic>),
       idAround: json['id_around'] as String?,
       interestWeights: (json['interest_weights'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, (e as num).toDouble()),
@@ -50,6 +54,7 @@ Map<String, dynamic> _$GetOrCreateFeedRequestToJson(
       'filter': instance.filter,
       'followers_pagination': instance.followersPagination?.toJson(),
       'following_pagination': instance.followingPagination?.toJson(),
+      'friend_reactions_options': instance.friendReactionsOptions?.toJson(),
       'id_around': instance.idAround,
       'interest_weights': instance.interestWeights,
       'limit': instance.limit,

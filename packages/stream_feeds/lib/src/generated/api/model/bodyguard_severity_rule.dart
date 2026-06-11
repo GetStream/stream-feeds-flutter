@@ -23,6 +23,10 @@ enum BodyguardSeverityRuleAction {
   bounceRemove,
   @JsonValue('flag')
   flag,
+  @JsonValue('keep')
+  keep,
+  @JsonValue('mask')
+  mask,
   @JsonValue('remove')
   remove,
   @JsonValue('shadow')

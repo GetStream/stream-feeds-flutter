@@ -19,12 +19,16 @@ part 'notification_trigger.freezed.dart';
 class NotificationTrigger with _$NotificationTrigger {
   const NotificationTrigger({
     this.comment,
+    this.custom,
     required this.text,
     required this.type,
   });
 
   @override
   final NotificationComment? comment;
+
+  @override
+  final Map<String, Object?>? custom;
 
   @override
   final String text;

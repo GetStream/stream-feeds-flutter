@@ -9,11 +9,39 @@ part of 'rule_builder_condition.dart';
 RuleBuilderCondition _$RuleBuilderConditionFromJson(
         Map<String, dynamic> json) =>
     RuleBuilderCondition(
+      callCustomPropertyParams: json['call_custom_property_params'] == null
+          ? null
+          : CallCustomPropertyParameters.fromJson(
+              json['call_custom_property_params'] as Map<String, dynamic>),
+      callTypeRuleParams: json['call_type_rule_params'] == null
+          ? null
+          : CallTypeRuleParameters.fromJson(
+              json['call_type_rule_params'] as Map<String, dynamic>),
+      callViolationCountParams: json['call_violation_count_params'] == null
+          ? null
+          : CallViolationCountParameters.fromJson(
+              json['call_violation_count_params'] as Map<String, dynamic>),
+      channelMessageCountRuleParams:
+          json['channel_message_count_rule_params'] == null
+              ? null
+              : ChannelMessageCountRuleParameters.fromJson(
+                  json['channel_message_count_rule_params']
+                      as Map<String, dynamic>),
+      closedCaptionRuleParams: json['closed_caption_rule_params'] == null
+          ? null
+          : ClosedCaptionRuleParameters.fromJson(
+              json['closed_caption_rule_params'] as Map<String, dynamic>),
       confidence: (json['confidence'] as num?)?.toDouble(),
       contentCountRuleParams: json['content_count_rule_params'] == null
           ? null
           : ContentCountRuleParameters.fromJson(
               json['content_count_rule_params'] as Map<String, dynamic>),
+      contentCustomPropertyCountParams:
+          json['content_custom_property_count_params'] == null
+              ? null
+              : ContentCustomPropertyCountParameters.fromJson(
+                  json['content_custom_property_count_params']
+                      as Map<String, dynamic>),
       contentFlagCountRuleParams: json['content_flag_count_rule_params'] == null
           ? null
           : FlagCountRuleParameters.fromJson(
@@ -26,6 +54,14 @@ RuleBuilderCondition _$RuleBuilderConditionFromJson(
           ? null
           : ImageRuleParameters.fromJson(
               json['image_rule_params'] as Map<String, dynamic>),
+      keyframeOcrRuleParams: json['keyframe_ocr_rule_params'] == null
+          ? null
+          : KeyframeOCRRuleParameters.fromJson(
+              json['keyframe_ocr_rule_params'] as Map<String, dynamic>),
+      keyframeRuleParams: json['keyframe_rule_params'] == null
+          ? null
+          : KeyframeRuleParameters.fromJson(
+              json['keyframe_rule_params'] as Map<String, dynamic>),
       textContentParams: json['text_content_params'] == null
           ? null
           : TextContentParameters.fromJson(
@@ -74,12 +110,24 @@ RuleBuilderCondition _$RuleBuilderConditionFromJson(
 Map<String, dynamic> _$RuleBuilderConditionToJson(
         RuleBuilderCondition instance) =>
     <String, dynamic>{
+      'call_custom_property_params':
+          instance.callCustomPropertyParams?.toJson(),
+      'call_type_rule_params': instance.callTypeRuleParams?.toJson(),
+      'call_violation_count_params':
+          instance.callViolationCountParams?.toJson(),
+      'channel_message_count_rule_params':
+          instance.channelMessageCountRuleParams?.toJson(),
+      'closed_caption_rule_params': instance.closedCaptionRuleParams?.toJson(),
       'confidence': instance.confidence,
       'content_count_rule_params': instance.contentCountRuleParams?.toJson(),
+      'content_custom_property_count_params':
+          instance.contentCustomPropertyCountParams?.toJson(),
       'content_flag_count_rule_params':
           instance.contentFlagCountRuleParams?.toJson(),
       'image_content_params': instance.imageContentParams?.toJson(),
       'image_rule_params': instance.imageRuleParams?.toJson(),
+      'keyframe_ocr_rule_params': instance.keyframeOcrRuleParams?.toJson(),
+      'keyframe_rule_params': instance.keyframeRuleParams?.toJson(),
       'text_content_params': instance.textContentParams?.toJson(),
       'text_rule_params': instance.textRuleParams?.toJson(),
       'type': instance.type,

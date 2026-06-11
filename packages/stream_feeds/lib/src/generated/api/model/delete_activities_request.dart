@@ -18,9 +18,13 @@ part 'delete_activities_request.freezed.dart';
 @JsonSerializable()
 class DeleteActivitiesRequest with _$DeleteActivitiesRequest {
   const DeleteActivitiesRequest({
+    this.deleteNotificationActivity,
     this.hardDelete,
     required this.ids,
   });
+
+  @override
+  final bool? deleteNotificationActivity;
 
   @override
   final bool? hardDelete;

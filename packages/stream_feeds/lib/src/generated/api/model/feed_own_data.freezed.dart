@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$FeedOwnData {
-  List<FeedOwnCapability>? get ownCapabilities;
+  List<FeedOwnDataOwnCapabilities>? get ownCapabilities;
   List<FollowResponse>? get ownFollowings;
   List<FollowResponse>? get ownFollows;
   FeedMemberResponse? get ownMembership;
@@ -63,7 +63,7 @@ abstract mixin class $FeedOwnDataCopyWith<$Res> {
       _$FeedOwnDataCopyWithImpl;
   @useResult
   $Res call(
-      {List<FeedOwnCapability>? ownCapabilities,
+      {List<FeedOwnDataOwnCapabilities>? ownCapabilities,
       List<FollowResponse>? ownFollowings,
       List<FollowResponse>? ownFollows,
       FeedMemberResponse? ownMembership});
@@ -90,7 +90,7 @@ class _$FeedOwnDataCopyWithImpl<$Res> implements $FeedOwnDataCopyWith<$Res> {
       ownCapabilities: freezed == ownCapabilities
           ? _self.ownCapabilities
           : ownCapabilities // ignore: cast_nullable_to_non_nullable
-              as List<FeedOwnCapability>?,
+              as List<FeedOwnDataOwnCapabilities>?,
       ownFollowings: freezed == ownFollowings
           ? _self.ownFollowings
           : ownFollowings // ignore: cast_nullable_to_non_nullable

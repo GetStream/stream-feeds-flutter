@@ -19,6 +19,8 @@ mixin _$AggregatedActivityResponse {
   int get activityCount;
   DateTime get createdAt;
   String get group;
+  bool? get isRead;
+  bool? get isSeen;
   bool? get isWatched;
   double get score;
   DateTime get updatedAt;
@@ -46,6 +48,8 @@ mixin _$AggregatedActivityResponse {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.group, group) || other.group == group) &&
+            (identical(other.isRead, isRead) || other.isRead == isRead) &&
+            (identical(other.isSeen, isSeen) || other.isSeen == isSeen) &&
             (identical(other.isWatched, isWatched) ||
                 other.isWatched == isWatched) &&
             (identical(other.score, score) || other.score == score) &&
@@ -64,6 +68,8 @@ mixin _$AggregatedActivityResponse {
       activityCount,
       createdAt,
       group,
+      isRead,
+      isSeen,
       isWatched,
       score,
       updatedAt,
@@ -72,7 +78,7 @@ mixin _$AggregatedActivityResponse {
 
   @override
   String toString() {
-    return 'AggregatedActivityResponse(activities: $activities, activityCount: $activityCount, createdAt: $createdAt, group: $group, isWatched: $isWatched, score: $score, updatedAt: $updatedAt, userCount: $userCount, userCountTruncated: $userCountTruncated)';
+    return 'AggregatedActivityResponse(activities: $activities, activityCount: $activityCount, createdAt: $createdAt, group: $group, isRead: $isRead, isSeen: $isSeen, isWatched: $isWatched, score: $score, updatedAt: $updatedAt, userCount: $userCount, userCountTruncated: $userCountTruncated)';
   }
 }
 
@@ -87,6 +93,8 @@ abstract mixin class $AggregatedActivityResponseCopyWith<$Res> {
       int activityCount,
       DateTime createdAt,
       String group,
+      bool? isRead,
+      bool? isSeen,
       bool? isWatched,
       double score,
       DateTime updatedAt,
@@ -111,6 +119,8 @@ class _$AggregatedActivityResponseCopyWithImpl<$Res>
     Object? activityCount = null,
     Object? createdAt = null,
     Object? group = null,
+    Object? isRead = freezed,
+    Object? isSeen = freezed,
     Object? isWatched = freezed,
     Object? score = null,
     Object? updatedAt = null,
@@ -134,6 +144,14 @@ class _$AggregatedActivityResponseCopyWithImpl<$Res>
           ? _self.group
           : group // ignore: cast_nullable_to_non_nullable
               as String,
+      isRead: freezed == isRead
+          ? _self.isRead
+          : isRead // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isSeen: freezed == isSeen
+          ? _self.isSeen
+          : isSeen // ignore: cast_nullable_to_non_nullable
+              as bool?,
       isWatched: freezed == isWatched
           ? _self.isWatched
           : isWatched // ignore: cast_nullable_to_non_nullable

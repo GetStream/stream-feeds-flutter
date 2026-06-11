@@ -17,6 +17,7 @@ T _$identity<T>(T value) => value;
 mixin _$AddCommentRequest {
   List<Attachment>? get attachments;
   String? get comment;
+  bool? get copyCustomToNotification;
   bool? get createNotificationActivity;
   Map<String, Object?>? get custom;
   String? get id;
@@ -43,6 +44,9 @@ mixin _$AddCommentRequest {
             const DeepCollectionEquality()
                 .equals(other.attachments, attachments) &&
             (identical(other.comment, comment) || other.comment == comment) &&
+            (identical(
+                    other.copyCustomToNotification, copyCustomToNotification) ||
+                other.copyCustomToNotification == copyCustomToNotification) &&
             (identical(other.createNotificationActivity,
                     createNotificationActivity) ||
                 other.createNotificationActivity ==
@@ -68,6 +72,7 @@ mixin _$AddCommentRequest {
       runtimeType,
       const DeepCollectionEquality().hash(attachments),
       comment,
+      copyCustomToNotification,
       createNotificationActivity,
       const DeepCollectionEquality().hash(custom),
       id,
@@ -80,7 +85,7 @@ mixin _$AddCommentRequest {
 
   @override
   String toString() {
-    return 'AddCommentRequest(attachments: $attachments, comment: $comment, createNotificationActivity: $createNotificationActivity, custom: $custom, id: $id, mentionedUserIds: $mentionedUserIds, objectId: $objectId, objectType: $objectType, parentId: $parentId, skipEnrichUrl: $skipEnrichUrl, skipPush: $skipPush)';
+    return 'AddCommentRequest(attachments: $attachments, comment: $comment, copyCustomToNotification: $copyCustomToNotification, createNotificationActivity: $createNotificationActivity, custom: $custom, id: $id, mentionedUserIds: $mentionedUserIds, objectId: $objectId, objectType: $objectType, parentId: $parentId, skipEnrichUrl: $skipEnrichUrl, skipPush: $skipPush)';
   }
 }
 
@@ -93,6 +98,7 @@ abstract mixin class $AddCommentRequestCopyWith<$Res> {
   $Res call(
       {List<Attachment>? attachments,
       String? comment,
+      bool? copyCustomToNotification,
       bool? createNotificationActivity,
       Map<String, Object?>? custom,
       String? id,
@@ -119,6 +125,7 @@ class _$AddCommentRequestCopyWithImpl<$Res>
   $Res call({
     Object? attachments = freezed,
     Object? comment = freezed,
+    Object? copyCustomToNotification = freezed,
     Object? createNotificationActivity = freezed,
     Object? custom = freezed,
     Object? id = freezed,
@@ -138,6 +145,10 @@ class _$AddCommentRequestCopyWithImpl<$Res>
           ? _self.comment
           : comment // ignore: cast_nullable_to_non_nullable
               as String?,
+      copyCustomToNotification: freezed == copyCustomToNotification
+          ? _self.copyCustomToNotification
+          : copyCustomToNotification // ignore: cast_nullable_to_non_nullable
+              as bool?,
       createNotificationActivity: freezed == createNotificationActivity
           ? _self.createNotificationActivity
           : createNotificationActivity // ignore: cast_nullable_to_non_nullable

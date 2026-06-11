@@ -21,20 +21,16 @@ mixin _$CallResponse {
   String? get channelCid;
   String get cid;
   DateTime get createdAt;
-  UserResponse get createdBy;
+  UserResponse? get createdBy;
   String get currentSessionId;
   Map<String, Object?> get custom;
-  EgressResponse get egress;
   DateTime? get endedAt;
   String get id;
-  CallIngressResponse get ingress;
   int? get joinAheadTimeSeconds;
   bool get recording;
-  CallSessionResponse? get session;
-  CallSettingsResponse get settings;
+  String? get routingNumber;
   DateTime? get startsAt;
   String? get team;
-  ThumbnailResponse? get thumbnails;
   bool get transcribing;
   bool get translating;
   String get type;
@@ -69,22 +65,17 @@ mixin _$CallResponse {
             (identical(other.currentSessionId, currentSessionId) ||
                 other.currentSessionId == currentSessionId) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
-            (identical(other.egress, egress) || other.egress == egress) &&
             (identical(other.endedAt, endedAt) || other.endedAt == endedAt) &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.ingress, ingress) || other.ingress == ingress) &&
             (identical(other.joinAheadTimeSeconds, joinAheadTimeSeconds) ||
                 other.joinAheadTimeSeconds == joinAheadTimeSeconds) &&
             (identical(other.recording, recording) ||
                 other.recording == recording) &&
-            (identical(other.session, session) || other.session == session) &&
-            (identical(other.settings, settings) ||
-                other.settings == settings) &&
+            (identical(other.routingNumber, routingNumber) ||
+                other.routingNumber == routingNumber) &&
             (identical(other.startsAt, startsAt) ||
                 other.startsAt == startsAt) &&
             (identical(other.team, team) || other.team == team) &&
-            (identical(other.thumbnails, thumbnails) ||
-                other.thumbnails == thumbnails) &&
             (identical(other.transcribing, transcribing) ||
                 other.transcribing == transcribing) &&
             (identical(other.translating, translating) ||
@@ -106,17 +97,13 @@ mixin _$CallResponse {
         createdBy,
         currentSessionId,
         const DeepCollectionEquality().hash(custom),
-        egress,
         endedAt,
         id,
-        ingress,
         joinAheadTimeSeconds,
         recording,
-        session,
-        settings,
+        routingNumber,
         startsAt,
         team,
-        thumbnails,
         transcribing,
         translating,
         type,
@@ -125,7 +112,7 @@ mixin _$CallResponse {
 
   @override
   String toString() {
-    return 'CallResponse(backstage: $backstage, blockedUserIds: $blockedUserIds, captioning: $captioning, channelCid: $channelCid, cid: $cid, createdAt: $createdAt, createdBy: $createdBy, currentSessionId: $currentSessionId, custom: $custom, egress: $egress, endedAt: $endedAt, id: $id, ingress: $ingress, joinAheadTimeSeconds: $joinAheadTimeSeconds, recording: $recording, session: $session, settings: $settings, startsAt: $startsAt, team: $team, thumbnails: $thumbnails, transcribing: $transcribing, translating: $translating, type: $type, updatedAt: $updatedAt)';
+    return 'CallResponse(backstage: $backstage, blockedUserIds: $blockedUserIds, captioning: $captioning, channelCid: $channelCid, cid: $cid, createdAt: $createdAt, createdBy: $createdBy, currentSessionId: $currentSessionId, custom: $custom, endedAt: $endedAt, id: $id, joinAheadTimeSeconds: $joinAheadTimeSeconds, recording: $recording, routingNumber: $routingNumber, startsAt: $startsAt, team: $team, transcribing: $transcribing, translating: $translating, type: $type, updatedAt: $updatedAt)';
   }
 }
 
@@ -142,20 +129,16 @@ abstract mixin class $CallResponseCopyWith<$Res> {
       String? channelCid,
       String cid,
       DateTime createdAt,
-      UserResponse createdBy,
+      UserResponse? createdBy,
       String currentSessionId,
       Map<String, Object?> custom,
-      EgressResponse egress,
       DateTime? endedAt,
       String id,
-      CallIngressResponse ingress,
       int? joinAheadTimeSeconds,
       bool recording,
-      CallSessionResponse? session,
-      CallSettingsResponse settings,
+      String? routingNumber,
       DateTime? startsAt,
       String? team,
-      ThumbnailResponse? thumbnails,
       bool transcribing,
       bool translating,
       String type,
@@ -180,20 +163,16 @@ class _$CallResponseCopyWithImpl<$Res> implements $CallResponseCopyWith<$Res> {
     Object? channelCid = freezed,
     Object? cid = null,
     Object? createdAt = null,
-    Object? createdBy = null,
+    Object? createdBy = freezed,
     Object? currentSessionId = null,
     Object? custom = null,
-    Object? egress = null,
     Object? endedAt = freezed,
     Object? id = null,
-    Object? ingress = null,
     Object? joinAheadTimeSeconds = freezed,
     Object? recording = null,
-    Object? session = freezed,
-    Object? settings = null,
+    Object? routingNumber = freezed,
     Object? startsAt = freezed,
     Object? team = freezed,
-    Object? thumbnails = freezed,
     Object? transcribing = null,
     Object? translating = null,
     Object? type = null,
@@ -224,10 +203,10 @@ class _$CallResponseCopyWithImpl<$Res> implements $CallResponseCopyWith<$Res> {
           ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      createdBy: null == createdBy
+      createdBy: freezed == createdBy
           ? _self.createdBy
           : createdBy // ignore: cast_nullable_to_non_nullable
-              as UserResponse,
+              as UserResponse?,
       currentSessionId: null == currentSessionId
           ? _self.currentSessionId
           : currentSessionId // ignore: cast_nullable_to_non_nullable
@@ -236,10 +215,6 @@ class _$CallResponseCopyWithImpl<$Res> implements $CallResponseCopyWith<$Res> {
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
               as Map<String, Object?>,
-      egress: null == egress
-          ? _self.egress
-          : egress // ignore: cast_nullable_to_non_nullable
-              as EgressResponse,
       endedAt: freezed == endedAt
           ? _self.endedAt
           : endedAt // ignore: cast_nullable_to_non_nullable
@@ -248,10 +223,6 @@ class _$CallResponseCopyWithImpl<$Res> implements $CallResponseCopyWith<$Res> {
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      ingress: null == ingress
-          ? _self.ingress
-          : ingress // ignore: cast_nullable_to_non_nullable
-              as CallIngressResponse,
       joinAheadTimeSeconds: freezed == joinAheadTimeSeconds
           ? _self.joinAheadTimeSeconds
           : joinAheadTimeSeconds // ignore: cast_nullable_to_non_nullable
@@ -260,14 +231,10 @@ class _$CallResponseCopyWithImpl<$Res> implements $CallResponseCopyWith<$Res> {
           ? _self.recording
           : recording // ignore: cast_nullable_to_non_nullable
               as bool,
-      session: freezed == session
-          ? _self.session
-          : session // ignore: cast_nullable_to_non_nullable
-              as CallSessionResponse?,
-      settings: null == settings
-          ? _self.settings
-          : settings // ignore: cast_nullable_to_non_nullable
-              as CallSettingsResponse,
+      routingNumber: freezed == routingNumber
+          ? _self.routingNumber
+          : routingNumber // ignore: cast_nullable_to_non_nullable
+              as String?,
       startsAt: freezed == startsAt
           ? _self.startsAt
           : startsAt // ignore: cast_nullable_to_non_nullable
@@ -276,10 +243,6 @@ class _$CallResponseCopyWithImpl<$Res> implements $CallResponseCopyWith<$Res> {
           ? _self.team
           : team // ignore: cast_nullable_to_non_nullable
               as String?,
-      thumbnails: freezed == thumbnails
-          ? _self.thumbnails
-          : thumbnails // ignore: cast_nullable_to_non_nullable
-              as ThumbnailResponse?,
       transcribing: null == transcribing
           ? _self.transcribing
           : transcribing // ignore: cast_nullable_to_non_nullable

@@ -18,6 +18,7 @@ mixin _$FeedInput {
   Map<String, Object?>? get custom;
   String? get description;
   List<String>? get filterTags;
+  Location? get location;
   List<FeedMemberRequest>? get members;
   String? get name;
   FeedInputVisibility? get visibility;
@@ -39,6 +40,8 @@ mixin _$FeedInput {
                 other.description == description) &&
             const DeepCollectionEquality()
                 .equals(other.filterTags, filterTags) &&
+            (identical(other.location, location) ||
+                other.location == location) &&
             const DeepCollectionEquality().equals(other.members, members) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.visibility, visibility) ||
@@ -51,13 +54,14 @@ mixin _$FeedInput {
       const DeepCollectionEquality().hash(custom),
       description,
       const DeepCollectionEquality().hash(filterTags),
+      location,
       const DeepCollectionEquality().hash(members),
       name,
       visibility);
 
   @override
   String toString() {
-    return 'FeedInput(custom: $custom, description: $description, filterTags: $filterTags, members: $members, name: $name, visibility: $visibility)';
+    return 'FeedInput(custom: $custom, description: $description, filterTags: $filterTags, location: $location, members: $members, name: $name, visibility: $visibility)';
   }
 }
 
@@ -70,6 +74,7 @@ abstract mixin class $FeedInputCopyWith<$Res> {
       {Map<String, Object?>? custom,
       String? description,
       List<String>? filterTags,
+      Location? location,
       List<FeedMemberRequest>? members,
       String? name,
       FeedInputVisibility? visibility});
@@ -90,6 +95,7 @@ class _$FeedInputCopyWithImpl<$Res> implements $FeedInputCopyWith<$Res> {
     Object? custom = freezed,
     Object? description = freezed,
     Object? filterTags = freezed,
+    Object? location = freezed,
     Object? members = freezed,
     Object? name = freezed,
     Object? visibility = freezed,
@@ -107,6 +113,10 @@ class _$FeedInputCopyWithImpl<$Res> implements $FeedInputCopyWith<$Res> {
           ? _self.filterTags
           : filterTags // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      location: freezed == location
+          ? _self.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as Location?,
       members: freezed == members
           ? _self.members
           : members // ignore: cast_nullable_to_non_nullable

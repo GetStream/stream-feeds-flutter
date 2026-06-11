@@ -19,11 +19,19 @@ part 'filter_config_response.freezed.dart';
 class FilterConfigResponse with _$FilterConfigResponse {
   const FilterConfigResponse({
     this.aiTextLabels,
+    this.configKeys,
+    this.filterableCustomKeys,
     required this.llmLabels,
   });
 
   @override
   final List<String>? aiTextLabels;
+
+  @override
+  final List<String>? configKeys;
+
+  @override
+  final List<String>? filterableCustomKeys;
 
   @override
   final List<String> llmLabels;

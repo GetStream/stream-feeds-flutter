@@ -16,9 +16,9 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$MuteResponse {
   String get duration;
-  List<UserMute>? get mutes;
+  List<UserMuteResponse>? get mutes;
   List<String>? get nonExistingUsers;
-  OwnUser? get ownUser;
+  OwnUserResponse? get ownUser;
 
   /// Create a copy of MuteResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -63,9 +63,9 @@ abstract mixin class $MuteResponseCopyWith<$Res> {
   @useResult
   $Res call(
       {String duration,
-      List<UserMute>? mutes,
+      List<UserMuteResponse>? mutes,
       List<String>? nonExistingUsers,
-      OwnUser? ownUser});
+      OwnUserResponse? ownUser});
 }
 
 /// @nodoc
@@ -93,7 +93,7 @@ class _$MuteResponseCopyWithImpl<$Res> implements $MuteResponseCopyWith<$Res> {
       mutes: freezed == mutes
           ? _self.mutes
           : mutes // ignore: cast_nullable_to_non_nullable
-              as List<UserMute>?,
+              as List<UserMuteResponse>?,
       nonExistingUsers: freezed == nonExistingUsers
           ? _self.nonExistingUsers
           : nonExistingUsers // ignore: cast_nullable_to_non_nullable
@@ -101,7 +101,7 @@ class _$MuteResponseCopyWithImpl<$Res> implements $MuteResponseCopyWith<$Res> {
       ownUser: freezed == ownUser
           ? _self.ownUser
           : ownUser // ignore: cast_nullable_to_non_nullable
-              as OwnUser?,
+              as OwnUserResponse?,
     ));
   }
 }

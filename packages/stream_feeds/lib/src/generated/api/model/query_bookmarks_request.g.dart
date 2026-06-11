@@ -9,6 +9,7 @@ part of 'query_bookmarks_request.dart';
 QueryBookmarksRequest _$QueryBookmarksRequestFromJson(
         Map<String, dynamic> json) =>
     QueryBookmarksRequest(
+      enrichOwnFields: json['enrich_own_fields'] as bool?,
       filter: json['filter'] as Map<String, dynamic>?,
       limit: (json['limit'] as num?)?.toInt(),
       next: json['next'] as String?,
@@ -21,6 +22,7 @@ QueryBookmarksRequest _$QueryBookmarksRequestFromJson(
 Map<String, dynamic> _$QueryBookmarksRequestToJson(
         QueryBookmarksRequest instance) =>
     <String, dynamic>{
+      'enrich_own_fields': instance.enrichOwnFields,
       'filter': instance.filter,
       'limit': instance.limit,
       'next': instance.next,

@@ -302,6 +302,50 @@ class _DefaultApi implements DefaultApi {
     );
   }
 
+  Future<AddCommentBookmarkResponse> _addCommentBookmark({
+    required String commentId,
+    AddCommentBookmarkRequest? addCommentBookmarkRequest,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(addCommentBookmarkRequest?.toJson() ?? <String, dynamic>{});
+    final _options = _setStreamType<Result<AddCommentBookmarkResponse>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/feeds/comments/${commentId}/bookmarks',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late AddCommentBookmarkResponse _value;
+    try {
+      _value = AddCommentBookmarkResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<AddCommentBookmarkResponse>> addCommentBookmark({
+    required String commentId,
+    AddCommentBookmarkRequest? addCommentBookmarkRequest,
+  }) {
+    return _ResultCallAdapter<AddCommentBookmarkResponse>().adapt(
+      () => _addCommentBookmark(
+        commentId: commentId,
+        addCommentBookmarkRequest: addCommentBookmarkRequest,
+      ),
+    );
+  }
+
   Future<AddCommentReactionResponse> _addCommentReaction({
     required String id,
     required AddCommentReactionRequest addCommentReactionRequest,
@@ -380,6 +424,49 @@ class _DefaultApi implements DefaultApi {
   }) {
     return _ResultCallAdapter<AddCommentsBatchResponse>().adapt(
       () => _addCommentsBatch(addCommentsBatchRequest: addCommentsBatchRequest),
+    );
+  }
+
+  Future<AddUserGroupMembersResponse> _addUserGroupMembers({
+    required String id,
+    required AddUserGroupMembersRequest addUserGroupMembersRequest,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(addUserGroupMembersRequest.toJson());
+    final _options = _setStreamType<Result<AddUserGroupMembersResponse>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/usergroups/${id}/members',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late AddUserGroupMembersResponse _value;
+    try {
+      _value = AddUserGroupMembersResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<AddUserGroupMembersResponse>> addUserGroupMembers({
+    required String id,
+    required AddUserGroupMembersRequest addUserGroupMembersRequest,
+  }) {
+    return _ResultCallAdapter<AddUserGroupMembersResponse>().adapt(
+      () => _addUserGroupMembers(
+        id: id,
+        addUserGroupMembersRequest: addUserGroupMembersRequest,
+      ),
     );
   }
 
@@ -491,6 +578,126 @@ class _DefaultApi implements DefaultApi {
     );
   }
 
+  Future<BulkActionAppealsResponse> _bulkActionAppeals({
+    required BulkActionAppealsRequest bulkActionAppealsRequest,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(bulkActionAppealsRequest.toJson());
+    final _options = _setStreamType<Result<BulkActionAppealsResponse>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/moderation/appeals/bulk_action',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late BulkActionAppealsResponse _value;
+    try {
+      _value = BulkActionAppealsResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<BulkActionAppealsResponse>> bulkActionAppeals({
+    required BulkActionAppealsRequest bulkActionAppealsRequest,
+  }) {
+    return _ResultCallAdapter<BulkActionAppealsResponse>().adapt(
+      () => _bulkActionAppeals(
+        bulkActionAppealsRequest: bulkActionAppealsRequest,
+      ),
+    );
+  }
+
+  Future<BulkDeleteActionConfigResponse> _bulkDeleteActionConfig({
+    required BulkDeleteActionConfigRequest bulkDeleteActionConfigRequest,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(bulkDeleteActionConfigRequest.toJson());
+    final _options = _setStreamType<Result<BulkDeleteActionConfigResponse>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/moderation/action_config/bulk_delete',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late BulkDeleteActionConfigResponse _value;
+    try {
+      _value = BulkDeleteActionConfigResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<BulkDeleteActionConfigResponse>> bulkDeleteActionConfig({
+    required BulkDeleteActionConfigRequest bulkDeleteActionConfigRequest,
+  }) {
+    return _ResultCallAdapter<BulkDeleteActionConfigResponse>().adapt(
+      () => _bulkDeleteActionConfig(
+        bulkDeleteActionConfigRequest: bulkDeleteActionConfigRequest,
+      ),
+    );
+  }
+
+  Future<BulkUpsertActionConfigResponse> _bulkUpsertActionConfig({
+    required BulkUpsertActionConfigRequest bulkUpsertActionConfigRequest,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(bulkUpsertActionConfigRequest.toJson());
+    final _options = _setStreamType<Result<BulkUpsertActionConfigResponse>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/moderation/action_config/bulk',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late BulkUpsertActionConfigResponse _value;
+    try {
+      _value = BulkUpsertActionConfigResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<BulkUpsertActionConfigResponse>> bulkUpsertActionConfig({
+    required BulkUpsertActionConfigRequest bulkUpsertActionConfigRequest,
+  }) {
+    return _ResultCallAdapter<BulkUpsertActionConfigResponse>().adapt(
+      () => _bulkUpsertActionConfig(
+        bulkUpsertActionConfigRequest: bulkUpsertActionConfigRequest,
+      ),
+    );
+  }
+
   Future<PollVoteResponse> _castPollVote({
     required String activityId,
     required String pollId,
@@ -534,6 +741,52 @@ class _DefaultApi implements DefaultApi {
         activityId: activityId,
         pollId: pollId,
         castPollVoteRequest: castPollVoteRequest,
+      ),
+    );
+  }
+
+  Future<ChangeFeedVisibilityResponse> _changeFeedVisibility({
+    required String feedGroupId,
+    required String feedId,
+    required ChangeFeedVisibilityRequest changeFeedVisibilityRequest,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(changeFeedVisibilityRequest.toJson());
+    final _options = _setStreamType<Result<ChangeFeedVisibilityResponse>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/feeds/feed_groups/${feedGroupId}/feeds/${feedId}/change_visibility',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ChangeFeedVisibilityResponse _value;
+    try {
+      _value = ChangeFeedVisibilityResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<ChangeFeedVisibilityResponse>> changeFeedVisibility({
+    required String feedGroupId,
+    required String feedId,
+    required ChangeFeedVisibilityRequest changeFeedVisibilityRequest,
+  }) {
+    return _ResultCallAdapter<ChangeFeedVisibilityResponse>().adapt(
+      () => _changeFeedVisibility(
+        feedGroupId: feedGroupId,
+        feedId: feedId,
+        changeFeedVisibilityRequest: changeFeedVisibilityRequest,
       ),
     );
   }
@@ -811,6 +1064,81 @@ class _DefaultApi implements DefaultApi {
     );
   }
 
+  Future<CreateUserGroupResponse> _createUserGroup({
+    required CreateUserGroupRequest createUserGroupRequest,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(createUserGroupRequest.toJson());
+    final _options = _setStreamType<Result<CreateUserGroupResponse>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/usergroups',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late CreateUserGroupResponse _value;
+    try {
+      _value = CreateUserGroupResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<CreateUserGroupResponse>> createUserGroup({
+    required CreateUserGroupRequest createUserGroupRequest,
+  }) {
+    return _ResultCallAdapter<CreateUserGroupResponse>().adapt(
+      () => _createUserGroup(createUserGroupRequest: createUserGroupRequest),
+    );
+  }
+
+  Future<DeleteActionConfigResponse> _deleteActionConfig({
+    required String id,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<Result<DeleteActionConfigResponse>>(
+      Options(method: 'DELETE', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/moderation/action_config/${id}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late DeleteActionConfigResponse _value;
+    try {
+      _value = DeleteActionConfigResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<DeleteActionConfigResponse>> deleteActionConfig({
+    required String id,
+  }) {
+    return _ResultCallAdapter<DeleteActionConfigResponse>().adapt(
+      () => _deleteActionConfig(id: id),
+    );
+  }
+
   Future<DeleteActivitiesResponse> _deleteActivities({
     required DeleteActivitiesRequest deleteActivitiesRequest,
   }) async {
@@ -852,9 +1180,13 @@ class _DefaultApi implements DefaultApi {
   Future<DeleteActivityResponse> _deleteActivity({
     required String id,
     bool? hardDelete,
+    bool? deleteNotificationActivity,
   }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'hard_delete': hardDelete};
+    final queryParameters = <String, dynamic>{
+      r'hard_delete': hardDelete,
+      r'delete_notification_activity': deleteNotificationActivity,
+    };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
@@ -883,18 +1215,27 @@ class _DefaultApi implements DefaultApi {
   Future<Result<DeleteActivityResponse>> deleteActivity({
     required String id,
     bool? hardDelete,
+    bool? deleteNotificationActivity,
   }) {
     return _ResultCallAdapter<DeleteActivityResponse>().adapt(
-      () => _deleteActivity(id: id, hardDelete: hardDelete),
+      () => _deleteActivity(
+        id: id,
+        hardDelete: hardDelete,
+        deleteNotificationActivity: deleteNotificationActivity,
+      ),
     );
   }
 
   Future<DeleteActivityReactionResponse> _deleteActivityReaction({
     required String activityId,
     required String type,
+    bool? deleteNotificationActivity,
   }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'delete_notification_activity': deleteNotificationActivity,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<Result<DeleteActivityReactionResponse>>(
@@ -922,9 +1263,14 @@ class _DefaultApi implements DefaultApi {
   Future<Result<DeleteActivityReactionResponse>> deleteActivityReaction({
     required String activityId,
     required String type,
+    bool? deleteNotificationActivity,
   }) {
     return _ResultCallAdapter<DeleteActivityReactionResponse>().adapt(
-      () => _deleteActivityReaction(activityId: activityId, type: type),
+      () => _deleteActivityReaction(
+        activityId: activityId,
+        type: type,
+        deleteNotificationActivity: deleteNotificationActivity,
+      ),
     );
   }
 
@@ -1087,9 +1433,13 @@ class _DefaultApi implements DefaultApi {
   Future<DeleteCommentResponse> _deleteComment({
     required String id,
     bool? hardDelete,
+    bool? deleteNotificationActivity,
   }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'hard_delete': hardDelete};
+    final queryParameters = <String, dynamic>{
+      r'hard_delete': hardDelete,
+      r'delete_notification_activity': deleteNotificationActivity,
+    };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
@@ -1118,18 +1468,67 @@ class _DefaultApi implements DefaultApi {
   Future<Result<DeleteCommentResponse>> deleteComment({
     required String id,
     bool? hardDelete,
+    bool? deleteNotificationActivity,
   }) {
     return _ResultCallAdapter<DeleteCommentResponse>().adapt(
-      () => _deleteComment(id: id, hardDelete: hardDelete),
+      () => _deleteComment(
+        id: id,
+        hardDelete: hardDelete,
+        deleteNotificationActivity: deleteNotificationActivity,
+      ),
+    );
+  }
+
+  Future<DeleteCommentBookmarkResponse> _deleteCommentBookmark({
+    required String commentId,
+    String? folderId,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'folder_id': folderId};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<Result<DeleteCommentBookmarkResponse>>(
+      Options(method: 'DELETE', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/feeds/comments/${commentId}/bookmarks',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late DeleteCommentBookmarkResponse _value;
+    try {
+      _value = DeleteCommentBookmarkResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<DeleteCommentBookmarkResponse>> deleteCommentBookmark({
+    required String commentId,
+    String? folderId,
+  }) {
+    return _ResultCallAdapter<DeleteCommentBookmarkResponse>().adapt(
+      () => _deleteCommentBookmark(commentId: commentId, folderId: folderId),
     );
   }
 
   Future<DeleteCommentReactionResponse> _deleteCommentReaction({
     required String id,
     required String type,
+    bool? deleteNotificationActivity,
   }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'delete_notification_activity': deleteNotificationActivity,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<Result<DeleteCommentReactionResponse>>(
@@ -1157,9 +1556,14 @@ class _DefaultApi implements DefaultApi {
   Future<Result<DeleteCommentReactionResponse>> deleteCommentReaction({
     required String id,
     required String type,
+    bool? deleteNotificationActivity,
   }) {
     return _ResultCallAdapter<DeleteCommentReactionResponse>().adapt(
-      () => _deleteCommentReaction(id: id, type: type),
+      () => _deleteCommentReaction(
+        id: id,
+        type: type,
+        deleteNotificationActivity: deleteNotificationActivity,
+      ),
     );
   }
 
@@ -1240,9 +1644,13 @@ class _DefaultApi implements DefaultApi {
     required String feedGroupId,
     required String feedId,
     bool? hardDelete,
+    bool? purgeUserActivities,
   }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'hard_delete': hardDelete};
+    final queryParameters = <String, dynamic>{
+      r'hard_delete': hardDelete,
+      r'purge_user_activities': purgeUserActivities,
+    };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
@@ -1272,12 +1680,14 @@ class _DefaultApi implements DefaultApi {
     required String feedGroupId,
     required String feedId,
     bool? hardDelete,
+    bool? purgeUserActivities,
   }) {
     return _ResultCallAdapter<DeleteFeedResponse>().adapt(
       () => _deleteFeed(
         feedGroupId: feedGroupId,
         feedId: feedId,
         hardDelete: hardDelete,
+        purgeUserActivities: purgeUserActivities,
       ),
     );
   }
@@ -1482,6 +1892,46 @@ class _DefaultApi implements DefaultApi {
     );
   }
 
+  Future<DurationResponse> _deleteUserGroup({
+    required String id,
+    String? teamId,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'team_id': teamId};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<Result<DurationResponse>>(
+      Options(method: 'DELETE', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/usergroups/${id}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late DurationResponse _value;
+    try {
+      _value = DurationResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<DurationResponse>> deleteUserGroup({
+    required String id,
+    String? teamId,
+  }) {
+    return _ResultCallAdapter<DurationResponse>().adapt(
+      () => _deleteUserGroup(id: id, teamId: teamId),
+    );
+  }
+
   Future<FlagResponse> _flag({required FlagRequest flagRequest}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -1592,9 +2042,71 @@ class _DefaultApi implements DefaultApi {
     );
   }
 
-  Future<GetActivityResponse> _getActivity({required String id}) async {
+  Future<GetActionConfigResponse> _getActionConfig({
+    String? queueType,
+    String? entityType,
+    bool? excludeDefaults,
+    bool? onlyDefaults,
+  }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'queue_type': queueType,
+      r'entity_type': entityType,
+      r'exclude_defaults': excludeDefaults,
+      r'only_defaults': onlyDefaults,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<Result<GetActionConfigResponse>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/moderation/action_config',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late GetActionConfigResponse _value;
+    try {
+      _value = GetActionConfigResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<GetActionConfigResponse>> getActionConfig({
+    String? queueType,
+    String? entityType,
+    bool? excludeDefaults,
+    bool? onlyDefaults,
+  }) {
+    return _ResultCallAdapter<GetActionConfigResponse>().adapt(
+      () => _getActionConfig(
+        queueType: queueType,
+        entityType: entityType,
+        excludeDefaults: excludeDefaults,
+        onlyDefaults: onlyDefaults,
+      ),
+    );
+  }
+
+  Future<GetActivityResponse> _getActivity({
+    required String id,
+    String? commentSort,
+    int? commentLimit,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'comment_sort': commentSort,
+      r'comment_limit': commentLimit,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<Result<GetActivityResponse>>(
@@ -1619,9 +2131,17 @@ class _DefaultApi implements DefaultApi {
   }
 
   @override
-  Future<Result<GetActivityResponse>> getActivity({required String id}) {
+  Future<Result<GetActivityResponse>> getActivity({
+    required String id,
+    String? commentSort,
+    int? commentLimit,
+  }) {
     return _ResultCallAdapter<GetActivityResponse>().adapt(
-      () => _getActivity(id: id),
+      () => _getActivity(
+        id: id,
+        commentSort: commentSort,
+        commentLimit: commentLimit,
+      ),
     );
   }
 
@@ -1760,6 +2280,7 @@ class _DefaultApi implements DefaultApi {
     int? depth,
     String? sort,
     int? repliesLimit,
+    String? idAround,
     int? limit,
     String? prev,
     String? next,
@@ -1769,6 +2290,7 @@ class _DefaultApi implements DefaultApi {
       r'depth': depth,
       r'sort': sort,
       r'replies_limit': repliesLimit,
+      r'id_around': idAround,
       r'limit': limit,
       r'prev': prev,
       r'next': next,
@@ -1803,6 +2325,7 @@ class _DefaultApi implements DefaultApi {
     int? depth,
     String? sort,
     int? repliesLimit,
+    String? idAround,
     int? limit,
     String? prev,
     String? next,
@@ -1813,6 +2336,7 @@ class _DefaultApi implements DefaultApi {
         depth: depth,
         sort: sort,
         repliesLimit: repliesLimit,
+        idAround: idAround,
         limit: limit,
         prev: prev,
         next: next,
@@ -1826,6 +2350,7 @@ class _DefaultApi implements DefaultApi {
     int? depth,
     String? sort,
     int? repliesLimit,
+    String? idAround,
     int? limit,
     String? prev,
     String? next,
@@ -1837,6 +2362,7 @@ class _DefaultApi implements DefaultApi {
       r'depth': depth,
       r'sort': sort,
       r'replies_limit': repliesLimit,
+      r'id_around': idAround,
       r'limit': limit,
       r'prev': prev,
       r'next': next,
@@ -1872,6 +2398,7 @@ class _DefaultApi implements DefaultApi {
     int? depth,
     String? sort,
     int? repliesLimit,
+    String? idAround,
     int? limit,
     String? prev,
     String? next,
@@ -1883,6 +2410,7 @@ class _DefaultApi implements DefaultApi {
         depth: depth,
         sort: sort,
         repliesLimit: repliesLimit,
+        idAround: idAround,
         limit: limit,
         prev: prev,
         next: next,
@@ -2048,6 +2576,44 @@ class _DefaultApi implements DefaultApi {
     );
   }
 
+  Future<GetOrCreateFollowResponse> _getOrCreateFollow({
+    required FollowRequest followRequest,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(followRequest.toJson());
+    final _options = _setStreamType<Result<GetOrCreateFollowResponse>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/feeds/follows/upsert',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late GetOrCreateFollowResponse _value;
+    try {
+      _value = GetOrCreateFollowResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<GetOrCreateFollowResponse>> getOrCreateFollow({
+    required FollowRequest followRequest,
+  }) {
+    return _ResultCallAdapter<GetOrCreateFollowResponse>().adapt(
+      () => _getOrCreateFollow(followRequest: followRequest),
+    );
+  }
+
   Future<FollowBatchResponse> _getOrCreateFollows({
     required FollowBatchRequest followBatchRequest,
   }) async {
@@ -2083,6 +2649,46 @@ class _DefaultApi implements DefaultApi {
   }) {
     return _ResultCallAdapter<FollowBatchResponse>().adapt(
       () => _getOrCreateFollows(followBatchRequest: followBatchRequest),
+    );
+  }
+
+  Future<GetOrCreateUnfollowResponse> _getOrCreateUnfollow({
+    required GetOrCreateUnfollowRequest getOrCreateUnfollowRequest,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(getOrCreateUnfollowRequest.toJson());
+    final _options = _setStreamType<Result<GetOrCreateUnfollowResponse>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/feeds/unfollow/upsert',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late GetOrCreateUnfollowResponse _value;
+    try {
+      _value = GetOrCreateUnfollowResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<GetOrCreateUnfollowResponse>> getOrCreateUnfollow({
+    required GetOrCreateUnfollowRequest getOrCreateUnfollowRequest,
+  }) {
+    return _ResultCallAdapter<GetOrCreateUnfollowResponse>().adapt(
+      () => _getOrCreateUnfollow(
+        getOrCreateUnfollowRequest: getOrCreateUnfollowRequest,
+      ),
     );
   }
 
@@ -2206,6 +2812,86 @@ class _DefaultApi implements DefaultApi {
     );
   }
 
+  Future<GetUserGroupResponse> _getUserGroup({
+    required String id,
+    String? teamId,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'team_id': teamId};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<Result<GetUserGroupResponse>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/usergroups/${id}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late GetUserGroupResponse _value;
+    try {
+      _value = GetUserGroupResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<GetUserGroupResponse>> getUserGroup({
+    required String id,
+    String? teamId,
+  }) {
+    return _ResultCallAdapter<GetUserGroupResponse>().adapt(
+      () => _getUserGroup(id: id, teamId: teamId),
+    );
+  }
+
+  Future<GetUserInterestsResponse> _getUserInterests({
+    required String userId,
+    int? limit,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'limit': limit};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<Result<GetUserInterestsResponse>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/feeds/users/${userId}/interests',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late GetUserInterestsResponse _value;
+    try {
+      _value = GetUserInterestsResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<GetUserInterestsResponse>> getUserInterests({
+    required String userId,
+    int? limit,
+  }) {
+    return _ResultCallAdapter<GetUserInterestsResponse>().adapt(
+      () => _getUserInterests(userId: userId, limit: limit),
+    );
+  }
+
   Future<SharedLocationsResponse> _getUserLiveLocations() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -2303,6 +2989,60 @@ class _DefaultApi implements DefaultApi {
   Future<Result<ListDevicesResponse>> listDevices() {
     return _ResultCallAdapter<ListDevicesResponse>().adapt(
       () => _listDevices(),
+    );
+  }
+
+  Future<ListUserGroupsResponse> _listUserGroups({
+    int? limit,
+    String? idGt,
+    String? createdAtGt,
+    String? teamId,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'limit': limit,
+      r'id_gt': idGt,
+      r'created_at_gt': createdAtGt,
+      r'team_id': teamId,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<Result<ListUserGroupsResponse>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/usergroups',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ListUserGroupsResponse _value;
+    try {
+      _value = ListUserGroupsResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<ListUserGroupsResponse>> listUserGroups({
+    int? limit,
+    String? idGt,
+    String? createdAtGt,
+    String? teamId,
+  }) {
+    return _ResultCallAdapter<ListUserGroupsResponse>().adapt(
+      () => _listUserGroups(
+        limit: limit,
+        idGt: idGt,
+        createdAtGt: createdAtGt,
+        teamId: teamId,
+      ),
     );
   }
 
@@ -2453,11 +3193,14 @@ class _DefaultApi implements DefaultApi {
     required String feedGroupId,
     required String feedId,
     required String activityId,
+    PinActivityRequest? pinActivityRequest,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final _data = <String, dynamic>{};
+    _data.addAll(pinActivityRequest?.toJson() ?? <String, dynamic>{});
     final _options = _setStreamType<Result<PinActivityResponse>>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
@@ -2484,12 +3227,14 @@ class _DefaultApi implements DefaultApi {
     required String feedGroupId,
     required String feedId,
     required String activityId,
+    PinActivityRequest? pinActivityRequest,
   }) {
     return _ResultCallAdapter<PinActivityResponse>().adapt(
       () => _pinActivity(
         feedGroupId: feedGroupId,
         feedId: feedId,
         activityId: activityId,
+        pinActivityRequest: pinActivityRequest,
       ),
     );
   }
@@ -2695,6 +3440,45 @@ class _DefaultApi implements DefaultApi {
   }) {
     return _ResultCallAdapter<QueryBookmarksResponse>().adapt(
       () => _queryBookmarks(queryBookmarksRequest: queryBookmarksRequest),
+    );
+  }
+
+  Future<QueryCollectionsResponse> _queryCollections({
+    QueryCollectionsRequest? queryCollectionsRequest,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(queryCollectionsRequest?.toJson() ?? <String, dynamic>{});
+    final _options = _setStreamType<Result<QueryCollectionsResponse>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/feeds/collections/query',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late QueryCollectionsResponse _value;
+    try {
+      _value = QueryCollectionsResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<QueryCollectionsResponse>> queryCollections({
+    QueryCollectionsRequest? queryCollectionsRequest,
+  }) {
+    return _ResultCallAdapter<QueryCollectionsResponse>().adapt(
+      () => _queryCollections(queryCollectionsRequest: queryCollectionsRequest),
     );
   }
 
@@ -2948,6 +3732,53 @@ class _DefaultApi implements DefaultApi {
     );
   }
 
+  Future<QueryPinnedActivitiesResponse> _queryPinnedActivities({
+    required String feedGroupId,
+    required String feedId,
+    QueryPinnedActivitiesRequest? queryPinnedActivitiesRequest,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(queryPinnedActivitiesRequest?.toJson() ?? <String, dynamic>{});
+    final _options = _setStreamType<Result<QueryPinnedActivitiesResponse>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/feeds/feed_groups/${feedGroupId}/feeds/${feedId}/pinned_activities/query',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late QueryPinnedActivitiesResponse _value;
+    try {
+      _value = QueryPinnedActivitiesResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<QueryPinnedActivitiesResponse>> queryPinnedActivities({
+    required String feedGroupId,
+    required String feedId,
+    QueryPinnedActivitiesRequest? queryPinnedActivitiesRequest,
+  }) {
+    return _ResultCallAdapter<QueryPinnedActivitiesResponse>().adapt(
+      () => _queryPinnedActivities(
+        feedGroupId: feedGroupId,
+        feedId: feedId,
+        queryPinnedActivitiesRequest: queryPinnedActivitiesRequest,
+      ),
+    );
+  }
+
   Future<PollVotesResponse> _queryPollVotes({
     required String pollId,
     String? userId,
@@ -3110,12 +3941,13 @@ class _DefaultApi implements DefaultApi {
   }
 
   Future<ReadCollectionsResponse> _readCollections({
-    required List<String> collectionRefs,
+    List<String>? collectionRefs,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'collection_refs': collectionRefs,
     };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<Result<ReadCollectionsResponse>>(
@@ -3141,7 +3973,7 @@ class _DefaultApi implements DefaultApi {
 
   @override
   Future<Result<ReadCollectionsResponse>> readCollections({
-    required List<String> collectionRefs,
+    List<String>? collectionRefs,
   }) {
     return _ResultCallAdapter<ReadCollectionsResponse>().adapt(
       () => _readCollections(collectionRefs: collectionRefs),
@@ -3225,6 +4057,240 @@ class _DefaultApi implements DefaultApi {
     );
   }
 
+  Future<RemoveUserGroupMembersResponse> _removeUserGroupMembers({
+    required String id,
+    required RemoveUserGroupMembersRequest removeUserGroupMembersRequest,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(removeUserGroupMembersRequest.toJson());
+    final _options = _setStreamType<Result<RemoveUserGroupMembersResponse>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/usergroups/${id}/members/delete',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late RemoveUserGroupMembersResponse _value;
+    try {
+      _value = RemoveUserGroupMembersResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<RemoveUserGroupMembersResponse>> removeUserGroupMembers({
+    required String id,
+    required RemoveUserGroupMembersRequest removeUserGroupMembersRequest,
+  }) {
+    return _ResultCallAdapter<RemoveUserGroupMembersResponse>().adapt(
+      () => _removeUserGroupMembers(
+        id: id,
+        removeUserGroupMembersRequest: removeUserGroupMembersRequest,
+      ),
+    );
+  }
+
+  Future<RestoreActivityResponse> _restoreActivity({
+    required String id,
+    bool? enrichOwnFields,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'enrich_own_fields': enrichOwnFields,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<Result<RestoreActivityResponse>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/feeds/activities/${id}/restore',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late RestoreActivityResponse _value;
+    try {
+      _value = RestoreActivityResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<RestoreActivityResponse>> restoreActivity({
+    required String id,
+    bool? enrichOwnFields,
+  }) {
+    return _ResultCallAdapter<RestoreActivityResponse>().adapt(
+      () => _restoreActivity(id: id, enrichOwnFields: enrichOwnFields),
+    );
+  }
+
+  Future<RestoreCommentResponse> _restoreComment({required String id}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<Result<RestoreCommentResponse>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/feeds/comments/${id}/restore',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late RestoreCommentResponse _value;
+    try {
+      _value = RestoreCommentResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<RestoreCommentResponse>> restoreComment({required String id}) {
+    return _ResultCallAdapter<RestoreCommentResponse>().adapt(
+      () => _restoreComment(id: id),
+    );
+  }
+
+  Future<SearchRolesResponse> _searchRoles({
+    required String query,
+    int? limit,
+    String? nameGt,
+    String? roleType,
+    bool? includeGlobalRoles,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'query': query,
+      r'limit': limit,
+      r'name_gt': nameGt,
+      r'role_type': roleType,
+      r'include_global_roles': includeGlobalRoles,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<Result<SearchRolesResponse>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/roles/search',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late SearchRolesResponse _value;
+    try {
+      _value = SearchRolesResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<SearchRolesResponse>> searchRoles({
+    required String query,
+    int? limit,
+    String? nameGt,
+    String? roleType,
+    bool? includeGlobalRoles,
+  }) {
+    return _ResultCallAdapter<SearchRolesResponse>().adapt(
+      () => _searchRoles(
+        query: query,
+        limit: limit,
+        nameGt: nameGt,
+        roleType: roleType,
+        includeGlobalRoles: includeGlobalRoles,
+      ),
+    );
+  }
+
+  Future<SearchUserGroupsResponse> _searchUserGroups({
+    required String query,
+    int? limit,
+    String? nameGt,
+    String? idGt,
+    String? teamId,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'query': query,
+      r'limit': limit,
+      r'name_gt': nameGt,
+      r'id_gt': idGt,
+      r'team_id': teamId,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<Result<SearchUserGroupsResponse>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/usergroups/search',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late SearchUserGroupsResponse _value;
+    try {
+      _value = SearchUserGroupsResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<SearchUserGroupsResponse>> searchUserGroups({
+    required String query,
+    int? limit,
+    String? nameGt,
+    String? idGt,
+    String? teamId,
+  }) {
+    return _ResultCallAdapter<SearchUserGroupsResponse>().adapt(
+      () => _searchUserGroups(
+        query: query,
+        limit: limit,
+        nameGt: nameGt,
+        idGt: idGt,
+        teamId: teamId,
+      ),
+    );
+  }
+
   Future<DurationResponse> _stopWatchingFeed({
     required String feedGroupId,
     required String feedId,
@@ -3302,6 +4368,46 @@ class _DefaultApi implements DefaultApi {
     );
   }
 
+  Future<TrackActivityMetricsResponse> _trackActivityMetrics({
+    required TrackActivityMetricsRequest trackActivityMetricsRequest,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(trackActivityMetricsRequest.toJson());
+    final _options = _setStreamType<Result<TrackActivityMetricsResponse>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/feeds/activities/metrics/track',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late TrackActivityMetricsResponse _value;
+    try {
+      _value = TrackActivityMetricsResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<TrackActivityMetricsResponse>> trackActivityMetrics({
+    required TrackActivityMetricsRequest trackActivityMetricsRequest,
+  }) {
+    return _ResultCallAdapter<TrackActivityMetricsResponse>().adapt(
+      () => _trackActivityMetrics(
+        trackActivityMetricsRequest: trackActivityMetricsRequest,
+      ),
+    );
+  }
+
   Future<UnblockUsersResponse> _unblockUsers({
     required UnblockUsersRequest unblockUsersRequest,
   }) async {
@@ -3343,9 +4449,17 @@ class _DefaultApi implements DefaultApi {
   Future<UnfollowResponse> _unfollow({
     required String source,
     required String target,
+    bool? deleteNotificationActivity,
+    bool? keepHistory,
+    bool? enrichOwnFields,
   }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'delete_notification_activity': deleteNotificationActivity,
+      r'keep_history': keepHistory,
+      r'enrich_own_fields': enrichOwnFields,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<Result<UnfollowResponse>>(
@@ -3373,9 +4487,18 @@ class _DefaultApi implements DefaultApi {
   Future<Result<UnfollowResponse>> unfollow({
     required String source,
     required String target,
+    bool? deleteNotificationActivity,
+    bool? keepHistory,
+    bool? enrichOwnFields,
   }) {
     return _ResultCallAdapter<UnfollowResponse>().adapt(
-      () => _unfollow(source: source, target: target),
+      () => _unfollow(
+        source: source,
+        target: target,
+        deleteNotificationActivity: deleteNotificationActivity,
+        keepHistory: keepHistory,
+        enrichOwnFields: enrichOwnFields,
+      ),
     );
   }
 
@@ -3383,9 +4506,13 @@ class _DefaultApi implements DefaultApi {
     required String feedGroupId,
     required String feedId,
     required String activityId,
+    bool? enrichOwnFields,
   }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'enrich_own_fields': enrichOwnFields,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<Result<UnpinActivityResponse>>(
@@ -3414,12 +4541,14 @@ class _DefaultApi implements DefaultApi {
     required String feedGroupId,
     required String feedId,
     required String activityId,
+    bool? enrichOwnFields,
   }) {
     return _ResultCallAdapter<UnpinActivityResponse>().adapt(
       () => _unpinActivity(
         feedGroupId: feedGroupId,
         feedId: feedId,
         activityId: activityId,
+        enrichOwnFields: enrichOwnFields,
       ),
     );
   }
@@ -3720,6 +4849,94 @@ class _DefaultApi implements DefaultApi {
   }) {
     return _ResultCallAdapter<UpdateCommentResponse>().adapt(
       () => _updateComment(id: id, updateCommentRequest: updateCommentRequest),
+    );
+  }
+
+  Future<UpdateCommentBookmarkResponse> _updateCommentBookmark({
+    required String commentId,
+    UpdateCommentBookmarkRequest? updateCommentBookmarkRequest,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(updateCommentBookmarkRequest?.toJson() ?? <String, dynamic>{});
+    final _options = _setStreamType<Result<UpdateCommentBookmarkResponse>>(
+      Options(method: 'PATCH', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/feeds/comments/${commentId}/bookmarks',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late UpdateCommentBookmarkResponse _value;
+    try {
+      _value = UpdateCommentBookmarkResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<UpdateCommentBookmarkResponse>> updateCommentBookmark({
+    required String commentId,
+    UpdateCommentBookmarkRequest? updateCommentBookmarkRequest,
+  }) {
+    return _ResultCallAdapter<UpdateCommentBookmarkResponse>().adapt(
+      () => _updateCommentBookmark(
+        commentId: commentId,
+        updateCommentBookmarkRequest: updateCommentBookmarkRequest,
+      ),
+    );
+  }
+
+  Future<UpdateCommentPartialResponse> _updateCommentPartial({
+    required String id,
+    UpdateCommentPartialRequest? updateCommentPartialRequest,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(updateCommentPartialRequest?.toJson() ?? <String, dynamic>{});
+    final _options = _setStreamType<Result<UpdateCommentPartialResponse>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/feeds/comments/${id}/partial',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late UpdateCommentPartialResponse _value;
+    try {
+      _value = UpdateCommentPartialResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<UpdateCommentPartialResponse>> updateCommentPartial({
+    required String id,
+    UpdateCommentPartialRequest? updateCommentPartialRequest,
+  }) {
+    return _ResultCallAdapter<UpdateCommentPartialResponse>().adapt(
+      () => _updateCommentPartial(
+        id: id,
+        updateCommentPartialRequest: updateCommentPartialRequest,
+      ),
     );
   }
 
@@ -4060,6 +5277,50 @@ class _DefaultApi implements DefaultApi {
     );
   }
 
+  Future<UpdateUserGroupResponse> _updateUserGroup({
+    required String id,
+    UpdateUserGroupRequest? updateUserGroupRequest,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(updateUserGroupRequest?.toJson() ?? <String, dynamic>{});
+    final _options = _setStreamType<Result<UpdateUserGroupResponse>>(
+      Options(method: 'PUT', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/usergroups/${id}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late UpdateUserGroupResponse _value;
+    try {
+      _value = UpdateUserGroupResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<UpdateUserGroupResponse>> updateUserGroup({
+    required String id,
+    UpdateUserGroupRequest? updateUserGroupRequest,
+  }) {
+    return _ResultCallAdapter<UpdateUserGroupResponse>().adapt(
+      () => _updateUserGroup(
+        id: id,
+        updateUserGroupRequest: updateUserGroupRequest,
+      ),
+    );
+  }
+
   Future<UpdateUsersResponse> _updateUsers({
     required UpdateUsersRequest updateUsersRequest,
   }) async {
@@ -4213,6 +5474,46 @@ class _DefaultApi implements DefaultApi {
   }) {
     return _ResultCallAdapter<ImageUploadResponse>().adapt(
       () => _uploadImage(imageUploadRequest: imageUploadRequest),
+    );
+  }
+
+  Future<UpsertActionConfigResponse> _upsertActionConfig({
+    required UpsertActionConfigRequest upsertActionConfigRequest,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(upsertActionConfigRequest.toJson());
+    final _options = _setStreamType<Result<UpsertActionConfigResponse>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/moderation/action_config',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late UpsertActionConfigResponse _value;
+    try {
+      _value = UpsertActionConfigResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<UpsertActionConfigResponse>> upsertActionConfig({
+    required UpsertActionConfigRequest upsertActionConfigRequest,
+  }) {
+    return _ResultCallAdapter<UpsertActionConfigResponse>().adapt(
+      () => _upsertActionConfig(
+        upsertActionConfigRequest: upsertActionConfigRequest,
+      ),
     );
   }
 

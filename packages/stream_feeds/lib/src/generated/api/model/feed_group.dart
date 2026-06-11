@@ -18,6 +18,7 @@ part 'feed_group.freezed.dart';
 @JsonSerializable()
 class FeedGroup with _$FeedGroup {
   const FeedGroup({
+    this.activityFilter,
     required this.activityProcessors,
     required this.activitySelectors,
     this.aggregation,
@@ -35,6 +36,9 @@ class FeedGroup with _$FeedGroup {
     this.stories,
     required this.updatedAt,
   });
+
+  @override
+  final ActivityFilterConfig? activityFilter;
 
   @override
   final List<ActivityProcessorConfig> activityProcessors;

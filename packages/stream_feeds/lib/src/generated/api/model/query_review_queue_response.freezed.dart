@@ -15,7 +15,8 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$QueryReviewQueueResponse {
-  Map<String, List<ModerationActionConfig>> get actionConfig;
+  Map<String, List<ModerationActionConfigResponse>> get actionConfig;
+  Map<String, List<ModerationActionConfigResponse>>? get defaultActionConfig;
   String get duration;
   FilterConfigResponse? get filterConfig;
   List<ReviewQueueItemResponse> get items;
@@ -38,6 +39,8 @@ mixin _$QueryReviewQueueResponse {
             other is QueryReviewQueueResponse &&
             const DeepCollectionEquality()
                 .equals(other.actionConfig, actionConfig) &&
+            const DeepCollectionEquality()
+                .equals(other.defaultActionConfig, defaultActionConfig) &&
             (identical(other.duration, duration) ||
                 other.duration == duration) &&
             (identical(other.filterConfig, filterConfig) ||
@@ -52,6 +55,7 @@ mixin _$QueryReviewQueueResponse {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(actionConfig),
+      const DeepCollectionEquality().hash(defaultActionConfig),
       duration,
       filterConfig,
       const DeepCollectionEquality().hash(items),
@@ -61,7 +65,7 @@ mixin _$QueryReviewQueueResponse {
 
   @override
   String toString() {
-    return 'QueryReviewQueueResponse(actionConfig: $actionConfig, duration: $duration, filterConfig: $filterConfig, items: $items, next: $next, prev: $prev, stats: $stats)';
+    return 'QueryReviewQueueResponse(actionConfig: $actionConfig, defaultActionConfig: $defaultActionConfig, duration: $duration, filterConfig: $filterConfig, items: $items, next: $next, prev: $prev, stats: $stats)';
   }
 }
 
@@ -72,7 +76,8 @@ abstract mixin class $QueryReviewQueueResponseCopyWith<$Res> {
       _$QueryReviewQueueResponseCopyWithImpl;
   @useResult
   $Res call(
-      {Map<String, List<ModerationActionConfig>> actionConfig,
+      {Map<String, List<ModerationActionConfigResponse>> actionConfig,
+      Map<String, List<ModerationActionConfigResponse>>? defaultActionConfig,
       String duration,
       FilterConfigResponse? filterConfig,
       List<ReviewQueueItemResponse> items,
@@ -95,6 +100,7 @@ class _$QueryReviewQueueResponseCopyWithImpl<$Res>
   @override
   $Res call({
     Object? actionConfig = null,
+    Object? defaultActionConfig = freezed,
     Object? duration = null,
     Object? filterConfig = freezed,
     Object? items = null,
@@ -106,7 +112,11 @@ class _$QueryReviewQueueResponseCopyWithImpl<$Res>
       actionConfig: null == actionConfig
           ? _self.actionConfig
           : actionConfig // ignore: cast_nullable_to_non_nullable
-              as Map<String, List<ModerationActionConfig>>,
+              as Map<String, List<ModerationActionConfigResponse>>,
+      defaultActionConfig: freezed == defaultActionConfig
+          ? _self.defaultActionConfig
+          : defaultActionConfig // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<ModerationActionConfigResponse>>?,
       duration: null == duration
           ? _self.duration
           : duration // ignore: cast_nullable_to_non_nullable

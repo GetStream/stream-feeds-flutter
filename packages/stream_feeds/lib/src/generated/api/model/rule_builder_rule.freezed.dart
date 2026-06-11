@@ -15,7 +15,8 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$RuleBuilderRule {
-  RuleBuilderAction get action;
+  RuleBuilderAction? get action;
+  List<CallRuleActionSequence>? get actionSequences;
   List<RuleBuilderCondition>? get conditions;
   String? get cooldownPeriod;
   List<RuleBuilderConditionGroup>? get groups;
@@ -38,6 +39,8 @@ mixin _$RuleBuilderRule {
             other is RuleBuilderRule &&
             (identical(other.action, action) || other.action == action) &&
             const DeepCollectionEquality()
+                .equals(other.actionSequences, actionSequences) &&
+            const DeepCollectionEquality()
                 .equals(other.conditions, conditions) &&
             (identical(other.cooldownPeriod, cooldownPeriod) ||
                 other.cooldownPeriod == cooldownPeriod) &&
@@ -52,6 +55,7 @@ mixin _$RuleBuilderRule {
   int get hashCode => Object.hash(
       runtimeType,
       action,
+      const DeepCollectionEquality().hash(actionSequences),
       const DeepCollectionEquality().hash(conditions),
       cooldownPeriod,
       const DeepCollectionEquality().hash(groups),
@@ -61,7 +65,7 @@ mixin _$RuleBuilderRule {
 
   @override
   String toString() {
-    return 'RuleBuilderRule(action: $action, conditions: $conditions, cooldownPeriod: $cooldownPeriod, groups: $groups, id: $id, logic: $logic, ruleType: $ruleType)';
+    return 'RuleBuilderRule(action: $action, actionSequences: $actionSequences, conditions: $conditions, cooldownPeriod: $cooldownPeriod, groups: $groups, id: $id, logic: $logic, ruleType: $ruleType)';
   }
 }
 
@@ -72,7 +76,8 @@ abstract mixin class $RuleBuilderRuleCopyWith<$Res> {
       _$RuleBuilderRuleCopyWithImpl;
   @useResult
   $Res call(
-      {RuleBuilderAction action,
+      {RuleBuilderAction? action,
+      List<CallRuleActionSequence>? actionSequences,
       List<RuleBuilderCondition>? conditions,
       String? cooldownPeriod,
       List<RuleBuilderConditionGroup>? groups,
@@ -94,7 +99,8 @@ class _$RuleBuilderRuleCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? action = null,
+    Object? action = freezed,
+    Object? actionSequences = freezed,
     Object? conditions = freezed,
     Object? cooldownPeriod = freezed,
     Object? groups = freezed,
@@ -103,10 +109,14 @@ class _$RuleBuilderRuleCopyWithImpl<$Res>
     Object? ruleType = null,
   }) {
     return _then(RuleBuilderRule(
-      action: null == action
+      action: freezed == action
           ? _self.action
           : action // ignore: cast_nullable_to_non_nullable
-              as RuleBuilderAction,
+              as RuleBuilderAction?,
+      actionSequences: freezed == actionSequences
+          ? _self.actionSequences
+          : actionSequences // ignore: cast_nullable_to_non_nullable
+              as List<CallRuleActionSequence>?,
       conditions: freezed == conditions
           ? _self.conditions
           : conditions // ignore: cast_nullable_to_non_nullable

@@ -17,6 +17,7 @@ T _$identity<T>(T value) => value;
 mixin _$AddReactionResponse {
   ActivityResponse get activity;
   String get duration;
+  bool? get notificationCreated;
   FeedsReactionResponse get reaction;
 
   /// Create a copy of AddReactionResponse
@@ -36,16 +37,19 @@ mixin _$AddReactionResponse {
                 other.activity == activity) &&
             (identical(other.duration, duration) ||
                 other.duration == duration) &&
+            (identical(other.notificationCreated, notificationCreated) ||
+                other.notificationCreated == notificationCreated) &&
             (identical(other.reaction, reaction) ||
                 other.reaction == reaction));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, activity, duration, reaction);
+  int get hashCode => Object.hash(
+      runtimeType, activity, duration, notificationCreated, reaction);
 
   @override
   String toString() {
-    return 'AddReactionResponse(activity: $activity, duration: $duration, reaction: $reaction)';
+    return 'AddReactionResponse(activity: $activity, duration: $duration, notificationCreated: $notificationCreated, reaction: $reaction)';
   }
 }
 
@@ -58,6 +62,7 @@ abstract mixin class $AddReactionResponseCopyWith<$Res> {
   $Res call(
       {ActivityResponse activity,
       String duration,
+      bool? notificationCreated,
       FeedsReactionResponse reaction});
 }
 
@@ -76,6 +81,7 @@ class _$AddReactionResponseCopyWithImpl<$Res>
   $Res call({
     Object? activity = null,
     Object? duration = null,
+    Object? notificationCreated = freezed,
     Object? reaction = null,
   }) {
     return _then(AddReactionResponse(
@@ -87,6 +93,10 @@ class _$AddReactionResponseCopyWithImpl<$Res>
           ? _self.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as String,
+      notificationCreated: freezed == notificationCreated
+          ? _self.notificationCreated
+          : notificationCreated // ignore: cast_nullable_to_non_nullable
+              as bool?,
       reaction: null == reaction
           ? _self.reaction
           : reaction // ignore: cast_nullable_to_non_nullable

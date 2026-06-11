@@ -15,8 +15,10 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$AggregationConfig {
+  String? get activitiesSort;
   String? get format;
   int? get groupSize;
+  String? get scoreStrategy;
 
   /// Create a copy of AggregationConfig
   /// with the given fields replaced by the non-null parameter values.
@@ -31,17 +33,22 @@ mixin _$AggregationConfig {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is AggregationConfig &&
+            (identical(other.activitiesSort, activitiesSort) ||
+                other.activitiesSort == activitiesSort) &&
             (identical(other.format, format) || other.format == format) &&
             (identical(other.groupSize, groupSize) ||
-                other.groupSize == groupSize));
+                other.groupSize == groupSize) &&
+            (identical(other.scoreStrategy, scoreStrategy) ||
+                other.scoreStrategy == scoreStrategy));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, format, groupSize);
+  int get hashCode => Object.hash(
+      runtimeType, activitiesSort, format, groupSize, scoreStrategy);
 
   @override
   String toString() {
-    return 'AggregationConfig(format: $format, groupSize: $groupSize)';
+    return 'AggregationConfig(activitiesSort: $activitiesSort, format: $format, groupSize: $groupSize, scoreStrategy: $scoreStrategy)';
   }
 }
 
@@ -51,7 +58,11 @@ abstract mixin class $AggregationConfigCopyWith<$Res> {
           AggregationConfig value, $Res Function(AggregationConfig) _then) =
       _$AggregationConfigCopyWithImpl;
   @useResult
-  $Res call({String? format, int? groupSize});
+  $Res call(
+      {String? activitiesSort,
+      String? format,
+      int? groupSize,
+      String? scoreStrategy});
 }
 
 /// @nodoc
@@ -67,10 +78,16 @@ class _$AggregationConfigCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? activitiesSort = freezed,
     Object? format = freezed,
     Object? groupSize = freezed,
+    Object? scoreStrategy = freezed,
   }) {
     return _then(AggregationConfig(
+      activitiesSort: freezed == activitiesSort
+          ? _self.activitiesSort
+          : activitiesSort // ignore: cast_nullable_to_non_nullable
+              as String?,
       format: freezed == format
           ? _self.format
           : format // ignore: cast_nullable_to_non_nullable
@@ -79,6 +96,10 @@ class _$AggregationConfigCopyWithImpl<$Res>
           ? _self.groupSize
           : groupSize // ignore: cast_nullable_to_non_nullable
               as int?,
+      scoreStrategy: freezed == scoreStrategy
+          ? _self.scoreStrategy
+          : scoreStrategy // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }

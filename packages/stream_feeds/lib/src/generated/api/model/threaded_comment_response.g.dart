@@ -12,6 +12,7 @@ ThreadedCommentResponse _$ThreadedCommentResponseFromJson(
       attachments: (json['attachments'] as List<dynamic>?)
           ?.map((e) => Attachment.fromJson(e as Map<String, dynamic>))
           .toList(),
+      bookmarkCount: (json['bookmark_count'] as num).toInt(),
       confidenceScore: (json['confidence_score'] as num).toDouble(),
       controversyScore: (json['controversy_score'] as num?)?.toDouble(),
       createdAt: const EpochDateTimeConverter()
@@ -20,6 +21,8 @@ ThreadedCommentResponse _$ThreadedCommentResponseFromJson(
       deletedAt: _$JsonConverterFromJson<int, DateTime>(
           json['deleted_at'], const EpochDateTimeConverter().fromJson),
       downvoteCount: (json['downvote_count'] as num).toInt(),
+      editedAt: _$JsonConverterFromJson<int, DateTime>(
+          json['edited_at'], const EpochDateTimeConverter().fromJson),
       id: json['id'] as String,
       latestReactions: (json['latest_reactions'] as List<dynamic>?)
           ?.map(
@@ -44,7 +47,7 @@ ThreadedCommentResponse _$ThreadedCommentResponseFromJson(
       reactionCount: (json['reaction_count'] as num).toInt(),
       reactionGroups: (json['reaction_groups'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(
-            k, ReactionGroupResponse.fromJson(e as Map<String, dynamic>)),
+            k, FeedsReactionGroupResponse.fromJson(e as Map<String, dynamic>)),
       ),
       replies: (json['replies'] as List<dynamic>?)
           ?.map((e) =>
@@ -52,7 +55,9 @@ ThreadedCommentResponse _$ThreadedCommentResponseFromJson(
           .toList(),
       replyCount: (json['reply_count'] as num).toInt(),
       score: (json['score'] as num).toInt(),
-      status: json['status'] as String,
+      status: $enumDecode(
+          _$ThreadedCommentResponseStatusEnumMap, json['status'],
+          unknownValue: ThreadedCommentResponseStatus.unknown),
       text: json['text'] as String?,
       updatedAt: const EpochDateTimeConverter()
           .fromJson((json['updated_at'] as num).toInt()),
@@ -64,6 +69,7 @@ Map<String, dynamic> _$ThreadedCommentResponseToJson(
         ThreadedCommentResponse instance) =>
     <String, dynamic>{
       'attachments': instance.attachments?.map((e) => e.toJson()).toList(),
+      'bookmark_count': instance.bookmarkCount,
       'confidence_score': instance.confidenceScore,
       'controversy_score': instance.controversyScore,
       'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
@@ -71,6 +77,8 @@ Map<String, dynamic> _$ThreadedCommentResponseToJson(
       'deleted_at': _$JsonConverterToJson<int, DateTime>(
           instance.deletedAt, const EpochDateTimeConverter().toJson),
       'downvote_count': instance.downvoteCount,
+      'edited_at': _$JsonConverterToJson<int, DateTime>(
+          instance.editedAt, const EpochDateTimeConverter().toJson),
       'id': instance.id,
       'latest_reactions':
           instance.latestReactions?.map((e) => e.toJson()).toList(),
@@ -88,7 +96,7 @@ Map<String, dynamic> _$ThreadedCommentResponseToJson(
       'replies': instance.replies?.map((e) => e.toJson()).toList(),
       'reply_count': instance.replyCount,
       'score': instance.score,
-      'status': instance.status,
+      'status': _$ThreadedCommentResponseStatusEnumMap[instance.status]!,
       'text': instance.text,
       'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
       'upvote_count': instance.upvoteCount,
@@ -100,6 +108,15 @@ Value? _$JsonConverterFromJson<Json, Value>(
   Value? Function(Json json) fromJson,
 ) =>
     json == null ? null : fromJson(json as Json);
+
+const _$ThreadedCommentResponseStatusEnumMap = {
+  ThreadedCommentResponseStatus.active: 'active',
+  ThreadedCommentResponseStatus.deleted: 'deleted',
+  ThreadedCommentResponseStatus.hidden: 'hidden',
+  ThreadedCommentResponseStatus.removed: 'removed',
+  ThreadedCommentResponseStatus.shadowBlocked: 'shadow_blocked',
+  ThreadedCommentResponseStatus.unknown: '_unknown',
+};
 
 Json? _$JsonConverterToJson<Json, Value>(
   Value? value,

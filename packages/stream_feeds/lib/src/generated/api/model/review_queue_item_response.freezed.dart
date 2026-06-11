@@ -20,7 +20,7 @@ mixin _$ReviewQueueItemResponse {
   String get aiTextSeverity;
   AppealItemResponse? get appeal;
   UserResponse? get assignedTo;
-  List<Ban> get bans;
+  List<BanInfoResponse> get bans;
   CallResponse? get call;
   DateTime? get completedAt;
   String? get configKey;
@@ -29,17 +29,21 @@ mixin _$ReviewQueueItemResponse {
   String? get entityCreatorId;
   String get entityId;
   String get entityType;
+  bool get escalated;
+  DateTime? get escalatedAt;
+  String? get escalatedBy;
+  EscalationMetadata? get escalationMetadata;
   EnrichedActivity? get feedsV2Activity;
   Reaction? get feedsV2Reaction;
-  ActivityResponse? get feedsV3Activity;
-  CommentResponse? get feedsV3Comment;
+  FeedsV3ActivityResponse? get feedsV3Activity;
+  FeedsV3CommentResponse? get feedsV3Comment;
   List<ModerationFlagResponse> get flags;
   int get flagsCount;
   String get id;
   List<String> get languages;
   String get latestModeratorAction;
-  MessageResponse? get message;
-  ModerationPayload? get moderationPayload;
+  ChatMessageResponse? get message;
+  ModerationPayloadResponse? get moderationPayload;
   Reaction? get reaction;
   String get recommendedAction;
   DateTime? get reviewedAt;
@@ -86,6 +90,14 @@ mixin _$ReviewQueueItemResponse {
                 other.entityId == entityId) &&
             (identical(other.entityType, entityType) ||
                 other.entityType == entityType) &&
+            (identical(other.escalated, escalated) ||
+                other.escalated == escalated) &&
+            (identical(other.escalatedAt, escalatedAt) ||
+                other.escalatedAt == escalatedAt) &&
+            (identical(other.escalatedBy, escalatedBy) ||
+                other.escalatedBy == escalatedBy) &&
+            (identical(other.escalationMetadata, escalationMetadata) ||
+                other.escalationMetadata == escalationMetadata) &&
             (identical(other.feedsV2Activity, feedsV2Activity) ||
                 other.feedsV2Activity == feedsV2Activity) &&
             (identical(other.feedsV2Reaction, feedsV2Reaction) ||
@@ -137,6 +149,10 @@ mixin _$ReviewQueueItemResponse {
         entityCreatorId,
         entityId,
         entityType,
+        escalated,
+        escalatedAt,
+        escalatedBy,
+        escalationMetadata,
         feedsV2Activity,
         feedsV2Reaction,
         feedsV3Activity,
@@ -160,7 +176,7 @@ mixin _$ReviewQueueItemResponse {
 
   @override
   String toString() {
-    return 'ReviewQueueItemResponse(actions: $actions, activity: $activity, aiTextSeverity: $aiTextSeverity, appeal: $appeal, assignedTo: $assignedTo, bans: $bans, call: $call, completedAt: $completedAt, configKey: $configKey, createdAt: $createdAt, entityCreator: $entityCreator, entityCreatorId: $entityCreatorId, entityId: $entityId, entityType: $entityType, feedsV2Activity: $feedsV2Activity, feedsV2Reaction: $feedsV2Reaction, feedsV3Activity: $feedsV3Activity, feedsV3Comment: $feedsV3Comment, flags: $flags, flagsCount: $flagsCount, id: $id, languages: $languages, latestModeratorAction: $latestModeratorAction, message: $message, moderationPayload: $moderationPayload, reaction: $reaction, recommendedAction: $recommendedAction, reviewedAt: $reviewedAt, reviewedBy: $reviewedBy, severity: $severity, status: $status, teams: $teams, updatedAt: $updatedAt)';
+    return 'ReviewQueueItemResponse(actions: $actions, activity: $activity, aiTextSeverity: $aiTextSeverity, appeal: $appeal, assignedTo: $assignedTo, bans: $bans, call: $call, completedAt: $completedAt, configKey: $configKey, createdAt: $createdAt, entityCreator: $entityCreator, entityCreatorId: $entityCreatorId, entityId: $entityId, entityType: $entityType, escalated: $escalated, escalatedAt: $escalatedAt, escalatedBy: $escalatedBy, escalationMetadata: $escalationMetadata, feedsV2Activity: $feedsV2Activity, feedsV2Reaction: $feedsV2Reaction, feedsV3Activity: $feedsV3Activity, feedsV3Comment: $feedsV3Comment, flags: $flags, flagsCount: $flagsCount, id: $id, languages: $languages, latestModeratorAction: $latestModeratorAction, message: $message, moderationPayload: $moderationPayload, reaction: $reaction, recommendedAction: $recommendedAction, reviewedAt: $reviewedAt, reviewedBy: $reviewedBy, severity: $severity, status: $status, teams: $teams, updatedAt: $updatedAt)';
   }
 }
 
@@ -176,7 +192,7 @@ abstract mixin class $ReviewQueueItemResponseCopyWith<$Res> {
       String aiTextSeverity,
       AppealItemResponse? appeal,
       UserResponse? assignedTo,
-      List<Ban> bans,
+      List<BanInfoResponse> bans,
       CallResponse? call,
       DateTime? completedAt,
       String? configKey,
@@ -185,17 +201,21 @@ abstract mixin class $ReviewQueueItemResponseCopyWith<$Res> {
       String? entityCreatorId,
       String entityId,
       String entityType,
+      bool escalated,
+      DateTime? escalatedAt,
+      String? escalatedBy,
+      EscalationMetadata? escalationMetadata,
       EnrichedActivity? feedsV2Activity,
       Reaction? feedsV2Reaction,
-      ActivityResponse? feedsV3Activity,
-      CommentResponse? feedsV3Comment,
+      FeedsV3ActivityResponse? feedsV3Activity,
+      FeedsV3CommentResponse? feedsV3Comment,
       List<ModerationFlagResponse> flags,
       int flagsCount,
       String id,
       List<String> languages,
       String latestModeratorAction,
-      MessageResponse? message,
-      ModerationPayload? moderationPayload,
+      ChatMessageResponse? message,
+      ModerationPayloadResponse? moderationPayload,
       Reaction? reaction,
       String recommendedAction,
       DateTime? reviewedAt,
@@ -233,6 +253,10 @@ class _$ReviewQueueItemResponseCopyWithImpl<$Res>
     Object? entityCreatorId = freezed,
     Object? entityId = null,
     Object? entityType = null,
+    Object? escalated = null,
+    Object? escalatedAt = freezed,
+    Object? escalatedBy = freezed,
+    Object? escalationMetadata = freezed,
     Object? feedsV2Activity = freezed,
     Object? feedsV2Reaction = freezed,
     Object? feedsV3Activity = freezed,
@@ -277,7 +301,7 @@ class _$ReviewQueueItemResponseCopyWithImpl<$Res>
       bans: null == bans
           ? _self.bans
           : bans // ignore: cast_nullable_to_non_nullable
-              as List<Ban>,
+              as List<BanInfoResponse>,
       call: freezed == call
           ? _self.call
           : call // ignore: cast_nullable_to_non_nullable
@@ -310,6 +334,22 @@ class _$ReviewQueueItemResponseCopyWithImpl<$Res>
           ? _self.entityType
           : entityType // ignore: cast_nullable_to_non_nullable
               as String,
+      escalated: null == escalated
+          ? _self.escalated
+          : escalated // ignore: cast_nullable_to_non_nullable
+              as bool,
+      escalatedAt: freezed == escalatedAt
+          ? _self.escalatedAt
+          : escalatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      escalatedBy: freezed == escalatedBy
+          ? _self.escalatedBy
+          : escalatedBy // ignore: cast_nullable_to_non_nullable
+              as String?,
+      escalationMetadata: freezed == escalationMetadata
+          ? _self.escalationMetadata
+          : escalationMetadata // ignore: cast_nullable_to_non_nullable
+              as EscalationMetadata?,
       feedsV2Activity: freezed == feedsV2Activity
           ? _self.feedsV2Activity
           : feedsV2Activity // ignore: cast_nullable_to_non_nullable
@@ -321,11 +361,11 @@ class _$ReviewQueueItemResponseCopyWithImpl<$Res>
       feedsV3Activity: freezed == feedsV3Activity
           ? _self.feedsV3Activity
           : feedsV3Activity // ignore: cast_nullable_to_non_nullable
-              as ActivityResponse?,
+              as FeedsV3ActivityResponse?,
       feedsV3Comment: freezed == feedsV3Comment
           ? _self.feedsV3Comment
           : feedsV3Comment // ignore: cast_nullable_to_non_nullable
-              as CommentResponse?,
+              as FeedsV3CommentResponse?,
       flags: null == flags
           ? _self.flags
           : flags // ignore: cast_nullable_to_non_nullable
@@ -349,11 +389,11 @@ class _$ReviewQueueItemResponseCopyWithImpl<$Res>
       message: freezed == message
           ? _self.message
           : message // ignore: cast_nullable_to_non_nullable
-              as MessageResponse?,
+              as ChatMessageResponse?,
       moderationPayload: freezed == moderationPayload
           ? _self.moderationPayload
           : moderationPayload // ignore: cast_nullable_to_non_nullable
-              as ModerationPayload?,
+              as ModerationPayloadResponse?,
       reaction: freezed == reaction
           ? _self.reaction
           : reaction // ignore: cast_nullable_to_non_nullable

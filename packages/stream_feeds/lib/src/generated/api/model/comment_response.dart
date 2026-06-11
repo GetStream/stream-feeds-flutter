@@ -13,18 +13,36 @@ import '../models.dart';
 part 'comment_response.g.dart';
 part 'comment_response.freezed.dart';
 
+@JsonEnum(alwaysCreate: true)
+enum CommentResponseStatus {
+  @JsonValue('active')
+  active,
+  @JsonValue('deleted')
+  deleted,
+  @JsonValue('hidden')
+  hidden,
+  @JsonValue('removed')
+  removed,
+  @JsonValue('shadow_blocked')
+  shadowBlocked,
+  @JsonValue('_unknown')
+  unknown;
+}
+
 @freezed
 @immutable
 @JsonSerializable()
 class CommentResponse with _$CommentResponse {
   const CommentResponse({
     this.attachments,
+    required this.bookmarkCount,
     required this.confidenceScore,
     this.controversyScore,
     required this.createdAt,
     this.custom,
     this.deletedAt,
     required this.downvoteCount,
+    this.editedAt,
     required this.id,
     this.latestReactions,
     required this.mentionedUsers,
@@ -48,6 +66,9 @@ class CommentResponse with _$CommentResponse {
   final List<Attachment>? attachments;
 
   @override
+  final int bookmarkCount;
+
+  @override
   final double confidenceScore;
 
   @override
@@ -66,6 +87,10 @@ class CommentResponse with _$CommentResponse {
 
   @override
   final int downvoteCount;
+
+  @override
+  @EpochDateTimeConverter()
+  final DateTime? editedAt;
 
   @override
   final String id;
@@ -95,7 +120,7 @@ class CommentResponse with _$CommentResponse {
   final int reactionCount;
 
   @override
-  final Map<String, ReactionGroupResponse>? reactionGroups;
+  final Map<String, FeedsReactionGroupResponse>? reactionGroups;
 
   @override
   final int replyCount;
@@ -104,7 +129,8 @@ class CommentResponse with _$CommentResponse {
   final int score;
 
   @override
-  final String status;
+  @JsonKey(unknownEnumValue: CommentResponseStatus.unknown)
+  final CommentResponseStatus status;
 
   @override
   final String? text;

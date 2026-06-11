@@ -9,7 +9,7 @@ part of 'read_receipts_response.dart';
 ReadReceiptsResponse _$ReadReceiptsResponseFromJson(
         Map<String, dynamic> json) =>
     ReadReceiptsResponse(
-      enabled: json['enabled'] as bool,
+      enabled: json['enabled'] as bool?,
     );
 
 Map<String, dynamic> _$ReadReceiptsResponseToJson(

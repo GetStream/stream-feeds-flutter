@@ -11,6 +11,9 @@ FeedsPreferences _$FeedsPreferencesFromJson(Map<String, dynamic> json) =>
       comment: $enumDecodeNullable(
           _$FeedsPreferencesCommentEnumMap, json['comment'],
           unknownValue: FeedsPreferencesComment.unknown),
+      commentMention: $enumDecodeNullable(
+          _$FeedsPreferencesCommentMentionEnumMap, json['comment_mention'],
+          unknownValue: FeedsPreferencesCommentMention.unknown),
       commentReaction: $enumDecodeNullable(
           _$FeedsPreferencesCommentReactionEnumMap, json['comment_reaction'],
           unknownValue: FeedsPreferencesCommentReaction.unknown),
@@ -35,6 +38,8 @@ FeedsPreferences _$FeedsPreferencesFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$FeedsPreferencesToJson(FeedsPreferences instance) =>
     <String, dynamic>{
       'comment': _$FeedsPreferencesCommentEnumMap[instance.comment],
+      'comment_mention':
+          _$FeedsPreferencesCommentMentionEnumMap[instance.commentMention],
       'comment_reaction':
           _$FeedsPreferencesCommentReactionEnumMap[instance.commentReaction],
       'comment_reply':
@@ -49,6 +54,12 @@ const _$FeedsPreferencesCommentEnumMap = {
   FeedsPreferencesComment.all: 'all',
   FeedsPreferencesComment.none: 'none',
   FeedsPreferencesComment.unknown: '_unknown',
+};
+
+const _$FeedsPreferencesCommentMentionEnumMap = {
+  FeedsPreferencesCommentMention.all: 'all',
+  FeedsPreferencesCommentMention.none: 'none',
+  FeedsPreferencesCommentMention.unknown: '_unknown',
 };
 
 const _$FeedsPreferencesCommentReactionEnumMap = {

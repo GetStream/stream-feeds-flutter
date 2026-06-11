@@ -16,8 +16,10 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$RuleBuilderAction {
   BanOptions? get banOptions;
+  CallActionOptions? get callOptions;
   FlagUserOptions? get flagUserOptions;
-  RuleBuilderActionType get type;
+  bool? get skipInbox;
+  RuleBuilderActionType? get type;
 
   /// Create a copy of RuleBuilderAction
   /// with the given fields replaced by the non-null parameter values.
@@ -34,18 +36,22 @@ mixin _$RuleBuilderAction {
             other is RuleBuilderAction &&
             (identical(other.banOptions, banOptions) ||
                 other.banOptions == banOptions) &&
+            (identical(other.callOptions, callOptions) ||
+                other.callOptions == callOptions) &&
             (identical(other.flagUserOptions, flagUserOptions) ||
                 other.flagUserOptions == flagUserOptions) &&
+            (identical(other.skipInbox, skipInbox) ||
+                other.skipInbox == skipInbox) &&
             (identical(other.type, type) || other.type == type));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, banOptions, flagUserOptions, type);
+  int get hashCode => Object.hash(
+      runtimeType, banOptions, callOptions, flagUserOptions, skipInbox, type);
 
   @override
   String toString() {
-    return 'RuleBuilderAction(banOptions: $banOptions, flagUserOptions: $flagUserOptions, type: $type)';
+    return 'RuleBuilderAction(banOptions: $banOptions, callOptions: $callOptions, flagUserOptions: $flagUserOptions, skipInbox: $skipInbox, type: $type)';
   }
 }
 
@@ -57,8 +63,10 @@ abstract mixin class $RuleBuilderActionCopyWith<$Res> {
   @useResult
   $Res call(
       {BanOptions? banOptions,
+      CallActionOptions? callOptions,
       FlagUserOptions? flagUserOptions,
-      RuleBuilderActionType type});
+      bool? skipInbox,
+      RuleBuilderActionType? type});
 }
 
 /// @nodoc
@@ -75,22 +83,32 @@ class _$RuleBuilderActionCopyWithImpl<$Res>
   @override
   $Res call({
     Object? banOptions = freezed,
+    Object? callOptions = freezed,
     Object? flagUserOptions = freezed,
-    Object? type = null,
+    Object? skipInbox = freezed,
+    Object? type = freezed,
   }) {
     return _then(RuleBuilderAction(
       banOptions: freezed == banOptions
           ? _self.banOptions
           : banOptions // ignore: cast_nullable_to_non_nullable
               as BanOptions?,
+      callOptions: freezed == callOptions
+          ? _self.callOptions
+          : callOptions // ignore: cast_nullable_to_non_nullable
+              as CallActionOptions?,
       flagUserOptions: freezed == flagUserOptions
           ? _self.flagUserOptions
           : flagUserOptions // ignore: cast_nullable_to_non_nullable
               as FlagUserOptions?,
-      type: null == type
+      skipInbox: freezed == skipInbox
+          ? _self.skipInbox
+          : skipInbox // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      type: freezed == type
           ? _self.type
           : type // ignore: cast_nullable_to_non_nullable
-              as RuleBuilderActionType,
+              as RuleBuilderActionType?,
     ));
   }
 }

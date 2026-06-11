@@ -15,6 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$QueryFeedsRequest {
+  bool? get enrichOwnFields;
   Map<String, Object?>? get filter;
   int? get limit;
   String? get next;
@@ -35,6 +36,8 @@ mixin _$QueryFeedsRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is QueryFeedsRequest &&
+            (identical(other.enrichOwnFields, enrichOwnFields) ||
+                other.enrichOwnFields == enrichOwnFields) &&
             const DeepCollectionEquality().equals(other.filter, filter) &&
             (identical(other.limit, limit) || other.limit == limit) &&
             (identical(other.next, next) || other.next == next) &&
@@ -46,6 +49,7 @@ mixin _$QueryFeedsRequest {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      enrichOwnFields,
       const DeepCollectionEquality().hash(filter),
       limit,
       next,
@@ -55,7 +59,7 @@ mixin _$QueryFeedsRequest {
 
   @override
   String toString() {
-    return 'QueryFeedsRequest(filter: $filter, limit: $limit, next: $next, prev: $prev, sort: $sort, watch: $watch)';
+    return 'QueryFeedsRequest(enrichOwnFields: $enrichOwnFields, filter: $filter, limit: $limit, next: $next, prev: $prev, sort: $sort, watch: $watch)';
   }
 }
 
@@ -66,7 +70,8 @@ abstract mixin class $QueryFeedsRequestCopyWith<$Res> {
       _$QueryFeedsRequestCopyWithImpl;
   @useResult
   $Res call(
-      {Map<String, Object?>? filter,
+      {bool? enrichOwnFields,
+      Map<String, Object?>? filter,
       int? limit,
       String? next,
       String? prev,
@@ -87,6 +92,7 @@ class _$QueryFeedsRequestCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? enrichOwnFields = freezed,
     Object? filter = freezed,
     Object? limit = freezed,
     Object? next = freezed,
@@ -95,6 +101,10 @@ class _$QueryFeedsRequestCopyWithImpl<$Res>
     Object? watch = freezed,
   }) {
     return _then(QueryFeedsRequest(
+      enrichOwnFields: freezed == enrichOwnFields
+          ? _self.enrichOwnFields
+          : enrichOwnFields // ignore: cast_nullable_to_non_nullable
+              as bool?,
       filter: freezed == filter
           ? _self.filter
           : filter // ignore: cast_nullable_to_non_nullable

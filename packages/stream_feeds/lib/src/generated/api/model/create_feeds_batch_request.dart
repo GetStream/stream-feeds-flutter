@@ -18,8 +18,12 @@ part 'create_feeds_batch_request.freezed.dart';
 @JsonSerializable()
 class CreateFeedsBatchRequest with _$CreateFeedsBatchRequest {
   const CreateFeedsBatchRequest({
+    this.enrichOwnFields,
     required this.feeds,
   });
+
+  @override
+  final bool? enrichOwnFields;
 
   @override
   final List<FeedRequest> feeds;

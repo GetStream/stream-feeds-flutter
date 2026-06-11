@@ -15,6 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$FollowBatchRequest {
+  bool? get enrichOwnFields;
   List<FollowRequest> get follows;
 
   /// Create a copy of FollowBatchRequest
@@ -30,16 +31,18 @@ mixin _$FollowBatchRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is FollowBatchRequest &&
+            (identical(other.enrichOwnFields, enrichOwnFields) ||
+                other.enrichOwnFields == enrichOwnFields) &&
             const DeepCollectionEquality().equals(other.follows, follows));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(follows));
+  int get hashCode => Object.hash(runtimeType, enrichOwnFields,
+      const DeepCollectionEquality().hash(follows));
 
   @override
   String toString() {
-    return 'FollowBatchRequest(follows: $follows)';
+    return 'FollowBatchRequest(enrichOwnFields: $enrichOwnFields, follows: $follows)';
   }
 }
 
@@ -49,7 +52,7 @@ abstract mixin class $FollowBatchRequestCopyWith<$Res> {
           FollowBatchRequest value, $Res Function(FollowBatchRequest) _then) =
       _$FollowBatchRequestCopyWithImpl;
   @useResult
-  $Res call({List<FollowRequest> follows});
+  $Res call({bool? enrichOwnFields, List<FollowRequest> follows});
 }
 
 /// @nodoc
@@ -65,9 +68,14 @@ class _$FollowBatchRequestCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? enrichOwnFields = freezed,
     Object? follows = null,
   }) {
     return _then(FollowBatchRequest(
+      enrichOwnFields: freezed == enrichOwnFields
+          ? _self.enrichOwnFields
+          : enrichOwnFields // ignore: cast_nullable_to_non_nullable
+              as bool?,
       follows: null == follows
           ? _self.follows
           : follows // ignore: cast_nullable_to_non_nullable

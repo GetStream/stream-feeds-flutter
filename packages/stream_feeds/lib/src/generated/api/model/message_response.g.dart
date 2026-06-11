@@ -39,6 +39,17 @@ MessageResponse _$MessageResponseFromJson(Map<String, dynamic> json) =>
           ? null
           : ChannelMemberResponse.fromJson(
               json['member'] as Map<String, dynamic>),
+      mentionedChannel: json['mentioned_channel'] as bool,
+      mentionedGroupIds: (json['mentioned_group_ids'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      mentionedGroups: (json['mentioned_groups'] as List<dynamic>?)
+          ?.map((e) => UserGroupResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      mentionedHere: json['mentioned_here'] as bool,
+      mentionedRoles: (json['mentioned_roles'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       mentionedUsers: (json['mentioned_users'] as List<dynamic>)
           .map((e) => UserResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -96,8 +107,7 @@ MessageResponse _$MessageResponseFromJson(Map<String, dynamic> json) =>
       threadParticipants: (json['thread_participants'] as List<dynamic>?)
           ?.map((e) => UserResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
-      type: $enumDecode(_$MessageResponseTypeEnumMap, json['type'],
-          unknownValue: MessageResponseType.unknown),
+      type: json['type'] as String,
       updatedAt: const EpochDateTimeConverter()
           .fromJson((json['updated_at'] as num).toInt()),
       user: UserResponse.fromJson(json['user'] as Map<String, dynamic>),
@@ -122,6 +132,12 @@ Map<String, dynamic> _$MessageResponseToJson(MessageResponse instance) =>
       'latest_reactions':
           instance.latestReactions.map((e) => e.toJson()).toList(),
       'member': instance.member?.toJson(),
+      'mentioned_channel': instance.mentionedChannel,
+      'mentioned_group_ids': instance.mentionedGroupIds,
+      'mentioned_groups':
+          instance.mentionedGroups?.map((e) => e.toJson()).toList(),
+      'mentioned_here': instance.mentionedHere,
+      'mentioned_roles': instance.mentionedRoles,
       'mentioned_users':
           instance.mentionedUsers.map((e) => e.toJson()).toList(),
       'message_text_updated_at': _$JsonConverterToJson<int, DateTime>(
@@ -154,7 +170,7 @@ Map<String, dynamic> _$MessageResponseToJson(MessageResponse instance) =>
       'text': instance.text,
       'thread_participants':
           instance.threadParticipants?.map((e) => e.toJson()).toList(),
-      'type': _$MessageResponseTypeEnumMap[instance.type]!,
+      'type': instance.type,
       'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
       'user': instance.user.toJson(),
     };
@@ -164,16 +180,6 @@ Value? _$JsonConverterFromJson<Json, Value>(
   Value? Function(Json json) fromJson,
 ) =>
     json == null ? null : fromJson(json as Json);
-
-const _$MessageResponseTypeEnumMap = {
-  MessageResponseType.deleted: 'deleted',
-  MessageResponseType.ephemeral: 'ephemeral',
-  MessageResponseType.error: 'error',
-  MessageResponseType.regular: 'regular',
-  MessageResponseType.reply: 'reply',
-  MessageResponseType.system: 'system',
-  MessageResponseType.unknown: '_unknown',
-};
 
 Json? _$JsonConverterToJson<Json, Value>(
   Value? value,

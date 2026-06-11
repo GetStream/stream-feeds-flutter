@@ -15,11 +15,12 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$ModerationFlaggedEvent {
+  String get contentType;
   DateTime get createdAt;
-  String? get item;
-  String? get objectId;
+  Map<String, Object?> get custom;
+  String get objectId;
+  DateTime? get receivedAt;
   String get type;
-  User? get user;
 
   /// Create a copy of ModerationFlaggedEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -34,22 +35,25 @@ mixin _$ModerationFlaggedEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ModerationFlaggedEvent &&
+            (identical(other.contentType, contentType) ||
+                other.contentType == contentType) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
-            (identical(other.item, item) || other.item == item) &&
+            const DeepCollectionEquality().equals(other.custom, custom) &&
             (identical(other.objectId, objectId) ||
                 other.objectId == objectId) &&
-            (identical(other.type, type) || other.type == type) &&
-            (identical(other.user, user) || other.user == user));
+            (identical(other.receivedAt, receivedAt) ||
+                other.receivedAt == receivedAt) &&
+            (identical(other.type, type) || other.type == type));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, createdAt, item, objectId, type, user);
+  int get hashCode => Object.hash(runtimeType, contentType, createdAt,
+      const DeepCollectionEquality().hash(custom), objectId, receivedAt, type);
 
   @override
   String toString() {
-    return 'ModerationFlaggedEvent(createdAt: $createdAt, item: $item, objectId: $objectId, type: $type, user: $user)';
+    return 'ModerationFlaggedEvent(contentType: $contentType, createdAt: $createdAt, custom: $custom, objectId: $objectId, receivedAt: $receivedAt, type: $type)';
   }
 }
 
@@ -60,11 +64,12 @@ abstract mixin class $ModerationFlaggedEventCopyWith<$Res> {
       _$ModerationFlaggedEventCopyWithImpl;
   @useResult
   $Res call(
-      {DateTime createdAt,
-      String? item,
-      String? objectId,
-      String type,
-      User? user});
+      {String contentType,
+      DateTime createdAt,
+      Map<String, Object?> custom,
+      String objectId,
+      DateTime? receivedAt,
+      String type});
 }
 
 /// @nodoc
@@ -80,33 +85,38 @@ class _$ModerationFlaggedEventCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? contentType = null,
     Object? createdAt = null,
-    Object? item = freezed,
-    Object? objectId = freezed,
+    Object? custom = null,
+    Object? objectId = null,
+    Object? receivedAt = freezed,
     Object? type = null,
-    Object? user = freezed,
   }) {
     return _then(ModerationFlaggedEvent(
+      contentType: null == contentType
+          ? _self.contentType
+          : contentType // ignore: cast_nullable_to_non_nullable
+              as String,
       createdAt: null == createdAt
           ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      item: freezed == item
-          ? _self.item
-          : item // ignore: cast_nullable_to_non_nullable
-              as String?,
-      objectId: freezed == objectId
+      custom: null == custom
+          ? _self.custom
+          : custom // ignore: cast_nullable_to_non_nullable
+              as Map<String, Object?>,
+      objectId: null == objectId
           ? _self.objectId
           : objectId // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
+      receivedAt: freezed == receivedAt
+          ? _self.receivedAt
+          : receivedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       type: null == type
           ? _self.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
-      user: freezed == user
-          ? _self.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as User?,
     ));
   }
 }

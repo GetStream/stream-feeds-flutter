@@ -8,8 +8,11 @@ part of 'follow_request.dart';
 
 FollowRequest _$FollowRequestFromJson(Map<String, dynamic> json) =>
     FollowRequest(
+      activityCopyLimit: (json['activity_copy_limit'] as num?)?.toInt(),
+      copyCustomToNotification: json['copy_custom_to_notification'] as bool?,
       createNotificationActivity: json['create_notification_activity'] as bool?,
       custom: json['custom'] as Map<String, dynamic>?,
+      enrichOwnFields: json['enrich_own_fields'] as bool?,
       pushPreference: $enumDecodeNullable(
           _$FollowRequestPushPreferenceEnumMap, json['push_preference'],
           unknownValue: FollowRequestPushPreference.unknown),
@@ -20,8 +23,11 @@ FollowRequest _$FollowRequestFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$FollowRequestToJson(FollowRequest instance) =>
     <String, dynamic>{
+      'activity_copy_limit': instance.activityCopyLimit,
+      'copy_custom_to_notification': instance.copyCustomToNotification,
       'create_notification_activity': instance.createNotificationActivity,
       'custom': instance.custom,
+      'enrich_own_fields': instance.enrichOwnFields,
       'push_preference':
           _$FollowRequestPushPreferenceEnumMap[instance.pushPreference],
       'skip_push': instance.skipPush,

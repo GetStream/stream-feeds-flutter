@@ -16,6 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ImageRuleParameters {
   List<String>? get harmLabels;
+  double? get minConfidence;
   int? get threshold;
   String? get timeWindow;
 
@@ -34,6 +35,8 @@ mixin _$ImageRuleParameters {
             other is ImageRuleParameters &&
             const DeepCollectionEquality()
                 .equals(other.harmLabels, harmLabels) &&
+            (identical(other.minConfidence, minConfidence) ||
+                other.minConfidence == minConfidence) &&
             (identical(other.threshold, threshold) ||
                 other.threshold == threshold) &&
             (identical(other.timeWindow, timeWindow) ||
@@ -41,12 +44,16 @@ mixin _$ImageRuleParameters {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(harmLabels), threshold, timeWindow);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(harmLabels),
+      minConfidence,
+      threshold,
+      timeWindow);
 
   @override
   String toString() {
-    return 'ImageRuleParameters(harmLabels: $harmLabels, threshold: $threshold, timeWindow: $timeWindow)';
+    return 'ImageRuleParameters(harmLabels: $harmLabels, minConfidence: $minConfidence, threshold: $threshold, timeWindow: $timeWindow)';
   }
 }
 
@@ -56,7 +63,11 @@ abstract mixin class $ImageRuleParametersCopyWith<$Res> {
           ImageRuleParameters value, $Res Function(ImageRuleParameters) _then) =
       _$ImageRuleParametersCopyWithImpl;
   @useResult
-  $Res call({List<String>? harmLabels, int? threshold, String? timeWindow});
+  $Res call(
+      {List<String>? harmLabels,
+      double? minConfidence,
+      int? threshold,
+      String? timeWindow});
 }
 
 /// @nodoc
@@ -73,6 +84,7 @@ class _$ImageRuleParametersCopyWithImpl<$Res>
   @override
   $Res call({
     Object? harmLabels = freezed,
+    Object? minConfidence = freezed,
     Object? threshold = freezed,
     Object? timeWindow = freezed,
   }) {
@@ -81,6 +93,10 @@ class _$ImageRuleParametersCopyWithImpl<$Res>
           ? _self.harmLabels
           : harmLabels // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      minConfidence: freezed == minConfidence
+          ? _self.minConfidence
+          : minConfidence // ignore: cast_nullable_to_non_nullable
+              as double?,
       threshold: freezed == threshold
           ? _self.threshold
           : threshold // ignore: cast_nullable_to_non_nullable

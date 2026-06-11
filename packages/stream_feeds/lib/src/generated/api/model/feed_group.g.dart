@@ -7,6 +7,10 @@ part of 'feed_group.dart';
 // **************************************************************************
 
 FeedGroup _$FeedGroupFromJson(Map<String, dynamic> json) => FeedGroup(
+      activityFilter: json['activity_filter'] == null
+          ? null
+          : ActivityFilterConfig.fromJson(
+              json['activity_filter'] as Map<String, dynamic>),
       activityProcessors: (json['activity_processors'] as List<dynamic>)
           .map((e) =>
               ActivityProcessorConfig.fromJson(e as Map<String, dynamic>))
@@ -49,6 +53,7 @@ FeedGroup _$FeedGroupFromJson(Map<String, dynamic> json) => FeedGroup(
     );
 
 Map<String, dynamic> _$FeedGroupToJson(FeedGroup instance) => <String, dynamic>{
+      'activity_filter': instance.activityFilter?.toJson(),
       'activity_processors':
           instance.activityProcessors.map((e) => e.toJson()).toList(),
       'activity_selectors':

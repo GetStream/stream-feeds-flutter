@@ -22,6 +22,7 @@ class AppealRequest with _$AppealRequest {
     this.attachments,
     required this.entityId,
     required this.entityType,
+    this.reviewQueueItemId,
   });
 
   @override
@@ -35,6 +36,9 @@ class AppealRequest with _$AppealRequest {
 
   @override
   final String entityType;
+
+  @override
+  final String? reviewQueueItemId;
 
   Map<String, dynamic> toJson() => _$AppealRequestToJson(this);
 

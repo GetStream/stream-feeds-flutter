@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$ReadReceiptsResponse {
-  bool get enabled;
+  bool? get enabled;
 
   /// Create a copy of ReadReceiptsResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -48,7 +48,7 @@ abstract mixin class $ReadReceiptsResponseCopyWith<$Res> {
           $Res Function(ReadReceiptsResponse) _then) =
       _$ReadReceiptsResponseCopyWithImpl;
   @useResult
-  $Res call({bool enabled});
+  $Res call({bool? enabled});
 }
 
 /// @nodoc
@@ -64,13 +64,13 @@ class _$ReadReceiptsResponseCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? enabled = null,
+    Object? enabled = freezed,
   }) {
     return _then(ReadReceiptsResponse(
-      enabled: null == enabled
+      enabled: freezed == enabled
           ? _self.enabled
           : enabled // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
     ));
   }
 }

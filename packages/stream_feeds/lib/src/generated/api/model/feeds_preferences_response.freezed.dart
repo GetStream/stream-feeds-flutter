@@ -16,7 +16,9 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$FeedsPreferencesResponse {
   String? get comment;
+  String? get commentMention;
   String? get commentReaction;
+  String? get commentReply;
   Map<String, String>? get customActivityTypes;
   String? get follow;
   String? get mention;
@@ -36,8 +38,12 @@ mixin _$FeedsPreferencesResponse {
         (other.runtimeType == runtimeType &&
             other is FeedsPreferencesResponse &&
             (identical(other.comment, comment) || other.comment == comment) &&
+            (identical(other.commentMention, commentMention) ||
+                other.commentMention == commentMention) &&
             (identical(other.commentReaction, commentReaction) ||
                 other.commentReaction == commentReaction) &&
+            (identical(other.commentReply, commentReply) ||
+                other.commentReply == commentReply) &&
             const DeepCollectionEquality()
                 .equals(other.customActivityTypes, customActivityTypes) &&
             (identical(other.follow, follow) || other.follow == follow) &&
@@ -50,7 +56,9 @@ mixin _$FeedsPreferencesResponse {
   int get hashCode => Object.hash(
       runtimeType,
       comment,
+      commentMention,
       commentReaction,
+      commentReply,
       const DeepCollectionEquality().hash(customActivityTypes),
       follow,
       mention,
@@ -58,7 +66,7 @@ mixin _$FeedsPreferencesResponse {
 
   @override
   String toString() {
-    return 'FeedsPreferencesResponse(comment: $comment, commentReaction: $commentReaction, customActivityTypes: $customActivityTypes, follow: $follow, mention: $mention, reaction: $reaction)';
+    return 'FeedsPreferencesResponse(comment: $comment, commentMention: $commentMention, commentReaction: $commentReaction, commentReply: $commentReply, customActivityTypes: $customActivityTypes, follow: $follow, mention: $mention, reaction: $reaction)';
   }
 }
 
@@ -70,7 +78,9 @@ abstract mixin class $FeedsPreferencesResponseCopyWith<$Res> {
   @useResult
   $Res call(
       {String? comment,
+      String? commentMention,
       String? commentReaction,
+      String? commentReply,
       Map<String, String>? customActivityTypes,
       String? follow,
       String? mention,
@@ -91,7 +101,9 @@ class _$FeedsPreferencesResponseCopyWithImpl<$Res>
   @override
   $Res call({
     Object? comment = freezed,
+    Object? commentMention = freezed,
     Object? commentReaction = freezed,
+    Object? commentReply = freezed,
     Object? customActivityTypes = freezed,
     Object? follow = freezed,
     Object? mention = freezed,
@@ -102,9 +114,17 @@ class _$FeedsPreferencesResponseCopyWithImpl<$Res>
           ? _self.comment
           : comment // ignore: cast_nullable_to_non_nullable
               as String?,
+      commentMention: freezed == commentMention
+          ? _self.commentMention
+          : commentMention // ignore: cast_nullable_to_non_nullable
+              as String?,
       commentReaction: freezed == commentReaction
           ? _self.commentReaction
           : commentReaction // ignore: cast_nullable_to_non_nullable
+              as String?,
+      commentReply: freezed == commentReply
+          ? _self.commentReply
+          : commentReply // ignore: cast_nullable_to_non_nullable
               as String?,
       customActivityTypes: freezed == customActivityTypes
           ? _self.customActivityTypes

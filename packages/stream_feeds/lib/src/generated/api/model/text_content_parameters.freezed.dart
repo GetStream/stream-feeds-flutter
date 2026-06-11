@@ -18,6 +18,7 @@ mixin _$TextContentParameters {
   List<String>? get blocklistMatch;
   bool? get containsUrl;
   List<String>? get harmLabels;
+  String? get labelOperator;
   Map<String, String>? get llmHarmLabels;
   String? get severity;
 
@@ -40,6 +41,8 @@ mixin _$TextContentParameters {
                 other.containsUrl == containsUrl) &&
             const DeepCollectionEquality()
                 .equals(other.harmLabels, harmLabels) &&
+            (identical(other.labelOperator, labelOperator) ||
+                other.labelOperator == labelOperator) &&
             const DeepCollectionEquality()
                 .equals(other.llmHarmLabels, llmHarmLabels) &&
             (identical(other.severity, severity) ||
@@ -52,12 +55,13 @@ mixin _$TextContentParameters {
       const DeepCollectionEquality().hash(blocklistMatch),
       containsUrl,
       const DeepCollectionEquality().hash(harmLabels),
+      labelOperator,
       const DeepCollectionEquality().hash(llmHarmLabels),
       severity);
 
   @override
   String toString() {
-    return 'TextContentParameters(blocklistMatch: $blocklistMatch, containsUrl: $containsUrl, harmLabels: $harmLabels, llmHarmLabels: $llmHarmLabels, severity: $severity)';
+    return 'TextContentParameters(blocklistMatch: $blocklistMatch, containsUrl: $containsUrl, harmLabels: $harmLabels, labelOperator: $labelOperator, llmHarmLabels: $llmHarmLabels, severity: $severity)';
   }
 }
 
@@ -71,6 +75,7 @@ abstract mixin class $TextContentParametersCopyWith<$Res> {
       {List<String>? blocklistMatch,
       bool? containsUrl,
       List<String>? harmLabels,
+      String? labelOperator,
       Map<String, String>? llmHarmLabels,
       String? severity});
 }
@@ -91,6 +96,7 @@ class _$TextContentParametersCopyWithImpl<$Res>
     Object? blocklistMatch = freezed,
     Object? containsUrl = freezed,
     Object? harmLabels = freezed,
+    Object? labelOperator = freezed,
     Object? llmHarmLabels = freezed,
     Object? severity = freezed,
   }) {
@@ -107,6 +113,10 @@ class _$TextContentParametersCopyWithImpl<$Res>
           ? _self.harmLabels
           : harmLabels // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      labelOperator: freezed == labelOperator
+          ? _self.labelOperator
+          : labelOperator // ignore: cast_nullable_to_non_nullable
+              as String?,
       llmHarmLabels: freezed == llmHarmLabels
           ? _self.llmHarmLabels
           : llmHarmLabels // ignore: cast_nullable_to_non_nullable

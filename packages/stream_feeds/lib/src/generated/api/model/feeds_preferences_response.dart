@@ -19,7 +19,9 @@ part 'feeds_preferences_response.freezed.dart';
 class FeedsPreferencesResponse with _$FeedsPreferencesResponse {
   const FeedsPreferencesResponse({
     this.comment,
+    this.commentMention,
     this.commentReaction,
+    this.commentReply,
     this.customActivityTypes,
     this.follow,
     this.mention,
@@ -30,7 +32,13 @@ class FeedsPreferencesResponse with _$FeedsPreferencesResponse {
   final String? comment;
 
   @override
+  final String? commentMention;
+
+  @override
   final String? commentReaction;
+
+  @override
+  final String? commentReply;
 
   @override
   final Map<String, String>? customActivityTypes;

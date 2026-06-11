@@ -23,6 +23,8 @@ enum BlockListRuleAction {
   bounceRemove,
   @JsonValue('flag')
   flag,
+  @JsonValue('mask')
+  mask,
   @JsonValue('mask_flag')
   maskFlag,
   @JsonValue('remove')

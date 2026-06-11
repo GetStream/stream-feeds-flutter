@@ -15,6 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$DeleteActivitiesRequest {
+  bool? get deleteNotificationActivity;
   bool? get hardDelete;
   List<String> get ids;
 
@@ -31,18 +32,22 @@ mixin _$DeleteActivitiesRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is DeleteActivitiesRequest &&
+            (identical(other.deleteNotificationActivity,
+                    deleteNotificationActivity) ||
+                other.deleteNotificationActivity ==
+                    deleteNotificationActivity) &&
             (identical(other.hardDelete, hardDelete) ||
                 other.hardDelete == hardDelete) &&
             const DeepCollectionEquality().equals(other.ids, ids));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, hardDelete, const DeepCollectionEquality().hash(ids));
+  int get hashCode => Object.hash(runtimeType, deleteNotificationActivity,
+      hardDelete, const DeepCollectionEquality().hash(ids));
 
   @override
   String toString() {
-    return 'DeleteActivitiesRequest(hardDelete: $hardDelete, ids: $ids)';
+    return 'DeleteActivitiesRequest(deleteNotificationActivity: $deleteNotificationActivity, hardDelete: $hardDelete, ids: $ids)';
   }
 }
 
@@ -52,7 +57,8 @@ abstract mixin class $DeleteActivitiesRequestCopyWith<$Res> {
           $Res Function(DeleteActivitiesRequest) _then) =
       _$DeleteActivitiesRequestCopyWithImpl;
   @useResult
-  $Res call({bool? hardDelete, List<String> ids});
+  $Res call(
+      {bool? deleteNotificationActivity, bool? hardDelete, List<String> ids});
 }
 
 /// @nodoc
@@ -68,10 +74,15 @@ class _$DeleteActivitiesRequestCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? deleteNotificationActivity = freezed,
     Object? hardDelete = freezed,
     Object? ids = null,
   }) {
     return _then(DeleteActivitiesRequest(
+      deleteNotificationActivity: freezed == deleteNotificationActivity
+          ? _self.deleteNotificationActivity
+          : deleteNotificationActivity // ignore: cast_nullable_to_non_nullable
+              as bool?,
       hardDelete: freezed == hardDelete
           ? _self.hardDelete
           : hardDelete // ignore: cast_nullable_to_non_nullable

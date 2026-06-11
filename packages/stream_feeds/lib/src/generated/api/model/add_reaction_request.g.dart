@@ -8,6 +8,7 @@ part of 'add_reaction_request.dart';
 
 AddReactionRequest _$AddReactionRequestFromJson(Map<String, dynamic> json) =>
     AddReactionRequest(
+      copyCustomToNotification: json['copy_custom_to_notification'] as bool?,
       createNotificationActivity: json['create_notification_activity'] as bool?,
       custom: json['custom'] as Map<String, dynamic>?,
       enforceUnique: json['enforce_unique'] as bool?,
@@ -17,6 +18,7 @@ AddReactionRequest _$AddReactionRequestFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$AddReactionRequestToJson(AddReactionRequest instance) =>
     <String, dynamic>{
+      'copy_custom_to_notification': instance.copyCustomToNotification,
       'create_notification_activity': instance.createNotificationActivity,
       'custom': instance.custom,
       'enforce_unique': instance.enforceUnique,

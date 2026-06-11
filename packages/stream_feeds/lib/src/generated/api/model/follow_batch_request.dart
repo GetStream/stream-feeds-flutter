@@ -18,8 +18,12 @@ part 'follow_batch_request.freezed.dart';
 @JsonSerializable()
 class FollowBatchRequest with _$FollowBatchRequest {
   const FollowBatchRequest({
+    this.enrichOwnFields,
     required this.follows,
   });
+
+  @override
+  final bool? enrichOwnFields;
 
   @override
   final List<FollowRequest> follows;

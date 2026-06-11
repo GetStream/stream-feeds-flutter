@@ -44,6 +44,8 @@ class ActivityRequest with _$ActivityRequest {
   const ActivityRequest({
     this.attachments,
     this.collectionRefs,
+    this.copyCustomToNotification,
+    this.createNotificationActivity,
     this.custom,
     this.expiresAt,
     required this.feeds,
@@ -57,6 +59,7 @@ class ActivityRequest with _$ActivityRequest {
     this.restrictReplies,
     this.searchData,
     this.skipEnrichUrl,
+    this.skipPush,
     this.text,
     required this.type,
     this.visibility,
@@ -68,6 +71,13 @@ class ActivityRequest with _$ActivityRequest {
 
   @override
   final List<String>? collectionRefs;
+
+  @Deprecated('This field is deprecated.')
+  @override
+  final bool? copyCustomToNotification;
+
+  @override
+  final bool? createNotificationActivity;
 
   @override
   final Map<String, Object?>? custom;
@@ -88,7 +98,7 @@ class ActivityRequest with _$ActivityRequest {
   final List<String>? interestTags;
 
   @override
-  final ActivityLocation? location;
+  final Location? location;
 
   @override
   final List<String>? mentionedUserIds;
@@ -108,6 +118,9 @@ class ActivityRequest with _$ActivityRequest {
 
   @override
   final bool? skipEnrichUrl;
+
+  @override
+  final bool? skipPush;
 
   @override
   final String? text;

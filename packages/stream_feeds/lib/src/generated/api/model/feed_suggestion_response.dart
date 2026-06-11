@@ -13,6 +13,86 @@ import '../models.dart';
 part 'feed_suggestion_response.g.dart';
 part 'feed_suggestion_response.freezed.dart';
 
+@JsonEnum(alwaysCreate: true)
+enum FeedSuggestionResponseOwnCapabilities {
+  @JsonValue('add-activity')
+  addActivity,
+  @JsonValue('add-activity-bookmark')
+  addActivityBookmark,
+  @JsonValue('add-activity-reaction')
+  addActivityReaction,
+  @JsonValue('add-comment')
+  addComment,
+  @JsonValue('add-comment-reaction')
+  addCommentReaction,
+  @JsonValue('create-feed')
+  createFeed,
+  @JsonValue('delete-any-activity')
+  deleteAnyActivity,
+  @JsonValue('delete-any-comment')
+  deleteAnyComment,
+  @JsonValue('delete-feed')
+  deleteFeed,
+  @JsonValue('delete-own-activity')
+  deleteOwnActivity,
+  @JsonValue('delete-own-activity-bookmark')
+  deleteOwnActivityBookmark,
+  @JsonValue('delete-own-activity-reaction')
+  deleteOwnActivityReaction,
+  @JsonValue('delete-own-comment')
+  deleteOwnComment,
+  @JsonValue('delete-own-comment-reaction')
+  deleteOwnCommentReaction,
+  @JsonValue('follow')
+  follow,
+  @JsonValue('pin-activity')
+  pinActivity,
+  @JsonValue('query-feed-members')
+  queryFeedMembers,
+  @JsonValue('query-follows')
+  queryFollows,
+  @JsonValue('read-activities')
+  readActivities,
+  @JsonValue('read-feed')
+  readFeed,
+  @JsonValue('unfollow')
+  unfollow,
+  @JsonValue('update-any-activity')
+  updateAnyActivity,
+  @JsonValue('update-any-comment')
+  updateAnyComment,
+  @JsonValue('update-feed')
+  updateFeed,
+  @JsonValue('update-feed-followers')
+  updateFeedFollowers,
+  @JsonValue('update-feed-members')
+  updateFeedMembers,
+  @JsonValue('update-own-activity')
+  updateOwnActivity,
+  @JsonValue('update-own-activity-bookmark')
+  updateOwnActivityBookmark,
+  @JsonValue('update-own-comment')
+  updateOwnComment,
+  @JsonValue('_unknown')
+  unknown;
+}
+
+@JsonEnum(alwaysCreate: true)
+enum FeedSuggestionResponseVisibility {
+  @JsonValue('followers')
+  followers,
+  @JsonValue('members')
+  members,
+  @JsonValue('private')
+  private,
+  @JsonValue('public')
+  public,
+  @JsonValue('visible')
+  visible,
+  @JsonValue('_unknown')
+  unknown;
+}
+
 @freezed
 @immutable
 @JsonSerializable()
@@ -31,6 +111,7 @@ class FeedSuggestionResponse with _$FeedSuggestionResponse {
     required this.followingCount,
     required this.groupId,
     required this.id,
+    this.location,
     required this.memberCount,
     required this.name,
     this.ownCapabilities,
@@ -86,14 +167,17 @@ class FeedSuggestionResponse with _$FeedSuggestionResponse {
   final String id;
 
   @override
+  final Location? location;
+
+  @override
   final int memberCount;
 
   @override
   final String name;
 
   @override
-  @JsonKey(unknownEnumValue: FeedOwnCapability.unknown)
-  final List<FeedOwnCapability>? ownCapabilities;
+  @JsonKey(unknownEnumValue: FeedSuggestionResponseOwnCapabilities.unknown)
+  final List<FeedSuggestionResponseOwnCapabilities>? ownCapabilities;
 
   @override
   final List<FollowResponse>? ownFollowings;
@@ -118,7 +202,8 @@ class FeedSuggestionResponse with _$FeedSuggestionResponse {
   final DateTime updatedAt;
 
   @override
-  final String? visibility;
+  @JsonKey(unknownEnumValue: FeedSuggestionResponseVisibility.unknown)
+  final FeedSuggestionResponseVisibility? visibility;
 
   Map<String, dynamic> toJson() => _$FeedSuggestionResponseToJson(this);
 

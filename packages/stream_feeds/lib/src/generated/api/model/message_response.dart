@@ -13,24 +13,6 @@ import '../models.dart';
 part 'message_response.g.dart';
 part 'message_response.freezed.dart';
 
-@JsonEnum(alwaysCreate: true)
-enum MessageResponseType {
-  @JsonValue('deleted')
-  deleted,
-  @JsonValue('ephemeral')
-  ephemeral,
-  @JsonValue('error')
-  error,
-  @JsonValue('regular')
-  regular,
-  @JsonValue('reply')
-  reply,
-  @JsonValue('system')
-  system,
-  @JsonValue('_unknown')
-  unknown;
-}
-
 @freezed
 @immutable
 @JsonSerializable()
@@ -51,6 +33,11 @@ class MessageResponse with _$MessageResponse {
     this.imageLabels,
     required this.latestReactions,
     this.member,
+    required this.mentionedChannel,
+    this.mentionedGroupIds,
+    this.mentionedGroups,
+    required this.mentionedHere,
+    this.mentionedRoles,
     required this.mentionedUsers,
     this.messageTextUpdatedAt,
     this.mml,
@@ -128,6 +115,21 @@ class MessageResponse with _$MessageResponse {
 
   @override
   final ChannelMemberResponse? member;
+
+  @override
+  final bool mentionedChannel;
+
+  @override
+  final List<String>? mentionedGroupIds;
+
+  @override
+  final List<UserGroupResponse>? mentionedGroups;
+
+  @override
+  final bool mentionedHere;
+
+  @override
+  final List<String>? mentionedRoles;
 
   @override
   final List<UserResponse> mentionedUsers;
@@ -211,8 +213,7 @@ class MessageResponse with _$MessageResponse {
   final List<UserResponse>? threadParticipants;
 
   @override
-  @JsonKey(unknownEnumValue: MessageResponseType.unknown)
-  final MessageResponseType type;
+  final String type;
 
   @override
   @EpochDateTimeConverter()

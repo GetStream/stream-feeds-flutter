@@ -18,11 +18,17 @@ part 'update_feed_request.freezed.dart';
 @JsonSerializable()
 class UpdateFeedRequest with _$UpdateFeedRequest {
   const UpdateFeedRequest({
+    this.clearLocation,
     this.custom,
     this.description,
+    this.enrichOwnFields,
     this.filterTags,
+    this.location,
     this.name,
   });
+
+  @override
+  final bool? clearLocation;
 
   @override
   final Map<String, Object?>? custom;
@@ -31,7 +37,13 @@ class UpdateFeedRequest with _$UpdateFeedRequest {
   final String? description;
 
   @override
+  final bool? enrichOwnFields;
+
+  @override
   final List<String>? filterTags;
+
+  @override
+  final Location? location;
 
   @override
   final String? name;

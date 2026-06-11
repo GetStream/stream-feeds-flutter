@@ -19,12 +19,16 @@ part 'submit_action_response.freezed.dart';
 class SubmitActionResponse with _$SubmitActionResponse {
   const SubmitActionResponse({
     this.appealItem,
+    this.autoRestoreWarning,
     required this.duration,
     this.item,
   });
 
   @override
   final AppealItemResponse? appealItem;
+
+  @override
+  final String? autoRestoreWarning;
 
   @override
   final String duration;

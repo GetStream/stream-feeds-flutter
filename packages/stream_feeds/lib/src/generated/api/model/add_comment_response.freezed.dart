@@ -17,6 +17,8 @@ T _$identity<T>(T value) => value;
 mixin _$AddCommentResponse {
   CommentResponse get comment;
   String get duration;
+  int? get mentionNotificationsCreated;
+  bool? get notificationCreated;
 
   /// Create a copy of AddCommentResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -33,15 +35,22 @@ mixin _$AddCommentResponse {
             other is AddCommentResponse &&
             (identical(other.comment, comment) || other.comment == comment) &&
             (identical(other.duration, duration) ||
-                other.duration == duration));
+                other.duration == duration) &&
+            (identical(other.mentionNotificationsCreated,
+                    mentionNotificationsCreated) ||
+                other.mentionNotificationsCreated ==
+                    mentionNotificationsCreated) &&
+            (identical(other.notificationCreated, notificationCreated) ||
+                other.notificationCreated == notificationCreated));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, comment, duration);
+  int get hashCode => Object.hash(runtimeType, comment, duration,
+      mentionNotificationsCreated, notificationCreated);
 
   @override
   String toString() {
-    return 'AddCommentResponse(comment: $comment, duration: $duration)';
+    return 'AddCommentResponse(comment: $comment, duration: $duration, mentionNotificationsCreated: $mentionNotificationsCreated, notificationCreated: $notificationCreated)';
   }
 }
 
@@ -51,7 +60,11 @@ abstract mixin class $AddCommentResponseCopyWith<$Res> {
           AddCommentResponse value, $Res Function(AddCommentResponse) _then) =
       _$AddCommentResponseCopyWithImpl;
   @useResult
-  $Res call({CommentResponse comment, String duration});
+  $Res call(
+      {CommentResponse comment,
+      String duration,
+      int? mentionNotificationsCreated,
+      bool? notificationCreated});
 }
 
 /// @nodoc
@@ -69,6 +82,8 @@ class _$AddCommentResponseCopyWithImpl<$Res>
   $Res call({
     Object? comment = null,
     Object? duration = null,
+    Object? mentionNotificationsCreated = freezed,
+    Object? notificationCreated = freezed,
   }) {
     return _then(AddCommentResponse(
       comment: null == comment
@@ -79,6 +94,14 @@ class _$AddCommentResponseCopyWithImpl<$Res>
           ? _self.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as String,
+      mentionNotificationsCreated: freezed == mentionNotificationsCreated
+          ? _self.mentionNotificationsCreated
+          : mentionNotificationsCreated // ignore: cast_nullable_to_non_nullable
+              as int?,
+      notificationCreated: freezed == notificationCreated
+          ? _self.notificationCreated
+          : notificationCreated // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }

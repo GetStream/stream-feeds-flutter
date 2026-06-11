@@ -17,6 +17,7 @@ T _$identity<T>(T value) => value;
 mixin _$ModerationV2Response {
   String get action;
   String? get blocklistMatched;
+  List<String>? get blocklistsMatched;
   List<String>? get imageHarms;
   String get originalText;
   bool? get platformCircumvented;
@@ -40,6 +41,8 @@ mixin _$ModerationV2Response {
             (identical(other.blocklistMatched, blocklistMatched) ||
                 other.blocklistMatched == blocklistMatched) &&
             const DeepCollectionEquality()
+                .equals(other.blocklistsMatched, blocklistsMatched) &&
+            const DeepCollectionEquality()
                 .equals(other.imageHarms, imageHarms) &&
             (identical(other.originalText, originalText) ||
                 other.originalText == originalText) &&
@@ -55,6 +58,7 @@ mixin _$ModerationV2Response {
       runtimeType,
       action,
       blocklistMatched,
+      const DeepCollectionEquality().hash(blocklistsMatched),
       const DeepCollectionEquality().hash(imageHarms),
       originalText,
       platformCircumvented,
@@ -63,7 +67,7 @@ mixin _$ModerationV2Response {
 
   @override
   String toString() {
-    return 'ModerationV2Response(action: $action, blocklistMatched: $blocklistMatched, imageHarms: $imageHarms, originalText: $originalText, platformCircumvented: $platformCircumvented, semanticFilterMatched: $semanticFilterMatched, textHarms: $textHarms)';
+    return 'ModerationV2Response(action: $action, blocklistMatched: $blocklistMatched, blocklistsMatched: $blocklistsMatched, imageHarms: $imageHarms, originalText: $originalText, platformCircumvented: $platformCircumvented, semanticFilterMatched: $semanticFilterMatched, textHarms: $textHarms)';
   }
 }
 
@@ -76,6 +80,7 @@ abstract mixin class $ModerationV2ResponseCopyWith<$Res> {
   $Res call(
       {String action,
       String? blocklistMatched,
+      List<String>? blocklistsMatched,
       List<String>? imageHarms,
       String originalText,
       bool? platformCircumvented,
@@ -98,6 +103,7 @@ class _$ModerationV2ResponseCopyWithImpl<$Res>
   $Res call({
     Object? action = null,
     Object? blocklistMatched = freezed,
+    Object? blocklistsMatched = freezed,
     Object? imageHarms = freezed,
     Object? originalText = null,
     Object? platformCircumvented = freezed,
@@ -113,6 +119,10 @@ class _$ModerationV2ResponseCopyWithImpl<$Res>
           ? _self.blocklistMatched
           : blocklistMatched // ignore: cast_nullable_to_non_nullable
               as String?,
+      blocklistsMatched: freezed == blocklistsMatched
+          ? _self.blocklistsMatched
+          : blocklistsMatched // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       imageHarms: freezed == imageHarms
           ? _self.imageHarms
           : imageHarms // ignore: cast_nullable_to_non_nullable

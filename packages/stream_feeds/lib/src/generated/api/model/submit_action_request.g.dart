@@ -14,57 +14,70 @@ SubmitActionRequest _$SubmitActionRequestFromJson(Map<String, dynamic> json) =>
       appealId: json['appeal_id'] as String?,
       ban: json['ban'] == null
           ? null
-          : BanActionRequest.fromJson(json['ban'] as Map<String, dynamic>),
+          : BanActionRequestPayload.fromJson(
+              json['ban'] as Map<String, dynamic>),
       block: json['block'] == null
           ? null
-          : BlockActionRequest.fromJson(json['block'] as Map<String, dynamic>),
+          : BlockActionRequestPayload.fromJson(
+              json['block'] as Map<String, dynamic>),
+      bypass: json['bypass'] == null
+          ? null
+          : BypassActionRequest.fromJson(
+              json['bypass'] as Map<String, dynamic>),
       custom: json['custom'] == null
           ? null
-          : CustomActionRequest.fromJson(
+          : CustomActionRequestPayload.fromJson(
               json['custom'] as Map<String, dynamic>),
       deleteActivity: json['delete_activity'] == null
           ? null
-          : DeleteActivityRequest.fromJson(
+          : DeleteActivityRequestPayload.fromJson(
               json['delete_activity'] as Map<String, dynamic>),
       deleteComment: json['delete_comment'] == null
           ? null
-          : DeleteCommentRequest.fromJson(
+          : DeleteCommentRequestPayload.fromJson(
               json['delete_comment'] as Map<String, dynamic>),
       deleteMessage: json['delete_message'] == null
           ? null
-          : DeleteMessageRequest.fromJson(
+          : DeleteMessageRequestPayload.fromJson(
               json['delete_message'] as Map<String, dynamic>),
       deleteReaction: json['delete_reaction'] == null
           ? null
-          : DeleteReactionRequest.fromJson(
+          : DeleteReactionRequestPayload.fromJson(
               json['delete_reaction'] as Map<String, dynamic>),
       deleteUser: json['delete_user'] == null
           ? null
-          : DeleteUserRequest.fromJson(
+          : DeleteUserRequestPayload.fromJson(
               json['delete_user'] as Map<String, dynamic>),
+      escalate: json['escalate'] == null
+          ? null
+          : EscalatePayload.fromJson(json['escalate'] as Map<String, dynamic>),
+      flag: json['flag'] == null
+          ? null
+          : FlagRequest.fromJson(json['flag'] as Map<String, dynamic>),
       itemId: json['item_id'] as String?,
       markReviewed: json['mark_reviewed'] == null
           ? null
-          : MarkReviewedRequest.fromJson(
+          : MarkReviewedRequestPayload.fromJson(
               json['mark_reviewed'] as Map<String, dynamic>),
       rejectAppeal: json['reject_appeal'] == null
           ? null
-          : RejectAppealRequest.fromJson(
+          : RejectAppealRequestPayload.fromJson(
               json['reject_appeal'] as Map<String, dynamic>),
       restore: json['restore'] == null
           ? null
-          : RestoreActionRequest.fromJson(
+          : RestoreActionRequestPayload.fromJson(
               json['restore'] as Map<String, dynamic>),
       shadowBlock: json['shadow_block'] == null
           ? null
-          : ShadowBlockActionRequest.fromJson(
+          : ShadowBlockActionRequestPayload.fromJson(
               json['shadow_block'] as Map<String, dynamic>),
       unban: json['unban'] == null
           ? null
-          : UnbanActionRequest.fromJson(json['unban'] as Map<String, dynamic>),
+          : UnbanActionRequestPayload.fromJson(
+              json['unban'] as Map<String, dynamic>),
       unblock: json['unblock'] == null
           ? null
-          : UnblockActionRequest.fromJson(
+          : UnblockActionRequestPayload.fromJson(
               json['unblock'] as Map<String, dynamic>),
     );
 
@@ -76,12 +89,15 @@ Map<String, dynamic> _$SubmitActionRequestToJson(
       'appeal_id': instance.appealId,
       'ban': instance.ban?.toJson(),
       'block': instance.block?.toJson(),
+      'bypass': instance.bypass?.toJson(),
       'custom': instance.custom?.toJson(),
       'delete_activity': instance.deleteActivity?.toJson(),
       'delete_comment': instance.deleteComment?.toJson(),
       'delete_message': instance.deleteMessage?.toJson(),
       'delete_reaction': instance.deleteReaction?.toJson(),
       'delete_user': instance.deleteUser?.toJson(),
+      'escalate': instance.escalate?.toJson(),
+      'flag': instance.flag?.toJson(),
       'item_id': instance.itemId,
       'mark_reviewed': instance.markReviewed?.toJson(),
       'reject_appeal': instance.rejectAppeal?.toJson(),
@@ -94,13 +110,17 @@ Map<String, dynamic> _$SubmitActionRequestToJson(
 const _$SubmitActionRequestActionTypeEnumMap = {
   SubmitActionRequestActionType.ban: 'ban',
   SubmitActionRequestActionType.block: 'block',
+  SubmitActionRequestActionType.bypass: 'bypass',
   SubmitActionRequestActionType.custom: 'custom',
+  SubmitActionRequestActionType.deEscalate: 'de_escalate',
   SubmitActionRequestActionType.deleteActivity: 'delete_activity',
   SubmitActionRequestActionType.deleteComment: 'delete_comment',
   SubmitActionRequestActionType.deleteMessage: 'delete_message',
   SubmitActionRequestActionType.deleteReaction: 'delete_reaction',
   SubmitActionRequestActionType.deleteUser: 'delete_user',
   SubmitActionRequestActionType.endCall: 'end_call',
+  SubmitActionRequestActionType.escalate: 'escalate',
+  SubmitActionRequestActionType.flag: 'flag',
   SubmitActionRequestActionType.kickUser: 'kick_user',
   SubmitActionRequestActionType.markReviewed: 'mark_reviewed',
   SubmitActionRequestActionType.rejectAppeal: 'reject_appeal',

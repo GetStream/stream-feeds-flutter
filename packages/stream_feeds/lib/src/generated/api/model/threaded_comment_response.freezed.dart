@@ -16,12 +16,14 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ThreadedCommentResponse {
   List<Attachment>? get attachments;
+  int get bookmarkCount;
   double get confidenceScore;
   double? get controversyScore;
   DateTime get createdAt;
   Map<String, Object?>? get custom;
   DateTime? get deletedAt;
   int get downvoteCount;
+  DateTime? get editedAt;
   String get id;
   List<FeedsReactionResponse>? get latestReactions;
   List<UserResponse> get mentionedUsers;
@@ -32,11 +34,11 @@ mixin _$ThreadedCommentResponse {
   List<FeedsReactionResponse> get ownReactions;
   String? get parentId;
   int get reactionCount;
-  Map<String, ReactionGroupResponse>? get reactionGroups;
+  Map<String, FeedsReactionGroupResponse>? get reactionGroups;
   List<ThreadedCommentResponse>? get replies;
   int get replyCount;
   int get score;
-  String get status;
+  ThreadedCommentResponseStatus get status;
   String? get text;
   DateTime get updatedAt;
   int get upvoteCount;
@@ -57,6 +59,8 @@ mixin _$ThreadedCommentResponse {
             other is ThreadedCommentResponse &&
             const DeepCollectionEquality()
                 .equals(other.attachments, attachments) &&
+            (identical(other.bookmarkCount, bookmarkCount) ||
+                other.bookmarkCount == bookmarkCount) &&
             (identical(other.confidenceScore, confidenceScore) ||
                 other.confidenceScore == confidenceScore) &&
             (identical(other.controversyScore, controversyScore) ||
@@ -68,6 +72,8 @@ mixin _$ThreadedCommentResponse {
                 other.deletedAt == deletedAt) &&
             (identical(other.downvoteCount, downvoteCount) ||
                 other.downvoteCount == downvoteCount) &&
+            (identical(other.editedAt, editedAt) ||
+                other.editedAt == editedAt) &&
             (identical(other.id, id) || other.id == id) &&
             const DeepCollectionEquality()
                 .equals(other.latestReactions, latestReactions) &&
@@ -105,12 +111,14 @@ mixin _$ThreadedCommentResponse {
   int get hashCode => Object.hashAll([
         runtimeType,
         const DeepCollectionEquality().hash(attachments),
+        bookmarkCount,
         confidenceScore,
         controversyScore,
         createdAt,
         const DeepCollectionEquality().hash(custom),
         deletedAt,
         downvoteCount,
+        editedAt,
         id,
         const DeepCollectionEquality().hash(latestReactions),
         const DeepCollectionEquality().hash(mentionedUsers),
@@ -134,7 +142,7 @@ mixin _$ThreadedCommentResponse {
 
   @override
   String toString() {
-    return 'ThreadedCommentResponse(attachments: $attachments, confidenceScore: $confidenceScore, controversyScore: $controversyScore, createdAt: $createdAt, custom: $custom, deletedAt: $deletedAt, downvoteCount: $downvoteCount, id: $id, latestReactions: $latestReactions, mentionedUsers: $mentionedUsers, meta: $meta, moderation: $moderation, objectId: $objectId, objectType: $objectType, ownReactions: $ownReactions, parentId: $parentId, reactionCount: $reactionCount, reactionGroups: $reactionGroups, replies: $replies, replyCount: $replyCount, score: $score, status: $status, text: $text, updatedAt: $updatedAt, upvoteCount: $upvoteCount, user: $user)';
+    return 'ThreadedCommentResponse(attachments: $attachments, bookmarkCount: $bookmarkCount, confidenceScore: $confidenceScore, controversyScore: $controversyScore, createdAt: $createdAt, custom: $custom, deletedAt: $deletedAt, downvoteCount: $downvoteCount, editedAt: $editedAt, id: $id, latestReactions: $latestReactions, mentionedUsers: $mentionedUsers, meta: $meta, moderation: $moderation, objectId: $objectId, objectType: $objectType, ownReactions: $ownReactions, parentId: $parentId, reactionCount: $reactionCount, reactionGroups: $reactionGroups, replies: $replies, replyCount: $replyCount, score: $score, status: $status, text: $text, updatedAt: $updatedAt, upvoteCount: $upvoteCount, user: $user)';
   }
 }
 
@@ -146,12 +154,14 @@ abstract mixin class $ThreadedCommentResponseCopyWith<$Res> {
   @useResult
   $Res call(
       {List<Attachment>? attachments,
+      int bookmarkCount,
       double confidenceScore,
       double? controversyScore,
       DateTime createdAt,
       Map<String, Object?>? custom,
       DateTime? deletedAt,
       int downvoteCount,
+      DateTime? editedAt,
       String id,
       List<FeedsReactionResponse>? latestReactions,
       List<UserResponse> mentionedUsers,
@@ -162,11 +172,11 @@ abstract mixin class $ThreadedCommentResponseCopyWith<$Res> {
       List<FeedsReactionResponse> ownReactions,
       String? parentId,
       int reactionCount,
-      Map<String, ReactionGroupResponse>? reactionGroups,
+      Map<String, FeedsReactionGroupResponse>? reactionGroups,
       List<ThreadedCommentResponse>? replies,
       int replyCount,
       int score,
-      String status,
+      ThreadedCommentResponseStatus status,
       String? text,
       DateTime updatedAt,
       int upvoteCount,
@@ -187,12 +197,14 @@ class _$ThreadedCommentResponseCopyWithImpl<$Res>
   @override
   $Res call({
     Object? attachments = freezed,
+    Object? bookmarkCount = null,
     Object? confidenceScore = null,
     Object? controversyScore = freezed,
     Object? createdAt = null,
     Object? custom = freezed,
     Object? deletedAt = freezed,
     Object? downvoteCount = null,
+    Object? editedAt = freezed,
     Object? id = null,
     Object? latestReactions = freezed,
     Object? mentionedUsers = null,
@@ -218,6 +230,10 @@ class _$ThreadedCommentResponseCopyWithImpl<$Res>
           ? _self.attachments
           : attachments // ignore: cast_nullable_to_non_nullable
               as List<Attachment>?,
+      bookmarkCount: null == bookmarkCount
+          ? _self.bookmarkCount
+          : bookmarkCount // ignore: cast_nullable_to_non_nullable
+              as int,
       confidenceScore: null == confidenceScore
           ? _self.confidenceScore
           : confidenceScore // ignore: cast_nullable_to_non_nullable
@@ -242,6 +258,10 @@ class _$ThreadedCommentResponseCopyWithImpl<$Res>
           ? _self.downvoteCount
           : downvoteCount // ignore: cast_nullable_to_non_nullable
               as int,
+      editedAt: freezed == editedAt
+          ? _self.editedAt
+          : editedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       id: null == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -285,7 +305,7 @@ class _$ThreadedCommentResponseCopyWithImpl<$Res>
       reactionGroups: freezed == reactionGroups
           ? _self.reactionGroups
           : reactionGroups // ignore: cast_nullable_to_non_nullable
-              as Map<String, ReactionGroupResponse>?,
+              as Map<String, FeedsReactionGroupResponse>?,
       replies: freezed == replies
           ? _self.replies
           : replies // ignore: cast_nullable_to_non_nullable
@@ -301,7 +321,7 @@ class _$ThreadedCommentResponseCopyWithImpl<$Res>
       status: null == status
           ? _self.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String,
+              as ThreadedCommentResponseStatus,
       text: freezed == text
           ? _self.text
           : text // ignore: cast_nullable_to_non_nullable

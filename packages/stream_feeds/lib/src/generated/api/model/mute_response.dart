@@ -28,13 +28,13 @@ class MuteResponse with _$MuteResponse {
   final String duration;
 
   @override
-  final List<UserMute>? mutes;
+  final List<UserMuteResponse>? mutes;
 
   @override
   final List<String>? nonExistingUsers;
 
   @override
-  final OwnUser? ownUser;
+  final OwnUserResponse? ownUser;
 
   Map<String, dynamic> toJson() => _$MuteResponseToJson(this);
 

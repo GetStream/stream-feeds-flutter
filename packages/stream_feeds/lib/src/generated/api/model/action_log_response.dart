@@ -23,6 +23,7 @@ class ActionLogResponse with _$ActionLogResponse {
     required this.custom,
     required this.id,
     required this.reason,
+    required this.reporterType,
     this.reviewQueueItem,
     this.targetUser,
     required this.targetUserId,
@@ -46,6 +47,9 @@ class ActionLogResponse with _$ActionLogResponse {
 
   @override
   final String reason;
+
+  @override
+  final String reporterType;
 
   @override
   final ReviewQueueItemResponse? reviewQueueItem;

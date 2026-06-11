@@ -15,6 +15,7 @@ GetCommentsResponse _$GetCommentsResponseFromJson(Map<String, dynamic> json) =>
       duration: json['duration'] as String,
       next: json['next'] as String?,
       prev: json['prev'] as String?,
+      sort: json['sort'] as String,
     );
 
 Map<String, dynamic> _$GetCommentsResponseToJson(
@@ -24,4 +25,5 @@ Map<String, dynamic> _$GetCommentsResponseToJson(
       'duration': instance.duration,
       'next': instance.next,
       'prev': instance.prev,
+      'sort': instance.sort,
     };

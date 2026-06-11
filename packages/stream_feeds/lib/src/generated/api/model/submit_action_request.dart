@@ -19,8 +19,12 @@ enum SubmitActionRequestActionType {
   ban,
   @JsonValue('block')
   block,
+  @JsonValue('bypass')
+  bypass,
   @JsonValue('custom')
   custom,
+  @JsonValue('de_escalate')
+  deEscalate,
   @JsonValue('delete_activity')
   deleteActivity,
   @JsonValue('delete_comment')
@@ -33,6 +37,10 @@ enum SubmitActionRequestActionType {
   deleteUser,
   @JsonValue('end_call')
   endCall,
+  @JsonValue('escalate')
+  escalate,
+  @JsonValue('flag')
+  flag,
   @JsonValue('kick_user')
   kickUser,
   @JsonValue('mark_reviewed')
@@ -62,12 +70,15 @@ class SubmitActionRequest with _$SubmitActionRequest {
     this.appealId,
     this.ban,
     this.block,
+    this.bypass,
     this.custom,
     this.deleteActivity,
     this.deleteComment,
     this.deleteMessage,
     this.deleteReaction,
     this.deleteUser,
+    this.escalate,
+    this.flag,
     this.itemId,
     this.markReviewed,
     this.rejectAppeal,
@@ -85,49 +96,58 @@ class SubmitActionRequest with _$SubmitActionRequest {
   final String? appealId;
 
   @override
-  final BanActionRequest? ban;
+  final BanActionRequestPayload? ban;
 
   @override
-  final BlockActionRequest? block;
+  final BlockActionRequestPayload? block;
 
   @override
-  final CustomActionRequest? custom;
+  final BypassActionRequest? bypass;
 
   @override
-  final DeleteActivityRequest? deleteActivity;
+  final CustomActionRequestPayload? custom;
 
   @override
-  final DeleteCommentRequest? deleteComment;
+  final DeleteActivityRequestPayload? deleteActivity;
 
   @override
-  final DeleteMessageRequest? deleteMessage;
+  final DeleteCommentRequestPayload? deleteComment;
 
   @override
-  final DeleteReactionRequest? deleteReaction;
+  final DeleteMessageRequestPayload? deleteMessage;
 
   @override
-  final DeleteUserRequest? deleteUser;
+  final DeleteReactionRequestPayload? deleteReaction;
+
+  @override
+  final DeleteUserRequestPayload? deleteUser;
+
+  @override
+  final EscalatePayload? escalate;
+
+  @override
+  final FlagRequest? flag;
 
   @override
   final String? itemId;
 
   @override
-  final MarkReviewedRequest? markReviewed;
+  final MarkReviewedRequestPayload? markReviewed;
 
   @override
-  final RejectAppealRequest? rejectAppeal;
+  final RejectAppealRequestPayload? rejectAppeal;
 
   @override
-  final RestoreActionRequest? restore;
+  final RestoreActionRequestPayload? restore;
 
   @override
-  final ShadowBlockActionRequest? shadowBlock;
+  final ShadowBlockActionRequestPayload? shadowBlock;
 
   @override
-  final UnbanActionRequest? unban;
+  final UnbanActionRequestPayload? unban;
 
   @override
-  final UnblockActionRequest? unblock;
+  final UnblockActionRequestPayload? unblock;
 
   Map<String, dynamic> toJson() => _$SubmitActionRequestToJson(this);
 

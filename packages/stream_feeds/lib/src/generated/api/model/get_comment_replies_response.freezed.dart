@@ -19,6 +19,7 @@ mixin _$GetCommentRepliesResponse {
   String get duration;
   String? get next;
   String? get prev;
+  String get sort;
 
   /// Create a copy of GetCommentRepliesResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -37,16 +38,22 @@ mixin _$GetCommentRepliesResponse {
             (identical(other.duration, duration) ||
                 other.duration == duration) &&
             (identical(other.next, next) || other.next == next) &&
-            (identical(other.prev, prev) || other.prev == prev));
+            (identical(other.prev, prev) || other.prev == prev) &&
+            (identical(other.sort, sort) || other.sort == sort));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(comments), duration, next, prev);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(comments),
+      duration,
+      next,
+      prev,
+      sort);
 
   @override
   String toString() {
-    return 'GetCommentRepliesResponse(comments: $comments, duration: $duration, next: $next, prev: $prev)';
+    return 'GetCommentRepliesResponse(comments: $comments, duration: $duration, next: $next, prev: $prev, sort: $sort)';
   }
 }
 
@@ -60,7 +67,8 @@ abstract mixin class $GetCommentRepliesResponseCopyWith<$Res> {
       {List<ThreadedCommentResponse> comments,
       String duration,
       String? next,
-      String? prev});
+      String? prev,
+      String sort});
 }
 
 /// @nodoc
@@ -80,6 +88,7 @@ class _$GetCommentRepliesResponseCopyWithImpl<$Res>
     Object? duration = null,
     Object? next = freezed,
     Object? prev = freezed,
+    Object? sort = null,
   }) {
     return _then(GetCommentRepliesResponse(
       comments: null == comments
@@ -98,6 +107,10 @@ class _$GetCommentRepliesResponseCopyWithImpl<$Res>
           ? _self.prev
           : prev // ignore: cast_nullable_to_non_nullable
               as String?,
+      sort: null == sort
+          ? _self.sort
+          : sort // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }

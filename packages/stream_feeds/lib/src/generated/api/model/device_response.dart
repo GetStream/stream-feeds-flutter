@@ -21,6 +21,7 @@ class DeviceResponse with _$DeviceResponse {
     required this.createdAt,
     this.disabled,
     this.disabledReason,
+    this.hardwareId,
     required this.id,
     required this.pushProvider,
     this.pushProviderName,
@@ -37,6 +38,9 @@ class DeviceResponse with _$DeviceResponse {
 
   @override
   final String? disabledReason;
+
+  @override
+  final String? hardwareId;
 
   @override
   final String id;

@@ -10,20 +10,12 @@ SortParamRequest _$SortParamRequestFromJson(Map<String, dynamic> json) =>
     SortParamRequest(
       direction: (json['direction'] as num?)?.toInt(),
       field: json['field'] as String?,
-      type: $enumDecodeNullable(_$SortParamRequestTypeEnumMap, json['type'],
-          unknownValue: SortParamRequestType.unknown),
+      type: json['type'] as String?,
     );
 
 Map<String, dynamic> _$SortParamRequestToJson(SortParamRequest instance) =>
     <String, dynamic>{
       'direction': instance.direction,
       'field': instance.field,
-      'type': _$SortParamRequestTypeEnumMap[instance.type],
+      'type': instance.type,
     };
-
-const _$SortParamRequestTypeEnumMap = {
-  SortParamRequestType.boolean: 'boolean',
-  SortParamRequestType.empty: '',
-  SortParamRequestType.number: 'number',
-  SortParamRequestType.unknown: '_unknown',
-};

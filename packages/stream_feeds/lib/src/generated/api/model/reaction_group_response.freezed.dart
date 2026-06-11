@@ -18,6 +18,7 @@ mixin _$ReactionGroupResponse {
   int get count;
   DateTime get firstReactionAt;
   DateTime get lastReactionAt;
+  List<ReactionGroupUserResponse> get latestReactionsBy;
 
   /// Create a copy of ReactionGroupResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -36,16 +37,18 @@ mixin _$ReactionGroupResponse {
             (identical(other.firstReactionAt, firstReactionAt) ||
                 other.firstReactionAt == firstReactionAt) &&
             (identical(other.lastReactionAt, lastReactionAt) ||
-                other.lastReactionAt == lastReactionAt));
+                other.lastReactionAt == lastReactionAt) &&
+            const DeepCollectionEquality()
+                .equals(other.latestReactionsBy, latestReactionsBy));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, count, firstReactionAt, lastReactionAt);
+  int get hashCode => Object.hash(runtimeType, count, firstReactionAt,
+      lastReactionAt, const DeepCollectionEquality().hash(latestReactionsBy));
 
   @override
   String toString() {
-    return 'ReactionGroupResponse(count: $count, firstReactionAt: $firstReactionAt, lastReactionAt: $lastReactionAt)';
+    return 'ReactionGroupResponse(count: $count, firstReactionAt: $firstReactionAt, lastReactionAt: $lastReactionAt, latestReactionsBy: $latestReactionsBy)';
   }
 }
 
@@ -55,7 +58,11 @@ abstract mixin class $ReactionGroupResponseCopyWith<$Res> {
           $Res Function(ReactionGroupResponse) _then) =
       _$ReactionGroupResponseCopyWithImpl;
   @useResult
-  $Res call({int count, DateTime firstReactionAt, DateTime lastReactionAt});
+  $Res call(
+      {int count,
+      DateTime firstReactionAt,
+      DateTime lastReactionAt,
+      List<ReactionGroupUserResponse> latestReactionsBy});
 }
 
 /// @nodoc
@@ -74,6 +81,7 @@ class _$ReactionGroupResponseCopyWithImpl<$Res>
     Object? count = null,
     Object? firstReactionAt = null,
     Object? lastReactionAt = null,
+    Object? latestReactionsBy = null,
   }) {
     return _then(ReactionGroupResponse(
       count: null == count
@@ -88,6 +96,10 @@ class _$ReactionGroupResponseCopyWithImpl<$Res>
           ? _self.lastReactionAt
           : lastReactionAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      latestReactionsBy: null == latestReactionsBy
+          ? _self.latestReactionsBy
+          : latestReactionsBy // ignore: cast_nullable_to_non_nullable
+              as List<ReactionGroupUserResponse>,
     ));
   }
 }

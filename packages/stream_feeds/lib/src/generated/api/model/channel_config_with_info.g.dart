@@ -31,6 +31,10 @@ ChannelConfigWithInfo _$ChannelConfigWithInfoFromJson(
       blocklists: (json['blocklists'] as List<dynamic>?)
           ?.map((e) => BlockListOptions.fromJson(e as Map<String, dynamic>))
           .toList(),
+      chatPreferences: json['chat_preferences'] == null
+          ? null
+          : ChatPreferences.fromJson(
+              json['chat_preferences'] as Map<String, dynamic>),
       commands: (json['commands'] as List<dynamic>)
           .map((e) => Command.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -51,6 +55,9 @@ ChannelConfigWithInfo _$ChannelConfigWithInfoFromJson(
       partitionSize: (json['partition_size'] as num?)?.toInt(),
       partitionTtl: json['partition_ttl'] as String?,
       polls: json['polls'] as bool,
+      pushLevel: $enumDecodeNullable(
+          _$ChannelConfigWithInfoPushLevelEnumMap, json['push_level'],
+          unknownValue: ChannelConfigWithInfoPushLevel.unknown),
       pushNotifications: json['push_notifications'] as bool,
       quotes: json['quotes'] as bool,
       reactions: json['reactions'] as bool,
@@ -81,6 +88,7 @@ Map<String, dynamic> _$ChannelConfigWithInfoToJson(
       'blocklist_behavior': _$ChannelConfigWithInfoBlocklistBehaviorEnumMap[
           instance.blocklistBehavior],
       'blocklists': instance.blocklists?.map((e) => e.toJson()).toList(),
+      'chat_preferences': instance.chatPreferences?.toJson(),
       'commands': instance.commands.map((e) => e.toJson()).toList(),
       'connect_events': instance.connectEvents,
       'count_messages': instance.countMessages,
@@ -95,6 +103,7 @@ Map<String, dynamic> _$ChannelConfigWithInfoToJson(
       'partition_size': instance.partitionSize,
       'partition_ttl': instance.partitionTtl,
       'polls': instance.polls,
+      'push_level': _$ChannelConfigWithInfoPushLevelEnumMap[instance.pushLevel],
       'push_notifications': instance.pushNotifications,
       'quotes': instance.quotes,
       'reactions': instance.reactions,
@@ -131,4 +140,13 @@ const _$ChannelConfigWithInfoBlocklistBehaviorEnumMap = {
   ChannelConfigWithInfoBlocklistBehavior.flag: 'flag',
   ChannelConfigWithInfoBlocklistBehavior.shadowBlock: 'shadow_block',
   ChannelConfigWithInfoBlocklistBehavior.unknown: '_unknown',
+};
+
+const _$ChannelConfigWithInfoPushLevelEnumMap = {
+  ChannelConfigWithInfoPushLevel.all: 'all',
+  ChannelConfigWithInfoPushLevel.allMentions: 'all_mentions',
+  ChannelConfigWithInfoPushLevel.directMentions: 'direct_mentions',
+  ChannelConfigWithInfoPushLevel.mentions: 'mentions',
+  ChannelConfigWithInfoPushLevel.none: 'none',
+  ChannelConfigWithInfoPushLevel.unknown: '_unknown',
 };

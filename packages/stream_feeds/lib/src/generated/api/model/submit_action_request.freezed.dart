@@ -17,21 +17,24 @@ T _$identity<T>(T value) => value;
 mixin _$SubmitActionRequest {
   SubmitActionRequestActionType get actionType;
   String? get appealId;
-  BanActionRequest? get ban;
-  BlockActionRequest? get block;
-  CustomActionRequest? get custom;
-  DeleteActivityRequest? get deleteActivity;
-  DeleteCommentRequest? get deleteComment;
-  DeleteMessageRequest? get deleteMessage;
-  DeleteReactionRequest? get deleteReaction;
-  DeleteUserRequest? get deleteUser;
+  BanActionRequestPayload? get ban;
+  BlockActionRequestPayload? get block;
+  BypassActionRequest? get bypass;
+  CustomActionRequestPayload? get custom;
+  DeleteActivityRequestPayload? get deleteActivity;
+  DeleteCommentRequestPayload? get deleteComment;
+  DeleteMessageRequestPayload? get deleteMessage;
+  DeleteReactionRequestPayload? get deleteReaction;
+  DeleteUserRequestPayload? get deleteUser;
+  EscalatePayload? get escalate;
+  FlagRequest? get flag;
   String? get itemId;
-  MarkReviewedRequest? get markReviewed;
-  RejectAppealRequest? get rejectAppeal;
-  RestoreActionRequest? get restore;
-  ShadowBlockActionRequest? get shadowBlock;
-  UnbanActionRequest? get unban;
-  UnblockActionRequest? get unblock;
+  MarkReviewedRequestPayload? get markReviewed;
+  RejectAppealRequestPayload? get rejectAppeal;
+  RestoreActionRequestPayload? get restore;
+  ShadowBlockActionRequestPayload? get shadowBlock;
+  UnbanActionRequestPayload? get unban;
+  UnblockActionRequestPayload? get unblock;
 
   /// Create a copy of SubmitActionRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -52,6 +55,7 @@ mixin _$SubmitActionRequest {
                 other.appealId == appealId) &&
             (identical(other.ban, ban) || other.ban == ban) &&
             (identical(other.block, block) || other.block == block) &&
+            (identical(other.bypass, bypass) || other.bypass == bypass) &&
             (identical(other.custom, custom) || other.custom == custom) &&
             (identical(other.deleteActivity, deleteActivity) ||
                 other.deleteActivity == deleteActivity) &&
@@ -63,6 +67,9 @@ mixin _$SubmitActionRequest {
                 other.deleteReaction == deleteReaction) &&
             (identical(other.deleteUser, deleteUser) ||
                 other.deleteUser == deleteUser) &&
+            (identical(other.escalate, escalate) ||
+                other.escalate == escalate) &&
+            (identical(other.flag, flag) || other.flag == flag) &&
             (identical(other.itemId, itemId) || other.itemId == itemId) &&
             (identical(other.markReviewed, markReviewed) ||
                 other.markReviewed == markReviewed) &&
@@ -76,29 +83,33 @@ mixin _$SubmitActionRequest {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      actionType,
-      appealId,
-      ban,
-      block,
-      custom,
-      deleteActivity,
-      deleteComment,
-      deleteMessage,
-      deleteReaction,
-      deleteUser,
-      itemId,
-      markReviewed,
-      rejectAppeal,
-      restore,
-      shadowBlock,
-      unban,
-      unblock);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        actionType,
+        appealId,
+        ban,
+        block,
+        bypass,
+        custom,
+        deleteActivity,
+        deleteComment,
+        deleteMessage,
+        deleteReaction,
+        deleteUser,
+        escalate,
+        flag,
+        itemId,
+        markReviewed,
+        rejectAppeal,
+        restore,
+        shadowBlock,
+        unban,
+        unblock
+      ]);
 
   @override
   String toString() {
-    return 'SubmitActionRequest(actionType: $actionType, appealId: $appealId, ban: $ban, block: $block, custom: $custom, deleteActivity: $deleteActivity, deleteComment: $deleteComment, deleteMessage: $deleteMessage, deleteReaction: $deleteReaction, deleteUser: $deleteUser, itemId: $itemId, markReviewed: $markReviewed, rejectAppeal: $rejectAppeal, restore: $restore, shadowBlock: $shadowBlock, unban: $unban, unblock: $unblock)';
+    return 'SubmitActionRequest(actionType: $actionType, appealId: $appealId, ban: $ban, block: $block, bypass: $bypass, custom: $custom, deleteActivity: $deleteActivity, deleteComment: $deleteComment, deleteMessage: $deleteMessage, deleteReaction: $deleteReaction, deleteUser: $deleteUser, escalate: $escalate, flag: $flag, itemId: $itemId, markReviewed: $markReviewed, rejectAppeal: $rejectAppeal, restore: $restore, shadowBlock: $shadowBlock, unban: $unban, unblock: $unblock)';
   }
 }
 
@@ -111,21 +122,24 @@ abstract mixin class $SubmitActionRequestCopyWith<$Res> {
   $Res call(
       {SubmitActionRequestActionType actionType,
       String? appealId,
-      BanActionRequest? ban,
-      BlockActionRequest? block,
-      CustomActionRequest? custom,
-      DeleteActivityRequest? deleteActivity,
-      DeleteCommentRequest? deleteComment,
-      DeleteMessageRequest? deleteMessage,
-      DeleteReactionRequest? deleteReaction,
-      DeleteUserRequest? deleteUser,
+      BanActionRequestPayload? ban,
+      BlockActionRequestPayload? block,
+      BypassActionRequest? bypass,
+      CustomActionRequestPayload? custom,
+      DeleteActivityRequestPayload? deleteActivity,
+      DeleteCommentRequestPayload? deleteComment,
+      DeleteMessageRequestPayload? deleteMessage,
+      DeleteReactionRequestPayload? deleteReaction,
+      DeleteUserRequestPayload? deleteUser,
+      EscalatePayload? escalate,
+      FlagRequest? flag,
       String? itemId,
-      MarkReviewedRequest? markReviewed,
-      RejectAppealRequest? rejectAppeal,
-      RestoreActionRequest? restore,
-      ShadowBlockActionRequest? shadowBlock,
-      UnbanActionRequest? unban,
-      UnblockActionRequest? unblock});
+      MarkReviewedRequestPayload? markReviewed,
+      RejectAppealRequestPayload? rejectAppeal,
+      RestoreActionRequestPayload? restore,
+      ShadowBlockActionRequestPayload? shadowBlock,
+      UnbanActionRequestPayload? unban,
+      UnblockActionRequestPayload? unblock});
 }
 
 /// @nodoc
@@ -145,12 +159,15 @@ class _$SubmitActionRequestCopyWithImpl<$Res>
     Object? appealId = freezed,
     Object? ban = freezed,
     Object? block = freezed,
+    Object? bypass = freezed,
     Object? custom = freezed,
     Object? deleteActivity = freezed,
     Object? deleteComment = freezed,
     Object? deleteMessage = freezed,
     Object? deleteReaction = freezed,
     Object? deleteUser = freezed,
+    Object? escalate = freezed,
+    Object? flag = freezed,
     Object? itemId = freezed,
     Object? markReviewed = freezed,
     Object? rejectAppeal = freezed,
@@ -171,35 +188,47 @@ class _$SubmitActionRequestCopyWithImpl<$Res>
       ban: freezed == ban
           ? _self.ban
           : ban // ignore: cast_nullable_to_non_nullable
-              as BanActionRequest?,
+              as BanActionRequestPayload?,
       block: freezed == block
           ? _self.block
           : block // ignore: cast_nullable_to_non_nullable
-              as BlockActionRequest?,
+              as BlockActionRequestPayload?,
+      bypass: freezed == bypass
+          ? _self.bypass
+          : bypass // ignore: cast_nullable_to_non_nullable
+              as BypassActionRequest?,
       custom: freezed == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
-              as CustomActionRequest?,
+              as CustomActionRequestPayload?,
       deleteActivity: freezed == deleteActivity
           ? _self.deleteActivity
           : deleteActivity // ignore: cast_nullable_to_non_nullable
-              as DeleteActivityRequest?,
+              as DeleteActivityRequestPayload?,
       deleteComment: freezed == deleteComment
           ? _self.deleteComment
           : deleteComment // ignore: cast_nullable_to_non_nullable
-              as DeleteCommentRequest?,
+              as DeleteCommentRequestPayload?,
       deleteMessage: freezed == deleteMessage
           ? _self.deleteMessage
           : deleteMessage // ignore: cast_nullable_to_non_nullable
-              as DeleteMessageRequest?,
+              as DeleteMessageRequestPayload?,
       deleteReaction: freezed == deleteReaction
           ? _self.deleteReaction
           : deleteReaction // ignore: cast_nullable_to_non_nullable
-              as DeleteReactionRequest?,
+              as DeleteReactionRequestPayload?,
       deleteUser: freezed == deleteUser
           ? _self.deleteUser
           : deleteUser // ignore: cast_nullable_to_non_nullable
-              as DeleteUserRequest?,
+              as DeleteUserRequestPayload?,
+      escalate: freezed == escalate
+          ? _self.escalate
+          : escalate // ignore: cast_nullable_to_non_nullable
+              as EscalatePayload?,
+      flag: freezed == flag
+          ? _self.flag
+          : flag // ignore: cast_nullable_to_non_nullable
+              as FlagRequest?,
       itemId: freezed == itemId
           ? _self.itemId
           : itemId // ignore: cast_nullable_to_non_nullable
@@ -207,27 +236,27 @@ class _$SubmitActionRequestCopyWithImpl<$Res>
       markReviewed: freezed == markReviewed
           ? _self.markReviewed
           : markReviewed // ignore: cast_nullable_to_non_nullable
-              as MarkReviewedRequest?,
+              as MarkReviewedRequestPayload?,
       rejectAppeal: freezed == rejectAppeal
           ? _self.rejectAppeal
           : rejectAppeal // ignore: cast_nullable_to_non_nullable
-              as RejectAppealRequest?,
+              as RejectAppealRequestPayload?,
       restore: freezed == restore
           ? _self.restore
           : restore // ignore: cast_nullable_to_non_nullable
-              as RestoreActionRequest?,
+              as RestoreActionRequestPayload?,
       shadowBlock: freezed == shadowBlock
           ? _self.shadowBlock
           : shadowBlock // ignore: cast_nullable_to_non_nullable
-              as ShadowBlockActionRequest?,
+              as ShadowBlockActionRequestPayload?,
       unban: freezed == unban
           ? _self.unban
           : unban // ignore: cast_nullable_to_non_nullable
-              as UnbanActionRequest?,
+              as UnbanActionRequestPayload?,
       unblock: freezed == unblock
           ? _self.unblock
           : unblock // ignore: cast_nullable_to_non_nullable
-              as UnblockActionRequest?,
+              as UnblockActionRequestPayload?,
     ));
   }
 }

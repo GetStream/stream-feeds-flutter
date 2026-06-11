@@ -17,6 +17,7 @@ T _$identity<T>(T value) => value;
 mixin _$AddCommentReactionResponse {
   CommentResponse get comment;
   String get duration;
+  bool? get notificationCreated;
   FeedsReactionResponse get reaction;
 
   /// Create a copy of AddCommentReactionResponse
@@ -36,16 +37,19 @@ mixin _$AddCommentReactionResponse {
             (identical(other.comment, comment) || other.comment == comment) &&
             (identical(other.duration, duration) ||
                 other.duration == duration) &&
+            (identical(other.notificationCreated, notificationCreated) ||
+                other.notificationCreated == notificationCreated) &&
             (identical(other.reaction, reaction) ||
                 other.reaction == reaction));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, comment, duration, reaction);
+  int get hashCode => Object.hash(
+      runtimeType, comment, duration, notificationCreated, reaction);
 
   @override
   String toString() {
-    return 'AddCommentReactionResponse(comment: $comment, duration: $duration, reaction: $reaction)';
+    return 'AddCommentReactionResponse(comment: $comment, duration: $duration, notificationCreated: $notificationCreated, reaction: $reaction)';
   }
 }
 
@@ -58,6 +62,7 @@ abstract mixin class $AddCommentReactionResponseCopyWith<$Res> {
   $Res call(
       {CommentResponse comment,
       String duration,
+      bool? notificationCreated,
       FeedsReactionResponse reaction});
 }
 
@@ -76,6 +81,7 @@ class _$AddCommentReactionResponseCopyWithImpl<$Res>
   $Res call({
     Object? comment = null,
     Object? duration = null,
+    Object? notificationCreated = freezed,
     Object? reaction = null,
   }) {
     return _then(AddCommentReactionResponse(
@@ -87,6 +93,10 @@ class _$AddCommentReactionResponseCopyWithImpl<$Res>
           ? _self.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as String,
+      notificationCreated: freezed == notificationCreated
+          ? _self.notificationCreated
+          : notificationCreated // ignore: cast_nullable_to_non_nullable
+              as bool?,
       reaction: null == reaction
           ? _self.reaction
           : reaction // ignore: cast_nullable_to_non_nullable

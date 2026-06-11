@@ -13,8 +13,17 @@ QueryReviewQueueResponse _$QueryReviewQueueResponseFromJson(
         (k, e) => MapEntry(
             k,
             (e as List<dynamic>)
-                .map((e) =>
-                    ModerationActionConfig.fromJson(e as Map<String, dynamic>))
+                .map((e) => ModerationActionConfigResponse.fromJson(
+                    e as Map<String, dynamic>))
+                .toList()),
+      ),
+      defaultActionConfig:
+          (json['default_action_config'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(
+            k,
+            (e as List<dynamic>)
+                .map((e) => ModerationActionConfigResponse.fromJson(
+                    e as Map<String, dynamic>))
                 .toList()),
       ),
       duration: json['duration'] as String,
@@ -36,6 +45,8 @@ Map<String, dynamic> _$QueryReviewQueueResponseToJson(
     <String, dynamic>{
       'action_config': instance.actionConfig
           .map((k, e) => MapEntry(k, e.map((e) => e.toJson()).toList())),
+      'default_action_config': instance.defaultActionConfig
+          ?.map((k, e) => MapEntry(k, e.map((e) => e.toJson()).toList())),
       'duration': instance.duration,
       'filter_config': instance.filterConfig?.toJson(),
       'items': instance.items.map((e) => e.toJson()).toList(),

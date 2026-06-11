@@ -15,6 +15,10 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$UpdateActivityPartialRequest {
+  bool? get copyCustomToNotification;
+  bool? get enrichOwnFields;
+  bool? get handleMentionNotifications;
+  bool? get runActivityProcessors;
   Map<String, Object?>? get set;
   List<String>? get unset;
 
@@ -32,6 +36,17 @@ mixin _$UpdateActivityPartialRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is UpdateActivityPartialRequest &&
+            (identical(
+                    other.copyCustomToNotification, copyCustomToNotification) ||
+                other.copyCustomToNotification == copyCustomToNotification) &&
+            (identical(other.enrichOwnFields, enrichOwnFields) ||
+                other.enrichOwnFields == enrichOwnFields) &&
+            (identical(other.handleMentionNotifications,
+                    handleMentionNotifications) ||
+                other.handleMentionNotifications ==
+                    handleMentionNotifications) &&
+            (identical(other.runActivityProcessors, runActivityProcessors) ||
+                other.runActivityProcessors == runActivityProcessors) &&
             const DeepCollectionEquality().equals(other.set, set) &&
             const DeepCollectionEquality().equals(other.unset, unset));
   }
@@ -39,12 +54,16 @@ mixin _$UpdateActivityPartialRequest {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      copyCustomToNotification,
+      enrichOwnFields,
+      handleMentionNotifications,
+      runActivityProcessors,
       const DeepCollectionEquality().hash(set),
       const DeepCollectionEquality().hash(unset));
 
   @override
   String toString() {
-    return 'UpdateActivityPartialRequest(set: $set, unset: $unset)';
+    return 'UpdateActivityPartialRequest(copyCustomToNotification: $copyCustomToNotification, enrichOwnFields: $enrichOwnFields, handleMentionNotifications: $handleMentionNotifications, runActivityProcessors: $runActivityProcessors, set: $set, unset: $unset)';
   }
 }
 
@@ -55,7 +74,13 @@ abstract mixin class $UpdateActivityPartialRequestCopyWith<$Res> {
           $Res Function(UpdateActivityPartialRequest) _then) =
       _$UpdateActivityPartialRequestCopyWithImpl;
   @useResult
-  $Res call({Map<String, Object?>? set, List<String>? unset});
+  $Res call(
+      {bool? copyCustomToNotification,
+      bool? enrichOwnFields,
+      bool? handleMentionNotifications,
+      bool? runActivityProcessors,
+      Map<String, Object?>? set,
+      List<String>? unset});
 }
 
 /// @nodoc
@@ -71,10 +96,30 @@ class _$UpdateActivityPartialRequestCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? copyCustomToNotification = freezed,
+    Object? enrichOwnFields = freezed,
+    Object? handleMentionNotifications = freezed,
+    Object? runActivityProcessors = freezed,
     Object? set = freezed,
     Object? unset = freezed,
   }) {
     return _then(UpdateActivityPartialRequest(
+      copyCustomToNotification: freezed == copyCustomToNotification
+          ? _self.copyCustomToNotification
+          : copyCustomToNotification // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      enrichOwnFields: freezed == enrichOwnFields
+          ? _self.enrichOwnFields
+          : enrichOwnFields // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      handleMentionNotifications: freezed == handleMentionNotifications
+          ? _self.handleMentionNotifications
+          : handleMentionNotifications // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      runActivityProcessors: freezed == runActivityProcessors
+          ? _self.runActivityProcessors
+          : runActivityProcessors // ignore: cast_nullable_to_non_nullable
+              as bool?,
       set: freezed == set
           ? _self.set
           : set // ignore: cast_nullable_to_non_nullable

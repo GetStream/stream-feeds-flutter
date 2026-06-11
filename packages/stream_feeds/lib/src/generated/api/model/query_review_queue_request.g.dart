@@ -9,6 +9,8 @@ part of 'query_review_queue_request.dart';
 QueryReviewQueueRequest _$QueryReviewQueueRequestFromJson(
         Map<String, dynamic> json) =>
     QueryReviewQueueRequest(
+      excludeDefaultActionConfig:
+          json['exclude_default_action_config'] as bool?,
       filter: json['filter'] as Map<String, dynamic>?,
       limit: (json['limit'] as num?)?.toInt(),
       lockCount: (json['lock_count'] as num?)?.toInt(),
@@ -25,6 +27,7 @@ QueryReviewQueueRequest _$QueryReviewQueueRequestFromJson(
 Map<String, dynamic> _$QueryReviewQueueRequestToJson(
         QueryReviewQueueRequest instance) =>
     <String, dynamic>{
+      'exclude_default_action_config': instance.excludeDefaultActionConfig,
       'filter': instance.filter,
       'limit': instance.limit,
       'lock_count': instance.lockCount,

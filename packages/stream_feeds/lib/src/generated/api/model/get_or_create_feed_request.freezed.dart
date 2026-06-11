@@ -21,6 +21,7 @@ mixin _$GetOrCreateFeedRequest {
   Map<String, Object?>? get filter;
   PagerRequest? get followersPagination;
   PagerRequest? get followingPagination;
+  FriendReactionsOptions? get friendReactionsOptions;
   String? get idAround;
   Map<String, double>? get interestWeights;
   int? get limit;
@@ -53,6 +54,8 @@ mixin _$GetOrCreateFeedRequest {
                 other.followersPagination == followersPagination) &&
             (identical(other.followingPagination, followingPagination) ||
                 other.followingPagination == followingPagination) &&
+            (identical(other.friendReactionsOptions, friendReactionsOptions) ||
+                other.friendReactionsOptions == friendReactionsOptions) &&
             (identical(other.idAround, idAround) ||
                 other.idAround == idAround) &&
             const DeepCollectionEquality()
@@ -75,6 +78,7 @@ mixin _$GetOrCreateFeedRequest {
       const DeepCollectionEquality().hash(filter),
       followersPagination,
       followingPagination,
+      friendReactionsOptions,
       idAround,
       const DeepCollectionEquality().hash(interestWeights),
       limit,
@@ -86,7 +90,7 @@ mixin _$GetOrCreateFeedRequest {
 
   @override
   String toString() {
-    return 'GetOrCreateFeedRequest(data: $data, enrichmentOptions: $enrichmentOptions, externalRanking: $externalRanking, filter: $filter, followersPagination: $followersPagination, followingPagination: $followingPagination, idAround: $idAround, interestWeights: $interestWeights, limit: $limit, memberPagination: $memberPagination, next: $next, prev: $prev, view: $view, watch: $watch)';
+    return 'GetOrCreateFeedRequest(data: $data, enrichmentOptions: $enrichmentOptions, externalRanking: $externalRanking, filter: $filter, followersPagination: $followersPagination, followingPagination: $followingPagination, friendReactionsOptions: $friendReactionsOptions, idAround: $idAround, interestWeights: $interestWeights, limit: $limit, memberPagination: $memberPagination, next: $next, prev: $prev, view: $view, watch: $watch)';
   }
 }
 
@@ -103,6 +107,7 @@ abstract mixin class $GetOrCreateFeedRequestCopyWith<$Res> {
       Map<String, Object?>? filter,
       PagerRequest? followersPagination,
       PagerRequest? followingPagination,
+      FriendReactionsOptions? friendReactionsOptions,
       String? idAround,
       Map<String, double>? interestWeights,
       int? limit,
@@ -132,6 +137,7 @@ class _$GetOrCreateFeedRequestCopyWithImpl<$Res>
     Object? filter = freezed,
     Object? followersPagination = freezed,
     Object? followingPagination = freezed,
+    Object? friendReactionsOptions = freezed,
     Object? idAround = freezed,
     Object? interestWeights = freezed,
     Object? limit = freezed,
@@ -166,6 +172,10 @@ class _$GetOrCreateFeedRequestCopyWithImpl<$Res>
           ? _self.followingPagination
           : followingPagination // ignore: cast_nullable_to_non_nullable
               as PagerRequest?,
+      friendReactionsOptions: freezed == friendReactionsOptions
+          ? _self.friendReactionsOptions
+          : friendReactionsOptions // ignore: cast_nullable_to_non_nullable
+              as FriendReactionsOptions?,
       idAround: freezed == idAround
           ? _self.idAround
           : idAround // ignore: cast_nullable_to_non_nullable

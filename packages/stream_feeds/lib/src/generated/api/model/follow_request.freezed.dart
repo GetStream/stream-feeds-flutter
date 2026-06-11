@@ -15,8 +15,11 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$FollowRequest {
+  int? get activityCopyLimit;
+  bool? get copyCustomToNotification;
   bool? get createNotificationActivity;
   Map<String, Object?>? get custom;
+  bool? get enrichOwnFields;
   FollowRequestPushPreference? get pushPreference;
   bool? get skipPush;
   String get source;
@@ -35,11 +38,18 @@ mixin _$FollowRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is FollowRequest &&
+            (identical(other.activityCopyLimit, activityCopyLimit) ||
+                other.activityCopyLimit == activityCopyLimit) &&
+            (identical(
+                    other.copyCustomToNotification, copyCustomToNotification) ||
+                other.copyCustomToNotification == copyCustomToNotification) &&
             (identical(other.createNotificationActivity,
                     createNotificationActivity) ||
                 other.createNotificationActivity ==
                     createNotificationActivity) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
+            (identical(other.enrichOwnFields, enrichOwnFields) ||
+                other.enrichOwnFields == enrichOwnFields) &&
             (identical(other.pushPreference, pushPreference) ||
                 other.pushPreference == pushPreference) &&
             (identical(other.skipPush, skipPush) ||
@@ -51,8 +61,11 @@ mixin _$FollowRequest {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      activityCopyLimit,
+      copyCustomToNotification,
       createNotificationActivity,
       const DeepCollectionEquality().hash(custom),
+      enrichOwnFields,
       pushPreference,
       skipPush,
       source,
@@ -60,7 +73,7 @@ mixin _$FollowRequest {
 
   @override
   String toString() {
-    return 'FollowRequest(createNotificationActivity: $createNotificationActivity, custom: $custom, pushPreference: $pushPreference, skipPush: $skipPush, source: $source, target: $target)';
+    return 'FollowRequest(activityCopyLimit: $activityCopyLimit, copyCustomToNotification: $copyCustomToNotification, createNotificationActivity: $createNotificationActivity, custom: $custom, enrichOwnFields: $enrichOwnFields, pushPreference: $pushPreference, skipPush: $skipPush, source: $source, target: $target)';
   }
 }
 
@@ -71,8 +84,11 @@ abstract mixin class $FollowRequestCopyWith<$Res> {
       _$FollowRequestCopyWithImpl;
   @useResult
   $Res call(
-      {bool? createNotificationActivity,
+      {int? activityCopyLimit,
+      bool? copyCustomToNotification,
+      bool? createNotificationActivity,
       Map<String, Object?>? custom,
+      bool? enrichOwnFields,
       FollowRequestPushPreference? pushPreference,
       bool? skipPush,
       String source,
@@ -92,14 +108,25 @@ class _$FollowRequestCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? activityCopyLimit = freezed,
+    Object? copyCustomToNotification = freezed,
     Object? createNotificationActivity = freezed,
     Object? custom = freezed,
+    Object? enrichOwnFields = freezed,
     Object? pushPreference = freezed,
     Object? skipPush = freezed,
     Object? source = null,
     Object? target = null,
   }) {
     return _then(FollowRequest(
+      activityCopyLimit: freezed == activityCopyLimit
+          ? _self.activityCopyLimit
+          : activityCopyLimit // ignore: cast_nullable_to_non_nullable
+              as int?,
+      copyCustomToNotification: freezed == copyCustomToNotification
+          ? _self.copyCustomToNotification
+          : copyCustomToNotification // ignore: cast_nullable_to_non_nullable
+              as bool?,
       createNotificationActivity: freezed == createNotificationActivity
           ? _self.createNotificationActivity
           : createNotificationActivity // ignore: cast_nullable_to_non_nullable
@@ -108,6 +135,10 @@ class _$FollowRequestCopyWithImpl<$Res>
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
               as Map<String, Object?>?,
+      enrichOwnFields: freezed == enrichOwnFields
+          ? _self.enrichOwnFields
+          : enrichOwnFields // ignore: cast_nullable_to_non_nullable
+              as bool?,
       pushPreference: freezed == pushPreference
           ? _self.pushPreference
           : pushPreference // ignore: cast_nullable_to_non_nullable

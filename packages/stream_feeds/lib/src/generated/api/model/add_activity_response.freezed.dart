@@ -17,6 +17,7 @@ T _$identity<T>(T value) => value;
 mixin _$AddActivityResponse {
   ActivityResponse get activity;
   String get duration;
+  int? get mentionNotificationsCreated;
 
   /// Create a copy of AddActivityResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -34,15 +35,20 @@ mixin _$AddActivityResponse {
             (identical(other.activity, activity) ||
                 other.activity == activity) &&
             (identical(other.duration, duration) ||
-                other.duration == duration));
+                other.duration == duration) &&
+            (identical(other.mentionNotificationsCreated,
+                    mentionNotificationsCreated) ||
+                other.mentionNotificationsCreated ==
+                    mentionNotificationsCreated));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, activity, duration);
+  int get hashCode =>
+      Object.hash(runtimeType, activity, duration, mentionNotificationsCreated);
 
   @override
   String toString() {
-    return 'AddActivityResponse(activity: $activity, duration: $duration)';
+    return 'AddActivityResponse(activity: $activity, duration: $duration, mentionNotificationsCreated: $mentionNotificationsCreated)';
   }
 }
 
@@ -52,7 +58,10 @@ abstract mixin class $AddActivityResponseCopyWith<$Res> {
           AddActivityResponse value, $Res Function(AddActivityResponse) _then) =
       _$AddActivityResponseCopyWithImpl;
   @useResult
-  $Res call({ActivityResponse activity, String duration});
+  $Res call(
+      {ActivityResponse activity,
+      String duration,
+      int? mentionNotificationsCreated});
 }
 
 /// @nodoc
@@ -70,6 +79,7 @@ class _$AddActivityResponseCopyWithImpl<$Res>
   $Res call({
     Object? activity = null,
     Object? duration = null,
+    Object? mentionNotificationsCreated = freezed,
   }) {
     return _then(AddActivityResponse(
       activity: null == activity
@@ -80,6 +90,10 @@ class _$AddActivityResponseCopyWithImpl<$Res>
           ? _self.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as String,
+      mentionNotificationsCreated: freezed == mentionNotificationsCreated
+          ? _self.mentionNotificationsCreated
+          : mentionNotificationsCreated // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }

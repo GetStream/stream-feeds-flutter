@@ -13,6 +13,8 @@ UpsertActivitiesResponse _$UpsertActivitiesResponseFromJson(
           .map((e) => ActivityResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
       duration: json['duration'] as String,
+      mentionNotificationsCreated:
+          (json['mention_notifications_created'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$UpsertActivitiesResponseToJson(
@@ -20,4 +22,5 @@ Map<String, dynamic> _$UpsertActivitiesResponseToJson(
     <String, dynamic>{
       'activities': instance.activities.map((e) => e.toJson()).toList(),
       'duration': instance.duration,
+      'mention_notifications_created': instance.mentionNotificationsCreated,
     };

@@ -20,6 +20,7 @@ class AddReactionResponse with _$AddReactionResponse {
   const AddReactionResponse({
     required this.activity,
     required this.duration,
+    this.notificationCreated,
     required this.reaction,
   });
 
@@ -28,6 +29,9 @@ class AddReactionResponse with _$AddReactionResponse {
 
   @override
   final String duration;
+
+  @override
+  final bool? notificationCreated;
 
   @override
   final FeedsReactionResponse reaction;

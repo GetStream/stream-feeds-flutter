@@ -16,6 +16,7 @@ ActionLogResponse _$ActionLogResponseFromJson(Map<String, dynamic> json) =>
       custom: json['custom'] as Map<String, dynamic>,
       id: json['id'] as String,
       reason: json['reason'] as String,
+      reporterType: json['reporter_type'] as String,
       reviewQueueItem: json['review_queue_item'] == null
           ? null
           : ReviewQueueItemResponse.fromJson(
@@ -38,6 +39,7 @@ Map<String, dynamic> _$ActionLogResponseToJson(ActionLogResponse instance) =>
       'custom': instance.custom,
       'id': instance.id,
       'reason': instance.reason,
+      'reporter_type': instance.reporterType,
       'review_queue_item': instance.reviewQueueItem?.toJson(),
       'target_user': instance.targetUser?.toJson(),
       'target_user_id': instance.targetUserId,

@@ -19,18 +19,36 @@ enum RuleBuilderActionType {
   banUser,
   @JsonValue('block_content')
   blockContent,
+  @JsonValue('blur')
+  blur,
   @JsonValue('bounce_content')
   bounceContent,
   @JsonValue('bounce_flag_content')
   bounceFlagContent,
   @JsonValue('bounce_remove_content')
   bounceRemoveContent,
+  @JsonValue('call_blur')
+  callBlur,
+  @JsonValue('call_warning')
+  callWarning,
+  @JsonValue('end_call')
+  endCall,
   @JsonValue('flag_content')
   flagContent,
   @JsonValue('flag_user')
   flagUser,
+  @JsonValue('kick_user')
+  kickUser,
+  @JsonValue('mute_audio')
+  muteAudio,
+  @JsonValue('mute_video')
+  muteVideo,
   @JsonValue('shadow_content')
   shadowContent,
+  @JsonValue('warning')
+  warning,
+  @JsonValue('webhook_only')
+  webhookOnly,
   @JsonValue('_unknown')
   unknown;
 }
@@ -41,19 +59,27 @@ enum RuleBuilderActionType {
 class RuleBuilderAction with _$RuleBuilderAction {
   const RuleBuilderAction({
     this.banOptions,
+    this.callOptions,
     this.flagUserOptions,
-    required this.type,
+    this.skipInbox,
+    this.type,
   });
 
   @override
   final BanOptions? banOptions;
 
   @override
+  final CallActionOptions? callOptions;
+
+  @override
   final FlagUserOptions? flagUserOptions;
 
   @override
+  final bool? skipInbox;
+
+  @override
   @JsonKey(unknownEnumValue: RuleBuilderActionType.unknown)
-  final RuleBuilderActionType type;
+  final RuleBuilderActionType? type;
 
   Map<String, dynamic> toJson() => _$RuleBuilderActionToJson(this);
 

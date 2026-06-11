@@ -28,9 +28,10 @@ mixin _$FeedSuggestionResponse {
   int get followingCount;
   String get groupId;
   String get id;
+  Location? get location;
   int get memberCount;
   String get name;
-  List<FeedOwnCapability>? get ownCapabilities;
+  List<FeedSuggestionResponseOwnCapabilities>? get ownCapabilities;
   List<FollowResponse>? get ownFollowings;
   List<FollowResponse>? get ownFollows;
   FeedMemberResponse? get ownMembership;
@@ -38,7 +39,7 @@ mixin _$FeedSuggestionResponse {
   String? get reason;
   double? get recommendationScore;
   DateTime get updatedAt;
-  String? get visibility;
+  FeedSuggestionResponseVisibility? get visibility;
 
   /// Create a copy of FeedSuggestionResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -75,6 +76,8 @@ mixin _$FeedSuggestionResponse {
                 other.followingCount == followingCount) &&
             (identical(other.groupId, groupId) || other.groupId == groupId) &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.location, location) ||
+                other.location == location) &&
             (identical(other.memberCount, memberCount) ||
                 other.memberCount == memberCount) &&
             (identical(other.name, name) || other.name == name) &&
@@ -113,6 +116,7 @@ mixin _$FeedSuggestionResponse {
         followingCount,
         groupId,
         id,
+        location,
         memberCount,
         name,
         const DeepCollectionEquality().hash(ownCapabilities),
@@ -128,7 +132,7 @@ mixin _$FeedSuggestionResponse {
 
   @override
   String toString() {
-    return 'FeedSuggestionResponse(activityCount: $activityCount, algorithmScores: $algorithmScores, createdAt: $createdAt, createdBy: $createdBy, custom: $custom, deletedAt: $deletedAt, description: $description, feed: $feed, filterTags: $filterTags, followerCount: $followerCount, followingCount: $followingCount, groupId: $groupId, id: $id, memberCount: $memberCount, name: $name, ownCapabilities: $ownCapabilities, ownFollowings: $ownFollowings, ownFollows: $ownFollows, ownMembership: $ownMembership, pinCount: $pinCount, reason: $reason, recommendationScore: $recommendationScore, updatedAt: $updatedAt, visibility: $visibility)';
+    return 'FeedSuggestionResponse(activityCount: $activityCount, algorithmScores: $algorithmScores, createdAt: $createdAt, createdBy: $createdBy, custom: $custom, deletedAt: $deletedAt, description: $description, feed: $feed, filterTags: $filterTags, followerCount: $followerCount, followingCount: $followingCount, groupId: $groupId, id: $id, location: $location, memberCount: $memberCount, name: $name, ownCapabilities: $ownCapabilities, ownFollowings: $ownFollowings, ownFollows: $ownFollows, ownMembership: $ownMembership, pinCount: $pinCount, reason: $reason, recommendationScore: $recommendationScore, updatedAt: $updatedAt, visibility: $visibility)';
   }
 }
 
@@ -152,9 +156,10 @@ abstract mixin class $FeedSuggestionResponseCopyWith<$Res> {
       int followingCount,
       String groupId,
       String id,
+      Location? location,
       int memberCount,
       String name,
-      List<FeedOwnCapability>? ownCapabilities,
+      List<FeedSuggestionResponseOwnCapabilities>? ownCapabilities,
       List<FollowResponse>? ownFollowings,
       List<FollowResponse>? ownFollows,
       FeedMemberResponse? ownMembership,
@@ -162,7 +167,7 @@ abstract mixin class $FeedSuggestionResponseCopyWith<$Res> {
       String? reason,
       double? recommendationScore,
       DateTime updatedAt,
-      String? visibility});
+      FeedSuggestionResponseVisibility? visibility});
 }
 
 /// @nodoc
@@ -191,6 +196,7 @@ class _$FeedSuggestionResponseCopyWithImpl<$Res>
     Object? followingCount = null,
     Object? groupId = null,
     Object? id = null,
+    Object? location = freezed,
     Object? memberCount = null,
     Object? name = null,
     Object? ownCapabilities = freezed,
@@ -256,6 +262,10 @@ class _$FeedSuggestionResponseCopyWithImpl<$Res>
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
+      location: freezed == location
+          ? _self.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as Location?,
       memberCount: null == memberCount
           ? _self.memberCount
           : memberCount // ignore: cast_nullable_to_non_nullable
@@ -267,7 +277,7 @@ class _$FeedSuggestionResponseCopyWithImpl<$Res>
       ownCapabilities: freezed == ownCapabilities
           ? _self.ownCapabilities
           : ownCapabilities // ignore: cast_nullable_to_non_nullable
-              as List<FeedOwnCapability>?,
+              as List<FeedSuggestionResponseOwnCapabilities>?,
       ownFollowings: freezed == ownFollowings
           ? _self.ownFollowings
           : ownFollowings // ignore: cast_nullable_to_non_nullable
@@ -299,7 +309,7 @@ class _$FeedSuggestionResponseCopyWithImpl<$Res>
       visibility: freezed == visibility
           ? _self.visibility
           : visibility // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as FeedSuggestionResponseVisibility?,
     ));
   }
 }

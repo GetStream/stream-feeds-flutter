@@ -32,9 +32,7 @@ ChannelMemberResponse _$ChannelMemberResponseFromJson(
       notificationsMuted: json['notifications_muted'] as bool,
       pinnedAt: _$JsonConverterFromJson<int, DateTime>(
           json['pinned_at'], const EpochDateTimeConverter().fromJson),
-      role: $enumDecodeNullable(
-          _$ChannelMemberResponseRoleEnumMap, json['role'],
-          unknownValue: ChannelMemberResponseRole.unknown),
+      role: json['role'] as String?,
       shadowBanned: json['shadow_banned'] as bool,
       status: json['status'] as String?,
       updatedAt: const EpochDateTimeConverter()
@@ -68,7 +66,7 @@ Map<String, dynamic> _$ChannelMemberResponseToJson(
       'notifications_muted': instance.notificationsMuted,
       'pinned_at': _$JsonConverterToJson<int, DateTime>(
           instance.pinnedAt, const EpochDateTimeConverter().toJson),
-      'role': _$ChannelMemberResponseRoleEnumMap[instance.role],
+      'role': instance.role,
       'shadow_banned': instance.shadowBanned,
       'status': instance.status,
       'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
@@ -81,14 +79,6 @@ Value? _$JsonConverterFromJson<Json, Value>(
   Value? Function(Json json) fromJson,
 ) =>
     json == null ? null : fromJson(json as Json);
-
-const _$ChannelMemberResponseRoleEnumMap = {
-  ChannelMemberResponseRole.admin: 'admin',
-  ChannelMemberResponseRole.member: 'member',
-  ChannelMemberResponseRole.moderator: 'moderator',
-  ChannelMemberResponseRole.owner: 'owner',
-  ChannelMemberResponseRole.unknown: '_unknown',
-};
 
 Json? _$JsonConverterToJson<Json, Value>(
   Value? value,

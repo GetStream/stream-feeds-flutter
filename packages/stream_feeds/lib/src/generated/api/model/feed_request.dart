@@ -40,6 +40,7 @@ class FeedRequest with _$FeedRequest {
     required this.feedGroupId,
     required this.feedId,
     this.filterTags,
+    this.location,
     this.members,
     this.name,
     this.visibility,
@@ -62,6 +63,9 @@ class FeedRequest with _$FeedRequest {
 
   @override
   final List<String>? filterTags;
+
+  @override
+  final Location? location;
 
   @override
   final List<FeedMemberRequest>? members;

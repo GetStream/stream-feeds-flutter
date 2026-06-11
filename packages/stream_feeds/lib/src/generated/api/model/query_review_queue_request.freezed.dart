@@ -15,6 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$QueryReviewQueueRequest {
+  bool? get excludeDefaultActionConfig;
   Map<String, Object?>? get filter;
   int? get limit;
   int? get lockCount;
@@ -38,6 +39,10 @@ mixin _$QueryReviewQueueRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is QueryReviewQueueRequest &&
+            (identical(other.excludeDefaultActionConfig,
+                    excludeDefaultActionConfig) ||
+                other.excludeDefaultActionConfig ==
+                    excludeDefaultActionConfig) &&
             const DeepCollectionEquality().equals(other.filter, filter) &&
             (identical(other.limit, limit) || other.limit == limit) &&
             (identical(other.lockCount, lockCount) ||
@@ -56,6 +61,7 @@ mixin _$QueryReviewQueueRequest {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      excludeDefaultActionConfig,
       const DeepCollectionEquality().hash(filter),
       limit,
       lockCount,
@@ -68,7 +74,7 @@ mixin _$QueryReviewQueueRequest {
 
   @override
   String toString() {
-    return 'QueryReviewQueueRequest(filter: $filter, limit: $limit, lockCount: $lockCount, lockDuration: $lockDuration, lockItems: $lockItems, next: $next, prev: $prev, sort: $sort, statsOnly: $statsOnly)';
+    return 'QueryReviewQueueRequest(excludeDefaultActionConfig: $excludeDefaultActionConfig, filter: $filter, limit: $limit, lockCount: $lockCount, lockDuration: $lockDuration, lockItems: $lockItems, next: $next, prev: $prev, sort: $sort, statsOnly: $statsOnly)';
   }
 }
 
@@ -79,7 +85,8 @@ abstract mixin class $QueryReviewQueueRequestCopyWith<$Res> {
       _$QueryReviewQueueRequestCopyWithImpl;
   @useResult
   $Res call(
-      {Map<String, Object?>? filter,
+      {bool? excludeDefaultActionConfig,
+      Map<String, Object?>? filter,
       int? limit,
       int? lockCount,
       int? lockDuration,
@@ -103,6 +110,7 @@ class _$QueryReviewQueueRequestCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? excludeDefaultActionConfig = freezed,
     Object? filter = freezed,
     Object? limit = freezed,
     Object? lockCount = freezed,
@@ -114,6 +122,10 @@ class _$QueryReviewQueueRequestCopyWithImpl<$Res>
     Object? statsOnly = freezed,
   }) {
     return _then(QueryReviewQueueRequest(
+      excludeDefaultActionConfig: freezed == excludeDefaultActionConfig
+          ? _self.excludeDefaultActionConfig
+          : excludeDefaultActionConfig // ignore: cast_nullable_to_non_nullable
+              as bool?,
       filter: freezed == filter
           ? _self.filter
           : filter // ignore: cast_nullable_to_non_nullable

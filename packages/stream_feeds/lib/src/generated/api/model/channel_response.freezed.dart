@@ -37,7 +37,7 @@ mixin _$ChannelResponse {
   int? get messageCount;
   DateTime? get muteExpiresAt;
   bool? get muted;
-  List<ChannelOwnCapability>? get ownCapabilities;
+  List<ChannelResponseOwnCapabilities>? get ownCapabilities;
   String? get team;
   DateTime? get truncatedAt;
   UserResponse? get truncatedBy;
@@ -173,7 +173,7 @@ abstract mixin class $ChannelResponseCopyWith<$Res> {
       int? messageCount,
       DateTime? muteExpiresAt,
       bool? muted,
-      List<ChannelOwnCapability>? ownCapabilities,
+      List<ChannelResponseOwnCapabilities>? ownCapabilities,
       String? team,
       DateTime? truncatedAt,
       UserResponse? truncatedBy,
@@ -315,7 +315,7 @@ class _$ChannelResponseCopyWithImpl<$Res>
       ownCapabilities: freezed == ownCapabilities
           ? _self.ownCapabilities
           : ownCapabilities // ignore: cast_nullable_to_non_nullable
-              as List<ChannelOwnCapability>?,
+              as List<ChannelResponseOwnCapabilities>?,
       team: freezed == team
           ? _self.team
           : team // ignore: cast_nullable_to_non_nullable

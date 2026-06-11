@@ -17,6 +17,7 @@ T _$identity<T>(T value) => value;
 mixin _$BlockListConfig {
   bool? get async;
   bool get enabled;
+  bool? get matchSubstring;
   List<BlockListRule> get rules;
 
   /// Create a copy of BlockListConfig
@@ -34,16 +35,18 @@ mixin _$BlockListConfig {
             other is BlockListConfig &&
             (identical(other.async, async) || other.async == async) &&
             (identical(other.enabled, enabled) || other.enabled == enabled) &&
+            (identical(other.matchSubstring, matchSubstring) ||
+                other.matchSubstring == matchSubstring) &&
             const DeepCollectionEquality().equals(other.rules, rules));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, async, enabled, const DeepCollectionEquality().hash(rules));
+  int get hashCode => Object.hash(runtimeType, async, enabled, matchSubstring,
+      const DeepCollectionEquality().hash(rules));
 
   @override
   String toString() {
-    return 'BlockListConfig(async: $async, enabled: $enabled, rules: $rules)';
+    return 'BlockListConfig(async: $async, enabled: $enabled, matchSubstring: $matchSubstring, rules: $rules)';
   }
 }
 
@@ -53,7 +56,11 @@ abstract mixin class $BlockListConfigCopyWith<$Res> {
           BlockListConfig value, $Res Function(BlockListConfig) _then) =
       _$BlockListConfigCopyWithImpl;
   @useResult
-  $Res call({bool? async, bool enabled, List<BlockListRule> rules});
+  $Res call(
+      {bool? async,
+      bool enabled,
+      bool? matchSubstring,
+      List<BlockListRule> rules});
 }
 
 /// @nodoc
@@ -71,6 +78,7 @@ class _$BlockListConfigCopyWithImpl<$Res>
   $Res call({
     Object? async = freezed,
     Object? enabled = null,
+    Object? matchSubstring = freezed,
     Object? rules = null,
   }) {
     return _then(BlockListConfig(
@@ -82,6 +90,10 @@ class _$BlockListConfigCopyWithImpl<$Res>
           ? _self.enabled
           : enabled // ignore: cast_nullable_to_non_nullable
               as bool,
+      matchSubstring: freezed == matchSubstring
+          ? _self.matchSubstring
+          : matchSubstring // ignore: cast_nullable_to_non_nullable
+              as bool?,
       rules: null == rules
           ? _self.rules
           : rules // ignore: cast_nullable_to_non_nullable

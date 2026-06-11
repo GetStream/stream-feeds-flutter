@@ -16,8 +16,11 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$UserReactivatedEvent {
   DateTime get createdAt;
+  UserResponseCommonFields? get createdBy;
+  Map<String, Object?> get custom;
+  DateTime? get receivedAt;
   String get type;
-  User? get user;
+  UserResponseCommonFields get user;
 
   /// Create a copy of UserReactivatedEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -34,16 +37,22 @@ mixin _$UserReactivatedEvent {
             other is UserReactivatedEvent &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
+            (identical(other.createdBy, createdBy) ||
+                other.createdBy == createdBy) &&
+            const DeepCollectionEquality().equals(other.custom, custom) &&
+            (identical(other.receivedAt, receivedAt) ||
+                other.receivedAt == receivedAt) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.user, user) || other.user == user));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, createdAt, type, user);
+  int get hashCode => Object.hash(runtimeType, createdAt, createdBy,
+      const DeepCollectionEquality().hash(custom), receivedAt, type, user);
 
   @override
   String toString() {
-    return 'UserReactivatedEvent(createdAt: $createdAt, type: $type, user: $user)';
+    return 'UserReactivatedEvent(createdAt: $createdAt, createdBy: $createdBy, custom: $custom, receivedAt: $receivedAt, type: $type, user: $user)';
   }
 }
 
@@ -53,7 +62,13 @@ abstract mixin class $UserReactivatedEventCopyWith<$Res> {
           $Res Function(UserReactivatedEvent) _then) =
       _$UserReactivatedEventCopyWithImpl;
   @useResult
-  $Res call({DateTime createdAt, String type, User? user});
+  $Res call(
+      {DateTime createdAt,
+      UserResponseCommonFields? createdBy,
+      Map<String, Object?> custom,
+      DateTime? receivedAt,
+      String type,
+      UserResponseCommonFields user});
 }
 
 /// @nodoc
@@ -70,22 +85,37 @@ class _$UserReactivatedEventCopyWithImpl<$Res>
   @override
   $Res call({
     Object? createdAt = null,
+    Object? createdBy = freezed,
+    Object? custom = null,
+    Object? receivedAt = freezed,
     Object? type = null,
-    Object? user = freezed,
+    Object? user = null,
   }) {
     return _then(UserReactivatedEvent(
       createdAt: null == createdAt
           ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      createdBy: freezed == createdBy
+          ? _self.createdBy
+          : createdBy // ignore: cast_nullable_to_non_nullable
+              as UserResponseCommonFields?,
+      custom: null == custom
+          ? _self.custom
+          : custom // ignore: cast_nullable_to_non_nullable
+              as Map<String, Object?>,
+      receivedAt: freezed == receivedAt
+          ? _self.receivedAt
+          : receivedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       type: null == type
           ? _self.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
-      user: freezed == user
+      user: null == user
           ? _self.user
           : user // ignore: cast_nullable_to_non_nullable
-              as User?,
+              as UserResponseCommonFields,
     ));
   }
 }

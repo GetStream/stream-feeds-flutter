@@ -20,6 +20,8 @@ class AddCommentResponse with _$AddCommentResponse {
   const AddCommentResponse({
     required this.comment,
     required this.duration,
+    this.mentionNotificationsCreated,
+    this.notificationCreated,
   });
 
   @override
@@ -27,6 +29,12 @@ class AddCommentResponse with _$AddCommentResponse {
 
   @override
   final String duration;
+
+  @override
+  final int? mentionNotificationsCreated;
+
+  @override
+  final bool? notificationCreated;
 
   Map<String, dynamic> toJson() => _$AddCommentResponseToJson(this);
 

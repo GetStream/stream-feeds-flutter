@@ -62,21 +62,21 @@ mkdir -p "$OUTPUT_DIR_FEEDS"
 
 (
   set -o pipefail
-  cd "$CHAT_DIR"
+  cd "$CHAT_DIR/projects/chat-manager"
 
   # Generate OpenAPI spec (YAML)
-  go run ./cmd/chat-manager openapi generate-spec \
+  go run . openapi generate-spec \
     -products "$PRODUCTS" \
     -version "$API_VERSION" \
     --clientside \
     --encode-time-as-unix-timestamp \
-    -output "$SPEC_DIR_REL/$SPEC_BASENAME" \
+    -output "$CHAT_DIR/$SPEC_DIR_REL/$SPEC_BASENAME" \
     "${RENAMED_MODELS_FLAG[@]}"
 
   # Generate Dart client into stream_feed generated folder
-  go run ./cmd/chat-manager openapi generate-client \
+  go run . openapi generate-client \
     --language dart \
-    --spec "./$SPEC_PATH" \
+    --spec "$CHAT_DIR/$SPEC_PATH" \
     --output "$OUTPUT_DIR_FEEDS"
 )
 

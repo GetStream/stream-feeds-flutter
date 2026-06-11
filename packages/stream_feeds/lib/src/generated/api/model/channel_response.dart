@@ -13,6 +13,94 @@ import '../models.dart';
 part 'channel_response.g.dart';
 part 'channel_response.freezed.dart';
 
+@JsonEnum(alwaysCreate: true)
+enum ChannelResponseOwnCapabilities {
+  @JsonValue('ban-channel-members')
+  banChannelMembers,
+  @JsonValue('cast-poll-vote')
+  castPollVote,
+  @JsonValue('connect-events')
+  connectEvents,
+  @JsonValue('create-attachment')
+  createAttachment,
+  @JsonValue('delete-any-message')
+  deleteAnyMessage,
+  @JsonValue('delete-channel')
+  deleteChannel,
+  @JsonValue('delete-own-message')
+  deleteOwnMessage,
+  @JsonValue('delivery-events')
+  deliveryEvents,
+  @JsonValue('flag-message')
+  flagMessage,
+  @JsonValue('freeze-channel')
+  freezeChannel,
+  @JsonValue('join-channel')
+  joinChannel,
+  @JsonValue('leave-channel')
+  leaveChannel,
+  @JsonValue('mute-channel')
+  muteChannel,
+  @JsonValue('notify-channel')
+  notifyChannel,
+  @JsonValue('notify-group')
+  notifyGroup,
+  @JsonValue('notify-here')
+  notifyHere,
+  @JsonValue('notify-role')
+  notifyRole,
+  @JsonValue('pin-message')
+  pinMessage,
+  @JsonValue('query-poll-votes')
+  queryPollVotes,
+  @JsonValue('quote-message')
+  quoteMessage,
+  @JsonValue('read-events')
+  readEvents,
+  @JsonValue('search-messages')
+  searchMessages,
+  @JsonValue('send-custom-events')
+  sendCustomEvents,
+  @JsonValue('send-links')
+  sendLinks,
+  @JsonValue('send-message')
+  sendMessage,
+  @JsonValue('send-poll')
+  sendPoll,
+  @JsonValue('send-reaction')
+  sendReaction,
+  @JsonValue('send-reply')
+  sendReply,
+  @JsonValue('send-restricted-visibility-message')
+  sendRestrictedVisibilityMessage,
+  @JsonValue('send-typing-events')
+  sendTypingEvents,
+  @JsonValue('set-channel-cooldown')
+  setChannelCooldown,
+  @JsonValue('share-location')
+  shareLocation,
+  @JsonValue('skip-slow-mode')
+  skipSlowMode,
+  @JsonValue('slow-mode')
+  slowMode,
+  @JsonValue('typing-events')
+  typingEvents,
+  @JsonValue('update-any-message')
+  updateAnyMessage,
+  @JsonValue('update-channel')
+  updateChannel,
+  @JsonValue('update-channel-members')
+  updateChannelMembers,
+  @JsonValue('update-own-message')
+  updateOwnMessage,
+  @JsonValue('update-thread')
+  updateThread,
+  @JsonValue('upload-file')
+  uploadFile,
+  @JsonValue('_unknown')
+  unknown;
+}
+
 @freezed
 @immutable
 @JsonSerializable()
@@ -120,8 +208,8 @@ class ChannelResponse with _$ChannelResponse {
   final bool? muted;
 
   @override
-  @JsonKey(unknownEnumValue: ChannelOwnCapability.unknown)
-  final List<ChannelOwnCapability>? ownCapabilities;
+  @JsonKey(unknownEnumValue: ChannelResponseOwnCapabilities.unknown)
+  final List<ChannelResponseOwnCapabilities>? ownCapabilities;
 
   @override
   final String? team;

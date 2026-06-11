@@ -12,6 +12,7 @@ AddCommentRequest _$AddCommentRequestFromJson(Map<String, dynamic> json) =>
           ?.map((e) => Attachment.fromJson(e as Map<String, dynamic>))
           .toList(),
       comment: json['comment'] as String?,
+      copyCustomToNotification: json['copy_custom_to_notification'] as bool?,
       createNotificationActivity: json['create_notification_activity'] as bool?,
       custom: json['custom'] as Map<String, dynamic>?,
       id: json['id'] as String?,
@@ -29,6 +30,7 @@ Map<String, dynamic> _$AddCommentRequestToJson(AddCommentRequest instance) =>
     <String, dynamic>{
       'attachments': instance.attachments?.map((e) => e.toJson()).toList(),
       'comment': instance.comment,
+      'copy_custom_to_notification': instance.copyCustomToNotification,
       'create_notification_activity': instance.createNotificationActivity,
       'custom': instance.custom,
       'id': instance.id,

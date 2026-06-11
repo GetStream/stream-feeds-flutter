@@ -28,6 +28,8 @@ const _$BodyguardSeverityRuleActionEnumMap = {
   BodyguardSeverityRuleAction.bounceFlag: 'bounce_flag',
   BodyguardSeverityRuleAction.bounceRemove: 'bounce_remove',
   BodyguardSeverityRuleAction.flag: 'flag',
+  BodyguardSeverityRuleAction.keep: 'keep',
+  BodyguardSeverityRuleAction.mask: 'mask',
   BodyguardSeverityRuleAction.remove: 'remove',
   BodyguardSeverityRuleAction.shadow: 'shadow',
   BodyguardSeverityRuleAction.unknown: '_unknown',

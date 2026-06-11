@@ -5,6 +5,7 @@
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
+import '../models.dart';
 
 part 'feed_own_capability.g.dart';
 

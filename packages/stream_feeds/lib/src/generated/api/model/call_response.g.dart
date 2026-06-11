@@ -16,31 +16,20 @@ CallResponse _$CallResponseFromJson(Map<String, dynamic> json) => CallResponse(
       cid: json['cid'] as String,
       createdAt: const EpochDateTimeConverter()
           .fromJson((json['created_at'] as num).toInt()),
-      createdBy:
-          UserResponse.fromJson(json['created_by'] as Map<String, dynamic>),
+      createdBy: json['created_by'] == null
+          ? null
+          : UserResponse.fromJson(json['created_by'] as Map<String, dynamic>),
       currentSessionId: json['current_session_id'] as String,
       custom: json['custom'] as Map<String, dynamic>,
-      egress: EgressResponse.fromJson(json['egress'] as Map<String, dynamic>),
       endedAt: _$JsonConverterFromJson<int, DateTime>(
           json['ended_at'], const EpochDateTimeConverter().fromJson),
       id: json['id'] as String,
-      ingress:
-          CallIngressResponse.fromJson(json['ingress'] as Map<String, dynamic>),
       joinAheadTimeSeconds: (json['join_ahead_time_seconds'] as num?)?.toInt(),
       recording: json['recording'] as bool,
-      session: json['session'] == null
-          ? null
-          : CallSessionResponse.fromJson(
-              json['session'] as Map<String, dynamic>),
-      settings: CallSettingsResponse.fromJson(
-          json['settings'] as Map<String, dynamic>),
+      routingNumber: json['routing_number'] as String?,
       startsAt: _$JsonConverterFromJson<int, DateTime>(
           json['starts_at'], const EpochDateTimeConverter().fromJson),
       team: json['team'] as String?,
-      thumbnails: json['thumbnails'] == null
-          ? null
-          : ThumbnailResponse.fromJson(
-              json['thumbnails'] as Map<String, dynamic>),
       transcribing: json['transcribing'] as bool,
       translating: json['translating'] as bool,
       type: json['type'] as String,
@@ -56,22 +45,18 @@ Map<String, dynamic> _$CallResponseToJson(CallResponse instance) =>
       'channel_cid': instance.channelCid,
       'cid': instance.cid,
       'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
-      'created_by': instance.createdBy.toJson(),
+      'created_by': instance.createdBy?.toJson(),
       'current_session_id': instance.currentSessionId,
       'custom': instance.custom,
-      'egress': instance.egress.toJson(),
       'ended_at': _$JsonConverterToJson<int, DateTime>(
           instance.endedAt, const EpochDateTimeConverter().toJson),
       'id': instance.id,
-      'ingress': instance.ingress.toJson(),
       'join_ahead_time_seconds': instance.joinAheadTimeSeconds,
       'recording': instance.recording,
-      'session': instance.session?.toJson(),
-      'settings': instance.settings.toJson(),
+      'routing_number': instance.routingNumber,
       'starts_at': _$JsonConverterToJson<int, DateTime>(
           instance.startsAt, const EpochDateTimeConverter().toJson),
       'team': instance.team,
-      'thumbnails': instance.thumbnails?.toJson(),
       'transcribing': instance.transcribing,
       'translating': instance.translating,
       'type': instance.type,

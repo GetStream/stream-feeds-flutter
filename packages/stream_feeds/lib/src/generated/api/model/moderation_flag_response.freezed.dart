@@ -21,7 +21,7 @@ mixin _$ModerationFlagResponse {
   String get entityId;
   String get entityType;
   List<String>? get labels;
-  ModerationPayload? get moderationPayload;
+  ModerationPayloadResponse? get moderationPayload;
   String? get reason;
   List<Map<String, Object?>> get result;
   ReviewQueueItemResponse? get reviewQueueItem;
@@ -107,7 +107,7 @@ abstract mixin class $ModerationFlagResponseCopyWith<$Res> {
       String entityId,
       String entityType,
       List<String>? labels,
-      ModerationPayload? moderationPayload,
+      ModerationPayloadResponse? moderationPayload,
       String? reason,
       List<Map<String, Object?>> result,
       ReviewQueueItemResponse? reviewQueueItem,
@@ -175,7 +175,7 @@ class _$ModerationFlagResponseCopyWithImpl<$Res>
       moderationPayload: freezed == moderationPayload
           ? _self.moderationPayload
           : moderationPayload // ignore: cast_nullable_to_non_nullable
-              as ModerationPayload?,
+              as ModerationPayloadResponse?,
       reason: freezed == reason
           ? _self.reason
           : reason // ignore: cast_nullable_to_non_nullable

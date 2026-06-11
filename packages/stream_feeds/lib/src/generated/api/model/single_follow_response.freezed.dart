@@ -17,6 +17,7 @@ T _$identity<T>(T value) => value;
 mixin _$SingleFollowResponse {
   String get duration;
   FollowResponse get follow;
+  bool? get notificationCreated;
 
   /// Create a copy of SingleFollowResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -33,15 +34,18 @@ mixin _$SingleFollowResponse {
             other is SingleFollowResponse &&
             (identical(other.duration, duration) ||
                 other.duration == duration) &&
-            (identical(other.follow, follow) || other.follow == follow));
+            (identical(other.follow, follow) || other.follow == follow) &&
+            (identical(other.notificationCreated, notificationCreated) ||
+                other.notificationCreated == notificationCreated));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, duration, follow);
+  int get hashCode =>
+      Object.hash(runtimeType, duration, follow, notificationCreated);
 
   @override
   String toString() {
-    return 'SingleFollowResponse(duration: $duration, follow: $follow)';
+    return 'SingleFollowResponse(duration: $duration, follow: $follow, notificationCreated: $notificationCreated)';
   }
 }
 
@@ -51,7 +55,8 @@ abstract mixin class $SingleFollowResponseCopyWith<$Res> {
           $Res Function(SingleFollowResponse) _then) =
       _$SingleFollowResponseCopyWithImpl;
   @useResult
-  $Res call({String duration, FollowResponse follow});
+  $Res call(
+      {String duration, FollowResponse follow, bool? notificationCreated});
 }
 
 /// @nodoc
@@ -69,6 +74,7 @@ class _$SingleFollowResponseCopyWithImpl<$Res>
   $Res call({
     Object? duration = null,
     Object? follow = null,
+    Object? notificationCreated = freezed,
   }) {
     return _then(SingleFollowResponse(
       duration: null == duration
@@ -79,6 +85,10 @@ class _$SingleFollowResponseCopyWithImpl<$Res>
           ? _self.follow
           : follow // ignore: cast_nullable_to_non_nullable
               as FollowResponse,
+      notificationCreated: freezed == notificationCreated
+          ? _self.notificationCreated
+          : notificationCreated // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }

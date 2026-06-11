@@ -16,6 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$VideoContentParameters {
   List<String>? get harmLabels;
+  String? get labelOperator;
 
   /// Create a copy of VideoContentParameters
   /// with the given fields replaced by the non-null parameter values.
@@ -31,16 +32,18 @@ mixin _$VideoContentParameters {
         (other.runtimeType == runtimeType &&
             other is VideoContentParameters &&
             const DeepCollectionEquality()
-                .equals(other.harmLabels, harmLabels));
+                .equals(other.harmLabels, harmLabels) &&
+            (identical(other.labelOperator, labelOperator) ||
+                other.labelOperator == labelOperator));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(harmLabels));
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(harmLabels), labelOperator);
 
   @override
   String toString() {
-    return 'VideoContentParameters(harmLabels: $harmLabels)';
+    return 'VideoContentParameters(harmLabels: $harmLabels, labelOperator: $labelOperator)';
   }
 }
 
@@ -50,7 +53,7 @@ abstract mixin class $VideoContentParametersCopyWith<$Res> {
           $Res Function(VideoContentParameters) _then) =
       _$VideoContentParametersCopyWithImpl;
   @useResult
-  $Res call({List<String>? harmLabels});
+  $Res call({List<String>? harmLabels, String? labelOperator});
 }
 
 /// @nodoc
@@ -67,12 +70,17 @@ class _$VideoContentParametersCopyWithImpl<$Res>
   @override
   $Res call({
     Object? harmLabels = freezed,
+    Object? labelOperator = freezed,
   }) {
     return _then(VideoContentParameters(
       harmLabels: freezed == harmLabels
           ? _self.harmLabels
           : harmLabels // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      labelOperator: freezed == labelOperator
+          ? _self.labelOperator
+          : labelOperator // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }

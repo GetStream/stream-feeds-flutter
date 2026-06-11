@@ -15,6 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$CreateDeviceRequest {
+  String? get hardwareId;
   String get id;
   CreateDeviceRequestPushProvider get pushProvider;
   String? get pushProviderName;
@@ -33,6 +34,8 @@ mixin _$CreateDeviceRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is CreateDeviceRequest &&
+            (identical(other.hardwareId, hardwareId) ||
+                other.hardwareId == hardwareId) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.pushProvider, pushProvider) ||
                 other.pushProvider == pushProvider) &&
@@ -43,12 +46,12 @@ mixin _$CreateDeviceRequest {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, pushProvider, pushProviderName, voipToken);
+  int get hashCode => Object.hash(
+      runtimeType, hardwareId, id, pushProvider, pushProviderName, voipToken);
 
   @override
   String toString() {
-    return 'CreateDeviceRequest(id: $id, pushProvider: $pushProvider, pushProviderName: $pushProviderName, voipToken: $voipToken)';
+    return 'CreateDeviceRequest(hardwareId: $hardwareId, id: $id, pushProvider: $pushProvider, pushProviderName: $pushProviderName, voipToken: $voipToken)';
   }
 }
 
@@ -59,7 +62,8 @@ abstract mixin class $CreateDeviceRequestCopyWith<$Res> {
       _$CreateDeviceRequestCopyWithImpl;
   @useResult
   $Res call(
-      {String id,
+      {String? hardwareId,
+      String id,
       CreateDeviceRequestPushProvider pushProvider,
       String? pushProviderName,
       bool? voipToken});
@@ -78,12 +82,17 @@ class _$CreateDeviceRequestCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? hardwareId = freezed,
     Object? id = null,
     Object? pushProvider = null,
     Object? pushProviderName = freezed,
     Object? voipToken = freezed,
   }) {
     return _then(CreateDeviceRequest(
+      hardwareId: freezed == hardwareId
+          ? _self.hardwareId
+          : hardwareId // ignore: cast_nullable_to_non_nullable
+              as String?,
       id: null == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable

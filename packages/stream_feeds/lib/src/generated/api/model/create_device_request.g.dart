@@ -8,6 +8,7 @@ part of 'create_device_request.dart';
 
 CreateDeviceRequest _$CreateDeviceRequestFromJson(Map<String, dynamic> json) =>
     CreateDeviceRequest(
+      hardwareId: json['hardware_id'] as String?,
       id: json['id'] as String,
       pushProvider: $enumDecode(
           _$CreateDeviceRequestPushProviderEnumMap, json['push_provider'],
@@ -19,6 +20,7 @@ CreateDeviceRequest _$CreateDeviceRequestFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$CreateDeviceRequestToJson(
         CreateDeviceRequest instance) =>
     <String, dynamic>{
+      'hardware_id': instance.hardwareId,
       'id': instance.id,
       'push_provider':
           _$CreateDeviceRequestPushProviderEnumMap[instance.pushProvider]!,

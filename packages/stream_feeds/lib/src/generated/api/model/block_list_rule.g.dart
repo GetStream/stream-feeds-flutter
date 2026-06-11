@@ -26,6 +26,7 @@ const _$BlockListRuleActionEnumMap = {
   BlockListRuleAction.bounceFlag: 'bounce_flag',
   BlockListRuleAction.bounceRemove: 'bounce_remove',
   BlockListRuleAction.flag: 'flag',
+  BlockListRuleAction.mask: 'mask',
   BlockListRuleAction.maskFlag: 'mask_flag',
   BlockListRuleAction.remove: 'remove',
   BlockListRuleAction.shadow: 'shadow',

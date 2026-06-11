@@ -15,6 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$AddCommentReactionRequest {
+  bool? get copyCustomToNotification;
   bool? get createNotificationActivity;
   Map<String, Object?>? get custom;
   bool? get enforceUnique;
@@ -34,6 +35,9 @@ mixin _$AddCommentReactionRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is AddCommentReactionRequest &&
+            (identical(
+                    other.copyCustomToNotification, copyCustomToNotification) ||
+                other.copyCustomToNotification == copyCustomToNotification) &&
             (identical(other.createNotificationActivity,
                     createNotificationActivity) ||
                 other.createNotificationActivity ==
@@ -49,6 +53,7 @@ mixin _$AddCommentReactionRequest {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      copyCustomToNotification,
       createNotificationActivity,
       const DeepCollectionEquality().hash(custom),
       enforceUnique,
@@ -57,7 +62,7 @@ mixin _$AddCommentReactionRequest {
 
   @override
   String toString() {
-    return 'AddCommentReactionRequest(createNotificationActivity: $createNotificationActivity, custom: $custom, enforceUnique: $enforceUnique, skipPush: $skipPush, type: $type)';
+    return 'AddCommentReactionRequest(copyCustomToNotification: $copyCustomToNotification, createNotificationActivity: $createNotificationActivity, custom: $custom, enforceUnique: $enforceUnique, skipPush: $skipPush, type: $type)';
   }
 }
 
@@ -68,7 +73,8 @@ abstract mixin class $AddCommentReactionRequestCopyWith<$Res> {
       _$AddCommentReactionRequestCopyWithImpl;
   @useResult
   $Res call(
-      {bool? createNotificationActivity,
+      {bool? copyCustomToNotification,
+      bool? createNotificationActivity,
       Map<String, Object?>? custom,
       bool? enforceUnique,
       bool? skipPush,
@@ -88,6 +94,7 @@ class _$AddCommentReactionRequestCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? copyCustomToNotification = freezed,
     Object? createNotificationActivity = freezed,
     Object? custom = freezed,
     Object? enforceUnique = freezed,
@@ -95,6 +102,10 @@ class _$AddCommentReactionRequestCopyWithImpl<$Res>
     Object? type = null,
   }) {
     return _then(AddCommentReactionRequest(
+      copyCustomToNotification: freezed == copyCustomToNotification
+          ? _self.copyCustomToNotification
+          : copyCustomToNotification // ignore: cast_nullable_to_non_nullable
+              as bool?,
       createNotificationActivity: freezed == createNotificationActivity
           ? _self.createNotificationActivity
           : createNotificationActivity // ignore: cast_nullable_to_non_nullable

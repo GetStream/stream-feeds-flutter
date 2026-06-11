@@ -19,7 +19,7 @@ ModerationFlagResponse _$ModerationFlagResponseFromJson(
           (json['labels'] as List<dynamic>?)?.map((e) => e as String).toList(),
       moderationPayload: json['moderation_payload'] == null
           ? null
-          : ModerationPayload.fromJson(
+          : ModerationPayloadResponse.fromJson(
               json['moderation_payload'] as Map<String, dynamic>),
       reason: json['reason'] as String?,
       result: (json['result'] as List<dynamic>)

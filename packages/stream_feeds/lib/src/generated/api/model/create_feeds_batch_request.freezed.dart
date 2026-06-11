@@ -15,6 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$CreateFeedsBatchRequest {
+  bool? get enrichOwnFields;
   List<FeedRequest> get feeds;
 
   /// Create a copy of CreateFeedsBatchRequest
@@ -30,16 +31,18 @@ mixin _$CreateFeedsBatchRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is CreateFeedsBatchRequest &&
+            (identical(other.enrichOwnFields, enrichOwnFields) ||
+                other.enrichOwnFields == enrichOwnFields) &&
             const DeepCollectionEquality().equals(other.feeds, feeds));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(feeds));
+  int get hashCode => Object.hash(
+      runtimeType, enrichOwnFields, const DeepCollectionEquality().hash(feeds));
 
   @override
   String toString() {
-    return 'CreateFeedsBatchRequest(feeds: $feeds)';
+    return 'CreateFeedsBatchRequest(enrichOwnFields: $enrichOwnFields, feeds: $feeds)';
   }
 }
 
@@ -49,7 +52,7 @@ abstract mixin class $CreateFeedsBatchRequestCopyWith<$Res> {
           $Res Function(CreateFeedsBatchRequest) _then) =
       _$CreateFeedsBatchRequestCopyWithImpl;
   @useResult
-  $Res call({List<FeedRequest> feeds});
+  $Res call({bool? enrichOwnFields, List<FeedRequest> feeds});
 }
 
 /// @nodoc
@@ -65,9 +68,14 @@ class _$CreateFeedsBatchRequestCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? enrichOwnFields = freezed,
     Object? feeds = null,
   }) {
     return _then(CreateFeedsBatchRequest(
+      enrichOwnFields: freezed == enrichOwnFields
+          ? _self.enrichOwnFields
+          : enrichOwnFields // ignore: cast_nullable_to_non_nullable
+              as bool?,
       feeds: null == feeds
           ? _self.feeds
           : feeds // ignore: cast_nullable_to_non_nullable

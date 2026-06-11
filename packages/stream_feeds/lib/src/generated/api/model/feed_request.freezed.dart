@@ -21,6 +21,7 @@ mixin _$FeedRequest {
   String get feedGroupId;
   String get feedId;
   List<String>? get filterTags;
+  Location? get location;
   List<FeedMemberRequest>? get members;
   String? get name;
   FeedRequestVisibility? get visibility;
@@ -47,6 +48,8 @@ mixin _$FeedRequest {
             (identical(other.feedId, feedId) || other.feedId == feedId) &&
             const DeepCollectionEquality()
                 .equals(other.filterTags, filterTags) &&
+            (identical(other.location, location) ||
+                other.location == location) &&
             const DeepCollectionEquality().equals(other.members, members) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.visibility, visibility) ||
@@ -62,13 +65,14 @@ mixin _$FeedRequest {
       feedGroupId,
       feedId,
       const DeepCollectionEquality().hash(filterTags),
+      location,
       const DeepCollectionEquality().hash(members),
       name,
       visibility);
 
   @override
   String toString() {
-    return 'FeedRequest(createdById: $createdById, custom: $custom, description: $description, feedGroupId: $feedGroupId, feedId: $feedId, filterTags: $filterTags, members: $members, name: $name, visibility: $visibility)';
+    return 'FeedRequest(createdById: $createdById, custom: $custom, description: $description, feedGroupId: $feedGroupId, feedId: $feedId, filterTags: $filterTags, location: $location, members: $members, name: $name, visibility: $visibility)';
   }
 }
 
@@ -85,6 +89,7 @@ abstract mixin class $FeedRequestCopyWith<$Res> {
       String feedGroupId,
       String feedId,
       List<String>? filterTags,
+      Location? location,
       List<FeedMemberRequest>? members,
       String? name,
       FeedRequestVisibility? visibility});
@@ -108,6 +113,7 @@ class _$FeedRequestCopyWithImpl<$Res> implements $FeedRequestCopyWith<$Res> {
     Object? feedGroupId = null,
     Object? feedId = null,
     Object? filterTags = freezed,
+    Object? location = freezed,
     Object? members = freezed,
     Object? name = freezed,
     Object? visibility = freezed,
@@ -137,6 +143,10 @@ class _$FeedRequestCopyWithImpl<$Res> implements $FeedRequestCopyWith<$Res> {
           ? _self.filterTags
           : filterTags // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      location: freezed == location
+          ? _self.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as Location?,
       members: freezed == members
           ? _self.members
           : members // ignore: cast_nullable_to_non_nullable

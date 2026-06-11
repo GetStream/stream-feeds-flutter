@@ -35,6 +35,7 @@ enum QueryCommentsRequestSort {
 class QueryCommentsRequest with _$QueryCommentsRequest {
   const QueryCommentsRequest({
     required this.filter,
+    this.idAround,
     this.limit,
     this.next,
     this.prev,
@@ -43,6 +44,9 @@ class QueryCommentsRequest with _$QueryCommentsRequest {
 
   @override
   final Map<String, Object?> filter;
+
+  @override
+  final String? idAround;
 
   @override
   final int? limit;

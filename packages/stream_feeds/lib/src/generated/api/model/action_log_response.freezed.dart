@@ -20,6 +20,7 @@ mixin _$ActionLogResponse {
   Map<String, Object?> get custom;
   String get id;
   String get reason;
+  String get reporterType;
   ReviewQueueItemResponse? get reviewQueueItem;
   UserResponse? get targetUser;
   String get targetUserId;
@@ -47,6 +48,8 @@ mixin _$ActionLogResponse {
             const DeepCollectionEquality().equals(other.custom, custom) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.reason, reason) || other.reason == reason) &&
+            (identical(other.reporterType, reporterType) ||
+                other.reporterType == reporterType) &&
             (identical(other.reviewQueueItem, reviewQueueItem) ||
                 other.reviewQueueItem == reviewQueueItem) &&
             (identical(other.targetUser, targetUser) ||
@@ -66,6 +69,7 @@ mixin _$ActionLogResponse {
       const DeepCollectionEquality().hash(custom),
       id,
       reason,
+      reporterType,
       reviewQueueItem,
       targetUser,
       targetUserId,
@@ -75,7 +79,7 @@ mixin _$ActionLogResponse {
 
   @override
   String toString() {
-    return 'ActionLogResponse(aiProviders: $aiProviders, createdAt: $createdAt, custom: $custom, id: $id, reason: $reason, reviewQueueItem: $reviewQueueItem, targetUser: $targetUser, targetUserId: $targetUserId, type: $type, user: $user, userId: $userId)';
+    return 'ActionLogResponse(aiProviders: $aiProviders, createdAt: $createdAt, custom: $custom, id: $id, reason: $reason, reporterType: $reporterType, reviewQueueItem: $reviewQueueItem, targetUser: $targetUser, targetUserId: $targetUserId, type: $type, user: $user, userId: $userId)';
   }
 }
 
@@ -91,6 +95,7 @@ abstract mixin class $ActionLogResponseCopyWith<$Res> {
       Map<String, Object?> custom,
       String id,
       String reason,
+      String reporterType,
       ReviewQueueItemResponse? reviewQueueItem,
       UserResponse? targetUser,
       String targetUserId,
@@ -117,6 +122,7 @@ class _$ActionLogResponseCopyWithImpl<$Res>
     Object? custom = null,
     Object? id = null,
     Object? reason = null,
+    Object? reporterType = null,
     Object? reviewQueueItem = freezed,
     Object? targetUser = freezed,
     Object? targetUserId = null,
@@ -144,6 +150,10 @@ class _$ActionLogResponseCopyWithImpl<$Res>
       reason: null == reason
           ? _self.reason
           : reason // ignore: cast_nullable_to_non_nullable
+              as String,
+      reporterType: null == reporterType
+          ? _self.reporterType
+          : reporterType // ignore: cast_nullable_to_non_nullable
               as String,
       reviewQueueItem: freezed == reviewQueueItem
           ? _self.reviewQueueItem

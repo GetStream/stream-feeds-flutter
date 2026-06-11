@@ -14,7 +14,10 @@ AddActivityRequest _$AddActivityRequestFromJson(Map<String, dynamic> json) =>
       collectionRefs: (json['collection_refs'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+      copyCustomToNotification: json['copy_custom_to_notification'] as bool?,
+      createNotificationActivity: json['create_notification_activity'] as bool?,
       custom: json['custom'] as Map<String, dynamic>?,
+      enrichOwnFields: json['enrich_own_fields'] as bool?,
       expiresAt: json['expires_at'] as String?,
       feeds: (json['feeds'] as List<dynamic>).map((e) => e as String).toList(),
       filterTags: (json['filter_tags'] as List<dynamic>?)
@@ -26,7 +29,7 @@ AddActivityRequest _$AddActivityRequestFromJson(Map<String, dynamic> json) =>
           .toList(),
       location: json['location'] == null
           ? null
-          : ActivityLocation.fromJson(json['location'] as Map<String, dynamic>),
+          : Location.fromJson(json['location'] as Map<String, dynamic>),
       mentionedUserIds: (json['mentioned_user_ids'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
@@ -37,6 +40,7 @@ AddActivityRequest _$AddActivityRequestFromJson(Map<String, dynamic> json) =>
           unknownValue: AddActivityRequestRestrictReplies.unknown),
       searchData: json['search_data'] as Map<String, dynamic>?,
       skipEnrichUrl: json['skip_enrich_url'] as bool?,
+      skipPush: json['skip_push'] as bool?,
       text: json['text'] as String?,
       type: json['type'] as String,
       visibility: $enumDecodeNullable(
@@ -49,7 +53,10 @@ Map<String, dynamic> _$AddActivityRequestToJson(AddActivityRequest instance) =>
     <String, dynamic>{
       'attachments': instance.attachments?.map((e) => e.toJson()).toList(),
       'collection_refs': instance.collectionRefs,
+      'copy_custom_to_notification': instance.copyCustomToNotification,
+      'create_notification_activity': instance.createNotificationActivity,
       'custom': instance.custom,
+      'enrich_own_fields': instance.enrichOwnFields,
       'expires_at': instance.expiresAt,
       'feeds': instance.feeds,
       'filter_tags': instance.filterTags,
@@ -63,6 +70,7 @@ Map<String, dynamic> _$AddActivityRequestToJson(AddActivityRequest instance) =>
           _$AddActivityRequestRestrictRepliesEnumMap[instance.restrictReplies],
       'search_data': instance.searchData,
       'skip_enrich_url': instance.skipEnrichUrl,
+      'skip_push': instance.skipPush,
       'text': instance.text,
       'type': instance.type,
       'visibility': _$AddActivityRequestVisibilityEnumMap[instance.visibility],

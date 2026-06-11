@@ -18,6 +18,7 @@ mixin _$AWSRekognitionRule {
   AWSRekognitionRuleAction get action;
   String get label;
   double get minConfidence;
+  Map<String, Object?>? get subclassifications;
 
   /// Create a copy of AWSRekognitionRule
   /// with the given fields replaced by the non-null parameter values.
@@ -35,15 +36,18 @@ mixin _$AWSRekognitionRule {
             (identical(other.action, action) || other.action == action) &&
             (identical(other.label, label) || other.label == label) &&
             (identical(other.minConfidence, minConfidence) ||
-                other.minConfidence == minConfidence));
+                other.minConfidence == minConfidence) &&
+            const DeepCollectionEquality()
+                .equals(other.subclassifications, subclassifications));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, action, label, minConfidence);
+  int get hashCode => Object.hash(runtimeType, action, label, minConfidence,
+      const DeepCollectionEquality().hash(subclassifications));
 
   @override
   String toString() {
-    return 'AWSRekognitionRule(action: $action, label: $label, minConfidence: $minConfidence)';
+    return 'AWSRekognitionRule(action: $action, label: $label, minConfidence: $minConfidence, subclassifications: $subclassifications)';
   }
 }
 
@@ -54,7 +58,10 @@ abstract mixin class $AWSRekognitionRuleCopyWith<$Res> {
       _$AWSRekognitionRuleCopyWithImpl;
   @useResult
   $Res call(
-      {AWSRekognitionRuleAction action, String label, double minConfidence});
+      {AWSRekognitionRuleAction action,
+      String label,
+      double minConfidence,
+      Map<String, Object?>? subclassifications});
 }
 
 /// @nodoc
@@ -73,6 +80,7 @@ class _$AWSRekognitionRuleCopyWithImpl<$Res>
     Object? action = null,
     Object? label = null,
     Object? minConfidence = null,
+    Object? subclassifications = freezed,
   }) {
     return _then(AWSRekognitionRule(
       action: null == action
@@ -87,6 +95,10 @@ class _$AWSRekognitionRuleCopyWithImpl<$Res>
           ? _self.minConfidence
           : minConfidence // ignore: cast_nullable_to_non_nullable
               as double,
+      subclassifications: freezed == subclassifications
+          ? _self.subclassifications
+          : subclassifications // ignore: cast_nullable_to_non_nullable
+              as Map<String, Object?>?,
     ));
   }
 }

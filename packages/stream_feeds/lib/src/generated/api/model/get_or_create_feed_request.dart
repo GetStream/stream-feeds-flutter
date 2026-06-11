@@ -24,6 +24,7 @@ class GetOrCreateFeedRequest with _$GetOrCreateFeedRequest {
     this.filter,
     this.followersPagination,
     this.followingPagination,
+    this.friendReactionsOptions,
     this.idAround,
     this.interestWeights,
     this.limit,
@@ -51,6 +52,9 @@ class GetOrCreateFeedRequest with _$GetOrCreateFeedRequest {
 
   @override
   final PagerRequest? followingPagination;
+
+  @override
+  final FriendReactionsOptions? friendReactionsOptions;
 
   @override
   final String? idAround;

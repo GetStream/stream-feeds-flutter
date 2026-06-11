@@ -27,15 +27,16 @@ mixin _$FeedResponse {
   int get followingCount;
   String get groupId;
   String get id;
+  Location? get location;
   int get memberCount;
   String get name;
-  List<FeedOwnCapability>? get ownCapabilities;
+  List<FeedResponseOwnCapabilities>? get ownCapabilities;
   List<FollowResponse>? get ownFollowings;
   List<FollowResponse>? get ownFollows;
   FeedMemberResponse? get ownMembership;
   int get pinCount;
   DateTime get updatedAt;
-  String? get visibility;
+  FeedResponseVisibility? get visibility;
 
   /// Create a copy of FeedResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -70,6 +71,8 @@ mixin _$FeedResponse {
                 other.followingCount == followingCount) &&
             (identical(other.groupId, groupId) || other.groupId == groupId) &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.location, location) ||
+                other.location == location) &&
             (identical(other.memberCount, memberCount) ||
                 other.memberCount == memberCount) &&
             (identical(other.name, name) || other.name == name) &&
@@ -104,6 +107,7 @@ mixin _$FeedResponse {
         followingCount,
         groupId,
         id,
+        location,
         memberCount,
         name,
         const DeepCollectionEquality().hash(ownCapabilities),
@@ -117,7 +121,7 @@ mixin _$FeedResponse {
 
   @override
   String toString() {
-    return 'FeedResponse(activityCount: $activityCount, createdAt: $createdAt, createdBy: $createdBy, custom: $custom, deletedAt: $deletedAt, description: $description, feed: $feed, filterTags: $filterTags, followerCount: $followerCount, followingCount: $followingCount, groupId: $groupId, id: $id, memberCount: $memberCount, name: $name, ownCapabilities: $ownCapabilities, ownFollowings: $ownFollowings, ownFollows: $ownFollows, ownMembership: $ownMembership, pinCount: $pinCount, updatedAt: $updatedAt, visibility: $visibility)';
+    return 'FeedResponse(activityCount: $activityCount, createdAt: $createdAt, createdBy: $createdBy, custom: $custom, deletedAt: $deletedAt, description: $description, feed: $feed, filterTags: $filterTags, followerCount: $followerCount, followingCount: $followingCount, groupId: $groupId, id: $id, location: $location, memberCount: $memberCount, name: $name, ownCapabilities: $ownCapabilities, ownFollowings: $ownFollowings, ownFollows: $ownFollows, ownMembership: $ownMembership, pinCount: $pinCount, updatedAt: $updatedAt, visibility: $visibility)';
   }
 }
 
@@ -140,15 +144,16 @@ abstract mixin class $FeedResponseCopyWith<$Res> {
       int followingCount,
       String groupId,
       String id,
+      Location? location,
       int memberCount,
       String name,
-      List<FeedOwnCapability>? ownCapabilities,
+      List<FeedResponseOwnCapabilities>? ownCapabilities,
       List<FollowResponse>? ownFollowings,
       List<FollowResponse>? ownFollows,
       FeedMemberResponse? ownMembership,
       int pinCount,
       DateTime updatedAt,
-      String? visibility});
+      FeedResponseVisibility? visibility});
 }
 
 /// @nodoc
@@ -175,6 +180,7 @@ class _$FeedResponseCopyWithImpl<$Res> implements $FeedResponseCopyWith<$Res> {
     Object? followingCount = null,
     Object? groupId = null,
     Object? id = null,
+    Object? location = freezed,
     Object? memberCount = null,
     Object? name = null,
     Object? ownCapabilities = freezed,
@@ -234,6 +240,10 @@ class _$FeedResponseCopyWithImpl<$Res> implements $FeedResponseCopyWith<$Res> {
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
+      location: freezed == location
+          ? _self.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as Location?,
       memberCount: null == memberCount
           ? _self.memberCount
           : memberCount // ignore: cast_nullable_to_non_nullable
@@ -245,7 +255,7 @@ class _$FeedResponseCopyWithImpl<$Res> implements $FeedResponseCopyWith<$Res> {
       ownCapabilities: freezed == ownCapabilities
           ? _self.ownCapabilities
           : ownCapabilities // ignore: cast_nullable_to_non_nullable
-              as List<FeedOwnCapability>?,
+              as List<FeedResponseOwnCapabilities>?,
       ownFollowings: freezed == ownFollowings
           ? _self.ownFollowings
           : ownFollowings // ignore: cast_nullable_to_non_nullable
@@ -269,7 +279,7 @@ class _$FeedResponseCopyWithImpl<$Res> implements $FeedResponseCopyWith<$Res> {
       visibility: freezed == visibility
           ? _self.visibility
           : visibility // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as FeedResponseVisibility?,
     ));
   }
 }

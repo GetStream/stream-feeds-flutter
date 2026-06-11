@@ -29,7 +29,7 @@ mixin _$ChannelMemberResponse {
   bool? get isModerator;
   bool get notificationsMuted;
   DateTime? get pinnedAt;
-  ChannelMemberResponseRole? get role;
+  String? get role;
   bool get shadowBanned;
   String? get status;
   DateTime get updatedAt;
@@ -136,7 +136,7 @@ abstract mixin class $ChannelMemberResponseCopyWith<$Res> {
       bool? isModerator,
       bool notificationsMuted,
       DateTime? pinnedAt,
-      ChannelMemberResponseRole? role,
+      String? role,
       bool shadowBanned,
       String? status,
       DateTime updatedAt,
@@ -238,7 +238,7 @@ class _$ChannelMemberResponseCopyWithImpl<$Res>
       role: freezed == role
           ? _self.role
           : role // ignore: cast_nullable_to_non_nullable
-              as ChannelMemberResponseRole?,
+              as String?,
       shadowBanned: null == shadowBanned
           ? _self.shadowBanned
           : shadowBanned // ignore: cast_nullable_to_non_nullable

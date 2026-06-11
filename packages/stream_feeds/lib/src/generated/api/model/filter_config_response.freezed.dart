@@ -16,6 +16,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$FilterConfigResponse {
   List<String>? get aiTextLabels;
+  List<String>? get configKeys;
+  List<String>? get filterableCustomKeys;
   List<String> get llmLabels;
 
   /// Create a copy of FilterConfigResponse
@@ -33,6 +35,10 @@ mixin _$FilterConfigResponse {
             other is FilterConfigResponse &&
             const DeepCollectionEquality()
                 .equals(other.aiTextLabels, aiTextLabels) &&
+            const DeepCollectionEquality()
+                .equals(other.configKeys, configKeys) &&
+            const DeepCollectionEquality()
+                .equals(other.filterableCustomKeys, filterableCustomKeys) &&
             const DeepCollectionEquality().equals(other.llmLabels, llmLabels));
   }
 
@@ -40,11 +46,13 @@ mixin _$FilterConfigResponse {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(aiTextLabels),
+      const DeepCollectionEquality().hash(configKeys),
+      const DeepCollectionEquality().hash(filterableCustomKeys),
       const DeepCollectionEquality().hash(llmLabels));
 
   @override
   String toString() {
-    return 'FilterConfigResponse(aiTextLabels: $aiTextLabels, llmLabels: $llmLabels)';
+    return 'FilterConfigResponse(aiTextLabels: $aiTextLabels, configKeys: $configKeys, filterableCustomKeys: $filterableCustomKeys, llmLabels: $llmLabels)';
   }
 }
 
@@ -54,7 +62,11 @@ abstract mixin class $FilterConfigResponseCopyWith<$Res> {
           $Res Function(FilterConfigResponse) _then) =
       _$FilterConfigResponseCopyWithImpl;
   @useResult
-  $Res call({List<String>? aiTextLabels, List<String> llmLabels});
+  $Res call(
+      {List<String>? aiTextLabels,
+      List<String>? configKeys,
+      List<String>? filterableCustomKeys,
+      List<String> llmLabels});
 }
 
 /// @nodoc
@@ -71,12 +83,22 @@ class _$FilterConfigResponseCopyWithImpl<$Res>
   @override
   $Res call({
     Object? aiTextLabels = freezed,
+    Object? configKeys = freezed,
+    Object? filterableCustomKeys = freezed,
     Object? llmLabels = null,
   }) {
     return _then(FilterConfigResponse(
       aiTextLabels: freezed == aiTextLabels
           ? _self.aiTextLabels
           : aiTextLabels // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      configKeys: freezed == configKeys
+          ? _self.configKeys
+          : configKeys // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      filterableCustomKeys: freezed == filterableCustomKeys
+          ? _self.filterableCustomKeys
+          : filterableCustomKeys // ignore: cast_nullable_to_non_nullable
               as List<String>?,
       llmLabels: null == llmLabels
           ? _self.llmLabels

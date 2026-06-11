@@ -40,6 +40,8 @@ abstract class WSEvent<T extends core.WsEvent> {
           ActivityReactionUpdatedEvent.fromJson(json)),
       "feeds.activity.removed_from_feed" => _ActivityRemovedFromFeedEvent(
           ActivityRemovedFromFeedEvent.fromJson(json)),
+      "feeds.activity.restored" =>
+        _ActivityRestoredEvent(ActivityRestoredEvent.fromJson(json)),
       "feeds.activity.unpinned" =>
         _ActivityUnpinnedEvent(ActivityUnpinnedEvent.fromJson(json)),
       "feeds.activity.updated" =>
@@ -64,6 +66,8 @@ abstract class WSEvent<T extends core.WsEvent> {
           CommentReactionDeletedEvent.fromJson(json)),
       "feeds.comment.reaction.updated" => _CommentReactionUpdatedEvent(
           CommentReactionUpdatedEvent.fromJson(json)),
+      "feeds.comment.restored" =>
+        _CommentRestoredEvent(CommentRestoredEvent.fromJson(json)),
       "feeds.comment.updated" =>
         _CommentUpdatedEvent(CommentUpdatedEvent.fromJson(json)),
       "feeds.feed.created" =>
@@ -76,6 +80,8 @@ abstract class WSEvent<T extends core.WsEvent> {
         _FeedGroupChangedEvent(FeedGroupChangedEvent.fromJson(json)),
       "feeds.feed_group.deleted" =>
         _FeedGroupDeletedEvent(FeedGroupDeletedEvent.fromJson(json)),
+      "feeds.feed_group.restored" =>
+        _FeedGroupRestoredEvent(FeedGroupRestoredEvent.fromJson(json)),
       "feeds.feed_member.added" =>
         _FeedMemberAddedEvent(FeedMemberAddedEvent.fromJson(json)),
       "feeds.feed_member.removed" =>
@@ -113,9 +119,9 @@ abstract class WSEvent<T extends core.WsEvent> {
       "user.banned" => _UserBannedEvent(UserBannedEvent.fromJson(json)),
       "user.deactivated" =>
         _UserDeactivatedEvent(UserDeactivatedEvent.fromJson(json)),
-      "user.muted" => _UserMutedEvent(UserMutedEvent.fromJson(json)),
       "user.reactivated" =>
         _UserReactivatedEvent(UserReactivatedEvent.fromJson(json)),
+      "user.unbanned" => _UserUnbannedEvent(UserUnbannedEvent.fromJson(json)),
       "user.updated" => _UserUpdatedEvent(UserUpdatedEvent.fromJson(json)),
       _ => _UnknownWSEvent(UnknownWSEvent(eventType, json)),
     };
@@ -190,6 +196,13 @@ class _ActivityReactionUpdatedEvent
 class _ActivityRemovedFromFeedEvent
     extends WSEvent<ActivityRemovedFromFeedEvent> {
   const _ActivityRemovedFromFeedEvent(super.wrapped);
+
+  @override
+  String get type => wrapped.type;
+}
+
+class _ActivityRestoredEvent extends WSEvent<ActivityRestoredEvent> {
+  const _ActivityRestoredEvent(super.wrapped);
 
   @override
   String get type => wrapped.type;
@@ -281,6 +294,13 @@ class _CommentReactionUpdatedEvent
   String get type => wrapped.type;
 }
 
+class _CommentRestoredEvent extends WSEvent<CommentRestoredEvent> {
+  const _CommentRestoredEvent(super.wrapped);
+
+  @override
+  String get type => wrapped.type;
+}
+
 class _CommentUpdatedEvent extends WSEvent<CommentUpdatedEvent> {
   const _CommentUpdatedEvent(super.wrapped);
 
@@ -318,6 +338,13 @@ class _FeedGroupChangedEvent extends WSEvent<FeedGroupChangedEvent> {
 
 class _FeedGroupDeletedEvent extends WSEvent<FeedGroupDeletedEvent> {
   const _FeedGroupDeletedEvent(super.wrapped);
+
+  @override
+  String get type => wrapped.type;
+}
+
+class _FeedGroupRestoredEvent extends WSEvent<FeedGroupRestoredEvent> {
+  const _FeedGroupRestoredEvent(super.wrapped);
 
   @override
   String get type => wrapped.type;
@@ -459,15 +486,15 @@ class _UserDeactivatedEvent extends WSEvent<UserDeactivatedEvent> {
   String get type => wrapped.type;
 }
 
-class _UserMutedEvent extends WSEvent<UserMutedEvent> {
-  const _UserMutedEvent(super.wrapped);
+class _UserReactivatedEvent extends WSEvent<UserReactivatedEvent> {
+  const _UserReactivatedEvent(super.wrapped);
 
   @override
   String get type => wrapped.type;
 }
 
-class _UserReactivatedEvent extends WSEvent<UserReactivatedEvent> {
-  const _UserReactivatedEvent(super.wrapped);
+class _UserUnbannedEvent extends WSEvent<UserUnbannedEvent> {
+  const _UserUnbannedEvent(super.wrapped);
 
   @override
   String get type => wrapped.type;

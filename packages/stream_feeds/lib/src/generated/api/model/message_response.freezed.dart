@@ -30,6 +30,11 @@ mixin _$MessageResponse {
   Map<String, List<String>>? get imageLabels;
   List<ReactionResponse> get latestReactions;
   ChannelMemberResponse? get member;
+  bool get mentionedChannel;
+  List<String>? get mentionedGroupIds;
+  List<UserGroupResponse>? get mentionedGroups;
+  bool get mentionedHere;
+  List<String>? get mentionedRoles;
   List<UserResponse> get mentionedUsers;
   DateTime? get messageTextUpdatedAt;
   String? get mml;
@@ -56,7 +61,7 @@ mixin _$MessageResponse {
   bool get silent;
   String get text;
   List<UserResponse>? get threadParticipants;
-  MessageResponseType get type;
+  String get type;
   DateTime get updatedAt;
   UserResponse get user;
 
@@ -95,6 +100,16 @@ mixin _$MessageResponse {
             const DeepCollectionEquality()
                 .equals(other.latestReactions, latestReactions) &&
             (identical(other.member, member) || other.member == member) &&
+            (identical(other.mentionedChannel, mentionedChannel) ||
+                other.mentionedChannel == mentionedChannel) &&
+            const DeepCollectionEquality()
+                .equals(other.mentionedGroupIds, mentionedGroupIds) &&
+            const DeepCollectionEquality()
+                .equals(other.mentionedGroups, mentionedGroups) &&
+            (identical(other.mentionedHere, mentionedHere) ||
+                other.mentionedHere == mentionedHere) &&
+            const DeepCollectionEquality()
+                .equals(other.mentionedRoles, mentionedRoles) &&
             const DeepCollectionEquality()
                 .equals(other.mentionedUsers, mentionedUsers) &&
             (identical(other.messageTextUpdatedAt, messageTextUpdatedAt) ||
@@ -165,6 +180,11 @@ mixin _$MessageResponse {
         const DeepCollectionEquality().hash(imageLabels),
         const DeepCollectionEquality().hash(latestReactions),
         member,
+        mentionedChannel,
+        const DeepCollectionEquality().hash(mentionedGroupIds),
+        const DeepCollectionEquality().hash(mentionedGroups),
+        mentionedHere,
+        const DeepCollectionEquality().hash(mentionedRoles),
         const DeepCollectionEquality().hash(mentionedUsers),
         messageTextUpdatedAt,
         mml,
@@ -198,7 +218,7 @@ mixin _$MessageResponse {
 
   @override
   String toString() {
-    return 'MessageResponse(attachments: $attachments, cid: $cid, command: $command, createdAt: $createdAt, custom: $custom, deletedAt: $deletedAt, deletedForMe: $deletedForMe, deletedReplyCount: $deletedReplyCount, draft: $draft, html: $html, i18n: $i18n, id: $id, imageLabels: $imageLabels, latestReactions: $latestReactions, member: $member, mentionedUsers: $mentionedUsers, messageTextUpdatedAt: $messageTextUpdatedAt, mml: $mml, moderation: $moderation, ownReactions: $ownReactions, parentId: $parentId, pinExpires: $pinExpires, pinned: $pinned, pinnedAt: $pinnedAt, pinnedBy: $pinnedBy, poll: $poll, pollId: $pollId, quotedMessage: $quotedMessage, quotedMessageId: $quotedMessageId, reactionCounts: $reactionCounts, reactionGroups: $reactionGroups, reactionScores: $reactionScores, reminder: $reminder, replyCount: $replyCount, restrictedVisibility: $restrictedVisibility, shadowed: $shadowed, sharedLocation: $sharedLocation, showInChannel: $showInChannel, silent: $silent, text: $text, threadParticipants: $threadParticipants, type: $type, updatedAt: $updatedAt, user: $user)';
+    return 'MessageResponse(attachments: $attachments, cid: $cid, command: $command, createdAt: $createdAt, custom: $custom, deletedAt: $deletedAt, deletedForMe: $deletedForMe, deletedReplyCount: $deletedReplyCount, draft: $draft, html: $html, i18n: $i18n, id: $id, imageLabels: $imageLabels, latestReactions: $latestReactions, member: $member, mentionedChannel: $mentionedChannel, mentionedGroupIds: $mentionedGroupIds, mentionedGroups: $mentionedGroups, mentionedHere: $mentionedHere, mentionedRoles: $mentionedRoles, mentionedUsers: $mentionedUsers, messageTextUpdatedAt: $messageTextUpdatedAt, mml: $mml, moderation: $moderation, ownReactions: $ownReactions, parentId: $parentId, pinExpires: $pinExpires, pinned: $pinned, pinnedAt: $pinnedAt, pinnedBy: $pinnedBy, poll: $poll, pollId: $pollId, quotedMessage: $quotedMessage, quotedMessageId: $quotedMessageId, reactionCounts: $reactionCounts, reactionGroups: $reactionGroups, reactionScores: $reactionScores, reminder: $reminder, replyCount: $replyCount, restrictedVisibility: $restrictedVisibility, shadowed: $shadowed, sharedLocation: $sharedLocation, showInChannel: $showInChannel, silent: $silent, text: $text, threadParticipants: $threadParticipants, type: $type, updatedAt: $updatedAt, user: $user)';
   }
 }
 
@@ -224,6 +244,11 @@ abstract mixin class $MessageResponseCopyWith<$Res> {
       Map<String, List<String>>? imageLabels,
       List<ReactionResponse> latestReactions,
       ChannelMemberResponse? member,
+      bool mentionedChannel,
+      List<String>? mentionedGroupIds,
+      List<UserGroupResponse>? mentionedGroups,
+      bool mentionedHere,
+      List<String>? mentionedRoles,
       List<UserResponse> mentionedUsers,
       DateTime? messageTextUpdatedAt,
       String? mml,
@@ -250,7 +275,7 @@ abstract mixin class $MessageResponseCopyWith<$Res> {
       bool silent,
       String text,
       List<UserResponse>? threadParticipants,
-      MessageResponseType type,
+      String type,
       DateTime updatedAt,
       UserResponse user});
 }
@@ -283,6 +308,11 @@ class _$MessageResponseCopyWithImpl<$Res>
     Object? imageLabels = freezed,
     Object? latestReactions = null,
     Object? member = freezed,
+    Object? mentionedChannel = null,
+    Object? mentionedGroupIds = freezed,
+    Object? mentionedGroups = freezed,
+    Object? mentionedHere = null,
+    Object? mentionedRoles = freezed,
     Object? mentionedUsers = null,
     Object? messageTextUpdatedAt = freezed,
     Object? mml = freezed,
@@ -374,6 +404,26 @@ class _$MessageResponseCopyWithImpl<$Res>
           ? _self.member
           : member // ignore: cast_nullable_to_non_nullable
               as ChannelMemberResponse?,
+      mentionedChannel: null == mentionedChannel
+          ? _self.mentionedChannel
+          : mentionedChannel // ignore: cast_nullable_to_non_nullable
+              as bool,
+      mentionedGroupIds: freezed == mentionedGroupIds
+          ? _self.mentionedGroupIds
+          : mentionedGroupIds // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      mentionedGroups: freezed == mentionedGroups
+          ? _self.mentionedGroups
+          : mentionedGroups // ignore: cast_nullable_to_non_nullable
+              as List<UserGroupResponse>?,
+      mentionedHere: null == mentionedHere
+          ? _self.mentionedHere
+          : mentionedHere // ignore: cast_nullable_to_non_nullable
+              as bool,
+      mentionedRoles: freezed == mentionedRoles
+          ? _self.mentionedRoles
+          : mentionedRoles // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       mentionedUsers: null == mentionedUsers
           ? _self.mentionedUsers
           : mentionedUsers // ignore: cast_nullable_to_non_nullable
@@ -481,7 +531,7 @@ class _$MessageResponseCopyWithImpl<$Res>
       type: null == type
           ? _self.type
           : type // ignore: cast_nullable_to_non_nullable
-              as MessageResponseType,
+              as String,
       updatedAt: null == updatedAt
           ? _self.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable

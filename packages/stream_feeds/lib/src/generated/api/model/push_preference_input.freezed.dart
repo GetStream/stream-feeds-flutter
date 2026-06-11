@@ -18,6 +18,7 @@ mixin _$PushPreferenceInput {
   PushPreferenceInputCallLevel? get callLevel;
   String? get channelCid;
   PushPreferenceInputChatLevel? get chatLevel;
+  ChatPreferencesInput? get chatPreferences;
   DateTime? get disabledUntil;
   PushPreferenceInputFeedsLevel? get feedsLevel;
   FeedsPreferences? get feedsPreferences;
@@ -43,6 +44,8 @@ mixin _$PushPreferenceInput {
                 other.channelCid == channelCid) &&
             (identical(other.chatLevel, chatLevel) ||
                 other.chatLevel == chatLevel) &&
+            (identical(other.chatPreferences, chatPreferences) ||
+                other.chatPreferences == chatPreferences) &&
             (identical(other.disabledUntil, disabledUntil) ||
                 other.disabledUntil == disabledUntil) &&
             (identical(other.feedsLevel, feedsLevel) ||
@@ -55,12 +58,21 @@ mixin _$PushPreferenceInput {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, callLevel, channelCid, chatLevel,
-      disabledUntil, feedsLevel, feedsPreferences, removeDisable, userId);
+  int get hashCode => Object.hash(
+      runtimeType,
+      callLevel,
+      channelCid,
+      chatLevel,
+      chatPreferences,
+      disabledUntil,
+      feedsLevel,
+      feedsPreferences,
+      removeDisable,
+      userId);
 
   @override
   String toString() {
-    return 'PushPreferenceInput(callLevel: $callLevel, channelCid: $channelCid, chatLevel: $chatLevel, disabledUntil: $disabledUntil, feedsLevel: $feedsLevel, feedsPreferences: $feedsPreferences, removeDisable: $removeDisable, userId: $userId)';
+    return 'PushPreferenceInput(callLevel: $callLevel, channelCid: $channelCid, chatLevel: $chatLevel, chatPreferences: $chatPreferences, disabledUntil: $disabledUntil, feedsLevel: $feedsLevel, feedsPreferences: $feedsPreferences, removeDisable: $removeDisable, userId: $userId)';
   }
 }
 
@@ -74,6 +86,7 @@ abstract mixin class $PushPreferenceInputCopyWith<$Res> {
       {PushPreferenceInputCallLevel? callLevel,
       String? channelCid,
       PushPreferenceInputChatLevel? chatLevel,
+      ChatPreferencesInput? chatPreferences,
       DateTime? disabledUntil,
       PushPreferenceInputFeedsLevel? feedsLevel,
       FeedsPreferences? feedsPreferences,
@@ -97,6 +110,7 @@ class _$PushPreferenceInputCopyWithImpl<$Res>
     Object? callLevel = freezed,
     Object? channelCid = freezed,
     Object? chatLevel = freezed,
+    Object? chatPreferences = freezed,
     Object? disabledUntil = freezed,
     Object? feedsLevel = freezed,
     Object? feedsPreferences = freezed,
@@ -116,6 +130,10 @@ class _$PushPreferenceInputCopyWithImpl<$Res>
           ? _self.chatLevel
           : chatLevel // ignore: cast_nullable_to_non_nullable
               as PushPreferenceInputChatLevel?,
+      chatPreferences: freezed == chatPreferences
+          ? _self.chatPreferences
+          : chatPreferences // ignore: cast_nullable_to_non_nullable
+              as ChatPreferencesInput?,
       disabledUntil: freezed == disabledUntil
           ? _self.disabledUntil
           : disabledUntil // ignore: cast_nullable_to_non_nullable

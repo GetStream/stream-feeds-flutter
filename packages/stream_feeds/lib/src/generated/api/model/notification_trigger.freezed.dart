@@ -16,6 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$NotificationTrigger {
   NotificationComment? get comment;
+  Map<String, Object?>? get custom;
   String get text;
   String get type;
 
@@ -33,16 +34,18 @@ mixin _$NotificationTrigger {
         (other.runtimeType == runtimeType &&
             other is NotificationTrigger &&
             (identical(other.comment, comment) || other.comment == comment) &&
+            const DeepCollectionEquality().equals(other.custom, custom) &&
             (identical(other.text, text) || other.text == text) &&
             (identical(other.type, type) || other.type == type));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, comment, text, type);
+  int get hashCode => Object.hash(runtimeType, comment,
+      const DeepCollectionEquality().hash(custom), text, type);
 
   @override
   String toString() {
-    return 'NotificationTrigger(comment: $comment, text: $text, type: $type)';
+    return 'NotificationTrigger(comment: $comment, custom: $custom, text: $text, type: $type)';
   }
 }
 
@@ -52,7 +55,11 @@ abstract mixin class $NotificationTriggerCopyWith<$Res> {
           NotificationTrigger value, $Res Function(NotificationTrigger) _then) =
       _$NotificationTriggerCopyWithImpl;
   @useResult
-  $Res call({NotificationComment? comment, String text, String type});
+  $Res call(
+      {NotificationComment? comment,
+      Map<String, Object?>? custom,
+      String text,
+      String type});
 }
 
 /// @nodoc
@@ -69,6 +76,7 @@ class _$NotificationTriggerCopyWithImpl<$Res>
   @override
   $Res call({
     Object? comment = freezed,
+    Object? custom = freezed,
     Object? text = null,
     Object? type = null,
   }) {
@@ -77,6 +85,10 @@ class _$NotificationTriggerCopyWithImpl<$Res>
           ? _self.comment
           : comment // ignore: cast_nullable_to_non_nullable
               as NotificationComment?,
+      custom: freezed == custom
+          ? _self.custom
+          : custom // ignore: cast_nullable_to_non_nullable
+              as Map<String, Object?>?,
       text: null == text
           ? _self.text
           : text // ignore: cast_nullable_to_non_nullable

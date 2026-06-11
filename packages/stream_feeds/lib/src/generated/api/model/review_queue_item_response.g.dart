@@ -23,7 +23,7 @@ ReviewQueueItemResponse _$ReviewQueueItemResponseFromJson(
           ? null
           : UserResponse.fromJson(json['assigned_to'] as Map<String, dynamic>),
       bans: (json['bans'] as List<dynamic>)
-          .map((e) => Ban.fromJson(e as Map<String, dynamic>))
+          .map((e) => BanInfoResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
       call: json['call'] == null
           ? null
@@ -40,6 +40,14 @@ ReviewQueueItemResponse _$ReviewQueueItemResponseFromJson(
       entityCreatorId: json['entity_creator_id'] as String?,
       entityId: json['entity_id'] as String,
       entityType: json['entity_type'] as String,
+      escalated: json['escalated'] as bool,
+      escalatedAt: _$JsonConverterFromJson<int, DateTime>(
+          json['escalated_at'], const EpochDateTimeConverter().fromJson),
+      escalatedBy: json['escalated_by'] as String?,
+      escalationMetadata: json['escalation_metadata'] == null
+          ? null
+          : EscalationMetadata.fromJson(
+              json['escalation_metadata'] as Map<String, dynamic>),
       feedsV2Activity: json['feeds_v2_activity'] == null
           ? null
           : EnrichedActivity.fromJson(
@@ -50,11 +58,11 @@ ReviewQueueItemResponse _$ReviewQueueItemResponseFromJson(
               json['feeds_v2_reaction'] as Map<String, dynamic>),
       feedsV3Activity: json['feeds_v3_activity'] == null
           ? null
-          : ActivityResponse.fromJson(
+          : FeedsV3ActivityResponse.fromJson(
               json['feeds_v3_activity'] as Map<String, dynamic>),
       feedsV3Comment: json['feeds_v3_comment'] == null
           ? null
-          : CommentResponse.fromJson(
+          : FeedsV3CommentResponse.fromJson(
               json['feeds_v3_comment'] as Map<String, dynamic>),
       flags: (json['flags'] as List<dynamic>)
           .map(
@@ -67,10 +75,11 @@ ReviewQueueItemResponse _$ReviewQueueItemResponseFromJson(
       latestModeratorAction: json['latest_moderator_action'] as String,
       message: json['message'] == null
           ? null
-          : MessageResponse.fromJson(json['message'] as Map<String, dynamic>),
+          : ChatMessageResponse.fromJson(
+              json['message'] as Map<String, dynamic>),
       moderationPayload: json['moderation_payload'] == null
           ? null
-          : ModerationPayload.fromJson(
+          : ModerationPayloadResponse.fromJson(
               json['moderation_payload'] as Map<String, dynamic>),
       reaction: json['reaction'] == null
           ? null
@@ -105,6 +114,11 @@ Map<String, dynamic> _$ReviewQueueItemResponseToJson(
       'entity_creator_id': instance.entityCreatorId,
       'entity_id': instance.entityId,
       'entity_type': instance.entityType,
+      'escalated': instance.escalated,
+      'escalated_at': _$JsonConverterToJson<int, DateTime>(
+          instance.escalatedAt, const EpochDateTimeConverter().toJson),
+      'escalated_by': instance.escalatedBy,
+      'escalation_metadata': instance.escalationMetadata?.toJson(),
       'feeds_v2_activity': instance.feedsV2Activity?.toJson(),
       'feeds_v2_reaction': instance.feedsV2Reaction?.toJson(),
       'feeds_v3_activity': instance.feedsV3Activity?.toJson(),

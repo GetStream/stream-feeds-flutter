@@ -15,6 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$FeedGroup {
+  ActivityFilterConfig? get activityFilter;
   List<ActivityProcessorConfig> get activityProcessors;
   List<ActivitySelectorConfig> get activitySelectors;
   AggregationConfig? get aggregation;
@@ -44,6 +45,8 @@ mixin _$FeedGroup {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is FeedGroup &&
+            (identical(other.activityFilter, activityFilter) ||
+                other.activityFilter == activityFilter) &&
             const DeepCollectionEquality()
                 .equals(other.activityProcessors, activityProcessors) &&
             const DeepCollectionEquality()
@@ -76,6 +79,7 @@ mixin _$FeedGroup {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      activityFilter,
       const DeepCollectionEquality().hash(activityProcessors),
       const DeepCollectionEquality().hash(activitySelectors),
       aggregation,
@@ -95,7 +99,7 @@ mixin _$FeedGroup {
 
   @override
   String toString() {
-    return 'FeedGroup(activityProcessors: $activityProcessors, activitySelectors: $activitySelectors, aggregation: $aggregation, aggregationVersion: $aggregationVersion, appPk: $appPk, createdAt: $createdAt, custom: $custom, defaultVisibility: $defaultVisibility, deletedAt: $deletedAt, groupId: $groupId, lastFeedGetAt: $lastFeedGetAt, notification: $notification, pushNotification: $pushNotification, ranking: $ranking, stories: $stories, updatedAt: $updatedAt)';
+    return 'FeedGroup(activityFilter: $activityFilter, activityProcessors: $activityProcessors, activitySelectors: $activitySelectors, aggregation: $aggregation, aggregationVersion: $aggregationVersion, appPk: $appPk, createdAt: $createdAt, custom: $custom, defaultVisibility: $defaultVisibility, deletedAt: $deletedAt, groupId: $groupId, lastFeedGetAt: $lastFeedGetAt, notification: $notification, pushNotification: $pushNotification, ranking: $ranking, stories: $stories, updatedAt: $updatedAt)';
   }
 }
 
@@ -105,7 +109,8 @@ abstract mixin class $FeedGroupCopyWith<$Res> {
       _$FeedGroupCopyWithImpl;
   @useResult
   $Res call(
-      {List<ActivityProcessorConfig> activityProcessors,
+      {ActivityFilterConfig? activityFilter,
+      List<ActivityProcessorConfig> activityProcessors,
       List<ActivitySelectorConfig> activitySelectors,
       AggregationConfig? aggregation,
       int aggregationVersion,
@@ -135,6 +140,7 @@ class _$FeedGroupCopyWithImpl<$Res> implements $FeedGroupCopyWith<$Res> {
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? activityFilter = freezed,
     Object? activityProcessors = null,
     Object? activitySelectors = null,
     Object? aggregation = freezed,
@@ -153,6 +159,10 @@ class _$FeedGroupCopyWithImpl<$Res> implements $FeedGroupCopyWith<$Res> {
     Object? updatedAt = null,
   }) {
     return _then(FeedGroup(
+      activityFilter: freezed == activityFilter
+          ? _self.activityFilter
+          : activityFilter // ignore: cast_nullable_to_non_nullable
+              as ActivityFilterConfig?,
       activityProcessors: null == activityProcessors
           ? _self.activityProcessors
           : activityProcessors // ignore: cast_nullable_to_non_nullable

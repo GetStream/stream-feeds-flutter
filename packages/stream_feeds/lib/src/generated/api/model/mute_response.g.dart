@@ -9,14 +9,14 @@ part of 'mute_response.dart';
 MuteResponse _$MuteResponseFromJson(Map<String, dynamic> json) => MuteResponse(
       duration: json['duration'] as String,
       mutes: (json['mutes'] as List<dynamic>?)
-          ?.map((e) => UserMute.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => UserMuteResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
       nonExistingUsers: (json['non_existing_users'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
       ownUser: json['own_user'] == null
           ? null
-          : OwnUser.fromJson(json['own_user'] as Map<String, dynamic>),
+          : OwnUserResponse.fromJson(json['own_user'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$MuteResponseToJson(MuteResponse instance) =>

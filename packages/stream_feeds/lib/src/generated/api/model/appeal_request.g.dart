@@ -14,6 +14,7 @@ AppealRequest _$AppealRequestFromJson(Map<String, dynamic> json) =>
           .toList(),
       entityId: json['entity_id'] as String,
       entityType: json['entity_type'] as String,
+      reviewQueueItemId: json['review_queue_item_id'] as String?,
     );
 
 Map<String, dynamic> _$AppealRequestToJson(AppealRequest instance) =>
@@ -22,4 +23,5 @@ Map<String, dynamic> _$AppealRequestToJson(AppealRequest instance) =>
       'attachments': instance.attachments,
       'entity_id': instance.entityId,
       'entity_type': instance.entityType,
+      'review_queue_item_id': instance.reviewQueueItemId,
     };

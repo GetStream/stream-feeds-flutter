@@ -20,6 +20,7 @@ class AddCommentReactionResponse with _$AddCommentReactionResponse {
   const AddCommentReactionResponse({
     required this.comment,
     required this.duration,
+    this.notificationCreated,
     required this.reaction,
   });
 
@@ -28,6 +29,9 @@ class AddCommentReactionResponse with _$AddCommentReactionResponse {
 
   @override
   final String duration;
+
+  @override
+  final bool? notificationCreated;
 
   @override
   final FeedsReactionResponse reaction;

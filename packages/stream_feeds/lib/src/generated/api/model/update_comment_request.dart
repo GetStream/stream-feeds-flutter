@@ -20,7 +20,10 @@ class UpdateCommentRequest with _$UpdateCommentRequest {
   const UpdateCommentRequest({
     this.attachments,
     this.comment,
+    this.copyCustomToNotification,
     this.custom,
+    this.handleMentionNotifications,
+    this.mentionedUserIds,
     this.skipEnrichUrl,
     this.skipPush,
   });
@@ -31,8 +34,18 @@ class UpdateCommentRequest with _$UpdateCommentRequest {
   @override
   final String? comment;
 
+  @Deprecated('This field is deprecated.')
+  @override
+  final bool? copyCustomToNotification;
+
   @override
   final Map<String, Object?>? custom;
+
+  @override
+  final bool? handleMentionNotifications;
+
+  @override
+  final List<String>? mentionedUserIds;
 
   @override
   final bool? skipEnrichUrl;

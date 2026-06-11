@@ -8,6 +8,7 @@ part of 'query_feeds_request.dart';
 
 QueryFeedsRequest _$QueryFeedsRequestFromJson(Map<String, dynamic> json) =>
     QueryFeedsRequest(
+      enrichOwnFields: json['enrich_own_fields'] as bool?,
       filter: json['filter'] as Map<String, dynamic>?,
       limit: (json['limit'] as num?)?.toInt(),
       next: json['next'] as String?,
@@ -20,6 +21,7 @@ QueryFeedsRequest _$QueryFeedsRequestFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$QueryFeedsRequestToJson(QueryFeedsRequest instance) =>
     <String, dynamic>{
+      'enrich_own_fields': instance.enrichOwnFields,
       'filter': instance.filter,
       'limit': instance.limit,
       'next': instance.next,

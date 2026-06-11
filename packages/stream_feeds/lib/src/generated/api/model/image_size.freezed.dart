@@ -15,9 +15,9 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$ImageSize {
-  ImageSizeCrop? get crop;
+  String? get crop;
   int? get height;
-  ImageSizeResize? get resize;
+  String? get resize;
   int? get width;
 
   /// Create a copy of ImageSize
@@ -52,8 +52,7 @@ abstract mixin class $ImageSizeCopyWith<$Res> {
   factory $ImageSizeCopyWith(ImageSize value, $Res Function(ImageSize) _then) =
       _$ImageSizeCopyWithImpl;
   @useResult
-  $Res call(
-      {ImageSizeCrop? crop, int? height, ImageSizeResize? resize, int? width});
+  $Res call({String? crop, int? height, String? resize, int? width});
 }
 
 /// @nodoc
@@ -77,7 +76,7 @@ class _$ImageSizeCopyWithImpl<$Res> implements $ImageSizeCopyWith<$Res> {
       crop: freezed == crop
           ? _self.crop
           : crop // ignore: cast_nullable_to_non_nullable
-              as ImageSizeCrop?,
+              as String?,
       height: freezed == height
           ? _self.height
           : height // ignore: cast_nullable_to_non_nullable
@@ -85,7 +84,7 @@ class _$ImageSizeCopyWithImpl<$Res> implements $ImageSizeCopyWith<$Res> {
       resize: freezed == resize
           ? _self.resize
           : resize // ignore: cast_nullable_to_non_nullable
-              as ImageSizeResize?,
+              as String?,
       width: freezed == width
           ? _self.width
           : width // ignore: cast_nullable_to_non_nullable

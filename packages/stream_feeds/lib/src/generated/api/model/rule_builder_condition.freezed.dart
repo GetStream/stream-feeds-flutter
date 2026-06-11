@@ -15,11 +15,19 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$RuleBuilderCondition {
+  CallCustomPropertyParameters? get callCustomPropertyParams;
+  CallTypeRuleParameters? get callTypeRuleParams;
+  CallViolationCountParameters? get callViolationCountParams;
+  ChannelMessageCountRuleParameters? get channelMessageCountRuleParams;
+  ClosedCaptionRuleParameters? get closedCaptionRuleParams;
   double? get confidence;
   ContentCountRuleParameters? get contentCountRuleParams;
+  ContentCustomPropertyCountParameters? get contentCustomPropertyCountParams;
   FlagCountRuleParameters? get contentFlagCountRuleParams;
   ImageContentParameters? get imageContentParams;
   ImageRuleParameters? get imageRuleParams;
+  KeyframeOCRRuleParameters? get keyframeOcrRuleParams;
+  KeyframeRuleParameters? get keyframeRuleParams;
   TextContentParameters? get textContentParams;
   TextRuleParameters? get textRuleParams;
   String? get type;
@@ -45,18 +53,35 @@ mixin _$RuleBuilderCondition {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is RuleBuilderCondition &&
+            (identical(other.callCustomPropertyParams, callCustomPropertyParams) ||
+                other.callCustomPropertyParams == callCustomPropertyParams) &&
+            (identical(other.callTypeRuleParams, callTypeRuleParams) ||
+                other.callTypeRuleParams == callTypeRuleParams) &&
+            (identical(other.callViolationCountParams, callViolationCountParams) ||
+                other.callViolationCountParams == callViolationCountParams) &&
+            (identical(other.channelMessageCountRuleParams, channelMessageCountRuleParams) ||
+                other.channelMessageCountRuleParams ==
+                    channelMessageCountRuleParams) &&
+            (identical(other.closedCaptionRuleParams, closedCaptionRuleParams) ||
+                other.closedCaptionRuleParams == closedCaptionRuleParams) &&
             (identical(other.confidence, confidence) ||
                 other.confidence == confidence) &&
             (identical(other.contentCountRuleParams, contentCountRuleParams) ||
                 other.contentCountRuleParams == contentCountRuleParams) &&
-            (identical(other.contentFlagCountRuleParams,
-                    contentFlagCountRuleParams) ||
+            (identical(other.contentCustomPropertyCountParams, contentCustomPropertyCountParams) ||
+                other.contentCustomPropertyCountParams ==
+                    contentCustomPropertyCountParams) &&
+            (identical(other.contentFlagCountRuleParams, contentFlagCountRuleParams) ||
                 other.contentFlagCountRuleParams ==
                     contentFlagCountRuleParams) &&
             (identical(other.imageContentParams, imageContentParams) ||
                 other.imageContentParams == imageContentParams) &&
             (identical(other.imageRuleParams, imageRuleParams) ||
                 other.imageRuleParams == imageRuleParams) &&
+            (identical(other.keyframeOcrRuleParams, keyframeOcrRuleParams) ||
+                other.keyframeOcrRuleParams == keyframeOcrRuleParams) &&
+            (identical(other.keyframeRuleParams, keyframeRuleParams) ||
+                other.keyframeRuleParams == keyframeRuleParams) &&
             (identical(other.textContentParams, textContentParams) ||
                 other.textContentParams == textContentParams) &&
             (identical(other.textRuleParams, textRuleParams) ||
@@ -64,48 +89,49 @@ mixin _$RuleBuilderCondition {
             (identical(other.type, type) || other.type == type) &&
             (identical(other.userCreatedWithinParams, userCreatedWithinParams) ||
                 other.userCreatedWithinParams == userCreatedWithinParams) &&
-            (identical(
-                    other.userCustomPropertyParams, userCustomPropertyParams) ||
+            (identical(other.userCustomPropertyParams, userCustomPropertyParams) ||
                 other.userCustomPropertyParams == userCustomPropertyParams) &&
             (identical(other.userFlagCountRuleParams, userFlagCountRuleParams) ||
                 other.userFlagCountRuleParams == userFlagCountRuleParams) &&
-            (identical(other.userIdenticalContentCountParams,
-                    userIdenticalContentCountParams) ||
-                other.userIdenticalContentCountParams ==
-                    userIdenticalContentCountParams) &&
-            (identical(other.userRoleParams, userRoleParams) ||
-                other.userRoleParams == userRoleParams) &&
-            (identical(other.userRuleParams, userRuleParams) ||
-                other.userRuleParams == userRuleParams) &&
-            (identical(other.videoContentParams, videoContentParams) ||
-                other.videoContentParams == videoContentParams) &&
-            (identical(other.videoRuleParams, videoRuleParams) ||
-                other.videoRuleParams == videoRuleParams));
+            (identical(other.userIdenticalContentCountParams, userIdenticalContentCountParams) || other.userIdenticalContentCountParams == userIdenticalContentCountParams) &&
+            (identical(other.userRoleParams, userRoleParams) || other.userRoleParams == userRoleParams) &&
+            (identical(other.userRuleParams, userRuleParams) || other.userRuleParams == userRuleParams) &&
+            (identical(other.videoContentParams, videoContentParams) || other.videoContentParams == videoContentParams) &&
+            (identical(other.videoRuleParams, videoRuleParams) || other.videoRuleParams == videoRuleParams));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      confidence,
-      contentCountRuleParams,
-      contentFlagCountRuleParams,
-      imageContentParams,
-      imageRuleParams,
-      textContentParams,
-      textRuleParams,
-      type,
-      userCreatedWithinParams,
-      userCustomPropertyParams,
-      userFlagCountRuleParams,
-      userIdenticalContentCountParams,
-      userRoleParams,
-      userRuleParams,
-      videoContentParams,
-      videoRuleParams);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        callCustomPropertyParams,
+        callTypeRuleParams,
+        callViolationCountParams,
+        channelMessageCountRuleParams,
+        closedCaptionRuleParams,
+        confidence,
+        contentCountRuleParams,
+        contentCustomPropertyCountParams,
+        contentFlagCountRuleParams,
+        imageContentParams,
+        imageRuleParams,
+        keyframeOcrRuleParams,
+        keyframeRuleParams,
+        textContentParams,
+        textRuleParams,
+        type,
+        userCreatedWithinParams,
+        userCustomPropertyParams,
+        userFlagCountRuleParams,
+        userIdenticalContentCountParams,
+        userRoleParams,
+        userRuleParams,
+        videoContentParams,
+        videoRuleParams
+      ]);
 
   @override
   String toString() {
-    return 'RuleBuilderCondition(confidence: $confidence, contentCountRuleParams: $contentCountRuleParams, contentFlagCountRuleParams: $contentFlagCountRuleParams, imageContentParams: $imageContentParams, imageRuleParams: $imageRuleParams, textContentParams: $textContentParams, textRuleParams: $textRuleParams, type: $type, userCreatedWithinParams: $userCreatedWithinParams, userCustomPropertyParams: $userCustomPropertyParams, userFlagCountRuleParams: $userFlagCountRuleParams, userIdenticalContentCountParams: $userIdenticalContentCountParams, userRoleParams: $userRoleParams, userRuleParams: $userRuleParams, videoContentParams: $videoContentParams, videoRuleParams: $videoRuleParams)';
+    return 'RuleBuilderCondition(callCustomPropertyParams: $callCustomPropertyParams, callTypeRuleParams: $callTypeRuleParams, callViolationCountParams: $callViolationCountParams, channelMessageCountRuleParams: $channelMessageCountRuleParams, closedCaptionRuleParams: $closedCaptionRuleParams, confidence: $confidence, contentCountRuleParams: $contentCountRuleParams, contentCustomPropertyCountParams: $contentCustomPropertyCountParams, contentFlagCountRuleParams: $contentFlagCountRuleParams, imageContentParams: $imageContentParams, imageRuleParams: $imageRuleParams, keyframeOcrRuleParams: $keyframeOcrRuleParams, keyframeRuleParams: $keyframeRuleParams, textContentParams: $textContentParams, textRuleParams: $textRuleParams, type: $type, userCreatedWithinParams: $userCreatedWithinParams, userCustomPropertyParams: $userCustomPropertyParams, userFlagCountRuleParams: $userFlagCountRuleParams, userIdenticalContentCountParams: $userIdenticalContentCountParams, userRoleParams: $userRoleParams, userRuleParams: $userRuleParams, videoContentParams: $videoContentParams, videoRuleParams: $videoRuleParams)';
   }
 }
 
@@ -116,11 +142,19 @@ abstract mixin class $RuleBuilderConditionCopyWith<$Res> {
       _$RuleBuilderConditionCopyWithImpl;
   @useResult
   $Res call(
-      {double? confidence,
+      {CallCustomPropertyParameters? callCustomPropertyParams,
+      CallTypeRuleParameters? callTypeRuleParams,
+      CallViolationCountParameters? callViolationCountParams,
+      ChannelMessageCountRuleParameters? channelMessageCountRuleParams,
+      ClosedCaptionRuleParameters? closedCaptionRuleParams,
+      double? confidence,
       ContentCountRuleParameters? contentCountRuleParams,
+      ContentCustomPropertyCountParameters? contentCustomPropertyCountParams,
       FlagCountRuleParameters? contentFlagCountRuleParams,
       ImageContentParameters? imageContentParams,
       ImageRuleParameters? imageRuleParams,
+      KeyframeOCRRuleParameters? keyframeOcrRuleParams,
+      KeyframeRuleParameters? keyframeRuleParams,
       TextContentParameters? textContentParams,
       TextRuleParameters? textRuleParams,
       String? type,
@@ -147,11 +181,19 @@ class _$RuleBuilderConditionCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? callCustomPropertyParams = freezed,
+    Object? callTypeRuleParams = freezed,
+    Object? callViolationCountParams = freezed,
+    Object? channelMessageCountRuleParams = freezed,
+    Object? closedCaptionRuleParams = freezed,
     Object? confidence = freezed,
     Object? contentCountRuleParams = freezed,
+    Object? contentCustomPropertyCountParams = freezed,
     Object? contentFlagCountRuleParams = freezed,
     Object? imageContentParams = freezed,
     Object? imageRuleParams = freezed,
+    Object? keyframeOcrRuleParams = freezed,
+    Object? keyframeRuleParams = freezed,
     Object? textContentParams = freezed,
     Object? textRuleParams = freezed,
     Object? type = freezed,
@@ -165,6 +207,26 @@ class _$RuleBuilderConditionCopyWithImpl<$Res>
     Object? videoRuleParams = freezed,
   }) {
     return _then(RuleBuilderCondition(
+      callCustomPropertyParams: freezed == callCustomPropertyParams
+          ? _self.callCustomPropertyParams
+          : callCustomPropertyParams // ignore: cast_nullable_to_non_nullable
+              as CallCustomPropertyParameters?,
+      callTypeRuleParams: freezed == callTypeRuleParams
+          ? _self.callTypeRuleParams
+          : callTypeRuleParams // ignore: cast_nullable_to_non_nullable
+              as CallTypeRuleParameters?,
+      callViolationCountParams: freezed == callViolationCountParams
+          ? _self.callViolationCountParams
+          : callViolationCountParams // ignore: cast_nullable_to_non_nullable
+              as CallViolationCountParameters?,
+      channelMessageCountRuleParams: freezed == channelMessageCountRuleParams
+          ? _self.channelMessageCountRuleParams
+          : channelMessageCountRuleParams // ignore: cast_nullable_to_non_nullable
+              as ChannelMessageCountRuleParameters?,
+      closedCaptionRuleParams: freezed == closedCaptionRuleParams
+          ? _self.closedCaptionRuleParams
+          : closedCaptionRuleParams // ignore: cast_nullable_to_non_nullable
+              as ClosedCaptionRuleParameters?,
       confidence: freezed == confidence
           ? _self.confidence
           : confidence // ignore: cast_nullable_to_non_nullable
@@ -173,6 +235,11 @@ class _$RuleBuilderConditionCopyWithImpl<$Res>
           ? _self.contentCountRuleParams
           : contentCountRuleParams // ignore: cast_nullable_to_non_nullable
               as ContentCountRuleParameters?,
+      contentCustomPropertyCountParams: freezed ==
+              contentCustomPropertyCountParams
+          ? _self.contentCustomPropertyCountParams
+          : contentCustomPropertyCountParams // ignore: cast_nullable_to_non_nullable
+              as ContentCustomPropertyCountParameters?,
       contentFlagCountRuleParams: freezed == contentFlagCountRuleParams
           ? _self.contentFlagCountRuleParams
           : contentFlagCountRuleParams // ignore: cast_nullable_to_non_nullable
@@ -185,6 +252,14 @@ class _$RuleBuilderConditionCopyWithImpl<$Res>
           ? _self.imageRuleParams
           : imageRuleParams // ignore: cast_nullable_to_non_nullable
               as ImageRuleParameters?,
+      keyframeOcrRuleParams: freezed == keyframeOcrRuleParams
+          ? _self.keyframeOcrRuleParams
+          : keyframeOcrRuleParams // ignore: cast_nullable_to_non_nullable
+              as KeyframeOCRRuleParameters?,
+      keyframeRuleParams: freezed == keyframeRuleParams
+          ? _self.keyframeRuleParams
+          : keyframeRuleParams // ignore: cast_nullable_to_non_nullable
+              as KeyframeRuleParameters?,
       textContentParams: freezed == textContentParams
           ? _self.textContentParams
           : textContentParams // ignore: cast_nullable_to_non_nullable

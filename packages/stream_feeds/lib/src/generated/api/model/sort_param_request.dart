@@ -13,18 +13,6 @@ import '../models.dart';
 part 'sort_param_request.g.dart';
 part 'sort_param_request.freezed.dart';
 
-@JsonEnum(alwaysCreate: true)
-enum SortParamRequestType {
-  @JsonValue('boolean')
-  boolean,
-  @JsonValue('')
-  empty,
-  @JsonValue('number')
-  number,
-  @JsonValue('_unknown')
-  unknown;
-}
-
 @freezed
 @immutable
 @JsonSerializable()
@@ -42,8 +30,7 @@ class SortParamRequest with _$SortParamRequest {
   final String? field;
 
   @override
-  @JsonKey(unknownEnumValue: SortParamRequestType.unknown)
-  final SortParamRequestType? type;
+  final String? type;
 
   Map<String, dynamic> toJson() => _$SortParamRequestToJson(this);
 

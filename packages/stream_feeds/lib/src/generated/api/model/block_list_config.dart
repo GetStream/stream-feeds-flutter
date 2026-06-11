@@ -20,6 +20,7 @@ class BlockListConfig with _$BlockListConfig {
   const BlockListConfig({
     this.async,
     required this.enabled,
+    this.matchSubstring,
     required this.rules,
   });
 
@@ -28,6 +29,9 @@ class BlockListConfig with _$BlockListConfig {
 
   @override
   final bool enabled;
+
+  @override
+  final bool? matchSubstring;
 
   @override
   final List<BlockListRule> rules;

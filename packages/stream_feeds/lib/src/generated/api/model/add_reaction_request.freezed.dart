@@ -15,6 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$AddReactionRequest {
+  bool? get copyCustomToNotification;
   bool? get createNotificationActivity;
   Map<String, Object?>? get custom;
   bool? get enforceUnique;
@@ -34,6 +35,9 @@ mixin _$AddReactionRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is AddReactionRequest &&
+            (identical(
+                    other.copyCustomToNotification, copyCustomToNotification) ||
+                other.copyCustomToNotification == copyCustomToNotification) &&
             (identical(other.createNotificationActivity,
                     createNotificationActivity) ||
                 other.createNotificationActivity ==
@@ -49,6 +53,7 @@ mixin _$AddReactionRequest {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      copyCustomToNotification,
       createNotificationActivity,
       const DeepCollectionEquality().hash(custom),
       enforceUnique,
@@ -57,7 +62,7 @@ mixin _$AddReactionRequest {
 
   @override
   String toString() {
-    return 'AddReactionRequest(createNotificationActivity: $createNotificationActivity, custom: $custom, enforceUnique: $enforceUnique, skipPush: $skipPush, type: $type)';
+    return 'AddReactionRequest(copyCustomToNotification: $copyCustomToNotification, createNotificationActivity: $createNotificationActivity, custom: $custom, enforceUnique: $enforceUnique, skipPush: $skipPush, type: $type)';
   }
 }
 
@@ -68,7 +73,8 @@ abstract mixin class $AddReactionRequestCopyWith<$Res> {
       _$AddReactionRequestCopyWithImpl;
   @useResult
   $Res call(
-      {bool? createNotificationActivity,
+      {bool? copyCustomToNotification,
+      bool? createNotificationActivity,
       Map<String, Object?>? custom,
       bool? enforceUnique,
       bool? skipPush,
@@ -88,6 +94,7 @@ class _$AddReactionRequestCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? copyCustomToNotification = freezed,
     Object? createNotificationActivity = freezed,
     Object? custom = freezed,
     Object? enforceUnique = freezed,
@@ -95,6 +102,10 @@ class _$AddReactionRequestCopyWithImpl<$Res>
     Object? type = null,
   }) {
     return _then(AddReactionRequest(
+      copyCustomToNotification: freezed == copyCustomToNotification
+          ? _self.copyCustomToNotification
+          : copyCustomToNotification // ignore: cast_nullable_to_non_nullable
+              as bool?,
       createNotificationActivity: freezed == createNotificationActivity
           ? _self.createNotificationActivity
           : createNotificationActivity // ignore: cast_nullable_to_non_nullable

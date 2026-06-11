@@ -11,6 +11,10 @@ PushPreferencesResponse _$PushPreferencesResponseFromJson(
     PushPreferencesResponse(
       callLevel: json['call_level'] as String?,
       chatLevel: json['chat_level'] as String?,
+      chatPreferences: json['chat_preferences'] == null
+          ? null
+          : ChatPreferencesResponse.fromJson(
+              json['chat_preferences'] as Map<String, dynamic>),
       disabledUntil: _$JsonConverterFromJson<int, DateTime>(
           json['disabled_until'], const EpochDateTimeConverter().fromJson),
       feedsLevel: json['feeds_level'] as String?,
@@ -25,6 +29,7 @@ Map<String, dynamic> _$PushPreferencesResponseToJson(
     <String, dynamic>{
       'call_level': instance.callLevel,
       'chat_level': instance.chatLevel,
+      'chat_preferences': instance.chatPreferences?.toJson(),
       'disabled_until': _$JsonConverterToJson<int, DateTime>(
           instance.disabledUntil, const EpochDateTimeConverter().toJson),
       'feeds_level': instance.feedsLevel,

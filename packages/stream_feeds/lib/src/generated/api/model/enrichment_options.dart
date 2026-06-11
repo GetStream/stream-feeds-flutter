@@ -19,6 +19,8 @@ part 'enrichment_options.freezed.dart';
 class EnrichmentOptions with _$EnrichmentOptions {
   const EnrichmentOptions({
     this.enrichOwnFollowings,
+    this.includeFlatActivities,
+    this.includeScoreVars,
     this.skipActivity,
     this.skipActivityCollections,
     this.skipActivityComments,
@@ -40,6 +42,12 @@ class EnrichmentOptions with _$EnrichmentOptions {
 
   @override
   final bool? enrichOwnFollowings;
+
+  @override
+  final bool? includeFlatActivities;
+
+  @override
+  final bool? includeScoreVars;
 
   @override
   final bool? skipActivity;

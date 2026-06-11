@@ -22,6 +22,8 @@ class AggregatedActivityResponse with _$AggregatedActivityResponse {
     required this.activityCount,
     required this.createdAt,
     required this.group,
+    this.isRead,
+    this.isSeen,
     this.isWatched,
     required this.score,
     required this.updatedAt,
@@ -41,6 +43,12 @@ class AggregatedActivityResponse with _$AggregatedActivityResponse {
 
   @override
   final String group;
+
+  @override
+  final bool? isRead;
+
+  @override
+  final bool? isSeen;
 
   @override
   final bool? isWatched;

@@ -55,7 +55,7 @@ class ModerationFlagResponse with _$ModerationFlagResponse {
   final List<String>? labels;
 
   @override
-  final ModerationPayload? moderationPayload;
+  final ModerationPayloadResponse? moderationPayload;
 
   @override
   final String? reason;

@@ -16,14 +16,18 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ConfigResponse {
   AIImageConfig? get aiImageConfig;
+  List<AIImageLabelDefinition>? get aiImageLabelDefinitions;
+  Map<String, List<String>>? get aiImageSubclassifications;
   AITextConfig? get aiTextConfig;
   AIVideoConfig? get aiVideoConfig;
   bool get async;
   AutomodPlatformCircumventionConfig? get automodPlatformCircumventionConfig;
   AutomodSemanticFiltersConfig? get automodSemanticFiltersConfig;
   AutomodToxicityConfig? get automodToxicityConfig;
+  List<BodyguardProfileSummary>? get availableBodyguardProfiles;
   BlockListConfig? get blockListConfig;
   DateTime get createdAt;
+  FloodConfig? get floodConfig;
   String get key;
   LLMConfig? get llmConfig;
   List<String> get supportedVideoCallHarmTypes;
@@ -47,6 +51,10 @@ mixin _$ConfigResponse {
             other is ConfigResponse &&
             (identical(other.aiImageConfig, aiImageConfig) ||
                 other.aiImageConfig == aiImageConfig) &&
+            const DeepCollectionEquality().equals(
+                other.aiImageLabelDefinitions, aiImageLabelDefinitions) &&
+            const DeepCollectionEquality().equals(
+                other.aiImageSubclassifications, aiImageSubclassifications) &&
             (identical(other.aiTextConfig, aiTextConfig) ||
                 other.aiTextConfig == aiTextConfig) &&
             (identical(other.aiVideoConfig, aiVideoConfig) ||
@@ -62,10 +70,14 @@ mixin _$ConfigResponse {
                     automodSemanticFiltersConfig) &&
             (identical(other.automodToxicityConfig, automodToxicityConfig) ||
                 other.automodToxicityConfig == automodToxicityConfig) &&
+            const DeepCollectionEquality().equals(
+                other.availableBodyguardProfiles, availableBodyguardProfiles) &&
             (identical(other.blockListConfig, blockListConfig) ||
                 other.blockListConfig == blockListConfig) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
+            (identical(other.floodConfig, floodConfig) ||
+                other.floodConfig == floodConfig) &&
             (identical(other.key, key) || other.key == key) &&
             (identical(other.llmConfig, llmConfig) ||
                 other.llmConfig == llmConfig) &&
@@ -82,28 +94,33 @@ mixin _$ConfigResponse {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      aiImageConfig,
-      aiTextConfig,
-      aiVideoConfig,
-      async,
-      automodPlatformCircumventionConfig,
-      automodSemanticFiltersConfig,
-      automodToxicityConfig,
-      blockListConfig,
-      createdAt,
-      key,
-      llmConfig,
-      const DeepCollectionEquality().hash(supportedVideoCallHarmTypes),
-      team,
-      updatedAt,
-      velocityFilterConfig,
-      videoCallRuleConfig);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        aiImageConfig,
+        const DeepCollectionEquality().hash(aiImageLabelDefinitions),
+        const DeepCollectionEquality().hash(aiImageSubclassifications),
+        aiTextConfig,
+        aiVideoConfig,
+        async,
+        automodPlatformCircumventionConfig,
+        automodSemanticFiltersConfig,
+        automodToxicityConfig,
+        const DeepCollectionEquality().hash(availableBodyguardProfiles),
+        blockListConfig,
+        createdAt,
+        floodConfig,
+        key,
+        llmConfig,
+        const DeepCollectionEquality().hash(supportedVideoCallHarmTypes),
+        team,
+        updatedAt,
+        velocityFilterConfig,
+        videoCallRuleConfig
+      ]);
 
   @override
   String toString() {
-    return 'ConfigResponse(aiImageConfig: $aiImageConfig, aiTextConfig: $aiTextConfig, aiVideoConfig: $aiVideoConfig, async: $async, automodPlatformCircumventionConfig: $automodPlatformCircumventionConfig, automodSemanticFiltersConfig: $automodSemanticFiltersConfig, automodToxicityConfig: $automodToxicityConfig, blockListConfig: $blockListConfig, createdAt: $createdAt, key: $key, llmConfig: $llmConfig, supportedVideoCallHarmTypes: $supportedVideoCallHarmTypes, team: $team, updatedAt: $updatedAt, velocityFilterConfig: $velocityFilterConfig, videoCallRuleConfig: $videoCallRuleConfig)';
+    return 'ConfigResponse(aiImageConfig: $aiImageConfig, aiImageLabelDefinitions: $aiImageLabelDefinitions, aiImageSubclassifications: $aiImageSubclassifications, aiTextConfig: $aiTextConfig, aiVideoConfig: $aiVideoConfig, async: $async, automodPlatformCircumventionConfig: $automodPlatformCircumventionConfig, automodSemanticFiltersConfig: $automodSemanticFiltersConfig, automodToxicityConfig: $automodToxicityConfig, availableBodyguardProfiles: $availableBodyguardProfiles, blockListConfig: $blockListConfig, createdAt: $createdAt, floodConfig: $floodConfig, key: $key, llmConfig: $llmConfig, supportedVideoCallHarmTypes: $supportedVideoCallHarmTypes, team: $team, updatedAt: $updatedAt, velocityFilterConfig: $velocityFilterConfig, videoCallRuleConfig: $videoCallRuleConfig)';
   }
 }
 
@@ -115,14 +132,18 @@ abstract mixin class $ConfigResponseCopyWith<$Res> {
   @useResult
   $Res call(
       {AIImageConfig? aiImageConfig,
+      List<AIImageLabelDefinition>? aiImageLabelDefinitions,
+      Map<String, List<String>>? aiImageSubclassifications,
       AITextConfig? aiTextConfig,
       AIVideoConfig? aiVideoConfig,
       bool async,
       AutomodPlatformCircumventionConfig? automodPlatformCircumventionConfig,
       AutomodSemanticFiltersConfig? automodSemanticFiltersConfig,
       AutomodToxicityConfig? automodToxicityConfig,
+      List<BodyguardProfileSummary>? availableBodyguardProfiles,
       BlockListConfig? blockListConfig,
       DateTime createdAt,
+      FloodConfig? floodConfig,
       String key,
       LLMConfig? llmConfig,
       List<String> supportedVideoCallHarmTypes,
@@ -146,14 +167,18 @@ class _$ConfigResponseCopyWithImpl<$Res>
   @override
   $Res call({
     Object? aiImageConfig = freezed,
+    Object? aiImageLabelDefinitions = freezed,
+    Object? aiImageSubclassifications = freezed,
     Object? aiTextConfig = freezed,
     Object? aiVideoConfig = freezed,
     Object? async = null,
     Object? automodPlatformCircumventionConfig = freezed,
     Object? automodSemanticFiltersConfig = freezed,
     Object? automodToxicityConfig = freezed,
+    Object? availableBodyguardProfiles = freezed,
     Object? blockListConfig = freezed,
     Object? createdAt = null,
+    Object? floodConfig = freezed,
     Object? key = null,
     Object? llmConfig = freezed,
     Object? supportedVideoCallHarmTypes = null,
@@ -167,6 +192,14 @@ class _$ConfigResponseCopyWithImpl<$Res>
           ? _self.aiImageConfig
           : aiImageConfig // ignore: cast_nullable_to_non_nullable
               as AIImageConfig?,
+      aiImageLabelDefinitions: freezed == aiImageLabelDefinitions
+          ? _self.aiImageLabelDefinitions
+          : aiImageLabelDefinitions // ignore: cast_nullable_to_non_nullable
+              as List<AIImageLabelDefinition>?,
+      aiImageSubclassifications: freezed == aiImageSubclassifications
+          ? _self.aiImageSubclassifications
+          : aiImageSubclassifications // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<String>>?,
       aiTextConfig: freezed == aiTextConfig
           ? _self.aiTextConfig
           : aiTextConfig // ignore: cast_nullable_to_non_nullable
@@ -192,6 +225,10 @@ class _$ConfigResponseCopyWithImpl<$Res>
           ? _self.automodToxicityConfig
           : automodToxicityConfig // ignore: cast_nullable_to_non_nullable
               as AutomodToxicityConfig?,
+      availableBodyguardProfiles: freezed == availableBodyguardProfiles
+          ? _self.availableBodyguardProfiles
+          : availableBodyguardProfiles // ignore: cast_nullable_to_non_nullable
+              as List<BodyguardProfileSummary>?,
       blockListConfig: freezed == blockListConfig
           ? _self.blockListConfig
           : blockListConfig // ignore: cast_nullable_to_non_nullable
@@ -200,6 +237,10 @@ class _$ConfigResponseCopyWithImpl<$Res>
           ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      floodConfig: freezed == floodConfig
+          ? _self.floodConfig
+          : floodConfig // ignore: cast_nullable_to_non_nullable
+              as FloodConfig?,
       key: null == key
           ? _self.key
           : key // ignore: cast_nullable_to_non_nullable

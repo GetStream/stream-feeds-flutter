@@ -17,7 +17,10 @@ T _$identity<T>(T value) => value;
 mixin _$UpdateCommentRequest {
   List<Attachment>? get attachments;
   String? get comment;
+  bool? get copyCustomToNotification;
   Map<String, Object?>? get custom;
+  bool? get handleMentionNotifications;
+  List<String>? get mentionedUserIds;
   bool? get skipEnrichUrl;
   bool? get skipPush;
 
@@ -37,7 +40,16 @@ mixin _$UpdateCommentRequest {
             const DeepCollectionEquality()
                 .equals(other.attachments, attachments) &&
             (identical(other.comment, comment) || other.comment == comment) &&
+            (identical(
+                    other.copyCustomToNotification, copyCustomToNotification) ||
+                other.copyCustomToNotification == copyCustomToNotification) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
+            (identical(other.handleMentionNotifications,
+                    handleMentionNotifications) ||
+                other.handleMentionNotifications ==
+                    handleMentionNotifications) &&
+            const DeepCollectionEquality()
+                .equals(other.mentionedUserIds, mentionedUserIds) &&
             (identical(other.skipEnrichUrl, skipEnrichUrl) ||
                 other.skipEnrichUrl == skipEnrichUrl) &&
             (identical(other.skipPush, skipPush) ||
@@ -49,13 +61,16 @@ mixin _$UpdateCommentRequest {
       runtimeType,
       const DeepCollectionEquality().hash(attachments),
       comment,
+      copyCustomToNotification,
       const DeepCollectionEquality().hash(custom),
+      handleMentionNotifications,
+      const DeepCollectionEquality().hash(mentionedUserIds),
       skipEnrichUrl,
       skipPush);
 
   @override
   String toString() {
-    return 'UpdateCommentRequest(attachments: $attachments, comment: $comment, custom: $custom, skipEnrichUrl: $skipEnrichUrl, skipPush: $skipPush)';
+    return 'UpdateCommentRequest(attachments: $attachments, comment: $comment, copyCustomToNotification: $copyCustomToNotification, custom: $custom, handleMentionNotifications: $handleMentionNotifications, mentionedUserIds: $mentionedUserIds, skipEnrichUrl: $skipEnrichUrl, skipPush: $skipPush)';
   }
 }
 
@@ -68,7 +83,10 @@ abstract mixin class $UpdateCommentRequestCopyWith<$Res> {
   $Res call(
       {List<Attachment>? attachments,
       String? comment,
+      bool? copyCustomToNotification,
       Map<String, Object?>? custom,
+      bool? handleMentionNotifications,
+      List<String>? mentionedUserIds,
       bool? skipEnrichUrl,
       bool? skipPush});
 }
@@ -88,7 +106,10 @@ class _$UpdateCommentRequestCopyWithImpl<$Res>
   $Res call({
     Object? attachments = freezed,
     Object? comment = freezed,
+    Object? copyCustomToNotification = freezed,
     Object? custom = freezed,
+    Object? handleMentionNotifications = freezed,
+    Object? mentionedUserIds = freezed,
     Object? skipEnrichUrl = freezed,
     Object? skipPush = freezed,
   }) {
@@ -101,10 +122,22 @@ class _$UpdateCommentRequestCopyWithImpl<$Res>
           ? _self.comment
           : comment // ignore: cast_nullable_to_non_nullable
               as String?,
+      copyCustomToNotification: freezed == copyCustomToNotification
+          ? _self.copyCustomToNotification
+          : copyCustomToNotification // ignore: cast_nullable_to_non_nullable
+              as bool?,
       custom: freezed == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
               as Map<String, Object?>?,
+      handleMentionNotifications: freezed == handleMentionNotifications
+          ? _self.handleMentionNotifications
+          : handleMentionNotifications // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      mentionedUserIds: freezed == mentionedUserIds
+          ? _self.mentionedUserIds
+          : mentionedUserIds // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       skipEnrichUrl: freezed == skipEnrichUrl
           ? _self.skipEnrichUrl
           : skipEnrichUrl // ignore: cast_nullable_to_non_nullable

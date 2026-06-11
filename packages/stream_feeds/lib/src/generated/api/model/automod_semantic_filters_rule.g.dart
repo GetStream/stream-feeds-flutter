@@ -25,6 +25,9 @@ Map<String, dynamic> _$AutomodSemanticFiltersRuleToJson(
     };
 
 const _$AutomodSemanticFiltersRuleActionEnumMap = {
+  AutomodSemanticFiltersRuleAction.bounce: 'bounce',
+  AutomodSemanticFiltersRuleAction.bounceFlag: 'bounce_flag',
+  AutomodSemanticFiltersRuleAction.bounceRemove: 'bounce_remove',
   AutomodSemanticFiltersRuleAction.flag: 'flag',
   AutomodSemanticFiltersRuleAction.remove: 'remove',
   AutomodSemanticFiltersRuleAction.shadow: 'shadow',

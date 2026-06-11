@@ -32,11 +32,15 @@ enum CreateDeviceRequestPushProvider {
 @JsonSerializable()
 class CreateDeviceRequest with _$CreateDeviceRequest {
   const CreateDeviceRequest({
+    this.hardwareId,
     required this.id,
     required this.pushProvider,
     this.pushProviderName,
     this.voipToken,
   });
+
+  @override
+  final String? hardwareId;
 
   @override
   final String id;

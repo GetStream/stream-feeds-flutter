@@ -16,6 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SubmitActionResponse {
   AppealItemResponse? get appealItem;
+  String? get autoRestoreWarning;
   String get duration;
   ReviewQueueItemResponse? get item;
 
@@ -34,17 +35,20 @@ mixin _$SubmitActionResponse {
             other is SubmitActionResponse &&
             (identical(other.appealItem, appealItem) ||
                 other.appealItem == appealItem) &&
+            (identical(other.autoRestoreWarning, autoRestoreWarning) ||
+                other.autoRestoreWarning == autoRestoreWarning) &&
             (identical(other.duration, duration) ||
                 other.duration == duration) &&
             (identical(other.item, item) || other.item == item));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, appealItem, duration, item);
+  int get hashCode =>
+      Object.hash(runtimeType, appealItem, autoRestoreWarning, duration, item);
 
   @override
   String toString() {
-    return 'SubmitActionResponse(appealItem: $appealItem, duration: $duration, item: $item)';
+    return 'SubmitActionResponse(appealItem: $appealItem, autoRestoreWarning: $autoRestoreWarning, duration: $duration, item: $item)';
   }
 }
 
@@ -56,6 +60,7 @@ abstract mixin class $SubmitActionResponseCopyWith<$Res> {
   @useResult
   $Res call(
       {AppealItemResponse? appealItem,
+      String? autoRestoreWarning,
       String duration,
       ReviewQueueItemResponse? item});
 }
@@ -74,6 +79,7 @@ class _$SubmitActionResponseCopyWithImpl<$Res>
   @override
   $Res call({
     Object? appealItem = freezed,
+    Object? autoRestoreWarning = freezed,
     Object? duration = null,
     Object? item = freezed,
   }) {
@@ -82,6 +88,10 @@ class _$SubmitActionResponseCopyWithImpl<$Res>
           ? _self.appealItem
           : appealItem // ignore: cast_nullable_to_non_nullable
               as AppealItemResponse?,
+      autoRestoreWarning: freezed == autoRestoreWarning
+          ? _self.autoRestoreWarning
+          : autoRestoreWarning // ignore: cast_nullable_to_non_nullable
+              as String?,
       duration: null == duration
           ? _self.duration
           : duration // ignore: cast_nullable_to_non_nullable
