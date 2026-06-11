@@ -6,18 +6,21 @@ part of 'automod_semantic_filters_rule.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-AutomodSemanticFiltersRule _$AutomodSemanticFiltersRuleFromJson(Map<String, dynamic> json) =>
-    AutomodSemanticFiltersRule(
-      action: $enumDecode(
-        _$AutomodSemanticFiltersRuleActionEnumMap,
-        json['action'],
-        unknownValue: AutomodSemanticFiltersRuleAction.unknown,
-      ),
-      name: json['name'] as String,
-      threshold: (json['threshold'] as num).toDouble(),
-    );
+AutomodSemanticFiltersRule _$AutomodSemanticFiltersRuleFromJson(
+  Map<String, dynamic> json,
+) => AutomodSemanticFiltersRule(
+  action: $enumDecode(
+    _$AutomodSemanticFiltersRuleActionEnumMap,
+    json['action'],
+    unknownValue: AutomodSemanticFiltersRuleAction.unknown,
+  ),
+  name: json['name'] as String,
+  threshold: (json['threshold'] as num).toDouble(),
+);
 
-Map<String, dynamic> _$AutomodSemanticFiltersRuleToJson(AutomodSemanticFiltersRule instance) => <String, dynamic>{
+Map<String, dynamic> _$AutomodSemanticFiltersRuleToJson(
+  AutomodSemanticFiltersRule instance,
+) => <String, dynamic>{
   'action': _$AutomodSemanticFiltersRuleActionEnumMap[instance.action]!,
   'name': instance.name,
   'threshold': instance.threshold,

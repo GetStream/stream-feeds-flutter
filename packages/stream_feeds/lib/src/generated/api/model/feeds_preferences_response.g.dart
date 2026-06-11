@@ -6,7 +6,9 @@ part of 'feeds_preferences_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-FeedsPreferencesResponse _$FeedsPreferencesResponseFromJson(Map<String, dynamic> json) => FeedsPreferencesResponse(
+FeedsPreferencesResponse _$FeedsPreferencesResponseFromJson(
+  Map<String, dynamic> json,
+) => FeedsPreferencesResponse(
   comment: json['comment'] as String?,
   commentMention: json['comment_mention'] as String?,
   commentReaction: json['comment_reaction'] as String?,
@@ -19,7 +21,9 @@ FeedsPreferencesResponse _$FeedsPreferencesResponseFromJson(Map<String, dynamic>
   reaction: json['reaction'] as String?,
 );
 
-Map<String, dynamic> _$FeedsPreferencesResponseToJson(FeedsPreferencesResponse instance) => <String, dynamic>{
+Map<String, dynamic> _$FeedsPreferencesResponseToJson(
+  FeedsPreferencesResponse instance,
+) => <String, dynamic>{
   'comment': instance.comment,
   'comment_mention': instance.commentMention,
   'comment_reaction': instance.commentReaction,

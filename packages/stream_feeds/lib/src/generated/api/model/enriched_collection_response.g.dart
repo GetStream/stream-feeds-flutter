@@ -6,28 +6,43 @@ part of 'enriched_collection_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-EnrichedCollectionResponse _$EnrichedCollectionResponseFromJson(Map<String, dynamic> json) =>
-    EnrichedCollectionResponse(
-      createdAt: _$JsonConverterFromJson<int, DateTime>(json['created_at'], const EpochDateTimeConverter().fromJson),
-      custom: json['custom'] as Map<String, dynamic>?,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      status: $enumDecode(
-        _$EnrichedCollectionResponseStatusEnumMap,
-        json['status'],
-        unknownValue: EnrichedCollectionResponseStatus.unknown,
-      ),
-      updatedAt: _$JsonConverterFromJson<int, DateTime>(json['updated_at'], const EpochDateTimeConverter().fromJson),
-      userId: json['user_id'] as String?,
-    );
+EnrichedCollectionResponse _$EnrichedCollectionResponseFromJson(
+  Map<String, dynamic> json,
+) => EnrichedCollectionResponse(
+  createdAt: _$JsonConverterFromJson<int, DateTime>(
+    json['created_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
+  custom: json['custom'] as Map<String, dynamic>?,
+  id: json['id'] as String,
+  name: json['name'] as String,
+  status: $enumDecode(
+    _$EnrichedCollectionResponseStatusEnumMap,
+    json['status'],
+    unknownValue: EnrichedCollectionResponseStatus.unknown,
+  ),
+  updatedAt: _$JsonConverterFromJson<int, DateTime>(
+    json['updated_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
+  userId: json['user_id'] as String?,
+);
 
-Map<String, dynamic> _$EnrichedCollectionResponseToJson(EnrichedCollectionResponse instance) => <String, dynamic>{
-  'created_at': _$JsonConverterToJson<int, DateTime>(instance.createdAt, const EpochDateTimeConverter().toJson),
+Map<String, dynamic> _$EnrichedCollectionResponseToJson(
+  EnrichedCollectionResponse instance,
+) => <String, dynamic>{
+  'created_at': _$JsonConverterToJson<int, DateTime>(
+    instance.createdAt,
+    const EpochDateTimeConverter().toJson,
+  ),
   'custom': instance.custom,
   'id': instance.id,
   'name': instance.name,
   'status': _$EnrichedCollectionResponseStatusEnumMap[instance.status]!,
-  'updated_at': _$JsonConverterToJson<int, DateTime>(instance.updatedAt, const EpochDateTimeConverter().toJson),
+  'updated_at': _$JsonConverterToJson<int, DateTime>(
+    instance.updatedAt,
+    const EpochDateTimeConverter().toJson,
+  ),
   'user_id': instance.userId,
 };
 

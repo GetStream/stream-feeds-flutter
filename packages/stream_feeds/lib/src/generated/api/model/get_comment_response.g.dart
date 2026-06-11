@@ -7,7 +7,9 @@ part of 'get_comment_response.dart';
 // **************************************************************************
 
 GetCommentResponse _$GetCommentResponseFromJson(Map<String, dynamic> json) => GetCommentResponse(
-  comment: CommentResponse.fromJson(json['comment'] as Map<String, dynamic>),
+  comment: CommentResponse.fromJson(
+    json['comment'] as Map<String, dynamic>,
+  ),
   duration: json['duration'] as String,
 );
 

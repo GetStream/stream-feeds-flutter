@@ -9,15 +9,23 @@ part of 'draft_response.dart';
 DraftResponse _$DraftResponseFromJson(Map<String, dynamic> json) => DraftResponse(
   channel: json['channel'] == null ? null : ChannelResponse.fromJson(json['channel'] as Map<String, dynamic>),
   channelCid: json['channel_cid'] as String,
-  createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
-  message: DraftPayloadResponse.fromJson(json['message'] as Map<String, dynamic>),
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
+  message: DraftPayloadResponse.fromJson(
+    json['message'] as Map<String, dynamic>,
+  ),
   parentId: json['parent_id'] as String?,
   parentMessage: json['parent_message'] == null
       ? null
-      : MessageResponse.fromJson(json['parent_message'] as Map<String, dynamic>),
+      : MessageResponse.fromJson(
+          json['parent_message'] as Map<String, dynamic>,
+        ),
   quotedMessage: json['quoted_message'] == null
       ? null
-      : MessageResponse.fromJson(json['quoted_message'] as Map<String, dynamic>),
+      : MessageResponse.fromJson(
+          json['quoted_message'] as Map<String, dynamic>,
+        ),
 );
 
 Map<String, dynamic> _$DraftResponseToJson(DraftResponse instance) => <String, dynamic>{

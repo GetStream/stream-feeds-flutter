@@ -6,7 +6,9 @@ part of 'query_bookmarks_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-QueryBookmarksRequest _$QueryBookmarksRequestFromJson(Map<String, dynamic> json) => QueryBookmarksRequest(
+QueryBookmarksRequest _$QueryBookmarksRequestFromJson(
+  Map<String, dynamic> json,
+) => QueryBookmarksRequest(
   enrichOwnFields: json['enrich_own_fields'] as bool?,
   filter: json['filter'] as Map<String, dynamic>?,
   limit: (json['limit'] as num?)?.toInt(),
@@ -15,7 +17,9 @@ QueryBookmarksRequest _$QueryBookmarksRequestFromJson(Map<String, dynamic> json)
   sort: (json['sort'] as List<dynamic>?)?.map((e) => SortParamRequest.fromJson(e as Map<String, dynamic>)).toList(),
 );
 
-Map<String, dynamic> _$QueryBookmarksRequestToJson(QueryBookmarksRequest instance) => <String, dynamic>{
+Map<String, dynamic> _$QueryBookmarksRequestToJson(
+  QueryBookmarksRequest instance,
+) => <String, dynamic>{
   'enrich_own_fields': instance.enrichOwnFields,
   'filter': instance.filter,
   'limit': instance.limit,

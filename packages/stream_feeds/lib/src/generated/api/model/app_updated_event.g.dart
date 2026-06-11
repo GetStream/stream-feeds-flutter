@@ -8,9 +8,14 @@ part of 'app_updated_event.dart';
 
 AppUpdatedEvent _$AppUpdatedEventFromJson(Map<String, dynamic> json) => AppUpdatedEvent(
   app: AppEventResponse.fromJson(json['app'] as Map<String, dynamic>),
-  createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
   custom: json['custom'] as Map<String, dynamic>,
-  receivedAt: _$JsonConverterFromJson<int, DateTime>(json['received_at'], const EpochDateTimeConverter().fromJson),
+  receivedAt: _$JsonConverterFromJson<int, DateTime>(
+    json['received_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
   type: json['type'] as String,
 );
 
@@ -18,7 +23,10 @@ Map<String, dynamic> _$AppUpdatedEventToJson(AppUpdatedEvent instance) => <Strin
   'app': instance.app.toJson(),
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
   'custom': instance.custom,
-  'received_at': _$JsonConverterToJson<int, DateTime>(instance.receivedAt, const EpochDateTimeConverter().toJson),
+  'received_at': _$JsonConverterToJson<int, DateTime>(
+    instance.receivedAt,
+    const EpochDateTimeConverter().toJson,
+  ),
   'type': instance.type,
 };
 

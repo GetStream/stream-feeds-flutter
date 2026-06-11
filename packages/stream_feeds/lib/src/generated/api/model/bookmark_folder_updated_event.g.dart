@@ -6,21 +6,34 @@ part of 'bookmark_folder_updated_event.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-BookmarkFolderUpdatedEvent _$BookmarkFolderUpdatedEventFromJson(Map<String, dynamic> json) =>
-    BookmarkFolderUpdatedEvent(
-      bookmarkFolder: BookmarkFolderResponse.fromJson(json['bookmark_folder'] as Map<String, dynamic>),
-      createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
-      custom: json['custom'] as Map<String, dynamic>,
-      receivedAt: _$JsonConverterFromJson<int, DateTime>(json['received_at'], const EpochDateTimeConverter().fromJson),
-      type: json['type'] as String,
-      user: json['user'] == null ? null : UserResponseCommonFields.fromJson(json['user'] as Map<String, dynamic>),
-    );
+BookmarkFolderUpdatedEvent _$BookmarkFolderUpdatedEventFromJson(
+  Map<String, dynamic> json,
+) => BookmarkFolderUpdatedEvent(
+  bookmarkFolder: BookmarkFolderResponse.fromJson(
+    json['bookmark_folder'] as Map<String, dynamic>,
+  ),
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
+  custom: json['custom'] as Map<String, dynamic>,
+  receivedAt: _$JsonConverterFromJson<int, DateTime>(
+    json['received_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
+  type: json['type'] as String,
+  user: json['user'] == null ? null : UserResponseCommonFields.fromJson(json['user'] as Map<String, dynamic>),
+);
 
-Map<String, dynamic> _$BookmarkFolderUpdatedEventToJson(BookmarkFolderUpdatedEvent instance) => <String, dynamic>{
+Map<String, dynamic> _$BookmarkFolderUpdatedEventToJson(
+  BookmarkFolderUpdatedEvent instance,
+) => <String, dynamic>{
   'bookmark_folder': instance.bookmarkFolder.toJson(),
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
   'custom': instance.custom,
-  'received_at': _$JsonConverterToJson<int, DateTime>(instance.receivedAt, const EpochDateTimeConverter().toJson),
+  'received_at': _$JsonConverterToJson<int, DateTime>(
+    instance.receivedAt,
+    const EpochDateTimeConverter().toJson,
+  ),
   'type': instance.type,
   'user': instance.user?.toJson(),
 };

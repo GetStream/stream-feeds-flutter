@@ -6,22 +6,36 @@ part of 'user_deactivated_event.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-UserDeactivatedEvent _$UserDeactivatedEventFromJson(Map<String, dynamic> json) => UserDeactivatedEvent(
-  createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
+UserDeactivatedEvent _$UserDeactivatedEventFromJson(
+  Map<String, dynamic> json,
+) => UserDeactivatedEvent(
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
   createdBy: json['created_by'] == null
       ? null
-      : UserResponseCommonFields.fromJson(json['created_by'] as Map<String, dynamic>),
+      : UserResponseCommonFields.fromJson(
+          json['created_by'] as Map<String, dynamic>,
+        ),
   custom: json['custom'] as Map<String, dynamic>,
-  receivedAt: _$JsonConverterFromJson<int, DateTime>(json['received_at'], const EpochDateTimeConverter().fromJson),
+  receivedAt: _$JsonConverterFromJson<int, DateTime>(
+    json['received_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
   type: json['type'] as String,
   user: UserResponseCommonFields.fromJson(json['user'] as Map<String, dynamic>),
 );
 
-Map<String, dynamic> _$UserDeactivatedEventToJson(UserDeactivatedEvent instance) => <String, dynamic>{
+Map<String, dynamic> _$UserDeactivatedEventToJson(
+  UserDeactivatedEvent instance,
+) => <String, dynamic>{
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
   'created_by': instance.createdBy?.toJson(),
   'custom': instance.custom,
-  'received_at': _$JsonConverterToJson<int, DateTime>(instance.receivedAt, const EpochDateTimeConverter().toJson),
+  'received_at': _$JsonConverterToJson<int, DateTime>(
+    instance.receivedAt,
+    const EpochDateTimeConverter().toJson,
+  ),
   'type': instance.type,
   'user': instance.user.toJson(),
 };

@@ -6,19 +6,34 @@ part of 'notification_status_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-NotificationStatusResponse _$NotificationStatusResponseFromJson(Map<String, dynamic> json) =>
-    NotificationStatusResponse(
-      lastReadAt: _$JsonConverterFromJson<int, DateTime>(json['last_read_at'], const EpochDateTimeConverter().fromJson),
-      lastSeenAt: _$JsonConverterFromJson<int, DateTime>(json['last_seen_at'], const EpochDateTimeConverter().fromJson),
-      readActivities: (json['read_activities'] as List<dynamic>?)?.map((e) => e as String).toList(),
-      seenActivities: (json['seen_activities'] as List<dynamic>?)?.map((e) => e as String).toList(),
-      unread: (json['unread'] as num).toInt(),
-      unseen: (json['unseen'] as num).toInt(),
-    );
+NotificationStatusResponse _$NotificationStatusResponseFromJson(
+  Map<String, dynamic> json,
+) => NotificationStatusResponse(
+  lastReadAt: _$JsonConverterFromJson<int, DateTime>(
+    json['last_read_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
+  lastSeenAt: _$JsonConverterFromJson<int, DateTime>(
+    json['last_seen_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
+  readActivities: (json['read_activities'] as List<dynamic>?)?.map((e) => e as String).toList(),
+  seenActivities: (json['seen_activities'] as List<dynamic>?)?.map((e) => e as String).toList(),
+  unread: (json['unread'] as num).toInt(),
+  unseen: (json['unseen'] as num).toInt(),
+);
 
-Map<String, dynamic> _$NotificationStatusResponseToJson(NotificationStatusResponse instance) => <String, dynamic>{
-  'last_read_at': _$JsonConverterToJson<int, DateTime>(instance.lastReadAt, const EpochDateTimeConverter().toJson),
-  'last_seen_at': _$JsonConverterToJson<int, DateTime>(instance.lastSeenAt, const EpochDateTimeConverter().toJson),
+Map<String, dynamic> _$NotificationStatusResponseToJson(
+  NotificationStatusResponse instance,
+) => <String, dynamic>{
+  'last_read_at': _$JsonConverterToJson<int, DateTime>(
+    instance.lastReadAt,
+    const EpochDateTimeConverter().toJson,
+  ),
+  'last_seen_at': _$JsonConverterToJson<int, DateTime>(
+    instance.lastSeenAt,
+    const EpochDateTimeConverter().toJson,
+  ),
   'read_activities': instance.readActivities,
   'seen_activities': instance.seenActivities,
   'unread': instance.unread,

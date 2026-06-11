@@ -7,7 +7,11 @@ part of 'block_list_rule.dart';
 // **************************************************************************
 
 BlockListRule _$BlockListRuleFromJson(Map<String, dynamic> json) => BlockListRule(
-  action: $enumDecode(_$BlockListRuleActionEnumMap, json['action'], unknownValue: BlockListRuleAction.unknown),
+  action: $enumDecode(
+    _$BlockListRuleActionEnumMap,
+    json['action'],
+    unknownValue: BlockListRuleAction.unknown,
+  ),
   name: json['name'] as String,
   team: json['team'] as String,
 );

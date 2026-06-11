@@ -6,7 +6,9 @@ part of 'get_comment_replies_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-GetCommentRepliesResponse _$GetCommentRepliesResponseFromJson(Map<String, dynamic> json) => GetCommentRepliesResponse(
+GetCommentRepliesResponse _$GetCommentRepliesResponseFromJson(
+  Map<String, dynamic> json,
+) => GetCommentRepliesResponse(
   comments: (json['comments'] as List<dynamic>)
       .map((e) => ThreadedCommentResponse.fromJson(e as Map<String, dynamic>))
       .toList(),
@@ -16,7 +18,9 @@ GetCommentRepliesResponse _$GetCommentRepliesResponseFromJson(Map<String, dynami
   sort: json['sort'] as String,
 );
 
-Map<String, dynamic> _$GetCommentRepliesResponseToJson(GetCommentRepliesResponse instance) => <String, dynamic>{
+Map<String, dynamic> _$GetCommentRepliesResponseToJson(
+  GetCommentRepliesResponse instance,
+) => <String, dynamic>{
   'comments': instance.comments.map((e) => e.toJson()).toList(),
   'duration': instance.duration,
   'next': instance.next,

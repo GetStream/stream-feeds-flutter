@@ -6,7 +6,9 @@ part of 'notification.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ActivityAddedNotification _$ActivityAddedNotificationFromJson(Map<String, dynamic> json) => ActivityAddedNotification(
+ActivityAddedNotification _$ActivityAddedNotificationFromJson(
+  Map<String, dynamic> json,
+) => ActivityAddedNotification(
   sender: json['sender'] as String,
   type: json['type'] as String,
   fid: json['fid'] as String,
@@ -17,7 +19,9 @@ ActivityAddedNotification _$ActivityAddedNotificationFromJson(Map<String, dynami
   custom: json['custom'] as Map<String, dynamic>? ?? const {},
 );
 
-Map<String, dynamic> _$ActivityAddedNotificationToJson(ActivityAddedNotification instance) => <String, dynamic>{
+Map<String, dynamic> _$ActivityAddedNotificationToJson(
+  ActivityAddedNotification instance,
+) => <String, dynamic>{
   'sender': instance.sender,
   'type': instance.type,
   'fid': instance.fid,
@@ -28,7 +32,9 @@ Map<String, dynamic> _$ActivityAddedNotificationToJson(ActivityAddedNotification
   'activity_id': instance.activityId,
 };
 
-CommentAddedNotification _$CommentAddedNotificationFromJson(Map<String, dynamic> json) => CommentAddedNotification(
+CommentAddedNotification _$CommentAddedNotificationFromJson(
+  Map<String, dynamic> json,
+) => CommentAddedNotification(
   sender: json['sender'] as String,
   type: json['type'] as String,
   fid: json['fid'] as String,
@@ -40,7 +46,9 @@ CommentAddedNotification _$CommentAddedNotificationFromJson(Map<String, dynamic>
   custom: json['custom'] as Map<String, dynamic>? ?? const {},
 );
 
-Map<String, dynamic> _$CommentAddedNotificationToJson(CommentAddedNotification instance) => <String, dynamic>{
+Map<String, dynamic> _$CommentAddedNotificationToJson(
+  CommentAddedNotification instance,
+) => <String, dynamic>{
   'sender': instance.sender,
   'type': instance.type,
   'fid': instance.fid,
@@ -52,20 +60,23 @@ Map<String, dynamic> _$CommentAddedNotificationToJson(CommentAddedNotification i
   'comment_id': instance.commentId,
 };
 
-ActivityReactionNotification _$ActivityReactionNotificationFromJson(Map<String, dynamic> json) =>
-    ActivityReactionNotification(
-      sender: json['sender'] as String,
-      type: json['type'] as String,
-      fid: json['fid'] as String,
-      receiverId: json['receiver_id'] as String,
-      activityId: json['activity_id'] as String,
-      reactionType: json['reaction_type'] as String,
-      title: json['title'] as String?,
-      body: json['body'] as String?,
-      custom: json['custom'] as Map<String, dynamic>? ?? const {},
-    );
+ActivityReactionNotification _$ActivityReactionNotificationFromJson(
+  Map<String, dynamic> json,
+) => ActivityReactionNotification(
+  sender: json['sender'] as String,
+  type: json['type'] as String,
+  fid: json['fid'] as String,
+  receiverId: json['receiver_id'] as String,
+  activityId: json['activity_id'] as String,
+  reactionType: json['reaction_type'] as String,
+  title: json['title'] as String?,
+  body: json['body'] as String?,
+  custom: json['custom'] as Map<String, dynamic>? ?? const {},
+);
 
-Map<String, dynamic> _$ActivityReactionNotificationToJson(ActivityReactionNotification instance) => <String, dynamic>{
+Map<String, dynamic> _$ActivityReactionNotificationToJson(
+  ActivityReactionNotification instance,
+) => <String, dynamic>{
   'sender': instance.sender,
   'type': instance.type,
   'fid': instance.fid,
@@ -77,21 +88,24 @@ Map<String, dynamic> _$ActivityReactionNotificationToJson(ActivityReactionNotifi
   'reaction_type': instance.reactionType,
 };
 
-CommentReactionNotification _$CommentReactionNotificationFromJson(Map<String, dynamic> json) =>
-    CommentReactionNotification(
-      sender: json['sender'] as String,
-      type: json['type'] as String,
-      fid: json['fid'] as String,
-      receiverId: json['receiver_id'] as String,
-      activityId: json['activity_id'] as String,
-      commentId: json['comment_id'] as String,
-      reactionType: json['reaction_type'] as String,
-      title: json['title'] as String?,
-      body: json['body'] as String?,
-      custom: json['custom'] as Map<String, dynamic>? ?? const {},
-    );
+CommentReactionNotification _$CommentReactionNotificationFromJson(
+  Map<String, dynamic> json,
+) => CommentReactionNotification(
+  sender: json['sender'] as String,
+  type: json['type'] as String,
+  fid: json['fid'] as String,
+  receiverId: json['receiver_id'] as String,
+  activityId: json['activity_id'] as String,
+  commentId: json['comment_id'] as String,
+  reactionType: json['reaction_type'] as String,
+  title: json['title'] as String?,
+  body: json['body'] as String?,
+  custom: json['custom'] as Map<String, dynamic>? ?? const {},
+);
 
-Map<String, dynamic> _$CommentReactionNotificationToJson(CommentReactionNotification instance) => <String, dynamic>{
+Map<String, dynamic> _$CommentReactionNotificationToJson(
+  CommentReactionNotification instance,
+) => <String, dynamic>{
   'sender': instance.sender,
   'type': instance.type,
   'fid': instance.fid,
@@ -104,7 +118,9 @@ Map<String, dynamic> _$CommentReactionNotificationToJson(CommentReactionNotifica
   'reaction_type': instance.reactionType,
 };
 
-FollowCreatedNotification _$FollowCreatedNotificationFromJson(Map<String, dynamic> json) => FollowCreatedNotification(
+FollowCreatedNotification _$FollowCreatedNotificationFromJson(
+  Map<String, dynamic> json,
+) => FollowCreatedNotification(
   sender: json['sender'] as String,
   type: json['type'] as String,
   fid: json['fid'] as String,
@@ -116,7 +132,9 @@ FollowCreatedNotification _$FollowCreatedNotificationFromJson(Map<String, dynami
   custom: json['custom'] as Map<String, dynamic>? ?? const {},
 );
 
-Map<String, dynamic> _$FollowCreatedNotificationToJson(FollowCreatedNotification instance) => <String, dynamic>{
+Map<String, dynamic> _$FollowCreatedNotificationToJson(
+  FollowCreatedNotification instance,
+) => <String, dynamic>{
   'sender': instance.sender,
   'type': instance.type,
   'fid': instance.fid,
@@ -128,7 +146,9 @@ Map<String, dynamic> _$FollowCreatedNotificationToJson(FollowCreatedNotification
   'target_fid': instance.targetFid,
 };
 
-FeedUpdatedNotification _$FeedUpdatedNotificationFromJson(Map<String, dynamic> json) => FeedUpdatedNotification(
+FeedUpdatedNotification _$FeedUpdatedNotificationFromJson(
+  Map<String, dynamic> json,
+) => FeedUpdatedNotification(
   sender: json['sender'] as String,
   type: json['type'] as String,
   fid: json['fid'] as String,
@@ -138,7 +158,9 @@ FeedUpdatedNotification _$FeedUpdatedNotificationFromJson(Map<String, dynamic> j
   custom: json['custom'] as Map<String, dynamic>? ?? const {},
 );
 
-Map<String, dynamic> _$FeedUpdatedNotificationToJson(FeedUpdatedNotification instance) => <String, dynamic>{
+Map<String, dynamic> _$FeedUpdatedNotificationToJson(
+  FeedUpdatedNotification instance,
+) => <String, dynamic>{
   'sender': instance.sender,
   'type': instance.type,
   'fid': instance.fid,
@@ -158,7 +180,9 @@ UnknownNotification _$UnknownNotificationFromJson(Map<String, dynamic> json) => 
   custom: json['custom'] as Map<String, dynamic>? ?? const {},
 );
 
-Map<String, dynamic> _$UnknownNotificationToJson(UnknownNotification instance) => <String, dynamic>{
+Map<String, dynamic> _$UnknownNotificationToJson(
+  UnknownNotification instance,
+) => <String, dynamic>{
   'sender': instance.sender,
   'type': instance.type,
   'fid': instance.fid,

@@ -18,7 +18,9 @@ BanOptions _$BanOptionsFromJson(Map<String, dynamic> json) => BanOptions(
   shadowBan: json['shadow_ban'] as bool?,
 );
 
-Map<String, dynamic> _$BanOptionsToJson(BanOptions instance) => <String, dynamic>{
+Map<String, dynamic> _$BanOptionsToJson(
+  BanOptions instance,
+) => <String, dynamic>{
   'delete_messages': _$BanOptionsDeleteMessagesEnumMap[instance.deleteMessages],
   'duration': instance.duration,
   'ip_ban': instance.ipBan,

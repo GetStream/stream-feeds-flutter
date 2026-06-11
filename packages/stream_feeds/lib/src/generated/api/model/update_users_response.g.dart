@@ -14,7 +14,9 @@ UpdateUsersResponse _$UpdateUsersResponseFromJson(Map<String, dynamic> json) => 
   ),
 );
 
-Map<String, dynamic> _$UpdateUsersResponseToJson(UpdateUsersResponse instance) => <String, dynamic>{
+Map<String, dynamic> _$UpdateUsersResponseToJson(
+  UpdateUsersResponse instance,
+) => <String, dynamic>{
   'duration': instance.duration,
   'membership_deletion_task_id': instance.membershipDeletionTaskId,
   'users': instance.users.map((k, e) => MapEntry(k, e.toJson())),

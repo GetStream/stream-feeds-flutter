@@ -12,7 +12,9 @@ VideoCallRuleConfig _$VideoCallRuleConfigFromJson(Map<String, dynamic> json) => 
   rules: (json['rules'] as List<dynamic>).map((e) => HarmConfig.fromJson(e as Map<String, dynamic>)).toList(),
 );
 
-Map<String, dynamic> _$VideoCallRuleConfigToJson(VideoCallRuleConfig instance) => <String, dynamic>{
+Map<String, dynamic> _$VideoCallRuleConfigToJson(
+  VideoCallRuleConfig instance,
+) => <String, dynamic>{
   'flag_all_labels': instance.flagAllLabels,
   'flagged_labels': instance.flaggedLabels,
   'rules': instance.rules.map((e) => e.toJson()).toList(),

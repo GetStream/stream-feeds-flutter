@@ -6,7 +6,9 @@ part of 'chat_preferences_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ChatPreferencesResponse _$ChatPreferencesResponseFromJson(Map<String, dynamic> json) => ChatPreferencesResponse(
+ChatPreferencesResponse _$ChatPreferencesResponseFromJson(
+  Map<String, dynamic> json,
+) => ChatPreferencesResponse(
   channelMentions: json['channel_mentions'] as String?,
   defaultPreference: json['default_preference'] as String?,
   directMentions: json['direct_mentions'] as String?,
@@ -16,7 +18,9 @@ ChatPreferencesResponse _$ChatPreferencesResponseFromJson(Map<String, dynamic> j
   threadReplies: json['thread_replies'] as String?,
 );
 
-Map<String, dynamic> _$ChatPreferencesResponseToJson(ChatPreferencesResponse instance) => <String, dynamic>{
+Map<String, dynamic> _$ChatPreferencesResponseToJson(
+  ChatPreferencesResponse instance,
+) => <String, dynamic>{
   'channel_mentions': instance.channelMentions,
   'default_preference': instance.defaultPreference,
   'direct_mentions': instance.directMentions,

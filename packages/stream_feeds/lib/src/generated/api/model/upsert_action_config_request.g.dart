@@ -6,7 +6,9 @@ part of 'upsert_action_config_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-UpsertActionConfigRequest _$UpsertActionConfigRequestFromJson(Map<String, dynamic> json) => UpsertActionConfigRequest(
+UpsertActionConfigRequest _$UpsertActionConfigRequestFromJson(
+  Map<String, dynamic> json,
+) => UpsertActionConfigRequest(
   action: json['action'] as String,
   custom: json['custom'] as Map<String, dynamic>?,
   description: json['description'] as String?,
@@ -17,7 +19,9 @@ UpsertActionConfigRequest _$UpsertActionConfigRequestFromJson(Map<String, dynami
   queueType: json['queue_type'] as String?,
 );
 
-Map<String, dynamic> _$UpsertActionConfigRequestToJson(UpsertActionConfigRequest instance) => <String, dynamic>{
+Map<String, dynamic> _$UpsertActionConfigRequestToJson(
+  UpsertActionConfigRequest instance,
+) => <String, dynamic>{
   'action': instance.action,
   'custom': instance.custom,
   'description': instance.description,

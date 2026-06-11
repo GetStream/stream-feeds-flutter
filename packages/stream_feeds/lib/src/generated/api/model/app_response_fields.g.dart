@@ -9,9 +9,13 @@ part of 'app_response_fields.dart';
 AppResponseFields _$AppResponseFieldsFromJson(Map<String, dynamic> json) => AppResponseFields(
   asyncUrlEnrichEnabled: json['async_url_enrich_enabled'] as bool,
   autoTranslationEnabled: json['auto_translation_enabled'] as bool,
-  fileUploadConfig: FileUploadConfig.fromJson(json['file_upload_config'] as Map<String, dynamic>),
+  fileUploadConfig: FileUploadConfig.fromJson(
+    json['file_upload_config'] as Map<String, dynamic>,
+  ),
   id: (json['id'] as num).toInt(),
-  imageUploadConfig: FileUploadConfig.fromJson(json['image_upload_config'] as Map<String, dynamic>),
+  imageUploadConfig: FileUploadConfig.fromJson(
+    json['image_upload_config'] as Map<String, dynamic>,
+  ),
   name: json['name'] as String,
   placement: json['placement'] as String,
 );

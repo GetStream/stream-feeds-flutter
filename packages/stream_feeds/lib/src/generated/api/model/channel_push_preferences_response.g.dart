@@ -6,24 +6,30 @@ part of 'channel_push_preferences_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ChannelPushPreferencesResponse _$ChannelPushPreferencesResponseFromJson(Map<String, dynamic> json) =>
-    ChannelPushPreferencesResponse(
-      chatLevel: json['chat_level'] as String?,
-      chatPreferences: json['chat_preferences'] == null
-          ? null
-          : ChatPreferencesResponse.fromJson(json['chat_preferences'] as Map<String, dynamic>),
-      disabledUntil: _$JsonConverterFromJson<int, DateTime>(
-        json['disabled_until'],
-        const EpochDateTimeConverter().fromJson,
-      ),
-    );
+ChannelPushPreferencesResponse _$ChannelPushPreferencesResponseFromJson(
+  Map<String, dynamic> json,
+) => ChannelPushPreferencesResponse(
+  chatLevel: json['chat_level'] as String?,
+  chatPreferences: json['chat_preferences'] == null
+      ? null
+      : ChatPreferencesResponse.fromJson(
+          json['chat_preferences'] as Map<String, dynamic>,
+        ),
+  disabledUntil: _$JsonConverterFromJson<int, DateTime>(
+    json['disabled_until'],
+    const EpochDateTimeConverter().fromJson,
+  ),
+);
 
 Map<String, dynamic> _$ChannelPushPreferencesResponseToJson(
   ChannelPushPreferencesResponse instance,
 ) => <String, dynamic>{
   'chat_level': instance.chatLevel,
   'chat_preferences': instance.chatPreferences?.toJson(),
-  'disabled_until': _$JsonConverterToJson<int, DateTime>(instance.disabledUntil, const EpochDateTimeConverter().toJson),
+  'disabled_until': _$JsonConverterToJson<int, DateTime>(
+    instance.disabledUntil,
+    const EpochDateTimeConverter().toJson,
+  ),
 };
 
 Value? _$JsonConverterFromJson<Json, Value>(

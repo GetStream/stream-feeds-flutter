@@ -11,7 +11,9 @@ ListDevicesResponse _$ListDevicesResponseFromJson(Map<String, dynamic> json) => 
   duration: json['duration'] as String,
 );
 
-Map<String, dynamic> _$ListDevicesResponseToJson(ListDevicesResponse instance) => <String, dynamic>{
+Map<String, dynamic> _$ListDevicesResponseToJson(
+  ListDevicesResponse instance,
+) => <String, dynamic>{
   'devices': instance.devices.map((e) => e.toJson()).toList(),
   'duration': instance.duration,
 };

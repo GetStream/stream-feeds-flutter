@@ -6,15 +6,22 @@ part of 'feed_suggestion_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-FeedSuggestionResponse _$FeedSuggestionResponseFromJson(Map<String, dynamic> json) => FeedSuggestionResponse(
+FeedSuggestionResponse _$FeedSuggestionResponseFromJson(
+  Map<String, dynamic> json,
+) => FeedSuggestionResponse(
   activityCount: (json['activity_count'] as num).toInt(),
   algorithmScores: (json['algorithm_scores'] as Map<String, dynamic>?)?.map(
     (k, e) => MapEntry(k, (e as num).toDouble()),
   ),
-  createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
   createdBy: UserResponse.fromJson(json['created_by'] as Map<String, dynamic>),
   custom: json['custom'] as Map<String, dynamic>?,
-  deletedAt: _$JsonConverterFromJson<int, DateTime>(json['deleted_at'], const EpochDateTimeConverter().fromJson),
+  deletedAt: _$JsonConverterFromJson<int, DateTime>(
+    json['deleted_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
   description: json['description'] as String,
   feed: json['feed'] as String,
   filterTags: (json['filter_tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
@@ -42,11 +49,15 @@ FeedSuggestionResponse _$FeedSuggestionResponseFromJson(Map<String, dynamic> jso
       .toList(),
   ownMembership: json['own_membership'] == null
       ? null
-      : FeedMemberResponse.fromJson(json['own_membership'] as Map<String, dynamic>),
+      : FeedMemberResponse.fromJson(
+          json['own_membership'] as Map<String, dynamic>,
+        ),
   pinCount: (json['pin_count'] as num).toInt(),
   reason: json['reason'] as String?,
   recommendationScore: (json['recommendation_score'] as num?)?.toDouble(),
-  updatedAt: const EpochDateTimeConverter().fromJson((json['updated_at'] as num).toInt()),
+  updatedAt: const EpochDateTimeConverter().fromJson(
+    (json['updated_at'] as num).toInt(),
+  ),
   visibility: $enumDecodeNullable(
     _$FeedSuggestionResponseVisibilityEnumMap,
     json['visibility'],
@@ -54,13 +65,18 @@ FeedSuggestionResponse _$FeedSuggestionResponseFromJson(Map<String, dynamic> jso
   ),
 );
 
-Map<String, dynamic> _$FeedSuggestionResponseToJson(FeedSuggestionResponse instance) => <String, dynamic>{
+Map<String, dynamic> _$FeedSuggestionResponseToJson(
+  FeedSuggestionResponse instance,
+) => <String, dynamic>{
   'activity_count': instance.activityCount,
   'algorithm_scores': instance.algorithmScores,
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
   'created_by': instance.createdBy.toJson(),
   'custom': instance.custom,
-  'deleted_at': _$JsonConverterToJson<int, DateTime>(instance.deletedAt, const EpochDateTimeConverter().toJson),
+  'deleted_at': _$JsonConverterToJson<int, DateTime>(
+    instance.deletedAt,
+    const EpochDateTimeConverter().toJson,
+  ),
   'description': instance.description,
   'feed': instance.feed,
   'filter_tags': instance.filterTags,

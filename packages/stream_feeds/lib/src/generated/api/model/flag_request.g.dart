@@ -13,7 +13,9 @@ FlagRequest _$FlagRequestFromJson(Map<String, dynamic> json) => FlagRequest(
   entityType: json['entity_type'] as String,
   moderationPayload: json['moderation_payload'] == null
       ? null
-      : ModerationPayload.fromJson(json['moderation_payload'] as Map<String, dynamic>),
+      : ModerationPayload.fromJson(
+          json['moderation_payload'] as Map<String, dynamic>,
+        ),
   reason: json['reason'] as String?,
 );
 

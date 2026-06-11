@@ -6,7 +6,9 @@ part of 'query_feed_members_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-QueryFeedMembersRequest _$QueryFeedMembersRequestFromJson(Map<String, dynamic> json) => QueryFeedMembersRequest(
+QueryFeedMembersRequest _$QueryFeedMembersRequestFromJson(
+  Map<String, dynamic> json,
+) => QueryFeedMembersRequest(
   filter: json['filter'] as Map<String, dynamic>?,
   limit: (json['limit'] as num?)?.toInt(),
   next: json['next'] as String?,
@@ -14,7 +16,9 @@ QueryFeedMembersRequest _$QueryFeedMembersRequestFromJson(Map<String, dynamic> j
   sort: (json['sort'] as List<dynamic>?)?.map((e) => SortParamRequest.fromJson(e as Map<String, dynamic>)).toList(),
 );
 
-Map<String, dynamic> _$QueryFeedMembersRequestToJson(QueryFeedMembersRequest instance) => <String, dynamic>{
+Map<String, dynamic> _$QueryFeedMembersRequestToJson(
+  QueryFeedMembersRequest instance,
+) => <String, dynamic>{
   'filter': instance.filter,
   'limit': instance.limit,
   'next': instance.next,

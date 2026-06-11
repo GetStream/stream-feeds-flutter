@@ -11,7 +11,9 @@ SearchRolesResponse _$SearchRolesResponseFromJson(Map<String, dynamic> json) => 
   roles: (json['roles'] as List<dynamic>).map((e) => Role.fromJson(e as Map<String, dynamic>)).toList(),
 );
 
-Map<String, dynamic> _$SearchRolesResponseToJson(SearchRolesResponse instance) => <String, dynamic>{
+Map<String, dynamic> _$SearchRolesResponseToJson(
+  SearchRolesResponse instance,
+) => <String, dynamic>{
   'duration': instance.duration,
   'roles': instance.roles.map((e) => e.toJson()).toList(),
 };

@@ -7,16 +7,26 @@ part of 'user_mute_response.dart';
 // **************************************************************************
 
 UserMuteResponse _$UserMuteResponseFromJson(Map<String, dynamic> json) => UserMuteResponse(
-  createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
-  expires: _$JsonConverterFromJson<int, DateTime>(json['expires'], const EpochDateTimeConverter().fromJson),
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
+  expires: _$JsonConverterFromJson<int, DateTime>(
+    json['expires'],
+    const EpochDateTimeConverter().fromJson,
+  ),
   target: json['target'] == null ? null : UserResponse.fromJson(json['target'] as Map<String, dynamic>),
-  updatedAt: const EpochDateTimeConverter().fromJson((json['updated_at'] as num).toInt()),
+  updatedAt: const EpochDateTimeConverter().fromJson(
+    (json['updated_at'] as num).toInt(),
+  ),
   user: json['user'] == null ? null : UserResponse.fromJson(json['user'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$UserMuteResponseToJson(UserMuteResponse instance) => <String, dynamic>{
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
-  'expires': _$JsonConverterToJson<int, DateTime>(instance.expires, const EpochDateTimeConverter().toJson),
+  'expires': _$JsonConverterToJson<int, DateTime>(
+    instance.expires,
+    const EpochDateTimeConverter().toJson,
+  ),
   'target': instance.target?.toJson(),
   'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
   'user': instance.user?.toJson(),

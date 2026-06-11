@@ -15,7 +15,9 @@ NotificationComment _$NotificationCommentFromJson(Map<String, dynamic> json) => 
   userId: json['user_id'] as String,
 );
 
-Map<String, dynamic> _$NotificationCommentToJson(NotificationComment instance) => <String, dynamic>{
+Map<String, dynamic> _$NotificationCommentToJson(
+  NotificationComment instance,
+) => <String, dynamic>{
   'attachments': instance.attachments?.map((e) => e.toJson()).toList(),
   'comment': instance.comment,
   'id': instance.id,

@@ -6,14 +6,18 @@ part of 'upsert_activities_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-UpsertActivitiesRequest _$UpsertActivitiesRequestFromJson(Map<String, dynamic> json) => UpsertActivitiesRequest(
+UpsertActivitiesRequest _$UpsertActivitiesRequestFromJson(
+  Map<String, dynamic> json,
+) => UpsertActivitiesRequest(
   activities: (json['activities'] as List<dynamic>)
       .map((e) => ActivityRequest.fromJson(e as Map<String, dynamic>))
       .toList(),
   enrichOwnFields: json['enrich_own_fields'] as bool?,
 );
 
-Map<String, dynamic> _$UpsertActivitiesRequestToJson(UpsertActivitiesRequest instance) => <String, dynamic>{
+Map<String, dynamic> _$UpsertActivitiesRequestToJson(
+  UpsertActivitiesRequest instance,
+) => <String, dynamic>{
   'activities': instance.activities.map((e) => e.toJson()).toList(),
   'enrich_own_fields': instance.enrichOwnFields,
 };

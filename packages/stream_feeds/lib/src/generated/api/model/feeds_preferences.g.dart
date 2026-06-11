@@ -47,7 +47,9 @@ FeedsPreferences _$FeedsPreferencesFromJson(Map<String, dynamic> json) => FeedsP
   ),
 );
 
-Map<String, dynamic> _$FeedsPreferencesToJson(FeedsPreferences instance) => <String, dynamic>{
+Map<String, dynamic> _$FeedsPreferencesToJson(
+  FeedsPreferences instance,
+) => <String, dynamic>{
   'comment': _$FeedsPreferencesCommentEnumMap[instance.comment],
   'comment_mention': _$FeedsPreferencesCommentMentionEnumMap[instance.commentMention],
   'comment_reaction': _$FeedsPreferencesCommentReactionEnumMap[instance.commentReaction],

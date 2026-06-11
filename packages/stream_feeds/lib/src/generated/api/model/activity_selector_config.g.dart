@@ -6,8 +6,12 @@ part of 'activity_selector_config.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ActivitySelectorConfig _$ActivitySelectorConfigFromJson(Map<String, dynamic> json) => ActivitySelectorConfig(
-  cutoffTime: const EpochDateTimeConverter().fromJson((json['cutoff_time'] as num).toInt()),
+ActivitySelectorConfig _$ActivitySelectorConfigFromJson(
+  Map<String, dynamic> json,
+) => ActivitySelectorConfig(
+  cutoffTime: const EpochDateTimeConverter().fromJson(
+    (json['cutoff_time'] as num).toInt(),
+  ),
   cutoffWindow: json['cutoff_window'] as String?,
   filter: json['filter'] as Map<String, dynamic>?,
   minPopularity: (json['min_popularity'] as num?)?.toInt(),
@@ -16,7 +20,9 @@ ActivitySelectorConfig _$ActivitySelectorConfigFromJson(Map<String, dynamic> jso
   type: json['type'] as String?,
 );
 
-Map<String, dynamic> _$ActivitySelectorConfigToJson(ActivitySelectorConfig instance) => <String, dynamic>{
+Map<String, dynamic> _$ActivitySelectorConfigToJson(
+  ActivitySelectorConfig instance,
+) => <String, dynamic>{
   'cutoff_time': const EpochDateTimeConverter().toJson(instance.cutoffTime),
   'cutoff_window': instance.cutoffWindow,
   'filter': instance.filter,

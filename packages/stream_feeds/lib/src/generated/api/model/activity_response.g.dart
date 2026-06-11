@@ -12,25 +12,41 @@ ActivityResponse _$ActivityResponseFromJson(Map<String, dynamic> json) => Activi
       .toList(),
   bookmarkCount: (json['bookmark_count'] as num).toInt(),
   collections: (json['collections'] as Map<String, dynamic>).map(
-    (k, e) => MapEntry(k, EnrichedCollectionResponse.fromJson(e as Map<String, dynamic>)),
+    (k, e) => MapEntry(
+      k,
+      EnrichedCollectionResponse.fromJson(e as Map<String, dynamic>),
+    ),
   ),
   commentCount: (json['comment_count'] as num).toInt(),
   comments: (json['comments'] as List<dynamic>)
       .map((e) => CommentResponse.fromJson(e as Map<String, dynamic>))
       .toList(),
-  createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
   currentFeed: json['current_feed'] == null
       ? null
       : FeedResponse.fromJson(json['current_feed'] as Map<String, dynamic>),
   custom: json['custom'] as Map<String, dynamic>,
-  deletedAt: _$JsonConverterFromJson<int, DateTime>(json['deleted_at'], const EpochDateTimeConverter().fromJson),
-  editedAt: _$JsonConverterFromJson<int, DateTime>(json['edited_at'], const EpochDateTimeConverter().fromJson),
-  expiresAt: _$JsonConverterFromJson<int, DateTime>(json['expires_at'], const EpochDateTimeConverter().fromJson),
+  deletedAt: _$JsonConverterFromJson<int, DateTime>(
+    json['deleted_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
+  editedAt: _$JsonConverterFromJson<int, DateTime>(
+    json['edited_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
+  expiresAt: _$JsonConverterFromJson<int, DateTime>(
+    json['expires_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
   feeds: (json['feeds'] as List<dynamic>).map((e) => e as String).toList(),
   filterTags: (json['filter_tags'] as List<dynamic>).map((e) => e as String).toList(),
   friendReactionCount: (json['friend_reaction_count'] as num?)?.toInt(),
   friendReactions: (json['friend_reactions'] as List<dynamic>?)
-      ?.map((e) => FeedsReactionResponse.fromJson(e as Map<String, dynamic>))
+      ?.map(
+        (e) => FeedsReactionResponse.fromJson(e as Map<String, dynamic>),
+      )
       .toList(),
   hidden: json['hidden'] as bool,
   id: json['id'] as String,
@@ -50,11 +66,15 @@ ActivityResponse _$ActivityResponseFromJson(Map<String, dynamic> json) => Activi
   ),
   moderation: json['moderation'] == null
       ? null
-      : ModerationV2Response.fromJson(json['moderation'] as Map<String, dynamic>),
+      : ModerationV2Response.fromJson(
+          json['moderation'] as Map<String, dynamic>,
+        ),
   moderationAction: json['moderation_action'] as String?,
   notificationContext: json['notification_context'] == null
       ? null
-      : NotificationContext.fromJson(json['notification_context'] as Map<String, dynamic>),
+      : NotificationContext.fromJson(
+          json['notification_context'] as Map<String, dynamic>,
+        ),
   ownBookmarks: (json['own_bookmarks'] as List<dynamic>)
       .map((e) => BookmarkResponse.fromJson(e as Map<String, dynamic>))
       .toList(),
@@ -67,7 +87,10 @@ ActivityResponse _$ActivityResponseFromJson(Map<String, dynamic> json) => Activi
   preview: json['preview'] as bool,
   reactionCount: (json['reaction_count'] as num).toInt(),
   reactionGroups: (json['reaction_groups'] as Map<String, dynamic>).map(
-    (k, e) => MapEntry(k, FeedsReactionGroupResponse.fromJson(e as Map<String, dynamic>)),
+    (k, e) => MapEntry(
+      k,
+      FeedsReactionGroupResponse.fromJson(e as Map<String, dynamic>),
+    ),
   ),
   restrictReplies: $enumDecode(
     _$ActivityResponseRestrictRepliesEnumMap,
@@ -81,7 +104,9 @@ ActivityResponse _$ActivityResponseFromJson(Map<String, dynamic> json) => Activi
   shareCount: (json['share_count'] as num).toInt(),
   text: json['text'] as String?,
   type: json['type'] as String,
-  updatedAt: const EpochDateTimeConverter().fromJson((json['updated_at'] as num).toInt()),
+  updatedAt: const EpochDateTimeConverter().fromJson(
+    (json['updated_at'] as num).toInt(),
+  ),
   user: UserResponse.fromJson(json['user'] as Map<String, dynamic>),
   visibility: $enumDecode(
     _$ActivityResponseVisibilityEnumMap,
@@ -91,7 +116,9 @@ ActivityResponse _$ActivityResponseFromJson(Map<String, dynamic> json) => Activi
   visibilityTag: json['visibility_tag'] as String?,
 );
 
-Map<String, dynamic> _$ActivityResponseToJson(ActivityResponse instance) => <String, dynamic>{
+Map<String, dynamic> _$ActivityResponseToJson(
+  ActivityResponse instance,
+) => <String, dynamic>{
   'attachments': instance.attachments.map((e) => e.toJson()).toList(),
   'bookmark_count': instance.bookmarkCount,
   'collections': instance.collections.map((k, e) => MapEntry(k, e.toJson())),
@@ -100,9 +127,18 @@ Map<String, dynamic> _$ActivityResponseToJson(ActivityResponse instance) => <Str
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
   'current_feed': instance.currentFeed?.toJson(),
   'custom': instance.custom,
-  'deleted_at': _$JsonConverterToJson<int, DateTime>(instance.deletedAt, const EpochDateTimeConverter().toJson),
-  'edited_at': _$JsonConverterToJson<int, DateTime>(instance.editedAt, const EpochDateTimeConverter().toJson),
-  'expires_at': _$JsonConverterToJson<int, DateTime>(instance.expiresAt, const EpochDateTimeConverter().toJson),
+  'deleted_at': _$JsonConverterToJson<int, DateTime>(
+    instance.deletedAt,
+    const EpochDateTimeConverter().toJson,
+  ),
+  'edited_at': _$JsonConverterToJson<int, DateTime>(
+    instance.editedAt,
+    const EpochDateTimeConverter().toJson,
+  ),
+  'expires_at': _$JsonConverterToJson<int, DateTime>(
+    instance.expiresAt,
+    const EpochDateTimeConverter().toJson,
+  ),
   'feeds': instance.feeds,
   'filter_tags': instance.filterTags,
   'friend_reaction_count': instance.friendReactionCount,
@@ -127,7 +163,9 @@ Map<String, dynamic> _$ActivityResponseToJson(ActivityResponse instance) => <Str
   'popularity': instance.popularity,
   'preview': instance.preview,
   'reaction_count': instance.reactionCount,
-  'reaction_groups': instance.reactionGroups.map((k, e) => MapEntry(k, e.toJson())),
+  'reaction_groups': instance.reactionGroups.map(
+    (k, e) => MapEntry(k, e.toJson()),
+  ),
   'restrict_replies': _$ActivityResponseRestrictRepliesEnumMap[instance.restrictReplies]!,
   'score': instance.score,
   'score_vars': instance.scoreVars,

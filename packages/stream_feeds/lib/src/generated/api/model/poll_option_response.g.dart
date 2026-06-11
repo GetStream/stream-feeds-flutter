@@ -8,7 +8,9 @@ part of 'poll_option_response.dart';
 
 PollOptionResponse _$PollOptionResponseFromJson(Map<String, dynamic> json) => PollOptionResponse(
   duration: json['duration'] as String,
-  pollOption: PollOptionResponseData.fromJson(json['poll_option'] as Map<String, dynamic>),
+  pollOption: PollOptionResponseData.fromJson(
+    json['poll_option'] as Map<String, dynamic>,
+  ),
 );
 
 Map<String, dynamic> _$PollOptionResponseToJson(PollOptionResponse instance) => <String, dynamic>{

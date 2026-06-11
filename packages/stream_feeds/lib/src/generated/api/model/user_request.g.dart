@@ -15,7 +15,9 @@ UserRequest _$UserRequestFromJson(Map<String, dynamic> json) => UserRequest(
   name: json['name'] as String?,
   privacySettings: json['privacy_settings'] == null
       ? null
-      : PrivacySettingsResponse.fromJson(json['privacy_settings'] as Map<String, dynamic>),
+      : PrivacySettingsResponse.fromJson(
+          json['privacy_settings'] as Map<String, dynamic>,
+        ),
 );
 
 Map<String, dynamic> _$UserRequestToJson(UserRequest instance) => <String, dynamic>{

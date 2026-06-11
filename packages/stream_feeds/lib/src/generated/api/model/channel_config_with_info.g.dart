@@ -6,7 +6,9 @@ part of 'channel_config_with_info.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ChannelConfigWithInfo _$ChannelConfigWithInfoFromJson(Map<String, dynamic> json) => ChannelConfigWithInfo(
+ChannelConfigWithInfo _$ChannelConfigWithInfoFromJson(
+  Map<String, dynamic> json,
+) => ChannelConfigWithInfo(
   allowedFlagReasons: (json['allowed_flag_reasons'] as List<dynamic>?)?.map((e) => e as String).toList(),
   automod: $enumDecode(
     _$ChannelConfigWithInfoAutomodEnumMap,
@@ -32,11 +34,15 @@ ChannelConfigWithInfo _$ChannelConfigWithInfoFromJson(Map<String, dynamic> json)
       .toList(),
   chatPreferences: json['chat_preferences'] == null
       ? null
-      : ChatPreferences.fromJson(json['chat_preferences'] as Map<String, dynamic>),
+      : ChatPreferences.fromJson(
+          json['chat_preferences'] as Map<String, dynamic>,
+        ),
   commands: (json['commands'] as List<dynamic>).map((e) => Command.fromJson(e as Map<String, dynamic>)).toList(),
   connectEvents: json['connect_events'] as bool,
   countMessages: json['count_messages'] as bool,
-  createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
   customEvents: json['custom_events'] as bool,
   deliveryEvents: json['delivery_events'] as bool,
   grants: (json['grants'] as Map<String, dynamic>?)?.map(
@@ -64,13 +70,17 @@ ChannelConfigWithInfo _$ChannelConfigWithInfoFromJson(Map<String, dynamic> json)
   sharedLocations: json['shared_locations'] as bool,
   skipLastMsgUpdateForSystemMsgs: json['skip_last_msg_update_for_system_msgs'] as bool,
   typingEvents: json['typing_events'] as bool,
-  updatedAt: const EpochDateTimeConverter().fromJson((json['updated_at'] as num).toInt()),
+  updatedAt: const EpochDateTimeConverter().fromJson(
+    (json['updated_at'] as num).toInt(),
+  ),
   uploads: json['uploads'] as bool,
   urlEnrichment: json['url_enrichment'] as bool,
   userMessageReminders: json['user_message_reminders'] as bool,
 );
 
-Map<String, dynamic> _$ChannelConfigWithInfoToJson(ChannelConfigWithInfo instance) => <String, dynamic>{
+Map<String, dynamic> _$ChannelConfigWithInfoToJson(
+  ChannelConfigWithInfo instance,
+) => <String, dynamic>{
   'allowed_flag_reasons': instance.allowedFlagReasons,
   'automod': _$ChannelConfigWithInfoAutomodEnumMap[instance.automod]!,
   'automod_behavior': _$ChannelConfigWithInfoAutomodBehaviorEnumMap[instance.automodBehavior]!,

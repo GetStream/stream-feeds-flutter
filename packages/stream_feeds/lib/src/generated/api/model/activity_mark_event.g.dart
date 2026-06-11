@@ -7,7 +7,9 @@ part of 'activity_mark_event.dart';
 // **************************************************************************
 
 ActivityMarkEvent _$ActivityMarkEventFromJson(Map<String, dynamic> json) => ActivityMarkEvent(
-  createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
   custom: json['custom'] as Map<String, dynamic>,
   feedVisibility: json['feed_visibility'] as String?,
   fid: json['fid'] as String,
@@ -16,9 +18,16 @@ ActivityMarkEvent _$ActivityMarkEventFromJson(Map<String, dynamic> json) => Acti
   markRead: (json['mark_read'] as List<dynamic>?)?.map((e) => e as String).toList(),
   markSeen: (json['mark_seen'] as List<dynamic>?)?.map((e) => e as String).toList(),
   markWatched: (json['mark_watched'] as List<dynamic>?)?.map((e) => e as String).toList(),
-  receivedAt: _$JsonConverterFromJson<int, DateTime>(json['received_at'], const EpochDateTimeConverter().fromJson),
+  receivedAt: _$JsonConverterFromJson<int, DateTime>(
+    json['received_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
   type: json['type'] as String,
-  user: json['user'] == null ? null : UserResponseCommonFields.fromJson(json['user'] as Map<String, dynamic>),
+  user: json['user'] == null
+      ? null
+      : UserResponseCommonFields.fromJson(
+          json['user'] as Map<String, dynamic>,
+        ),
 );
 
 Map<String, dynamic> _$ActivityMarkEventToJson(ActivityMarkEvent instance) => <String, dynamic>{
@@ -31,7 +40,10 @@ Map<String, dynamic> _$ActivityMarkEventToJson(ActivityMarkEvent instance) => <S
   'mark_read': instance.markRead,
   'mark_seen': instance.markSeen,
   'mark_watched': instance.markWatched,
-  'received_at': _$JsonConverterToJson<int, DateTime>(instance.receivedAt, const EpochDateTimeConverter().toJson),
+  'received_at': _$JsonConverterToJson<int, DateTime>(
+    instance.receivedAt,
+    const EpochDateTimeConverter().toJson,
+  ),
   'type': instance.type,
   'user': instance.user?.toJson(),
 };

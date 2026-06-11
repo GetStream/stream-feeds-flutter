@@ -11,10 +11,14 @@ AppEventResponse _$AppEventResponseFromJson(Map<String, dynamic> json) => AppEve
   autoTranslationEnabled: json['auto_translation_enabled'] as bool,
   fileUploadConfig: json['file_upload_config'] == null
       ? null
-      : FileUploadConfig.fromJson(json['file_upload_config'] as Map<String, dynamic>),
+      : FileUploadConfig.fromJson(
+          json['file_upload_config'] as Map<String, dynamic>,
+        ),
   imageUploadConfig: json['image_upload_config'] == null
       ? null
-      : FileUploadConfig.fromJson(json['image_upload_config'] as Map<String, dynamic>),
+      : FileUploadConfig.fromJson(
+          json['image_upload_config'] as Map<String, dynamic>,
+        ),
   name: json['name'] as String,
 );
 

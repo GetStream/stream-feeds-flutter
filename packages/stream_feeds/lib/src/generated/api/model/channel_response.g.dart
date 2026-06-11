@@ -6,17 +6,24 @@ part of 'channel_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ChannelResponse _$ChannelResponseFromJson(Map<String, dynamic> json) => ChannelResponse(
+ChannelResponse _$ChannelResponseFromJson(
+  Map<String, dynamic> json,
+) => ChannelResponse(
   autoTranslationEnabled: json['auto_translation_enabled'] as bool?,
   autoTranslationLanguage: json['auto_translation_language'] as String?,
   blocked: json['blocked'] as bool?,
   cid: json['cid'] as String,
   config: json['config'] == null ? null : ChannelConfigWithInfo.fromJson(json['config'] as Map<String, dynamic>),
   cooldown: (json['cooldown'] as num?)?.toInt(),
-  createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
   createdBy: json['created_by'] == null ? null : UserResponse.fromJson(json['created_by'] as Map<String, dynamic>),
   custom: json['custom'] as Map<String, dynamic>,
-  deletedAt: _$JsonConverterFromJson<int, DateTime>(json['deleted_at'], const EpochDateTimeConverter().fromJson),
+  deletedAt: _$JsonConverterFromJson<int, DateTime>(
+    json['deleted_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
   disabled: json['disabled'] as bool,
   filterTags: (json['filter_tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
   frozen: json['frozen'] as bool,
@@ -50,12 +57,17 @@ ChannelResponse _$ChannelResponseFromJson(Map<String, dynamic> json) => ChannelR
       )
       .toList(),
   team: json['team'] as String?,
-  truncatedAt: _$JsonConverterFromJson<int, DateTime>(json['truncated_at'], const EpochDateTimeConverter().fromJson),
+  truncatedAt: _$JsonConverterFromJson<int, DateTime>(
+    json['truncated_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
   truncatedBy: json['truncated_by'] == null
       ? null
       : UserResponse.fromJson(json['truncated_by'] as Map<String, dynamic>),
   type: json['type'] as String,
-  updatedAt: const EpochDateTimeConverter().fromJson((json['updated_at'] as num).toInt()),
+  updatedAt: const EpochDateTimeConverter().fromJson(
+    (json['updated_at'] as num).toInt(),
+  ),
 );
 
 Map<String, dynamic> _$ChannelResponseToJson(ChannelResponse instance) => <String, dynamic>{
@@ -68,7 +80,10 @@ Map<String, dynamic> _$ChannelResponseToJson(ChannelResponse instance) => <Strin
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
   'created_by': instance.createdBy?.toJson(),
   'custom': instance.custom,
-  'deleted_at': _$JsonConverterToJson<int, DateTime>(instance.deletedAt, const EpochDateTimeConverter().toJson),
+  'deleted_at': _$JsonConverterToJson<int, DateTime>(
+    instance.deletedAt,
+    const EpochDateTimeConverter().toJson,
+  ),
   'disabled': instance.disabled,
   'filter_tags': instance.filterTags,
   'frozen': instance.frozen,
@@ -92,7 +107,10 @@ Map<String, dynamic> _$ChannelResponseToJson(ChannelResponse instance) => <Strin
   'muted': instance.muted,
   'own_capabilities': instance.ownCapabilities?.map((e) => _$ChannelResponseOwnCapabilitiesEnumMap[e]!).toList(),
   'team': instance.team,
-  'truncated_at': _$JsonConverterToJson<int, DateTime>(instance.truncatedAt, const EpochDateTimeConverter().toJson),
+  'truncated_at': _$JsonConverterToJson<int, DateTime>(
+    instance.truncatedAt,
+    const EpochDateTimeConverter().toJson,
+  ),
   'truncated_by': instance.truncatedBy?.toJson(),
   'type': instance.type,
   'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),

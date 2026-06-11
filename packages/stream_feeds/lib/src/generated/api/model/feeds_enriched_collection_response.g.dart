@@ -6,24 +6,30 @@ part of 'feeds_enriched_collection_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-FeedsEnrichedCollectionResponse _$FeedsEnrichedCollectionResponseFromJson(Map<String, dynamic> json) =>
-    FeedsEnrichedCollectionResponse(
-      createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
-      custom: json['custom'] as Map<String, dynamic>,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      status: json['status'] as String,
-      updatedAt: const EpochDateTimeConverter().fromJson((json['updated_at'] as num).toInt()),
-      userId: json['user_id'] as String,
-    );
+FeedsEnrichedCollectionResponse _$FeedsEnrichedCollectionResponseFromJson(
+  Map<String, dynamic> json,
+) => FeedsEnrichedCollectionResponse(
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
+  custom: json['custom'] as Map<String, dynamic>,
+  id: json['id'] as String,
+  name: json['name'] as String,
+  status: json['status'] as String,
+  updatedAt: const EpochDateTimeConverter().fromJson(
+    (json['updated_at'] as num).toInt(),
+  ),
+  userId: json['user_id'] as String,
+);
 
-Map<String, dynamic> _$FeedsEnrichedCollectionResponseToJson(FeedsEnrichedCollectionResponse instance) =>
-    <String, dynamic>{
-      'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
-      'custom': instance.custom,
-      'id': instance.id,
-      'name': instance.name,
-      'status': instance.status,
-      'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
-      'user_id': instance.userId,
-    };
+Map<String, dynamic> _$FeedsEnrichedCollectionResponseToJson(
+  FeedsEnrichedCollectionResponse instance,
+) => <String, dynamic>{
+  'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
+  'custom': instance.custom,
+  'id': instance.id,
+  'name': instance.name,
+  'status': instance.status,
+  'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
+  'user_id': instance.userId,
+};

@@ -6,16 +6,22 @@ part of 'bookmark_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-BookmarkResponse _$BookmarkResponseFromJson(Map<String, dynamic> json) => BookmarkResponse(
+BookmarkResponse _$BookmarkResponseFromJson(
+  Map<String, dynamic> json,
+) => BookmarkResponse(
   activity: ActivityResponse.fromJson(json['activity'] as Map<String, dynamic>),
   activityId: json['activity_id'] as String?,
   comment: json['comment'] == null ? null : CommentResponse.fromJson(json['comment'] as Map<String, dynamic>),
-  createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
   custom: json['custom'] as Map<String, dynamic>?,
   folder: json['folder'] == null ? null : BookmarkFolderResponse.fromJson(json['folder'] as Map<String, dynamic>),
   objectId: json['object_id'] as String,
   objectType: json['object_type'] as String,
-  updatedAt: const EpochDateTimeConverter().fromJson((json['updated_at'] as num).toInt()),
+  updatedAt: const EpochDateTimeConverter().fromJson(
+    (json['updated_at'] as num).toInt(),
+  ),
   user: UserResponse.fromJson(json['user'] as Map<String, dynamic>),
 );
 

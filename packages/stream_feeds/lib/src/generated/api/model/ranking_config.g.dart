@@ -9,7 +9,10 @@ part of 'ranking_config.dart';
 RankingConfig _$RankingConfigFromJson(Map<String, dynamic> json) => RankingConfig(
   defaults: json['defaults'] as Map<String, dynamic>?,
   functions: (json['functions'] as Map<String, dynamic>?)?.map(
-    (k, e) => MapEntry(k, DecayFunctionConfig.fromJson(e as Map<String, dynamic>)),
+    (k, e) => MapEntry(
+      k,
+      DecayFunctionConfig.fromJson(e as Map<String, dynamic>),
+    ),
   ),
   score: json['score'] as String?,
   type: json['type'] as String?,

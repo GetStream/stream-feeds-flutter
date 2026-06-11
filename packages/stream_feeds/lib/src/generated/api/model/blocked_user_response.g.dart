@@ -7,14 +7,20 @@ part of 'blocked_user_response.dart';
 // **************************************************************************
 
 BlockedUserResponse _$BlockedUserResponseFromJson(Map<String, dynamic> json) => BlockedUserResponse(
-  blockedUser: UserResponse.fromJson(json['blocked_user'] as Map<String, dynamic>),
+  blockedUser: UserResponse.fromJson(
+    json['blocked_user'] as Map<String, dynamic>,
+  ),
   blockedUserId: json['blocked_user_id'] as String,
-  createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
   user: UserResponse.fromJson(json['user'] as Map<String, dynamic>),
   userId: json['user_id'] as String,
 );
 
-Map<String, dynamic> _$BlockedUserResponseToJson(BlockedUserResponse instance) => <String, dynamic>{
+Map<String, dynamic> _$BlockedUserResponseToJson(
+  BlockedUserResponse instance,
+) => <String, dynamic>{
   'blocked_user': instance.blockedUser.toJson(),
   'blocked_user_id': instance.blockedUserId,
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),

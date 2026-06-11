@@ -6,11 +6,15 @@ part of 'poll_response_data.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-PollResponseData _$PollResponseDataFromJson(Map<String, dynamic> json) => PollResponseData(
+PollResponseData _$PollResponseDataFromJson(
+  Map<String, dynamic> json,
+) => PollResponseData(
   allowAnswers: json['allow_answers'] as bool,
   allowUserSuggestedOptions: json['allow_user_suggested_options'] as bool,
   answersCount: (json['answers_count'] as num).toInt(),
-  createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
   createdBy: json['created_by'] == null ? null : UserResponse.fromJson(json['created_by'] as Map<String, dynamic>),
   createdById: json['created_by_id'] as String,
   custom: json['custom'] as Map<String, dynamic>,
@@ -22,8 +26,14 @@ PollResponseData _$PollResponseDataFromJson(Map<String, dynamic> json) => PollRe
       .map((e) => PollVoteResponseData.fromJson(e as Map<String, dynamic>))
       .toList(),
   latestVotesByOption: (json['latest_votes_by_option'] as Map<String, dynamic>).map(
-    (k, e) =>
-        MapEntry(k, (e as List<dynamic>).map((e) => PollVoteResponseData.fromJson(e as Map<String, dynamic>)).toList()),
+    (k, e) => MapEntry(
+      k,
+      (e as List<dynamic>)
+          .map(
+            (e) => PollVoteResponseData.fromJson(e as Map<String, dynamic>),
+          )
+          .toList(),
+    ),
   ),
   maxVotesAllowed: (json['max_votes_allowed'] as num?)?.toInt(),
   name: json['name'] as String,
@@ -33,9 +43,13 @@ PollResponseData _$PollResponseDataFromJson(Map<String, dynamic> json) => PollRe
   ownVotes: (json['own_votes'] as List<dynamic>)
       .map((e) => PollVoteResponseData.fromJson(e as Map<String, dynamic>))
       .toList(),
-  updatedAt: const EpochDateTimeConverter().fromJson((json['updated_at'] as num).toInt()),
+  updatedAt: const EpochDateTimeConverter().fromJson(
+    (json['updated_at'] as num).toInt(),
+  ),
   voteCount: (json['vote_count'] as num).toInt(),
-  voteCountsByOption: Map<String, int>.from(json['vote_counts_by_option'] as Map),
+  voteCountsByOption: Map<String, int>.from(
+    json['vote_counts_by_option'] as Map,
+  ),
   votingVisibility: json['voting_visibility'] as String,
 );
 
@@ -52,7 +66,9 @@ Map<String, dynamic> _$PollResponseDataToJson(PollResponseData instance) => <Str
   'id': instance.id,
   'is_closed': instance.isClosed,
   'latest_answers': instance.latestAnswers.map((e) => e.toJson()).toList(),
-  'latest_votes_by_option': instance.latestVotesByOption.map((k, e) => MapEntry(k, e.map((e) => e.toJson()).toList())),
+  'latest_votes_by_option': instance.latestVotesByOption.map(
+    (k, e) => MapEntry(k, e.map((e) => e.toJson()).toList()),
+  ),
   'max_votes_allowed': instance.maxVotesAllowed,
   'name': instance.name,
   'options': instance.options.map((e) => e.toJson()).toList(),

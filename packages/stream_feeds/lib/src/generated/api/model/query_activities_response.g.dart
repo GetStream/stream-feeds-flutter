@@ -6,7 +6,9 @@ part of 'query_activities_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-QueryActivitiesResponse _$QueryActivitiesResponseFromJson(Map<String, dynamic> json) => QueryActivitiesResponse(
+QueryActivitiesResponse _$QueryActivitiesResponseFromJson(
+  Map<String, dynamic> json,
+) => QueryActivitiesResponse(
   activities: (json['activities'] as List<dynamic>)
       .map((e) => ActivityResponse.fromJson(e as Map<String, dynamic>))
       .toList(),
@@ -15,7 +17,9 @@ QueryActivitiesResponse _$QueryActivitiesResponseFromJson(Map<String, dynamic> j
   prev: json['prev'] as String?,
 );
 
-Map<String, dynamic> _$QueryActivitiesResponseToJson(QueryActivitiesResponse instance) => <String, dynamic>{
+Map<String, dynamic> _$QueryActivitiesResponseToJson(
+  QueryActivitiesResponse instance,
+) => <String, dynamic>{
   'activities': instance.activities.map((e) => e.toJson()).toList(),
   'duration': instance.duration,
   'next': instance.next,

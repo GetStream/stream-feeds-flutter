@@ -1,5 +1,5 @@
-// dart format width=80
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format width=80
 
 // **************************************************************************
 // InjectableConfigGenerator
@@ -34,11 +34,7 @@ extension GetItInjectableX on _i174.GetIt {
     String? environment,
     _i526.EnvironmentFilter? environmentFilter,
   }) async {
-    final gh = _i526.GetItHelper(
-      this,
-      environment,
-      environmentFilter,
-    );
+    final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final appModule = _$AppModule();
     await gh.lazySingletonAsync<_i460.SharedPreferences>(
       () => appModule.prefs,
@@ -52,9 +48,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => appModule.localNotifications,
     );
     gh.lazySingleton<_i161.InternetConnection>(() => appModule.internet);
-    gh.lazySingleton<_i825.AppPreferences>(
-      () => _i825.AppPreferences(gh<_i460.SharedPreferences>()),
-    );
     gh.factory<_i235.PushProvider>(
       () => appModule.androidPush,
       instanceName: 'firebase',
@@ -63,16 +56,19 @@ extension GetItInjectableX on _i174.GetIt {
       () => appModule.iosPush,
       instanceName: 'apn',
     );
-    gh.lazySingleton<_i250.NetworkStateProvider>(
-      () =>
-          _i571.InternetStateProvider(checker: gh<_i161.InternetConnection>()),
-    );
     gh.lazySingleton<_i250.LifecycleStateProvider>(
       () => _i615.AppLifecycleStateProvider(),
     );
     gh.lazySingleton<_i902.NotificationService>(
       () => _i902.NotificationService(gh<_i460.LocalNotification>()),
       dispose: (i) => i.dispose(),
+    );
+    gh.lazySingleton<_i825.AppPreferences>(
+      () => _i825.AppPreferences(gh<_i460.SharedPreferences>()),
+    );
+    gh.lazySingleton<_i250.NetworkStateProvider>(
+      () =>
+          _i571.InternetStateProvider(checker: gh<_i161.InternetConnection>()),
     );
     gh.lazySingleton<_i817.AuthController>(
       () => _i817.AuthController(

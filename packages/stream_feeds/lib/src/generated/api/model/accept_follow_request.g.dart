@@ -12,7 +12,9 @@ AcceptFollowRequest _$AcceptFollowRequestFromJson(Map<String, dynamic> json) => 
   target: json['target'] as String,
 );
 
-Map<String, dynamic> _$AcceptFollowRequestToJson(AcceptFollowRequest instance) => <String, dynamic>{
+Map<String, dynamic> _$AcceptFollowRequestToJson(
+  AcceptFollowRequest instance,
+) => <String, dynamic>{
   'follower_role': instance.followerRole,
   'source': instance.source,
   'target': instance.target,

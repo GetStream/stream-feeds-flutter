@@ -6,7 +6,9 @@ part of 'update_comment_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-UpdateCommentRequest _$UpdateCommentRequestFromJson(Map<String, dynamic> json) => UpdateCommentRequest(
+UpdateCommentRequest _$UpdateCommentRequestFromJson(
+  Map<String, dynamic> json,
+) => UpdateCommentRequest(
   attachments: (json['attachments'] as List<dynamic>?)
       ?.map((e) => Attachment.fromJson(e as Map<String, dynamic>))
       .toList(),
@@ -19,7 +21,9 @@ UpdateCommentRequest _$UpdateCommentRequestFromJson(Map<String, dynamic> json) =
   skipPush: json['skip_push'] as bool?,
 );
 
-Map<String, dynamic> _$UpdateCommentRequestToJson(UpdateCommentRequest instance) => <String, dynamic>{
+Map<String, dynamic> _$UpdateCommentRequestToJson(
+  UpdateCommentRequest instance,
+) => <String, dynamic>{
   'attachments': instance.attachments?.map((e) => e.toJson()).toList(),
   'comment': instance.comment,
   'copy_custom_to_notification': instance.copyCustomToNotification,

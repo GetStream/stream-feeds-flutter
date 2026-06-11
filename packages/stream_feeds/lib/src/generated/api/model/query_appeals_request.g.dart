@@ -14,7 +14,9 @@ QueryAppealsRequest _$QueryAppealsRequestFromJson(Map<String, dynamic> json) => 
   sort: (json['sort'] as List<dynamic>?)?.map((e) => SortParamRequest.fromJson(e as Map<String, dynamic>)).toList(),
 );
 
-Map<String, dynamic> _$QueryAppealsRequestToJson(QueryAppealsRequest instance) => <String, dynamic>{
+Map<String, dynamic> _$QueryAppealsRequestToJson(
+  QueryAppealsRequest instance,
+) => <String, dynamic>{
   'filter': instance.filter,
   'limit': instance.limit,
   'next': instance.next,

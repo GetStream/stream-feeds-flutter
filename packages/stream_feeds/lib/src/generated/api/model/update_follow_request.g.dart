@@ -23,7 +23,9 @@ UpdateFollowRequest _$UpdateFollowRequestFromJson(Map<String, dynamic> json) => 
   target: json['target'] as String,
 );
 
-Map<String, dynamic> _$UpdateFollowRequestToJson(UpdateFollowRequest instance) => <String, dynamic>{
+Map<String, dynamic> _$UpdateFollowRequestToJson(
+  UpdateFollowRequest instance,
+) => <String, dynamic>{
   'activity_copy_limit': instance.activityCopyLimit,
   'copy_custom_to_notification': instance.copyCustomToNotification,
   'create_notification_activity': instance.createNotificationActivity,

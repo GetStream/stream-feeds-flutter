@@ -11,7 +11,6 @@ InterestTagResponse _$InterestTagResponseFromJson(Map<String, dynamic> json) => 
   tag: json['tag'] as String,
 );
 
-Map<String, dynamic> _$InterestTagResponseToJson(InterestTagResponse instance) => <String, dynamic>{
-  'count': instance.count,
-  'tag': instance.tag,
-};
+Map<String, dynamic> _$InterestTagResponseToJson(
+  InterestTagResponse instance,
+) => <String, dynamic>{'count': instance.count, 'tag': instance.tag};

@@ -15,12 +15,16 @@ EnrichedReaction _$EnrichedReactionFromJson(Map<String, dynamic> json) => Enrich
   id: json['id'] as String?,
   kind: json['kind'] as String,
   latestChildren: (json['latest_children'] as Map<String, dynamic>?)?.map(
-    (k, e) =>
-        MapEntry(k, (e as List<dynamic>).map((e) => EnrichedReaction.fromJson(e as Map<String, dynamic>)).toList()),
+    (k, e) => MapEntry(
+      k,
+      (e as List<dynamic>).map((e) => EnrichedReaction.fromJson(e as Map<String, dynamic>)).toList(),
+    ),
   ),
   ownChildren: (json['own_children'] as Map<String, dynamic>?)?.map(
-    (k, e) =>
-        MapEntry(k, (e as List<dynamic>).map((e) => EnrichedReaction.fromJson(e as Map<String, dynamic>)).toList()),
+    (k, e) => MapEntry(
+      k,
+      (e as List<dynamic>).map((e) => EnrichedReaction.fromJson(e as Map<String, dynamic>)).toList(),
+    ),
   ),
   parent: json['parent'] as String?,
   targetFeeds: (json['target_feeds'] as List<dynamic>?)?.map((e) => e as String).toList(),
@@ -34,8 +38,12 @@ Map<String, dynamic> _$EnrichedReactionToJson(EnrichedReaction instance) => <Str
   'data': instance.data,
   'id': instance.id,
   'kind': instance.kind,
-  'latest_children': instance.latestChildren?.map((k, e) => MapEntry(k, e.map((e) => e.toJson()).toList())),
-  'own_children': instance.ownChildren?.map((k, e) => MapEntry(k, e.map((e) => e.toJson()).toList())),
+  'latest_children': instance.latestChildren?.map(
+    (k, e) => MapEntry(k, e.map((e) => e.toJson()).toList()),
+  ),
+  'own_children': instance.ownChildren?.map(
+    (k, e) => MapEntry(k, e.map((e) => e.toJson()).toList()),
+  ),
   'parent': instance.parent,
   'target_feeds': instance.targetFeeds,
   'user': instance.user?.toJson(),

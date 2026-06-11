@@ -6,23 +6,37 @@ part of 'chat_reminder_response_data.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ChatReminderResponseData _$ChatReminderResponseDataFromJson(Map<String, dynamic> json) => ChatReminderResponseData(
+ChatReminderResponseData _$ChatReminderResponseDataFromJson(
+  Map<String, dynamic> json,
+) => ChatReminderResponseData(
   channelCid: json['channel_cid'] as String,
-  createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
   message: json['message'] == null ? null : ChatMessageResponse.fromJson(json['message'] as Map<String, dynamic>),
   messageId: json['message_id'] as String,
-  remindAt: _$JsonConverterFromJson<int, DateTime>(json['remind_at'], const EpochDateTimeConverter().fromJson),
-  updatedAt: const EpochDateTimeConverter().fromJson((json['updated_at'] as num).toInt()),
+  remindAt: _$JsonConverterFromJson<int, DateTime>(
+    json['remind_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
+  updatedAt: const EpochDateTimeConverter().fromJson(
+    (json['updated_at'] as num).toInt(),
+  ),
   user: json['user'] == null ? null : UserResponse.fromJson(json['user'] as Map<String, dynamic>),
   userId: json['user_id'] as String,
 );
 
-Map<String, dynamic> _$ChatReminderResponseDataToJson(ChatReminderResponseData instance) => <String, dynamic>{
+Map<String, dynamic> _$ChatReminderResponseDataToJson(
+  ChatReminderResponseData instance,
+) => <String, dynamic>{
   'channel_cid': instance.channelCid,
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
   'message': instance.message?.toJson(),
   'message_id': instance.messageId,
-  'remind_at': _$JsonConverterToJson<int, DateTime>(instance.remindAt, const EpochDateTimeConverter().toJson),
+  'remind_at': _$JsonConverterToJson<int, DateTime>(
+    instance.remindAt,
+    const EpochDateTimeConverter().toJson,
+  ),
   'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
   'user': instance.user?.toJson(),
   'user_id': instance.userId,

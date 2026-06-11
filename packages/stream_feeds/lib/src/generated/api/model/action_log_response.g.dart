@@ -8,14 +8,18 @@ part of 'action_log_response.dart';
 
 ActionLogResponse _$ActionLogResponseFromJson(Map<String, dynamic> json) => ActionLogResponse(
   aiProviders: (json['ai_providers'] as List<dynamic>).map((e) => e as String).toList(),
-  createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
   custom: json['custom'] as Map<String, dynamic>,
   id: json['id'] as String,
   reason: json['reason'] as String,
   reporterType: json['reporter_type'] as String,
   reviewQueueItem: json['review_queue_item'] == null
       ? null
-      : ReviewQueueItemResponse.fromJson(json['review_queue_item'] as Map<String, dynamic>),
+      : ReviewQueueItemResponse.fromJson(
+          json['review_queue_item'] as Map<String, dynamic>,
+        ),
   targetUser: json['target_user'] == null ? null : UserResponse.fromJson(json['target_user'] as Map<String, dynamic>),
   targetUserId: json['target_user_id'] as String,
   type: json['type'] as String,

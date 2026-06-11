@@ -7,9 +7,14 @@ part of 'ban_info_response.dart';
 // **************************************************************************
 
 BanInfoResponse _$BanInfoResponseFromJson(Map<String, dynamic> json) => BanInfoResponse(
-  createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
   createdBy: json['created_by'] == null ? null : UserResponse.fromJson(json['created_by'] as Map<String, dynamic>),
-  expires: _$JsonConverterFromJson<int, DateTime>(json['expires'], const EpochDateTimeConverter().fromJson),
+  expires: _$JsonConverterFromJson<int, DateTime>(
+    json['expires'],
+    const EpochDateTimeConverter().fromJson,
+  ),
   reason: json['reason'] as String?,
   shadow: json['shadow'] as bool?,
   user: json['user'] == null ? null : UserResponse.fromJson(json['user'] as Map<String, dynamic>),
@@ -18,7 +23,10 @@ BanInfoResponse _$BanInfoResponseFromJson(Map<String, dynamic> json) => BanInfoR
 Map<String, dynamic> _$BanInfoResponseToJson(BanInfoResponse instance) => <String, dynamic>{
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
   'created_by': instance.createdBy?.toJson(),
-  'expires': _$JsonConverterToJson<int, DateTime>(instance.expires, const EpochDateTimeConverter().toJson),
+  'expires': _$JsonConverterToJson<int, DateTime>(
+    instance.expires,
+    const EpochDateTimeConverter().toJson,
+  ),
   'reason': instance.reason,
   'shadow': instance.shadow,
   'user': instance.user?.toJson(),

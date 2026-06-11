@@ -6,7 +6,9 @@ part of 'chat_preferences_input.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ChatPreferencesInput _$ChatPreferencesInputFromJson(Map<String, dynamic> json) => ChatPreferencesInput(
+ChatPreferencesInput _$ChatPreferencesInputFromJson(
+  Map<String, dynamic> json,
+) => ChatPreferencesInput(
   channelMentions: $enumDecodeNullable(
     _$ChatPreferencesInputChannelMentionsEnumMap,
     json['channel_mentions'],
@@ -44,7 +46,9 @@ ChatPreferencesInput _$ChatPreferencesInputFromJson(Map<String, dynamic> json) =
   ),
 );
 
-Map<String, dynamic> _$ChatPreferencesInputToJson(ChatPreferencesInput instance) => <String, dynamic>{
+Map<String, dynamic> _$ChatPreferencesInputToJson(
+  ChatPreferencesInput instance,
+) => <String, dynamic>{
   'channel_mentions': _$ChatPreferencesInputChannelMentionsEnumMap[instance.channelMentions],
   'default_preference': _$ChatPreferencesInputDefaultPreferenceEnumMap[instance.defaultPreference],
   'direct_mentions': _$ChatPreferencesInputDirectMentionsEnumMap[instance.directMentions],

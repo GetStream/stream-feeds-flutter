@@ -6,7 +6,9 @@ part of 'query_collections_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-QueryCollectionsResponse _$QueryCollectionsResponseFromJson(Map<String, dynamic> json) => QueryCollectionsResponse(
+QueryCollectionsResponse _$QueryCollectionsResponseFromJson(
+  Map<String, dynamic> json,
+) => QueryCollectionsResponse(
   collections: (json['collections'] as List<dynamic>)
       .map((e) => CollectionResponse.fromJson(e as Map<String, dynamic>))
       .toList(),
@@ -15,7 +17,9 @@ QueryCollectionsResponse _$QueryCollectionsResponseFromJson(Map<String, dynamic>
   prev: json['prev'] as String?,
 );
 
-Map<String, dynamic> _$QueryCollectionsResponseToJson(QueryCollectionsResponse instance) => <String, dynamic>{
+Map<String, dynamic> _$QueryCollectionsResponseToJson(
+  QueryCollectionsResponse instance,
+) => <String, dynamic>{
   'collections': instance.collections.map((e) => e.toJson()).toList(),
   'duration': instance.duration,
   'next': instance.next,

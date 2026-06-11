@@ -14,7 +14,9 @@ QueryFollowsRequest _$QueryFollowsRequestFromJson(Map<String, dynamic> json) => 
   sort: (json['sort'] as List<dynamic>?)?.map((e) => SortParamRequest.fromJson(e as Map<String, dynamic>)).toList(),
 );
 
-Map<String, dynamic> _$QueryFollowsRequestToJson(QueryFollowsRequest instance) => <String, dynamic>{
+Map<String, dynamic> _$QueryFollowsRequestToJson(
+  QueryFollowsRequest instance,
+) => <String, dynamic>{
   'filter': instance.filter,
   'limit': instance.limit,
   'next': instance.next,

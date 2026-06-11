@@ -15,7 +15,9 @@ ImageUploadResponse _$ImageUploadResponseFromJson(Map<String, dynamic> json) => 
       .toList(),
 );
 
-Map<String, dynamic> _$ImageUploadResponseToJson(ImageUploadResponse instance) => <String, dynamic>{
+Map<String, dynamic> _$ImageUploadResponseToJson(
+  ImageUploadResponse instance,
+) => <String, dynamic>{
   'duration': instance.duration,
   'file': instance.file,
   'thumb_url': instance.thumbUrl,

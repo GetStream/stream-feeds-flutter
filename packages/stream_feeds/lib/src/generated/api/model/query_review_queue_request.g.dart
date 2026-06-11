@@ -6,7 +6,9 @@ part of 'query_review_queue_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-QueryReviewQueueRequest _$QueryReviewQueueRequestFromJson(Map<String, dynamic> json) => QueryReviewQueueRequest(
+QueryReviewQueueRequest _$QueryReviewQueueRequestFromJson(
+  Map<String, dynamic> json,
+) => QueryReviewQueueRequest(
   excludeDefaultActionConfig: json['exclude_default_action_config'] as bool?,
   filter: json['filter'] as Map<String, dynamic>?,
   limit: (json['limit'] as num?)?.toInt(),
@@ -19,7 +21,9 @@ QueryReviewQueueRequest _$QueryReviewQueueRequestFromJson(Map<String, dynamic> j
   statsOnly: json['stats_only'] as bool?,
 );
 
-Map<String, dynamic> _$QueryReviewQueueRequestToJson(QueryReviewQueueRequest instance) => <String, dynamic>{
+Map<String, dynamic> _$QueryReviewQueueRequestToJson(
+  QueryReviewQueueRequest instance,
+) => <String, dynamic>{
   'exclude_default_action_config': instance.excludeDefaultActionConfig,
   'filter': instance.filter,
   'limit': instance.limit,

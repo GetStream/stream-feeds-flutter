@@ -88,7 +88,10 @@ class AttachmentGalleryRouteArgs {
     if (identical(this, other)) return true;
     if (other is! AttachmentGalleryRouteArgs) return false;
     return key == other.key &&
-        const ListEquality().equals(attachments, other.attachments) &&
+        const ListEquality<Attachment>().equals(
+          attachments,
+          other.attachments,
+        ) &&
         metadata == other.metadata &&
         initialIndex == other.initialIndex;
   }
@@ -96,7 +99,7 @@ class AttachmentGalleryRouteArgs {
   @override
   int get hashCode =>
       key.hashCode ^
-      const ListEquality().hash(attachments) ^
+      const ListEquality<Attachment>().hash(attachments) ^
       metadata.hashCode ^
       initialIndex.hashCode;
 }

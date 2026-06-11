@@ -6,7 +6,9 @@ part of 'chat_draft_payload_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ChatDraftPayloadResponse _$ChatDraftPayloadResponseFromJson(Map<String, dynamic> json) => ChatDraftPayloadResponse(
+ChatDraftPayloadResponse _$ChatDraftPayloadResponseFromJson(
+  Map<String, dynamic> json,
+) => ChatDraftPayloadResponse(
   attachments: (json['attachments'] as List<dynamic>?)
       ?.map((e) => Attachment.fromJson(e as Map<String, dynamic>))
       .toList(),
@@ -26,7 +28,9 @@ ChatDraftPayloadResponse _$ChatDraftPayloadResponseFromJson(Map<String, dynamic>
   type: json['type'] as String?,
 );
 
-Map<String, dynamic> _$ChatDraftPayloadResponseToJson(ChatDraftPayloadResponse instance) => <String, dynamic>{
+Map<String, dynamic> _$ChatDraftPayloadResponseToJson(
+  ChatDraftPayloadResponse instance,
+) => <String, dynamic>{
   'attachments': instance.attachments?.map((e) => e.toJson()).toList(),
   'custom': instance.custom,
   'html': instance.html,

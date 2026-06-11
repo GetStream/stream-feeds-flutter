@@ -6,7 +6,9 @@ part of 'add_comment_reaction_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-AddCommentReactionRequest _$AddCommentReactionRequestFromJson(Map<String, dynamic> json) => AddCommentReactionRequest(
+AddCommentReactionRequest _$AddCommentReactionRequestFromJson(
+  Map<String, dynamic> json,
+) => AddCommentReactionRequest(
   copyCustomToNotification: json['copy_custom_to_notification'] as bool?,
   createNotificationActivity: json['create_notification_activity'] as bool?,
   custom: json['custom'] as Map<String, dynamic>?,
@@ -15,7 +17,9 @@ AddCommentReactionRequest _$AddCommentReactionRequestFromJson(Map<String, dynami
   type: json['type'] as String,
 );
 
-Map<String, dynamic> _$AddCommentReactionRequestToJson(AddCommentReactionRequest instance) => <String, dynamic>{
+Map<String, dynamic> _$AddCommentReactionRequestToJson(
+  AddCommentReactionRequest instance,
+) => <String, dynamic>{
   'copy_custom_to_notification': instance.copyCustomToNotification,
   'create_notification_activity': instance.createNotificationActivity,
   'custom': instance.custom,

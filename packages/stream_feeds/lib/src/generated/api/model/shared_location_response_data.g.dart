@@ -6,27 +6,40 @@ part of 'shared_location_response_data.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-SharedLocationResponseData _$SharedLocationResponseDataFromJson(Map<String, dynamic> json) =>
-    SharedLocationResponseData(
-      channel: json['channel'] == null ? null : ChannelResponse.fromJson(json['channel'] as Map<String, dynamic>),
-      channelCid: json['channel_cid'] as String,
-      createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
-      createdByDeviceId: json['created_by_device_id'] as String,
-      endAt: _$JsonConverterFromJson<int, DateTime>(json['end_at'], const EpochDateTimeConverter().fromJson),
-      latitude: (json['latitude'] as num).toDouble(),
-      longitude: (json['longitude'] as num).toDouble(),
-      message: json['message'] == null ? null : MessageResponse.fromJson(json['message'] as Map<String, dynamic>),
-      messageId: json['message_id'] as String,
-      updatedAt: const EpochDateTimeConverter().fromJson((json['updated_at'] as num).toInt()),
-      userId: json['user_id'] as String,
-    );
+SharedLocationResponseData _$SharedLocationResponseDataFromJson(
+  Map<String, dynamic> json,
+) => SharedLocationResponseData(
+  channel: json['channel'] == null ? null : ChannelResponse.fromJson(json['channel'] as Map<String, dynamic>),
+  channelCid: json['channel_cid'] as String,
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
+  createdByDeviceId: json['created_by_device_id'] as String,
+  endAt: _$JsonConverterFromJson<int, DateTime>(
+    json['end_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
+  latitude: (json['latitude'] as num).toDouble(),
+  longitude: (json['longitude'] as num).toDouble(),
+  message: json['message'] == null ? null : MessageResponse.fromJson(json['message'] as Map<String, dynamic>),
+  messageId: json['message_id'] as String,
+  updatedAt: const EpochDateTimeConverter().fromJson(
+    (json['updated_at'] as num).toInt(),
+  ),
+  userId: json['user_id'] as String,
+);
 
-Map<String, dynamic> _$SharedLocationResponseDataToJson(SharedLocationResponseData instance) => <String, dynamic>{
+Map<String, dynamic> _$SharedLocationResponseDataToJson(
+  SharedLocationResponseData instance,
+) => <String, dynamic>{
   'channel': instance.channel?.toJson(),
   'channel_cid': instance.channelCid,
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
   'created_by_device_id': instance.createdByDeviceId,
-  'end_at': _$JsonConverterToJson<int, DateTime>(instance.endAt, const EpochDateTimeConverter().toJson),
+  'end_at': _$JsonConverterToJson<int, DateTime>(
+    instance.endAt,
+    const EpochDateTimeConverter().toJson,
+  ),
   'latitude': instance.latitude,
   'longitude': instance.longitude,
   'message': instance.message?.toJson(),

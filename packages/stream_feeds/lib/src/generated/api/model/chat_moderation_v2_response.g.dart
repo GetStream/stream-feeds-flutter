@@ -6,7 +6,9 @@ part of 'chat_moderation_v2_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ChatModerationV2Response _$ChatModerationV2ResponseFromJson(Map<String, dynamic> json) => ChatModerationV2Response(
+ChatModerationV2Response _$ChatModerationV2ResponseFromJson(
+  Map<String, dynamic> json,
+) => ChatModerationV2Response(
   action: json['action'] as String,
   blocklistMatched: json['blocklist_matched'] as String?,
   blocklistsMatched: (json['blocklists_matched'] as List<dynamic>?)?.map((e) => e as String).toList(),
@@ -17,7 +19,9 @@ ChatModerationV2Response _$ChatModerationV2ResponseFromJson(Map<String, dynamic>
   textHarms: (json['text_harms'] as List<dynamic>?)?.map((e) => e as String).toList(),
 );
 
-Map<String, dynamic> _$ChatModerationV2ResponseToJson(ChatModerationV2Response instance) => <String, dynamic>{
+Map<String, dynamic> _$ChatModerationV2ResponseToJson(
+  ChatModerationV2Response instance,
+) => <String, dynamic>{
   'action': instance.action,
   'blocklist_matched': instance.blocklistMatched,
   'blocklists_matched': instance.blocklistsMatched,

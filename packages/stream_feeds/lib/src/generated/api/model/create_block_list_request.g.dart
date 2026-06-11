@@ -6,7 +6,9 @@ part of 'create_block_list_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-CreateBlockListRequest _$CreateBlockListRequestFromJson(Map<String, dynamic> json) => CreateBlockListRequest(
+CreateBlockListRequest _$CreateBlockListRequestFromJson(
+  Map<String, dynamic> json,
+) => CreateBlockListRequest(
   isLeetCheckEnabled: json['is_leet_check_enabled'] as bool?,
   isPluralCheckEnabled: json['is_plural_check_enabled'] as bool?,
   name: json['name'] as String,
@@ -19,7 +21,9 @@ CreateBlockListRequest _$CreateBlockListRequestFromJson(Map<String, dynamic> jso
   words: (json['words'] as List<dynamic>).map((e) => e as String).toList(),
 );
 
-Map<String, dynamic> _$CreateBlockListRequestToJson(CreateBlockListRequest instance) => <String, dynamic>{
+Map<String, dynamic> _$CreateBlockListRequestToJson(
+  CreateBlockListRequest instance,
+) => <String, dynamic>{
   'is_leet_check_enabled': instance.isLeetCheckEnabled,
   'is_plural_check_enabled': instance.isPluralCheckEnabled,
   'name': instance.name,

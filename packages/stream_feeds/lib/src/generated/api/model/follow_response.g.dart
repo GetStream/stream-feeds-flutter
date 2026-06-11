@@ -7,7 +7,9 @@ part of 'follow_response.dart';
 // **************************************************************************
 
 FollowResponse _$FollowResponseFromJson(Map<String, dynamic> json) => FollowResponse(
-  createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
   custom: json['custom'] as Map<String, dynamic>?,
   followerRole: json['follower_role'] as String,
   pushPreference: $enumDecode(
@@ -23,10 +25,20 @@ FollowResponse _$FollowResponseFromJson(Map<String, dynamic> json) => FollowResp
     json['request_rejected_at'],
     const EpochDateTimeConverter().fromJson,
   ),
-  sourceFeed: FeedResponse.fromJson(json['source_feed'] as Map<String, dynamic>),
-  status: $enumDecode(_$FollowResponseStatusEnumMap, json['status'], unknownValue: FollowResponseStatus.unknown),
-  targetFeed: FeedResponse.fromJson(json['target_feed'] as Map<String, dynamic>),
-  updatedAt: const EpochDateTimeConverter().fromJson((json['updated_at'] as num).toInt()),
+  sourceFeed: FeedResponse.fromJson(
+    json['source_feed'] as Map<String, dynamic>,
+  ),
+  status: $enumDecode(
+    _$FollowResponseStatusEnumMap,
+    json['status'],
+    unknownValue: FollowResponseStatus.unknown,
+  ),
+  targetFeed: FeedResponse.fromJson(
+    json['target_feed'] as Map<String, dynamic>,
+  ),
+  updatedAt: const EpochDateTimeConverter().fromJson(
+    (json['updated_at'] as num).toInt(),
+  ),
 );
 
 Map<String, dynamic> _$FollowResponseToJson(FollowResponse instance) => <String, dynamic>{

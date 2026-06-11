@@ -18,7 +18,9 @@ CreateDeviceRequest _$CreateDeviceRequestFromJson(Map<String, dynamic> json) => 
   voipToken: json['voip_token'] as bool?,
 );
 
-Map<String, dynamic> _$CreateDeviceRequestToJson(CreateDeviceRequest instance) => <String, dynamic>{
+Map<String, dynamic> _$CreateDeviceRequestToJson(
+  CreateDeviceRequest instance,
+) => <String, dynamic>{
   'hardware_id': instance.hardwareId,
   'id': instance.id,
   'push_provider': _$CreateDeviceRequestPushProviderEnumMap[instance.pushProvider]!,

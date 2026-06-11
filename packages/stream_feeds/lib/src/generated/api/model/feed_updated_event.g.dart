@@ -7,14 +7,23 @@ part of 'feed_updated_event.dart';
 // **************************************************************************
 
 FeedUpdatedEvent _$FeedUpdatedEventFromJson(Map<String, dynamic> json) => FeedUpdatedEvent(
-  createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
   custom: json['custom'] as Map<String, dynamic>,
   feed: FeedResponse.fromJson(json['feed'] as Map<String, dynamic>),
   feedVisibility: json['feed_visibility'] as String?,
   fid: json['fid'] as String,
-  receivedAt: _$JsonConverterFromJson<int, DateTime>(json['received_at'], const EpochDateTimeConverter().fromJson),
+  receivedAt: _$JsonConverterFromJson<int, DateTime>(
+    json['received_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
   type: json['type'] as String,
-  user: json['user'] == null ? null : UserResponseCommonFields.fromJson(json['user'] as Map<String, dynamic>),
+  user: json['user'] == null
+      ? null
+      : UserResponseCommonFields.fromJson(
+          json['user'] as Map<String, dynamic>,
+        ),
 );
 
 Map<String, dynamic> _$FeedUpdatedEventToJson(FeedUpdatedEvent instance) => <String, dynamic>{
@@ -23,7 +32,10 @@ Map<String, dynamic> _$FeedUpdatedEventToJson(FeedUpdatedEvent instance) => <Str
   'feed': instance.feed.toJson(),
   'feed_visibility': instance.feedVisibility,
   'fid': instance.fid,
-  'received_at': _$JsonConverterToJson<int, DateTime>(instance.receivedAt, const EpochDateTimeConverter().toJson),
+  'received_at': _$JsonConverterToJson<int, DateTime>(
+    instance.receivedAt,
+    const EpochDateTimeConverter().toJson,
+  ),
   'type': instance.type,
   'user': instance.user?.toJson(),
 };

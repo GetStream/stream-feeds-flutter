@@ -6,7 +6,9 @@ part of 'query_comments_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-QueryCommentsRequest _$QueryCommentsRequestFromJson(Map<String, dynamic> json) => QueryCommentsRequest(
+QueryCommentsRequest _$QueryCommentsRequestFromJson(
+  Map<String, dynamic> json,
+) => QueryCommentsRequest(
   filter: json['filter'] as Map<String, dynamic>,
   idAround: json['id_around'] as String?,
   limit: (json['limit'] as num?)?.toInt(),
@@ -19,7 +21,9 @@ QueryCommentsRequest _$QueryCommentsRequestFromJson(Map<String, dynamic> json) =
   ),
 );
 
-Map<String, dynamic> _$QueryCommentsRequestToJson(QueryCommentsRequest instance) => <String, dynamic>{
+Map<String, dynamic> _$QueryCommentsRequestToJson(
+  QueryCommentsRequest instance,
+) => <String, dynamic>{
   'filter': instance.filter,
   'id_around': instance.idAround,
   'limit': instance.limit,

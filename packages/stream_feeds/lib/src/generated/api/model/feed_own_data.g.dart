@@ -9,7 +9,11 @@ part of 'feed_own_data.dart';
 FeedOwnData _$FeedOwnDataFromJson(Map<String, dynamic> json) => FeedOwnData(
   ownCapabilities: (json['own_capabilities'] as List<dynamic>?)
       ?.map(
-        (e) => $enumDecode(_$FeedOwnDataOwnCapabilitiesEnumMap, e, unknownValue: FeedOwnDataOwnCapabilities.unknown),
+        (e) => $enumDecode(
+          _$FeedOwnDataOwnCapabilitiesEnumMap,
+          e,
+          unknownValue: FeedOwnDataOwnCapabilities.unknown,
+        ),
       )
       .toList(),
   ownFollowings: (json['own_followings'] as List<dynamic>?)
@@ -20,7 +24,9 @@ FeedOwnData _$FeedOwnDataFromJson(Map<String, dynamic> json) => FeedOwnData(
       .toList(),
   ownMembership: json['own_membership'] == null
       ? null
-      : FeedMemberResponse.fromJson(json['own_membership'] as Map<String, dynamic>),
+      : FeedMemberResponse.fromJson(
+          json['own_membership'] as Map<String, dynamic>,
+        ),
 );
 
 Map<String, dynamic> _$FeedOwnDataToJson(FeedOwnData instance) => <String, dynamic>{

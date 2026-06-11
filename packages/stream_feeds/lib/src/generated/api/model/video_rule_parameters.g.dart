@@ -12,7 +12,9 @@ VideoRuleParameters _$VideoRuleParametersFromJson(Map<String, dynamic> json) => 
   timeWindow: json['time_window'] as String?,
 );
 
-Map<String, dynamic> _$VideoRuleParametersToJson(VideoRuleParameters instance) => <String, dynamic>{
+Map<String, dynamic> _$VideoRuleParametersToJson(
+  VideoRuleParameters instance,
+) => <String, dynamic>{
   'harm_labels': instance.harmLabels,
   'threshold': instance.threshold,
   'time_window': instance.timeWindow,

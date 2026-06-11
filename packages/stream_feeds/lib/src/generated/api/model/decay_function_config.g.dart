@@ -15,7 +15,9 @@ DecayFunctionConfig _$DecayFunctionConfigFromJson(Map<String, dynamic> json) => 
   scale: json['scale'] as String?,
 );
 
-Map<String, dynamic> _$DecayFunctionConfigToJson(DecayFunctionConfig instance) => <String, dynamic>{
+Map<String, dynamic> _$DecayFunctionConfigToJson(
+  DecayFunctionConfig instance,
+) => <String, dynamic>{
   'base': instance.base,
   'decay': instance.decay,
   'direction': instance.direction,

@@ -7,17 +7,27 @@ part of 'user_updated_event.dart';
 // **************************************************************************
 
 UserUpdatedEvent _$UserUpdatedEventFromJson(Map<String, dynamic> json) => UserUpdatedEvent(
-  createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
   custom: json['custom'] as Map<String, dynamic>,
-  receivedAt: _$JsonConverterFromJson<int, DateTime>(json['received_at'], const EpochDateTimeConverter().fromJson),
+  receivedAt: _$JsonConverterFromJson<int, DateTime>(
+    json['received_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
   type: json['type'] as String,
-  user: UserResponsePrivacyFields.fromJson(json['user'] as Map<String, dynamic>),
+  user: UserResponsePrivacyFields.fromJson(
+    json['user'] as Map<String, dynamic>,
+  ),
 );
 
 Map<String, dynamic> _$UserUpdatedEventToJson(UserUpdatedEvent instance) => <String, dynamic>{
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
   'custom': instance.custom,
-  'received_at': _$JsonConverterToJson<int, DateTime>(instance.receivedAt, const EpochDateTimeConverter().toJson),
+  'received_at': _$JsonConverterToJson<int, DateTime>(
+    instance.receivedAt,
+    const EpochDateTimeConverter().toJson,
+  ),
   'type': instance.type,
   'user': instance.user.toJson(),
 };

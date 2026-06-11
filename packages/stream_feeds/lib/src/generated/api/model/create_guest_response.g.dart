@@ -12,7 +12,9 @@ CreateGuestResponse _$CreateGuestResponseFromJson(Map<String, dynamic> json) => 
   user: UserResponse.fromJson(json['user'] as Map<String, dynamic>),
 );
 
-Map<String, dynamic> _$CreateGuestResponseToJson(CreateGuestResponse instance) => <String, dynamic>{
+Map<String, dynamic> _$CreateGuestResponseToJson(
+  CreateGuestResponse instance,
+) => <String, dynamic>{
   'access_token': instance.accessToken,
   'duration': instance.duration,
   'user': instance.user.toJson(),

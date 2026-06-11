@@ -13,7 +13,9 @@ ImageRuleParameters _$ImageRuleParametersFromJson(Map<String, dynamic> json) => 
   timeWindow: json['time_window'] as String?,
 );
 
-Map<String, dynamic> _$ImageRuleParametersToJson(ImageRuleParameters instance) => <String, dynamic>{
+Map<String, dynamic> _$ImageRuleParametersToJson(
+  ImageRuleParameters instance,
+) => <String, dynamic>{
   'harm_labels': instance.harmLabels,
   'min_confidence': instance.minConfidence,
   'threshold': instance.threshold,

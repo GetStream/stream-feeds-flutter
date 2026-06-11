@@ -6,7 +6,9 @@ part of 'create_user_group_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-CreateUserGroupRequest _$CreateUserGroupRequestFromJson(Map<String, dynamic> json) => CreateUserGroupRequest(
+CreateUserGroupRequest _$CreateUserGroupRequestFromJson(
+  Map<String, dynamic> json,
+) => CreateUserGroupRequest(
   description: json['description'] as String?,
   id: json['id'] as String?,
   memberIds: (json['member_ids'] as List<dynamic>?)?.map((e) => e as String).toList(),
@@ -14,7 +16,9 @@ CreateUserGroupRequest _$CreateUserGroupRequestFromJson(Map<String, dynamic> jso
   teamId: json['team_id'] as String?,
 );
 
-Map<String, dynamic> _$CreateUserGroupRequestToJson(CreateUserGroupRequest instance) => <String, dynamic>{
+Map<String, dynamic> _$CreateUserGroupRequestToJson(
+  CreateUserGroupRequest instance,
+) => <String, dynamic>{
   'description': instance.description,
   'id': instance.id,
   'member_ids': instance.memberIds,

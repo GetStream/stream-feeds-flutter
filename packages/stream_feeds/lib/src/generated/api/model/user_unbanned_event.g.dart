@@ -13,16 +13,25 @@ UserUnbannedEvent _$UserUnbannedEventFromJson(Map<String, dynamic> json) => User
   channelMessageCount: (json['channel_message_count'] as num?)?.toInt(),
   channelType: json['channel_type'] as String?,
   cid: json['cid'] as String?,
-  createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
   createdBy: json['created_by'] == null
       ? null
-      : UserResponseCommonFields.fromJson(json['created_by'] as Map<String, dynamic>),
+      : UserResponseCommonFields.fromJson(
+          json['created_by'] as Map<String, dynamic>,
+        ),
   custom: json['custom'] as Map<String, dynamic>,
-  receivedAt: _$JsonConverterFromJson<int, DateTime>(json['received_at'], const EpochDateTimeConverter().fromJson),
+  receivedAt: _$JsonConverterFromJson<int, DateTime>(
+    json['received_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
   shadow: json['shadow'] as bool?,
   team: json['team'] as String?,
   type: json['type'] as String,
-  user: UserResponseCommonFields.fromJson(json['user'] as Map<String, dynamic>),
+  user: UserResponseCommonFields.fromJson(
+    json['user'] as Map<String, dynamic>,
+  ),
 );
 
 Map<String, dynamic> _$UserUnbannedEventToJson(UserUnbannedEvent instance) => <String, dynamic>{
@@ -35,7 +44,10 @@ Map<String, dynamic> _$UserUnbannedEventToJson(UserUnbannedEvent instance) => <S
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
   'created_by': instance.createdBy?.toJson(),
   'custom': instance.custom,
-  'received_at': _$JsonConverterToJson<int, DateTime>(instance.receivedAt, const EpochDateTimeConverter().toJson),
+  'received_at': _$JsonConverterToJson<int, DateTime>(
+    instance.receivedAt,
+    const EpochDateTimeConverter().toJson,
+  ),
   'shadow': instance.shadow,
   'team': instance.team,
   'type': instance.type,

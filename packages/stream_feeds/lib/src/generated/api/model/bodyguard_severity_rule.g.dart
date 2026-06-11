@@ -6,7 +6,9 @@ part of 'bodyguard_severity_rule.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-BodyguardSeverityRule _$BodyguardSeverityRuleFromJson(Map<String, dynamic> json) => BodyguardSeverityRule(
+BodyguardSeverityRule _$BodyguardSeverityRuleFromJson(
+  Map<String, dynamic> json,
+) => BodyguardSeverityRule(
   action: $enumDecode(
     _$BodyguardSeverityRuleActionEnumMap,
     json['action'],
@@ -19,7 +21,9 @@ BodyguardSeverityRule _$BodyguardSeverityRuleFromJson(Map<String, dynamic> json)
   ),
 );
 
-Map<String, dynamic> _$BodyguardSeverityRuleToJson(BodyguardSeverityRule instance) => <String, dynamic>{
+Map<String, dynamic> _$BodyguardSeverityRuleToJson(
+  BodyguardSeverityRule instance,
+) => <String, dynamic>{
   'action': _$BodyguardSeverityRuleActionEnumMap[instance.action]!,
   'severity': _$BodyguardSeverityRuleSeverityEnumMap[instance.severity]!,
 };

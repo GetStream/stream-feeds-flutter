@@ -6,7 +6,9 @@ part of 'upsert_config_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-UpsertConfigRequest _$UpsertConfigRequestFromJson(Map<String, dynamic> json) => UpsertConfigRequest(
+UpsertConfigRequest _$UpsertConfigRequestFromJson(
+  Map<String, dynamic> json,
+) => UpsertConfigRequest(
   aiImageConfig: json['ai_image_config'] == null
       ? null
       : AIImageConfig.fromJson(json['ai_image_config'] as Map<String, dynamic>),
@@ -24,38 +26,56 @@ UpsertConfigRequest _$UpsertConfigRequestFromJson(Map<String, dynamic> json) => 
         ),
   automodSemanticFiltersConfig: json['automod_semantic_filters_config'] == null
       ? null
-      : AutomodSemanticFiltersConfig.fromJson(json['automod_semantic_filters_config'] as Map<String, dynamic>),
+      : AutomodSemanticFiltersConfig.fromJson(
+          json['automod_semantic_filters_config'] as Map<String, dynamic>,
+        ),
   automodToxicityConfig: json['automod_toxicity_config'] == null
       ? null
-      : AutomodToxicityConfig.fromJson(json['automod_toxicity_config'] as Map<String, dynamic>),
+      : AutomodToxicityConfig.fromJson(
+          json['automod_toxicity_config'] as Map<String, dynamic>,
+        ),
   awsRekognitionConfig: json['aws_rekognition_config'] == null
       ? null
-      : AIImageConfig.fromJson(json['aws_rekognition_config'] as Map<String, dynamic>),
+      : AIImageConfig.fromJson(
+          json['aws_rekognition_config'] as Map<String, dynamic>,
+        ),
   blockListConfig: json['block_list_config'] == null
       ? null
-      : BlockListConfig.fromJson(json['block_list_config'] as Map<String, dynamic>),
+      : BlockListConfig.fromJson(
+          json['block_list_config'] as Map<String, dynamic>,
+        ),
   bodyguardConfig: json['bodyguard_config'] == null
       ? null
       : AITextConfig.fromJson(json['bodyguard_config'] as Map<String, dynamic>),
   floodConfig: json['flood_config'] == null ? null : FloodConfig.fromJson(json['flood_config'] as Map<String, dynamic>),
   googleVisionConfig: json['google_vision_config'] == null
       ? null
-      : GoogleVisionConfig.fromJson(json['google_vision_config'] as Map<String, dynamic>),
+      : GoogleVisionConfig.fromJson(
+          json['google_vision_config'] as Map<String, dynamic>,
+        ),
   key: json['key'] as String,
   llmConfig: json['llm_config'] == null ? null : LLMConfig.fromJson(json['llm_config'] as Map<String, dynamic>),
   ruleBuilderConfig: json['rule_builder_config'] == null
       ? null
-      : RuleBuilderConfig.fromJson(json['rule_builder_config'] as Map<String, dynamic>),
+      : RuleBuilderConfig.fromJson(
+          json['rule_builder_config'] as Map<String, dynamic>,
+        ),
   team: json['team'] as String?,
   velocityFilterConfig: json['velocity_filter_config'] == null
       ? null
-      : VelocityFilterConfig.fromJson(json['velocity_filter_config'] as Map<String, dynamic>),
+      : VelocityFilterConfig.fromJson(
+          json['velocity_filter_config'] as Map<String, dynamic>,
+        ),
   videoCallRuleConfig: json['video_call_rule_config'] == null
       ? null
-      : VideoCallRuleConfig.fromJson(json['video_call_rule_config'] as Map<String, dynamic>),
+      : VideoCallRuleConfig.fromJson(
+          json['video_call_rule_config'] as Map<String, dynamic>,
+        ),
 );
 
-Map<String, dynamic> _$UpsertConfigRequestToJson(UpsertConfigRequest instance) => <String, dynamic>{
+Map<String, dynamic> _$UpsertConfigRequestToJson(
+  UpsertConfigRequest instance,
+) => <String, dynamic>{
   'ai_image_config': instance.aiImageConfig?.toJson(),
   'ai_text_config': instance.aiTextConfig?.toJson(),
   'ai_video_config': instance.aiVideoConfig?.toJson(),

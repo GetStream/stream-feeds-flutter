@@ -6,7 +6,9 @@ part of 'velocity_filter_config.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-VelocityFilterConfig _$VelocityFilterConfigFromJson(Map<String, dynamic> json) => VelocityFilterConfig(
+VelocityFilterConfig _$VelocityFilterConfigFromJson(
+  Map<String, dynamic> json,
+) => VelocityFilterConfig(
   advancedFilters: json['advanced_filters'] as bool,
   async: json['async'] as bool?,
   cascadingActions: json['cascading_actions'] as bool,
@@ -18,7 +20,9 @@ VelocityFilterConfig _$VelocityFilterConfigFromJson(Map<String, dynamic> json) =
       .toList(),
 );
 
-Map<String, dynamic> _$VelocityFilterConfigToJson(VelocityFilterConfig instance) => <String, dynamic>{
+Map<String, dynamic> _$VelocityFilterConfigToJson(
+  VelocityFilterConfig instance,
+) => <String, dynamic>{
   'advanced_filters': instance.advancedFilters,
   'async': instance.async,
   'cascading_actions': instance.cascadingActions,

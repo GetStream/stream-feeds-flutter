@@ -8,10 +8,15 @@ part of 'feed_response.dart';
 
 FeedResponse _$FeedResponseFromJson(Map<String, dynamic> json) => FeedResponse(
   activityCount: (json['activity_count'] as num).toInt(),
-  createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
   createdBy: UserResponse.fromJson(json['created_by'] as Map<String, dynamic>),
   custom: json['custom'] as Map<String, dynamic>?,
-  deletedAt: _$JsonConverterFromJson<int, DateTime>(json['deleted_at'], const EpochDateTimeConverter().fromJson),
+  deletedAt: _$JsonConverterFromJson<int, DateTime>(
+    json['deleted_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
   description: json['description'] as String,
   feed: json['feed'] as String,
   filterTags: (json['filter_tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
@@ -24,7 +29,11 @@ FeedResponse _$FeedResponseFromJson(Map<String, dynamic> json) => FeedResponse(
   name: json['name'] as String,
   ownCapabilities: (json['own_capabilities'] as List<dynamic>?)
       ?.map(
-        (e) => $enumDecode(_$FeedResponseOwnCapabilitiesEnumMap, e, unknownValue: FeedResponseOwnCapabilities.unknown),
+        (e) => $enumDecode(
+          _$FeedResponseOwnCapabilitiesEnumMap,
+          e,
+          unknownValue: FeedResponseOwnCapabilities.unknown,
+        ),
       )
       .toList(),
   ownFollowings: (json['own_followings'] as List<dynamic>?)
@@ -35,9 +44,13 @@ FeedResponse _$FeedResponseFromJson(Map<String, dynamic> json) => FeedResponse(
       .toList(),
   ownMembership: json['own_membership'] == null
       ? null
-      : FeedMemberResponse.fromJson(json['own_membership'] as Map<String, dynamic>),
+      : FeedMemberResponse.fromJson(
+          json['own_membership'] as Map<String, dynamic>,
+        ),
   pinCount: (json['pin_count'] as num).toInt(),
-  updatedAt: const EpochDateTimeConverter().fromJson((json['updated_at'] as num).toInt()),
+  updatedAt: const EpochDateTimeConverter().fromJson(
+    (json['updated_at'] as num).toInt(),
+  ),
   visibility: $enumDecodeNullable(
     _$FeedResponseVisibilityEnumMap,
     json['visibility'],
@@ -50,7 +63,10 @@ Map<String, dynamic> _$FeedResponseToJson(FeedResponse instance) => <String, dyn
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
   'created_by': instance.createdBy.toJson(),
   'custom': instance.custom,
-  'deleted_at': _$JsonConverterToJson<int, DateTime>(instance.deletedAt, const EpochDateTimeConverter().toJson),
+  'deleted_at': _$JsonConverterToJson<int, DateTime>(
+    instance.deletedAt,
+    const EpochDateTimeConverter().toJson,
+  ),
   'description': instance.description,
   'feed': instance.feed,
   'filter_tags': instance.filterTags,

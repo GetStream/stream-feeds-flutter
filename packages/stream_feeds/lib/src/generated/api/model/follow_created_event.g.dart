@@ -7,12 +7,17 @@ part of 'follow_created_event.dart';
 // **************************************************************************
 
 FollowCreatedEvent _$FollowCreatedEventFromJson(Map<String, dynamic> json) => FollowCreatedEvent(
-  createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
   custom: json['custom'] as Map<String, dynamic>,
   feedVisibility: json['feed_visibility'] as String?,
   fid: json['fid'] as String,
   follow: FollowResponse.fromJson(json['follow'] as Map<String, dynamic>),
-  receivedAt: _$JsonConverterFromJson<int, DateTime>(json['received_at'], const EpochDateTimeConverter().fromJson),
+  receivedAt: _$JsonConverterFromJson<int, DateTime>(
+    json['received_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
   type: json['type'] as String,
 );
 
@@ -22,7 +27,10 @@ Map<String, dynamic> _$FollowCreatedEventToJson(FollowCreatedEvent instance) => 
   'feed_visibility': instance.feedVisibility,
   'fid': instance.fid,
   'follow': instance.follow.toJson(),
-  'received_at': _$JsonConverterToJson<int, DateTime>(instance.receivedAt, const EpochDateTimeConverter().toJson),
+  'received_at': _$JsonConverterToJson<int, DateTime>(
+    instance.receivedAt,
+    const EpochDateTimeConverter().toJson,
+  ),
   'type': instance.type,
 };
 

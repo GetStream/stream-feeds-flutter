@@ -6,14 +6,27 @@ part of 'channel_member_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ChannelMemberResponse _$ChannelMemberResponseFromJson(Map<String, dynamic> json) => ChannelMemberResponse(
-  archivedAt: _$JsonConverterFromJson<int, DateTime>(json['archived_at'], const EpochDateTimeConverter().fromJson),
-  banExpires: _$JsonConverterFromJson<int, DateTime>(json['ban_expires'], const EpochDateTimeConverter().fromJson),
+ChannelMemberResponse _$ChannelMemberResponseFromJson(
+  Map<String, dynamic> json,
+) => ChannelMemberResponse(
+  archivedAt: _$JsonConverterFromJson<int, DateTime>(
+    json['archived_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
+  banExpires: _$JsonConverterFromJson<int, DateTime>(
+    json['ban_expires'],
+    const EpochDateTimeConverter().fromJson,
+  ),
   banned: json['banned'] as bool,
   channelRole: json['channel_role'] as String,
-  createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
   custom: json['custom'] as Map<String, dynamic>,
-  deletedAt: _$JsonConverterFromJson<int, DateTime>(json['deleted_at'], const EpochDateTimeConverter().fromJson),
+  deletedAt: _$JsonConverterFromJson<int, DateTime>(
+    json['deleted_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
   deletedMessages: (json['deleted_messages'] as List<dynamic>?)?.map((e) => e as String).toList(),
   inviteAcceptedAt: _$JsonConverterFromJson<int, DateTime>(
     json['invite_accepted_at'],
@@ -26,23 +39,39 @@ ChannelMemberResponse _$ChannelMemberResponseFromJson(Map<String, dynamic> json)
   invited: json['invited'] as bool?,
   isModerator: json['is_moderator'] as bool?,
   notificationsMuted: json['notifications_muted'] as bool,
-  pinnedAt: _$JsonConverterFromJson<int, DateTime>(json['pinned_at'], const EpochDateTimeConverter().fromJson),
+  pinnedAt: _$JsonConverterFromJson<int, DateTime>(
+    json['pinned_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
   role: json['role'] as String?,
   shadowBanned: json['shadow_banned'] as bool,
   status: json['status'] as String?,
-  updatedAt: const EpochDateTimeConverter().fromJson((json['updated_at'] as num).toInt()),
+  updatedAt: const EpochDateTimeConverter().fromJson(
+    (json['updated_at'] as num).toInt(),
+  ),
   user: json['user'] == null ? null : UserResponse.fromJson(json['user'] as Map<String, dynamic>),
   userId: json['user_id'] as String?,
 );
 
-Map<String, dynamic> _$ChannelMemberResponseToJson(ChannelMemberResponse instance) => <String, dynamic>{
-  'archived_at': _$JsonConverterToJson<int, DateTime>(instance.archivedAt, const EpochDateTimeConverter().toJson),
-  'ban_expires': _$JsonConverterToJson<int, DateTime>(instance.banExpires, const EpochDateTimeConverter().toJson),
+Map<String, dynamic> _$ChannelMemberResponseToJson(
+  ChannelMemberResponse instance,
+) => <String, dynamic>{
+  'archived_at': _$JsonConverterToJson<int, DateTime>(
+    instance.archivedAt,
+    const EpochDateTimeConverter().toJson,
+  ),
+  'ban_expires': _$JsonConverterToJson<int, DateTime>(
+    instance.banExpires,
+    const EpochDateTimeConverter().toJson,
+  ),
   'banned': instance.banned,
   'channel_role': instance.channelRole,
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
   'custom': instance.custom,
-  'deleted_at': _$JsonConverterToJson<int, DateTime>(instance.deletedAt, const EpochDateTimeConverter().toJson),
+  'deleted_at': _$JsonConverterToJson<int, DateTime>(
+    instance.deletedAt,
+    const EpochDateTimeConverter().toJson,
+  ),
   'deleted_messages': instance.deletedMessages,
   'invite_accepted_at': _$JsonConverterToJson<int, DateTime>(
     instance.inviteAcceptedAt,
@@ -55,7 +84,10 @@ Map<String, dynamic> _$ChannelMemberResponseToJson(ChannelMemberResponse instanc
   'invited': instance.invited,
   'is_moderator': instance.isModerator,
   'notifications_muted': instance.notificationsMuted,
-  'pinned_at': _$JsonConverterToJson<int, DateTime>(instance.pinnedAt, const EpochDateTimeConverter().toJson),
+  'pinned_at': _$JsonConverterToJson<int, DateTime>(
+    instance.pinnedAt,
+    const EpochDateTimeConverter().toJson,
+  ),
   'role': instance.role,
   'shadow_banned': instance.shadowBanned,
   'status': instance.status,

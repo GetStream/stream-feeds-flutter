@@ -6,7 +6,9 @@ part of 'velocity_filter_config_rule.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-VelocityFilterConfigRule _$VelocityFilterConfigRuleFromJson(Map<String, dynamic> json) => VelocityFilterConfigRule(
+VelocityFilterConfigRule _$VelocityFilterConfigRuleFromJson(
+  Map<String, dynamic> json,
+) => VelocityFilterConfigRule(
   action: $enumDecode(
     _$VelocityFilterConfigRuleActionEnumMap,
     json['action'],
@@ -31,7 +33,9 @@ VelocityFilterConfigRule _$VelocityFilterConfigRuleFromJson(Map<String, dynamic>
   urlOnly: json['url_only'] as bool,
 );
 
-Map<String, dynamic> _$VelocityFilterConfigRuleToJson(VelocityFilterConfigRule instance) => <String, dynamic>{
+Map<String, dynamic> _$VelocityFilterConfigRuleToJson(
+  VelocityFilterConfigRule instance,
+) => <String, dynamic>{
   'action': _$VelocityFilterConfigRuleActionEnumMap[instance.action]!,
   'ban_duration': instance.banDuration,
   'cascading_action': _$VelocityFilterConfigRuleCascadingActionEnumMap[instance.cascadingAction]!,

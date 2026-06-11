@@ -6,7 +6,9 @@ part of 'query_activities_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-QueryActivitiesRequest _$QueryActivitiesRequestFromJson(Map<String, dynamic> json) => QueryActivitiesRequest(
+QueryActivitiesRequest _$QueryActivitiesRequestFromJson(
+  Map<String, dynamic> json,
+) => QueryActivitiesRequest(
   enrichOwnFields: json['enrich_own_fields'] as bool?,
   filter: json['filter'] as Map<String, dynamic>?,
   includeSoftDeletedActivities: json['include_soft_deleted_activities'] as bool?,
@@ -16,7 +18,9 @@ QueryActivitiesRequest _$QueryActivitiesRequestFromJson(Map<String, dynamic> jso
   sort: (json['sort'] as List<dynamic>?)?.map((e) => SortParamRequest.fromJson(e as Map<String, dynamic>)).toList(),
 );
 
-Map<String, dynamic> _$QueryActivitiesRequestToJson(QueryActivitiesRequest instance) => <String, dynamic>{
+Map<String, dynamic> _$QueryActivitiesRequestToJson(
+  QueryActivitiesRequest instance,
+) => <String, dynamic>{
   'enrich_own_fields': instance.enrichOwnFields,
   'filter': instance.filter,
   'include_soft_deleted_activities': instance.includeSoftDeletedActivities,

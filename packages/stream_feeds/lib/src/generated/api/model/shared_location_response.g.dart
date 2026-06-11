@@ -6,28 +6,42 @@ part of 'shared_location_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-SharedLocationResponse _$SharedLocationResponseFromJson(Map<String, dynamic> json) => SharedLocationResponse(
+SharedLocationResponse _$SharedLocationResponseFromJson(
+  Map<String, dynamic> json,
+) => SharedLocationResponse(
   channel: json['channel'] == null ? null : ChannelResponse.fromJson(json['channel'] as Map<String, dynamic>),
   channelCid: json['channel_cid'] as String,
-  createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
   createdByDeviceId: json['created_by_device_id'] as String,
   duration: json['duration'] as String,
-  endAt: _$JsonConverterFromJson<int, DateTime>(json['end_at'], const EpochDateTimeConverter().fromJson),
+  endAt: _$JsonConverterFromJson<int, DateTime>(
+    json['end_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
   latitude: (json['latitude'] as num).toDouble(),
   longitude: (json['longitude'] as num).toDouble(),
   message: json['message'] == null ? null : MessageResponse.fromJson(json['message'] as Map<String, dynamic>),
   messageId: json['message_id'] as String,
-  updatedAt: const EpochDateTimeConverter().fromJson((json['updated_at'] as num).toInt()),
+  updatedAt: const EpochDateTimeConverter().fromJson(
+    (json['updated_at'] as num).toInt(),
+  ),
   userId: json['user_id'] as String,
 );
 
-Map<String, dynamic> _$SharedLocationResponseToJson(SharedLocationResponse instance) => <String, dynamic>{
+Map<String, dynamic> _$SharedLocationResponseToJson(
+  SharedLocationResponse instance,
+) => <String, dynamic>{
   'channel': instance.channel?.toJson(),
   'channel_cid': instance.channelCid,
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
   'created_by_device_id': instance.createdByDeviceId,
   'duration': instance.duration,
-  'end_at': _$JsonConverterToJson<int, DateTime>(instance.endAt, const EpochDateTimeConverter().toJson),
+  'end_at': _$JsonConverterToJson<int, DateTime>(
+    instance.endAt,
+    const EpochDateTimeConverter().toJson,
+  ),
   'latitude': instance.latitude,
   'longitude': instance.longitude,
   'message': instance.message?.toJson(),

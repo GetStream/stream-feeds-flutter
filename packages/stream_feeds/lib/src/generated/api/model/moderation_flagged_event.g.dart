@@ -6,21 +6,33 @@ part of 'moderation_flagged_event.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ModerationFlaggedEvent _$ModerationFlaggedEventFromJson(Map<String, dynamic> json) => ModerationFlaggedEvent(
+ModerationFlaggedEvent _$ModerationFlaggedEventFromJson(
+  Map<String, dynamic> json,
+) => ModerationFlaggedEvent(
   contentType: json['content_type'] as String,
-  createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
   custom: json['custom'] as Map<String, dynamic>,
   objectId: json['object_id'] as String,
-  receivedAt: _$JsonConverterFromJson<int, DateTime>(json['received_at'], const EpochDateTimeConverter().fromJson),
+  receivedAt: _$JsonConverterFromJson<int, DateTime>(
+    json['received_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
   type: json['type'] as String,
 );
 
-Map<String, dynamic> _$ModerationFlaggedEventToJson(ModerationFlaggedEvent instance) => <String, dynamic>{
+Map<String, dynamic> _$ModerationFlaggedEventToJson(
+  ModerationFlaggedEvent instance,
+) => <String, dynamic>{
   'content_type': instance.contentType,
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
   'custom': instance.custom,
   'object_id': instance.objectId,
-  'received_at': _$JsonConverterToJson<int, DateTime>(instance.receivedAt, const EpochDateTimeConverter().toJson),
+  'received_at': _$JsonConverterToJson<int, DateTime>(
+    instance.receivedAt,
+    const EpochDateTimeConverter().toJson,
+  ),
   'type': instance.type,
 };
 

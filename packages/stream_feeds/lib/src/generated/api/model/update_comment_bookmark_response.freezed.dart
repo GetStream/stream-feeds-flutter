@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -12,51 +11,47 @@ part of 'update_comment_bookmark_response.dart';
 
 // dart format off
 T _$identity<T>(T value) => value;
-
 /// @nodoc
 mixin _$UpdateCommentBookmarkResponse {
-  BookmarkResponse get bookmark;
-  String get duration;
 
-  /// Create a copy of UpdateCommentBookmarkResponse
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $UpdateCommentBookmarkResponseCopyWith<UpdateCommentBookmarkResponse>
-      get copyWith => _$UpdateCommentBookmarkResponseCopyWithImpl<
-              UpdateCommentBookmarkResponse>(
-          this as UpdateCommentBookmarkResponse, _$identity);
+ BookmarkResponse get bookmark; String get duration;
+/// Create a copy of UpdateCommentBookmarkResponse
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$UpdateCommentBookmarkResponseCopyWith<UpdateCommentBookmarkResponse> get copyWith => _$UpdateCommentBookmarkResponseCopyWithImpl<UpdateCommentBookmarkResponse>(this as UpdateCommentBookmarkResponse, _$identity);
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is UpdateCommentBookmarkResponse &&
-            (identical(other.bookmark, bookmark) ||
-                other.bookmark == bookmark) &&
-            (identical(other.duration, duration) ||
-                other.duration == duration));
-  }
 
-  @override
-  int get hashCode => Object.hash(runtimeType, bookmark, duration);
 
-  @override
-  String toString() {
-    return 'UpdateCommentBookmarkResponse(bookmark: $bookmark, duration: $duration)';
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateCommentBookmarkResponse&&(identical(other.bookmark, bookmark) || other.bookmark == bookmark)&&(identical(other.duration, duration) || other.duration == duration));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,bookmark,duration);
+
+@override
+String toString() {
+  return 'UpdateCommentBookmarkResponse(bookmark: $bookmark, duration: $duration)';
+}
+
+
 }
 
 /// @nodoc
-abstract mixin class $UpdateCommentBookmarkResponseCopyWith<$Res> {
-  factory $UpdateCommentBookmarkResponseCopyWith(
-          UpdateCommentBookmarkResponse value,
-          $Res Function(UpdateCommentBookmarkResponse) _then) =
-      _$UpdateCommentBookmarkResponseCopyWithImpl;
-  @useResult
-  $Res call({BookmarkResponse bookmark, String duration});
-}
+abstract mixin class $UpdateCommentBookmarkResponseCopyWith<$Res>  {
+  factory $UpdateCommentBookmarkResponseCopyWith(UpdateCommentBookmarkResponse value, $Res Function(UpdateCommentBookmarkResponse) _then) = _$UpdateCommentBookmarkResponseCopyWithImpl;
+@useResult
+$Res call({
+ BookmarkResponse bookmark, String duration
+});
 
+
+
+
+}
 /// @nodoc
 class _$UpdateCommentBookmarkResponseCopyWithImpl<$Res>
     implements $UpdateCommentBookmarkResponseCopyWith<$Res> {
@@ -65,25 +60,18 @@ class _$UpdateCommentBookmarkResponseCopyWithImpl<$Res>
   final UpdateCommentBookmarkResponse _self;
   final $Res Function(UpdateCommentBookmarkResponse) _then;
 
-  /// Create a copy of UpdateCommentBookmarkResponse
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? bookmark = null,
-    Object? duration = null,
-  }) {
-    return _then(UpdateCommentBookmarkResponse(
-      bookmark: null == bookmark
-          ? _self.bookmark
-          : bookmark // ignore: cast_nullable_to_non_nullable
-              as BookmarkResponse,
-      duration: null == duration
-          ? _self.duration
-          : duration // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
+/// Create a copy of UpdateCommentBookmarkResponse
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? bookmark = null,Object? duration = null,}) {
+  return _then(UpdateCommentBookmarkResponse(
+bookmark: null == bookmark ? _self.bookmark : bookmark // ignore: cast_nullable_to_non_nullable
+as BookmarkResponse,duration: null == duration ? _self.duration : duration // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
 }
+
+}
+
+
 
 // dart format on

@@ -8,32 +8,45 @@ part of 'full_user_response.dart';
 
 FullUserResponse _$FullUserResponseFromJson(Map<String, dynamic> json) => FullUserResponse(
   avgResponseTime: (json['avg_response_time'] as num?)?.toInt(),
-  banExpires: _$JsonConverterFromJson<int, DateTime>(json['ban_expires'], const EpochDateTimeConverter().fromJson),
+  banExpires: _$JsonConverterFromJson<int, DateTime>(
+    json['ban_expires'],
+    const EpochDateTimeConverter().fromJson,
+  ),
   banned: json['banned'] as bool,
   blockedUserIds: (json['blocked_user_ids'] as List<dynamic>).map((e) => e as String).toList(),
   channelMutes: (json['channel_mutes'] as List<dynamic>)
       .map((e) => ChannelMute.fromJson(e as Map<String, dynamic>))
       .toList(),
-  createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
   custom: json['custom'] as Map<String, dynamic>,
   deactivatedAt: _$JsonConverterFromJson<int, DateTime>(
     json['deactivated_at'],
     const EpochDateTimeConverter().fromJson,
   ),
-  deletedAt: _$JsonConverterFromJson<int, DateTime>(json['deleted_at'], const EpochDateTimeConverter().fromJson),
+  deletedAt: _$JsonConverterFromJson<int, DateTime>(
+    json['deleted_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
   devices: (json['devices'] as List<dynamic>).map((e) => DeviceResponse.fromJson(e as Map<String, dynamic>)).toList(),
   id: json['id'] as String,
   image: json['image'] as String?,
   invisible: json['invisible'] as bool,
   language: json['language'] as String,
-  lastActive: _$JsonConverterFromJson<int, DateTime>(json['last_active'], const EpochDateTimeConverter().fromJson),
+  lastActive: _$JsonConverterFromJson<int, DateTime>(
+    json['last_active'],
+    const EpochDateTimeConverter().fromJson,
+  ),
   latestHiddenChannels: (json['latest_hidden_channels'] as List<dynamic>?)?.map((e) => e as String).toList(),
   mutes: (json['mutes'] as List<dynamic>).map((e) => UserMuteResponse.fromJson(e as Map<String, dynamic>)).toList(),
   name: json['name'] as String?,
   online: json['online'] as bool,
   privacySettings: json['privacy_settings'] == null
       ? null
-      : PrivacySettingsResponse.fromJson(json['privacy_settings'] as Map<String, dynamic>),
+      : PrivacySettingsResponse.fromJson(
+          json['privacy_settings'] as Map<String, dynamic>,
+        ),
   revokeTokensIssuedBefore: _$JsonConverterFromJson<int, DateTime>(
     json['revoke_tokens_issued_before'],
     const EpochDateTimeConverter().fromJson,
@@ -48,25 +61,39 @@ FullUserResponse _$FullUserResponseFromJson(Map<String, dynamic> json) => FullUs
   unreadChannels: (json['unread_channels'] as num).toInt(),
   unreadCount: (json['unread_count'] as num).toInt(),
   unreadThreads: (json['unread_threads'] as num).toInt(),
-  updatedAt: const EpochDateTimeConverter().fromJson((json['updated_at'] as num).toInt()),
+  updatedAt: const EpochDateTimeConverter().fromJson(
+    (json['updated_at'] as num).toInt(),
+  ),
 );
 
 Map<String, dynamic> _$FullUserResponseToJson(FullUserResponse instance) => <String, dynamic>{
   'avg_response_time': instance.avgResponseTime,
-  'ban_expires': _$JsonConverterToJson<int, DateTime>(instance.banExpires, const EpochDateTimeConverter().toJson),
+  'ban_expires': _$JsonConverterToJson<int, DateTime>(
+    instance.banExpires,
+    const EpochDateTimeConverter().toJson,
+  ),
   'banned': instance.banned,
   'blocked_user_ids': instance.blockedUserIds,
   'channel_mutes': instance.channelMutes.map((e) => e.toJson()).toList(),
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
   'custom': instance.custom,
-  'deactivated_at': _$JsonConverterToJson<int, DateTime>(instance.deactivatedAt, const EpochDateTimeConverter().toJson),
-  'deleted_at': _$JsonConverterToJson<int, DateTime>(instance.deletedAt, const EpochDateTimeConverter().toJson),
+  'deactivated_at': _$JsonConverterToJson<int, DateTime>(
+    instance.deactivatedAt,
+    const EpochDateTimeConverter().toJson,
+  ),
+  'deleted_at': _$JsonConverterToJson<int, DateTime>(
+    instance.deletedAt,
+    const EpochDateTimeConverter().toJson,
+  ),
   'devices': instance.devices.map((e) => e.toJson()).toList(),
   'id': instance.id,
   'image': instance.image,
   'invisible': instance.invisible,
   'language': instance.language,
-  'last_active': _$JsonConverterToJson<int, DateTime>(instance.lastActive, const EpochDateTimeConverter().toJson),
+  'last_active': _$JsonConverterToJson<int, DateTime>(
+    instance.lastActive,
+    const EpochDateTimeConverter().toJson,
+  ),
   'latest_hidden_channels': instance.latestHiddenChannels,
   'mutes': instance.mutes.map((e) => e.toJson()).toList(),
   'name': instance.name,

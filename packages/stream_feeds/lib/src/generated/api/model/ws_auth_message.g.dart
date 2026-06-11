@@ -8,7 +8,13 @@ part of 'ws_auth_message.dart';
 
 WSAuthMessage _$WSAuthMessageFromJson(Map<String, dynamic> json) => WSAuthMessage(
   products: (json['products'] as List<dynamic>?)
-      ?.map((e) => $enumDecode(_$WSAuthMessageProductsEnumMap, e, unknownValue: WSAuthMessageProducts.unknown))
+      ?.map(
+        (e) => $enumDecode(
+          _$WSAuthMessageProductsEnumMap,
+          e,
+          unknownValue: WSAuthMessageProducts.unknown,
+        ),
+      )
       .toList(),
   token: json['token'] as String,
 );

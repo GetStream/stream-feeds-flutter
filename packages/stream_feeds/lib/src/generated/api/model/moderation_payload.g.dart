@@ -6,7 +6,9 @@ part of 'moderation_payload.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ModerationPayload _$ModerationPayloadFromJson(Map<String, dynamic> json) => ModerationPayload(
+ModerationPayload _$ModerationPayloadFromJson(
+  Map<String, dynamic> json,
+) => ModerationPayload(
   custom: json['custom'] as Map<String, dynamic>?,
   images: (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
   texts: (json['texts'] as List<dynamic>?)?.map((e) => e as String).toList(),

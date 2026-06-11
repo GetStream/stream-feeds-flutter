@@ -7,7 +7,11 @@ part of 'llm_rule.dart';
 // **************************************************************************
 
 LLMRule _$LLMRuleFromJson(Map<String, dynamic> json) => LLMRule(
-  action: $enumDecode(_$LLMRuleActionEnumMap, json['action'], unknownValue: LLMRuleAction.unknown),
+  action: $enumDecode(
+    _$LLMRuleActionEnumMap,
+    json['action'],
+    unknownValue: LLMRuleAction.unknown,
+  ),
   description: json['description'] as String,
   label: json['label'] as String,
   severityRules: (json['severity_rules'] as List<dynamic>)

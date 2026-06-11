@@ -9,7 +9,9 @@ part of 'block_users_response.dart';
 BlockUsersResponse _$BlockUsersResponseFromJson(Map<String, dynamic> json) => BlockUsersResponse(
   blockedByUserId: json['blocked_by_user_id'] as String,
   blockedUserId: json['blocked_user_id'] as String,
-  createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
   duration: json['duration'] as String,
 );
 

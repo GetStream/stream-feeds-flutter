@@ -11,7 +11,6 @@ RejectFollowRequest _$RejectFollowRequestFromJson(Map<String, dynamic> json) => 
   target: json['target'] as String,
 );
 
-Map<String, dynamic> _$RejectFollowRequestToJson(RejectFollowRequest instance) => <String, dynamic>{
-  'source': instance.source,
-  'target': instance.target,
-};
+Map<String, dynamic> _$RejectFollowRequestToJson(
+  RejectFollowRequest instance,
+) => <String, dynamic>{'source': instance.source, 'target': instance.target};

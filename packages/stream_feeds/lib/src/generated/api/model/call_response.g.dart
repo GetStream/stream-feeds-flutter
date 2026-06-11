@@ -12,21 +12,31 @@ CallResponse _$CallResponseFromJson(Map<String, dynamic> json) => CallResponse(
   captioning: json['captioning'] as bool,
   channelCid: json['channel_cid'] as String?,
   cid: json['cid'] as String,
-  createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
   createdBy: json['created_by'] == null ? null : UserResponse.fromJson(json['created_by'] as Map<String, dynamic>),
   currentSessionId: json['current_session_id'] as String,
   custom: json['custom'] as Map<String, dynamic>,
-  endedAt: _$JsonConverterFromJson<int, DateTime>(json['ended_at'], const EpochDateTimeConverter().fromJson),
+  endedAt: _$JsonConverterFromJson<int, DateTime>(
+    json['ended_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
   id: json['id'] as String,
   joinAheadTimeSeconds: (json['join_ahead_time_seconds'] as num?)?.toInt(),
   recording: json['recording'] as bool,
   routingNumber: json['routing_number'] as String?,
-  startsAt: _$JsonConverterFromJson<int, DateTime>(json['starts_at'], const EpochDateTimeConverter().fromJson),
+  startsAt: _$JsonConverterFromJson<int, DateTime>(
+    json['starts_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
   team: json['team'] as String?,
   transcribing: json['transcribing'] as bool,
   translating: json['translating'] as bool,
   type: json['type'] as String,
-  updatedAt: const EpochDateTimeConverter().fromJson((json['updated_at'] as num).toInt()),
+  updatedAt: const EpochDateTimeConverter().fromJson(
+    (json['updated_at'] as num).toInt(),
+  ),
 );
 
 Map<String, dynamic> _$CallResponseToJson(CallResponse instance) => <String, dynamic>{
@@ -39,12 +49,18 @@ Map<String, dynamic> _$CallResponseToJson(CallResponse instance) => <String, dyn
   'created_by': instance.createdBy?.toJson(),
   'current_session_id': instance.currentSessionId,
   'custom': instance.custom,
-  'ended_at': _$JsonConverterToJson<int, DateTime>(instance.endedAt, const EpochDateTimeConverter().toJson),
+  'ended_at': _$JsonConverterToJson<int, DateTime>(
+    instance.endedAt,
+    const EpochDateTimeConverter().toJson,
+  ),
   'id': instance.id,
   'join_ahead_time_seconds': instance.joinAheadTimeSeconds,
   'recording': instance.recording,
   'routing_number': instance.routingNumber,
-  'starts_at': _$JsonConverterToJson<int, DateTime>(instance.startsAt, const EpochDateTimeConverter().toJson),
+  'starts_at': _$JsonConverterToJson<int, DateTime>(
+    instance.startsAt,
+    const EpochDateTimeConverter().toJson,
+  ),
   'team': instance.team,
   'transcribing': instance.transcribing,
   'translating': instance.translating,

@@ -7,7 +7,9 @@ part of 'add_comment_response.dart';
 // **************************************************************************
 
 AddCommentResponse _$AddCommentResponseFromJson(Map<String, dynamic> json) => AddCommentResponse(
-  comment: CommentResponse.fromJson(json['comment'] as Map<String, dynamic>),
+  comment: CommentResponse.fromJson(
+    json['comment'] as Map<String, dynamic>,
+  ),
   duration: json['duration'] as String,
   mentionNotificationsCreated: (json['mention_notifications_created'] as num?)?.toInt(),
   notificationCreated: json['notification_created'] as bool?,

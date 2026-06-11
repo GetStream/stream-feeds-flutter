@@ -6,7 +6,9 @@ part of 'query_poll_votes_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-QueryPollVotesRequest _$QueryPollVotesRequestFromJson(Map<String, dynamic> json) => QueryPollVotesRequest(
+QueryPollVotesRequest _$QueryPollVotesRequestFromJson(
+  Map<String, dynamic> json,
+) => QueryPollVotesRequest(
   filter: json['filter'] as Map<String, dynamic>?,
   limit: (json['limit'] as num?)?.toInt(),
   next: json['next'] as String?,
@@ -14,7 +16,9 @@ QueryPollVotesRequest _$QueryPollVotesRequestFromJson(Map<String, dynamic> json)
   sort: (json['sort'] as List<dynamic>?)?.map((e) => SortParamRequest.fromJson(e as Map<String, dynamic>)).toList(),
 );
 
-Map<String, dynamic> _$QueryPollVotesRequestToJson(QueryPollVotesRequest instance) => <String, dynamic>{
+Map<String, dynamic> _$QueryPollVotesRequestToJson(
+  QueryPollVotesRequest instance,
+) => <String, dynamic>{
   'filter': instance.filter,
   'limit': instance.limit,
   'next': instance.next,

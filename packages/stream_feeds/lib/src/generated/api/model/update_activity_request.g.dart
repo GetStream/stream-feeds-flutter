@@ -6,7 +6,9 @@ part of 'update_activity_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-UpdateActivityRequest _$UpdateActivityRequestFromJson(Map<String, dynamic> json) => UpdateActivityRequest(
+UpdateActivityRequest _$UpdateActivityRequestFromJson(
+  Map<String, dynamic> json,
+) => UpdateActivityRequest(
   attachments: (json['attachments'] as List<dynamic>?)
       ?.map((e) => Attachment.fromJson(e as Map<String, dynamic>))
       .toList(),
@@ -14,7 +16,10 @@ UpdateActivityRequest _$UpdateActivityRequestFromJson(Map<String, dynamic> json)
   copyCustomToNotification: json['copy_custom_to_notification'] as bool?,
   custom: json['custom'] as Map<String, dynamic>?,
   enrichOwnFields: json['enrich_own_fields'] as bool?,
-  expiresAt: _$JsonConverterFromJson<int, DateTime>(json['expires_at'], const EpochDateTimeConverter().fromJson),
+  expiresAt: _$JsonConverterFromJson<int, DateTime>(
+    json['expires_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
   feeds: (json['feeds'] as List<dynamic>?)?.map((e) => e as String).toList(),
   filterTags: (json['filter_tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
   handleMentionNotifications: json['handle_mention_notifications'] as bool?,
@@ -39,13 +44,18 @@ UpdateActivityRequest _$UpdateActivityRequestFromJson(Map<String, dynamic> json)
   visibilityTag: json['visibility_tag'] as String?,
 );
 
-Map<String, dynamic> _$UpdateActivityRequestToJson(UpdateActivityRequest instance) => <String, dynamic>{
+Map<String, dynamic> _$UpdateActivityRequestToJson(
+  UpdateActivityRequest instance,
+) => <String, dynamic>{
   'attachments': instance.attachments?.map((e) => e.toJson()).toList(),
   'collection_refs': instance.collectionRefs,
   'copy_custom_to_notification': instance.copyCustomToNotification,
   'custom': instance.custom,
   'enrich_own_fields': instance.enrichOwnFields,
-  'expires_at': _$JsonConverterToJson<int, DateTime>(instance.expiresAt, const EpochDateTimeConverter().toJson),
+  'expires_at': _$JsonConverterToJson<int, DateTime>(
+    instance.expiresAt,
+    const EpochDateTimeConverter().toJson,
+  ),
   'feeds': instance.feeds,
   'filter_tags': instance.filterTags,
   'handle_mention_notifications': instance.handleMentionNotifications,

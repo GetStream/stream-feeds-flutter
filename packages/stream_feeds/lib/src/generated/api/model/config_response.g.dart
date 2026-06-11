@@ -6,12 +6,16 @@ part of 'config_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ConfigResponse _$ConfigResponseFromJson(Map<String, dynamic> json) => ConfigResponse(
+ConfigResponse _$ConfigResponseFromJson(
+  Map<String, dynamic> json,
+) => ConfigResponse(
   aiImageConfig: json['ai_image_config'] == null
       ? null
       : AIImageConfig.fromJson(json['ai_image_config'] as Map<String, dynamic>),
   aiImageLabelDefinitions: (json['ai_image_label_definitions'] as List<dynamic>?)
-      ?.map((e) => AIImageLabelDefinition.fromJson(e as Map<String, dynamic>))
+      ?.map(
+        (e) => AIImageLabelDefinition.fromJson(e as Map<String, dynamic>),
+      )
       .toList(),
   aiImageSubclassifications: (json['ai_image_subclassifications'] as Map<String, dynamic>?)?.map(
     (k, e) => MapEntry(k, (e as List<dynamic>).map((e) => e as String).toList()),
@@ -30,17 +34,27 @@ ConfigResponse _$ConfigResponseFromJson(Map<String, dynamic> json) => ConfigResp
         ),
   automodSemanticFiltersConfig: json['automod_semantic_filters_config'] == null
       ? null
-      : AutomodSemanticFiltersConfig.fromJson(json['automod_semantic_filters_config'] as Map<String, dynamic>),
+      : AutomodSemanticFiltersConfig.fromJson(
+          json['automod_semantic_filters_config'] as Map<String, dynamic>,
+        ),
   automodToxicityConfig: json['automod_toxicity_config'] == null
       ? null
-      : AutomodToxicityConfig.fromJson(json['automod_toxicity_config'] as Map<String, dynamic>),
+      : AutomodToxicityConfig.fromJson(
+          json['automod_toxicity_config'] as Map<String, dynamic>,
+        ),
   availableBodyguardProfiles: (json['available_bodyguard_profiles'] as List<dynamic>?)
-      ?.map((e) => BodyguardProfileSummary.fromJson(e as Map<String, dynamic>))
+      ?.map(
+        (e) => BodyguardProfileSummary.fromJson(e as Map<String, dynamic>),
+      )
       .toList(),
   blockListConfig: json['block_list_config'] == null
       ? null
-      : BlockListConfig.fromJson(json['block_list_config'] as Map<String, dynamic>),
-  createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
+      : BlockListConfig.fromJson(
+          json['block_list_config'] as Map<String, dynamic>,
+        ),
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
   floodConfig: json['flood_config'] == null ? null : FloodConfig.fromJson(json['flood_config'] as Map<String, dynamic>),
   key: json['key'] as String,
   llmConfig: json['llm_config'] == null ? null : LLMConfig.fromJson(json['llm_config'] as Map<String, dynamic>),
@@ -48,13 +62,19 @@ ConfigResponse _$ConfigResponseFromJson(Map<String, dynamic> json) => ConfigResp
       .map((e) => e as String)
       .toList(),
   team: json['team'] as String,
-  updatedAt: const EpochDateTimeConverter().fromJson((json['updated_at'] as num).toInt()),
+  updatedAt: const EpochDateTimeConverter().fromJson(
+    (json['updated_at'] as num).toInt(),
+  ),
   velocityFilterConfig: json['velocity_filter_config'] == null
       ? null
-      : VelocityFilterConfig.fromJson(json['velocity_filter_config'] as Map<String, dynamic>),
+      : VelocityFilterConfig.fromJson(
+          json['velocity_filter_config'] as Map<String, dynamic>,
+        ),
   videoCallRuleConfig: json['video_call_rule_config'] == null
       ? null
-      : VideoCallRuleConfig.fromJson(json['video_call_rule_config'] as Map<String, dynamic>),
+      : VideoCallRuleConfig.fromJson(
+          json['video_call_rule_config'] as Map<String, dynamic>,
+        ),
 );
 
 Map<String, dynamic> _$ConfigResponseToJson(ConfigResponse instance) => <String, dynamic>{

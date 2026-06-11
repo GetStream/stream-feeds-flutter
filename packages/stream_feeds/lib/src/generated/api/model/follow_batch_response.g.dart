@@ -12,7 +12,9 @@ FollowBatchResponse _$FollowBatchResponseFromJson(Map<String, dynamic> json) => 
   follows: (json['follows'] as List<dynamic>).map((e) => FollowResponse.fromJson(e as Map<String, dynamic>)).toList(),
 );
 
-Map<String, dynamic> _$FollowBatchResponseToJson(FollowBatchResponse instance) => <String, dynamic>{
+Map<String, dynamic> _$FollowBatchResponseToJson(
+  FollowBatchResponse instance,
+) => <String, dynamic>{
   'created': instance.created.map((e) => e.toJson()).toList(),
   'duration': instance.duration,
   'follows': instance.follows.map((e) => e.toJson()).toList(),

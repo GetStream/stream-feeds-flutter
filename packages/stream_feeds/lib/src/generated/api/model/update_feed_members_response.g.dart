@@ -6,7 +6,9 @@ part of 'update_feed_members_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-UpdateFeedMembersResponse _$UpdateFeedMembersResponseFromJson(Map<String, dynamic> json) => UpdateFeedMembersResponse(
+UpdateFeedMembersResponse _$UpdateFeedMembersResponseFromJson(
+  Map<String, dynamic> json,
+) => UpdateFeedMembersResponse(
   added: (json['added'] as List<dynamic>).map((e) => FeedMemberResponse.fromJson(e as Map<String, dynamic>)).toList(),
   duration: json['duration'] as String,
   removedIds: (json['removed_ids'] as List<dynamic>).map((e) => e as String).toList(),
@@ -15,7 +17,9 @@ UpdateFeedMembersResponse _$UpdateFeedMembersResponseFromJson(Map<String, dynami
       .toList(),
 );
 
-Map<String, dynamic> _$UpdateFeedMembersResponseToJson(UpdateFeedMembersResponse instance) => <String, dynamic>{
+Map<String, dynamic> _$UpdateFeedMembersResponseToJson(
+  UpdateFeedMembersResponse instance,
+) => <String, dynamic>{
   'added': instance.added.map((e) => e.toJson()).toList(),
   'duration': instance.duration,
   'removed_ids': instance.removedIds,

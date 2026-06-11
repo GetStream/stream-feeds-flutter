@@ -6,7 +6,9 @@ part of 'ban_action_request_payload.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-BanActionRequestPayload _$BanActionRequestPayloadFromJson(Map<String, dynamic> json) => BanActionRequestPayload(
+BanActionRequestPayload _$BanActionRequestPayloadFromJson(
+  Map<String, dynamic> json,
+) => BanActionRequestPayload(
   banFromFutureChannels: json['ban_from_future_channels'] as bool?,
   channelBanOnly: json['channel_ban_only'] as bool?,
   channelCid: json['channel_cid'] as String?,
@@ -22,7 +24,9 @@ BanActionRequestPayload _$BanActionRequestPayloadFromJson(Map<String, dynamic> j
   timeout: (json['timeout'] as num?)?.toInt(),
 );
 
-Map<String, dynamic> _$BanActionRequestPayloadToJson(BanActionRequestPayload instance) => <String, dynamic>{
+Map<String, dynamic> _$BanActionRequestPayloadToJson(
+  BanActionRequestPayload instance,
+) => <String, dynamic>{
   'ban_from_future_channels': instance.banFromFutureChannels,
   'channel_ban_only': instance.channelBanOnly,
   'channel_cid': instance.channelCid,

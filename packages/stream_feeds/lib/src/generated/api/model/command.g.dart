@@ -8,20 +8,32 @@ part of 'command.dart';
 
 Command _$CommandFromJson(Map<String, dynamic> json) => Command(
   args: json['args'] as String,
-  createdAt: _$JsonConverterFromJson<int, DateTime>(json['created_at'], const EpochDateTimeConverter().fromJson),
+  createdAt: _$JsonConverterFromJson<int, DateTime>(
+    json['created_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
   description: json['description'] as String,
   name: json['name'] as String,
   set: json['set'] as String,
-  updatedAt: _$JsonConverterFromJson<int, DateTime>(json['updated_at'], const EpochDateTimeConverter().fromJson),
+  updatedAt: _$JsonConverterFromJson<int, DateTime>(
+    json['updated_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
 );
 
 Map<String, dynamic> _$CommandToJson(Command instance) => <String, dynamic>{
   'args': instance.args,
-  'created_at': _$JsonConverterToJson<int, DateTime>(instance.createdAt, const EpochDateTimeConverter().toJson),
+  'created_at': _$JsonConverterToJson<int, DateTime>(
+    instance.createdAt,
+    const EpochDateTimeConverter().toJson,
+  ),
   'description': instance.description,
   'name': instance.name,
   'set': instance.set,
-  'updated_at': _$JsonConverterToJson<int, DateTime>(instance.updatedAt, const EpochDateTimeConverter().toJson),
+  'updated_at': _$JsonConverterToJson<int, DateTime>(
+    instance.updatedAt,
+    const EpochDateTimeConverter().toJson,
+  ),
 };
 
 Value? _$JsonConverterFromJson<Json, Value>(

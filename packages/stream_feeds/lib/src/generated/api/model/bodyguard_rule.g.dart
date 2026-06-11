@@ -7,7 +7,11 @@ part of 'bodyguard_rule.dart';
 // **************************************************************************
 
 BodyguardRule _$BodyguardRuleFromJson(Map<String, dynamic> json) => BodyguardRule(
-  action: $enumDecode(_$BodyguardRuleActionEnumMap, json['action'], unknownValue: BodyguardRuleAction.unknown),
+  action: $enumDecode(
+    _$BodyguardRuleActionEnumMap,
+    json['action'],
+    unknownValue: BodyguardRuleAction.unknown,
+  ),
   label: json['label'] as String,
   severityRules: (json['severity_rules'] as List<dynamic>)
       .map((e) => BodyguardSeverityRule.fromJson(e as Map<String, dynamic>))

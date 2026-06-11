@@ -18,12 +18,12 @@ part 'flood_config.freezed.dart';
 @JsonSerializable()
 class FloodConfig with _$FloodConfig {
   const FloodConfig({
-    this.identical,
+    this.identical_,
     this.similar,
   });
 
   @override
-  final FloodIdenticalConfig? identical;
+  final FloodIdenticalConfig? identical_;
 
   @override
   final FloodSimilarConfig? similar;

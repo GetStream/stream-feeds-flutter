@@ -6,20 +6,32 @@ part of 'bookmark_updated_event.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-BookmarkUpdatedEvent _$BookmarkUpdatedEventFromJson(Map<String, dynamic> json) => BookmarkUpdatedEvent(
+BookmarkUpdatedEvent _$BookmarkUpdatedEventFromJson(
+  Map<String, dynamic> json,
+) => BookmarkUpdatedEvent(
   bookmark: BookmarkResponse.fromJson(json['bookmark'] as Map<String, dynamic>),
-  createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
   custom: json['custom'] as Map<String, dynamic>,
-  receivedAt: _$JsonConverterFromJson<int, DateTime>(json['received_at'], const EpochDateTimeConverter().fromJson),
+  receivedAt: _$JsonConverterFromJson<int, DateTime>(
+    json['received_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
   type: json['type'] as String,
   user: json['user'] == null ? null : UserResponseCommonFields.fromJson(json['user'] as Map<String, dynamic>),
 );
 
-Map<String, dynamic> _$BookmarkUpdatedEventToJson(BookmarkUpdatedEvent instance) => <String, dynamic>{
+Map<String, dynamic> _$BookmarkUpdatedEventToJson(
+  BookmarkUpdatedEvent instance,
+) => <String, dynamic>{
   'bookmark': instance.bookmark.toJson(),
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
   'custom': instance.custom,
-  'received_at': _$JsonConverterToJson<int, DateTime>(instance.receivedAt, const EpochDateTimeConverter().toJson),
+  'received_at': _$JsonConverterToJson<int, DateTime>(
+    instance.receivedAt,
+    const EpochDateTimeConverter().toJson,
+  ),
   'type': instance.type,
   'user': instance.user?.toJson(),
 };

@@ -20,7 +20,9 @@ PushPreferenceInput _$PushPreferenceInputFromJson(Map<String, dynamic> json) => 
   ),
   chatPreferences: json['chat_preferences'] == null
       ? null
-      : ChatPreferencesInput.fromJson(json['chat_preferences'] as Map<String, dynamic>),
+      : ChatPreferencesInput.fromJson(
+          json['chat_preferences'] as Map<String, dynamic>,
+        ),
   disabledUntil: _$JsonConverterFromJson<int, DateTime>(
     json['disabled_until'],
     const EpochDateTimeConverter().fromJson,
@@ -32,17 +34,24 @@ PushPreferenceInput _$PushPreferenceInputFromJson(Map<String, dynamic> json) => 
   ),
   feedsPreferences: json['feeds_preferences'] == null
       ? null
-      : FeedsPreferences.fromJson(json['feeds_preferences'] as Map<String, dynamic>),
+      : FeedsPreferences.fromJson(
+          json['feeds_preferences'] as Map<String, dynamic>,
+        ),
   removeDisable: json['remove_disable'] as bool?,
   userId: json['user_id'] as String?,
 );
 
-Map<String, dynamic> _$PushPreferenceInputToJson(PushPreferenceInput instance) => <String, dynamic>{
+Map<String, dynamic> _$PushPreferenceInputToJson(
+  PushPreferenceInput instance,
+) => <String, dynamic>{
   'call_level': _$PushPreferenceInputCallLevelEnumMap[instance.callLevel],
   'channel_cid': instance.channelCid,
   'chat_level': _$PushPreferenceInputChatLevelEnumMap[instance.chatLevel],
   'chat_preferences': instance.chatPreferences?.toJson(),
-  'disabled_until': _$JsonConverterToJson<int, DateTime>(instance.disabledUntil, const EpochDateTimeConverter().toJson),
+  'disabled_until': _$JsonConverterToJson<int, DateTime>(
+    instance.disabledUntil,
+    const EpochDateTimeConverter().toJson,
+  ),
   'feeds_level': _$PushPreferenceInputFeedsLevelEnumMap[instance.feedsLevel],
   'feeds_preferences': instance.feedsPreferences?.toJson(),
   'remove_disable': instance.removeDisable,

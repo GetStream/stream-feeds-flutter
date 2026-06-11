@@ -22,7 +22,9 @@ BanRequest _$BanRequestFromJson(Map<String, dynamic> json) => BanRequest(
   timeout: (json['timeout'] as num?)?.toInt(),
 );
 
-Map<String, dynamic> _$BanRequestToJson(BanRequest instance) => <String, dynamic>{
+Map<String, dynamic> _$BanRequestToJson(
+  BanRequest instance,
+) => <String, dynamic>{
   'banned_by': instance.bannedBy?.toJson(),
   'banned_by_id': instance.bannedById,
   'channel_cid': instance.channelCid,

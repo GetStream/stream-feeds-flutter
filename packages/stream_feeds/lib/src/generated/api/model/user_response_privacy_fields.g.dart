@@ -6,27 +6,39 @@ part of 'user_response_privacy_fields.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-UserResponsePrivacyFields _$UserResponsePrivacyFieldsFromJson(Map<String, dynamic> json) => UserResponsePrivacyFields(
+UserResponsePrivacyFields _$UserResponsePrivacyFieldsFromJson(
+  Map<String, dynamic> json,
+) => UserResponsePrivacyFields(
   avgResponseTime: (json['avg_response_time'] as num?)?.toInt(),
   banned: json['banned'] as bool,
   blockedUserIds: (json['blocked_user_ids'] as List<dynamic>).map((e) => e as String).toList(),
-  createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
   custom: json['custom'] as Map<String, dynamic>,
   deactivatedAt: _$JsonConverterFromJson<int, DateTime>(
     json['deactivated_at'],
     const EpochDateTimeConverter().fromJson,
   ),
-  deletedAt: _$JsonConverterFromJson<int, DateTime>(json['deleted_at'], const EpochDateTimeConverter().fromJson),
+  deletedAt: _$JsonConverterFromJson<int, DateTime>(
+    json['deleted_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
   id: json['id'] as String,
   image: json['image'] as String?,
   invisible: json['invisible'] as bool?,
   language: json['language'] as String,
-  lastActive: _$JsonConverterFromJson<int, DateTime>(json['last_active'], const EpochDateTimeConverter().fromJson),
+  lastActive: _$JsonConverterFromJson<int, DateTime>(
+    json['last_active'],
+    const EpochDateTimeConverter().fromJson,
+  ),
   name: json['name'] as String?,
   online: json['online'] as bool,
   privacySettings: json['privacy_settings'] == null
       ? null
-      : PrivacySettingsResponse.fromJson(json['privacy_settings'] as Map<String, dynamic>),
+      : PrivacySettingsResponse.fromJson(
+          json['privacy_settings'] as Map<String, dynamic>,
+        ),
   revokeTokensIssuedBefore: _$JsonConverterFromJson<int, DateTime>(
     json['revoke_tokens_issued_before'],
     const EpochDateTimeConverter().fromJson,
@@ -36,22 +48,35 @@ UserResponsePrivacyFields _$UserResponsePrivacyFieldsFromJson(Map<String, dynami
   teamsRole: (json['teams_role'] as Map<String, dynamic>?)?.map(
     (k, e) => MapEntry(k, e as String),
   ),
-  updatedAt: const EpochDateTimeConverter().fromJson((json['updated_at'] as num).toInt()),
+  updatedAt: const EpochDateTimeConverter().fromJson(
+    (json['updated_at'] as num).toInt(),
+  ),
 );
 
-Map<String, dynamic> _$UserResponsePrivacyFieldsToJson(UserResponsePrivacyFields instance) => <String, dynamic>{
+Map<String, dynamic> _$UserResponsePrivacyFieldsToJson(
+  UserResponsePrivacyFields instance,
+) => <String, dynamic>{
   'avg_response_time': instance.avgResponseTime,
   'banned': instance.banned,
   'blocked_user_ids': instance.blockedUserIds,
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
   'custom': instance.custom,
-  'deactivated_at': _$JsonConverterToJson<int, DateTime>(instance.deactivatedAt, const EpochDateTimeConverter().toJson),
-  'deleted_at': _$JsonConverterToJson<int, DateTime>(instance.deletedAt, const EpochDateTimeConverter().toJson),
+  'deactivated_at': _$JsonConverterToJson<int, DateTime>(
+    instance.deactivatedAt,
+    const EpochDateTimeConverter().toJson,
+  ),
+  'deleted_at': _$JsonConverterToJson<int, DateTime>(
+    instance.deletedAt,
+    const EpochDateTimeConverter().toJson,
+  ),
   'id': instance.id,
   'image': instance.image,
   'invisible': instance.invisible,
   'language': instance.language,
-  'last_active': _$JsonConverterToJson<int, DateTime>(instance.lastActive, const EpochDateTimeConverter().toJson),
+  'last_active': _$JsonConverterToJson<int, DateTime>(
+    instance.lastActive,
+    const EpochDateTimeConverter().toJson,
+  ),
   'name': instance.name,
   'online': instance.online,
   'privacy_settings': instance.privacySettings?.toJson(),

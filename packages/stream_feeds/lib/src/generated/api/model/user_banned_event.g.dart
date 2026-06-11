@@ -13,20 +13,32 @@ UserBannedEvent _$UserBannedEventFromJson(Map<String, dynamic> json) => UserBann
   channelMessageCount: (json['channel_message_count'] as num?)?.toInt(),
   channelType: json['channel_type'] as String?,
   cid: json['cid'] as String?,
-  createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
   createdBy: json['created_by'] == null
       ? null
-      : UserResponseCommonFields.fromJson(json['created_by'] as Map<String, dynamic>),
+      : UserResponseCommonFields.fromJson(
+          json['created_by'] as Map<String, dynamic>,
+        ),
   custom: json['custom'] as Map<String, dynamic>,
-  expiration: _$JsonConverterFromJson<int, DateTime>(json['expiration'], const EpochDateTimeConverter().fromJson),
+  expiration: _$JsonConverterFromJson<int, DateTime>(
+    json['expiration'],
+    const EpochDateTimeConverter().fromJson,
+  ),
   reason: json['reason'] as String?,
-  receivedAt: _$JsonConverterFromJson<int, DateTime>(json['received_at'], const EpochDateTimeConverter().fromJson),
+  receivedAt: _$JsonConverterFromJson<int, DateTime>(
+    json['received_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
   reviewQueueItemId: json['review_queue_item_id'] as String?,
   shadow: json['shadow'] as bool?,
   team: json['team'] as String?,
   totalBans: (json['total_bans'] as num?)?.toInt(),
   type: json['type'] as String,
-  user: UserResponseCommonFields.fromJson(json['user'] as Map<String, dynamic>),
+  user: UserResponseCommonFields.fromJson(
+    json['user'] as Map<String, dynamic>,
+  ),
 );
 
 Map<String, dynamic> _$UserBannedEventToJson(UserBannedEvent instance) => <String, dynamic>{
@@ -39,9 +51,15 @@ Map<String, dynamic> _$UserBannedEventToJson(UserBannedEvent instance) => <Strin
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
   'created_by': instance.createdBy?.toJson(),
   'custom': instance.custom,
-  'expiration': _$JsonConverterToJson<int, DateTime>(instance.expiration, const EpochDateTimeConverter().toJson),
+  'expiration': _$JsonConverterToJson<int, DateTime>(
+    instance.expiration,
+    const EpochDateTimeConverter().toJson,
+  ),
   'reason': instance.reason,
-  'received_at': _$JsonConverterToJson<int, DateTime>(instance.receivedAt, const EpochDateTimeConverter().toJson),
+  'received_at': _$JsonConverterToJson<int, DateTime>(
+    instance.receivedAt,
+    const EpochDateTimeConverter().toJson,
+  ),
   'review_queue_item_id': instance.reviewQueueItemId,
   'shadow': instance.shadow,
   'team': instance.team,

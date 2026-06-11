@@ -10,7 +10,9 @@ BulkAppealResult _$BulkAppealResultFromJson(Map<String, dynamic> json) => BulkAp
   appealId: json['appeal_id'] as String,
   appealItem: json['appeal_item'] == null
       ? null
-      : AppealItemResponse.fromJson(json['appeal_item'] as Map<String, dynamic>),
+      : AppealItemResponse.fromJson(
+          json['appeal_item'] as Map<String, dynamic>,
+        ),
 );
 
 Map<String, dynamic> _$BulkAppealResultToJson(BulkAppealResult instance) => <String, dynamic>{

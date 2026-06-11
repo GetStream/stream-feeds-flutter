@@ -8,7 +8,9 @@ part of 'get_comments_response.dart';
 
 GetCommentsResponse _$GetCommentsResponseFromJson(Map<String, dynamic> json) => GetCommentsResponse(
   comments: (json['comments'] as List<dynamic>)
-      .map((e) => ThreadedCommentResponse.fromJson(e as Map<String, dynamic>))
+      .map(
+        (e) => ThreadedCommentResponse.fromJson(e as Map<String, dynamic>),
+      )
       .toList(),
   duration: json['duration'] as String,
   next: json['next'] as String?,
@@ -16,7 +18,9 @@ GetCommentsResponse _$GetCommentsResponseFromJson(Map<String, dynamic> json) => 
   sort: json['sort'] as String,
 );
 
-Map<String, dynamic> _$GetCommentsResponseToJson(GetCommentsResponse instance) => <String, dynamic>{
+Map<String, dynamic> _$GetCommentsResponseToJson(
+  GetCommentsResponse instance,
+) => <String, dynamic>{
   'comments': instance.comments.map((e) => e.toJson()).toList(),
   'duration': instance.duration,
   'next': instance.next,

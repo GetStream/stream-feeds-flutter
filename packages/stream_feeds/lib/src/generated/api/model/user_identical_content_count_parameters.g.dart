@@ -12,8 +12,9 @@ UserIdenticalContentCountParameters _$UserIdenticalContentCountParametersFromJso
       timeWindow: json['time_window'] as String?,
     );
 
-Map<String, dynamic> _$UserIdenticalContentCountParametersToJson(UserIdenticalContentCountParameters instance) =>
-    <String, dynamic>{
-      'threshold': instance.threshold,
-      'time_window': instance.timeWindow,
-    };
+Map<String, dynamic> _$UserIdenticalContentCountParametersToJson(
+  UserIdenticalContentCountParameters instance,
+) => <String, dynamic>{
+  'threshold': instance.threshold,
+  'time_window': instance.timeWindow,
+};

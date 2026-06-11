@@ -14,10 +14,11 @@ ContentCustomPropertyCountParameters _$ContentCustomPropertyCountParametersFromJ
       timeWindow: json['time_window'] as String?,
     );
 
-Map<String, dynamic> _$ContentCustomPropertyCountParametersToJson(ContentCustomPropertyCountParameters instance) =>
-    <String, dynamic>{
-      'operator': instance.operator,
-      'property_key': instance.propertyKey,
-      'threshold': instance.threshold,
-      'time_window': instance.timeWindow,
-    };
+Map<String, dynamic> _$ContentCustomPropertyCountParametersToJson(
+  ContentCustomPropertyCountParameters instance,
+) => <String, dynamic>{
+  'operator': instance.operator,
+  'property_key': instance.propertyKey,
+  'threshold': instance.threshold,
+  'time_window': instance.timeWindow,
+};

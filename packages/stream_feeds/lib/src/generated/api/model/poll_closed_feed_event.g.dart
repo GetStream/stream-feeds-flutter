@@ -7,22 +7,32 @@ part of 'poll_closed_feed_event.dart';
 // **************************************************************************
 
 PollClosedFeedEvent _$PollClosedFeedEventFromJson(Map<String, dynamic> json) => PollClosedFeedEvent(
-  createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
   custom: json['custom'] as Map<String, dynamic>,
   feedVisibility: json['feed_visibility'] as String?,
   fid: json['fid'] as String,
   poll: PollResponseData.fromJson(json['poll'] as Map<String, dynamic>),
-  receivedAt: _$JsonConverterFromJson<int, DateTime>(json['received_at'], const EpochDateTimeConverter().fromJson),
+  receivedAt: _$JsonConverterFromJson<int, DateTime>(
+    json['received_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
   type: json['type'] as String,
 );
 
-Map<String, dynamic> _$PollClosedFeedEventToJson(PollClosedFeedEvent instance) => <String, dynamic>{
+Map<String, dynamic> _$PollClosedFeedEventToJson(
+  PollClosedFeedEvent instance,
+) => <String, dynamic>{
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
   'custom': instance.custom,
   'feed_visibility': instance.feedVisibility,
   'fid': instance.fid,
   'poll': instance.poll.toJson(),
-  'received_at': _$JsonConverterToJson<int, DateTime>(instance.receivedAt, const EpochDateTimeConverter().toJson),
+  'received_at': _$JsonConverterToJson<int, DateTime>(
+    instance.receivedAt,
+    const EpochDateTimeConverter().toJson,
+  ),
   'type': instance.type,
 };
 

@@ -7,7 +7,11 @@ part of 'automod_rule.dart';
 // **************************************************************************
 
 AutomodRule _$AutomodRuleFromJson(Map<String, dynamic> json) => AutomodRule(
-  action: $enumDecode(_$AutomodRuleActionEnumMap, json['action'], unknownValue: AutomodRuleAction.unknown),
+  action: $enumDecode(
+    _$AutomodRuleActionEnumMap,
+    json['action'],
+    unknownValue: AutomodRuleAction.unknown,
+  ),
   label: json['label'] as String,
   threshold: (json['threshold'] as num).toDouble(),
 );

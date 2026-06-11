@@ -2,11 +2,13 @@
 
 part of 'default_api.dart';
 
+// dart format off
+
 // **************************************************************************
 // RetrofitGenerator
 // **************************************************************************
 
-// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations,unused_element_parameter
+// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations,unused_element_parameter,avoid_unused_constructor_parameters,unreachable_from_main,avoid_redundant_argument_values
 
 class _DefaultApi implements DefaultApi {
   _DefaultApi(this._dio, {this.baseUrl, this.errorLogger});
@@ -40,7 +42,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = AcceptFeedMemberInviteResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -79,7 +81,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = AcceptFollowResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -119,7 +121,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = ActivityFeedbackResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -161,7 +163,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = AddActivityResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -200,7 +202,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = AddReactionResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -244,7 +246,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = AddBookmarkResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -287,7 +289,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = AddCommentResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -327,7 +329,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = AddCommentBookmarkResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -370,7 +372,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = AddCommentReactionResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -412,7 +414,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = AddCommentsBatchResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -451,7 +453,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = AddUserGroupMembersResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -491,7 +493,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = AppealResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -527,7 +529,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = BanResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -563,7 +565,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = BlockUsersResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -601,7 +603,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = BulkActionAppealsResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -641,7 +643,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = BulkDeleteActionConfigResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -681,7 +683,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = BulkUpsertActionConfigResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -724,7 +726,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = PollVoteResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -770,7 +772,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = ChangeFeedVisibilityResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -814,7 +816,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = CreateBlockListResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -852,7 +854,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = CreateCollectionsResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -892,7 +894,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = DurationResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -930,7 +932,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = CreateFeedsBatchResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -968,7 +970,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = CreateGuestResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -1006,7 +1008,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = PollResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -1045,7 +1047,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = PollOptionResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -1087,7 +1089,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = CreateUserGroupResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -1124,7 +1126,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = DeleteActionConfigResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -1162,7 +1164,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = DeleteActivitiesResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -1205,7 +1207,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = DeleteActivityResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -1253,7 +1255,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = DeleteActivityReactionResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -1298,7 +1300,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = DurationResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -1338,7 +1340,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = DeleteBookmarkResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -1376,7 +1378,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = DeleteBookmarkFolderResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -1415,7 +1417,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = DeleteCollectionsResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -1458,7 +1460,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = DeleteCommentResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -1503,7 +1505,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = DeleteCommentBookmarkResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -1546,7 +1548,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = DeleteCommentReactionResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -1591,7 +1593,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = DeleteModerationConfigResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -1627,7 +1629,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = DurationResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -1669,7 +1671,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = DeleteFeedResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -1713,7 +1715,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = DurationResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -1747,7 +1749,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = DurationResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -1784,7 +1786,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = DurationResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -1825,7 +1827,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = DurationResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -1838,7 +1840,8 @@ class _DefaultApi implements DefaultApi {
     String? userId,
   }) {
     return _ResultCallAdapter<DurationResponse>().adapt(
-      () => _deletePollOption(pollId: pollId, optionId: optionId, userId: userId),
+      () =>
+          _deletePollOption(pollId: pollId, optionId: optionId, userId: userId),
     );
   }
 
@@ -1868,7 +1871,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = PollVoteResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -1915,7 +1918,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = DurationResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -1952,7 +1955,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = FlagResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -1988,7 +1991,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = SingleFollowResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -2026,7 +2029,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = FollowBatchResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -2072,7 +2075,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = GetActionConfigResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -2123,7 +2126,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = GetActivityResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -2164,7 +2167,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = GetApplicationResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -2195,7 +2198,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = GetAppealResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -2228,7 +2231,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = GetBlockedUsersResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -2261,7 +2264,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = GetCommentResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -2312,7 +2315,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = GetCommentRepliesResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -2384,7 +2387,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = GetCommentsResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -2441,7 +2444,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = GetConfigResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -2481,7 +2484,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = GetFollowSuggestionsResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -2517,7 +2520,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = GetOGResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -2554,7 +2557,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = GetOrCreateFeedResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -2598,7 +2601,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = GetOrCreateFollowResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -2636,7 +2639,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = FollowBatchResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -2674,7 +2677,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = GetOrCreateUnfollowResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -2714,7 +2717,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = UnfollowBatchResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -2753,7 +2756,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = PollResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -2794,7 +2797,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = PollOptionResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -2835,7 +2838,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = GetUserGroupResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -2875,7 +2878,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = GetUserInterestsResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -2911,7 +2914,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = SharedLocationsResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -2945,7 +2948,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = ListBlockListResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -2978,7 +2981,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = ListDevicesResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -3022,7 +3025,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = ListUserGroupsResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -3095,7 +3098,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = DurationResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -3137,7 +3140,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = MuteResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -3173,7 +3176,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = OwnBatchResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -3215,7 +3218,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = PinActivityResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -3262,7 +3265,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = QueryActivitiesResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -3304,7 +3307,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = QueryActivityReactionsResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -3347,7 +3350,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = QueryAppealsResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -3386,7 +3389,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = QueryBookmarkFoldersResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -3427,7 +3430,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = QueryBookmarksResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -3466,7 +3469,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = QueryCollectionsResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -3506,7 +3509,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = QueryCommentReactionsResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -3548,7 +3551,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = QueryCommentsResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -3589,7 +3592,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = QueryFeedMembersResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -3634,7 +3637,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = QueryFeedsResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -3673,7 +3676,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = QueryFollowsResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -3714,7 +3717,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = QueryModerationConfigsResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -3757,7 +3760,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = QueryPinnedActivitiesResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -3804,7 +3807,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = PollVotesResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -3850,7 +3853,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = QueryPollsResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -3890,7 +3893,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = QueryReviewQueueResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -3926,7 +3929,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = QueryUsersResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -3964,7 +3967,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = ReadCollectionsResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -4002,7 +4005,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = RejectFeedMemberInviteResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -4041,7 +4044,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = RejectFollowResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -4080,7 +4083,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = RemoveUserGroupMembersResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -4125,7 +4128,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = RestoreActivityResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -4161,7 +4164,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = RestoreCommentResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -4207,7 +4210,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = SearchRolesResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -4265,7 +4268,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = SearchUserGroupsResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -4313,7 +4316,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = DurationResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -4352,7 +4355,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = SubmitActionResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -4390,7 +4393,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = TrackActivityMetricsResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -4430,7 +4433,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = UnblockUsersResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -4476,7 +4479,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = UnfollowResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -4529,7 +4532,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = UnpinActivityResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -4577,7 +4580,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = UpdateActivityResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -4589,7 +4592,8 @@ class _DefaultApi implements DefaultApi {
     UpdateActivityRequest? updateActivityRequest,
   }) {
     return _ResultCallAdapter<UpdateActivityResponse>().adapt(
-      () => _updateActivity(id: id, updateActivityRequest: updateActivityRequest),
+      () =>
+          _updateActivity(id: id, updateActivityRequest: updateActivityRequest),
     );
   }
 
@@ -4618,7 +4622,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = UpdateActivityPartialResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -4662,7 +4666,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = UpdateBlockListResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -4706,7 +4710,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = UpdateBookmarkResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -4750,7 +4754,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = UpdateBookmarkFolderResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -4792,7 +4796,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = UpdateCollectionsResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -4834,7 +4838,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = UpdateCommentResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -4875,7 +4879,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = UpdateCommentBookmarkResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -4919,7 +4923,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = UpdateCommentPartialResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -4964,7 +4968,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = UpdateFeedResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -5010,7 +5014,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = UpdateFeedMembersResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -5054,7 +5058,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = UpdateFollowResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -5092,7 +5096,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = SharedLocationResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -5132,7 +5136,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = PollResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -5171,7 +5175,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = PollOptionResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -5215,7 +5219,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = PollResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -5257,14 +5261,15 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = UpsertPushPreferencesResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
   }
 
   @override
-  Future<Result<UpsertPushPreferencesResponse>> updatePushNotificationPreferences({
+  Future<Result<UpsertPushPreferencesResponse>>
+  updatePushNotificationPreferences({
     required UpsertPushPreferencesRequest upsertPushPreferencesRequest,
   }) {
     return _ResultCallAdapter<UpsertPushPreferencesResponse>().adapt(
@@ -5299,7 +5304,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = UpdateUserGroupResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -5341,7 +5346,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = UpdateUsersResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -5379,7 +5384,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = UpdateUsersResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -5420,7 +5425,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = FileUploadResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -5459,7 +5464,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = ImageUploadResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -5497,7 +5502,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = UpsertActionConfigResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -5537,7 +5542,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = UpsertActivitiesResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -5575,7 +5580,7 @@ class _DefaultApi implements DefaultApi {
     try {
       _value = UpsertConfigResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
+      errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
     return _value;
@@ -5592,7 +5597,8 @@ class _DefaultApi implements DefaultApi {
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
-        !(requestOptions.responseType == ResponseType.bytes || requestOptions.responseType == ResponseType.stream)) {
+        !(requestOptions.responseType == ResponseType.bytes ||
+            requestOptions.responseType == ResponseType.stream)) {
       if (T == String) {
         requestOptions.responseType = ResponseType.plain;
       } else {
@@ -5616,3 +5622,5 @@ class _DefaultApi implements DefaultApi {
     return Uri.parse(dioBaseUrl).resolveUri(url).toString();
   }
 }
+
+// dart format on

@@ -7,7 +7,9 @@ part of 'feed_member_response.dart';
 // **************************************************************************
 
 FeedMemberResponse _$FeedMemberResponseFromJson(Map<String, dynamic> json) => FeedMemberResponse(
-  createdAt: const EpochDateTimeConverter().fromJson((json['created_at'] as num).toInt()),
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
   custom: json['custom'] as Map<String, dynamic>?,
   inviteAcceptedAt: _$JsonConverterFromJson<int, DateTime>(
     json['invite_accepted_at'],
@@ -19,14 +21,18 @@ FeedMemberResponse _$FeedMemberResponseFromJson(Map<String, dynamic> json) => Fe
   ),
   membershipLevel: json['membership_level'] == null
       ? null
-      : MembershipLevelResponse.fromJson(json['membership_level'] as Map<String, dynamic>),
+      : MembershipLevelResponse.fromJson(
+          json['membership_level'] as Map<String, dynamic>,
+        ),
   role: json['role'] as String,
   status: $enumDecode(
     _$FeedMemberResponseStatusEnumMap,
     json['status'],
     unknownValue: FeedMemberResponseStatus.unknown,
   ),
-  updatedAt: const EpochDateTimeConverter().fromJson((json['updated_at'] as num).toInt()),
+  updatedAt: const EpochDateTimeConverter().fromJson(
+    (json['updated_at'] as num).toInt(),
+  ),
   user: UserResponse.fromJson(json['user'] as Map<String, dynamic>),
 );
 

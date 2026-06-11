@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -12,60 +11,47 @@ part of 'add_comment_reaction_response.dart';
 
 // dart format off
 T _$identity<T>(T value) => value;
-
 /// @nodoc
 mixin _$AddCommentReactionResponse {
-  CommentResponse get comment;
-  String get duration;
-  bool? get notificationCreated;
-  FeedsReactionResponse get reaction;
 
-  /// Create a copy of AddCommentReactionResponse
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $AddCommentReactionResponseCopyWith<AddCommentReactionResponse>
-      get copyWith =>
-          _$AddCommentReactionResponseCopyWithImpl<AddCommentReactionResponse>(
-              this as AddCommentReactionResponse, _$identity);
+ CommentResponse get comment; String get duration; bool? get notificationCreated; FeedsReactionResponse get reaction;
+/// Create a copy of AddCommentReactionResponse
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$AddCommentReactionResponseCopyWith<AddCommentReactionResponse> get copyWith => _$AddCommentReactionResponseCopyWithImpl<AddCommentReactionResponse>(this as AddCommentReactionResponse, _$identity);
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is AddCommentReactionResponse &&
-            (identical(other.comment, comment) || other.comment == comment) &&
-            (identical(other.duration, duration) ||
-                other.duration == duration) &&
-            (identical(other.notificationCreated, notificationCreated) ||
-                other.notificationCreated == notificationCreated) &&
-            (identical(other.reaction, reaction) ||
-                other.reaction == reaction));
-  }
 
-  @override
-  int get hashCode => Object.hash(
-      runtimeType, comment, duration, notificationCreated, reaction);
 
-  @override
-  String toString() {
-    return 'AddCommentReactionResponse(comment: $comment, duration: $duration, notificationCreated: $notificationCreated, reaction: $reaction)';
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AddCommentReactionResponse&&(identical(other.comment, comment) || other.comment == comment)&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.notificationCreated, notificationCreated) || other.notificationCreated == notificationCreated)&&(identical(other.reaction, reaction) || other.reaction == reaction));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,comment,duration,notificationCreated,reaction);
+
+@override
+String toString() {
+  return 'AddCommentReactionResponse(comment: $comment, duration: $duration, notificationCreated: $notificationCreated, reaction: $reaction)';
+}
+
+
 }
 
 /// @nodoc
-abstract mixin class $AddCommentReactionResponseCopyWith<$Res> {
-  factory $AddCommentReactionResponseCopyWith(AddCommentReactionResponse value,
-          $Res Function(AddCommentReactionResponse) _then) =
-      _$AddCommentReactionResponseCopyWithImpl;
-  @useResult
-  $Res call(
-      {CommentResponse comment,
-      String duration,
-      bool? notificationCreated,
-      FeedsReactionResponse reaction});
-}
+abstract mixin class $AddCommentReactionResponseCopyWith<$Res>  {
+  factory $AddCommentReactionResponseCopyWith(AddCommentReactionResponse value, $Res Function(AddCommentReactionResponse) _then) = _$AddCommentReactionResponseCopyWithImpl;
+@useResult
+$Res call({
+ CommentResponse comment, String duration, bool? notificationCreated, FeedsReactionResponse reaction
+});
 
+
+
+
+}
 /// @nodoc
 class _$AddCommentReactionResponseCopyWithImpl<$Res>
     implements $AddCommentReactionResponseCopyWith<$Res> {
@@ -74,35 +60,20 @@ class _$AddCommentReactionResponseCopyWithImpl<$Res>
   final AddCommentReactionResponse _self;
   final $Res Function(AddCommentReactionResponse) _then;
 
-  /// Create a copy of AddCommentReactionResponse
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? comment = null,
-    Object? duration = null,
-    Object? notificationCreated = freezed,
-    Object? reaction = null,
-  }) {
-    return _then(AddCommentReactionResponse(
-      comment: null == comment
-          ? _self.comment
-          : comment // ignore: cast_nullable_to_non_nullable
-              as CommentResponse,
-      duration: null == duration
-          ? _self.duration
-          : duration // ignore: cast_nullable_to_non_nullable
-              as String,
-      notificationCreated: freezed == notificationCreated
-          ? _self.notificationCreated
-          : notificationCreated // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      reaction: null == reaction
-          ? _self.reaction
-          : reaction // ignore: cast_nullable_to_non_nullable
-              as FeedsReactionResponse,
-    ));
-  }
+/// Create a copy of AddCommentReactionResponse
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? comment = null,Object? duration = null,Object? notificationCreated = freezed,Object? reaction = null,}) {
+  return _then(AddCommentReactionResponse(
+comment: null == comment ? _self.comment : comment // ignore: cast_nullable_to_non_nullable
+as CommentResponse,duration: null == duration ? _self.duration : duration // ignore: cast_nullable_to_non_nullable
+as String,notificationCreated: freezed == notificationCreated ? _self.notificationCreated : notificationCreated // ignore: cast_nullable_to_non_nullable
+as bool?,reaction: null == reaction ? _self.reaction : reaction // ignore: cast_nullable_to_non_nullable
+as FeedsReactionResponse,
+  ));
 }
+
+}
+
+
 
 // dart format on
