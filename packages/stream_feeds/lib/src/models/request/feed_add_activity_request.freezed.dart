@@ -18,17 +18,20 @@ mixin _$FeedAddActivityRequest {
   List<Attachment>? get attachments;
   List<StreamAttachment>? get attachmentUploads;
   List<String>? get collectionRefs;
+  bool? get createNotificationActivity;
   Map<String, Object>? get custom;
+  bool? get enrichOwnFields;
   String? get expiresAt;
   List<String> get feeds;
   List<String>? get filterTags;
   String? get id;
   List<String>? get interestTags;
-  ActivityLocation? get location;
+  LocationCoordinate? get location;
   List<String>? get mentionedUserIds;
   String? get parentId;
   String? get pollId;
   Map<String, Object>? get searchData;
+  bool? get skipPush;
   String? get text;
   String get type;
   AddActivityRequestVisibility? get visibility;
@@ -53,7 +56,13 @@ mixin _$FeedAddActivityRequest {
                 .equals(other.attachmentUploads, attachmentUploads) &&
             const DeepCollectionEquality()
                 .equals(other.collectionRefs, collectionRefs) &&
+            (identical(other.createNotificationActivity,
+                    createNotificationActivity) ||
+                other.createNotificationActivity ==
+                    createNotificationActivity) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
+            (identical(other.enrichOwnFields, enrichOwnFields) ||
+                other.enrichOwnFields == enrichOwnFields) &&
             (identical(other.expiresAt, expiresAt) ||
                 other.expiresAt == expiresAt) &&
             const DeepCollectionEquality().equals(other.feeds, feeds) &&
@@ -71,6 +80,8 @@ mixin _$FeedAddActivityRequest {
             (identical(other.pollId, pollId) || other.pollId == pollId) &&
             const DeepCollectionEquality()
                 .equals(other.searchData, searchData) &&
+            (identical(other.skipPush, skipPush) ||
+                other.skipPush == skipPush) &&
             (identical(other.text, text) || other.text == text) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.visibility, visibility) ||
@@ -80,30 +91,34 @@ mixin _$FeedAddActivityRequest {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(attachments),
-      const DeepCollectionEquality().hash(attachmentUploads),
-      const DeepCollectionEquality().hash(collectionRefs),
-      const DeepCollectionEquality().hash(custom),
-      expiresAt,
-      const DeepCollectionEquality().hash(feeds),
-      const DeepCollectionEquality().hash(filterTags),
-      id,
-      const DeepCollectionEquality().hash(interestTags),
-      location,
-      const DeepCollectionEquality().hash(mentionedUserIds),
-      parentId,
-      pollId,
-      const DeepCollectionEquality().hash(searchData),
-      text,
-      type,
-      visibility,
-      visibilityTag);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        const DeepCollectionEquality().hash(attachments),
+        const DeepCollectionEquality().hash(attachmentUploads),
+        const DeepCollectionEquality().hash(collectionRefs),
+        createNotificationActivity,
+        const DeepCollectionEquality().hash(custom),
+        enrichOwnFields,
+        expiresAt,
+        const DeepCollectionEquality().hash(feeds),
+        const DeepCollectionEquality().hash(filterTags),
+        id,
+        const DeepCollectionEquality().hash(interestTags),
+        location,
+        const DeepCollectionEquality().hash(mentionedUserIds),
+        parentId,
+        pollId,
+        const DeepCollectionEquality().hash(searchData),
+        skipPush,
+        text,
+        type,
+        visibility,
+        visibilityTag
+      ]);
 
   @override
   String toString() {
-    return 'FeedAddActivityRequest(attachments: $attachments, attachmentUploads: $attachmentUploads, collectionRefs: $collectionRefs, custom: $custom, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, id: $id, interestTags: $interestTags, location: $location, mentionedUserIds: $mentionedUserIds, parentId: $parentId, pollId: $pollId, searchData: $searchData, text: $text, type: $type, visibility: $visibility, visibilityTag: $visibilityTag)';
+    return 'FeedAddActivityRequest(attachments: $attachments, attachmentUploads: $attachmentUploads, collectionRefs: $collectionRefs, createNotificationActivity: $createNotificationActivity, custom: $custom, enrichOwnFields: $enrichOwnFields, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, id: $id, interestTags: $interestTags, location: $location, mentionedUserIds: $mentionedUserIds, parentId: $parentId, pollId: $pollId, searchData: $searchData, skipPush: $skipPush, text: $text, type: $type, visibility: $visibility, visibilityTag: $visibilityTag)';
   }
 }
 
@@ -119,16 +134,19 @@ abstract mixin class $FeedAddActivityRequestCopyWith<$Res> {
       List<Attachment>? attachments,
       List<StreamAttachment>? attachmentUploads,
       List<String>? collectionRefs,
+      bool? createNotificationActivity,
       Map<String, Object>? custom,
+      bool? enrichOwnFields,
       String? expiresAt,
       List<String>? filterTags,
       String? id,
       List<String>? interestTags,
-      ActivityLocation? location,
+      LocationCoordinate? location,
       List<String>? mentionedUserIds,
       String? parentId,
       String? pollId,
       Map<String, Object>? searchData,
+      bool? skipPush,
       String? text,
       AddActivityRequestVisibility? visibility,
       String? visibilityTag});
@@ -152,7 +170,9 @@ class _$FeedAddActivityRequestCopyWithImpl<$Res>
     Object? attachments = freezed,
     Object? attachmentUploads = freezed,
     Object? collectionRefs = freezed,
+    Object? createNotificationActivity = freezed,
     Object? custom = freezed,
+    Object? enrichOwnFields = freezed,
     Object? expiresAt = freezed,
     Object? filterTags = freezed,
     Object? id = freezed,
@@ -162,6 +182,7 @@ class _$FeedAddActivityRequestCopyWithImpl<$Res>
     Object? parentId = freezed,
     Object? pollId = freezed,
     Object? searchData = freezed,
+    Object? skipPush = freezed,
     Object? text = freezed,
     Object? visibility = freezed,
     Object? visibilityTag = freezed,
@@ -187,10 +208,18 @@ class _$FeedAddActivityRequestCopyWithImpl<$Res>
           ? _self.collectionRefs
           : collectionRefs // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      createNotificationActivity: freezed == createNotificationActivity
+          ? _self.createNotificationActivity
+          : createNotificationActivity // ignore: cast_nullable_to_non_nullable
+              as bool?,
       custom: freezed == custom
           ? _self.custom
           : custom // ignore: cast_nullable_to_non_nullable
               as Map<String, Object>?,
+      enrichOwnFields: freezed == enrichOwnFields
+          ? _self.enrichOwnFields
+          : enrichOwnFields // ignore: cast_nullable_to_non_nullable
+              as bool?,
       expiresAt: freezed == expiresAt
           ? _self.expiresAt
           : expiresAt // ignore: cast_nullable_to_non_nullable
@@ -210,7 +239,7 @@ class _$FeedAddActivityRequestCopyWithImpl<$Res>
       location: freezed == location
           ? _self.location
           : location // ignore: cast_nullable_to_non_nullable
-              as ActivityLocation?,
+              as LocationCoordinate?,
       mentionedUserIds: freezed == mentionedUserIds
           ? _self.mentionedUserIds
           : mentionedUserIds // ignore: cast_nullable_to_non_nullable
@@ -227,6 +256,10 @@ class _$FeedAddActivityRequestCopyWithImpl<$Res>
           ? _self.searchData
           : searchData // ignore: cast_nullable_to_non_nullable
               as Map<String, Object>?,
+      skipPush: freezed == skipPush
+          ? _self.skipPush
+          : skipPush // ignore: cast_nullable_to_non_nullable
+              as bool?,
       text: freezed == text
           ? _self.text
           : text // ignore: cast_nullable_to_non_nullable

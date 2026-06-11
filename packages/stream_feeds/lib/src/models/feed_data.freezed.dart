@@ -26,6 +26,7 @@ mixin _$FeedData {
   int get followingCount;
   String get groupId;
   String get id;
+  LocationCoordinate? get location;
   int get memberCount;
   String get name;
   List<FeedOwnCapability> get ownCapabilities;
@@ -68,6 +69,8 @@ mixin _$FeedData {
                 other.followingCount == followingCount) &&
             (identical(other.groupId, groupId) || other.groupId == groupId) &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.location, location) ||
+                other.location == location) &&
             (identical(other.memberCount, memberCount) ||
                 other.memberCount == memberCount) &&
             (identical(other.name, name) || other.name == name) &&
@@ -102,6 +105,7 @@ mixin _$FeedData {
         followingCount,
         groupId,
         id,
+        location,
         memberCount,
         name,
         const DeepCollectionEquality().hash(ownCapabilities),
@@ -116,7 +120,7 @@ mixin _$FeedData {
 
   @override
   String toString() {
-    return 'FeedData(activityCount: $activityCount, createdAt: $createdAt, createdBy: $createdBy, deletedAt: $deletedAt, description: $description, fid: $fid, filterTags: $filterTags, followerCount: $followerCount, followingCount: $followingCount, groupId: $groupId, id: $id, memberCount: $memberCount, name: $name, ownCapabilities: $ownCapabilities, ownMembership: $ownMembership, ownFollowings: $ownFollowings, ownFollows: $ownFollows, pinCount: $pinCount, updatedAt: $updatedAt, visibility: $visibility, custom: $custom)';
+    return 'FeedData(activityCount: $activityCount, createdAt: $createdAt, createdBy: $createdBy, deletedAt: $deletedAt, description: $description, fid: $fid, filterTags: $filterTags, followerCount: $followerCount, followingCount: $followingCount, groupId: $groupId, id: $id, location: $location, memberCount: $memberCount, name: $name, ownCapabilities: $ownCapabilities, ownMembership: $ownMembership, ownFollowings: $ownFollowings, ownFollows: $ownFollows, pinCount: $pinCount, updatedAt: $updatedAt, visibility: $visibility, custom: $custom)';
   }
 }
 
@@ -137,6 +141,7 @@ abstract mixin class $FeedDataCopyWith<$Res> {
       int followingCount,
       String groupId,
       String id,
+      LocationCoordinate? location,
       int memberCount,
       String name,
       List<FeedOwnCapability> ownCapabilities,
@@ -172,6 +177,7 @@ class _$FeedDataCopyWithImpl<$Res> implements $FeedDataCopyWith<$Res> {
     Object? followingCount = null,
     Object? groupId = null,
     Object? id = null,
+    Object? location = freezed,
     Object? memberCount = null,
     Object? name = null,
     Object? ownCapabilities = null,
@@ -228,6 +234,10 @@ class _$FeedDataCopyWithImpl<$Res> implements $FeedDataCopyWith<$Res> {
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
+      location: freezed == location
+          ? _self.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as LocationCoordinate?,
       memberCount: null == memberCount
           ? _self.memberCount
           : memberCount // ignore: cast_nullable_to_non_nullable

@@ -22,7 +22,9 @@ class FeedAddActivityRequest
     this.attachments,
     this.attachmentUploads,
     this.collectionRefs,
+    this.createNotificationActivity,
     this.custom,
+    this.enrichOwnFields,
     this.expiresAt,
     this.filterTags,
     this.id,
@@ -32,6 +34,7 @@ class FeedAddActivityRequest
     this.parentId,
     this.pollId,
     this.searchData,
+    this.skipPush,
     this.text,
     this.visibility,
     this.visibilityTag,
@@ -53,9 +56,22 @@ class FeedAddActivityRequest
   @override
   final List<String>? collectionRefs;
 
+  /// Whether to create a notification activity for this activity.
+  ///
+  /// When `true`, the backend will create a notification activity for this activity.
+  @override
+  final bool? createNotificationActivity;
+
   /// Custom data associated with the activity.
   @override
   final Map<String, Object>? custom;
+
+  /// Whether to enrich own fields in the activity response.
+  ///
+  /// When `true`, the response will include enriched own-data fields such
+  /// as own reactions and bookmarks.
+  @override
+  final bool? enrichOwnFields;
 
   /// Optional expiration date for the activity.
   @override
@@ -79,7 +95,7 @@ class FeedAddActivityRequest
 
   /// Optional location data for the activity.
   @override
-  final ActivityLocation? location;
+  final LocationCoordinate? location;
 
   /// Optional list of user IDs mentioned in the activity.
   @override
@@ -96,6 +112,12 @@ class FeedAddActivityRequest
   /// Optional search metadata for enhanced discoverability.
   @override
   final Map<String, Object>? searchData;
+
+  /// Whether to skip push notifications for this activity.
+  ///
+  /// When `true`, no push notifications are sent to followers.
+  @override
+  final bool? skipPush;
 
   /// Optional text content of the activity.
   @override
@@ -138,16 +160,21 @@ extension FeedAddActivityRequestMapper on FeedAddActivityRequest {
       feeds: feeds,
       attachments: attachments,
       collectionRefs: collectionRefs,
+      createNotificationActivity: createNotificationActivity,
       custom: custom,
+      enrichOwnFields: enrichOwnFields,
       expiresAt: expiresAt,
       filterTags: filterTags,
       id: id,
       interestTags: interestTags,
-      location: location,
+      location: location?.let(
+        (it) => Location(lat: it.latitude, lng: it.longitude),
+      ),
       mentionedUserIds: mentionedUserIds,
       parentId: parentId,
       pollId: pollId,
       searchData: searchData,
+      skipPush: skipPush,
       text: text,
       visibility: visibility,
       visibilityTag: visibilityTag,

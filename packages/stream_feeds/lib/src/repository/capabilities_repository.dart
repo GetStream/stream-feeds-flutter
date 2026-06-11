@@ -26,7 +26,8 @@ class CapabilitiesRepository {
       final ownCapabilities = <String, List<FeedOwnCapability>>{};
       for (final MapEntry(:key, :value) in response.data.entries) {
         if (value.ownCapabilities case final capabilities?) {
-          ownCapabilities[key] = capabilities;
+          ownCapabilities[key] =
+              capabilities.map((e) => FeedOwnCapability.values.byName(e.name)).toList();
         }
       }
 

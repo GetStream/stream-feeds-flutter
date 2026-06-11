@@ -41,3 +41,15 @@ extension ReactionGroupResponseMapper on ReactionGroupResponse {
     );
   }
 }
+
+/// Extension function to convert a [FeedsReactionGroupResponse] to a [ReactionGroupData] model.
+extension FeedsReactionGroupResponseMapper on FeedsReactionGroupResponse {
+  /// Converts this API feeds reaction group response to a domain [ReactionGroupData] instance.
+  ReactionGroupData toModel() {
+    return ReactionGroupData(
+      count: count,
+      firstReactionAt: firstReactionAt,
+      lastReactionAt: lastReactionAt,
+    );
+  }
+}

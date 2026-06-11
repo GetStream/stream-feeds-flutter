@@ -19,6 +19,8 @@ mixin _$AggregatedActivityData {
   int get activityCount;
   DateTime get createdAt;
   String get group;
+  bool? get isRead;
+  bool? get isSeen;
   double get score;
   DateTime get updatedAt;
   int get userCount;
@@ -43,6 +45,8 @@ mixin _$AggregatedActivityData {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.group, group) || other.group == group) &&
+            (identical(other.isRead, isRead) || other.isRead == isRead) &&
+            (identical(other.isSeen, isSeen) || other.isSeen == isSeen) &&
             (identical(other.score, score) || other.score == score) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
@@ -57,13 +61,15 @@ mixin _$AggregatedActivityData {
       activityCount,
       createdAt,
       group,
+      isRead,
+      isSeen,
       score,
       updatedAt,
       userCount);
 
   @override
   String toString() {
-    return 'AggregatedActivityData(activities: $activities, activityCount: $activityCount, createdAt: $createdAt, group: $group, score: $score, updatedAt: $updatedAt, userCount: $userCount)';
+    return 'AggregatedActivityData(activities: $activities, activityCount: $activityCount, createdAt: $createdAt, group: $group, isRead: $isRead, isSeen: $isSeen, score: $score, updatedAt: $updatedAt, userCount: $userCount)';
   }
 }
 
@@ -78,6 +84,8 @@ abstract mixin class $AggregatedActivityDataCopyWith<$Res> {
       int activityCount,
       DateTime createdAt,
       String group,
+      bool? isRead,
+      bool? isSeen,
       double score,
       DateTime updatedAt,
       int userCount});
@@ -100,6 +108,8 @@ class _$AggregatedActivityDataCopyWithImpl<$Res>
     Object? activityCount = null,
     Object? createdAt = null,
     Object? group = null,
+    Object? isRead = freezed,
+    Object? isSeen = freezed,
     Object? score = null,
     Object? updatedAt = null,
     Object? userCount = null,
@@ -121,6 +131,14 @@ class _$AggregatedActivityDataCopyWithImpl<$Res>
           ? _self.group
           : group // ignore: cast_nullable_to_non_nullable
               as String,
+      isRead: freezed == isRead
+          ? _self.isRead
+          : isRead // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isSeen: freezed == isSeen
+          ? _self.isSeen
+          : isSeen // ignore: cast_nullable_to_non_nullable
+              as bool?,
       score: null == score
           ? _self.score
           : score // ignore: cast_nullable_to_non_nullable

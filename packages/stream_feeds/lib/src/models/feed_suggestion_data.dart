@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:stream_core/stream_core.dart';
 
 import '../generated/api/models.dart';
 import 'feed_data.dart';
@@ -66,20 +67,50 @@ extension FeedSuggestionResponseMapper on FeedSuggestionResponse {
         followingCount: followingCount,
         groupId: groupId,
         id: id,
+        location: location?.let(
+          (it) => LocationCoordinate(
+            latitude: it.lat,
+            longitude: it.lng,
+          ),
+        ),
         memberCount: memberCount,
         name: name,
-        ownCapabilities: ownCapabilities ?? const [],
+        ownCapabilities:
+            ownCapabilities?.map((e) => e.toModel()).toList() ?? const [],
         ownMembership: ownMembership?.toModel(),
         ownFollowings: ownFollowings?.map((f) => f.toModel()).toList(),
         ownFollows: ownFollows?.map((f) => f.toModel()).toList(),
         pinCount: pinCount,
         updatedAt: updatedAt,
-        visibility: visibility,
+        visibility: visibility?.toModel(),
         custom: custom,
       ),
       algorithmScores: algorithmScores,
       reason: reason,
       recommendationScore: recommendationScore,
     );
+  }
+}
+
+/// Extension to map [FeedSuggestionResponseOwnCapabilities] to the canonical [FeedOwnCapability].
+extension FeedSuggestionResponseOwnCapabilitiesMapper
+    on FeedSuggestionResponseOwnCapabilities {
+  /// Converts this response-specific capability enum to the canonical [FeedOwnCapability].
+  FeedOwnCapability toModel() => FeedOwnCapability.values.byName(name);
+}
+
+/// Extension to map [FeedSuggestionResponseVisibility] to its wire-value string.
+extension FeedSuggestionResponseVisibilityMapper
+    on FeedSuggestionResponseVisibility {
+  /// Returns the API wire value string for this visibility.
+  String toModel() {
+    return switch (this) {
+      FeedSuggestionResponseVisibility.followers => 'followers',
+      FeedSuggestionResponseVisibility.members => 'members',
+      FeedSuggestionResponseVisibility.private => 'private',
+      FeedSuggestionResponseVisibility.public => 'public',
+      FeedSuggestionResponseVisibility.visible => 'visible',
+      FeedSuggestionResponseVisibility.unknown => 'unknown',
+    };
   }
 }

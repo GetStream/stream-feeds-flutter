@@ -42,6 +42,12 @@ sealed class StateUpdateEvent implements StreamEvent {
       return ActivityDeleted(scope: fid, activityId: activityId);
     }
 
+    if (event is api.ActivityRestoredEvent) {
+      final fid = FidScope.of(event.fid);
+      final activity = event.activity.toModel();
+      return ActivityAdded(scope: fid, activity: activity);
+    }
+
     if (event is api.ActivityRemovedFromFeedEvent) {
       final fid = FidScope.of(event.fid);
       final activityId = event.activity.id;
@@ -167,6 +173,12 @@ sealed class StateUpdateEvent implements StreamEvent {
       final fid = FidScope.of(event.fid);
       final comment = event.comment.toModel();
       return CommentDeleted(scope: fid, comment: comment);
+    }
+
+    if (event is api.CommentRestoredEvent) {
+      final fid = FidScope.of(event.fid);
+      final comment = event.comment.toModel();
+      return CommentAdded(scope: fid, comment: comment);
     }
 
     // Comment Reaction Events

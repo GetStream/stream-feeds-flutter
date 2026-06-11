@@ -27,12 +27,17 @@ mixin _$ActivityData {
   DateTime? get expiresAt;
   List<String> get feeds;
   List<String> get filterTags;
+  int? get friendReactionCount;
+  List<FeedsReactionData> get friendReactions;
   String get id;
   List<String> get interestTags;
+  bool? get isRead;
+  bool? get isSeen;
   bool? get isWatched;
   List<FeedsReactionData> get latestReactions;
   LocationCoordinate? get location;
   List<UserData> get mentionedUsers;
+  Map<String, int> get metrics;
   Moderation? get moderation;
   NotificationContext? get notificationContext;
   List<BookmarkData> get ownBookmarks;
@@ -90,9 +95,15 @@ mixin _$ActivityData {
             const DeepCollectionEquality().equals(other.feeds, feeds) &&
             const DeepCollectionEquality()
                 .equals(other.filterTags, filterTags) &&
+            (identical(other.friendReactionCount, friendReactionCount) ||
+                other.friendReactionCount == friendReactionCount) &&
+            const DeepCollectionEquality()
+                .equals(other.friendReactions, friendReactions) &&
             (identical(other.id, id) || other.id == id) &&
             const DeepCollectionEquality()
                 .equals(other.interestTags, interestTags) &&
+            (identical(other.isRead, isRead) || other.isRead == isRead) &&
+            (identical(other.isSeen, isSeen) || other.isSeen == isSeen) &&
             (identical(other.isWatched, isWatched) ||
                 other.isWatched == isWatched) &&
             const DeepCollectionEquality()
@@ -101,6 +112,7 @@ mixin _$ActivityData {
                 other.location == location) &&
             const DeepCollectionEquality()
                 .equals(other.mentionedUsers, mentionedUsers) &&
+            const DeepCollectionEquality().equals(other.metrics, metrics) &&
             (identical(other.moderation, moderation) ||
                 other.moderation == moderation) &&
             (identical(other.notificationContext, notificationContext) ||
@@ -151,12 +163,17 @@ mixin _$ActivityData {
         expiresAt,
         const DeepCollectionEquality().hash(feeds),
         const DeepCollectionEquality().hash(filterTags),
+        friendReactionCount,
+        const DeepCollectionEquality().hash(friendReactions),
         id,
         const DeepCollectionEquality().hash(interestTags),
+        isRead,
+        isSeen,
         isWatched,
         const DeepCollectionEquality().hash(latestReactions),
         location,
         const DeepCollectionEquality().hash(mentionedUsers),
+        const DeepCollectionEquality().hash(metrics),
         moderation,
         notificationContext,
         const DeepCollectionEquality().hash(ownBookmarks),
@@ -182,7 +199,7 @@ mixin _$ActivityData {
 
   @override
   String toString() {
-    return 'ActivityData(attachments: $attachments, bookmarkCount: $bookmarkCount, collections: $collections, commentCount: $commentCount, comments: $comments, createdAt: $createdAt, currentFeed: $currentFeed, deletedAt: $deletedAt, editedAt: $editedAt, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, id: $id, interestTags: $interestTags, isWatched: $isWatched, latestReactions: $latestReactions, location: $location, mentionedUsers: $mentionedUsers, moderation: $moderation, notificationContext: $notificationContext, ownBookmarks: $ownBookmarks, ownReactions: $ownReactions, parent: $parent, poll: $poll, popularity: $popularity, hidden: $hidden, preview: $preview, reactionCount: $reactionCount, reactionGroups: $reactionGroups, score: $score, searchData: $searchData, shareCount: $shareCount, text: $text, type: $type, updatedAt: $updatedAt, user: $user, visibility: $visibility, visibilityTag: $visibilityTag, custom: $custom)';
+    return 'ActivityData(attachments: $attachments, bookmarkCount: $bookmarkCount, collections: $collections, commentCount: $commentCount, comments: $comments, createdAt: $createdAt, currentFeed: $currentFeed, deletedAt: $deletedAt, editedAt: $editedAt, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, friendReactionCount: $friendReactionCount, friendReactions: $friendReactions, id: $id, interestTags: $interestTags, isRead: $isRead, isSeen: $isSeen, isWatched: $isWatched, latestReactions: $latestReactions, location: $location, mentionedUsers: $mentionedUsers, metrics: $metrics, moderation: $moderation, notificationContext: $notificationContext, ownBookmarks: $ownBookmarks, ownReactions: $ownReactions, parent: $parent, poll: $poll, popularity: $popularity, hidden: $hidden, preview: $preview, reactionCount: $reactionCount, reactionGroups: $reactionGroups, score: $score, searchData: $searchData, shareCount: $shareCount, text: $text, type: $type, updatedAt: $updatedAt, user: $user, visibility: $visibility, visibilityTag: $visibilityTag, custom: $custom)';
   }
 }
 
@@ -205,12 +222,17 @@ abstract mixin class $ActivityDataCopyWith<$Res> {
       DateTime? expiresAt,
       List<String> feeds,
       List<String> filterTags,
+      int? friendReactionCount,
+      List<FeedsReactionData> friendReactions,
       String id,
       List<String> interestTags,
+      bool? isRead,
+      bool? isSeen,
       bool? isWatched,
       List<FeedsReactionData> latestReactions,
       LocationCoordinate? location,
       List<UserData> mentionedUsers,
+      Map<String, int> metrics,
       Moderation? moderation,
       NotificationContext? notificationContext,
       List<BookmarkData> ownBookmarks,
@@ -258,12 +280,17 @@ class _$ActivityDataCopyWithImpl<$Res> implements $ActivityDataCopyWith<$Res> {
     Object? expiresAt = freezed,
     Object? feeds = null,
     Object? filterTags = null,
+    Object? friendReactionCount = freezed,
+    Object? friendReactions = null,
     Object? id = null,
     Object? interestTags = null,
+    Object? isRead = freezed,
+    Object? isSeen = freezed,
     Object? isWatched = freezed,
     Object? latestReactions = null,
     Object? location = freezed,
     Object? mentionedUsers = null,
+    Object? metrics = null,
     Object? moderation = freezed,
     Object? notificationContext = freezed,
     Object? ownBookmarks = null,
@@ -335,6 +362,14 @@ class _$ActivityDataCopyWithImpl<$Res> implements $ActivityDataCopyWith<$Res> {
           ? _self.filterTags
           : filterTags // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      friendReactionCount: freezed == friendReactionCount
+          ? _self.friendReactionCount
+          : friendReactionCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      friendReactions: null == friendReactions
+          ? _self.friendReactions
+          : friendReactions // ignore: cast_nullable_to_non_nullable
+              as List<FeedsReactionData>,
       id: null == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -343,6 +378,14 @@ class _$ActivityDataCopyWithImpl<$Res> implements $ActivityDataCopyWith<$Res> {
           ? _self.interestTags
           : interestTags // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      isRead: freezed == isRead
+          ? _self.isRead
+          : isRead // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isSeen: freezed == isSeen
+          ? _self.isSeen
+          : isSeen // ignore: cast_nullable_to_non_nullable
+              as bool?,
       isWatched: freezed == isWatched
           ? _self.isWatched
           : isWatched // ignore: cast_nullable_to_non_nullable
@@ -359,6 +402,10 @@ class _$ActivityDataCopyWithImpl<$Res> implements $ActivityDataCopyWith<$Res> {
           ? _self.mentionedUsers
           : mentionedUsers // ignore: cast_nullable_to_non_nullable
               as List<UserData>,
+      metrics: null == metrics
+          ? _self.metrics
+          : metrics // ignore: cast_nullable_to_non_nullable
+              as Map<String, int>,
       moderation: freezed == moderation
           ? _self.moderation
           : moderation // ignore: cast_nullable_to_non_nullable
