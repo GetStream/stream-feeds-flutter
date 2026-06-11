@@ -1,6 +1,6 @@
 # Docs on data driven fixes: https://github.com/flutter/flutter/blob/master/docs/contributing/Data-driven-Fixes.md
 
-version: 2
+version: 1
 transforms:
   #region Version 0.3.1: Rename of addReaction and deleteReaction to more specific names addActivityReaction and deleteActivityReaction
   - title: "rename addReaction to addActivityReaction"
