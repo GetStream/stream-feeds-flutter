@@ -9,70 +9,88 @@ part of 'channel_push_preferences_response.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$ChannelPushPreferencesResponse {
+  String? get chatLevel;
+  ChatPreferencesResponse? get chatPreferences;
+  DateTime? get disabledUntil;
 
- String? get chatLevel; ChatPreferencesResponse? get chatPreferences; DateTime? get disabledUntil;
-/// Create a copy of ChannelPushPreferencesResponse
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$ChannelPushPreferencesResponseCopyWith<ChannelPushPreferencesResponse> get copyWith => _$ChannelPushPreferencesResponseCopyWithImpl<ChannelPushPreferencesResponse>(this as ChannelPushPreferencesResponse, _$identity);
+  /// Create a copy of ChannelPushPreferencesResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $ChannelPushPreferencesResponseCopyWith<ChannelPushPreferencesResponse> get copyWith =>
+      _$ChannelPushPreferencesResponseCopyWithImpl<ChannelPushPreferencesResponse>(
+        this as ChannelPushPreferencesResponse,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ChannelPushPreferencesResponse &&
+            (identical(other.chatLevel, chatLevel) || other.chatLevel == chatLevel) &&
+            (identical(other.chatPreferences, chatPreferences) || other.chatPreferences == chatPreferences) &&
+            (identical(other.disabledUntil, disabledUntil) || other.disabledUntil == disabledUntil));
+  }
 
+  @override
+  int get hashCode => Object.hash(runtimeType, chatLevel, chatPreferences, disabledUntil);
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChannelPushPreferencesResponse&&(identical(other.chatLevel, chatLevel) || other.chatLevel == chatLevel)&&(identical(other.chatPreferences, chatPreferences) || other.chatPreferences == chatPreferences)&&(identical(other.disabledUntil, disabledUntil) || other.disabledUntil == disabledUntil));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,chatLevel,chatPreferences,disabledUntil);
-
-@override
-String toString() {
-  return 'ChannelPushPreferencesResponse(chatLevel: $chatLevel, chatPreferences: $chatPreferences, disabledUntil: $disabledUntil)';
-}
-
-
+  @override
+  String toString() {
+    return 'ChannelPushPreferencesResponse(chatLevel: $chatLevel, chatPreferences: $chatPreferences, disabledUntil: $disabledUntil)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $ChannelPushPreferencesResponseCopyWith<$Res>  {
-  factory $ChannelPushPreferencesResponseCopyWith(ChannelPushPreferencesResponse value, $Res Function(ChannelPushPreferencesResponse) _then) = _$ChannelPushPreferencesResponseCopyWithImpl;
-@useResult
-$Res call({
- String? chatLevel, ChatPreferencesResponse? chatPreferences, DateTime? disabledUntil
-});
-
-
-
-
+abstract mixin class $ChannelPushPreferencesResponseCopyWith<$Res> {
+  factory $ChannelPushPreferencesResponseCopyWith(
+    ChannelPushPreferencesResponse value,
+    $Res Function(ChannelPushPreferencesResponse) _then,
+  ) = _$ChannelPushPreferencesResponseCopyWithImpl;
+  @useResult
+  $Res call({
+    String? chatLevel,
+    ChatPreferencesResponse? chatPreferences,
+    DateTime? disabledUntil,
+  });
 }
+
 /// @nodoc
-class _$ChannelPushPreferencesResponseCopyWithImpl<$Res>
-    implements $ChannelPushPreferencesResponseCopyWith<$Res> {
+class _$ChannelPushPreferencesResponseCopyWithImpl<$Res> implements $ChannelPushPreferencesResponseCopyWith<$Res> {
   _$ChannelPushPreferencesResponseCopyWithImpl(this._self, this._then);
 
   final ChannelPushPreferencesResponse _self;
   final $Res Function(ChannelPushPreferencesResponse) _then;
 
-/// Create a copy of ChannelPushPreferencesResponse
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? chatLevel = freezed,Object? chatPreferences = freezed,Object? disabledUntil = freezed,}) {
-  return _then(ChannelPushPreferencesResponse(
-chatLevel: freezed == chatLevel ? _self.chatLevel : chatLevel // ignore: cast_nullable_to_non_nullable
-as String?,chatPreferences: freezed == chatPreferences ? _self.chatPreferences : chatPreferences // ignore: cast_nullable_to_non_nullable
-as ChatPreferencesResponse?,disabledUntil: freezed == disabledUntil ? _self.disabledUntil : disabledUntil // ignore: cast_nullable_to_non_nullable
-as DateTime?,
-  ));
+  /// Create a copy of ChannelPushPreferencesResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? chatLevel = freezed,
+    Object? chatPreferences = freezed,
+    Object? disabledUntil = freezed,
+  }) {
+    return _then(
+      ChannelPushPreferencesResponse(
+        chatLevel: freezed == chatLevel
+            ? _self.chatLevel
+            : chatLevel // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        chatPreferences: freezed == chatPreferences
+            ? _self.chatPreferences
+            : chatPreferences // ignore: cast_nullable_to_non_nullable
+                  as ChatPreferencesResponse?,
+        disabledUntil: freezed == disabledUntil
+            ? _self.disabledUntil
+            : disabledUntil // ignore: cast_nullable_to_non_nullable
+                  as DateTime?,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

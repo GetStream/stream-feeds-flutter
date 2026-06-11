@@ -9,69 +9,73 @@ part of 'get_config_response.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$GetConfigResponse {
+  ConfigResponse? get config;
+  String get duration;
 
- ConfigResponse? get config; String get duration;
-/// Create a copy of GetConfigResponse
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$GetConfigResponseCopyWith<GetConfigResponse> get copyWith => _$GetConfigResponseCopyWithImpl<GetConfigResponse>(this as GetConfigResponse, _$identity);
+  /// Create a copy of GetConfigResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $GetConfigResponseCopyWith<GetConfigResponse> get copyWith => _$GetConfigResponseCopyWithImpl<GetConfigResponse>(
+    this as GetConfigResponse,
+    _$identity,
+  );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is GetConfigResponse &&
+            (identical(other.config, config) || other.config == config) &&
+            (identical(other.duration, duration) || other.duration == duration));
+  }
 
+  @override
+  int get hashCode => Object.hash(runtimeType, config, duration);
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is GetConfigResponse&&(identical(other.config, config) || other.config == config)&&(identical(other.duration, duration) || other.duration == duration));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,config,duration);
-
-@override
-String toString() {
-  return 'GetConfigResponse(config: $config, duration: $duration)';
-}
-
-
+  @override
+  String toString() {
+    return 'GetConfigResponse(config: $config, duration: $duration)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $GetConfigResponseCopyWith<$Res>  {
-  factory $GetConfigResponseCopyWith(GetConfigResponse value, $Res Function(GetConfigResponse) _then) = _$GetConfigResponseCopyWithImpl;
-@useResult
-$Res call({
- ConfigResponse? config, String duration
-});
-
-
-
-
+abstract mixin class $GetConfigResponseCopyWith<$Res> {
+  factory $GetConfigResponseCopyWith(
+    GetConfigResponse value,
+    $Res Function(GetConfigResponse) _then,
+  ) = _$GetConfigResponseCopyWithImpl;
+  @useResult
+  $Res call({ConfigResponse? config, String duration});
 }
+
 /// @nodoc
-class _$GetConfigResponseCopyWithImpl<$Res>
-    implements $GetConfigResponseCopyWith<$Res> {
+class _$GetConfigResponseCopyWithImpl<$Res> implements $GetConfigResponseCopyWith<$Res> {
   _$GetConfigResponseCopyWithImpl(this._self, this._then);
 
   final GetConfigResponse _self;
   final $Res Function(GetConfigResponse) _then;
 
-/// Create a copy of GetConfigResponse
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? config = freezed,Object? duration = null,}) {
-  return _then(GetConfigResponse(
-config: freezed == config ? _self.config : config // ignore: cast_nullable_to_non_nullable
-as ConfigResponse?,duration: null == duration ? _self.duration : duration // ignore: cast_nullable_to_non_nullable
-as String,
-  ));
+  /// Create a copy of GetConfigResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? config = freezed, Object? duration = null}) {
+    return _then(
+      GetConfigResponse(
+        config: freezed == config
+            ? _self.config
+            : config // ignore: cast_nullable_to_non_nullable
+                  as ConfigResponse?,
+        duration: null == duration
+            ? _self.duration
+            : duration // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

@@ -9,70 +9,93 @@ part of 'follow_batch_response.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$FollowBatchResponse {
+  List<FollowResponse> get created;
+  String get duration;
+  List<FollowResponse> get follows;
 
- List<FollowResponse> get created; String get duration; List<FollowResponse> get follows;
-/// Create a copy of FollowBatchResponse
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$FollowBatchResponseCopyWith<FollowBatchResponse> get copyWith => _$FollowBatchResponseCopyWithImpl<FollowBatchResponse>(this as FollowBatchResponse, _$identity);
+  /// Create a copy of FollowBatchResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $FollowBatchResponseCopyWith<FollowBatchResponse> get copyWith =>
+      _$FollowBatchResponseCopyWithImpl<FollowBatchResponse>(
+        this as FollowBatchResponse,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FollowBatchResponse &&
+            const DeepCollectionEquality().equals(other.created, created) &&
+            (identical(other.duration, duration) || other.duration == duration) &&
+            const DeepCollectionEquality().equals(other.follows, follows));
+  }
 
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(created),
+    duration,
+    const DeepCollectionEquality().hash(follows),
+  );
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FollowBatchResponse&&const DeepCollectionEquality().equals(other.created, created)&&(identical(other.duration, duration) || other.duration == duration)&&const DeepCollectionEquality().equals(other.follows, follows));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(created),duration,const DeepCollectionEquality().hash(follows));
-
-@override
-String toString() {
-  return 'FollowBatchResponse(created: $created, duration: $duration, follows: $follows)';
-}
-
-
+  @override
+  String toString() {
+    return 'FollowBatchResponse(created: $created, duration: $duration, follows: $follows)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $FollowBatchResponseCopyWith<$Res>  {
-  factory $FollowBatchResponseCopyWith(FollowBatchResponse value, $Res Function(FollowBatchResponse) _then) = _$FollowBatchResponseCopyWithImpl;
-@useResult
-$Res call({
- List<FollowResponse> created, String duration, List<FollowResponse> follows
-});
-
-
-
-
+abstract mixin class $FollowBatchResponseCopyWith<$Res> {
+  factory $FollowBatchResponseCopyWith(
+    FollowBatchResponse value,
+    $Res Function(FollowBatchResponse) _then,
+  ) = _$FollowBatchResponseCopyWithImpl;
+  @useResult
+  $Res call({
+    List<FollowResponse> created,
+    String duration,
+    List<FollowResponse> follows,
+  });
 }
+
 /// @nodoc
-class _$FollowBatchResponseCopyWithImpl<$Res>
-    implements $FollowBatchResponseCopyWith<$Res> {
+class _$FollowBatchResponseCopyWithImpl<$Res> implements $FollowBatchResponseCopyWith<$Res> {
   _$FollowBatchResponseCopyWithImpl(this._self, this._then);
 
   final FollowBatchResponse _self;
   final $Res Function(FollowBatchResponse) _then;
 
-/// Create a copy of FollowBatchResponse
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? created = null,Object? duration = null,Object? follows = null,}) {
-  return _then(FollowBatchResponse(
-created: null == created ? _self.created : created // ignore: cast_nullable_to_non_nullable
-as List<FollowResponse>,duration: null == duration ? _self.duration : duration // ignore: cast_nullable_to_non_nullable
-as String,follows: null == follows ? _self.follows : follows // ignore: cast_nullable_to_non_nullable
-as List<FollowResponse>,
-  ));
+  /// Create a copy of FollowBatchResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? created = null,
+    Object? duration = null,
+    Object? follows = null,
+  }) {
+    return _then(
+      FollowBatchResponse(
+        created: null == created
+            ? _self.created
+            : created // ignore: cast_nullable_to_non_nullable
+                  as List<FollowResponse>,
+        duration: null == duration
+            ? _self.duration
+            : duration // ignore: cast_nullable_to_non_nullable
+                  as String,
+        follows: null == follows
+            ? _self.follows
+            : follows // ignore: cast_nullable_to_non_nullable
+                  as List<FollowResponse>,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

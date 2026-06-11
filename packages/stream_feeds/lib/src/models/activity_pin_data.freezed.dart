@@ -9,72 +9,103 @@ part of 'activity_pin_data.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$ActivityPinData {
+  ActivityData get activity;
+  DateTime get createdAt;
+  FeedId get fid;
+  DateTime get updatedAt;
+  String get userId;
 
- ActivityData get activity; DateTime get createdAt; FeedId get fid; DateTime get updatedAt; String get userId;
-/// Create a copy of ActivityPinData
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$ActivityPinDataCopyWith<ActivityPinData> get copyWith => _$ActivityPinDataCopyWithImpl<ActivityPinData>(this as ActivityPinData, _$identity);
+  /// Create a copy of ActivityPinData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $ActivityPinDataCopyWith<ActivityPinData> get copyWith => _$ActivityPinDataCopyWithImpl<ActivityPinData>(
+    this as ActivityPinData,
+    _$identity,
+  );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ActivityPinData &&
+            (identical(other.activity, activity) || other.activity == activity) &&
+            (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
+            (identical(other.fid, fid) || other.fid == fid) &&
+            (identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt) &&
+            (identical(other.userId, userId) || other.userId == userId));
+  }
 
+  @override
+  int get hashCode => Object.hash(runtimeType, activity, createdAt, fid, updatedAt, userId);
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ActivityPinData&&(identical(other.activity, activity) || other.activity == activity)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.fid, fid) || other.fid == fid)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.userId, userId) || other.userId == userId));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,activity,createdAt,fid,updatedAt,userId);
-
-@override
-String toString() {
-  return 'ActivityPinData(activity: $activity, createdAt: $createdAt, fid: $fid, updatedAt: $updatedAt, userId: $userId)';
-}
-
-
+  @override
+  String toString() {
+    return 'ActivityPinData(activity: $activity, createdAt: $createdAt, fid: $fid, updatedAt: $updatedAt, userId: $userId)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $ActivityPinDataCopyWith<$Res>  {
-  factory $ActivityPinDataCopyWith(ActivityPinData value, $Res Function(ActivityPinData) _then) = _$ActivityPinDataCopyWithImpl;
-@useResult
-$Res call({
- ActivityData activity, DateTime createdAt, FeedId fid, DateTime updatedAt, String userId
-});
-
-
-
-
+abstract mixin class $ActivityPinDataCopyWith<$Res> {
+  factory $ActivityPinDataCopyWith(
+    ActivityPinData value,
+    $Res Function(ActivityPinData) _then,
+  ) = _$ActivityPinDataCopyWithImpl;
+  @useResult
+  $Res call({
+    ActivityData activity,
+    DateTime createdAt,
+    FeedId fid,
+    DateTime updatedAt,
+    String userId,
+  });
 }
+
 /// @nodoc
-class _$ActivityPinDataCopyWithImpl<$Res>
-    implements $ActivityPinDataCopyWith<$Res> {
+class _$ActivityPinDataCopyWithImpl<$Res> implements $ActivityPinDataCopyWith<$Res> {
   _$ActivityPinDataCopyWithImpl(this._self, this._then);
 
   final ActivityPinData _self;
   final $Res Function(ActivityPinData) _then;
 
-/// Create a copy of ActivityPinData
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? activity = null,Object? createdAt = null,Object? fid = null,Object? updatedAt = null,Object? userId = null,}) {
-  return _then(ActivityPinData(
-activity: null == activity ? _self.activity : activity // ignore: cast_nullable_to_non_nullable
-as ActivityData,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
-as DateTime,fid: null == fid ? _self.fid : fid // ignore: cast_nullable_to_non_nullable
-as FeedId,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
-as DateTime,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
-as String,
-  ));
+  /// Create a copy of ActivityPinData
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? activity = null,
+    Object? createdAt = null,
+    Object? fid = null,
+    Object? updatedAt = null,
+    Object? userId = null,
+  }) {
+    return _then(
+      ActivityPinData(
+        activity: null == activity
+            ? _self.activity
+            : activity // ignore: cast_nullable_to_non_nullable
+                  as ActivityData,
+        createdAt: null == createdAt
+            ? _self.createdAt
+            : createdAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+        fid: null == fid
+            ? _self.fid
+            : fid // ignore: cast_nullable_to_non_nullable
+                  as FeedId,
+        updatedAt: null == updatedAt
+            ? _self.updatedAt
+            : updatedAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+        userId: null == userId
+            ? _self.userId
+            : userId // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

@@ -9,69 +9,77 @@ part of 'query_users_response.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$QueryUsersResponse {
+  String get duration;
+  List<FullUserResponse> get users;
 
- String get duration; List<FullUserResponse> get users;
-/// Create a copy of QueryUsersResponse
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$QueryUsersResponseCopyWith<QueryUsersResponse> get copyWith => _$QueryUsersResponseCopyWithImpl<QueryUsersResponse>(this as QueryUsersResponse, _$identity);
+  /// Create a copy of QueryUsersResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $QueryUsersResponseCopyWith<QueryUsersResponse> get copyWith => _$QueryUsersResponseCopyWithImpl<QueryUsersResponse>(
+    this as QueryUsersResponse,
+    _$identity,
+  );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is QueryUsersResponse &&
+            (identical(other.duration, duration) || other.duration == duration) &&
+            const DeepCollectionEquality().equals(other.users, users));
+  }
 
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    duration,
+    const DeepCollectionEquality().hash(users),
+  );
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is QueryUsersResponse&&(identical(other.duration, duration) || other.duration == duration)&&const DeepCollectionEquality().equals(other.users, users));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,duration,const DeepCollectionEquality().hash(users));
-
-@override
-String toString() {
-  return 'QueryUsersResponse(duration: $duration, users: $users)';
-}
-
-
+  @override
+  String toString() {
+    return 'QueryUsersResponse(duration: $duration, users: $users)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $QueryUsersResponseCopyWith<$Res>  {
-  factory $QueryUsersResponseCopyWith(QueryUsersResponse value, $Res Function(QueryUsersResponse) _then) = _$QueryUsersResponseCopyWithImpl;
-@useResult
-$Res call({
- String duration, List<FullUserResponse> users
-});
-
-
-
-
+abstract mixin class $QueryUsersResponseCopyWith<$Res> {
+  factory $QueryUsersResponseCopyWith(
+    QueryUsersResponse value,
+    $Res Function(QueryUsersResponse) _then,
+  ) = _$QueryUsersResponseCopyWithImpl;
+  @useResult
+  $Res call({String duration, List<FullUserResponse> users});
 }
+
 /// @nodoc
-class _$QueryUsersResponseCopyWithImpl<$Res>
-    implements $QueryUsersResponseCopyWith<$Res> {
+class _$QueryUsersResponseCopyWithImpl<$Res> implements $QueryUsersResponseCopyWith<$Res> {
   _$QueryUsersResponseCopyWithImpl(this._self, this._then);
 
   final QueryUsersResponse _self;
   final $Res Function(QueryUsersResponse) _then;
 
-/// Create a copy of QueryUsersResponse
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? duration = null,Object? users = null,}) {
-  return _then(QueryUsersResponse(
-duration: null == duration ? _self.duration : duration // ignore: cast_nullable_to_non_nullable
-as String,users: null == users ? _self.users : users // ignore: cast_nullable_to_non_nullable
-as List<FullUserResponse>,
-  ));
+  /// Create a copy of QueryUsersResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? duration = null, Object? users = null}) {
+    return _then(
+      QueryUsersResponse(
+        duration: null == duration
+            ? _self.duration
+            : duration // ignore: cast_nullable_to_non_nullable
+                  as String,
+        users: null == users
+            ? _self.users
+            : users // ignore: cast_nullable_to_non_nullable
+                  as List<FullUserResponse>,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

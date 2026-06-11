@@ -9,69 +9,77 @@ part of 'batch_follow_data.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$BatchFollowData {
+  List<FollowData> get created;
+  List<FollowData> get follows;
 
- List<FollowData> get created; List<FollowData> get follows;
-/// Create a copy of BatchFollowData
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$BatchFollowDataCopyWith<BatchFollowData> get copyWith => _$BatchFollowDataCopyWithImpl<BatchFollowData>(this as BatchFollowData, _$identity);
+  /// Create a copy of BatchFollowData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $BatchFollowDataCopyWith<BatchFollowData> get copyWith => _$BatchFollowDataCopyWithImpl<BatchFollowData>(
+    this as BatchFollowData,
+    _$identity,
+  );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is BatchFollowData &&
+            const DeepCollectionEquality().equals(other.created, created) &&
+            const DeepCollectionEquality().equals(other.follows, follows));
+  }
 
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(created),
+    const DeepCollectionEquality().hash(follows),
+  );
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BatchFollowData&&const DeepCollectionEquality().equals(other.created, created)&&const DeepCollectionEquality().equals(other.follows, follows));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(created),const DeepCollectionEquality().hash(follows));
-
-@override
-String toString() {
-  return 'BatchFollowData(created: $created, follows: $follows)';
-}
-
-
+  @override
+  String toString() {
+    return 'BatchFollowData(created: $created, follows: $follows)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $BatchFollowDataCopyWith<$Res>  {
-  factory $BatchFollowDataCopyWith(BatchFollowData value, $Res Function(BatchFollowData) _then) = _$BatchFollowDataCopyWithImpl;
-@useResult
-$Res call({
- List<FollowData> created, List<FollowData> follows
-});
-
-
-
-
+abstract mixin class $BatchFollowDataCopyWith<$Res> {
+  factory $BatchFollowDataCopyWith(
+    BatchFollowData value,
+    $Res Function(BatchFollowData) _then,
+  ) = _$BatchFollowDataCopyWithImpl;
+  @useResult
+  $Res call({List<FollowData> created, List<FollowData> follows});
 }
+
 /// @nodoc
-class _$BatchFollowDataCopyWithImpl<$Res>
-    implements $BatchFollowDataCopyWith<$Res> {
+class _$BatchFollowDataCopyWithImpl<$Res> implements $BatchFollowDataCopyWith<$Res> {
   _$BatchFollowDataCopyWithImpl(this._self, this._then);
 
   final BatchFollowData _self;
   final $Res Function(BatchFollowData) _then;
 
-/// Create a copy of BatchFollowData
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? created = null,Object? follows = null,}) {
-  return _then(BatchFollowData(
-created: null == created ? _self.created : created // ignore: cast_nullable_to_non_nullable
-as List<FollowData>,follows: null == follows ? _self.follows : follows // ignore: cast_nullable_to_non_nullable
-as List<FollowData>,
-  ));
+  /// Create a copy of BatchFollowData
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? created = null, Object? follows = null}) {
+    return _then(
+      BatchFollowData(
+        created: null == created
+            ? _self.created
+            : created // ignore: cast_nullable_to_non_nullable
+                  as List<FollowData>,
+        follows: null == follows
+            ? _self.follows
+            : follows // ignore: cast_nullable_to_non_nullable
+                  as List<FollowData>,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

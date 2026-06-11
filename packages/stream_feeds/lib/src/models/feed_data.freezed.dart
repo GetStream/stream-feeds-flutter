@@ -9,89 +9,269 @@ part of 'feed_data.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$FeedData {
+  int get activityCount;
+  DateTime get createdAt;
+  UserData get createdBy;
+  DateTime? get deletedAt;
+  String get description;
+  FeedId get fid;
+  List<String> get filterTags;
+  int get followerCount;
+  int get followingCount;
+  String get groupId;
+  String get id;
+  LocationCoordinate? get location;
+  int get memberCount;
+  String get name;
+  List<FeedOwnCapability> get ownCapabilities;
+  FeedMemberData? get ownMembership;
+  List<FollowData>? get ownFollowings;
+  List<FollowData>? get ownFollows;
+  int get pinCount;
+  DateTime get updatedAt;
+  String? get visibility;
+  Map<String, Object?>? get custom;
 
- int get activityCount; DateTime get createdAt; UserData get createdBy; DateTime? get deletedAt; String get description; FeedId get fid; List<String> get filterTags; int get followerCount; int get followingCount; String get groupId; String get id; LocationCoordinate? get location; int get memberCount; String get name; List<FeedOwnCapability> get ownCapabilities; FeedMemberData? get ownMembership; List<FollowData>? get ownFollowings; List<FollowData>? get ownFollows; int get pinCount; DateTime get updatedAt; String? get visibility; Map<String, Object?>? get custom;
-/// Create a copy of FeedData
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$FeedDataCopyWith<FeedData> get copyWith => _$FeedDataCopyWithImpl<FeedData>(this as FeedData, _$identity);
+  /// Create a copy of FeedData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $FeedDataCopyWith<FeedData> get copyWith => _$FeedDataCopyWithImpl<FeedData>(this as FeedData, _$identity);
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FeedData &&
+            (identical(other.activityCount, activityCount) || other.activityCount == activityCount) &&
+            (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
+            (identical(other.createdBy, createdBy) || other.createdBy == createdBy) &&
+            (identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt) &&
+            (identical(other.description, description) || other.description == description) &&
+            (identical(other.fid, fid) || other.fid == fid) &&
+            const DeepCollectionEquality().equals(
+              other.filterTags,
+              filterTags,
+            ) &&
+            (identical(other.followerCount, followerCount) || other.followerCount == followerCount) &&
+            (identical(other.followingCount, followingCount) || other.followingCount == followingCount) &&
+            (identical(other.groupId, groupId) || other.groupId == groupId) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.location, location) || other.location == location) &&
+            (identical(other.memberCount, memberCount) || other.memberCount == memberCount) &&
+            (identical(other.name, name) || other.name == name) &&
+            const DeepCollectionEquality().equals(
+              other.ownCapabilities,
+              ownCapabilities,
+            ) &&
+            (identical(other.ownMembership, ownMembership) || other.ownMembership == ownMembership) &&
+            const DeepCollectionEquality().equals(
+              other.ownFollowings,
+              ownFollowings,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other.ownFollows,
+              ownFollows,
+            ) &&
+            (identical(other.pinCount, pinCount) || other.pinCount == pinCount) &&
+            (identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt) &&
+            (identical(other.visibility, visibility) || other.visibility == visibility) &&
+            const DeepCollectionEquality().equals(other.custom, custom));
+  }
 
+  @override
+  int get hashCode => Object.hashAll([
+    runtimeType,
+    activityCount,
+    createdAt,
+    createdBy,
+    deletedAt,
+    description,
+    fid,
+    const DeepCollectionEquality().hash(filterTags),
+    followerCount,
+    followingCount,
+    groupId,
+    id,
+    location,
+    memberCount,
+    name,
+    const DeepCollectionEquality().hash(ownCapabilities),
+    ownMembership,
+    const DeepCollectionEquality().hash(ownFollowings),
+    const DeepCollectionEquality().hash(ownFollows),
+    pinCount,
+    updatedAt,
+    visibility,
+    const DeepCollectionEquality().hash(custom),
+  ]);
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FeedData&&(identical(other.activityCount, activityCount) || other.activityCount == activityCount)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt)&&(identical(other.description, description) || other.description == description)&&(identical(other.fid, fid) || other.fid == fid)&&const DeepCollectionEquality().equals(other.filterTags, filterTags)&&(identical(other.followerCount, followerCount) || other.followerCount == followerCount)&&(identical(other.followingCount, followingCount) || other.followingCount == followingCount)&&(identical(other.groupId, groupId) || other.groupId == groupId)&&(identical(other.id, id) || other.id == id)&&(identical(other.location, location) || other.location == location)&&(identical(other.memberCount, memberCount) || other.memberCount == memberCount)&&(identical(other.name, name) || other.name == name)&&const DeepCollectionEquality().equals(other.ownCapabilities, ownCapabilities)&&(identical(other.ownMembership, ownMembership) || other.ownMembership == ownMembership)&&const DeepCollectionEquality().equals(other.ownFollowings, ownFollowings)&&const DeepCollectionEquality().equals(other.ownFollows, ownFollows)&&(identical(other.pinCount, pinCount) || other.pinCount == pinCount)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.visibility, visibility) || other.visibility == visibility)&&const DeepCollectionEquality().equals(other.custom, custom));
-}
-
-
-@override
-int get hashCode => Object.hashAll([runtimeType,activityCount,createdAt,createdBy,deletedAt,description,fid,const DeepCollectionEquality().hash(filterTags),followerCount,followingCount,groupId,id,location,memberCount,name,const DeepCollectionEquality().hash(ownCapabilities),ownMembership,const DeepCollectionEquality().hash(ownFollowings),const DeepCollectionEquality().hash(ownFollows),pinCount,updatedAt,visibility,const DeepCollectionEquality().hash(custom)]);
-
-@override
-String toString() {
-  return 'FeedData(activityCount: $activityCount, createdAt: $createdAt, createdBy: $createdBy, deletedAt: $deletedAt, description: $description, fid: $fid, filterTags: $filterTags, followerCount: $followerCount, followingCount: $followingCount, groupId: $groupId, id: $id, location: $location, memberCount: $memberCount, name: $name, ownCapabilities: $ownCapabilities, ownMembership: $ownMembership, ownFollowings: $ownFollowings, ownFollows: $ownFollows, pinCount: $pinCount, updatedAt: $updatedAt, visibility: $visibility, custom: $custom)';
-}
-
-
+  @override
+  String toString() {
+    return 'FeedData(activityCount: $activityCount, createdAt: $createdAt, createdBy: $createdBy, deletedAt: $deletedAt, description: $description, fid: $fid, filterTags: $filterTags, followerCount: $followerCount, followingCount: $followingCount, groupId: $groupId, id: $id, location: $location, memberCount: $memberCount, name: $name, ownCapabilities: $ownCapabilities, ownMembership: $ownMembership, ownFollowings: $ownFollowings, ownFollows: $ownFollows, pinCount: $pinCount, updatedAt: $updatedAt, visibility: $visibility, custom: $custom)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $FeedDataCopyWith<$Res>  {
+abstract mixin class $FeedDataCopyWith<$Res> {
   factory $FeedDataCopyWith(FeedData value, $Res Function(FeedData) _then) = _$FeedDataCopyWithImpl;
-@useResult
-$Res call({
- int activityCount, DateTime createdAt, UserData createdBy, DateTime? deletedAt, String description, FeedId fid, List<String> filterTags, int followerCount, int followingCount, String groupId, String id, LocationCoordinate? location, int memberCount, String name, List<FeedOwnCapability> ownCapabilities, FeedMemberData? ownMembership, List<FollowData>? ownFollowings, List<FollowData>? ownFollows, int pinCount, DateTime updatedAt, String? visibility, Map<String, Object?>? custom
-});
-
-
-
-
+  @useResult
+  $Res call({
+    int activityCount,
+    DateTime createdAt,
+    UserData createdBy,
+    DateTime? deletedAt,
+    String description,
+    FeedId fid,
+    List<String> filterTags,
+    int followerCount,
+    int followingCount,
+    String groupId,
+    String id,
+    LocationCoordinate? location,
+    int memberCount,
+    String name,
+    List<FeedOwnCapability> ownCapabilities,
+    FeedMemberData? ownMembership,
+    List<FollowData>? ownFollowings,
+    List<FollowData>? ownFollows,
+    int pinCount,
+    DateTime updatedAt,
+    String? visibility,
+    Map<String, Object?>? custom,
+  });
 }
+
 /// @nodoc
-class _$FeedDataCopyWithImpl<$Res>
-    implements $FeedDataCopyWith<$Res> {
+class _$FeedDataCopyWithImpl<$Res> implements $FeedDataCopyWith<$Res> {
   _$FeedDataCopyWithImpl(this._self, this._then);
 
   final FeedData _self;
   final $Res Function(FeedData) _then;
 
-/// Create a copy of FeedData
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? activityCount = null,Object? createdAt = null,Object? createdBy = null,Object? deletedAt = freezed,Object? description = null,Object? fid = null,Object? filterTags = null,Object? followerCount = null,Object? followingCount = null,Object? groupId = null,Object? id = null,Object? location = freezed,Object? memberCount = null,Object? name = null,Object? ownCapabilities = null,Object? ownMembership = freezed,Object? ownFollowings = freezed,Object? ownFollows = freezed,Object? pinCount = null,Object? updatedAt = null,Object? visibility = freezed,Object? custom = freezed,}) {
-  return _then(FeedData(
-activityCount: null == activityCount ? _self.activityCount : activityCount // ignore: cast_nullable_to_non_nullable
-as int,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
-as DateTime,createdBy: null == createdBy ? _self.createdBy : createdBy // ignore: cast_nullable_to_non_nullable
-as UserData,deletedAt: freezed == deletedAt ? _self.deletedAt : deletedAt // ignore: cast_nullable_to_non_nullable
-as DateTime?,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
-as String,fid: null == fid ? _self.fid : fid // ignore: cast_nullable_to_non_nullable
-as FeedId,filterTags: null == filterTags ? _self.filterTags : filterTags // ignore: cast_nullable_to_non_nullable
-as List<String>,followerCount: null == followerCount ? _self.followerCount : followerCount // ignore: cast_nullable_to_non_nullable
-as int,followingCount: null == followingCount ? _self.followingCount : followingCount // ignore: cast_nullable_to_non_nullable
-as int,groupId: null == groupId ? _self.groupId : groupId // ignore: cast_nullable_to_non_nullable
-as String,id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,location: freezed == location ? _self.location : location // ignore: cast_nullable_to_non_nullable
-as LocationCoordinate?,memberCount: null == memberCount ? _self.memberCount : memberCount // ignore: cast_nullable_to_non_nullable
-as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,ownCapabilities: null == ownCapabilities ? _self.ownCapabilities : ownCapabilities // ignore: cast_nullable_to_non_nullable
-as List<FeedOwnCapability>,ownMembership: freezed == ownMembership ? _self.ownMembership : ownMembership // ignore: cast_nullable_to_non_nullable
-as FeedMemberData?,ownFollowings: freezed == ownFollowings ? _self.ownFollowings : ownFollowings // ignore: cast_nullable_to_non_nullable
-as List<FollowData>?,ownFollows: freezed == ownFollows ? _self.ownFollows : ownFollows // ignore: cast_nullable_to_non_nullable
-as List<FollowData>?,pinCount: null == pinCount ? _self.pinCount : pinCount // ignore: cast_nullable_to_non_nullable
-as int,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
-as DateTime,visibility: freezed == visibility ? _self.visibility : visibility // ignore: cast_nullable_to_non_nullable
-as String?,custom: freezed == custom ? _self.custom : custom // ignore: cast_nullable_to_non_nullable
-as Map<String, Object?>?,
-  ));
+  /// Create a copy of FeedData
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? activityCount = null,
+    Object? createdAt = null,
+    Object? createdBy = null,
+    Object? deletedAt = freezed,
+    Object? description = null,
+    Object? fid = null,
+    Object? filterTags = null,
+    Object? followerCount = null,
+    Object? followingCount = null,
+    Object? groupId = null,
+    Object? id = null,
+    Object? location = freezed,
+    Object? memberCount = null,
+    Object? name = null,
+    Object? ownCapabilities = null,
+    Object? ownMembership = freezed,
+    Object? ownFollowings = freezed,
+    Object? ownFollows = freezed,
+    Object? pinCount = null,
+    Object? updatedAt = null,
+    Object? visibility = freezed,
+    Object? custom = freezed,
+  }) {
+    return _then(
+      FeedData(
+        activityCount: null == activityCount
+            ? _self.activityCount
+            : activityCount // ignore: cast_nullable_to_non_nullable
+                  as int,
+        createdAt: null == createdAt
+            ? _self.createdAt
+            : createdAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+        createdBy: null == createdBy
+            ? _self.createdBy
+            : createdBy // ignore: cast_nullable_to_non_nullable
+                  as UserData,
+        deletedAt: freezed == deletedAt
+            ? _self.deletedAt
+            : deletedAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime?,
+        description: null == description
+            ? _self.description
+            : description // ignore: cast_nullable_to_non_nullable
+                  as String,
+        fid: null == fid
+            ? _self.fid
+            : fid // ignore: cast_nullable_to_non_nullable
+                  as FeedId,
+        filterTags: null == filterTags
+            ? _self.filterTags
+            : filterTags // ignore: cast_nullable_to_non_nullable
+                  as List<String>,
+        followerCount: null == followerCount
+            ? _self.followerCount
+            : followerCount // ignore: cast_nullable_to_non_nullable
+                  as int,
+        followingCount: null == followingCount
+            ? _self.followingCount
+            : followingCount // ignore: cast_nullable_to_non_nullable
+                  as int,
+        groupId: null == groupId
+            ? _self.groupId
+            : groupId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        id: null == id
+            ? _self.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String,
+        location: freezed == location
+            ? _self.location
+            : location // ignore: cast_nullable_to_non_nullable
+                  as LocationCoordinate?,
+        memberCount: null == memberCount
+            ? _self.memberCount
+            : memberCount // ignore: cast_nullable_to_non_nullable
+                  as int,
+        name: null == name
+            ? _self.name
+            : name // ignore: cast_nullable_to_non_nullable
+                  as String,
+        ownCapabilities: null == ownCapabilities
+            ? _self.ownCapabilities
+            : ownCapabilities // ignore: cast_nullable_to_non_nullable
+                  as List<FeedOwnCapability>,
+        ownMembership: freezed == ownMembership
+            ? _self.ownMembership
+            : ownMembership // ignore: cast_nullable_to_non_nullable
+                  as FeedMemberData?,
+        ownFollowings: freezed == ownFollowings
+            ? _self.ownFollowings
+            : ownFollowings // ignore: cast_nullable_to_non_nullable
+                  as List<FollowData>?,
+        ownFollows: freezed == ownFollows
+            ? _self.ownFollows
+            : ownFollows // ignore: cast_nullable_to_non_nullable
+                  as List<FollowData>?,
+        pinCount: null == pinCount
+            ? _self.pinCount
+            : pinCount // ignore: cast_nullable_to_non_nullable
+                  as int,
+        updatedAt: null == updatedAt
+            ? _self.updatedAt
+            : updatedAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+        visibility: freezed == visibility
+            ? _self.visibility
+            : visibility // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        custom: freezed == custom
+            ? _self.custom
+            : custom // ignore: cast_nullable_to_non_nullable
+                  as Map<String, Object?>?,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

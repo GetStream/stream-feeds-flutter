@@ -9,70 +9,77 @@ part of 'sort_param.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$SortParam {
+  int get direction;
+  String get field;
+  String get type;
 
- int get direction; String get field; String get type;
-/// Create a copy of SortParam
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$SortParamCopyWith<SortParam> get copyWith => _$SortParamCopyWithImpl<SortParam>(this as SortParam, _$identity);
+  /// Create a copy of SortParam
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $SortParamCopyWith<SortParam> get copyWith => _$SortParamCopyWithImpl<SortParam>(this as SortParam, _$identity);
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is SortParam &&
+            (identical(other.direction, direction) || other.direction == direction) &&
+            (identical(other.field, field) || other.field == field) &&
+            (identical(other.type, type) || other.type == type));
+  }
 
+  @override
+  int get hashCode => Object.hash(runtimeType, direction, field, type);
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SortParam&&(identical(other.direction, direction) || other.direction == direction)&&(identical(other.field, field) || other.field == field)&&(identical(other.type, type) || other.type == type));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,direction,field,type);
-
-@override
-String toString() {
-  return 'SortParam(direction: $direction, field: $field, type: $type)';
-}
-
-
+  @override
+  String toString() {
+    return 'SortParam(direction: $direction, field: $field, type: $type)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $SortParamCopyWith<$Res>  {
+abstract mixin class $SortParamCopyWith<$Res> {
   factory $SortParamCopyWith(SortParam value, $Res Function(SortParam) _then) = _$SortParamCopyWithImpl;
-@useResult
-$Res call({
- int direction, String field, String type
-});
-
-
-
-
+  @useResult
+  $Res call({int direction, String field, String type});
 }
+
 /// @nodoc
-class _$SortParamCopyWithImpl<$Res>
-    implements $SortParamCopyWith<$Res> {
+class _$SortParamCopyWithImpl<$Res> implements $SortParamCopyWith<$Res> {
   _$SortParamCopyWithImpl(this._self, this._then);
 
   final SortParam _self;
   final $Res Function(SortParam) _then;
 
-/// Create a copy of SortParam
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? direction = null,Object? field = null,Object? type = null,}) {
-  return _then(SortParam(
-direction: null == direction ? _self.direction : direction // ignore: cast_nullable_to_non_nullable
-as int,field: null == field ? _self.field : field // ignore: cast_nullable_to_non_nullable
-as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as String,
-  ));
+  /// Create a copy of SortParam
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? direction = null,
+    Object? field = null,
+    Object? type = null,
+  }) {
+    return _then(
+      SortParam(
+        direction: null == direction
+            ? _self.direction
+            : direction // ignore: cast_nullable_to_non_nullable
+                  as int,
+        field: null == field
+            ? _self.field
+            : field // ignore: cast_nullable_to_non_nullable
+                  as String,
+        type: null == type
+            ? _self.type
+            : type // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

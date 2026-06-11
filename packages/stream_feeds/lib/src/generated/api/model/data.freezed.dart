@@ -9,68 +9,59 @@ part of 'data.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$Data {
+  String get id;
 
- String get id;
-/// Create a copy of Data
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$DataCopyWith<Data> get copyWith => _$DataCopyWithImpl<Data>(this as Data, _$identity);
+  /// Create a copy of Data
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $DataCopyWith<Data> get copyWith => _$DataCopyWithImpl<Data>(this as Data, _$identity);
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is Data && (identical(other.id, id) || other.id == id));
+  }
 
+  @override
+  int get hashCode => Object.hash(runtimeType, id);
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Data&&(identical(other.id, id) || other.id == id));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,id);
-
-@override
-String toString() {
-  return 'Data(id: $id)';
-}
-
-
+  @override
+  String toString() {
+    return 'Data(id: $id)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $DataCopyWith<$Res>  {
+abstract mixin class $DataCopyWith<$Res> {
   factory $DataCopyWith(Data value, $Res Function(Data) _then) = _$DataCopyWithImpl;
-@useResult
-$Res call({
- String id
-});
-
-
-
-
+  @useResult
+  $Res call({String id});
 }
+
 /// @nodoc
-class _$DataCopyWithImpl<$Res>
-    implements $DataCopyWith<$Res> {
+class _$DataCopyWithImpl<$Res> implements $DataCopyWith<$Res> {
   _$DataCopyWithImpl(this._self, this._then);
 
   final Data _self;
   final $Res Function(Data) _then;
 
-/// Create a copy of Data
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,}) {
-  return _then(Data(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,
-  ));
+  /// Create a copy of Data
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? id = null}) {
+    return _then(
+      Data(
+        id: null == id
+            ? _self.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

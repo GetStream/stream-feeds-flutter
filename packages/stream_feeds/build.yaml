@@ -7,6 +7,7 @@ targets:
           field_rename: snake
       freezed:
         options:
+          format: true
           map: false
           when: false
           equal: true

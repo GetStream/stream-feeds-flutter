@@ -9,71 +9,102 @@ part of 'query_activity_reactions_response.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$QueryActivityReactionsResponse {
+  String get duration;
+  String? get next;
+  String? get prev;
+  List<FeedsReactionResponse> get reactions;
 
- String get duration; String? get next; String? get prev; List<FeedsReactionResponse> get reactions;
-/// Create a copy of QueryActivityReactionsResponse
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$QueryActivityReactionsResponseCopyWith<QueryActivityReactionsResponse> get copyWith => _$QueryActivityReactionsResponseCopyWithImpl<QueryActivityReactionsResponse>(this as QueryActivityReactionsResponse, _$identity);
+  /// Create a copy of QueryActivityReactionsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $QueryActivityReactionsResponseCopyWith<QueryActivityReactionsResponse> get copyWith =>
+      _$QueryActivityReactionsResponseCopyWithImpl<QueryActivityReactionsResponse>(
+        this as QueryActivityReactionsResponse,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is QueryActivityReactionsResponse &&
+            (identical(other.duration, duration) || other.duration == duration) &&
+            (identical(other.next, next) || other.next == next) &&
+            (identical(other.prev, prev) || other.prev == prev) &&
+            const DeepCollectionEquality().equals(other.reactions, reactions));
+  }
 
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    duration,
+    next,
+    prev,
+    const DeepCollectionEquality().hash(reactions),
+  );
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is QueryActivityReactionsResponse&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.next, next) || other.next == next)&&(identical(other.prev, prev) || other.prev == prev)&&const DeepCollectionEquality().equals(other.reactions, reactions));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,duration,next,prev,const DeepCollectionEquality().hash(reactions));
-
-@override
-String toString() {
-  return 'QueryActivityReactionsResponse(duration: $duration, next: $next, prev: $prev, reactions: $reactions)';
-}
-
-
+  @override
+  String toString() {
+    return 'QueryActivityReactionsResponse(duration: $duration, next: $next, prev: $prev, reactions: $reactions)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $QueryActivityReactionsResponseCopyWith<$Res>  {
-  factory $QueryActivityReactionsResponseCopyWith(QueryActivityReactionsResponse value, $Res Function(QueryActivityReactionsResponse) _then) = _$QueryActivityReactionsResponseCopyWithImpl;
-@useResult
-$Res call({
- String duration, String? next, String? prev, List<FeedsReactionResponse> reactions
-});
-
-
-
-
+abstract mixin class $QueryActivityReactionsResponseCopyWith<$Res> {
+  factory $QueryActivityReactionsResponseCopyWith(
+    QueryActivityReactionsResponse value,
+    $Res Function(QueryActivityReactionsResponse) _then,
+  ) = _$QueryActivityReactionsResponseCopyWithImpl;
+  @useResult
+  $Res call({
+    String duration,
+    String? next,
+    String? prev,
+    List<FeedsReactionResponse> reactions,
+  });
 }
+
 /// @nodoc
-class _$QueryActivityReactionsResponseCopyWithImpl<$Res>
-    implements $QueryActivityReactionsResponseCopyWith<$Res> {
+class _$QueryActivityReactionsResponseCopyWithImpl<$Res> implements $QueryActivityReactionsResponseCopyWith<$Res> {
   _$QueryActivityReactionsResponseCopyWithImpl(this._self, this._then);
 
   final QueryActivityReactionsResponse _self;
   final $Res Function(QueryActivityReactionsResponse) _then;
 
-/// Create a copy of QueryActivityReactionsResponse
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? duration = null,Object? next = freezed,Object? prev = freezed,Object? reactions = null,}) {
-  return _then(QueryActivityReactionsResponse(
-duration: null == duration ? _self.duration : duration // ignore: cast_nullable_to_non_nullable
-as String,next: freezed == next ? _self.next : next // ignore: cast_nullable_to_non_nullable
-as String?,prev: freezed == prev ? _self.prev : prev // ignore: cast_nullable_to_non_nullable
-as String?,reactions: null == reactions ? _self.reactions : reactions // ignore: cast_nullable_to_non_nullable
-as List<FeedsReactionResponse>,
-  ));
+  /// Create a copy of QueryActivityReactionsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? duration = null,
+    Object? next = freezed,
+    Object? prev = freezed,
+    Object? reactions = null,
+  }) {
+    return _then(
+      QueryActivityReactionsResponse(
+        duration: null == duration
+            ? _self.duration
+            : duration // ignore: cast_nullable_to_non_nullable
+                  as String,
+        next: freezed == next
+            ? _self.next
+            : next // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        prev: freezed == prev
+            ? _self.prev
+            : prev // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        reactions: null == reactions
+            ? _self.reactions
+            : reactions // ignore: cast_nullable_to_non_nullable
+                  as List<FeedsReactionResponse>,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

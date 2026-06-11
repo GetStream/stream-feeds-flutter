@@ -9,72 +9,110 @@ part of 'feed_member_request.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$FeedMemberRequest {
+  Map<String, Object?>? get custom;
+  bool? get invite;
+  String? get membershipLevel;
+  String? get role;
+  String get userId;
 
- Map<String, Object?>? get custom; bool? get invite; String? get membershipLevel; String? get role; String get userId;
-/// Create a copy of FeedMemberRequest
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$FeedMemberRequestCopyWith<FeedMemberRequest> get copyWith => _$FeedMemberRequestCopyWithImpl<FeedMemberRequest>(this as FeedMemberRequest, _$identity);
+  /// Create a copy of FeedMemberRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $FeedMemberRequestCopyWith<FeedMemberRequest> get copyWith => _$FeedMemberRequestCopyWithImpl<FeedMemberRequest>(
+    this as FeedMemberRequest,
+    _$identity,
+  );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FeedMemberRequest &&
+            const DeepCollectionEquality().equals(other.custom, custom) &&
+            (identical(other.invite, invite) || other.invite == invite) &&
+            (identical(other.membershipLevel, membershipLevel) || other.membershipLevel == membershipLevel) &&
+            (identical(other.role, role) || other.role == role) &&
+            (identical(other.userId, userId) || other.userId == userId));
+  }
 
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(custom),
+    invite,
+    membershipLevel,
+    role,
+    userId,
+  );
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FeedMemberRequest&&const DeepCollectionEquality().equals(other.custom, custom)&&(identical(other.invite, invite) || other.invite == invite)&&(identical(other.membershipLevel, membershipLevel) || other.membershipLevel == membershipLevel)&&(identical(other.role, role) || other.role == role)&&(identical(other.userId, userId) || other.userId == userId));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(custom),invite,membershipLevel,role,userId);
-
-@override
-String toString() {
-  return 'FeedMemberRequest(custom: $custom, invite: $invite, membershipLevel: $membershipLevel, role: $role, userId: $userId)';
-}
-
-
+  @override
+  String toString() {
+    return 'FeedMemberRequest(custom: $custom, invite: $invite, membershipLevel: $membershipLevel, role: $role, userId: $userId)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $FeedMemberRequestCopyWith<$Res>  {
-  factory $FeedMemberRequestCopyWith(FeedMemberRequest value, $Res Function(FeedMemberRequest) _then) = _$FeedMemberRequestCopyWithImpl;
-@useResult
-$Res call({
- Map<String, Object?>? custom, bool? invite, String? membershipLevel, String? role, String userId
-});
-
-
-
-
+abstract mixin class $FeedMemberRequestCopyWith<$Res> {
+  factory $FeedMemberRequestCopyWith(
+    FeedMemberRequest value,
+    $Res Function(FeedMemberRequest) _then,
+  ) = _$FeedMemberRequestCopyWithImpl;
+  @useResult
+  $Res call({
+    Map<String, Object?>? custom,
+    bool? invite,
+    String? membershipLevel,
+    String? role,
+    String userId,
+  });
 }
+
 /// @nodoc
-class _$FeedMemberRequestCopyWithImpl<$Res>
-    implements $FeedMemberRequestCopyWith<$Res> {
+class _$FeedMemberRequestCopyWithImpl<$Res> implements $FeedMemberRequestCopyWith<$Res> {
   _$FeedMemberRequestCopyWithImpl(this._self, this._then);
 
   final FeedMemberRequest _self;
   final $Res Function(FeedMemberRequest) _then;
 
-/// Create a copy of FeedMemberRequest
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? custom = freezed,Object? invite = freezed,Object? membershipLevel = freezed,Object? role = freezed,Object? userId = null,}) {
-  return _then(FeedMemberRequest(
-custom: freezed == custom ? _self.custom : custom // ignore: cast_nullable_to_non_nullable
-as Map<String, Object?>?,invite: freezed == invite ? _self.invite : invite // ignore: cast_nullable_to_non_nullable
-as bool?,membershipLevel: freezed == membershipLevel ? _self.membershipLevel : membershipLevel // ignore: cast_nullable_to_non_nullable
-as String?,role: freezed == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
-as String?,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
-as String,
-  ));
+  /// Create a copy of FeedMemberRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? custom = freezed,
+    Object? invite = freezed,
+    Object? membershipLevel = freezed,
+    Object? role = freezed,
+    Object? userId = null,
+  }) {
+    return _then(
+      FeedMemberRequest(
+        custom: freezed == custom
+            ? _self.custom
+            : custom // ignore: cast_nullable_to_non_nullable
+                  as Map<String, Object?>?,
+        invite: freezed == invite
+            ? _self.invite
+            : invite // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        membershipLevel: freezed == membershipLevel
+            ? _self.membershipLevel
+            : membershipLevel // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        role: freezed == role
+            ? _self.role
+            : role // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        userId: null == userId
+            ? _self.userId
+            : userId // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

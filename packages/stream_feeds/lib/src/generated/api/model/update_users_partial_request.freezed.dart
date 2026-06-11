@@ -9,68 +9,68 @@ part of 'update_users_partial_request.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$UpdateUsersPartialRequest {
+  List<UpdateUserPartialRequest> get users;
 
- List<UpdateUserPartialRequest> get users;
-/// Create a copy of UpdateUsersPartialRequest
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$UpdateUsersPartialRequestCopyWith<UpdateUsersPartialRequest> get copyWith => _$UpdateUsersPartialRequestCopyWithImpl<UpdateUsersPartialRequest>(this as UpdateUsersPartialRequest, _$identity);
+  /// Create a copy of UpdateUsersPartialRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $UpdateUsersPartialRequestCopyWith<UpdateUsersPartialRequest> get copyWith =>
+      _$UpdateUsersPartialRequestCopyWithImpl<UpdateUsersPartialRequest>(
+        this as UpdateUsersPartialRequest,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is UpdateUsersPartialRequest &&
+            const DeepCollectionEquality().equals(other.users, users));
+  }
 
+  @override
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(users));
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateUsersPartialRequest&&const DeepCollectionEquality().equals(other.users, users));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(users));
-
-@override
-String toString() {
-  return 'UpdateUsersPartialRequest(users: $users)';
-}
-
-
+  @override
+  String toString() {
+    return 'UpdateUsersPartialRequest(users: $users)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $UpdateUsersPartialRequestCopyWith<$Res>  {
-  factory $UpdateUsersPartialRequestCopyWith(UpdateUsersPartialRequest value, $Res Function(UpdateUsersPartialRequest) _then) = _$UpdateUsersPartialRequestCopyWithImpl;
-@useResult
-$Res call({
- List<UpdateUserPartialRequest> users
-});
-
-
-
-
+abstract mixin class $UpdateUsersPartialRequestCopyWith<$Res> {
+  factory $UpdateUsersPartialRequestCopyWith(
+    UpdateUsersPartialRequest value,
+    $Res Function(UpdateUsersPartialRequest) _then,
+  ) = _$UpdateUsersPartialRequestCopyWithImpl;
+  @useResult
+  $Res call({List<UpdateUserPartialRequest> users});
 }
+
 /// @nodoc
-class _$UpdateUsersPartialRequestCopyWithImpl<$Res>
-    implements $UpdateUsersPartialRequestCopyWith<$Res> {
+class _$UpdateUsersPartialRequestCopyWithImpl<$Res> implements $UpdateUsersPartialRequestCopyWith<$Res> {
   _$UpdateUsersPartialRequestCopyWithImpl(this._self, this._then);
 
   final UpdateUsersPartialRequest _self;
   final $Res Function(UpdateUsersPartialRequest) _then;
 
-/// Create a copy of UpdateUsersPartialRequest
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? users = null,}) {
-  return _then(UpdateUsersPartialRequest(
-users: null == users ? _self.users : users // ignore: cast_nullable_to_non_nullable
-as List<UpdateUserPartialRequest>,
-  ));
+  /// Create a copy of UpdateUsersPartialRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? users = null}) {
+    return _then(
+      UpdateUsersPartialRequest(
+        users: null == users
+            ? _self.users
+            : users // ignore: cast_nullable_to_non_nullable
+                  as List<UpdateUserPartialRequest>,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

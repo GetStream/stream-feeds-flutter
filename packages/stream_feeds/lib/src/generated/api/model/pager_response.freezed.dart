@@ -9,69 +9,73 @@ part of 'pager_response.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$PagerResponse {
+  String? get next;
+  String? get prev;
 
- String? get next; String? get prev;
-/// Create a copy of PagerResponse
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$PagerResponseCopyWith<PagerResponse> get copyWith => _$PagerResponseCopyWithImpl<PagerResponse>(this as PagerResponse, _$identity);
+  /// Create a copy of PagerResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $PagerResponseCopyWith<PagerResponse> get copyWith => _$PagerResponseCopyWithImpl<PagerResponse>(
+    this as PagerResponse,
+    _$identity,
+  );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is PagerResponse &&
+            (identical(other.next, next) || other.next == next) &&
+            (identical(other.prev, prev) || other.prev == prev));
+  }
 
+  @override
+  int get hashCode => Object.hash(runtimeType, next, prev);
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PagerResponse&&(identical(other.next, next) || other.next == next)&&(identical(other.prev, prev) || other.prev == prev));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,next,prev);
-
-@override
-String toString() {
-  return 'PagerResponse(next: $next, prev: $prev)';
-}
-
-
+  @override
+  String toString() {
+    return 'PagerResponse(next: $next, prev: $prev)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $PagerResponseCopyWith<$Res>  {
-  factory $PagerResponseCopyWith(PagerResponse value, $Res Function(PagerResponse) _then) = _$PagerResponseCopyWithImpl;
-@useResult
-$Res call({
- String? next, String? prev
-});
-
-
-
-
+abstract mixin class $PagerResponseCopyWith<$Res> {
+  factory $PagerResponseCopyWith(
+    PagerResponse value,
+    $Res Function(PagerResponse) _then,
+  ) = _$PagerResponseCopyWithImpl;
+  @useResult
+  $Res call({String? next, String? prev});
 }
+
 /// @nodoc
-class _$PagerResponseCopyWithImpl<$Res>
-    implements $PagerResponseCopyWith<$Res> {
+class _$PagerResponseCopyWithImpl<$Res> implements $PagerResponseCopyWith<$Res> {
   _$PagerResponseCopyWithImpl(this._self, this._then);
 
   final PagerResponse _self;
   final $Res Function(PagerResponse) _then;
 
-/// Create a copy of PagerResponse
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? next = freezed,Object? prev = freezed,}) {
-  return _then(PagerResponse(
-next: freezed == next ? _self.next : next // ignore: cast_nullable_to_non_nullable
-as String?,prev: freezed == prev ? _self.prev : prev // ignore: cast_nullable_to_non_nullable
-as String?,
-  ));
+  /// Create a copy of PagerResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? next = freezed, Object? prev = freezed}) {
+    return _then(
+      PagerResponse(
+        next: freezed == next
+            ? _self.next
+            : next // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        prev: freezed == prev
+            ? _self.prev
+            : prev // ignore: cast_nullable_to_non_nullable
+                  as String?,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

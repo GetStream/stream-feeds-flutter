@@ -9,72 +9,111 @@ part of 'get_comment_replies_response.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$GetCommentRepliesResponse {
+  List<ThreadedCommentResponse> get comments;
+  String get duration;
+  String? get next;
+  String? get prev;
+  String get sort;
 
- List<ThreadedCommentResponse> get comments; String get duration; String? get next; String? get prev; String get sort;
-/// Create a copy of GetCommentRepliesResponse
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$GetCommentRepliesResponseCopyWith<GetCommentRepliesResponse> get copyWith => _$GetCommentRepliesResponseCopyWithImpl<GetCommentRepliesResponse>(this as GetCommentRepliesResponse, _$identity);
+  /// Create a copy of GetCommentRepliesResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $GetCommentRepliesResponseCopyWith<GetCommentRepliesResponse> get copyWith =>
+      _$GetCommentRepliesResponseCopyWithImpl<GetCommentRepliesResponse>(
+        this as GetCommentRepliesResponse,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is GetCommentRepliesResponse &&
+            const DeepCollectionEquality().equals(other.comments, comments) &&
+            (identical(other.duration, duration) || other.duration == duration) &&
+            (identical(other.next, next) || other.next == next) &&
+            (identical(other.prev, prev) || other.prev == prev) &&
+            (identical(other.sort, sort) || other.sort == sort));
+  }
 
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(comments),
+    duration,
+    next,
+    prev,
+    sort,
+  );
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is GetCommentRepliesResponse&&const DeepCollectionEquality().equals(other.comments, comments)&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.next, next) || other.next == next)&&(identical(other.prev, prev) || other.prev == prev)&&(identical(other.sort, sort) || other.sort == sort));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(comments),duration,next,prev,sort);
-
-@override
-String toString() {
-  return 'GetCommentRepliesResponse(comments: $comments, duration: $duration, next: $next, prev: $prev, sort: $sort)';
-}
-
-
+  @override
+  String toString() {
+    return 'GetCommentRepliesResponse(comments: $comments, duration: $duration, next: $next, prev: $prev, sort: $sort)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $GetCommentRepliesResponseCopyWith<$Res>  {
-  factory $GetCommentRepliesResponseCopyWith(GetCommentRepliesResponse value, $Res Function(GetCommentRepliesResponse) _then) = _$GetCommentRepliesResponseCopyWithImpl;
-@useResult
-$Res call({
- List<ThreadedCommentResponse> comments, String duration, String? next, String? prev, String sort
-});
-
-
-
-
+abstract mixin class $GetCommentRepliesResponseCopyWith<$Res> {
+  factory $GetCommentRepliesResponseCopyWith(
+    GetCommentRepliesResponse value,
+    $Res Function(GetCommentRepliesResponse) _then,
+  ) = _$GetCommentRepliesResponseCopyWithImpl;
+  @useResult
+  $Res call({
+    List<ThreadedCommentResponse> comments,
+    String duration,
+    String? next,
+    String? prev,
+    String sort,
+  });
 }
+
 /// @nodoc
-class _$GetCommentRepliesResponseCopyWithImpl<$Res>
-    implements $GetCommentRepliesResponseCopyWith<$Res> {
+class _$GetCommentRepliesResponseCopyWithImpl<$Res> implements $GetCommentRepliesResponseCopyWith<$Res> {
   _$GetCommentRepliesResponseCopyWithImpl(this._self, this._then);
 
   final GetCommentRepliesResponse _self;
   final $Res Function(GetCommentRepliesResponse) _then;
 
-/// Create a copy of GetCommentRepliesResponse
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? comments = null,Object? duration = null,Object? next = freezed,Object? prev = freezed,Object? sort = null,}) {
-  return _then(GetCommentRepliesResponse(
-comments: null == comments ? _self.comments : comments // ignore: cast_nullable_to_non_nullable
-as List<ThreadedCommentResponse>,duration: null == duration ? _self.duration : duration // ignore: cast_nullable_to_non_nullable
-as String,next: freezed == next ? _self.next : next // ignore: cast_nullable_to_non_nullable
-as String?,prev: freezed == prev ? _self.prev : prev // ignore: cast_nullable_to_non_nullable
-as String?,sort: null == sort ? _self.sort : sort // ignore: cast_nullable_to_non_nullable
-as String,
-  ));
+  /// Create a copy of GetCommentRepliesResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? comments = null,
+    Object? duration = null,
+    Object? next = freezed,
+    Object? prev = freezed,
+    Object? sort = null,
+  }) {
+    return _then(
+      GetCommentRepliesResponse(
+        comments: null == comments
+            ? _self.comments
+            : comments // ignore: cast_nullable_to_non_nullable
+                  as List<ThreadedCommentResponse>,
+        duration: null == duration
+            ? _self.duration
+            : duration // ignore: cast_nullable_to_non_nullable
+                  as String,
+        next: freezed == next
+            ? _self.next
+            : next // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        prev: freezed == prev
+            ? _self.prev
+            : prev // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        sort: null == sort
+            ? _self.sort
+            : sort // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

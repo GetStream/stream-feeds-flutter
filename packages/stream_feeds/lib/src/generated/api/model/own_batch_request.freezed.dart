@@ -9,69 +9,77 @@ part of 'own_batch_request.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$OwnBatchRequest {
+  List<String> get feeds;
+  List<String>? get fields;
 
- List<String> get feeds; List<String>? get fields;
-/// Create a copy of OwnBatchRequest
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$OwnBatchRequestCopyWith<OwnBatchRequest> get copyWith => _$OwnBatchRequestCopyWithImpl<OwnBatchRequest>(this as OwnBatchRequest, _$identity);
+  /// Create a copy of OwnBatchRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $OwnBatchRequestCopyWith<OwnBatchRequest> get copyWith => _$OwnBatchRequestCopyWithImpl<OwnBatchRequest>(
+    this as OwnBatchRequest,
+    _$identity,
+  );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is OwnBatchRequest &&
+            const DeepCollectionEquality().equals(other.feeds, feeds) &&
+            const DeepCollectionEquality().equals(other.fields, fields));
+  }
 
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(feeds),
+    const DeepCollectionEquality().hash(fields),
+  );
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is OwnBatchRequest&&const DeepCollectionEquality().equals(other.feeds, feeds)&&const DeepCollectionEquality().equals(other.fields, fields));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(feeds),const DeepCollectionEquality().hash(fields));
-
-@override
-String toString() {
-  return 'OwnBatchRequest(feeds: $feeds, fields: $fields)';
-}
-
-
+  @override
+  String toString() {
+    return 'OwnBatchRequest(feeds: $feeds, fields: $fields)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $OwnBatchRequestCopyWith<$Res>  {
-  factory $OwnBatchRequestCopyWith(OwnBatchRequest value, $Res Function(OwnBatchRequest) _then) = _$OwnBatchRequestCopyWithImpl;
-@useResult
-$Res call({
- List<String> feeds, List<String>? fields
-});
-
-
-
-
+abstract mixin class $OwnBatchRequestCopyWith<$Res> {
+  factory $OwnBatchRequestCopyWith(
+    OwnBatchRequest value,
+    $Res Function(OwnBatchRequest) _then,
+  ) = _$OwnBatchRequestCopyWithImpl;
+  @useResult
+  $Res call({List<String> feeds, List<String>? fields});
 }
+
 /// @nodoc
-class _$OwnBatchRequestCopyWithImpl<$Res>
-    implements $OwnBatchRequestCopyWith<$Res> {
+class _$OwnBatchRequestCopyWithImpl<$Res> implements $OwnBatchRequestCopyWith<$Res> {
   _$OwnBatchRequestCopyWithImpl(this._self, this._then);
 
   final OwnBatchRequest _self;
   final $Res Function(OwnBatchRequest) _then;
 
-/// Create a copy of OwnBatchRequest
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? feeds = null,Object? fields = freezed,}) {
-  return _then(OwnBatchRequest(
-feeds: null == feeds ? _self.feeds : feeds // ignore: cast_nullable_to_non_nullable
-as List<String>,fields: freezed == fields ? _self.fields : fields // ignore: cast_nullable_to_non_nullable
-as List<String>?,
-  ));
+  /// Create a copy of OwnBatchRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? feeds = null, Object? fields = freezed}) {
+    return _then(
+      OwnBatchRequest(
+        feeds: null == feeds
+            ? _self.feeds
+            : feeds // ignore: cast_nullable_to_non_nullable
+                  as List<String>,
+        fields: freezed == fields
+            ? _self.fields
+            : fields // ignore: cast_nullable_to_non_nullable
+                  as List<String>?,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

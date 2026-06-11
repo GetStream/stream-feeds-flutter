@@ -9,69 +9,78 @@ part of 'list_devices_response.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$ListDevicesResponse {
+  List<DeviceResponse> get devices;
+  String get duration;
 
- List<DeviceResponse> get devices; String get duration;
-/// Create a copy of ListDevicesResponse
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$ListDevicesResponseCopyWith<ListDevicesResponse> get copyWith => _$ListDevicesResponseCopyWithImpl<ListDevicesResponse>(this as ListDevicesResponse, _$identity);
+  /// Create a copy of ListDevicesResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $ListDevicesResponseCopyWith<ListDevicesResponse> get copyWith =>
+      _$ListDevicesResponseCopyWithImpl<ListDevicesResponse>(
+        this as ListDevicesResponse,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ListDevicesResponse &&
+            const DeepCollectionEquality().equals(other.devices, devices) &&
+            (identical(other.duration, duration) || other.duration == duration));
+  }
 
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(devices),
+    duration,
+  );
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ListDevicesResponse&&const DeepCollectionEquality().equals(other.devices, devices)&&(identical(other.duration, duration) || other.duration == duration));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(devices),duration);
-
-@override
-String toString() {
-  return 'ListDevicesResponse(devices: $devices, duration: $duration)';
-}
-
-
+  @override
+  String toString() {
+    return 'ListDevicesResponse(devices: $devices, duration: $duration)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $ListDevicesResponseCopyWith<$Res>  {
-  factory $ListDevicesResponseCopyWith(ListDevicesResponse value, $Res Function(ListDevicesResponse) _then) = _$ListDevicesResponseCopyWithImpl;
-@useResult
-$Res call({
- List<DeviceResponse> devices, String duration
-});
-
-
-
-
+abstract mixin class $ListDevicesResponseCopyWith<$Res> {
+  factory $ListDevicesResponseCopyWith(
+    ListDevicesResponse value,
+    $Res Function(ListDevicesResponse) _then,
+  ) = _$ListDevicesResponseCopyWithImpl;
+  @useResult
+  $Res call({List<DeviceResponse> devices, String duration});
 }
+
 /// @nodoc
-class _$ListDevicesResponseCopyWithImpl<$Res>
-    implements $ListDevicesResponseCopyWith<$Res> {
+class _$ListDevicesResponseCopyWithImpl<$Res> implements $ListDevicesResponseCopyWith<$Res> {
   _$ListDevicesResponseCopyWithImpl(this._self, this._then);
 
   final ListDevicesResponse _self;
   final $Res Function(ListDevicesResponse) _then;
 
-/// Create a copy of ListDevicesResponse
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? devices = null,Object? duration = null,}) {
-  return _then(ListDevicesResponse(
-devices: null == devices ? _self.devices : devices // ignore: cast_nullable_to_non_nullable
-as List<DeviceResponse>,duration: null == duration ? _self.duration : duration // ignore: cast_nullable_to_non_nullable
-as String,
-  ));
+  /// Create a copy of ListDevicesResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? devices = null, Object? duration = null}) {
+    return _then(
+      ListDevicesResponse(
+        devices: null == devices
+            ? _self.devices
+            : devices // ignore: cast_nullable_to_non_nullable
+                  as List<DeviceResponse>,
+        duration: null == duration
+            ? _self.duration
+            : duration // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

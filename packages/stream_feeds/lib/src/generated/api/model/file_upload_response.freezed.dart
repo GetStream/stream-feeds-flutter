@@ -9,70 +9,83 @@ part of 'file_upload_response.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$FileUploadResponse {
+  String get duration;
+  String? get file;
+  String? get thumbUrl;
 
- String get duration; String? get file; String? get thumbUrl;
-/// Create a copy of FileUploadResponse
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$FileUploadResponseCopyWith<FileUploadResponse> get copyWith => _$FileUploadResponseCopyWithImpl<FileUploadResponse>(this as FileUploadResponse, _$identity);
+  /// Create a copy of FileUploadResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $FileUploadResponseCopyWith<FileUploadResponse> get copyWith => _$FileUploadResponseCopyWithImpl<FileUploadResponse>(
+    this as FileUploadResponse,
+    _$identity,
+  );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FileUploadResponse &&
+            (identical(other.duration, duration) || other.duration == duration) &&
+            (identical(other.file, file) || other.file == file) &&
+            (identical(other.thumbUrl, thumbUrl) || other.thumbUrl == thumbUrl));
+  }
 
+  @override
+  int get hashCode => Object.hash(runtimeType, duration, file, thumbUrl);
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FileUploadResponse&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.file, file) || other.file == file)&&(identical(other.thumbUrl, thumbUrl) || other.thumbUrl == thumbUrl));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,duration,file,thumbUrl);
-
-@override
-String toString() {
-  return 'FileUploadResponse(duration: $duration, file: $file, thumbUrl: $thumbUrl)';
-}
-
-
+  @override
+  String toString() {
+    return 'FileUploadResponse(duration: $duration, file: $file, thumbUrl: $thumbUrl)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $FileUploadResponseCopyWith<$Res>  {
-  factory $FileUploadResponseCopyWith(FileUploadResponse value, $Res Function(FileUploadResponse) _then) = _$FileUploadResponseCopyWithImpl;
-@useResult
-$Res call({
- String duration, String? file, String? thumbUrl
-});
-
-
-
-
+abstract mixin class $FileUploadResponseCopyWith<$Res> {
+  factory $FileUploadResponseCopyWith(
+    FileUploadResponse value,
+    $Res Function(FileUploadResponse) _then,
+  ) = _$FileUploadResponseCopyWithImpl;
+  @useResult
+  $Res call({String duration, String? file, String? thumbUrl});
 }
+
 /// @nodoc
-class _$FileUploadResponseCopyWithImpl<$Res>
-    implements $FileUploadResponseCopyWith<$Res> {
+class _$FileUploadResponseCopyWithImpl<$Res> implements $FileUploadResponseCopyWith<$Res> {
   _$FileUploadResponseCopyWithImpl(this._self, this._then);
 
   final FileUploadResponse _self;
   final $Res Function(FileUploadResponse) _then;
 
-/// Create a copy of FileUploadResponse
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? duration = null,Object? file = freezed,Object? thumbUrl = freezed,}) {
-  return _then(FileUploadResponse(
-duration: null == duration ? _self.duration : duration // ignore: cast_nullable_to_non_nullable
-as String,file: freezed == file ? _self.file : file // ignore: cast_nullable_to_non_nullable
-as String?,thumbUrl: freezed == thumbUrl ? _self.thumbUrl : thumbUrl // ignore: cast_nullable_to_non_nullable
-as String?,
-  ));
+  /// Create a copy of FileUploadResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? duration = null,
+    Object? file = freezed,
+    Object? thumbUrl = freezed,
+  }) {
+    return _then(
+      FileUploadResponse(
+        duration: null == duration
+            ? _self.duration
+            : duration // ignore: cast_nullable_to_non_nullable
+                  as String,
+        file: freezed == file
+            ? _self.file
+            : file // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        thumbUrl: freezed == thumbUrl
+            ? _self.thumbUrl
+            : thumbUrl // ignore: cast_nullable_to_non_nullable
+                  as String?,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

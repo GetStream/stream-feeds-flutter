@@ -9,73 +9,120 @@ part of 'query_comments_request.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$QueryCommentsRequest {
+  Map<String, Object?> get filter;
+  String? get idAround;
+  int? get limit;
+  String? get next;
+  String? get prev;
+  QueryCommentsRequestSort? get sort;
 
- Map<String, Object?> get filter; String? get idAround; int? get limit; String? get next; String? get prev; QueryCommentsRequestSort? get sort;
-/// Create a copy of QueryCommentsRequest
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$QueryCommentsRequestCopyWith<QueryCommentsRequest> get copyWith => _$QueryCommentsRequestCopyWithImpl<QueryCommentsRequest>(this as QueryCommentsRequest, _$identity);
+  /// Create a copy of QueryCommentsRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $QueryCommentsRequestCopyWith<QueryCommentsRequest> get copyWith =>
+      _$QueryCommentsRequestCopyWithImpl<QueryCommentsRequest>(
+        this as QueryCommentsRequest,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is QueryCommentsRequest &&
+            const DeepCollectionEquality().equals(other.filter, filter) &&
+            (identical(other.idAround, idAround) || other.idAround == idAround) &&
+            (identical(other.limit, limit) || other.limit == limit) &&
+            (identical(other.next, next) || other.next == next) &&
+            (identical(other.prev, prev) || other.prev == prev) &&
+            (identical(other.sort, sort) || other.sort == sort));
+  }
 
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(filter),
+    idAround,
+    limit,
+    next,
+    prev,
+    sort,
+  );
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is QueryCommentsRequest&&const DeepCollectionEquality().equals(other.filter, filter)&&(identical(other.idAround, idAround) || other.idAround == idAround)&&(identical(other.limit, limit) || other.limit == limit)&&(identical(other.next, next) || other.next == next)&&(identical(other.prev, prev) || other.prev == prev)&&(identical(other.sort, sort) || other.sort == sort));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(filter),idAround,limit,next,prev,sort);
-
-@override
-String toString() {
-  return 'QueryCommentsRequest(filter: $filter, idAround: $idAround, limit: $limit, next: $next, prev: $prev, sort: $sort)';
-}
-
-
+  @override
+  String toString() {
+    return 'QueryCommentsRequest(filter: $filter, idAround: $idAround, limit: $limit, next: $next, prev: $prev, sort: $sort)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $QueryCommentsRequestCopyWith<$Res>  {
-  factory $QueryCommentsRequestCopyWith(QueryCommentsRequest value, $Res Function(QueryCommentsRequest) _then) = _$QueryCommentsRequestCopyWithImpl;
-@useResult
-$Res call({
- Map<String, Object?> filter, String? idAround, int? limit, String? next, String? prev, QueryCommentsRequestSort? sort
-});
-
-
-
-
+abstract mixin class $QueryCommentsRequestCopyWith<$Res> {
+  factory $QueryCommentsRequestCopyWith(
+    QueryCommentsRequest value,
+    $Res Function(QueryCommentsRequest) _then,
+  ) = _$QueryCommentsRequestCopyWithImpl;
+  @useResult
+  $Res call({
+    Map<String, Object?> filter,
+    String? idAround,
+    int? limit,
+    String? next,
+    String? prev,
+    QueryCommentsRequestSort? sort,
+  });
 }
+
 /// @nodoc
-class _$QueryCommentsRequestCopyWithImpl<$Res>
-    implements $QueryCommentsRequestCopyWith<$Res> {
+class _$QueryCommentsRequestCopyWithImpl<$Res> implements $QueryCommentsRequestCopyWith<$Res> {
   _$QueryCommentsRequestCopyWithImpl(this._self, this._then);
 
   final QueryCommentsRequest _self;
   final $Res Function(QueryCommentsRequest) _then;
 
-/// Create a copy of QueryCommentsRequest
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? filter = null,Object? idAround = freezed,Object? limit = freezed,Object? next = freezed,Object? prev = freezed,Object? sort = freezed,}) {
-  return _then(QueryCommentsRequest(
-filter: null == filter ? _self.filter : filter // ignore: cast_nullable_to_non_nullable
-as Map<String, Object?>,idAround: freezed == idAround ? _self.idAround : idAround // ignore: cast_nullable_to_non_nullable
-as String?,limit: freezed == limit ? _self.limit : limit // ignore: cast_nullable_to_non_nullable
-as int?,next: freezed == next ? _self.next : next // ignore: cast_nullable_to_non_nullable
-as String?,prev: freezed == prev ? _self.prev : prev // ignore: cast_nullable_to_non_nullable
-as String?,sort: freezed == sort ? _self.sort : sort // ignore: cast_nullable_to_non_nullable
-as QueryCommentsRequestSort?,
-  ));
+  /// Create a copy of QueryCommentsRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? filter = null,
+    Object? idAround = freezed,
+    Object? limit = freezed,
+    Object? next = freezed,
+    Object? prev = freezed,
+    Object? sort = freezed,
+  }) {
+    return _then(
+      QueryCommentsRequest(
+        filter: null == filter
+            ? _self.filter
+            : filter // ignore: cast_nullable_to_non_nullable
+                  as Map<String, Object?>,
+        idAround: freezed == idAround
+            ? _self.idAround
+            : idAround // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        limit: freezed == limit
+            ? _self.limit
+            : limit // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        next: freezed == next
+            ? _self.next
+            : next // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        prev: freezed == prev
+            ? _self.prev
+            : prev // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        sort: freezed == sort
+            ? _self.sort
+            : sort // ignore: cast_nullable_to_non_nullable
+                  as QueryCommentsRequestSort?,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

@@ -9,69 +9,73 @@ part of 'poll_response.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$PollResponse {
+  String get duration;
+  PollResponseData get poll;
 
- String get duration; PollResponseData get poll;
-/// Create a copy of PollResponse
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$PollResponseCopyWith<PollResponse> get copyWith => _$PollResponseCopyWithImpl<PollResponse>(this as PollResponse, _$identity);
+  /// Create a copy of PollResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $PollResponseCopyWith<PollResponse> get copyWith => _$PollResponseCopyWithImpl<PollResponse>(
+    this as PollResponse,
+    _$identity,
+  );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is PollResponse &&
+            (identical(other.duration, duration) || other.duration == duration) &&
+            (identical(other.poll, poll) || other.poll == poll));
+  }
 
+  @override
+  int get hashCode => Object.hash(runtimeType, duration, poll);
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PollResponse&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.poll, poll) || other.poll == poll));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,duration,poll);
-
-@override
-String toString() {
-  return 'PollResponse(duration: $duration, poll: $poll)';
-}
-
-
+  @override
+  String toString() {
+    return 'PollResponse(duration: $duration, poll: $poll)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $PollResponseCopyWith<$Res>  {
-  factory $PollResponseCopyWith(PollResponse value, $Res Function(PollResponse) _then) = _$PollResponseCopyWithImpl;
-@useResult
-$Res call({
- String duration, PollResponseData poll
-});
-
-
-
-
+abstract mixin class $PollResponseCopyWith<$Res> {
+  factory $PollResponseCopyWith(
+    PollResponse value,
+    $Res Function(PollResponse) _then,
+  ) = _$PollResponseCopyWithImpl;
+  @useResult
+  $Res call({String duration, PollResponseData poll});
 }
+
 /// @nodoc
-class _$PollResponseCopyWithImpl<$Res>
-    implements $PollResponseCopyWith<$Res> {
+class _$PollResponseCopyWithImpl<$Res> implements $PollResponseCopyWith<$Res> {
   _$PollResponseCopyWithImpl(this._self, this._then);
 
   final PollResponse _self;
   final $Res Function(PollResponse) _then;
 
-/// Create a copy of PollResponse
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? duration = null,Object? poll = null,}) {
-  return _then(PollResponse(
-duration: null == duration ? _self.duration : duration // ignore: cast_nullable_to_non_nullable
-as String,poll: null == poll ? _self.poll : poll // ignore: cast_nullable_to_non_nullable
-as PollResponseData,
-  ));
+  /// Create a copy of PollResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? duration = null, Object? poll = null}) {
+    return _then(
+      PollResponse(
+        duration: null == duration
+            ? _self.duration
+            : duration // ignore: cast_nullable_to_non_nullable
+                  as String,
+        poll: null == poll
+            ? _self.poll
+            : poll // ignore: cast_nullable_to_non_nullable
+                  as PollResponseData,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

@@ -9,70 +9,84 @@ part of 'activity_feedback_request.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$ActivityFeedbackRequest {
+  bool? get hide;
+  bool? get showLess;
+  bool? get showMore;
 
- bool? get hide; bool? get showLess; bool? get showMore;
-/// Create a copy of ActivityFeedbackRequest
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$ActivityFeedbackRequestCopyWith<ActivityFeedbackRequest> get copyWith => _$ActivityFeedbackRequestCopyWithImpl<ActivityFeedbackRequest>(this as ActivityFeedbackRequest, _$identity);
+  /// Create a copy of ActivityFeedbackRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $ActivityFeedbackRequestCopyWith<ActivityFeedbackRequest> get copyWith =>
+      _$ActivityFeedbackRequestCopyWithImpl<ActivityFeedbackRequest>(
+        this as ActivityFeedbackRequest,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ActivityFeedbackRequest &&
+            (identical(other.hide, hide) || other.hide == hide) &&
+            (identical(other.showLess, showLess) || other.showLess == showLess) &&
+            (identical(other.showMore, showMore) || other.showMore == showMore));
+  }
 
+  @override
+  int get hashCode => Object.hash(runtimeType, hide, showLess, showMore);
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ActivityFeedbackRequest&&(identical(other.hide, hide) || other.hide == hide)&&(identical(other.showLess, showLess) || other.showLess == showLess)&&(identical(other.showMore, showMore) || other.showMore == showMore));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,hide,showLess,showMore);
-
-@override
-String toString() {
-  return 'ActivityFeedbackRequest(hide: $hide, showLess: $showLess, showMore: $showMore)';
-}
-
-
+  @override
+  String toString() {
+    return 'ActivityFeedbackRequest(hide: $hide, showLess: $showLess, showMore: $showMore)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $ActivityFeedbackRequestCopyWith<$Res>  {
-  factory $ActivityFeedbackRequestCopyWith(ActivityFeedbackRequest value, $Res Function(ActivityFeedbackRequest) _then) = _$ActivityFeedbackRequestCopyWithImpl;
-@useResult
-$Res call({
- bool? hide, bool? showLess, bool? showMore
-});
-
-
-
-
+abstract mixin class $ActivityFeedbackRequestCopyWith<$Res> {
+  factory $ActivityFeedbackRequestCopyWith(
+    ActivityFeedbackRequest value,
+    $Res Function(ActivityFeedbackRequest) _then,
+  ) = _$ActivityFeedbackRequestCopyWithImpl;
+  @useResult
+  $Res call({bool? hide, bool? showLess, bool? showMore});
 }
+
 /// @nodoc
-class _$ActivityFeedbackRequestCopyWithImpl<$Res>
-    implements $ActivityFeedbackRequestCopyWith<$Res> {
+class _$ActivityFeedbackRequestCopyWithImpl<$Res> implements $ActivityFeedbackRequestCopyWith<$Res> {
   _$ActivityFeedbackRequestCopyWithImpl(this._self, this._then);
 
   final ActivityFeedbackRequest _self;
   final $Res Function(ActivityFeedbackRequest) _then;
 
-/// Create a copy of ActivityFeedbackRequest
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? hide = freezed,Object? showLess = freezed,Object? showMore = freezed,}) {
-  return _then(ActivityFeedbackRequest(
-hide: freezed == hide ? _self.hide : hide // ignore: cast_nullable_to_non_nullable
-as bool?,showLess: freezed == showLess ? _self.showLess : showLess // ignore: cast_nullable_to_non_nullable
-as bool?,showMore: freezed == showMore ? _self.showMore : showMore // ignore: cast_nullable_to_non_nullable
-as bool?,
-  ));
+  /// Create a copy of ActivityFeedbackRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? hide = freezed,
+    Object? showLess = freezed,
+    Object? showMore = freezed,
+  }) {
+    return _then(
+      ActivityFeedbackRequest(
+        hide: freezed == hide
+            ? _self.hide
+            : hide // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        showLess: freezed == showLess
+            ? _self.showLess
+            : showLess // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        showMore: freezed == showMore
+            ? _self.showMore
+            : showMore // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

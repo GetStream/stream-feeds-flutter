@@ -9,70 +9,97 @@ part of 'delete_activities_request.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$DeleteActivitiesRequest {
+  bool? get deleteNotificationActivity;
+  bool? get hardDelete;
+  List<String> get ids;
 
- bool? get deleteNotificationActivity; bool? get hardDelete; List<String> get ids;
-/// Create a copy of DeleteActivitiesRequest
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$DeleteActivitiesRequestCopyWith<DeleteActivitiesRequest> get copyWith => _$DeleteActivitiesRequestCopyWithImpl<DeleteActivitiesRequest>(this as DeleteActivitiesRequest, _$identity);
+  /// Create a copy of DeleteActivitiesRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $DeleteActivitiesRequestCopyWith<DeleteActivitiesRequest> get copyWith =>
+      _$DeleteActivitiesRequestCopyWithImpl<DeleteActivitiesRequest>(
+        this as DeleteActivitiesRequest,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is DeleteActivitiesRequest &&
+            (identical(
+                  other.deleteNotificationActivity,
+                  deleteNotificationActivity,
+                ) ||
+                other.deleteNotificationActivity == deleteNotificationActivity) &&
+            (identical(other.hardDelete, hardDelete) || other.hardDelete == hardDelete) &&
+            const DeepCollectionEquality().equals(other.ids, ids));
+  }
 
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    deleteNotificationActivity,
+    hardDelete,
+    const DeepCollectionEquality().hash(ids),
+  );
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DeleteActivitiesRequest&&(identical(other.deleteNotificationActivity, deleteNotificationActivity) || other.deleteNotificationActivity == deleteNotificationActivity)&&(identical(other.hardDelete, hardDelete) || other.hardDelete == hardDelete)&&const DeepCollectionEquality().equals(other.ids, ids));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,deleteNotificationActivity,hardDelete,const DeepCollectionEquality().hash(ids));
-
-@override
-String toString() {
-  return 'DeleteActivitiesRequest(deleteNotificationActivity: $deleteNotificationActivity, hardDelete: $hardDelete, ids: $ids)';
-}
-
-
+  @override
+  String toString() {
+    return 'DeleteActivitiesRequest(deleteNotificationActivity: $deleteNotificationActivity, hardDelete: $hardDelete, ids: $ids)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $DeleteActivitiesRequestCopyWith<$Res>  {
-  factory $DeleteActivitiesRequestCopyWith(DeleteActivitiesRequest value, $Res Function(DeleteActivitiesRequest) _then) = _$DeleteActivitiesRequestCopyWithImpl;
-@useResult
-$Res call({
- bool? deleteNotificationActivity, bool? hardDelete, List<String> ids
-});
-
-
-
-
+abstract mixin class $DeleteActivitiesRequestCopyWith<$Res> {
+  factory $DeleteActivitiesRequestCopyWith(
+    DeleteActivitiesRequest value,
+    $Res Function(DeleteActivitiesRequest) _then,
+  ) = _$DeleteActivitiesRequestCopyWithImpl;
+  @useResult
+  $Res call({
+    bool? deleteNotificationActivity,
+    bool? hardDelete,
+    List<String> ids,
+  });
 }
+
 /// @nodoc
-class _$DeleteActivitiesRequestCopyWithImpl<$Res>
-    implements $DeleteActivitiesRequestCopyWith<$Res> {
+class _$DeleteActivitiesRequestCopyWithImpl<$Res> implements $DeleteActivitiesRequestCopyWith<$Res> {
   _$DeleteActivitiesRequestCopyWithImpl(this._self, this._then);
 
   final DeleteActivitiesRequest _self;
   final $Res Function(DeleteActivitiesRequest) _then;
 
-/// Create a copy of DeleteActivitiesRequest
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? deleteNotificationActivity = freezed,Object? hardDelete = freezed,Object? ids = null,}) {
-  return _then(DeleteActivitiesRequest(
-deleteNotificationActivity: freezed == deleteNotificationActivity ? _self.deleteNotificationActivity : deleteNotificationActivity // ignore: cast_nullable_to_non_nullable
-as bool?,hardDelete: freezed == hardDelete ? _self.hardDelete : hardDelete // ignore: cast_nullable_to_non_nullable
-as bool?,ids: null == ids ? _self.ids : ids // ignore: cast_nullable_to_non_nullable
-as List<String>,
-  ));
+  /// Create a copy of DeleteActivitiesRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? deleteNotificationActivity = freezed,
+    Object? hardDelete = freezed,
+    Object? ids = null,
+  }) {
+    return _then(
+      DeleteActivitiesRequest(
+        deleteNotificationActivity: freezed == deleteNotificationActivity
+            ? _self.deleteNotificationActivity
+            : deleteNotificationActivity // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        hardDelete: freezed == hardDelete
+            ? _self.hardDelete
+            : hardDelete // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        ids: null == ids
+            ? _self.ids
+            : ids // ignore: cast_nullable_to_non_nullable
+                  as List<String>,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

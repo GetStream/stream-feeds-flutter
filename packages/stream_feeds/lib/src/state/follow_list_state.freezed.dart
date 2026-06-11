@@ -9,69 +9,77 @@ part of 'follow_list_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$FollowListState {
+  List<FollowData> get follows;
+  PaginationData? get pagination;
 
- List<FollowData> get follows; PaginationData? get pagination;
-/// Create a copy of FollowListState
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$FollowListStateCopyWith<FollowListState> get copyWith => _$FollowListStateCopyWithImpl<FollowListState>(this as FollowListState, _$identity);
+  /// Create a copy of FollowListState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $FollowListStateCopyWith<FollowListState> get copyWith => _$FollowListStateCopyWithImpl<FollowListState>(
+    this as FollowListState,
+    _$identity,
+  );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FollowListState &&
+            const DeepCollectionEquality().equals(other.follows, follows) &&
+            (identical(other.pagination, pagination) || other.pagination == pagination));
+  }
 
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(follows),
+    pagination,
+  );
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FollowListState&&const DeepCollectionEquality().equals(other.follows, follows)&&(identical(other.pagination, pagination) || other.pagination == pagination));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(follows),pagination);
-
-@override
-String toString() {
-  return 'FollowListState(follows: $follows, pagination: $pagination)';
-}
-
-
+  @override
+  String toString() {
+    return 'FollowListState(follows: $follows, pagination: $pagination)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $FollowListStateCopyWith<$Res>  {
-  factory $FollowListStateCopyWith(FollowListState value, $Res Function(FollowListState) _then) = _$FollowListStateCopyWithImpl;
-@useResult
-$Res call({
- List<FollowData> follows, PaginationData? pagination
-});
-
-
-
-
+abstract mixin class $FollowListStateCopyWith<$Res> {
+  factory $FollowListStateCopyWith(
+    FollowListState value,
+    $Res Function(FollowListState) _then,
+  ) = _$FollowListStateCopyWithImpl;
+  @useResult
+  $Res call({List<FollowData> follows, PaginationData? pagination});
 }
+
 /// @nodoc
-class _$FollowListStateCopyWithImpl<$Res>
-    implements $FollowListStateCopyWith<$Res> {
+class _$FollowListStateCopyWithImpl<$Res> implements $FollowListStateCopyWith<$Res> {
   _$FollowListStateCopyWithImpl(this._self, this._then);
 
   final FollowListState _self;
   final $Res Function(FollowListState) _then;
 
-/// Create a copy of FollowListState
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? follows = null,Object? pagination = freezed,}) {
-  return _then(FollowListState(
-follows: null == follows ? _self.follows : follows // ignore: cast_nullable_to_non_nullable
-as List<FollowData>,pagination: freezed == pagination ? _self.pagination : pagination // ignore: cast_nullable_to_non_nullable
-as PaginationData?,
-  ));
+  /// Create a copy of FollowListState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? follows = null, Object? pagination = freezed}) {
+    return _then(
+      FollowListState(
+        follows: null == follows
+            ? _self.follows
+            : follows // ignore: cast_nullable_to_non_nullable
+                  as List<FollowData>,
+        pagination: freezed == pagination
+            ? _self.pagination
+            : pagination // ignore: cast_nullable_to_non_nullable
+                  as PaginationData?,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

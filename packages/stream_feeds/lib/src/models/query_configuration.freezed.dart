@@ -9,69 +9,78 @@ part of 'query_configuration.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$QueryConfiguration<T extends Object> {
+  Filter<T>? get filter;
+  List<Sort<T>>? get sort;
 
- Filter<T>? get filter; List<Sort<T>>? get sort;
-/// Create a copy of QueryConfiguration
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$QueryConfigurationCopyWith<T, QueryConfiguration<T>> get copyWith => _$QueryConfigurationCopyWithImpl<T, QueryConfiguration<T>>(this as QueryConfiguration<T>, _$identity);
+  /// Create a copy of QueryConfiguration
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $QueryConfigurationCopyWith<T, QueryConfiguration<T>> get copyWith =>
+      _$QueryConfigurationCopyWithImpl<T, QueryConfiguration<T>>(
+        this as QueryConfiguration<T>,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is QueryConfiguration<T> &&
+            (identical(other.filter, filter) || other.filter == filter) &&
+            const DeepCollectionEquality().equals(other.sort, sort));
+  }
 
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    filter,
+    const DeepCollectionEquality().hash(sort),
+  );
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is QueryConfiguration<T>&&(identical(other.filter, filter) || other.filter == filter)&&const DeepCollectionEquality().equals(other.sort, sort));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,filter,const DeepCollectionEquality().hash(sort));
-
-@override
-String toString() {
-  return 'QueryConfiguration<$T>(filter: $filter, sort: $sort)';
-}
-
-
+  @override
+  String toString() {
+    return 'QueryConfiguration<$T>(filter: $filter, sort: $sort)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $QueryConfigurationCopyWith<T extends Object,$Res>  {
-  factory $QueryConfigurationCopyWith(QueryConfiguration<T> value, $Res Function(QueryConfiguration<T>) _then) = _$QueryConfigurationCopyWithImpl;
-@useResult
-$Res call({
- Filter<T>? filter, List<Sort<T>>? sort
-});
-
-
-
-
+abstract mixin class $QueryConfigurationCopyWith<T extends Object, $Res> {
+  factory $QueryConfigurationCopyWith(
+    QueryConfiguration<T> value,
+    $Res Function(QueryConfiguration<T>) _then,
+  ) = _$QueryConfigurationCopyWithImpl;
+  @useResult
+  $Res call({Filter<T>? filter, List<Sort<T>>? sort});
 }
+
 /// @nodoc
-class _$QueryConfigurationCopyWithImpl<T extends Object,$Res>
-    implements $QueryConfigurationCopyWith<T, $Res> {
+class _$QueryConfigurationCopyWithImpl<T extends Object, $Res> implements $QueryConfigurationCopyWith<T, $Res> {
   _$QueryConfigurationCopyWithImpl(this._self, this._then);
 
   final QueryConfiguration<T> _self;
   final $Res Function(QueryConfiguration<T>) _then;
 
-/// Create a copy of QueryConfiguration
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? filter = freezed,Object? sort = freezed,}) {
-  return _then(QueryConfiguration(
-filter: freezed == filter ? _self.filter : filter // ignore: cast_nullable_to_non_nullable
-as Filter<T>?,sort: freezed == sort ? _self.sort : sort // ignore: cast_nullable_to_non_nullable
-as List<Sort<T>>?,
-  ));
+  /// Create a copy of QueryConfiguration
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? filter = freezed, Object? sort = freezed}) {
+    return _then(
+      QueryConfiguration(
+        filter: freezed == filter
+            ? _self.filter
+            : filter // ignore: cast_nullable_to_non_nullable
+                  as Filter<T>?,
+        sort: freezed == sort
+            ? _self.sort
+            : sort // ignore: cast_nullable_to_non_nullable
+                  as List<Sort<T>>?,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

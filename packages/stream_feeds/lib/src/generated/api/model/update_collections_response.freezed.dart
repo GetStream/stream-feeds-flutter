@@ -9,69 +9,81 @@ part of 'update_collections_response.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$UpdateCollectionsResponse {
+  List<CollectionResponse> get collections;
+  String get duration;
 
- List<CollectionResponse> get collections; String get duration;
-/// Create a copy of UpdateCollectionsResponse
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$UpdateCollectionsResponseCopyWith<UpdateCollectionsResponse> get copyWith => _$UpdateCollectionsResponseCopyWithImpl<UpdateCollectionsResponse>(this as UpdateCollectionsResponse, _$identity);
+  /// Create a copy of UpdateCollectionsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $UpdateCollectionsResponseCopyWith<UpdateCollectionsResponse> get copyWith =>
+      _$UpdateCollectionsResponseCopyWithImpl<UpdateCollectionsResponse>(
+        this as UpdateCollectionsResponse,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is UpdateCollectionsResponse &&
+            const DeepCollectionEquality().equals(
+              other.collections,
+              collections,
+            ) &&
+            (identical(other.duration, duration) || other.duration == duration));
+  }
 
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(collections),
+    duration,
+  );
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateCollectionsResponse&&const DeepCollectionEquality().equals(other.collections, collections)&&(identical(other.duration, duration) || other.duration == duration));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(collections),duration);
-
-@override
-String toString() {
-  return 'UpdateCollectionsResponse(collections: $collections, duration: $duration)';
-}
-
-
+  @override
+  String toString() {
+    return 'UpdateCollectionsResponse(collections: $collections, duration: $duration)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $UpdateCollectionsResponseCopyWith<$Res>  {
-  factory $UpdateCollectionsResponseCopyWith(UpdateCollectionsResponse value, $Res Function(UpdateCollectionsResponse) _then) = _$UpdateCollectionsResponseCopyWithImpl;
-@useResult
-$Res call({
- List<CollectionResponse> collections, String duration
-});
-
-
-
-
+abstract mixin class $UpdateCollectionsResponseCopyWith<$Res> {
+  factory $UpdateCollectionsResponseCopyWith(
+    UpdateCollectionsResponse value,
+    $Res Function(UpdateCollectionsResponse) _then,
+  ) = _$UpdateCollectionsResponseCopyWithImpl;
+  @useResult
+  $Res call({List<CollectionResponse> collections, String duration});
 }
+
 /// @nodoc
-class _$UpdateCollectionsResponseCopyWithImpl<$Res>
-    implements $UpdateCollectionsResponseCopyWith<$Res> {
+class _$UpdateCollectionsResponseCopyWithImpl<$Res> implements $UpdateCollectionsResponseCopyWith<$Res> {
   _$UpdateCollectionsResponseCopyWithImpl(this._self, this._then);
 
   final UpdateCollectionsResponse _self;
   final $Res Function(UpdateCollectionsResponse) _then;
 
-/// Create a copy of UpdateCollectionsResponse
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? collections = null,Object? duration = null,}) {
-  return _then(UpdateCollectionsResponse(
-collections: null == collections ? _self.collections : collections // ignore: cast_nullable_to_non_nullable
-as List<CollectionResponse>,duration: null == duration ? _self.duration : duration // ignore: cast_nullable_to_non_nullable
-as String,
-  ));
+  /// Create a copy of UpdateCollectionsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? collections = null, Object? duration = null}) {
+    return _then(
+      UpdateCollectionsResponse(
+        collections: null == collections
+            ? _self.collections
+            : collections // ignore: cast_nullable_to_non_nullable
+                  as List<CollectionResponse>,
+        duration: null == duration
+            ? _self.duration
+            : duration // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

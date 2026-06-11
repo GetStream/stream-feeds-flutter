@@ -9,69 +9,74 @@ part of 'get_activity_response.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$GetActivityResponse {
+  ActivityResponse get activity;
+  String get duration;
 
- ActivityResponse get activity; String get duration;
-/// Create a copy of GetActivityResponse
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$GetActivityResponseCopyWith<GetActivityResponse> get copyWith => _$GetActivityResponseCopyWithImpl<GetActivityResponse>(this as GetActivityResponse, _$identity);
+  /// Create a copy of GetActivityResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $GetActivityResponseCopyWith<GetActivityResponse> get copyWith =>
+      _$GetActivityResponseCopyWithImpl<GetActivityResponse>(
+        this as GetActivityResponse,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is GetActivityResponse &&
+            (identical(other.activity, activity) || other.activity == activity) &&
+            (identical(other.duration, duration) || other.duration == duration));
+  }
 
+  @override
+  int get hashCode => Object.hash(runtimeType, activity, duration);
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is GetActivityResponse&&(identical(other.activity, activity) || other.activity == activity)&&(identical(other.duration, duration) || other.duration == duration));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,activity,duration);
-
-@override
-String toString() {
-  return 'GetActivityResponse(activity: $activity, duration: $duration)';
-}
-
-
+  @override
+  String toString() {
+    return 'GetActivityResponse(activity: $activity, duration: $duration)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $GetActivityResponseCopyWith<$Res>  {
-  factory $GetActivityResponseCopyWith(GetActivityResponse value, $Res Function(GetActivityResponse) _then) = _$GetActivityResponseCopyWithImpl;
-@useResult
-$Res call({
- ActivityResponse activity, String duration
-});
-
-
-
-
+abstract mixin class $GetActivityResponseCopyWith<$Res> {
+  factory $GetActivityResponseCopyWith(
+    GetActivityResponse value,
+    $Res Function(GetActivityResponse) _then,
+  ) = _$GetActivityResponseCopyWithImpl;
+  @useResult
+  $Res call({ActivityResponse activity, String duration});
 }
+
 /// @nodoc
-class _$GetActivityResponseCopyWithImpl<$Res>
-    implements $GetActivityResponseCopyWith<$Res> {
+class _$GetActivityResponseCopyWithImpl<$Res> implements $GetActivityResponseCopyWith<$Res> {
   _$GetActivityResponseCopyWithImpl(this._self, this._then);
 
   final GetActivityResponse _self;
   final $Res Function(GetActivityResponse) _then;
 
-/// Create a copy of GetActivityResponse
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? activity = null,Object? duration = null,}) {
-  return _then(GetActivityResponse(
-activity: null == activity ? _self.activity : activity // ignore: cast_nullable_to_non_nullable
-as ActivityResponse,duration: null == duration ? _self.duration : duration // ignore: cast_nullable_to_non_nullable
-as String,
-  ));
+  /// Create a copy of GetActivityResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? activity = null, Object? duration = null}) {
+    return _then(
+      GetActivityResponse(
+        activity: null == activity
+            ? _self.activity
+            : activity // ignore: cast_nullable_to_non_nullable
+                  as ActivityResponse,
+        duration: null == duration
+            ? _self.duration
+            : duration // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

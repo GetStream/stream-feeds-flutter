@@ -9,69 +9,74 @@ part of 'update_activity_partial_response.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$UpdateActivityPartialResponse {
+  ActivityResponse get activity;
+  String get duration;
 
- ActivityResponse get activity; String get duration;
-/// Create a copy of UpdateActivityPartialResponse
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$UpdateActivityPartialResponseCopyWith<UpdateActivityPartialResponse> get copyWith => _$UpdateActivityPartialResponseCopyWithImpl<UpdateActivityPartialResponse>(this as UpdateActivityPartialResponse, _$identity);
+  /// Create a copy of UpdateActivityPartialResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $UpdateActivityPartialResponseCopyWith<UpdateActivityPartialResponse> get copyWith =>
+      _$UpdateActivityPartialResponseCopyWithImpl<UpdateActivityPartialResponse>(
+        this as UpdateActivityPartialResponse,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is UpdateActivityPartialResponse &&
+            (identical(other.activity, activity) || other.activity == activity) &&
+            (identical(other.duration, duration) || other.duration == duration));
+  }
 
+  @override
+  int get hashCode => Object.hash(runtimeType, activity, duration);
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateActivityPartialResponse&&(identical(other.activity, activity) || other.activity == activity)&&(identical(other.duration, duration) || other.duration == duration));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,activity,duration);
-
-@override
-String toString() {
-  return 'UpdateActivityPartialResponse(activity: $activity, duration: $duration)';
-}
-
-
+  @override
+  String toString() {
+    return 'UpdateActivityPartialResponse(activity: $activity, duration: $duration)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $UpdateActivityPartialResponseCopyWith<$Res>  {
-  factory $UpdateActivityPartialResponseCopyWith(UpdateActivityPartialResponse value, $Res Function(UpdateActivityPartialResponse) _then) = _$UpdateActivityPartialResponseCopyWithImpl;
-@useResult
-$Res call({
- ActivityResponse activity, String duration
-});
-
-
-
-
+abstract mixin class $UpdateActivityPartialResponseCopyWith<$Res> {
+  factory $UpdateActivityPartialResponseCopyWith(
+    UpdateActivityPartialResponse value,
+    $Res Function(UpdateActivityPartialResponse) _then,
+  ) = _$UpdateActivityPartialResponseCopyWithImpl;
+  @useResult
+  $Res call({ActivityResponse activity, String duration});
 }
+
 /// @nodoc
-class _$UpdateActivityPartialResponseCopyWithImpl<$Res>
-    implements $UpdateActivityPartialResponseCopyWith<$Res> {
+class _$UpdateActivityPartialResponseCopyWithImpl<$Res> implements $UpdateActivityPartialResponseCopyWith<$Res> {
   _$UpdateActivityPartialResponseCopyWithImpl(this._self, this._then);
 
   final UpdateActivityPartialResponse _self;
   final $Res Function(UpdateActivityPartialResponse) _then;
 
-/// Create a copy of UpdateActivityPartialResponse
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? activity = null,Object? duration = null,}) {
-  return _then(UpdateActivityPartialResponse(
-activity: null == activity ? _self.activity : activity // ignore: cast_nullable_to_non_nullable
-as ActivityResponse,duration: null == duration ? _self.duration : duration // ignore: cast_nullable_to_non_nullable
-as String,
-  ));
+  /// Create a copy of UpdateActivityPartialResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? activity = null, Object? duration = null}) {
+    return _then(
+      UpdateActivityPartialResponse(
+        activity: null == activity
+            ? _self.activity
+            : activity // ignore: cast_nullable_to_non_nullable
+                  as ActivityResponse,
+        duration: null == duration
+            ? _self.duration
+            : duration // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

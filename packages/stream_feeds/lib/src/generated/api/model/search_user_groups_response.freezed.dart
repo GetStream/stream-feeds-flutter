@@ -9,69 +9,81 @@ part of 'search_user_groups_response.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$SearchUserGroupsResponse {
+  String get duration;
+  List<UserGroupResponse> get userGroups;
 
- String get duration; List<UserGroupResponse> get userGroups;
-/// Create a copy of SearchUserGroupsResponse
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$SearchUserGroupsResponseCopyWith<SearchUserGroupsResponse> get copyWith => _$SearchUserGroupsResponseCopyWithImpl<SearchUserGroupsResponse>(this as SearchUserGroupsResponse, _$identity);
+  /// Create a copy of SearchUserGroupsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $SearchUserGroupsResponseCopyWith<SearchUserGroupsResponse> get copyWith =>
+      _$SearchUserGroupsResponseCopyWithImpl<SearchUserGroupsResponse>(
+        this as SearchUserGroupsResponse,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is SearchUserGroupsResponse &&
+            (identical(other.duration, duration) || other.duration == duration) &&
+            const DeepCollectionEquality().equals(
+              other.userGroups,
+              userGroups,
+            ));
+  }
 
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    duration,
+    const DeepCollectionEquality().hash(userGroups),
+  );
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SearchUserGroupsResponse&&(identical(other.duration, duration) || other.duration == duration)&&const DeepCollectionEquality().equals(other.userGroups, userGroups));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,duration,const DeepCollectionEquality().hash(userGroups));
-
-@override
-String toString() {
-  return 'SearchUserGroupsResponse(duration: $duration, userGroups: $userGroups)';
-}
-
-
+  @override
+  String toString() {
+    return 'SearchUserGroupsResponse(duration: $duration, userGroups: $userGroups)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $SearchUserGroupsResponseCopyWith<$Res>  {
-  factory $SearchUserGroupsResponseCopyWith(SearchUserGroupsResponse value, $Res Function(SearchUserGroupsResponse) _then) = _$SearchUserGroupsResponseCopyWithImpl;
-@useResult
-$Res call({
- String duration, List<UserGroupResponse> userGroups
-});
-
-
-
-
+abstract mixin class $SearchUserGroupsResponseCopyWith<$Res> {
+  factory $SearchUserGroupsResponseCopyWith(
+    SearchUserGroupsResponse value,
+    $Res Function(SearchUserGroupsResponse) _then,
+  ) = _$SearchUserGroupsResponseCopyWithImpl;
+  @useResult
+  $Res call({String duration, List<UserGroupResponse> userGroups});
 }
+
 /// @nodoc
-class _$SearchUserGroupsResponseCopyWithImpl<$Res>
-    implements $SearchUserGroupsResponseCopyWith<$Res> {
+class _$SearchUserGroupsResponseCopyWithImpl<$Res> implements $SearchUserGroupsResponseCopyWith<$Res> {
   _$SearchUserGroupsResponseCopyWithImpl(this._self, this._then);
 
   final SearchUserGroupsResponse _self;
   final $Res Function(SearchUserGroupsResponse) _then;
 
-/// Create a copy of SearchUserGroupsResponse
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? duration = null,Object? userGroups = null,}) {
-  return _then(SearchUserGroupsResponse(
-duration: null == duration ? _self.duration : duration // ignore: cast_nullable_to_non_nullable
-as String,userGroups: null == userGroups ? _self.userGroups : userGroups // ignore: cast_nullable_to_non_nullable
-as List<UserGroupResponse>,
-  ));
+  /// Create a copy of SearchUserGroupsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? duration = null, Object? userGroups = null}) {
+    return _then(
+      SearchUserGroupsResponse(
+        duration: null == duration
+            ? _self.duration
+            : duration // ignore: cast_nullable_to_non_nullable
+                  as String,
+        userGroups: null == userGroups
+            ? _self.userGroups
+            : userGroups // ignore: cast_nullable_to_non_nullable
+                  as List<UserGroupResponse>,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

@@ -9,71 +9,105 @@ part of 'query_activities_response.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$QueryActivitiesResponse {
+  List<ActivityResponse> get activities;
+  String get duration;
+  String? get next;
+  String? get prev;
 
- List<ActivityResponse> get activities; String get duration; String? get next; String? get prev;
-/// Create a copy of QueryActivitiesResponse
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$QueryActivitiesResponseCopyWith<QueryActivitiesResponse> get copyWith => _$QueryActivitiesResponseCopyWithImpl<QueryActivitiesResponse>(this as QueryActivitiesResponse, _$identity);
+  /// Create a copy of QueryActivitiesResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $QueryActivitiesResponseCopyWith<QueryActivitiesResponse> get copyWith =>
+      _$QueryActivitiesResponseCopyWithImpl<QueryActivitiesResponse>(
+        this as QueryActivitiesResponse,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is QueryActivitiesResponse &&
+            const DeepCollectionEquality().equals(
+              other.activities,
+              activities,
+            ) &&
+            (identical(other.duration, duration) || other.duration == duration) &&
+            (identical(other.next, next) || other.next == next) &&
+            (identical(other.prev, prev) || other.prev == prev));
+  }
 
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(activities),
+    duration,
+    next,
+    prev,
+  );
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is QueryActivitiesResponse&&const DeepCollectionEquality().equals(other.activities, activities)&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.next, next) || other.next == next)&&(identical(other.prev, prev) || other.prev == prev));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(activities),duration,next,prev);
-
-@override
-String toString() {
-  return 'QueryActivitiesResponse(activities: $activities, duration: $duration, next: $next, prev: $prev)';
-}
-
-
+  @override
+  String toString() {
+    return 'QueryActivitiesResponse(activities: $activities, duration: $duration, next: $next, prev: $prev)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $QueryActivitiesResponseCopyWith<$Res>  {
-  factory $QueryActivitiesResponseCopyWith(QueryActivitiesResponse value, $Res Function(QueryActivitiesResponse) _then) = _$QueryActivitiesResponseCopyWithImpl;
-@useResult
-$Res call({
- List<ActivityResponse> activities, String duration, String? next, String? prev
-});
-
-
-
-
+abstract mixin class $QueryActivitiesResponseCopyWith<$Res> {
+  factory $QueryActivitiesResponseCopyWith(
+    QueryActivitiesResponse value,
+    $Res Function(QueryActivitiesResponse) _then,
+  ) = _$QueryActivitiesResponseCopyWithImpl;
+  @useResult
+  $Res call({
+    List<ActivityResponse> activities,
+    String duration,
+    String? next,
+    String? prev,
+  });
 }
+
 /// @nodoc
-class _$QueryActivitiesResponseCopyWithImpl<$Res>
-    implements $QueryActivitiesResponseCopyWith<$Res> {
+class _$QueryActivitiesResponseCopyWithImpl<$Res> implements $QueryActivitiesResponseCopyWith<$Res> {
   _$QueryActivitiesResponseCopyWithImpl(this._self, this._then);
 
   final QueryActivitiesResponse _self;
   final $Res Function(QueryActivitiesResponse) _then;
 
-/// Create a copy of QueryActivitiesResponse
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? activities = null,Object? duration = null,Object? next = freezed,Object? prev = freezed,}) {
-  return _then(QueryActivitiesResponse(
-activities: null == activities ? _self.activities : activities // ignore: cast_nullable_to_non_nullable
-as List<ActivityResponse>,duration: null == duration ? _self.duration : duration // ignore: cast_nullable_to_non_nullable
-as String,next: freezed == next ? _self.next : next // ignore: cast_nullable_to_non_nullable
-as String?,prev: freezed == prev ? _self.prev : prev // ignore: cast_nullable_to_non_nullable
-as String?,
-  ));
+  /// Create a copy of QueryActivitiesResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? activities = null,
+    Object? duration = null,
+    Object? next = freezed,
+    Object? prev = freezed,
+  }) {
+    return _then(
+      QueryActivitiesResponse(
+        activities: null == activities
+            ? _self.activities
+            : activities // ignore: cast_nullable_to_non_nullable
+                  as List<ActivityResponse>,
+        duration: null == duration
+            ? _self.duration
+            : duration // ignore: cast_nullable_to_non_nullable
+                  as String,
+        next: freezed == next
+            ? _self.next
+            : next // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        prev: freezed == prev
+            ? _self.prev
+            : prev // ignore: cast_nullable_to_non_nullable
+                  as String?,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

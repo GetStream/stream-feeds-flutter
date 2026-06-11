@@ -9,69 +9,73 @@ part of 'flag_response.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$FlagResponse {
+  String get duration;
+  String get itemId;
 
- String get duration; String get itemId;
-/// Create a copy of FlagResponse
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$FlagResponseCopyWith<FlagResponse> get copyWith => _$FlagResponseCopyWithImpl<FlagResponse>(this as FlagResponse, _$identity);
+  /// Create a copy of FlagResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $FlagResponseCopyWith<FlagResponse> get copyWith => _$FlagResponseCopyWithImpl<FlagResponse>(
+    this as FlagResponse,
+    _$identity,
+  );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FlagResponse &&
+            (identical(other.duration, duration) || other.duration == duration) &&
+            (identical(other.itemId, itemId) || other.itemId == itemId));
+  }
 
+  @override
+  int get hashCode => Object.hash(runtimeType, duration, itemId);
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FlagResponse&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.itemId, itemId) || other.itemId == itemId));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,duration,itemId);
-
-@override
-String toString() {
-  return 'FlagResponse(duration: $duration, itemId: $itemId)';
-}
-
-
+  @override
+  String toString() {
+    return 'FlagResponse(duration: $duration, itemId: $itemId)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $FlagResponseCopyWith<$Res>  {
-  factory $FlagResponseCopyWith(FlagResponse value, $Res Function(FlagResponse) _then) = _$FlagResponseCopyWithImpl;
-@useResult
-$Res call({
- String duration, String itemId
-});
-
-
-
-
+abstract mixin class $FlagResponseCopyWith<$Res> {
+  factory $FlagResponseCopyWith(
+    FlagResponse value,
+    $Res Function(FlagResponse) _then,
+  ) = _$FlagResponseCopyWithImpl;
+  @useResult
+  $Res call({String duration, String itemId});
 }
+
 /// @nodoc
-class _$FlagResponseCopyWithImpl<$Res>
-    implements $FlagResponseCopyWith<$Res> {
+class _$FlagResponseCopyWithImpl<$Res> implements $FlagResponseCopyWith<$Res> {
   _$FlagResponseCopyWithImpl(this._self, this._then);
 
   final FlagResponse _self;
   final $Res Function(FlagResponse) _then;
 
-/// Create a copy of FlagResponse
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? duration = null,Object? itemId = null,}) {
-  return _then(FlagResponse(
-duration: null == duration ? _self.duration : duration // ignore: cast_nullable_to_non_nullable
-as String,itemId: null == itemId ? _self.itemId : itemId // ignore: cast_nullable_to_non_nullable
-as String,
-  ));
+  /// Create a copy of FlagResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? duration = null, Object? itemId = null}) {
+    return _then(
+      FlagResponse(
+        duration: null == duration
+            ? _self.duration
+            : duration // ignore: cast_nullable_to_non_nullable
+                  as String,
+        itemId: null == itemId
+            ? _self.itemId
+            : itemId // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

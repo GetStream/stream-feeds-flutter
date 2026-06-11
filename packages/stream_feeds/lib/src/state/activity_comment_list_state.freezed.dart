@@ -9,69 +9,78 @@ part of 'activity_comment_list_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$ActivityCommentListState {
+  List<CommentData> get comments;
+  PaginationData? get pagination;
 
- List<CommentData> get comments; PaginationData? get pagination;
-/// Create a copy of ActivityCommentListState
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$ActivityCommentListStateCopyWith<ActivityCommentListState> get copyWith => _$ActivityCommentListStateCopyWithImpl<ActivityCommentListState>(this as ActivityCommentListState, _$identity);
+  /// Create a copy of ActivityCommentListState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $ActivityCommentListStateCopyWith<ActivityCommentListState> get copyWith =>
+      _$ActivityCommentListStateCopyWithImpl<ActivityCommentListState>(
+        this as ActivityCommentListState,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ActivityCommentListState &&
+            const DeepCollectionEquality().equals(other.comments, comments) &&
+            (identical(other.pagination, pagination) || other.pagination == pagination));
+  }
 
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(comments),
+    pagination,
+  );
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ActivityCommentListState&&const DeepCollectionEquality().equals(other.comments, comments)&&(identical(other.pagination, pagination) || other.pagination == pagination));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(comments),pagination);
-
-@override
-String toString() {
-  return 'ActivityCommentListState(comments: $comments, pagination: $pagination)';
-}
-
-
+  @override
+  String toString() {
+    return 'ActivityCommentListState(comments: $comments, pagination: $pagination)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $ActivityCommentListStateCopyWith<$Res>  {
-  factory $ActivityCommentListStateCopyWith(ActivityCommentListState value, $Res Function(ActivityCommentListState) _then) = _$ActivityCommentListStateCopyWithImpl;
-@useResult
-$Res call({
- List<CommentData> comments, PaginationData? pagination
-});
-
-
-
-
+abstract mixin class $ActivityCommentListStateCopyWith<$Res> {
+  factory $ActivityCommentListStateCopyWith(
+    ActivityCommentListState value,
+    $Res Function(ActivityCommentListState) _then,
+  ) = _$ActivityCommentListStateCopyWithImpl;
+  @useResult
+  $Res call({List<CommentData> comments, PaginationData? pagination});
 }
+
 /// @nodoc
-class _$ActivityCommentListStateCopyWithImpl<$Res>
-    implements $ActivityCommentListStateCopyWith<$Res> {
+class _$ActivityCommentListStateCopyWithImpl<$Res> implements $ActivityCommentListStateCopyWith<$Res> {
   _$ActivityCommentListStateCopyWithImpl(this._self, this._then);
 
   final ActivityCommentListState _self;
   final $Res Function(ActivityCommentListState) _then;
 
-/// Create a copy of ActivityCommentListState
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? comments = null,Object? pagination = freezed,}) {
-  return _then(ActivityCommentListState(
-comments: null == comments ? _self.comments : comments // ignore: cast_nullable_to_non_nullable
-as List<CommentData>,pagination: freezed == pagination ? _self.pagination : pagination // ignore: cast_nullable_to_non_nullable
-as PaginationData?,
-  ));
+  /// Create a copy of ActivityCommentListState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? comments = null, Object? pagination = freezed}) {
+    return _then(
+      ActivityCommentListState(
+        comments: null == comments
+            ? _self.comments
+            : comments // ignore: cast_nullable_to_non_nullable
+                  as List<CommentData>,
+        pagination: freezed == pagination
+            ? _self.pagination
+            : pagination // ignore: cast_nullable_to_non_nullable
+                  as PaginationData?,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

@@ -9,68 +9,68 @@ part of 'unblock_users_request.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$UnblockUsersRequest {
+  String get blockedUserId;
 
- String get blockedUserId;
-/// Create a copy of UnblockUsersRequest
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$UnblockUsersRequestCopyWith<UnblockUsersRequest> get copyWith => _$UnblockUsersRequestCopyWithImpl<UnblockUsersRequest>(this as UnblockUsersRequest, _$identity);
+  /// Create a copy of UnblockUsersRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $UnblockUsersRequestCopyWith<UnblockUsersRequest> get copyWith =>
+      _$UnblockUsersRequestCopyWithImpl<UnblockUsersRequest>(
+        this as UnblockUsersRequest,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is UnblockUsersRequest &&
+            (identical(other.blockedUserId, blockedUserId) || other.blockedUserId == blockedUserId));
+  }
 
+  @override
+  int get hashCode => Object.hash(runtimeType, blockedUserId);
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UnblockUsersRequest&&(identical(other.blockedUserId, blockedUserId) || other.blockedUserId == blockedUserId));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,blockedUserId);
-
-@override
-String toString() {
-  return 'UnblockUsersRequest(blockedUserId: $blockedUserId)';
-}
-
-
+  @override
+  String toString() {
+    return 'UnblockUsersRequest(blockedUserId: $blockedUserId)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $UnblockUsersRequestCopyWith<$Res>  {
-  factory $UnblockUsersRequestCopyWith(UnblockUsersRequest value, $Res Function(UnblockUsersRequest) _then) = _$UnblockUsersRequestCopyWithImpl;
-@useResult
-$Res call({
- String blockedUserId
-});
-
-
-
-
+abstract mixin class $UnblockUsersRequestCopyWith<$Res> {
+  factory $UnblockUsersRequestCopyWith(
+    UnblockUsersRequest value,
+    $Res Function(UnblockUsersRequest) _then,
+  ) = _$UnblockUsersRequestCopyWithImpl;
+  @useResult
+  $Res call({String blockedUserId});
 }
+
 /// @nodoc
-class _$UnblockUsersRequestCopyWithImpl<$Res>
-    implements $UnblockUsersRequestCopyWith<$Res> {
+class _$UnblockUsersRequestCopyWithImpl<$Res> implements $UnblockUsersRequestCopyWith<$Res> {
   _$UnblockUsersRequestCopyWithImpl(this._self, this._then);
 
   final UnblockUsersRequest _self;
   final $Res Function(UnblockUsersRequest) _then;
 
-/// Create a copy of UnblockUsersRequest
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? blockedUserId = null,}) {
-  return _then(UnblockUsersRequest(
-blockedUserId: null == blockedUserId ? _self.blockedUserId : blockedUserId // ignore: cast_nullable_to_non_nullable
-as String,
-  ));
+  /// Create a copy of UnblockUsersRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? blockedUserId = null}) {
+    return _then(
+      UnblockUsersRequest(
+        blockedUserId: null == blockedUserId
+            ? _self.blockedUserId
+            : blockedUserId // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

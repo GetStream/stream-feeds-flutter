@@ -9,70 +9,85 @@ part of 'update_collection_request.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$UpdateCollectionRequest {
+  Map<String, Object?> get custom;
+  String get id;
+  String get name;
 
- Map<String, Object?> get custom; String get id; String get name;
-/// Create a copy of UpdateCollectionRequest
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$UpdateCollectionRequestCopyWith<UpdateCollectionRequest> get copyWith => _$UpdateCollectionRequestCopyWithImpl<UpdateCollectionRequest>(this as UpdateCollectionRequest, _$identity);
+  /// Create a copy of UpdateCollectionRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $UpdateCollectionRequestCopyWith<UpdateCollectionRequest> get copyWith =>
+      _$UpdateCollectionRequestCopyWithImpl<UpdateCollectionRequest>(
+        this as UpdateCollectionRequest,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is UpdateCollectionRequest &&
+            const DeepCollectionEquality().equals(other.custom, custom) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name));
+  }
 
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(custom),
+    id,
+    name,
+  );
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateCollectionRequest&&const DeepCollectionEquality().equals(other.custom, custom)&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(custom),id,name);
-
-@override
-String toString() {
-  return 'UpdateCollectionRequest(custom: $custom, id: $id, name: $name)';
-}
-
-
+  @override
+  String toString() {
+    return 'UpdateCollectionRequest(custom: $custom, id: $id, name: $name)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $UpdateCollectionRequestCopyWith<$Res>  {
-  factory $UpdateCollectionRequestCopyWith(UpdateCollectionRequest value, $Res Function(UpdateCollectionRequest) _then) = _$UpdateCollectionRequestCopyWithImpl;
-@useResult
-$Res call({
- Map<String, Object?> custom, String id, String name
-});
-
-
-
-
+abstract mixin class $UpdateCollectionRequestCopyWith<$Res> {
+  factory $UpdateCollectionRequestCopyWith(
+    UpdateCollectionRequest value,
+    $Res Function(UpdateCollectionRequest) _then,
+  ) = _$UpdateCollectionRequestCopyWithImpl;
+  @useResult
+  $Res call({Map<String, Object?> custom, String id, String name});
 }
+
 /// @nodoc
-class _$UpdateCollectionRequestCopyWithImpl<$Res>
-    implements $UpdateCollectionRequestCopyWith<$Res> {
+class _$UpdateCollectionRequestCopyWithImpl<$Res> implements $UpdateCollectionRequestCopyWith<$Res> {
   _$UpdateCollectionRequestCopyWithImpl(this._self, this._then);
 
   final UpdateCollectionRequest _self;
   final $Res Function(UpdateCollectionRequest) _then;
 
-/// Create a copy of UpdateCollectionRequest
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? custom = null,Object? id = null,Object? name = null,}) {
-  return _then(UpdateCollectionRequest(
-custom: null == custom ? _self.custom : custom // ignore: cast_nullable_to_non_nullable
-as Map<String, Object?>,id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,
-  ));
+  /// Create a copy of UpdateCollectionRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? custom = null, Object? id = null, Object? name = null}) {
+    return _then(
+      UpdateCollectionRequest(
+        custom: null == custom
+            ? _self.custom
+            : custom // ignore: cast_nullable_to_non_nullable
+                  as Map<String, Object?>,
+        id: null == id
+            ? _self.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String,
+        name: null == name
+            ? _self.name
+            : name // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

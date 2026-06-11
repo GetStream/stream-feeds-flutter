@@ -9,71 +9,102 @@ part of 'feed_member_request_data.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$FeedMemberRequestData {
+  String get userId;
+  String? get role;
+  bool? get invite;
+  Map<String, Object?>? get custom;
 
- String get userId; String? get role; bool? get invite; Map<String, Object?>? get custom;
-/// Create a copy of FeedMemberRequestData
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$FeedMemberRequestDataCopyWith<FeedMemberRequestData> get copyWith => _$FeedMemberRequestDataCopyWithImpl<FeedMemberRequestData>(this as FeedMemberRequestData, _$identity);
+  /// Create a copy of FeedMemberRequestData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $FeedMemberRequestDataCopyWith<FeedMemberRequestData> get copyWith =>
+      _$FeedMemberRequestDataCopyWithImpl<FeedMemberRequestData>(
+        this as FeedMemberRequestData,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FeedMemberRequestData &&
+            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.role, role) || other.role == role) &&
+            (identical(other.invite, invite) || other.invite == invite) &&
+            const DeepCollectionEquality().equals(other.custom, custom));
+  }
 
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    userId,
+    role,
+    invite,
+    const DeepCollectionEquality().hash(custom),
+  );
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FeedMemberRequestData&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.role, role) || other.role == role)&&(identical(other.invite, invite) || other.invite == invite)&&const DeepCollectionEquality().equals(other.custom, custom));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,userId,role,invite,const DeepCollectionEquality().hash(custom));
-
-@override
-String toString() {
-  return 'FeedMemberRequestData(userId: $userId, role: $role, invite: $invite, custom: $custom)';
-}
-
-
+  @override
+  String toString() {
+    return 'FeedMemberRequestData(userId: $userId, role: $role, invite: $invite, custom: $custom)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $FeedMemberRequestDataCopyWith<$Res>  {
-  factory $FeedMemberRequestDataCopyWith(FeedMemberRequestData value, $Res Function(FeedMemberRequestData) _then) = _$FeedMemberRequestDataCopyWithImpl;
-@useResult
-$Res call({
- String userId, String? role, bool? invite, Map<String, Object?>? custom
-});
-
-
-
-
+abstract mixin class $FeedMemberRequestDataCopyWith<$Res> {
+  factory $FeedMemberRequestDataCopyWith(
+    FeedMemberRequestData value,
+    $Res Function(FeedMemberRequestData) _then,
+  ) = _$FeedMemberRequestDataCopyWithImpl;
+  @useResult
+  $Res call({
+    String userId,
+    String? role,
+    bool? invite,
+    Map<String, Object?>? custom,
+  });
 }
+
 /// @nodoc
-class _$FeedMemberRequestDataCopyWithImpl<$Res>
-    implements $FeedMemberRequestDataCopyWith<$Res> {
+class _$FeedMemberRequestDataCopyWithImpl<$Res> implements $FeedMemberRequestDataCopyWith<$Res> {
   _$FeedMemberRequestDataCopyWithImpl(this._self, this._then);
 
   final FeedMemberRequestData _self;
   final $Res Function(FeedMemberRequestData) _then;
 
-/// Create a copy of FeedMemberRequestData
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? userId = null,Object? role = freezed,Object? invite = freezed,Object? custom = freezed,}) {
-  return _then(FeedMemberRequestData(
-userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
-as String,role: freezed == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
-as String?,invite: freezed == invite ? _self.invite : invite // ignore: cast_nullable_to_non_nullable
-as bool?,custom: freezed == custom ? _self.custom : custom // ignore: cast_nullable_to_non_nullable
-as Map<String, Object?>?,
-  ));
+  /// Create a copy of FeedMemberRequestData
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? userId = null,
+    Object? role = freezed,
+    Object? invite = freezed,
+    Object? custom = freezed,
+  }) {
+    return _then(
+      FeedMemberRequestData(
+        userId: null == userId
+            ? _self.userId
+            : userId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        role: freezed == role
+            ? _self.role
+            : role // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        invite: freezed == invite
+            ? _self.invite
+            : invite // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        custom: freezed == custom
+            ? _self.custom
+            : custom // ignore: cast_nullable_to_non_nullable
+                  as Map<String, Object?>?,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

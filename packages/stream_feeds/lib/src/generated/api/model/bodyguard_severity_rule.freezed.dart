@@ -9,69 +9,77 @@ part of 'bodyguard_severity_rule.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$BodyguardSeverityRule {
+  BodyguardSeverityRuleAction get action;
+  BodyguardSeverityRuleSeverity get severity;
 
- BodyguardSeverityRuleAction get action; BodyguardSeverityRuleSeverity get severity;
-/// Create a copy of BodyguardSeverityRule
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$BodyguardSeverityRuleCopyWith<BodyguardSeverityRule> get copyWith => _$BodyguardSeverityRuleCopyWithImpl<BodyguardSeverityRule>(this as BodyguardSeverityRule, _$identity);
+  /// Create a copy of BodyguardSeverityRule
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $BodyguardSeverityRuleCopyWith<BodyguardSeverityRule> get copyWith =>
+      _$BodyguardSeverityRuleCopyWithImpl<BodyguardSeverityRule>(
+        this as BodyguardSeverityRule,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is BodyguardSeverityRule &&
+            (identical(other.action, action) || other.action == action) &&
+            (identical(other.severity, severity) || other.severity == severity));
+  }
 
+  @override
+  int get hashCode => Object.hash(runtimeType, action, severity);
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BodyguardSeverityRule&&(identical(other.action, action) || other.action == action)&&(identical(other.severity, severity) || other.severity == severity));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,action,severity);
-
-@override
-String toString() {
-  return 'BodyguardSeverityRule(action: $action, severity: $severity)';
-}
-
-
+  @override
+  String toString() {
+    return 'BodyguardSeverityRule(action: $action, severity: $severity)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $BodyguardSeverityRuleCopyWith<$Res>  {
-  factory $BodyguardSeverityRuleCopyWith(BodyguardSeverityRule value, $Res Function(BodyguardSeverityRule) _then) = _$BodyguardSeverityRuleCopyWithImpl;
-@useResult
-$Res call({
- BodyguardSeverityRuleAction action, BodyguardSeverityRuleSeverity severity
-});
-
-
-
-
+abstract mixin class $BodyguardSeverityRuleCopyWith<$Res> {
+  factory $BodyguardSeverityRuleCopyWith(
+    BodyguardSeverityRule value,
+    $Res Function(BodyguardSeverityRule) _then,
+  ) = _$BodyguardSeverityRuleCopyWithImpl;
+  @useResult
+  $Res call({
+    BodyguardSeverityRuleAction action,
+    BodyguardSeverityRuleSeverity severity,
+  });
 }
+
 /// @nodoc
-class _$BodyguardSeverityRuleCopyWithImpl<$Res>
-    implements $BodyguardSeverityRuleCopyWith<$Res> {
+class _$BodyguardSeverityRuleCopyWithImpl<$Res> implements $BodyguardSeverityRuleCopyWith<$Res> {
   _$BodyguardSeverityRuleCopyWithImpl(this._self, this._then);
 
   final BodyguardSeverityRule _self;
   final $Res Function(BodyguardSeverityRule) _then;
 
-/// Create a copy of BodyguardSeverityRule
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? action = null,Object? severity = null,}) {
-  return _then(BodyguardSeverityRule(
-action: null == action ? _self.action : action // ignore: cast_nullable_to_non_nullable
-as BodyguardSeverityRuleAction,severity: null == severity ? _self.severity : severity // ignore: cast_nullable_to_non_nullable
-as BodyguardSeverityRuleSeverity,
-  ));
+  /// Create a copy of BodyguardSeverityRule
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? action = null, Object? severity = null}) {
+    return _then(
+      BodyguardSeverityRule(
+        action: null == action
+            ? _self.action
+            : action // ignore: cast_nullable_to_non_nullable
+                  as BodyguardSeverityRuleAction,
+        severity: null == severity
+            ? _self.severity
+            : severity // ignore: cast_nullable_to_non_nullable
+                  as BodyguardSeverityRuleSeverity,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

@@ -9,69 +9,78 @@ part of 'update_poll_partial_request.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$UpdatePollPartialRequest {
+  Map<String, Object?>? get set;
+  List<String>? get unset;
 
- Map<String, Object?>? get set; List<String>? get unset;
-/// Create a copy of UpdatePollPartialRequest
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$UpdatePollPartialRequestCopyWith<UpdatePollPartialRequest> get copyWith => _$UpdatePollPartialRequestCopyWithImpl<UpdatePollPartialRequest>(this as UpdatePollPartialRequest, _$identity);
+  /// Create a copy of UpdatePollPartialRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $UpdatePollPartialRequestCopyWith<UpdatePollPartialRequest> get copyWith =>
+      _$UpdatePollPartialRequestCopyWithImpl<UpdatePollPartialRequest>(
+        this as UpdatePollPartialRequest,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is UpdatePollPartialRequest &&
+            const DeepCollectionEquality().equals(other.set, set) &&
+            const DeepCollectionEquality().equals(other.unset, unset));
+  }
 
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(set),
+    const DeepCollectionEquality().hash(unset),
+  );
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdatePollPartialRequest&&const DeepCollectionEquality().equals(other.set, set)&&const DeepCollectionEquality().equals(other.unset, unset));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(set),const DeepCollectionEquality().hash(unset));
-
-@override
-String toString() {
-  return 'UpdatePollPartialRequest(set: $set, unset: $unset)';
-}
-
-
+  @override
+  String toString() {
+    return 'UpdatePollPartialRequest(set: $set, unset: $unset)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $UpdatePollPartialRequestCopyWith<$Res>  {
-  factory $UpdatePollPartialRequestCopyWith(UpdatePollPartialRequest value, $Res Function(UpdatePollPartialRequest) _then) = _$UpdatePollPartialRequestCopyWithImpl;
-@useResult
-$Res call({
- Map<String, Object?>? set, List<String>? unset
-});
-
-
-
-
+abstract mixin class $UpdatePollPartialRequestCopyWith<$Res> {
+  factory $UpdatePollPartialRequestCopyWith(
+    UpdatePollPartialRequest value,
+    $Res Function(UpdatePollPartialRequest) _then,
+  ) = _$UpdatePollPartialRequestCopyWithImpl;
+  @useResult
+  $Res call({Map<String, Object?>? set, List<String>? unset});
 }
+
 /// @nodoc
-class _$UpdatePollPartialRequestCopyWithImpl<$Res>
-    implements $UpdatePollPartialRequestCopyWith<$Res> {
+class _$UpdatePollPartialRequestCopyWithImpl<$Res> implements $UpdatePollPartialRequestCopyWith<$Res> {
   _$UpdatePollPartialRequestCopyWithImpl(this._self, this._then);
 
   final UpdatePollPartialRequest _self;
   final $Res Function(UpdatePollPartialRequest) _then;
 
-/// Create a copy of UpdatePollPartialRequest
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? set = freezed,Object? unset = freezed,}) {
-  return _then(UpdatePollPartialRequest(
-set: freezed == set ? _self.set : set // ignore: cast_nullable_to_non_nullable
-as Map<String, Object?>?,unset: freezed == unset ? _self.unset : unset // ignore: cast_nullable_to_non_nullable
-as List<String>?,
-  ));
+  /// Create a copy of UpdatePollPartialRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? set = freezed, Object? unset = freezed}) {
+    return _then(
+      UpdatePollPartialRequest(
+        set: freezed == set
+            ? _self.set
+            : set // ignore: cast_nullable_to_non_nullable
+                  as Map<String, Object?>?,
+        unset: freezed == unset
+            ? _self.unset
+            : unset // ignore: cast_nullable_to_non_nullable
+                  as List<String>?,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

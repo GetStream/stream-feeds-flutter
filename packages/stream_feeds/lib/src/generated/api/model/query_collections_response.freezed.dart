@@ -9,71 +9,105 @@ part of 'query_collections_response.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$QueryCollectionsResponse {
+  List<CollectionResponse> get collections;
+  String get duration;
+  String? get next;
+  String? get prev;
 
- List<CollectionResponse> get collections; String get duration; String? get next; String? get prev;
-/// Create a copy of QueryCollectionsResponse
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$QueryCollectionsResponseCopyWith<QueryCollectionsResponse> get copyWith => _$QueryCollectionsResponseCopyWithImpl<QueryCollectionsResponse>(this as QueryCollectionsResponse, _$identity);
+  /// Create a copy of QueryCollectionsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $QueryCollectionsResponseCopyWith<QueryCollectionsResponse> get copyWith =>
+      _$QueryCollectionsResponseCopyWithImpl<QueryCollectionsResponse>(
+        this as QueryCollectionsResponse,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is QueryCollectionsResponse &&
+            const DeepCollectionEquality().equals(
+              other.collections,
+              collections,
+            ) &&
+            (identical(other.duration, duration) || other.duration == duration) &&
+            (identical(other.next, next) || other.next == next) &&
+            (identical(other.prev, prev) || other.prev == prev));
+  }
 
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(collections),
+    duration,
+    next,
+    prev,
+  );
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is QueryCollectionsResponse&&const DeepCollectionEquality().equals(other.collections, collections)&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.next, next) || other.next == next)&&(identical(other.prev, prev) || other.prev == prev));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(collections),duration,next,prev);
-
-@override
-String toString() {
-  return 'QueryCollectionsResponse(collections: $collections, duration: $duration, next: $next, prev: $prev)';
-}
-
-
+  @override
+  String toString() {
+    return 'QueryCollectionsResponse(collections: $collections, duration: $duration, next: $next, prev: $prev)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $QueryCollectionsResponseCopyWith<$Res>  {
-  factory $QueryCollectionsResponseCopyWith(QueryCollectionsResponse value, $Res Function(QueryCollectionsResponse) _then) = _$QueryCollectionsResponseCopyWithImpl;
-@useResult
-$Res call({
- List<CollectionResponse> collections, String duration, String? next, String? prev
-});
-
-
-
-
+abstract mixin class $QueryCollectionsResponseCopyWith<$Res> {
+  factory $QueryCollectionsResponseCopyWith(
+    QueryCollectionsResponse value,
+    $Res Function(QueryCollectionsResponse) _then,
+  ) = _$QueryCollectionsResponseCopyWithImpl;
+  @useResult
+  $Res call({
+    List<CollectionResponse> collections,
+    String duration,
+    String? next,
+    String? prev,
+  });
 }
+
 /// @nodoc
-class _$QueryCollectionsResponseCopyWithImpl<$Res>
-    implements $QueryCollectionsResponseCopyWith<$Res> {
+class _$QueryCollectionsResponseCopyWithImpl<$Res> implements $QueryCollectionsResponseCopyWith<$Res> {
   _$QueryCollectionsResponseCopyWithImpl(this._self, this._then);
 
   final QueryCollectionsResponse _self;
   final $Res Function(QueryCollectionsResponse) _then;
 
-/// Create a copy of QueryCollectionsResponse
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? collections = null,Object? duration = null,Object? next = freezed,Object? prev = freezed,}) {
-  return _then(QueryCollectionsResponse(
-collections: null == collections ? _self.collections : collections // ignore: cast_nullable_to_non_nullable
-as List<CollectionResponse>,duration: null == duration ? _self.duration : duration // ignore: cast_nullable_to_non_nullable
-as String,next: freezed == next ? _self.next : next // ignore: cast_nullable_to_non_nullable
-as String?,prev: freezed == prev ? _self.prev : prev // ignore: cast_nullable_to_non_nullable
-as String?,
-  ));
+  /// Create a copy of QueryCollectionsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? collections = null,
+    Object? duration = null,
+    Object? next = freezed,
+    Object? prev = freezed,
+  }) {
+    return _then(
+      QueryCollectionsResponse(
+        collections: null == collections
+            ? _self.collections
+            : collections // ignore: cast_nullable_to_non_nullable
+                  as List<CollectionResponse>,
+        duration: null == duration
+            ? _self.duration
+            : duration // ignore: cast_nullable_to_non_nullable
+                  as String,
+        next: freezed == next
+            ? _self.next
+            : next // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        prev: freezed == prev
+            ? _self.prev
+            : prev // ignore: cast_nullable_to_non_nullable
+                  as String?,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

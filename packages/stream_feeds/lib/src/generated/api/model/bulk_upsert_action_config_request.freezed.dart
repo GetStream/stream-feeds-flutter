@@ -9,68 +9,74 @@ part of 'bulk_upsert_action_config_request.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$BulkUpsertActionConfigRequest {
+  List<UpsertActionConfigItem> get actionConfigs;
 
- List<UpsertActionConfigItem> get actionConfigs;
-/// Create a copy of BulkUpsertActionConfigRequest
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$BulkUpsertActionConfigRequestCopyWith<BulkUpsertActionConfigRequest> get copyWith => _$BulkUpsertActionConfigRequestCopyWithImpl<BulkUpsertActionConfigRequest>(this as BulkUpsertActionConfigRequest, _$identity);
+  /// Create a copy of BulkUpsertActionConfigRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $BulkUpsertActionConfigRequestCopyWith<BulkUpsertActionConfigRequest> get copyWith =>
+      _$BulkUpsertActionConfigRequestCopyWithImpl<BulkUpsertActionConfigRequest>(
+        this as BulkUpsertActionConfigRequest,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is BulkUpsertActionConfigRequest &&
+            const DeepCollectionEquality().equals(
+              other.actionConfigs,
+              actionConfigs,
+            ));
+  }
 
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(actionConfigs),
+  );
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BulkUpsertActionConfigRequest&&const DeepCollectionEquality().equals(other.actionConfigs, actionConfigs));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(actionConfigs));
-
-@override
-String toString() {
-  return 'BulkUpsertActionConfigRequest(actionConfigs: $actionConfigs)';
-}
-
-
+  @override
+  String toString() {
+    return 'BulkUpsertActionConfigRequest(actionConfigs: $actionConfigs)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $BulkUpsertActionConfigRequestCopyWith<$Res>  {
-  factory $BulkUpsertActionConfigRequestCopyWith(BulkUpsertActionConfigRequest value, $Res Function(BulkUpsertActionConfigRequest) _then) = _$BulkUpsertActionConfigRequestCopyWithImpl;
-@useResult
-$Res call({
- List<UpsertActionConfigItem> actionConfigs
-});
-
-
-
-
+abstract mixin class $BulkUpsertActionConfigRequestCopyWith<$Res> {
+  factory $BulkUpsertActionConfigRequestCopyWith(
+    BulkUpsertActionConfigRequest value,
+    $Res Function(BulkUpsertActionConfigRequest) _then,
+  ) = _$BulkUpsertActionConfigRequestCopyWithImpl;
+  @useResult
+  $Res call({List<UpsertActionConfigItem> actionConfigs});
 }
+
 /// @nodoc
-class _$BulkUpsertActionConfigRequestCopyWithImpl<$Res>
-    implements $BulkUpsertActionConfigRequestCopyWith<$Res> {
+class _$BulkUpsertActionConfigRequestCopyWithImpl<$Res> implements $BulkUpsertActionConfigRequestCopyWith<$Res> {
   _$BulkUpsertActionConfigRequestCopyWithImpl(this._self, this._then);
 
   final BulkUpsertActionConfigRequest _self;
   final $Res Function(BulkUpsertActionConfigRequest) _then;
 
-/// Create a copy of BulkUpsertActionConfigRequest
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? actionConfigs = null,}) {
-  return _then(BulkUpsertActionConfigRequest(
-actionConfigs: null == actionConfigs ? _self.actionConfigs : actionConfigs // ignore: cast_nullable_to_non_nullable
-as List<UpsertActionConfigItem>,
-  ));
+  /// Create a copy of BulkUpsertActionConfigRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? actionConfigs = null}) {
+    return _then(
+      BulkUpsertActionConfigRequest(
+        actionConfigs: null == actionConfigs
+            ? _self.actionConfigs
+            : actionConfigs // ignore: cast_nullable_to_non_nullable
+                  as List<UpsertActionConfigItem>,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

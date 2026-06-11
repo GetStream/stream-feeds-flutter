@@ -9,68 +9,68 @@ part of 'unblock_users_response.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$UnblockUsersResponse {
+  String get duration;
 
- String get duration;
-/// Create a copy of UnblockUsersResponse
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$UnblockUsersResponseCopyWith<UnblockUsersResponse> get copyWith => _$UnblockUsersResponseCopyWithImpl<UnblockUsersResponse>(this as UnblockUsersResponse, _$identity);
+  /// Create a copy of UnblockUsersResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $UnblockUsersResponseCopyWith<UnblockUsersResponse> get copyWith =>
+      _$UnblockUsersResponseCopyWithImpl<UnblockUsersResponse>(
+        this as UnblockUsersResponse,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is UnblockUsersResponse &&
+            (identical(other.duration, duration) || other.duration == duration));
+  }
 
+  @override
+  int get hashCode => Object.hash(runtimeType, duration);
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UnblockUsersResponse&&(identical(other.duration, duration) || other.duration == duration));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,duration);
-
-@override
-String toString() {
-  return 'UnblockUsersResponse(duration: $duration)';
-}
-
-
+  @override
+  String toString() {
+    return 'UnblockUsersResponse(duration: $duration)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $UnblockUsersResponseCopyWith<$Res>  {
-  factory $UnblockUsersResponseCopyWith(UnblockUsersResponse value, $Res Function(UnblockUsersResponse) _then) = _$UnblockUsersResponseCopyWithImpl;
-@useResult
-$Res call({
- String duration
-});
-
-
-
-
+abstract mixin class $UnblockUsersResponseCopyWith<$Res> {
+  factory $UnblockUsersResponseCopyWith(
+    UnblockUsersResponse value,
+    $Res Function(UnblockUsersResponse) _then,
+  ) = _$UnblockUsersResponseCopyWithImpl;
+  @useResult
+  $Res call({String duration});
 }
+
 /// @nodoc
-class _$UnblockUsersResponseCopyWithImpl<$Res>
-    implements $UnblockUsersResponseCopyWith<$Res> {
+class _$UnblockUsersResponseCopyWithImpl<$Res> implements $UnblockUsersResponseCopyWith<$Res> {
   _$UnblockUsersResponseCopyWithImpl(this._self, this._then);
 
   final UnblockUsersResponse _self;
   final $Res Function(UnblockUsersResponse) _then;
 
-/// Create a copy of UnblockUsersResponse
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? duration = null,}) {
-  return _then(UnblockUsersResponse(
-duration: null == duration ? _self.duration : duration // ignore: cast_nullable_to_non_nullable
-as String,
-  ));
+  /// Create a copy of UnblockUsersResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? duration = null}) {
+    return _then(
+      UnblockUsersResponse(
+        duration: null == duration
+            ? _self.duration
+            : duration // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

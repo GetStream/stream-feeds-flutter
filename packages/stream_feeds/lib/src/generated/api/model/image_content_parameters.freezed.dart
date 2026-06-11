@@ -9,70 +9,96 @@ part of 'image_content_parameters.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$ImageContentParameters {
+  List<String>? get harmLabels;
+  String? get labelOperator;
+  double? get minConfidence;
 
- List<String>? get harmLabels; String? get labelOperator; double? get minConfidence;
-/// Create a copy of ImageContentParameters
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$ImageContentParametersCopyWith<ImageContentParameters> get copyWith => _$ImageContentParametersCopyWithImpl<ImageContentParameters>(this as ImageContentParameters, _$identity);
+  /// Create a copy of ImageContentParameters
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $ImageContentParametersCopyWith<ImageContentParameters> get copyWith =>
+      _$ImageContentParametersCopyWithImpl<ImageContentParameters>(
+        this as ImageContentParameters,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ImageContentParameters &&
+            const DeepCollectionEquality().equals(
+              other.harmLabels,
+              harmLabels,
+            ) &&
+            (identical(other.labelOperator, labelOperator) || other.labelOperator == labelOperator) &&
+            (identical(other.minConfidence, minConfidence) || other.minConfidence == minConfidence));
+  }
 
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(harmLabels),
+    labelOperator,
+    minConfidence,
+  );
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ImageContentParameters&&const DeepCollectionEquality().equals(other.harmLabels, harmLabels)&&(identical(other.labelOperator, labelOperator) || other.labelOperator == labelOperator)&&(identical(other.minConfidence, minConfidence) || other.minConfidence == minConfidence));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(harmLabels),labelOperator,minConfidence);
-
-@override
-String toString() {
-  return 'ImageContentParameters(harmLabels: $harmLabels, labelOperator: $labelOperator, minConfidence: $minConfidence)';
-}
-
-
+  @override
+  String toString() {
+    return 'ImageContentParameters(harmLabels: $harmLabels, labelOperator: $labelOperator, minConfidence: $minConfidence)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $ImageContentParametersCopyWith<$Res>  {
-  factory $ImageContentParametersCopyWith(ImageContentParameters value, $Res Function(ImageContentParameters) _then) = _$ImageContentParametersCopyWithImpl;
-@useResult
-$Res call({
- List<String>? harmLabels, String? labelOperator, double? minConfidence
-});
-
-
-
-
+abstract mixin class $ImageContentParametersCopyWith<$Res> {
+  factory $ImageContentParametersCopyWith(
+    ImageContentParameters value,
+    $Res Function(ImageContentParameters) _then,
+  ) = _$ImageContentParametersCopyWithImpl;
+  @useResult
+  $Res call({
+    List<String>? harmLabels,
+    String? labelOperator,
+    double? minConfidence,
+  });
 }
+
 /// @nodoc
-class _$ImageContentParametersCopyWithImpl<$Res>
-    implements $ImageContentParametersCopyWith<$Res> {
+class _$ImageContentParametersCopyWithImpl<$Res> implements $ImageContentParametersCopyWith<$Res> {
   _$ImageContentParametersCopyWithImpl(this._self, this._then);
 
   final ImageContentParameters _self;
   final $Res Function(ImageContentParameters) _then;
 
-/// Create a copy of ImageContentParameters
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? harmLabels = freezed,Object? labelOperator = freezed,Object? minConfidence = freezed,}) {
-  return _then(ImageContentParameters(
-harmLabels: freezed == harmLabels ? _self.harmLabels : harmLabels // ignore: cast_nullable_to_non_nullable
-as List<String>?,labelOperator: freezed == labelOperator ? _self.labelOperator : labelOperator // ignore: cast_nullable_to_non_nullable
-as String?,minConfidence: freezed == minConfidence ? _self.minConfidence : minConfidence // ignore: cast_nullable_to_non_nullable
-as double?,
-  ));
+  /// Create a copy of ImageContentParameters
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? harmLabels = freezed,
+    Object? labelOperator = freezed,
+    Object? minConfidence = freezed,
+  }) {
+    return _then(
+      ImageContentParameters(
+        harmLabels: freezed == harmLabels
+            ? _self.harmLabels
+            : harmLabels // ignore: cast_nullable_to_non_nullable
+                  as List<String>?,
+        labelOperator: freezed == labelOperator
+            ? _self.labelOperator
+            : labelOperator // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        minConfidence: freezed == minConfidence
+            ? _self.minConfidence
+            : minConfidence // ignore: cast_nullable_to_non_nullable
+                  as double?,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

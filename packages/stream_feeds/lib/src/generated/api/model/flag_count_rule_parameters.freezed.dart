@@ -9,68 +9,68 @@ part of 'flag_count_rule_parameters.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$FlagCountRuleParameters {
+  int? get threshold;
 
- int? get threshold;
-/// Create a copy of FlagCountRuleParameters
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$FlagCountRuleParametersCopyWith<FlagCountRuleParameters> get copyWith => _$FlagCountRuleParametersCopyWithImpl<FlagCountRuleParameters>(this as FlagCountRuleParameters, _$identity);
+  /// Create a copy of FlagCountRuleParameters
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $FlagCountRuleParametersCopyWith<FlagCountRuleParameters> get copyWith =>
+      _$FlagCountRuleParametersCopyWithImpl<FlagCountRuleParameters>(
+        this as FlagCountRuleParameters,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FlagCountRuleParameters &&
+            (identical(other.threshold, threshold) || other.threshold == threshold));
+  }
 
+  @override
+  int get hashCode => Object.hash(runtimeType, threshold);
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FlagCountRuleParameters&&(identical(other.threshold, threshold) || other.threshold == threshold));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,threshold);
-
-@override
-String toString() {
-  return 'FlagCountRuleParameters(threshold: $threshold)';
-}
-
-
+  @override
+  String toString() {
+    return 'FlagCountRuleParameters(threshold: $threshold)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $FlagCountRuleParametersCopyWith<$Res>  {
-  factory $FlagCountRuleParametersCopyWith(FlagCountRuleParameters value, $Res Function(FlagCountRuleParameters) _then) = _$FlagCountRuleParametersCopyWithImpl;
-@useResult
-$Res call({
- int? threshold
-});
-
-
-
-
+abstract mixin class $FlagCountRuleParametersCopyWith<$Res> {
+  factory $FlagCountRuleParametersCopyWith(
+    FlagCountRuleParameters value,
+    $Res Function(FlagCountRuleParameters) _then,
+  ) = _$FlagCountRuleParametersCopyWithImpl;
+  @useResult
+  $Res call({int? threshold});
 }
+
 /// @nodoc
-class _$FlagCountRuleParametersCopyWithImpl<$Res>
-    implements $FlagCountRuleParametersCopyWith<$Res> {
+class _$FlagCountRuleParametersCopyWithImpl<$Res> implements $FlagCountRuleParametersCopyWith<$Res> {
   _$FlagCountRuleParametersCopyWithImpl(this._self, this._then);
 
   final FlagCountRuleParameters _self;
   final $Res Function(FlagCountRuleParameters) _then;
 
-/// Create a copy of FlagCountRuleParameters
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? threshold = freezed,}) {
-  return _then(FlagCountRuleParameters(
-threshold: freezed == threshold ? _self.threshold : threshold // ignore: cast_nullable_to_non_nullable
-as int?,
-  ));
+  /// Create a copy of FlagCountRuleParameters
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? threshold = freezed}) {
+    return _then(
+      FlagCountRuleParameters(
+        threshold: freezed == threshold
+            ? _self.threshold
+            : threshold // ignore: cast_nullable_to_non_nullable
+                  as int?,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

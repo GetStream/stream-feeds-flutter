@@ -9,69 +9,77 @@ part of 'follow_batch_request.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$FollowBatchRequest {
+  bool? get enrichOwnFields;
+  List<FollowRequest> get follows;
 
- bool? get enrichOwnFields; List<FollowRequest> get follows;
-/// Create a copy of FollowBatchRequest
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$FollowBatchRequestCopyWith<FollowBatchRequest> get copyWith => _$FollowBatchRequestCopyWithImpl<FollowBatchRequest>(this as FollowBatchRequest, _$identity);
+  /// Create a copy of FollowBatchRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $FollowBatchRequestCopyWith<FollowBatchRequest> get copyWith => _$FollowBatchRequestCopyWithImpl<FollowBatchRequest>(
+    this as FollowBatchRequest,
+    _$identity,
+  );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FollowBatchRequest &&
+            (identical(other.enrichOwnFields, enrichOwnFields) || other.enrichOwnFields == enrichOwnFields) &&
+            const DeepCollectionEquality().equals(other.follows, follows));
+  }
 
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    enrichOwnFields,
+    const DeepCollectionEquality().hash(follows),
+  );
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FollowBatchRequest&&(identical(other.enrichOwnFields, enrichOwnFields) || other.enrichOwnFields == enrichOwnFields)&&const DeepCollectionEquality().equals(other.follows, follows));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,enrichOwnFields,const DeepCollectionEquality().hash(follows));
-
-@override
-String toString() {
-  return 'FollowBatchRequest(enrichOwnFields: $enrichOwnFields, follows: $follows)';
-}
-
-
+  @override
+  String toString() {
+    return 'FollowBatchRequest(enrichOwnFields: $enrichOwnFields, follows: $follows)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $FollowBatchRequestCopyWith<$Res>  {
-  factory $FollowBatchRequestCopyWith(FollowBatchRequest value, $Res Function(FollowBatchRequest) _then) = _$FollowBatchRequestCopyWithImpl;
-@useResult
-$Res call({
- bool? enrichOwnFields, List<FollowRequest> follows
-});
-
-
-
-
+abstract mixin class $FollowBatchRequestCopyWith<$Res> {
+  factory $FollowBatchRequestCopyWith(
+    FollowBatchRequest value,
+    $Res Function(FollowBatchRequest) _then,
+  ) = _$FollowBatchRequestCopyWithImpl;
+  @useResult
+  $Res call({bool? enrichOwnFields, List<FollowRequest> follows});
 }
+
 /// @nodoc
-class _$FollowBatchRequestCopyWithImpl<$Res>
-    implements $FollowBatchRequestCopyWith<$Res> {
+class _$FollowBatchRequestCopyWithImpl<$Res> implements $FollowBatchRequestCopyWith<$Res> {
   _$FollowBatchRequestCopyWithImpl(this._self, this._then);
 
   final FollowBatchRequest _self;
   final $Res Function(FollowBatchRequest) _then;
 
-/// Create a copy of FollowBatchRequest
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? enrichOwnFields = freezed,Object? follows = null,}) {
-  return _then(FollowBatchRequest(
-enrichOwnFields: freezed == enrichOwnFields ? _self.enrichOwnFields : enrichOwnFields // ignore: cast_nullable_to_non_nullable
-as bool?,follows: null == follows ? _self.follows : follows // ignore: cast_nullable_to_non_nullable
-as List<FollowRequest>,
-  ));
+  /// Create a copy of FollowBatchRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? enrichOwnFields = freezed, Object? follows = null}) {
+    return _then(
+      FollowBatchRequest(
+        enrichOwnFields: freezed == enrichOwnFields
+            ? _self.enrichOwnFields
+            : enrichOwnFields // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        follows: null == follows
+            ? _self.follows
+            : follows // ignore: cast_nullable_to_non_nullable
+                  as List<FollowRequest>,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

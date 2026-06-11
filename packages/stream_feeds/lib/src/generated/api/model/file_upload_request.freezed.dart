@@ -9,69 +9,73 @@ part of 'file_upload_request.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$FileUploadRequest {
+  String? get file;
+  OnlyUserID? get user;
 
- String? get file; OnlyUserID? get user;
-/// Create a copy of FileUploadRequest
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$FileUploadRequestCopyWith<FileUploadRequest> get copyWith => _$FileUploadRequestCopyWithImpl<FileUploadRequest>(this as FileUploadRequest, _$identity);
+  /// Create a copy of FileUploadRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $FileUploadRequestCopyWith<FileUploadRequest> get copyWith => _$FileUploadRequestCopyWithImpl<FileUploadRequest>(
+    this as FileUploadRequest,
+    _$identity,
+  );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FileUploadRequest &&
+            (identical(other.file, file) || other.file == file) &&
+            (identical(other.user, user) || other.user == user));
+  }
 
+  @override
+  int get hashCode => Object.hash(runtimeType, file, user);
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FileUploadRequest&&(identical(other.file, file) || other.file == file)&&(identical(other.user, user) || other.user == user));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,file,user);
-
-@override
-String toString() {
-  return 'FileUploadRequest(file: $file, user: $user)';
-}
-
-
+  @override
+  String toString() {
+    return 'FileUploadRequest(file: $file, user: $user)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $FileUploadRequestCopyWith<$Res>  {
-  factory $FileUploadRequestCopyWith(FileUploadRequest value, $Res Function(FileUploadRequest) _then) = _$FileUploadRequestCopyWithImpl;
-@useResult
-$Res call({
- String? file, OnlyUserID? user
-});
-
-
-
-
+abstract mixin class $FileUploadRequestCopyWith<$Res> {
+  factory $FileUploadRequestCopyWith(
+    FileUploadRequest value,
+    $Res Function(FileUploadRequest) _then,
+  ) = _$FileUploadRequestCopyWithImpl;
+  @useResult
+  $Res call({String? file, OnlyUserID? user});
 }
+
 /// @nodoc
-class _$FileUploadRequestCopyWithImpl<$Res>
-    implements $FileUploadRequestCopyWith<$Res> {
+class _$FileUploadRequestCopyWithImpl<$Res> implements $FileUploadRequestCopyWith<$Res> {
   _$FileUploadRequestCopyWithImpl(this._self, this._then);
 
   final FileUploadRequest _self;
   final $Res Function(FileUploadRequest) _then;
 
-/// Create a copy of FileUploadRequest
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? file = freezed,Object? user = freezed,}) {
-  return _then(FileUploadRequest(
-file: freezed == file ? _self.file : file // ignore: cast_nullable_to_non_nullable
-as String?,user: freezed == user ? _self.user : user // ignore: cast_nullable_to_non_nullable
-as OnlyUserID?,
-  ));
+  /// Create a copy of FileUploadRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? file = freezed, Object? user = freezed}) {
+    return _then(
+      FileUploadRequest(
+        file: freezed == file
+            ? _self.file
+            : file // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        user: freezed == user
+            ? _self.user
+            : user // ignore: cast_nullable_to_non_nullable
+                  as OnlyUserID?,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

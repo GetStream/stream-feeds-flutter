@@ -9,73 +9,120 @@ part of 'query_bookmarks_request.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$QueryBookmarksRequest {
+  bool? get enrichOwnFields;
+  Map<String, Object?>? get filter;
+  int? get limit;
+  String? get next;
+  String? get prev;
+  List<SortParamRequest>? get sort;
 
- bool? get enrichOwnFields; Map<String, Object?>? get filter; int? get limit; String? get next; String? get prev; List<SortParamRequest>? get sort;
-/// Create a copy of QueryBookmarksRequest
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$QueryBookmarksRequestCopyWith<QueryBookmarksRequest> get copyWith => _$QueryBookmarksRequestCopyWithImpl<QueryBookmarksRequest>(this as QueryBookmarksRequest, _$identity);
+  /// Create a copy of QueryBookmarksRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $QueryBookmarksRequestCopyWith<QueryBookmarksRequest> get copyWith =>
+      _$QueryBookmarksRequestCopyWithImpl<QueryBookmarksRequest>(
+        this as QueryBookmarksRequest,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is QueryBookmarksRequest &&
+            (identical(other.enrichOwnFields, enrichOwnFields) || other.enrichOwnFields == enrichOwnFields) &&
+            const DeepCollectionEquality().equals(other.filter, filter) &&
+            (identical(other.limit, limit) || other.limit == limit) &&
+            (identical(other.next, next) || other.next == next) &&
+            (identical(other.prev, prev) || other.prev == prev) &&
+            const DeepCollectionEquality().equals(other.sort, sort));
+  }
 
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    enrichOwnFields,
+    const DeepCollectionEquality().hash(filter),
+    limit,
+    next,
+    prev,
+    const DeepCollectionEquality().hash(sort),
+  );
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is QueryBookmarksRequest&&(identical(other.enrichOwnFields, enrichOwnFields) || other.enrichOwnFields == enrichOwnFields)&&const DeepCollectionEquality().equals(other.filter, filter)&&(identical(other.limit, limit) || other.limit == limit)&&(identical(other.next, next) || other.next == next)&&(identical(other.prev, prev) || other.prev == prev)&&const DeepCollectionEquality().equals(other.sort, sort));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,enrichOwnFields,const DeepCollectionEquality().hash(filter),limit,next,prev,const DeepCollectionEquality().hash(sort));
-
-@override
-String toString() {
-  return 'QueryBookmarksRequest(enrichOwnFields: $enrichOwnFields, filter: $filter, limit: $limit, next: $next, prev: $prev, sort: $sort)';
-}
-
-
+  @override
+  String toString() {
+    return 'QueryBookmarksRequest(enrichOwnFields: $enrichOwnFields, filter: $filter, limit: $limit, next: $next, prev: $prev, sort: $sort)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $QueryBookmarksRequestCopyWith<$Res>  {
-  factory $QueryBookmarksRequestCopyWith(QueryBookmarksRequest value, $Res Function(QueryBookmarksRequest) _then) = _$QueryBookmarksRequestCopyWithImpl;
-@useResult
-$Res call({
- bool? enrichOwnFields, Map<String, Object?>? filter, int? limit, String? next, String? prev, List<SortParamRequest>? sort
-});
-
-
-
-
+abstract mixin class $QueryBookmarksRequestCopyWith<$Res> {
+  factory $QueryBookmarksRequestCopyWith(
+    QueryBookmarksRequest value,
+    $Res Function(QueryBookmarksRequest) _then,
+  ) = _$QueryBookmarksRequestCopyWithImpl;
+  @useResult
+  $Res call({
+    bool? enrichOwnFields,
+    Map<String, Object?>? filter,
+    int? limit,
+    String? next,
+    String? prev,
+    List<SortParamRequest>? sort,
+  });
 }
+
 /// @nodoc
-class _$QueryBookmarksRequestCopyWithImpl<$Res>
-    implements $QueryBookmarksRequestCopyWith<$Res> {
+class _$QueryBookmarksRequestCopyWithImpl<$Res> implements $QueryBookmarksRequestCopyWith<$Res> {
   _$QueryBookmarksRequestCopyWithImpl(this._self, this._then);
 
   final QueryBookmarksRequest _self;
   final $Res Function(QueryBookmarksRequest) _then;
 
-/// Create a copy of QueryBookmarksRequest
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? enrichOwnFields = freezed,Object? filter = freezed,Object? limit = freezed,Object? next = freezed,Object? prev = freezed,Object? sort = freezed,}) {
-  return _then(QueryBookmarksRequest(
-enrichOwnFields: freezed == enrichOwnFields ? _self.enrichOwnFields : enrichOwnFields // ignore: cast_nullable_to_non_nullable
-as bool?,filter: freezed == filter ? _self.filter : filter // ignore: cast_nullable_to_non_nullable
-as Map<String, Object?>?,limit: freezed == limit ? _self.limit : limit // ignore: cast_nullable_to_non_nullable
-as int?,next: freezed == next ? _self.next : next // ignore: cast_nullable_to_non_nullable
-as String?,prev: freezed == prev ? _self.prev : prev // ignore: cast_nullable_to_non_nullable
-as String?,sort: freezed == sort ? _self.sort : sort // ignore: cast_nullable_to_non_nullable
-as List<SortParamRequest>?,
-  ));
+  /// Create a copy of QueryBookmarksRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? enrichOwnFields = freezed,
+    Object? filter = freezed,
+    Object? limit = freezed,
+    Object? next = freezed,
+    Object? prev = freezed,
+    Object? sort = freezed,
+  }) {
+    return _then(
+      QueryBookmarksRequest(
+        enrichOwnFields: freezed == enrichOwnFields
+            ? _self.enrichOwnFields
+            : enrichOwnFields // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        filter: freezed == filter
+            ? _self.filter
+            : filter // ignore: cast_nullable_to_non_nullable
+                  as Map<String, Object?>?,
+        limit: freezed == limit
+            ? _self.limit
+            : limit // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        next: freezed == next
+            ? _self.next
+            : next // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        prev: freezed == prev
+            ? _self.prev
+            : prev // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        sort: freezed == sort
+            ? _self.sort
+            : sort // ignore: cast_nullable_to_non_nullable
+                  as List<SortParamRequest>?,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

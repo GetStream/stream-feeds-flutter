@@ -9,71 +9,105 @@ part of 'update_feed_members_response.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$UpdateFeedMembersResponse {
+  List<FeedMemberResponse> get added;
+  String get duration;
+  List<String> get removedIds;
+  List<FeedMemberResponse> get updated;
 
- List<FeedMemberResponse> get added; String get duration; List<String> get removedIds; List<FeedMemberResponse> get updated;
-/// Create a copy of UpdateFeedMembersResponse
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$UpdateFeedMembersResponseCopyWith<UpdateFeedMembersResponse> get copyWith => _$UpdateFeedMembersResponseCopyWithImpl<UpdateFeedMembersResponse>(this as UpdateFeedMembersResponse, _$identity);
+  /// Create a copy of UpdateFeedMembersResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $UpdateFeedMembersResponseCopyWith<UpdateFeedMembersResponse> get copyWith =>
+      _$UpdateFeedMembersResponseCopyWithImpl<UpdateFeedMembersResponse>(
+        this as UpdateFeedMembersResponse,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is UpdateFeedMembersResponse &&
+            const DeepCollectionEquality().equals(other.added, added) &&
+            (identical(other.duration, duration) || other.duration == duration) &&
+            const DeepCollectionEquality().equals(
+              other.removedIds,
+              removedIds,
+            ) &&
+            const DeepCollectionEquality().equals(other.updated, updated));
+  }
 
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(added),
+    duration,
+    const DeepCollectionEquality().hash(removedIds),
+    const DeepCollectionEquality().hash(updated),
+  );
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateFeedMembersResponse&&const DeepCollectionEquality().equals(other.added, added)&&(identical(other.duration, duration) || other.duration == duration)&&const DeepCollectionEquality().equals(other.removedIds, removedIds)&&const DeepCollectionEquality().equals(other.updated, updated));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(added),duration,const DeepCollectionEquality().hash(removedIds),const DeepCollectionEquality().hash(updated));
-
-@override
-String toString() {
-  return 'UpdateFeedMembersResponse(added: $added, duration: $duration, removedIds: $removedIds, updated: $updated)';
-}
-
-
+  @override
+  String toString() {
+    return 'UpdateFeedMembersResponse(added: $added, duration: $duration, removedIds: $removedIds, updated: $updated)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $UpdateFeedMembersResponseCopyWith<$Res>  {
-  factory $UpdateFeedMembersResponseCopyWith(UpdateFeedMembersResponse value, $Res Function(UpdateFeedMembersResponse) _then) = _$UpdateFeedMembersResponseCopyWithImpl;
-@useResult
-$Res call({
- List<FeedMemberResponse> added, String duration, List<String> removedIds, List<FeedMemberResponse> updated
-});
-
-
-
-
+abstract mixin class $UpdateFeedMembersResponseCopyWith<$Res> {
+  factory $UpdateFeedMembersResponseCopyWith(
+    UpdateFeedMembersResponse value,
+    $Res Function(UpdateFeedMembersResponse) _then,
+  ) = _$UpdateFeedMembersResponseCopyWithImpl;
+  @useResult
+  $Res call({
+    List<FeedMemberResponse> added,
+    String duration,
+    List<String> removedIds,
+    List<FeedMemberResponse> updated,
+  });
 }
+
 /// @nodoc
-class _$UpdateFeedMembersResponseCopyWithImpl<$Res>
-    implements $UpdateFeedMembersResponseCopyWith<$Res> {
+class _$UpdateFeedMembersResponseCopyWithImpl<$Res> implements $UpdateFeedMembersResponseCopyWith<$Res> {
   _$UpdateFeedMembersResponseCopyWithImpl(this._self, this._then);
 
   final UpdateFeedMembersResponse _self;
   final $Res Function(UpdateFeedMembersResponse) _then;
 
-/// Create a copy of UpdateFeedMembersResponse
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? added = null,Object? duration = null,Object? removedIds = null,Object? updated = null,}) {
-  return _then(UpdateFeedMembersResponse(
-added: null == added ? _self.added : added // ignore: cast_nullable_to_non_nullable
-as List<FeedMemberResponse>,duration: null == duration ? _self.duration : duration // ignore: cast_nullable_to_non_nullable
-as String,removedIds: null == removedIds ? _self.removedIds : removedIds // ignore: cast_nullable_to_non_nullable
-as List<String>,updated: null == updated ? _self.updated : updated // ignore: cast_nullable_to_non_nullable
-as List<FeedMemberResponse>,
-  ));
+  /// Create a copy of UpdateFeedMembersResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? added = null,
+    Object? duration = null,
+    Object? removedIds = null,
+    Object? updated = null,
+  }) {
+    return _then(
+      UpdateFeedMembersResponse(
+        added: null == added
+            ? _self.added
+            : added // ignore: cast_nullable_to_non_nullable
+                  as List<FeedMemberResponse>,
+        duration: null == duration
+            ? _self.duration
+            : duration // ignore: cast_nullable_to_non_nullable
+                  as String,
+        removedIds: null == removedIds
+            ? _self.removedIds
+            : removedIds // ignore: cast_nullable_to_non_nullable
+                  as List<String>,
+        updated: null == updated
+            ? _self.updated
+            : updated // ignore: cast_nullable_to_non_nullable
+                  as List<FeedMemberResponse>,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

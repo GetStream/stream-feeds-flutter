@@ -9,76 +9,150 @@ part of 'aggregated_activity_data.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$AggregatedActivityData {
+  List<ActivityData> get activities;
+  int get activityCount;
+  DateTime get createdAt;
+  String get group;
+  bool? get isRead;
+  bool? get isSeen;
+  double get score;
+  DateTime get updatedAt;
+  int get userCount;
 
- List<ActivityData> get activities; int get activityCount; DateTime get createdAt; String get group; bool? get isRead; bool? get isSeen; double get score; DateTime get updatedAt; int get userCount;
-/// Create a copy of AggregatedActivityData
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$AggregatedActivityDataCopyWith<AggregatedActivityData> get copyWith => _$AggregatedActivityDataCopyWithImpl<AggregatedActivityData>(this as AggregatedActivityData, _$identity);
+  /// Create a copy of AggregatedActivityData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $AggregatedActivityDataCopyWith<AggregatedActivityData> get copyWith =>
+      _$AggregatedActivityDataCopyWithImpl<AggregatedActivityData>(
+        this as AggregatedActivityData,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is AggregatedActivityData &&
+            const DeepCollectionEquality().equals(
+              other.activities,
+              activities,
+            ) &&
+            (identical(other.activityCount, activityCount) || other.activityCount == activityCount) &&
+            (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
+            (identical(other.group, group) || other.group == group) &&
+            (identical(other.isRead, isRead) || other.isRead == isRead) &&
+            (identical(other.isSeen, isSeen) || other.isSeen == isSeen) &&
+            (identical(other.score, score) || other.score == score) &&
+            (identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt) &&
+            (identical(other.userCount, userCount) || other.userCount == userCount));
+  }
 
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(activities),
+    activityCount,
+    createdAt,
+    group,
+    isRead,
+    isSeen,
+    score,
+    updatedAt,
+    userCount,
+  );
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AggregatedActivityData&&const DeepCollectionEquality().equals(other.activities, activities)&&(identical(other.activityCount, activityCount) || other.activityCount == activityCount)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.group, group) || other.group == group)&&(identical(other.isRead, isRead) || other.isRead == isRead)&&(identical(other.isSeen, isSeen) || other.isSeen == isSeen)&&(identical(other.score, score) || other.score == score)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.userCount, userCount) || other.userCount == userCount));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(activities),activityCount,createdAt,group,isRead,isSeen,score,updatedAt,userCount);
-
-@override
-String toString() {
-  return 'AggregatedActivityData(activities: $activities, activityCount: $activityCount, createdAt: $createdAt, group: $group, isRead: $isRead, isSeen: $isSeen, score: $score, updatedAt: $updatedAt, userCount: $userCount)';
-}
-
-
+  @override
+  String toString() {
+    return 'AggregatedActivityData(activities: $activities, activityCount: $activityCount, createdAt: $createdAt, group: $group, isRead: $isRead, isSeen: $isSeen, score: $score, updatedAt: $updatedAt, userCount: $userCount)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $AggregatedActivityDataCopyWith<$Res>  {
-  factory $AggregatedActivityDataCopyWith(AggregatedActivityData value, $Res Function(AggregatedActivityData) _then) = _$AggregatedActivityDataCopyWithImpl;
-@useResult
-$Res call({
- List<ActivityData> activities, int activityCount, DateTime createdAt, String group, bool? isRead, bool? isSeen, double score, DateTime updatedAt, int userCount
-});
-
-
-
-
+abstract mixin class $AggregatedActivityDataCopyWith<$Res> {
+  factory $AggregatedActivityDataCopyWith(
+    AggregatedActivityData value,
+    $Res Function(AggregatedActivityData) _then,
+  ) = _$AggregatedActivityDataCopyWithImpl;
+  @useResult
+  $Res call({
+    List<ActivityData> activities,
+    int activityCount,
+    DateTime createdAt,
+    String group,
+    bool? isRead,
+    bool? isSeen,
+    double score,
+    DateTime updatedAt,
+    int userCount,
+  });
 }
+
 /// @nodoc
-class _$AggregatedActivityDataCopyWithImpl<$Res>
-    implements $AggregatedActivityDataCopyWith<$Res> {
+class _$AggregatedActivityDataCopyWithImpl<$Res> implements $AggregatedActivityDataCopyWith<$Res> {
   _$AggregatedActivityDataCopyWithImpl(this._self, this._then);
 
   final AggregatedActivityData _self;
   final $Res Function(AggregatedActivityData) _then;
 
-/// Create a copy of AggregatedActivityData
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? activities = null,Object? activityCount = null,Object? createdAt = null,Object? group = null,Object? isRead = freezed,Object? isSeen = freezed,Object? score = null,Object? updatedAt = null,Object? userCount = null,}) {
-  return _then(AggregatedActivityData(
-activities: null == activities ? _self.activities : activities // ignore: cast_nullable_to_non_nullable
-as List<ActivityData>,activityCount: null == activityCount ? _self.activityCount : activityCount // ignore: cast_nullable_to_non_nullable
-as int,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
-as DateTime,group: null == group ? _self.group : group // ignore: cast_nullable_to_non_nullable
-as String,isRead: freezed == isRead ? _self.isRead : isRead // ignore: cast_nullable_to_non_nullable
-as bool?,isSeen: freezed == isSeen ? _self.isSeen : isSeen // ignore: cast_nullable_to_non_nullable
-as bool?,score: null == score ? _self.score : score // ignore: cast_nullable_to_non_nullable
-as double,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
-as DateTime,userCount: null == userCount ? _self.userCount : userCount // ignore: cast_nullable_to_non_nullable
-as int,
-  ));
+  /// Create a copy of AggregatedActivityData
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? activities = null,
+    Object? activityCount = null,
+    Object? createdAt = null,
+    Object? group = null,
+    Object? isRead = freezed,
+    Object? isSeen = freezed,
+    Object? score = null,
+    Object? updatedAt = null,
+    Object? userCount = null,
+  }) {
+    return _then(
+      AggregatedActivityData(
+        activities: null == activities
+            ? _self.activities
+            : activities // ignore: cast_nullable_to_non_nullable
+                  as List<ActivityData>,
+        activityCount: null == activityCount
+            ? _self.activityCount
+            : activityCount // ignore: cast_nullable_to_non_nullable
+                  as int,
+        createdAt: null == createdAt
+            ? _self.createdAt
+            : createdAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+        group: null == group
+            ? _self.group
+            : group // ignore: cast_nullable_to_non_nullable
+                  as String,
+        isRead: freezed == isRead
+            ? _self.isRead
+            : isRead // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        isSeen: freezed == isSeen
+            ? _self.isSeen
+            : isSeen // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        score: null == score
+            ? _self.score
+            : score // ignore: cast_nullable_to_non_nullable
+                  as double,
+        updatedAt: null == updatedAt
+            ? _self.updatedAt
+            : updatedAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+        userCount: null == userCount
+            ? _self.userCount
+            : userCount // ignore: cast_nullable_to_non_nullable
+                  as int,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

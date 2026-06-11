@@ -9,68 +9,68 @@ part of 'delivery_receipts_response.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$DeliveryReceiptsResponse {
+  bool? get enabled;
 
- bool? get enabled;
-/// Create a copy of DeliveryReceiptsResponse
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$DeliveryReceiptsResponseCopyWith<DeliveryReceiptsResponse> get copyWith => _$DeliveryReceiptsResponseCopyWithImpl<DeliveryReceiptsResponse>(this as DeliveryReceiptsResponse, _$identity);
+  /// Create a copy of DeliveryReceiptsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $DeliveryReceiptsResponseCopyWith<DeliveryReceiptsResponse> get copyWith =>
+      _$DeliveryReceiptsResponseCopyWithImpl<DeliveryReceiptsResponse>(
+        this as DeliveryReceiptsResponse,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is DeliveryReceiptsResponse &&
+            (identical(other.enabled, enabled) || other.enabled == enabled));
+  }
 
+  @override
+  int get hashCode => Object.hash(runtimeType, enabled);
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DeliveryReceiptsResponse&&(identical(other.enabled, enabled) || other.enabled == enabled));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,enabled);
-
-@override
-String toString() {
-  return 'DeliveryReceiptsResponse(enabled: $enabled)';
-}
-
-
+  @override
+  String toString() {
+    return 'DeliveryReceiptsResponse(enabled: $enabled)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $DeliveryReceiptsResponseCopyWith<$Res>  {
-  factory $DeliveryReceiptsResponseCopyWith(DeliveryReceiptsResponse value, $Res Function(DeliveryReceiptsResponse) _then) = _$DeliveryReceiptsResponseCopyWithImpl;
-@useResult
-$Res call({
- bool? enabled
-});
-
-
-
-
+abstract mixin class $DeliveryReceiptsResponseCopyWith<$Res> {
+  factory $DeliveryReceiptsResponseCopyWith(
+    DeliveryReceiptsResponse value,
+    $Res Function(DeliveryReceiptsResponse) _then,
+  ) = _$DeliveryReceiptsResponseCopyWithImpl;
+  @useResult
+  $Res call({bool? enabled});
 }
+
 /// @nodoc
-class _$DeliveryReceiptsResponseCopyWithImpl<$Res>
-    implements $DeliveryReceiptsResponseCopyWith<$Res> {
+class _$DeliveryReceiptsResponseCopyWithImpl<$Res> implements $DeliveryReceiptsResponseCopyWith<$Res> {
   _$DeliveryReceiptsResponseCopyWithImpl(this._self, this._then);
 
   final DeliveryReceiptsResponse _self;
   final $Res Function(DeliveryReceiptsResponse) _then;
 
-/// Create a copy of DeliveryReceiptsResponse
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? enabled = freezed,}) {
-  return _then(DeliveryReceiptsResponse(
-enabled: freezed == enabled ? _self.enabled : enabled // ignore: cast_nullable_to_non_nullable
-as bool?,
-  ));
+  /// Create a copy of DeliveryReceiptsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? enabled = freezed}) {
+    return _then(
+      DeliveryReceiptsResponse(
+        enabled: freezed == enabled
+            ? _self.enabled
+            : enabled // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

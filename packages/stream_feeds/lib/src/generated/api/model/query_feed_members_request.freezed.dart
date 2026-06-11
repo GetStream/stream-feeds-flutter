@@ -9,72 +9,111 @@ part of 'query_feed_members_request.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$QueryFeedMembersRequest {
+  Map<String, Object?>? get filter;
+  int? get limit;
+  String? get next;
+  String? get prev;
+  List<SortParamRequest>? get sort;
 
- Map<String, Object?>? get filter; int? get limit; String? get next; String? get prev; List<SortParamRequest>? get sort;
-/// Create a copy of QueryFeedMembersRequest
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$QueryFeedMembersRequestCopyWith<QueryFeedMembersRequest> get copyWith => _$QueryFeedMembersRequestCopyWithImpl<QueryFeedMembersRequest>(this as QueryFeedMembersRequest, _$identity);
+  /// Create a copy of QueryFeedMembersRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $QueryFeedMembersRequestCopyWith<QueryFeedMembersRequest> get copyWith =>
+      _$QueryFeedMembersRequestCopyWithImpl<QueryFeedMembersRequest>(
+        this as QueryFeedMembersRequest,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is QueryFeedMembersRequest &&
+            const DeepCollectionEquality().equals(other.filter, filter) &&
+            (identical(other.limit, limit) || other.limit == limit) &&
+            (identical(other.next, next) || other.next == next) &&
+            (identical(other.prev, prev) || other.prev == prev) &&
+            const DeepCollectionEquality().equals(other.sort, sort));
+  }
 
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(filter),
+    limit,
+    next,
+    prev,
+    const DeepCollectionEquality().hash(sort),
+  );
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is QueryFeedMembersRequest&&const DeepCollectionEquality().equals(other.filter, filter)&&(identical(other.limit, limit) || other.limit == limit)&&(identical(other.next, next) || other.next == next)&&(identical(other.prev, prev) || other.prev == prev)&&const DeepCollectionEquality().equals(other.sort, sort));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(filter),limit,next,prev,const DeepCollectionEquality().hash(sort));
-
-@override
-String toString() {
-  return 'QueryFeedMembersRequest(filter: $filter, limit: $limit, next: $next, prev: $prev, sort: $sort)';
-}
-
-
+  @override
+  String toString() {
+    return 'QueryFeedMembersRequest(filter: $filter, limit: $limit, next: $next, prev: $prev, sort: $sort)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $QueryFeedMembersRequestCopyWith<$Res>  {
-  factory $QueryFeedMembersRequestCopyWith(QueryFeedMembersRequest value, $Res Function(QueryFeedMembersRequest) _then) = _$QueryFeedMembersRequestCopyWithImpl;
-@useResult
-$Res call({
- Map<String, Object?>? filter, int? limit, String? next, String? prev, List<SortParamRequest>? sort
-});
-
-
-
-
+abstract mixin class $QueryFeedMembersRequestCopyWith<$Res> {
+  factory $QueryFeedMembersRequestCopyWith(
+    QueryFeedMembersRequest value,
+    $Res Function(QueryFeedMembersRequest) _then,
+  ) = _$QueryFeedMembersRequestCopyWithImpl;
+  @useResult
+  $Res call({
+    Map<String, Object?>? filter,
+    int? limit,
+    String? next,
+    String? prev,
+    List<SortParamRequest>? sort,
+  });
 }
+
 /// @nodoc
-class _$QueryFeedMembersRequestCopyWithImpl<$Res>
-    implements $QueryFeedMembersRequestCopyWith<$Res> {
+class _$QueryFeedMembersRequestCopyWithImpl<$Res> implements $QueryFeedMembersRequestCopyWith<$Res> {
   _$QueryFeedMembersRequestCopyWithImpl(this._self, this._then);
 
   final QueryFeedMembersRequest _self;
   final $Res Function(QueryFeedMembersRequest) _then;
 
-/// Create a copy of QueryFeedMembersRequest
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? filter = freezed,Object? limit = freezed,Object? next = freezed,Object? prev = freezed,Object? sort = freezed,}) {
-  return _then(QueryFeedMembersRequest(
-filter: freezed == filter ? _self.filter : filter // ignore: cast_nullable_to_non_nullable
-as Map<String, Object?>?,limit: freezed == limit ? _self.limit : limit // ignore: cast_nullable_to_non_nullable
-as int?,next: freezed == next ? _self.next : next // ignore: cast_nullable_to_non_nullable
-as String?,prev: freezed == prev ? _self.prev : prev // ignore: cast_nullable_to_non_nullable
-as String?,sort: freezed == sort ? _self.sort : sort // ignore: cast_nullable_to_non_nullable
-as List<SortParamRequest>?,
-  ));
+  /// Create a copy of QueryFeedMembersRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? filter = freezed,
+    Object? limit = freezed,
+    Object? next = freezed,
+    Object? prev = freezed,
+    Object? sort = freezed,
+  }) {
+    return _then(
+      QueryFeedMembersRequest(
+        filter: freezed == filter
+            ? _self.filter
+            : filter // ignore: cast_nullable_to_non_nullable
+                  as Map<String, Object?>?,
+        limit: freezed == limit
+            ? _self.limit
+            : limit // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        next: freezed == next
+            ? _self.next
+            : next // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        prev: freezed == prev
+            ? _self.prev
+            : prev // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        sort: freezed == sort
+            ? _self.sort
+            : sort // ignore: cast_nullable_to_non_nullable
+                  as List<SortParamRequest>?,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

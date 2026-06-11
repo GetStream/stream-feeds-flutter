@@ -9,74 +9,129 @@ part of 'activity_selector_config.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$ActivitySelectorConfig {
+  DateTime get cutoffTime;
+  String? get cutoffWindow;
+  Map<String, Object?>? get filter;
+  int? get minPopularity;
+  Map<String, Object?>? get params;
+  List<SortParam>? get sort;
+  String? get type;
 
- DateTime get cutoffTime; String? get cutoffWindow; Map<String, Object?>? get filter; int? get minPopularity; Map<String, Object?>? get params; List<SortParam>? get sort; String? get type;
-/// Create a copy of ActivitySelectorConfig
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$ActivitySelectorConfigCopyWith<ActivitySelectorConfig> get copyWith => _$ActivitySelectorConfigCopyWithImpl<ActivitySelectorConfig>(this as ActivitySelectorConfig, _$identity);
+  /// Create a copy of ActivitySelectorConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $ActivitySelectorConfigCopyWith<ActivitySelectorConfig> get copyWith =>
+      _$ActivitySelectorConfigCopyWithImpl<ActivitySelectorConfig>(
+        this as ActivitySelectorConfig,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ActivitySelectorConfig &&
+            (identical(other.cutoffTime, cutoffTime) || other.cutoffTime == cutoffTime) &&
+            (identical(other.cutoffWindow, cutoffWindow) || other.cutoffWindow == cutoffWindow) &&
+            const DeepCollectionEquality().equals(other.filter, filter) &&
+            (identical(other.minPopularity, minPopularity) || other.minPopularity == minPopularity) &&
+            const DeepCollectionEquality().equals(other.params, params) &&
+            const DeepCollectionEquality().equals(other.sort, sort) &&
+            (identical(other.type, type) || other.type == type));
+  }
 
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    cutoffTime,
+    cutoffWindow,
+    const DeepCollectionEquality().hash(filter),
+    minPopularity,
+    const DeepCollectionEquality().hash(params),
+    const DeepCollectionEquality().hash(sort),
+    type,
+  );
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ActivitySelectorConfig&&(identical(other.cutoffTime, cutoffTime) || other.cutoffTime == cutoffTime)&&(identical(other.cutoffWindow, cutoffWindow) || other.cutoffWindow == cutoffWindow)&&const DeepCollectionEquality().equals(other.filter, filter)&&(identical(other.minPopularity, minPopularity) || other.minPopularity == minPopularity)&&const DeepCollectionEquality().equals(other.params, params)&&const DeepCollectionEquality().equals(other.sort, sort)&&(identical(other.type, type) || other.type == type));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,cutoffTime,cutoffWindow,const DeepCollectionEquality().hash(filter),minPopularity,const DeepCollectionEquality().hash(params),const DeepCollectionEquality().hash(sort),type);
-
-@override
-String toString() {
-  return 'ActivitySelectorConfig(cutoffTime: $cutoffTime, cutoffWindow: $cutoffWindow, filter: $filter, minPopularity: $minPopularity, params: $params, sort: $sort, type: $type)';
-}
-
-
+  @override
+  String toString() {
+    return 'ActivitySelectorConfig(cutoffTime: $cutoffTime, cutoffWindow: $cutoffWindow, filter: $filter, minPopularity: $minPopularity, params: $params, sort: $sort, type: $type)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $ActivitySelectorConfigCopyWith<$Res>  {
-  factory $ActivitySelectorConfigCopyWith(ActivitySelectorConfig value, $Res Function(ActivitySelectorConfig) _then) = _$ActivitySelectorConfigCopyWithImpl;
-@useResult
-$Res call({
- DateTime cutoffTime, String? cutoffWindow, Map<String, Object?>? filter, int? minPopularity, Map<String, Object?>? params, List<SortParam>? sort, String? type
-});
-
-
-
-
+abstract mixin class $ActivitySelectorConfigCopyWith<$Res> {
+  factory $ActivitySelectorConfigCopyWith(
+    ActivitySelectorConfig value,
+    $Res Function(ActivitySelectorConfig) _then,
+  ) = _$ActivitySelectorConfigCopyWithImpl;
+  @useResult
+  $Res call({
+    DateTime cutoffTime,
+    String? cutoffWindow,
+    Map<String, Object?>? filter,
+    int? minPopularity,
+    Map<String, Object?>? params,
+    List<SortParam>? sort,
+    String? type,
+  });
 }
+
 /// @nodoc
-class _$ActivitySelectorConfigCopyWithImpl<$Res>
-    implements $ActivitySelectorConfigCopyWith<$Res> {
+class _$ActivitySelectorConfigCopyWithImpl<$Res> implements $ActivitySelectorConfigCopyWith<$Res> {
   _$ActivitySelectorConfigCopyWithImpl(this._self, this._then);
 
   final ActivitySelectorConfig _self;
   final $Res Function(ActivitySelectorConfig) _then;
 
-/// Create a copy of ActivitySelectorConfig
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? cutoffTime = null,Object? cutoffWindow = freezed,Object? filter = freezed,Object? minPopularity = freezed,Object? params = freezed,Object? sort = freezed,Object? type = freezed,}) {
-  return _then(ActivitySelectorConfig(
-cutoffTime: null == cutoffTime ? _self.cutoffTime : cutoffTime // ignore: cast_nullable_to_non_nullable
-as DateTime,cutoffWindow: freezed == cutoffWindow ? _self.cutoffWindow : cutoffWindow // ignore: cast_nullable_to_non_nullable
-as String?,filter: freezed == filter ? _self.filter : filter // ignore: cast_nullable_to_non_nullable
-as Map<String, Object?>?,minPopularity: freezed == minPopularity ? _self.minPopularity : minPopularity // ignore: cast_nullable_to_non_nullable
-as int?,params: freezed == params ? _self.params : params // ignore: cast_nullable_to_non_nullable
-as Map<String, Object?>?,sort: freezed == sort ? _self.sort : sort // ignore: cast_nullable_to_non_nullable
-as List<SortParam>?,type: freezed == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as String?,
-  ));
+  /// Create a copy of ActivitySelectorConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? cutoffTime = null,
+    Object? cutoffWindow = freezed,
+    Object? filter = freezed,
+    Object? minPopularity = freezed,
+    Object? params = freezed,
+    Object? sort = freezed,
+    Object? type = freezed,
+  }) {
+    return _then(
+      ActivitySelectorConfig(
+        cutoffTime: null == cutoffTime
+            ? _self.cutoffTime
+            : cutoffTime // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+        cutoffWindow: freezed == cutoffWindow
+            ? _self.cutoffWindow
+            : cutoffWindow // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        filter: freezed == filter
+            ? _self.filter
+            : filter // ignore: cast_nullable_to_non_nullable
+                  as Map<String, Object?>?,
+        minPopularity: freezed == minPopularity
+            ? _self.minPopularity
+            : minPopularity // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        params: freezed == params
+            ? _self.params
+            : params // ignore: cast_nullable_to_non_nullable
+                  as Map<String, Object?>?,
+        sort: freezed == sort
+            ? _self.sort
+            : sort // ignore: cast_nullable_to_non_nullable
+                  as List<SortParam>?,
+        type: freezed == type
+            ? _self.type
+            : type // ignore: cast_nullable_to_non_nullable
+                  as String?,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

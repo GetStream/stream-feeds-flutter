@@ -9,68 +9,68 @@ part of 'delete_moderation_config_response.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$DeleteModerationConfigResponse {
+  String get duration;
 
- String get duration;
-/// Create a copy of DeleteModerationConfigResponse
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$DeleteModerationConfigResponseCopyWith<DeleteModerationConfigResponse> get copyWith => _$DeleteModerationConfigResponseCopyWithImpl<DeleteModerationConfigResponse>(this as DeleteModerationConfigResponse, _$identity);
+  /// Create a copy of DeleteModerationConfigResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $DeleteModerationConfigResponseCopyWith<DeleteModerationConfigResponse> get copyWith =>
+      _$DeleteModerationConfigResponseCopyWithImpl<DeleteModerationConfigResponse>(
+        this as DeleteModerationConfigResponse,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is DeleteModerationConfigResponse &&
+            (identical(other.duration, duration) || other.duration == duration));
+  }
 
+  @override
+  int get hashCode => Object.hash(runtimeType, duration);
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DeleteModerationConfigResponse&&(identical(other.duration, duration) || other.duration == duration));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,duration);
-
-@override
-String toString() {
-  return 'DeleteModerationConfigResponse(duration: $duration)';
-}
-
-
+  @override
+  String toString() {
+    return 'DeleteModerationConfigResponse(duration: $duration)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $DeleteModerationConfigResponseCopyWith<$Res>  {
-  factory $DeleteModerationConfigResponseCopyWith(DeleteModerationConfigResponse value, $Res Function(DeleteModerationConfigResponse) _then) = _$DeleteModerationConfigResponseCopyWithImpl;
-@useResult
-$Res call({
- String duration
-});
-
-
-
-
+abstract mixin class $DeleteModerationConfigResponseCopyWith<$Res> {
+  factory $DeleteModerationConfigResponseCopyWith(
+    DeleteModerationConfigResponse value,
+    $Res Function(DeleteModerationConfigResponse) _then,
+  ) = _$DeleteModerationConfigResponseCopyWithImpl;
+  @useResult
+  $Res call({String duration});
 }
+
 /// @nodoc
-class _$DeleteModerationConfigResponseCopyWithImpl<$Res>
-    implements $DeleteModerationConfigResponseCopyWith<$Res> {
+class _$DeleteModerationConfigResponseCopyWithImpl<$Res> implements $DeleteModerationConfigResponseCopyWith<$Res> {
   _$DeleteModerationConfigResponseCopyWithImpl(this._self, this._then);
 
   final DeleteModerationConfigResponse _self;
   final $Res Function(DeleteModerationConfigResponse) _then;
 
-/// Create a copy of DeleteModerationConfigResponse
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? duration = null,}) {
-  return _then(DeleteModerationConfigResponse(
-duration: null == duration ? _self.duration : duration // ignore: cast_nullable_to_non_nullable
-as String,
-  ));
+  /// Create a copy of DeleteModerationConfigResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? duration = null}) {
+    return _then(
+      DeleteModerationConfigResponse(
+        duration: null == duration
+            ? _self.duration
+            : duration // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

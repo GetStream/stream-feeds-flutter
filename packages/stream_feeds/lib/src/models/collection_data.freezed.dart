@@ -9,74 +9,128 @@ part of 'collection_data.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$CollectionData {
+  String get id;
+  String get name;
+  CollectionStatus? get status;
+  DateTime? get createdAt;
+  DateTime? get updatedAt;
+  String? get userId;
+  Map<String, Object?>? get custom;
 
- String get id; String get name; CollectionStatus? get status; DateTime? get createdAt; DateTime? get updatedAt; String? get userId; Map<String, Object?>? get custom;
-/// Create a copy of CollectionData
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$CollectionDataCopyWith<CollectionData> get copyWith => _$CollectionDataCopyWithImpl<CollectionData>(this as CollectionData, _$identity);
+  /// Create a copy of CollectionData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $CollectionDataCopyWith<CollectionData> get copyWith => _$CollectionDataCopyWithImpl<CollectionData>(
+    this as CollectionData,
+    _$identity,
+  );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is CollectionData &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
+            const DeepCollectionEquality().equals(other.custom, custom));
+  }
 
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    id,
+    name,
+    status,
+    createdAt,
+    updatedAt,
+    userId,
+    const DeepCollectionEquality().hash(custom),
+  );
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CollectionData&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.status, status) || other.status == status)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.userId, userId) || other.userId == userId)&&const DeepCollectionEquality().equals(other.custom, custom));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,id,name,status,createdAt,updatedAt,userId,const DeepCollectionEquality().hash(custom));
-
-@override
-String toString() {
-  return 'CollectionData(id: $id, name: $name, status: $status, createdAt: $createdAt, updatedAt: $updatedAt, userId: $userId, custom: $custom)';
-}
-
-
+  @override
+  String toString() {
+    return 'CollectionData(id: $id, name: $name, status: $status, createdAt: $createdAt, updatedAt: $updatedAt, userId: $userId, custom: $custom)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $CollectionDataCopyWith<$Res>  {
-  factory $CollectionDataCopyWith(CollectionData value, $Res Function(CollectionData) _then) = _$CollectionDataCopyWithImpl;
-@useResult
-$Res call({
- String id, String name, CollectionStatus? status, DateTime? createdAt, DateTime? updatedAt, String? userId, Map<String, Object?>? custom
-});
-
-
-
-
+abstract mixin class $CollectionDataCopyWith<$Res> {
+  factory $CollectionDataCopyWith(
+    CollectionData value,
+    $Res Function(CollectionData) _then,
+  ) = _$CollectionDataCopyWithImpl;
+  @useResult
+  $Res call({
+    String id,
+    String name,
+    CollectionStatus? status,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    String? userId,
+    Map<String, Object?>? custom,
+  });
 }
+
 /// @nodoc
-class _$CollectionDataCopyWithImpl<$Res>
-    implements $CollectionDataCopyWith<$Res> {
+class _$CollectionDataCopyWithImpl<$Res> implements $CollectionDataCopyWith<$Res> {
   _$CollectionDataCopyWithImpl(this._self, this._then);
 
   final CollectionData _self;
   final $Res Function(CollectionData) _then;
 
-/// Create a copy of CollectionData
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? status = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,Object? userId = freezed,Object? custom = freezed,}) {
-  return _then(CollectionData(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as CollectionStatus?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
-as DateTime?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
-as DateTime?,userId: freezed == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
-as String?,custom: freezed == custom ? _self.custom : custom // ignore: cast_nullable_to_non_nullable
-as Map<String, Object?>?,
-  ));
+  /// Create a copy of CollectionData
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? status = freezed,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
+    Object? userId = freezed,
+    Object? custom = freezed,
+  }) {
+    return _then(
+      CollectionData(
+        id: null == id
+            ? _self.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String,
+        name: null == name
+            ? _self.name
+            : name // ignore: cast_nullable_to_non_nullable
+                  as String,
+        status: freezed == status
+            ? _self.status
+            : status // ignore: cast_nullable_to_non_nullable
+                  as CollectionStatus?,
+        createdAt: freezed == createdAt
+            ? _self.createdAt
+            : createdAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime?,
+        updatedAt: freezed == updatedAt
+            ? _self.updatedAt
+            : updatedAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime?,
+        userId: freezed == userId
+            ? _self.userId
+            : userId // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        custom: freezed == custom
+            ? _self.custom
+            : custom // ignore: cast_nullable_to_non_nullable
+                  as Map<String, Object?>?,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

@@ -9,70 +9,93 @@ part of 'activity_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$ActivityState {
+  ActivityData? get activity;
+  List<CommentData> get comments;
+  PaginationData? get commentsPagination;
 
- ActivityData? get activity; List<CommentData> get comments; PaginationData? get commentsPagination;
-/// Create a copy of ActivityState
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$ActivityStateCopyWith<ActivityState> get copyWith => _$ActivityStateCopyWithImpl<ActivityState>(this as ActivityState, _$identity);
+  /// Create a copy of ActivityState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $ActivityStateCopyWith<ActivityState> get copyWith => _$ActivityStateCopyWithImpl<ActivityState>(
+    this as ActivityState,
+    _$identity,
+  );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ActivityState &&
+            (identical(other.activity, activity) || other.activity == activity) &&
+            const DeepCollectionEquality().equals(other.comments, comments) &&
+            (identical(other.commentsPagination, commentsPagination) ||
+                other.commentsPagination == commentsPagination));
+  }
 
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    activity,
+    const DeepCollectionEquality().hash(comments),
+    commentsPagination,
+  );
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ActivityState&&(identical(other.activity, activity) || other.activity == activity)&&const DeepCollectionEquality().equals(other.comments, comments)&&(identical(other.commentsPagination, commentsPagination) || other.commentsPagination == commentsPagination));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,activity,const DeepCollectionEquality().hash(comments),commentsPagination);
-
-@override
-String toString() {
-  return 'ActivityState(activity: $activity, comments: $comments, commentsPagination: $commentsPagination)';
-}
-
-
+  @override
+  String toString() {
+    return 'ActivityState(activity: $activity, comments: $comments, commentsPagination: $commentsPagination)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $ActivityStateCopyWith<$Res>  {
-  factory $ActivityStateCopyWith(ActivityState value, $Res Function(ActivityState) _then) = _$ActivityStateCopyWithImpl;
-@useResult
-$Res call({
- ActivityData? activity, List<CommentData> comments, PaginationData? commentsPagination
-});
-
-
-
-
+abstract mixin class $ActivityStateCopyWith<$Res> {
+  factory $ActivityStateCopyWith(
+    ActivityState value,
+    $Res Function(ActivityState) _then,
+  ) = _$ActivityStateCopyWithImpl;
+  @useResult
+  $Res call({
+    ActivityData? activity,
+    List<CommentData> comments,
+    PaginationData? commentsPagination,
+  });
 }
+
 /// @nodoc
-class _$ActivityStateCopyWithImpl<$Res>
-    implements $ActivityStateCopyWith<$Res> {
+class _$ActivityStateCopyWithImpl<$Res> implements $ActivityStateCopyWith<$Res> {
   _$ActivityStateCopyWithImpl(this._self, this._then);
 
   final ActivityState _self;
   final $Res Function(ActivityState) _then;
 
-/// Create a copy of ActivityState
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? activity = freezed,Object? comments = null,Object? commentsPagination = freezed,}) {
-  return _then(ActivityState(
-activity: freezed == activity ? _self.activity : activity // ignore: cast_nullable_to_non_nullable
-as ActivityData?,comments: null == comments ? _self.comments : comments // ignore: cast_nullable_to_non_nullable
-as List<CommentData>,commentsPagination: freezed == commentsPagination ? _self.commentsPagination : commentsPagination // ignore: cast_nullable_to_non_nullable
-as PaginationData?,
-  ));
+  /// Create a copy of ActivityState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? activity = freezed,
+    Object? comments = null,
+    Object? commentsPagination = freezed,
+  }) {
+    return _then(
+      ActivityState(
+        activity: freezed == activity
+            ? _self.activity
+            : activity // ignore: cast_nullable_to_non_nullable
+                  as ActivityData?,
+        comments: null == comments
+            ? _self.comments
+            : comments // ignore: cast_nullable_to_non_nullable
+                  as List<CommentData>,
+        commentsPagination: freezed == commentsPagination
+            ? _self.commentsPagination
+            : commentsPagination // ignore: cast_nullable_to_non_nullable
+                  as PaginationData?,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

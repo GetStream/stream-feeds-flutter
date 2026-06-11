@@ -9,70 +9,91 @@ part of 'image_upload_request.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$ImageUploadRequest {
+  String? get file;
+  List<ImageSize>? get uploadSizes;
+  OnlyUserID? get user;
 
- String? get file; List<ImageSize>? get uploadSizes; OnlyUserID? get user;
-/// Create a copy of ImageUploadRequest
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$ImageUploadRequestCopyWith<ImageUploadRequest> get copyWith => _$ImageUploadRequestCopyWithImpl<ImageUploadRequest>(this as ImageUploadRequest, _$identity);
+  /// Create a copy of ImageUploadRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $ImageUploadRequestCopyWith<ImageUploadRequest> get copyWith => _$ImageUploadRequestCopyWithImpl<ImageUploadRequest>(
+    this as ImageUploadRequest,
+    _$identity,
+  );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ImageUploadRequest &&
+            (identical(other.file, file) || other.file == file) &&
+            const DeepCollectionEquality().equals(
+              other.uploadSizes,
+              uploadSizes,
+            ) &&
+            (identical(other.user, user) || other.user == user));
+  }
 
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    file,
+    const DeepCollectionEquality().hash(uploadSizes),
+    user,
+  );
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ImageUploadRequest&&(identical(other.file, file) || other.file == file)&&const DeepCollectionEquality().equals(other.uploadSizes, uploadSizes)&&(identical(other.user, user) || other.user == user));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,file,const DeepCollectionEquality().hash(uploadSizes),user);
-
-@override
-String toString() {
-  return 'ImageUploadRequest(file: $file, uploadSizes: $uploadSizes, user: $user)';
-}
-
-
+  @override
+  String toString() {
+    return 'ImageUploadRequest(file: $file, uploadSizes: $uploadSizes, user: $user)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $ImageUploadRequestCopyWith<$Res>  {
-  factory $ImageUploadRequestCopyWith(ImageUploadRequest value, $Res Function(ImageUploadRequest) _then) = _$ImageUploadRequestCopyWithImpl;
-@useResult
-$Res call({
- String? file, List<ImageSize>? uploadSizes, OnlyUserID? user
-});
-
-
-
-
+abstract mixin class $ImageUploadRequestCopyWith<$Res> {
+  factory $ImageUploadRequestCopyWith(
+    ImageUploadRequest value,
+    $Res Function(ImageUploadRequest) _then,
+  ) = _$ImageUploadRequestCopyWithImpl;
+  @useResult
+  $Res call({String? file, List<ImageSize>? uploadSizes, OnlyUserID? user});
 }
+
 /// @nodoc
-class _$ImageUploadRequestCopyWithImpl<$Res>
-    implements $ImageUploadRequestCopyWith<$Res> {
+class _$ImageUploadRequestCopyWithImpl<$Res> implements $ImageUploadRequestCopyWith<$Res> {
   _$ImageUploadRequestCopyWithImpl(this._self, this._then);
 
   final ImageUploadRequest _self;
   final $Res Function(ImageUploadRequest) _then;
 
-/// Create a copy of ImageUploadRequest
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? file = freezed,Object? uploadSizes = freezed,Object? user = freezed,}) {
-  return _then(ImageUploadRequest(
-file: freezed == file ? _self.file : file // ignore: cast_nullable_to_non_nullable
-as String?,uploadSizes: freezed == uploadSizes ? _self.uploadSizes : uploadSizes // ignore: cast_nullable_to_non_nullable
-as List<ImageSize>?,user: freezed == user ? _self.user : user // ignore: cast_nullable_to_non_nullable
-as OnlyUserID?,
-  ));
+  /// Create a copy of ImageUploadRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? file = freezed,
+    Object? uploadSizes = freezed,
+    Object? user = freezed,
+  }) {
+    return _then(
+      ImageUploadRequest(
+        file: freezed == file
+            ? _self.file
+            : file // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        uploadSizes: freezed == uploadSizes
+            ? _self.uploadSizes
+            : uploadSizes // ignore: cast_nullable_to_non_nullable
+                  as List<ImageSize>?,
+        user: freezed == user
+            ? _self.user
+            : user // ignore: cast_nullable_to_non_nullable
+                  as OnlyUserID?,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

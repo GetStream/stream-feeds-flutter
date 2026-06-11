@@ -9,69 +9,77 @@ part of 'poll_list_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$PollListState {
+  List<PollData> get polls;
+  PaginationData? get pagination;
 
- List<PollData> get polls; PaginationData? get pagination;
-/// Create a copy of PollListState
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$PollListStateCopyWith<PollListState> get copyWith => _$PollListStateCopyWithImpl<PollListState>(this as PollListState, _$identity);
+  /// Create a copy of PollListState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $PollListStateCopyWith<PollListState> get copyWith => _$PollListStateCopyWithImpl<PollListState>(
+    this as PollListState,
+    _$identity,
+  );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is PollListState &&
+            const DeepCollectionEquality().equals(other.polls, polls) &&
+            (identical(other.pagination, pagination) || other.pagination == pagination));
+  }
 
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(polls),
+    pagination,
+  );
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PollListState&&const DeepCollectionEquality().equals(other.polls, polls)&&(identical(other.pagination, pagination) || other.pagination == pagination));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(polls),pagination);
-
-@override
-String toString() {
-  return 'PollListState(polls: $polls, pagination: $pagination)';
-}
-
-
+  @override
+  String toString() {
+    return 'PollListState(polls: $polls, pagination: $pagination)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $PollListStateCopyWith<$Res>  {
-  factory $PollListStateCopyWith(PollListState value, $Res Function(PollListState) _then) = _$PollListStateCopyWithImpl;
-@useResult
-$Res call({
- List<PollData> polls, PaginationData? pagination
-});
-
-
-
-
+abstract mixin class $PollListStateCopyWith<$Res> {
+  factory $PollListStateCopyWith(
+    PollListState value,
+    $Res Function(PollListState) _then,
+  ) = _$PollListStateCopyWithImpl;
+  @useResult
+  $Res call({List<PollData> polls, PaginationData? pagination});
 }
+
 /// @nodoc
-class _$PollListStateCopyWithImpl<$Res>
-    implements $PollListStateCopyWith<$Res> {
+class _$PollListStateCopyWithImpl<$Res> implements $PollListStateCopyWith<$Res> {
   _$PollListStateCopyWithImpl(this._self, this._then);
 
   final PollListState _self;
   final $Res Function(PollListState) _then;
 
-/// Create a copy of PollListState
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? polls = null,Object? pagination = freezed,}) {
-  return _then(PollListState(
-polls: null == polls ? _self.polls : polls // ignore: cast_nullable_to_non_nullable
-as List<PollData>,pagination: freezed == pagination ? _self.pagination : pagination // ignore: cast_nullable_to_non_nullable
-as PaginationData?,
-  ));
+  /// Create a copy of PollListState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? polls = null, Object? pagination = freezed}) {
+    return _then(
+      PollListState(
+        polls: null == polls
+            ? _self.polls
+            : polls // ignore: cast_nullable_to_non_nullable
+                  as List<PollData>,
+        pagination: freezed == pagination
+            ? _self.pagination
+            : pagination // ignore: cast_nullable_to_non_nullable
+                  as PaginationData?,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

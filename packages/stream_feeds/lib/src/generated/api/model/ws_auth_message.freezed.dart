@@ -9,69 +9,77 @@ part of 'ws_auth_message.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$WSAuthMessage {
+  List<WSAuthMessageProducts>? get products;
+  String get token;
 
- List<WSAuthMessageProducts>? get products; String get token;
-/// Create a copy of WSAuthMessage
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$WSAuthMessageCopyWith<WSAuthMessage> get copyWith => _$WSAuthMessageCopyWithImpl<WSAuthMessage>(this as WSAuthMessage, _$identity);
+  /// Create a copy of WSAuthMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $WSAuthMessageCopyWith<WSAuthMessage> get copyWith => _$WSAuthMessageCopyWithImpl<WSAuthMessage>(
+    this as WSAuthMessage,
+    _$identity,
+  );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is WSAuthMessage &&
+            const DeepCollectionEquality().equals(other.products, products) &&
+            (identical(other.token, token) || other.token == token));
+  }
 
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(products),
+    token,
+  );
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is WSAuthMessage&&const DeepCollectionEquality().equals(other.products, products)&&(identical(other.token, token) || other.token == token));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(products),token);
-
-@override
-String toString() {
-  return 'WSAuthMessage(products: $products, token: $token)';
-}
-
-
+  @override
+  String toString() {
+    return 'WSAuthMessage(products: $products, token: $token)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $WSAuthMessageCopyWith<$Res>  {
-  factory $WSAuthMessageCopyWith(WSAuthMessage value, $Res Function(WSAuthMessage) _then) = _$WSAuthMessageCopyWithImpl;
-@useResult
-$Res call({
- List<WSAuthMessageProducts>? products, String token
-});
-
-
-
-
+abstract mixin class $WSAuthMessageCopyWith<$Res> {
+  factory $WSAuthMessageCopyWith(
+    WSAuthMessage value,
+    $Res Function(WSAuthMessage) _then,
+  ) = _$WSAuthMessageCopyWithImpl;
+  @useResult
+  $Res call({List<WSAuthMessageProducts>? products, String token});
 }
+
 /// @nodoc
-class _$WSAuthMessageCopyWithImpl<$Res>
-    implements $WSAuthMessageCopyWith<$Res> {
+class _$WSAuthMessageCopyWithImpl<$Res> implements $WSAuthMessageCopyWith<$Res> {
   _$WSAuthMessageCopyWithImpl(this._self, this._then);
 
   final WSAuthMessage _self;
   final $Res Function(WSAuthMessage) _then;
 
-/// Create a copy of WSAuthMessage
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? products = freezed,Object? token = null,}) {
-  return _then(WSAuthMessage(
-products: freezed == products ? _self.products : products // ignore: cast_nullable_to_non_nullable
-as List<WSAuthMessageProducts>?,token: null == token ? _self.token : token // ignore: cast_nullable_to_non_nullable
-as String,
-  ));
+  /// Create a copy of WSAuthMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? products = freezed, Object? token = null}) {
+    return _then(
+      WSAuthMessage(
+        products: freezed == products
+            ? _self.products
+            : products // ignore: cast_nullable_to_non_nullable
+                  as List<WSAuthMessageProducts>?,
+        token: null == token
+            ? _self.token
+            : token // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

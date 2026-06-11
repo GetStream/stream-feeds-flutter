@@ -9,68 +9,67 @@ part of 'update_users_request.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$UpdateUsersRequest {
+  Map<String, UserRequest> get users;
 
- Map<String, UserRequest> get users;
-/// Create a copy of UpdateUsersRequest
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$UpdateUsersRequestCopyWith<UpdateUsersRequest> get copyWith => _$UpdateUsersRequestCopyWithImpl<UpdateUsersRequest>(this as UpdateUsersRequest, _$identity);
+  /// Create a copy of UpdateUsersRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $UpdateUsersRequestCopyWith<UpdateUsersRequest> get copyWith => _$UpdateUsersRequestCopyWithImpl<UpdateUsersRequest>(
+    this as UpdateUsersRequest,
+    _$identity,
+  );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is UpdateUsersRequest &&
+            const DeepCollectionEquality().equals(other.users, users));
+  }
 
+  @override
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(users));
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateUsersRequest&&const DeepCollectionEquality().equals(other.users, users));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(users));
-
-@override
-String toString() {
-  return 'UpdateUsersRequest(users: $users)';
-}
-
-
+  @override
+  String toString() {
+    return 'UpdateUsersRequest(users: $users)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $UpdateUsersRequestCopyWith<$Res>  {
-  factory $UpdateUsersRequestCopyWith(UpdateUsersRequest value, $Res Function(UpdateUsersRequest) _then) = _$UpdateUsersRequestCopyWithImpl;
-@useResult
-$Res call({
- Map<String, UserRequest> users
-});
-
-
-
-
+abstract mixin class $UpdateUsersRequestCopyWith<$Res> {
+  factory $UpdateUsersRequestCopyWith(
+    UpdateUsersRequest value,
+    $Res Function(UpdateUsersRequest) _then,
+  ) = _$UpdateUsersRequestCopyWithImpl;
+  @useResult
+  $Res call({Map<String, UserRequest> users});
 }
+
 /// @nodoc
-class _$UpdateUsersRequestCopyWithImpl<$Res>
-    implements $UpdateUsersRequestCopyWith<$Res> {
+class _$UpdateUsersRequestCopyWithImpl<$Res> implements $UpdateUsersRequestCopyWith<$Res> {
   _$UpdateUsersRequestCopyWithImpl(this._self, this._then);
 
   final UpdateUsersRequest _self;
   final $Res Function(UpdateUsersRequest) _then;
 
-/// Create a copy of UpdateUsersRequest
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? users = null,}) {
-  return _then(UpdateUsersRequest(
-users: null == users ? _self.users : users // ignore: cast_nullable_to_non_nullable
-as Map<String, UserRequest>,
-  ));
+  /// Create a copy of UpdateUsersRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? users = null}) {
+    return _then(
+      UpdateUsersRequest(
+        users: null == users
+            ? _self.users
+            : users // ignore: cast_nullable_to_non_nullable
+                  as Map<String, UserRequest>,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

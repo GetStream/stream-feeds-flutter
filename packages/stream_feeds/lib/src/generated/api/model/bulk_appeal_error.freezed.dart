@@ -9,69 +9,73 @@ part of 'bulk_appeal_error.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$BulkAppealError {
+  String get appealId;
+  String get error;
 
- String get appealId; String get error;
-/// Create a copy of BulkAppealError
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$BulkAppealErrorCopyWith<BulkAppealError> get copyWith => _$BulkAppealErrorCopyWithImpl<BulkAppealError>(this as BulkAppealError, _$identity);
+  /// Create a copy of BulkAppealError
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $BulkAppealErrorCopyWith<BulkAppealError> get copyWith => _$BulkAppealErrorCopyWithImpl<BulkAppealError>(
+    this as BulkAppealError,
+    _$identity,
+  );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is BulkAppealError &&
+            (identical(other.appealId, appealId) || other.appealId == appealId) &&
+            (identical(other.error, error) || other.error == error));
+  }
 
+  @override
+  int get hashCode => Object.hash(runtimeType, appealId, error);
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BulkAppealError&&(identical(other.appealId, appealId) || other.appealId == appealId)&&(identical(other.error, error) || other.error == error));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,appealId,error);
-
-@override
-String toString() {
-  return 'BulkAppealError(appealId: $appealId, error: $error)';
-}
-
-
+  @override
+  String toString() {
+    return 'BulkAppealError(appealId: $appealId, error: $error)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $BulkAppealErrorCopyWith<$Res>  {
-  factory $BulkAppealErrorCopyWith(BulkAppealError value, $Res Function(BulkAppealError) _then) = _$BulkAppealErrorCopyWithImpl;
-@useResult
-$Res call({
- String appealId, String error
-});
-
-
-
-
+abstract mixin class $BulkAppealErrorCopyWith<$Res> {
+  factory $BulkAppealErrorCopyWith(
+    BulkAppealError value,
+    $Res Function(BulkAppealError) _then,
+  ) = _$BulkAppealErrorCopyWithImpl;
+  @useResult
+  $Res call({String appealId, String error});
 }
+
 /// @nodoc
-class _$BulkAppealErrorCopyWithImpl<$Res>
-    implements $BulkAppealErrorCopyWith<$Res> {
+class _$BulkAppealErrorCopyWithImpl<$Res> implements $BulkAppealErrorCopyWith<$Res> {
   _$BulkAppealErrorCopyWithImpl(this._self, this._then);
 
   final BulkAppealError _self;
   final $Res Function(BulkAppealError) _then;
 
-/// Create a copy of BulkAppealError
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? appealId = null,Object? error = null,}) {
-  return _then(BulkAppealError(
-appealId: null == appealId ? _self.appealId : appealId // ignore: cast_nullable_to_non_nullable
-as String,error: null == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
-as String,
-  ));
+  /// Create a copy of BulkAppealError
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? appealId = null, Object? error = null}) {
+    return _then(
+      BulkAppealError(
+        appealId: null == appealId
+            ? _self.appealId
+            : appealId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        error: null == error
+            ? _self.error
+            : error // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

@@ -9,71 +9,91 @@ part of 'flood_identical_config.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$FloodIdenticalConfig {
+  String get action;
+  bool get enabled;
+  int get threshold;
+  String get timeWindow;
 
- String get action; bool get enabled; int get threshold; String get timeWindow;
-/// Create a copy of FloodIdenticalConfig
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$FloodIdenticalConfigCopyWith<FloodIdenticalConfig> get copyWith => _$FloodIdenticalConfigCopyWithImpl<FloodIdenticalConfig>(this as FloodIdenticalConfig, _$identity);
+  /// Create a copy of FloodIdenticalConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $FloodIdenticalConfigCopyWith<FloodIdenticalConfig> get copyWith =>
+      _$FloodIdenticalConfigCopyWithImpl<FloodIdenticalConfig>(
+        this as FloodIdenticalConfig,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FloodIdenticalConfig &&
+            (identical(other.action, action) || other.action == action) &&
+            (identical(other.enabled, enabled) || other.enabled == enabled) &&
+            (identical(other.threshold, threshold) || other.threshold == threshold) &&
+            (identical(other.timeWindow, timeWindow) || other.timeWindow == timeWindow));
+  }
 
+  @override
+  int get hashCode => Object.hash(runtimeType, action, enabled, threshold, timeWindow);
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FloodIdenticalConfig&&(identical(other.action, action) || other.action == action)&&(identical(other.enabled, enabled) || other.enabled == enabled)&&(identical(other.threshold, threshold) || other.threshold == threshold)&&(identical(other.timeWindow, timeWindow) || other.timeWindow == timeWindow));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,action,enabled,threshold,timeWindow);
-
-@override
-String toString() {
-  return 'FloodIdenticalConfig(action: $action, enabled: $enabled, threshold: $threshold, timeWindow: $timeWindow)';
-}
-
-
+  @override
+  String toString() {
+    return 'FloodIdenticalConfig(action: $action, enabled: $enabled, threshold: $threshold, timeWindow: $timeWindow)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $FloodIdenticalConfigCopyWith<$Res>  {
-  factory $FloodIdenticalConfigCopyWith(FloodIdenticalConfig value, $Res Function(FloodIdenticalConfig) _then) = _$FloodIdenticalConfigCopyWithImpl;
-@useResult
-$Res call({
- String action, bool enabled, int threshold, String timeWindow
-});
-
-
-
-
+abstract mixin class $FloodIdenticalConfigCopyWith<$Res> {
+  factory $FloodIdenticalConfigCopyWith(
+    FloodIdenticalConfig value,
+    $Res Function(FloodIdenticalConfig) _then,
+  ) = _$FloodIdenticalConfigCopyWithImpl;
+  @useResult
+  $Res call({String action, bool enabled, int threshold, String timeWindow});
 }
+
 /// @nodoc
-class _$FloodIdenticalConfigCopyWithImpl<$Res>
-    implements $FloodIdenticalConfigCopyWith<$Res> {
+class _$FloodIdenticalConfigCopyWithImpl<$Res> implements $FloodIdenticalConfigCopyWith<$Res> {
   _$FloodIdenticalConfigCopyWithImpl(this._self, this._then);
 
   final FloodIdenticalConfig _self;
   final $Res Function(FloodIdenticalConfig) _then;
 
-/// Create a copy of FloodIdenticalConfig
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? action = null,Object? enabled = null,Object? threshold = null,Object? timeWindow = null,}) {
-  return _then(FloodIdenticalConfig(
-action: null == action ? _self.action : action // ignore: cast_nullable_to_non_nullable
-as String,enabled: null == enabled ? _self.enabled : enabled // ignore: cast_nullable_to_non_nullable
-as bool,threshold: null == threshold ? _self.threshold : threshold // ignore: cast_nullable_to_non_nullable
-as int,timeWindow: null == timeWindow ? _self.timeWindow : timeWindow // ignore: cast_nullable_to_non_nullable
-as String,
-  ));
+  /// Create a copy of FloodIdenticalConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? action = null,
+    Object? enabled = null,
+    Object? threshold = null,
+    Object? timeWindow = null,
+  }) {
+    return _then(
+      FloodIdenticalConfig(
+        action: null == action
+            ? _self.action
+            : action // ignore: cast_nullable_to_non_nullable
+                  as String,
+        enabled: null == enabled
+            ? _self.enabled
+            : enabled // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        threshold: null == threshold
+            ? _self.threshold
+            : threshold // ignore: cast_nullable_to_non_nullable
+                  as int,
+        timeWindow: null == timeWindow
+            ? _self.timeWindow
+            : timeWindow // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

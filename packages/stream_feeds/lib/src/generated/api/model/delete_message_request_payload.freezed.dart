@@ -9,71 +9,96 @@ part of 'delete_message_request_payload.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$DeleteMessageRequestPayload {
+  String? get entityId;
+  String? get entityType;
+  bool? get hardDelete;
+  String? get reason;
 
- String? get entityId; String? get entityType; bool? get hardDelete; String? get reason;
-/// Create a copy of DeleteMessageRequestPayload
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$DeleteMessageRequestPayloadCopyWith<DeleteMessageRequestPayload> get copyWith => _$DeleteMessageRequestPayloadCopyWithImpl<DeleteMessageRequestPayload>(this as DeleteMessageRequestPayload, _$identity);
+  /// Create a copy of DeleteMessageRequestPayload
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $DeleteMessageRequestPayloadCopyWith<DeleteMessageRequestPayload> get copyWith =>
+      _$DeleteMessageRequestPayloadCopyWithImpl<DeleteMessageRequestPayload>(
+        this as DeleteMessageRequestPayload,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is DeleteMessageRequestPayload &&
+            (identical(other.entityId, entityId) || other.entityId == entityId) &&
+            (identical(other.entityType, entityType) || other.entityType == entityType) &&
+            (identical(other.hardDelete, hardDelete) || other.hardDelete == hardDelete) &&
+            (identical(other.reason, reason) || other.reason == reason));
+  }
 
+  @override
+  int get hashCode => Object.hash(runtimeType, entityId, entityType, hardDelete, reason);
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DeleteMessageRequestPayload&&(identical(other.entityId, entityId) || other.entityId == entityId)&&(identical(other.entityType, entityType) || other.entityType == entityType)&&(identical(other.hardDelete, hardDelete) || other.hardDelete == hardDelete)&&(identical(other.reason, reason) || other.reason == reason));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,entityId,entityType,hardDelete,reason);
-
-@override
-String toString() {
-  return 'DeleteMessageRequestPayload(entityId: $entityId, entityType: $entityType, hardDelete: $hardDelete, reason: $reason)';
-}
-
-
+  @override
+  String toString() {
+    return 'DeleteMessageRequestPayload(entityId: $entityId, entityType: $entityType, hardDelete: $hardDelete, reason: $reason)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $DeleteMessageRequestPayloadCopyWith<$Res>  {
-  factory $DeleteMessageRequestPayloadCopyWith(DeleteMessageRequestPayload value, $Res Function(DeleteMessageRequestPayload) _then) = _$DeleteMessageRequestPayloadCopyWithImpl;
-@useResult
-$Res call({
- String? entityId, String? entityType, bool? hardDelete, String? reason
-});
-
-
-
-
+abstract mixin class $DeleteMessageRequestPayloadCopyWith<$Res> {
+  factory $DeleteMessageRequestPayloadCopyWith(
+    DeleteMessageRequestPayload value,
+    $Res Function(DeleteMessageRequestPayload) _then,
+  ) = _$DeleteMessageRequestPayloadCopyWithImpl;
+  @useResult
+  $Res call({
+    String? entityId,
+    String? entityType,
+    bool? hardDelete,
+    String? reason,
+  });
 }
+
 /// @nodoc
-class _$DeleteMessageRequestPayloadCopyWithImpl<$Res>
-    implements $DeleteMessageRequestPayloadCopyWith<$Res> {
+class _$DeleteMessageRequestPayloadCopyWithImpl<$Res> implements $DeleteMessageRequestPayloadCopyWith<$Res> {
   _$DeleteMessageRequestPayloadCopyWithImpl(this._self, this._then);
 
   final DeleteMessageRequestPayload _self;
   final $Res Function(DeleteMessageRequestPayload) _then;
 
-/// Create a copy of DeleteMessageRequestPayload
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? entityId = freezed,Object? entityType = freezed,Object? hardDelete = freezed,Object? reason = freezed,}) {
-  return _then(DeleteMessageRequestPayload(
-entityId: freezed == entityId ? _self.entityId : entityId // ignore: cast_nullable_to_non_nullable
-as String?,entityType: freezed == entityType ? _self.entityType : entityType // ignore: cast_nullable_to_non_nullable
-as String?,hardDelete: freezed == hardDelete ? _self.hardDelete : hardDelete // ignore: cast_nullable_to_non_nullable
-as bool?,reason: freezed == reason ? _self.reason : reason // ignore: cast_nullable_to_non_nullable
-as String?,
-  ));
+  /// Create a copy of DeleteMessageRequestPayload
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? entityId = freezed,
+    Object? entityType = freezed,
+    Object? hardDelete = freezed,
+    Object? reason = freezed,
+  }) {
+    return _then(
+      DeleteMessageRequestPayload(
+        entityId: freezed == entityId
+            ? _self.entityId
+            : entityId // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        entityType: freezed == entityType
+            ? _self.entityType
+            : entityType // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        hardDelete: freezed == hardDelete
+            ? _self.hardDelete
+            : hardDelete // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        reason: freezed == reason
+            ? _self.reason
+            : reason // ignore: cast_nullable_to_non_nullable
+                  as String?,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

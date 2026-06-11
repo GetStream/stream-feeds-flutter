@@ -9,71 +9,102 @@ part of 'update_comment_bookmark_request.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$UpdateCommentBookmarkRequest {
+  Map<String, Object?>? get custom;
+  String? get folderId;
+  AddFolderRequest? get newFolder;
+  String? get newFolderId;
 
- Map<String, Object?>? get custom; String? get folderId; AddFolderRequest? get newFolder; String? get newFolderId;
-/// Create a copy of UpdateCommentBookmarkRequest
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$UpdateCommentBookmarkRequestCopyWith<UpdateCommentBookmarkRequest> get copyWith => _$UpdateCommentBookmarkRequestCopyWithImpl<UpdateCommentBookmarkRequest>(this as UpdateCommentBookmarkRequest, _$identity);
+  /// Create a copy of UpdateCommentBookmarkRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $UpdateCommentBookmarkRequestCopyWith<UpdateCommentBookmarkRequest> get copyWith =>
+      _$UpdateCommentBookmarkRequestCopyWithImpl<UpdateCommentBookmarkRequest>(
+        this as UpdateCommentBookmarkRequest,
+        _$identity,
+      );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is UpdateCommentBookmarkRequest &&
+            const DeepCollectionEquality().equals(other.custom, custom) &&
+            (identical(other.folderId, folderId) || other.folderId == folderId) &&
+            (identical(other.newFolder, newFolder) || other.newFolder == newFolder) &&
+            (identical(other.newFolderId, newFolderId) || other.newFolderId == newFolderId));
+  }
 
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(custom),
+    folderId,
+    newFolder,
+    newFolderId,
+  );
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateCommentBookmarkRequest&&const DeepCollectionEquality().equals(other.custom, custom)&&(identical(other.folderId, folderId) || other.folderId == folderId)&&(identical(other.newFolder, newFolder) || other.newFolder == newFolder)&&(identical(other.newFolderId, newFolderId) || other.newFolderId == newFolderId));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(custom),folderId,newFolder,newFolderId);
-
-@override
-String toString() {
-  return 'UpdateCommentBookmarkRequest(custom: $custom, folderId: $folderId, newFolder: $newFolder, newFolderId: $newFolderId)';
-}
-
-
+  @override
+  String toString() {
+    return 'UpdateCommentBookmarkRequest(custom: $custom, folderId: $folderId, newFolder: $newFolder, newFolderId: $newFolderId)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $UpdateCommentBookmarkRequestCopyWith<$Res>  {
-  factory $UpdateCommentBookmarkRequestCopyWith(UpdateCommentBookmarkRequest value, $Res Function(UpdateCommentBookmarkRequest) _then) = _$UpdateCommentBookmarkRequestCopyWithImpl;
-@useResult
-$Res call({
- Map<String, Object?>? custom, String? folderId, AddFolderRequest? newFolder, String? newFolderId
-});
-
-
-
-
+abstract mixin class $UpdateCommentBookmarkRequestCopyWith<$Res> {
+  factory $UpdateCommentBookmarkRequestCopyWith(
+    UpdateCommentBookmarkRequest value,
+    $Res Function(UpdateCommentBookmarkRequest) _then,
+  ) = _$UpdateCommentBookmarkRequestCopyWithImpl;
+  @useResult
+  $Res call({
+    Map<String, Object?>? custom,
+    String? folderId,
+    AddFolderRequest? newFolder,
+    String? newFolderId,
+  });
 }
+
 /// @nodoc
-class _$UpdateCommentBookmarkRequestCopyWithImpl<$Res>
-    implements $UpdateCommentBookmarkRequestCopyWith<$Res> {
+class _$UpdateCommentBookmarkRequestCopyWithImpl<$Res> implements $UpdateCommentBookmarkRequestCopyWith<$Res> {
   _$UpdateCommentBookmarkRequestCopyWithImpl(this._self, this._then);
 
   final UpdateCommentBookmarkRequest _self;
   final $Res Function(UpdateCommentBookmarkRequest) _then;
 
-/// Create a copy of UpdateCommentBookmarkRequest
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? custom = freezed,Object? folderId = freezed,Object? newFolder = freezed,Object? newFolderId = freezed,}) {
-  return _then(UpdateCommentBookmarkRequest(
-custom: freezed == custom ? _self.custom : custom // ignore: cast_nullable_to_non_nullable
-as Map<String, Object?>?,folderId: freezed == folderId ? _self.folderId : folderId // ignore: cast_nullable_to_non_nullable
-as String?,newFolder: freezed == newFolder ? _self.newFolder : newFolder // ignore: cast_nullable_to_non_nullable
-as AddFolderRequest?,newFolderId: freezed == newFolderId ? _self.newFolderId : newFolderId // ignore: cast_nullable_to_non_nullable
-as String?,
-  ));
+  /// Create a copy of UpdateCommentBookmarkRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? custom = freezed,
+    Object? folderId = freezed,
+    Object? newFolder = freezed,
+    Object? newFolderId = freezed,
+  }) {
+    return _then(
+      UpdateCommentBookmarkRequest(
+        custom: freezed == custom
+            ? _self.custom
+            : custom // ignore: cast_nullable_to_non_nullable
+                  as Map<String, Object?>?,
+        folderId: freezed == folderId
+            ? _self.folderId
+            : folderId // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        newFolder: freezed == newFolder
+            ? _self.newFolder
+            : newFolder // ignore: cast_nullable_to_non_nullable
+                  as AddFolderRequest?,
+        newFolderId: freezed == newFolderId
+            ? _self.newFolderId
+            : newFolderId // ignore: cast_nullable_to_non_nullable
+                  as String?,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on

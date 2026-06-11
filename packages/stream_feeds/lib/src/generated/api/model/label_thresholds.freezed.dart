@@ -9,69 +9,73 @@ part of 'label_thresholds.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$LabelThresholds {
+  double? get block;
+  double? get flag;
 
- double? get block; double? get flag;
-/// Create a copy of LabelThresholds
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$LabelThresholdsCopyWith<LabelThresholds> get copyWith => _$LabelThresholdsCopyWithImpl<LabelThresholds>(this as LabelThresholds, _$identity);
+  /// Create a copy of LabelThresholds
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $LabelThresholdsCopyWith<LabelThresholds> get copyWith => _$LabelThresholdsCopyWithImpl<LabelThresholds>(
+    this as LabelThresholds,
+    _$identity,
+  );
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is LabelThresholds &&
+            (identical(other.block, block) || other.block == block) &&
+            (identical(other.flag, flag) || other.flag == flag));
+  }
 
+  @override
+  int get hashCode => Object.hash(runtimeType, block, flag);
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LabelThresholds&&(identical(other.block, block) || other.block == block)&&(identical(other.flag, flag) || other.flag == flag));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,block,flag);
-
-@override
-String toString() {
-  return 'LabelThresholds(block: $block, flag: $flag)';
-}
-
-
+  @override
+  String toString() {
+    return 'LabelThresholds(block: $block, flag: $flag)';
+  }
 }
 
 /// @nodoc
-abstract mixin class $LabelThresholdsCopyWith<$Res>  {
-  factory $LabelThresholdsCopyWith(LabelThresholds value, $Res Function(LabelThresholds) _then) = _$LabelThresholdsCopyWithImpl;
-@useResult
-$Res call({
- double? block, double? flag
-});
-
-
-
-
+abstract mixin class $LabelThresholdsCopyWith<$Res> {
+  factory $LabelThresholdsCopyWith(
+    LabelThresholds value,
+    $Res Function(LabelThresholds) _then,
+  ) = _$LabelThresholdsCopyWithImpl;
+  @useResult
+  $Res call({double? block, double? flag});
 }
+
 /// @nodoc
-class _$LabelThresholdsCopyWithImpl<$Res>
-    implements $LabelThresholdsCopyWith<$Res> {
+class _$LabelThresholdsCopyWithImpl<$Res> implements $LabelThresholdsCopyWith<$Res> {
   _$LabelThresholdsCopyWithImpl(this._self, this._then);
 
   final LabelThresholds _self;
   final $Res Function(LabelThresholds) _then;
 
-/// Create a copy of LabelThresholds
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? block = freezed,Object? flag = freezed,}) {
-  return _then(LabelThresholds(
-block: freezed == block ? _self.block : block // ignore: cast_nullable_to_non_nullable
-as double?,flag: freezed == flag ? _self.flag : flag // ignore: cast_nullable_to_non_nullable
-as double?,
-  ));
+  /// Create a copy of LabelThresholds
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? block = freezed, Object? flag = freezed}) {
+    return _then(
+      LabelThresholds(
+        block: freezed == block
+            ? _self.block
+            : block // ignore: cast_nullable_to_non_nullable
+                  as double?,
+        flag: freezed == flag
+            ? _self.flag
+            : flag // ignore: cast_nullable_to_non_nullable
+                  as double?,
+      ),
+    );
+  }
 }
-
-}
-
-
-
-// dart format on
