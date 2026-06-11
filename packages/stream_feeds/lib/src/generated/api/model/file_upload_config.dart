@@ -42,6 +42,5 @@ class FileUploadConfig with _$FileUploadConfig {
 
   Map<String, dynamic> toJson() => _$FileUploadConfigToJson(this);
 
-  static FileUploadConfig fromJson(Map<String, dynamic> json) =>
-      _$FileUploadConfigFromJson(json);
+  static FileUploadConfig fromJson(Map<String, dynamic> json) => _$FileUploadConfigFromJson(json);
 }

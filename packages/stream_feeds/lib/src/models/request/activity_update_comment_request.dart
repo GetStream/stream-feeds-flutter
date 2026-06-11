@@ -25,8 +25,8 @@ class ActivityUpdateCommentRequest with _$ActivityUpdateCommentRequest {
 
 extension ActivityUpdateCommentRequestMapper on ActivityUpdateCommentRequest {
   api.UpdateCommentRequest toRequest() => api.UpdateCommentRequest(
-        comment: comment,
-        custom: custom,
-        skipPush: skipPush,
-      );
+    comment: comment,
+    custom: custom,
+    skipPush: skipPush,
+  );
 }

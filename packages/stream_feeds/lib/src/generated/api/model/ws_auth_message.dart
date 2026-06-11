@@ -13,6 +13,18 @@ import '../models.dart';
 part 'ws_auth_message.g.dart';
 part 'ws_auth_message.freezed.dart';
 
+@JsonEnum(alwaysCreate: true)
+enum WSAuthMessageProducts {
+  @JsonValue('chat')
+  chat,
+  @JsonValue('feeds')
+  feeds,
+  @JsonValue('video')
+  video,
+  @JsonValue('_unknown')
+  unknown,
+}
+
 @freezed
 @immutable
 @JsonSerializable()
@@ -23,13 +35,13 @@ class WSAuthMessage with _$WSAuthMessage {
   });
 
   @override
-  final List<String>? products;
+  @JsonKey(unknownEnumValue: WSAuthMessageProducts.unknown)
+  final List<WSAuthMessageProducts>? products;
 
   @override
   final String token;
 
   Map<String, dynamic> toJson() => _$WSAuthMessageToJson(this);
 
-  static WSAuthMessage fromJson(Map<String, dynamic> json) =>
-      _$WSAuthMessageFromJson(json);
+  static WSAuthMessage fromJson(Map<String, dynamic> json) => _$WSAuthMessageFromJson(json);
 }

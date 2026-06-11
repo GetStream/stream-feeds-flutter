@@ -20,6 +20,7 @@ class BlockListConfig with _$BlockListConfig {
   const BlockListConfig({
     this.async,
     required this.enabled,
+    this.matchSubstring,
     required this.rules,
   });
 
@@ -30,10 +31,12 @@ class BlockListConfig with _$BlockListConfig {
   final bool enabled;
 
   @override
+  final bool? matchSubstring;
+
+  @override
   final List<BlockListRule> rules;
 
   Map<String, dynamic> toJson() => _$BlockListConfigToJson(this);
 
-  static BlockListConfig fromJson(Map<String, dynamic> json) =>
-      _$BlockListConfigFromJson(json);
+  static BlockListConfig fromJson(Map<String, dynamic> json) => _$BlockListConfigFromJson(json);
 }

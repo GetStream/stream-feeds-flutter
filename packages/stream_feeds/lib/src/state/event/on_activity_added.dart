@@ -43,11 +43,12 @@ import '../query/feed_query.dart';
 ///   onNewActivity: customOnNewActivity,
 /// );
 /// ```
-typedef OnNewActivity = InsertionAction Function(
-  FeedQuery query,
-  ActivityData activity,
-  String currentUserId,
-);
+typedef OnNewActivity =
+    InsertionAction Function(
+      FeedQuery query,
+      ActivityData activity,
+      String currentUserId,
+    );
 
 /// Default handler for new activities.
 ///

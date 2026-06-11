@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -10,7 +9,6 @@ part of 'automod_toxicity_config.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
@@ -25,7 +23,9 @@ mixin _$AutomodToxicityConfig {
   @pragma('vm:prefer-inline')
   $AutomodToxicityConfigCopyWith<AutomodToxicityConfig> get copyWith =>
       _$AutomodToxicityConfigCopyWithImpl<AutomodToxicityConfig>(
-          this as AutomodToxicityConfig, _$identity);
+        this as AutomodToxicityConfig,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -39,7 +39,11 @@ mixin _$AutomodToxicityConfig {
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, async, enabled, const DeepCollectionEquality().hash(rules));
+    runtimeType,
+    async,
+    enabled,
+    const DeepCollectionEquality().hash(rules),
+  );
 
   @override
   String toString() {
@@ -49,16 +53,16 @@ mixin _$AutomodToxicityConfig {
 
 /// @nodoc
 abstract mixin class $AutomodToxicityConfigCopyWith<$Res> {
-  factory $AutomodToxicityConfigCopyWith(AutomodToxicityConfig value,
-          $Res Function(AutomodToxicityConfig) _then) =
-      _$AutomodToxicityConfigCopyWithImpl;
+  factory $AutomodToxicityConfigCopyWith(
+    AutomodToxicityConfig value,
+    $Res Function(AutomodToxicityConfig) _then,
+  ) = _$AutomodToxicityConfigCopyWithImpl;
   @useResult
   $Res call({bool? async, bool enabled, List<AutomodRule> rules});
 }
 
 /// @nodoc
-class _$AutomodToxicityConfigCopyWithImpl<$Res>
-    implements $AutomodToxicityConfigCopyWith<$Res> {
+class _$AutomodToxicityConfigCopyWithImpl<$Res> implements $AutomodToxicityConfigCopyWith<$Res> {
   _$AutomodToxicityConfigCopyWithImpl(this._self, this._then);
 
   final AutomodToxicityConfig _self;
@@ -73,21 +77,21 @@ class _$AutomodToxicityConfigCopyWithImpl<$Res>
     Object? enabled = null,
     Object? rules = null,
   }) {
-    return _then(AutomodToxicityConfig(
-      async: freezed == async
-          ? _self.async
-          : async // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      enabled: null == enabled
-          ? _self.enabled
-          : enabled // ignore: cast_nullable_to_non_nullable
-              as bool,
-      rules: null == rules
-          ? _self.rules
-          : rules // ignore: cast_nullable_to_non_nullable
-              as List<AutomodRule>,
-    ));
+    return _then(
+      AutomodToxicityConfig(
+        async: freezed == async
+            ? _self.async
+            : async // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        enabled: null == enabled
+            ? _self.enabled
+            : enabled // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        rules: null == rules
+            ? _self.rules
+            : rules // ignore: cast_nullable_to_non_nullable
+                  as List<AutomodRule>,
+      ),
+    );
   }
 }
-
-// dart format on

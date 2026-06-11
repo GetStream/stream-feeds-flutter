@@ -24,6 +24,7 @@ class GetOrCreateFeedRequest with _$GetOrCreateFeedRequest {
     this.filter,
     this.followersPagination,
     this.followingPagination,
+    this.friendReactionsOptions,
     this.idAround,
     this.interestWeights,
     this.limit,
@@ -53,6 +54,9 @@ class GetOrCreateFeedRequest with _$GetOrCreateFeedRequest {
   final PagerRequest? followingPagination;
 
   @override
+  final FriendReactionsOptions? friendReactionsOptions;
+
+  @override
   final String? idAround;
 
   @override
@@ -78,6 +82,5 @@ class GetOrCreateFeedRequest with _$GetOrCreateFeedRequest {
 
   Map<String, dynamic> toJson() => _$GetOrCreateFeedRequestToJson(this);
 
-  static GetOrCreateFeedRequest fromJson(Map<String, dynamic> json) =>
-      _$GetOrCreateFeedRequestFromJson(json);
+  static GetOrCreateFeedRequest fromJson(Map<String, dynamic> json) => _$GetOrCreateFeedRequestFromJson(json);
 }

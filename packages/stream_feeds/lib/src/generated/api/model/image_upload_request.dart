@@ -34,6 +34,5 @@ class ImageUploadRequest with _$ImageUploadRequest {
 
   Map<String, dynamic> toJson() => _$ImageUploadRequestToJson(this);
 
-  static ImageUploadRequest fromJson(Map<String, dynamic> json) =>
-      _$ImageUploadRequestFromJson(json);
+  static ImageUploadRequest fromJson(Map<String, dynamic> json) => _$ImageUploadRequestFromJson(json);
 }

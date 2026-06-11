@@ -37,8 +37,8 @@ final class WebSocketTester {
   WebSocketTester({
     required MockWebSocketChannel channel,
     required StreamController<Object> streamController,
-  })  : _channel = channel,
-        _streamController = streamController;
+  }) : _channel = channel,
+       _streamController = streamController;
 
   // The mock WebSocket channel being configured.
   final MockWebSocketChannel _channel;
@@ -198,9 +198,11 @@ WebSocketResetFunction _whenListenWebSocket(
   when(
     () => webSocketSink.add(any<Object>()),
   ).thenAnswer((invocation) {
-    final event = jsonDecode(
-      invocation.positionalArguments.first as String,
-    ) as Map<String, dynamic>;
+    final event =
+        jsonDecode(
+              invocation.positionalArguments.first as String,
+            )
+            as Map<String, dynamic>;
 
     // Extract token from authentication message
     if (event['token'] case final String token) {

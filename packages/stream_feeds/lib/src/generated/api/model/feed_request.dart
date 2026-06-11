@@ -26,7 +26,7 @@ enum FeedRequestVisibility {
   @JsonValue('visible')
   visible,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -40,6 +40,7 @@ class FeedRequest with _$FeedRequest {
     required this.feedGroupId,
     required this.feedId,
     this.filterTags,
+    this.location,
     this.members,
     this.name,
     this.visibility,
@@ -64,6 +65,9 @@ class FeedRequest with _$FeedRequest {
   final List<String>? filterTags;
 
   @override
+  final Location? location;
+
+  @override
   final List<FeedMemberRequest>? members;
 
   @override
@@ -75,6 +79,5 @@ class FeedRequest with _$FeedRequest {
 
   Map<String, dynamic> toJson() => _$FeedRequestToJson(this);
 
-  static FeedRequest fromJson(Map<String, dynamic> json) =>
-      _$FeedRequestFromJson(json);
+  static FeedRequest fromJson(Map<String, dynamic> json) => _$FeedRequestFromJson(json);
 }

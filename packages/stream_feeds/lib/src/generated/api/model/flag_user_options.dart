@@ -26,6 +26,5 @@ class FlagUserOptions with _$FlagUserOptions {
 
   Map<String, dynamic> toJson() => _$FlagUserOptionsToJson(this);
 
-  static FlagUserOptions fromJson(Map<String, dynamic> json) =>
-      _$FlagUserOptionsFromJson(json);
+  static FlagUserOptions fromJson(Map<String, dynamic> json) => _$FlagUserOptionsFromJson(json);
 }

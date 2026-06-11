@@ -42,6 +42,5 @@ class AppEventResponse with _$AppEventResponse {
 
   Map<String, dynamic> toJson() => _$AppEventResponseToJson(this);
 
-  static AppEventResponse fromJson(Map<String, dynamic> json) =>
-      _$AppEventResponseFromJson(json);
+  static AppEventResponse fromJson(Map<String, dynamic> json) => _$AppEventResponseFromJson(json);
 }

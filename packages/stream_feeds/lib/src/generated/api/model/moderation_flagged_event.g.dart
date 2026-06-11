@@ -7,24 +7,41 @@ part of 'moderation_flagged_event.dart';
 // **************************************************************************
 
 ModerationFlaggedEvent _$ModerationFlaggedEventFromJson(
-        Map<String, dynamic> json) =>
-    ModerationFlaggedEvent(
-      createdAt: const EpochDateTimeConverter()
-          .fromJson((json['created_at'] as num).toInt()),
-      item: json['item'] as String?,
-      objectId: json['object_id'] as String?,
-      type: json['type'] as String,
-      user: json['user'] == null
-          ? null
-          : User.fromJson(json['user'] as Map<String, dynamic>),
-    );
+  Map<String, dynamic> json,
+) => ModerationFlaggedEvent(
+  contentType: json['content_type'] as String,
+  createdAt: const EpochDateTimeConverter().fromJson(
+    (json['created_at'] as num).toInt(),
+  ),
+  custom: json['custom'] as Map<String, dynamic>,
+  objectId: json['object_id'] as String,
+  receivedAt: _$JsonConverterFromJson<int, DateTime>(
+    json['received_at'],
+    const EpochDateTimeConverter().fromJson,
+  ),
+  type: json['type'] as String,
+);
 
 Map<String, dynamic> _$ModerationFlaggedEventToJson(
-        ModerationFlaggedEvent instance) =>
-    <String, dynamic>{
-      'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
-      'item': instance.item,
-      'object_id': instance.objectId,
-      'type': instance.type,
-      'user': instance.user?.toJson(),
-    };
+  ModerationFlaggedEvent instance,
+) => <String, dynamic>{
+  'content_type': instance.contentType,
+  'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
+  'custom': instance.custom,
+  'object_id': instance.objectId,
+  'received_at': _$JsonConverterToJson<int, DateTime>(
+    instance.receivedAt,
+    const EpochDateTimeConverter().toJson,
+  ),
+  'type': instance.type,
+};
+
+Value? _$JsonConverterFromJson<Json, Value>(
+  Object? json,
+  Value? Function(Json json) fromJson,
+) => json == null ? null : fromJson(json as Json);
+
+Json? _$JsonConverterToJson<Json, Value>(
+  Value? value,
+  Json? Function(Value value) toJson,
+) => value == null ? null : toJson(value);

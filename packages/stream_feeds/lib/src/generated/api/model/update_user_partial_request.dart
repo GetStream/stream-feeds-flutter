@@ -34,6 +34,5 @@ class UpdateUserPartialRequest with _$UpdateUserPartialRequest {
 
   Map<String, dynamic> toJson() => _$UpdateUserPartialRequestToJson(this);
 
-  static UpdateUserPartialRequest fromJson(Map<String, dynamic> json) =>
-      _$UpdateUserPartialRequestFromJson(json);
+  static UpdateUserPartialRequest fromJson(Map<String, dynamic> json) => _$UpdateUserPartialRequestFromJson(json);
 }

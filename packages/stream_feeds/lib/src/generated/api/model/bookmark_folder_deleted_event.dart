@@ -16,8 +16,7 @@ part 'bookmark_folder_deleted_event.freezed.dart';
 @freezed
 @immutable
 @JsonSerializable()
-class BookmarkFolderDeletedEvent extends core.WsEvent
-    with _$BookmarkFolderDeletedEvent {
+class BookmarkFolderDeletedEvent extends core.WsEvent with _$BookmarkFolderDeletedEvent {
   const BookmarkFolderDeletedEvent({
     required this.bookmarkFolder,
     required this.createdAt,
@@ -49,6 +48,5 @@ class BookmarkFolderDeletedEvent extends core.WsEvent
 
   Map<String, dynamic> toJson() => _$BookmarkFolderDeletedEventToJson(this);
 
-  static BookmarkFolderDeletedEvent fromJson(Map<String, dynamic> json) =>
-      _$BookmarkFolderDeletedEventFromJson(json);
+  static BookmarkFolderDeletedEvent fromJson(Map<String, dynamic> json) => _$BookmarkFolderDeletedEventFromJson(json);
 }

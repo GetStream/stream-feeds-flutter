@@ -30,7 +30,7 @@ enum LLMRuleAction {
   @JsonValue('shadow')
   shadow,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed

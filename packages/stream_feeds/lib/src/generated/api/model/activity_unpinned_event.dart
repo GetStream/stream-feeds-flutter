@@ -56,6 +56,5 @@ class ActivityUnpinnedEvent extends core.WsEvent with _$ActivityUnpinnedEvent {
 
   Map<String, dynamic> toJson() => _$ActivityUnpinnedEventToJson(this);
 
-  static ActivityUnpinnedEvent fromJson(Map<String, dynamic> json) =>
-      _$ActivityUnpinnedEventFromJson(json);
+  static ActivityUnpinnedEvent fromJson(Map<String, dynamic> json) => _$ActivityUnpinnedEventFromJson(json);
 }

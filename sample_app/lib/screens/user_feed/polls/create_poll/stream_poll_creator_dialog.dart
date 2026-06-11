@@ -97,8 +97,7 @@ class StreamPollCreatorDialog extends StatefulWidget {
   final EdgeInsets padding;
 
   @override
-  State<StreamPollCreatorDialog> createState() =>
-      _StreamPollCreatorDialogState();
+  State<StreamPollCreatorDialog> createState() => _StreamPollCreatorDialogState();
 }
 
 class _StreamPollCreatorDialogState extends State<StreamPollCreatorDialog> {
@@ -206,12 +205,10 @@ class StreamPollCreatorFullScreenDialog extends StatefulWidget {
   final EdgeInsets padding;
 
   @override
-  State<StreamPollCreatorFullScreenDialog> createState() =>
-      _StreamPollCreatorFullScreenDialogState();
+  State<StreamPollCreatorFullScreenDialog> createState() => _StreamPollCreatorFullScreenDialogState();
 }
 
-class _StreamPollCreatorFullScreenDialogState
-    extends State<StreamPollCreatorFullScreenDialog> {
+class _StreamPollCreatorFullScreenDialogState extends State<StreamPollCreatorFullScreenDialog> {
   late final _controller = StreamPollController(
     poll: widget.poll,
     config: widget.config,

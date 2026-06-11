@@ -26,7 +26,7 @@ enum FeedInputVisibility {
   @JsonValue('visible')
   visible,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -37,6 +37,7 @@ class FeedInput with _$FeedInput {
     this.custom,
     this.description,
     this.filterTags,
+    this.location,
     this.members,
     this.name,
     this.visibility,
@@ -52,6 +53,9 @@ class FeedInput with _$FeedInput {
   final List<String>? filterTags;
 
   @override
+  final Location? location;
+
+  @override
   final List<FeedMemberRequest>? members;
 
   @override
@@ -63,6 +67,5 @@ class FeedInput with _$FeedInput {
 
   Map<String, dynamic> toJson() => _$FeedInputToJson(this);
 
-  static FeedInput fromJson(Map<String, dynamic> json) =>
-      _$FeedInputFromJson(json);
+  static FeedInput fromJson(Map<String, dynamic> json) => _$FeedInputFromJson(json);
 }

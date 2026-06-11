@@ -28,7 +28,7 @@ enum AWSRekognitionRuleAction {
   @JsonValue('shadow')
   shadow,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -39,6 +39,7 @@ class AWSRekognitionRule with _$AWSRekognitionRule {
     required this.action,
     required this.label,
     required this.minConfidence,
+    this.subclassifications,
   });
 
   @override
@@ -51,8 +52,10 @@ class AWSRekognitionRule with _$AWSRekognitionRule {
   @override
   final double minConfidence;
 
+  @override
+  final Map<String, Object?>? subclassifications;
+
   Map<String, dynamic> toJson() => _$AWSRekognitionRuleToJson(this);
 
-  static AWSRekognitionRule fromJson(Map<String, dynamic> json) =>
-      _$AWSRekognitionRuleFromJson(json);
+  static AWSRekognitionRule fromJson(Map<String, dynamic> json) => _$AWSRekognitionRuleFromJson(json);
 }

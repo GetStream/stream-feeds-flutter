@@ -30,6 +30,5 @@ class AddBookmarkResponse with _$AddBookmarkResponse {
 
   Map<String, dynamic> toJson() => _$AddBookmarkResponseToJson(this);
 
-  static AddBookmarkResponse fromJson(Map<String, dynamic> json) =>
-      _$AddBookmarkResponseFromJson(json);
+  static AddBookmarkResponse fromJson(Map<String, dynamic> json) => _$AddBookmarkResponseFromJson(json);
 }

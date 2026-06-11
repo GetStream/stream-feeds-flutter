@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -10,7 +9,6 @@ part of 'query_configuration.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
@@ -24,7 +22,9 @@ mixin _$QueryConfiguration<T extends Object> {
   @pragma('vm:prefer-inline')
   $QueryConfigurationCopyWith<T, QueryConfiguration<T>> get copyWith =>
       _$QueryConfigurationCopyWithImpl<T, QueryConfiguration<T>>(
-          this as QueryConfiguration<T>, _$identity);
+        this as QueryConfiguration<T>,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -37,7 +37,10 @@ mixin _$QueryConfiguration<T extends Object> {
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, filter, const DeepCollectionEquality().hash(sort));
+    runtimeType,
+    filter,
+    const DeepCollectionEquality().hash(sort),
+  );
 
   @override
   String toString() {
@@ -47,16 +50,16 @@ mixin _$QueryConfiguration<T extends Object> {
 
 /// @nodoc
 abstract mixin class $QueryConfigurationCopyWith<T extends Object, $Res> {
-  factory $QueryConfigurationCopyWith(QueryConfiguration<T> value,
-          $Res Function(QueryConfiguration<T>) _then) =
-      _$QueryConfigurationCopyWithImpl;
+  factory $QueryConfigurationCopyWith(
+    QueryConfiguration<T> value,
+    $Res Function(QueryConfiguration<T>) _then,
+  ) = _$QueryConfigurationCopyWithImpl;
   @useResult
   $Res call({Filter<T>? filter, List<Sort<T>>? sort});
 }
 
 /// @nodoc
-class _$QueryConfigurationCopyWithImpl<T extends Object, $Res>
-    implements $QueryConfigurationCopyWith<T, $Res> {
+class _$QueryConfigurationCopyWithImpl<T extends Object, $Res> implements $QueryConfigurationCopyWith<T, $Res> {
   _$QueryConfigurationCopyWithImpl(this._self, this._then);
 
   final QueryConfiguration<T> _self;
@@ -66,21 +69,18 @@ class _$QueryConfigurationCopyWithImpl<T extends Object, $Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? filter = freezed,
-    Object? sort = freezed,
-  }) {
-    return _then(QueryConfiguration(
-      filter: freezed == filter
-          ? _self.filter
-          : filter // ignore: cast_nullable_to_non_nullable
-              as Filter<T>?,
-      sort: freezed == sort
-          ? _self.sort
-          : sort // ignore: cast_nullable_to_non_nullable
-              as List<Sort<T>>?,
-    ));
+  $Res call({Object? filter = freezed, Object? sort = freezed}) {
+    return _then(
+      QueryConfiguration(
+        filter: freezed == filter
+            ? _self.filter
+            : filter // ignore: cast_nullable_to_non_nullable
+                  as Filter<T>?,
+        sort: freezed == sort
+            ? _self.sort
+            : sort // ignore: cast_nullable_to_non_nullable
+                  as List<Sort<T>>?,
+      ),
+    );
   }
 }
-
-// dart format on

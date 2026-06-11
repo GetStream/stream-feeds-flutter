@@ -57,8 +57,7 @@ class StreamPollCreatorWidget extends StatelessWidget {
                 questionRange: config.nameRange,
                 title: 'Questions',
                 hintText: 'Ask a question',
-                initialQuestion:
-                    PollQuestion(originalId: poll.id, text: poll.name),
+                initialQuestion: PollQuestion(originalId: poll.id, text: poll.name),
                 onChanged: (question) => controller.question = question.text,
               ),
               const SizedBox(height: 32),
@@ -131,7 +130,8 @@ class StreamPollCreatorWidget extends StatelessWidget {
               PollSwitchListTile(
                 title: 'Anonymous poll',
                 value: poll.votingVisibility == VotingVisibility.anonymous,
-                onChanged: (anon) => controller.votingVisibility = anon //
+                onChanged: (anon) => controller.votingVisibility =
+                    anon //
                     ? VotingVisibility.anonymous
                     : VotingVisibility.public,
               ),

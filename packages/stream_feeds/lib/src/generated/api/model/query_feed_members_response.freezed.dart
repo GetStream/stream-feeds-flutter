@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -10,7 +9,6 @@ part of 'query_feed_members_response.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
@@ -26,23 +24,29 @@ mixin _$QueryFeedMembersResponse {
   @pragma('vm:prefer-inline')
   $QueryFeedMembersResponseCopyWith<QueryFeedMembersResponse> get copyWith =>
       _$QueryFeedMembersResponseCopyWithImpl<QueryFeedMembersResponse>(
-          this as QueryFeedMembersResponse, _$identity);
+        this as QueryFeedMembersResponse,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is QueryFeedMembersResponse &&
-            (identical(other.duration, duration) ||
-                other.duration == duration) &&
+            (identical(other.duration, duration) || other.duration == duration) &&
             const DeepCollectionEquality().equals(other.members, members) &&
             (identical(other.next, next) || other.next == next) &&
             (identical(other.prev, prev) || other.prev == prev));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, duration,
-      const DeepCollectionEquality().hash(members), next, prev);
+  int get hashCode => Object.hash(
+    runtimeType,
+    duration,
+    const DeepCollectionEquality().hash(members),
+    next,
+    prev,
+  );
 
   @override
   String toString() {
@@ -52,20 +56,21 @@ mixin _$QueryFeedMembersResponse {
 
 /// @nodoc
 abstract mixin class $QueryFeedMembersResponseCopyWith<$Res> {
-  factory $QueryFeedMembersResponseCopyWith(QueryFeedMembersResponse value,
-          $Res Function(QueryFeedMembersResponse) _then) =
-      _$QueryFeedMembersResponseCopyWithImpl;
+  factory $QueryFeedMembersResponseCopyWith(
+    QueryFeedMembersResponse value,
+    $Res Function(QueryFeedMembersResponse) _then,
+  ) = _$QueryFeedMembersResponseCopyWithImpl;
   @useResult
-  $Res call(
-      {String duration,
-      List<FeedMemberResponse> members,
-      String? next,
-      String? prev});
+  $Res call({
+    String duration,
+    List<FeedMemberResponse> members,
+    String? next,
+    String? prev,
+  });
 }
 
 /// @nodoc
-class _$QueryFeedMembersResponseCopyWithImpl<$Res>
-    implements $QueryFeedMembersResponseCopyWith<$Res> {
+class _$QueryFeedMembersResponseCopyWithImpl<$Res> implements $QueryFeedMembersResponseCopyWith<$Res> {
   _$QueryFeedMembersResponseCopyWithImpl(this._self, this._then);
 
   final QueryFeedMembersResponse _self;
@@ -81,25 +86,25 @@ class _$QueryFeedMembersResponseCopyWithImpl<$Res>
     Object? next = freezed,
     Object? prev = freezed,
   }) {
-    return _then(QueryFeedMembersResponse(
-      duration: null == duration
-          ? _self.duration
-          : duration // ignore: cast_nullable_to_non_nullable
-              as String,
-      members: null == members
-          ? _self.members
-          : members // ignore: cast_nullable_to_non_nullable
-              as List<FeedMemberResponse>,
-      next: freezed == next
-          ? _self.next
-          : next // ignore: cast_nullable_to_non_nullable
-              as String?,
-      prev: freezed == prev
-          ? _self.prev
-          : prev // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
+    return _then(
+      QueryFeedMembersResponse(
+        duration: null == duration
+            ? _self.duration
+            : duration // ignore: cast_nullable_to_non_nullable
+                  as String,
+        members: null == members
+            ? _self.members
+            : members // ignore: cast_nullable_to_non_nullable
+                  as List<FeedMemberResponse>,
+        next: freezed == next
+            ? _self.next
+            : next // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        prev: freezed == prev
+            ? _self.prev
+            : prev // ignore: cast_nullable_to_non_nullable
+                  as String?,
+      ),
+    );
   }
 }
-
-// dart format on

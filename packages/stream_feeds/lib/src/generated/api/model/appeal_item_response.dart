@@ -18,24 +18,48 @@ part 'appeal_item_response.freezed.dart';
 @JsonSerializable()
 class AppealItemResponse with _$AppealItemResponse {
   const AppealItemResponse({
+    this.actions,
+    this.aiTextSeverity,
     required this.appealReason,
     this.attachments,
+    this.channelCid,
+    this.configKey,
     required this.createdAt,
     this.decisionReason,
     this.entityContent,
     required this.entityId,
     required this.entityType,
+    this.flagLabels,
+    this.flagTypes,
+    this.flags,
     required this.id,
+    this.moderationAction,
+    this.originalModerationAction,
+    this.recommendedAction,
+    this.reviewQueueItemId,
+    this.severity,
     required this.status,
     required this.updatedAt,
     this.user,
   });
 
   @override
+  final List<ActionLogResponse>? actions;
+
+  @override
+  final String? aiTextSeverity;
+
+  @override
   final String appealReason;
 
   @override
   final List<String>? attachments;
+
+  @override
+  final String? channelCid;
+
+  @override
+  final String? configKey;
 
   @override
   @EpochDateTimeConverter()
@@ -54,7 +78,31 @@ class AppealItemResponse with _$AppealItemResponse {
   final String entityType;
 
   @override
+  final List<String>? flagLabels;
+
+  @override
+  final List<String>? flagTypes;
+
+  @override
+  final List<ModerationFlagResponse>? flags;
+
+  @override
   final String id;
+
+  @override
+  final ActionLogResponse? moderationAction;
+
+  @override
+  final ActionLogResponse? originalModerationAction;
+
+  @override
+  final String? recommendedAction;
+
+  @override
+  final String? reviewQueueItemId;
+
+  @override
+  final int? severity;
 
   @override
   final String status;
@@ -68,6 +116,5 @@ class AppealItemResponse with _$AppealItemResponse {
 
   Map<String, dynamic> toJson() => _$AppealItemResponseToJson(this);
 
-  static AppealItemResponse fromJson(Map<String, dynamic> json) =>
-      _$AppealItemResponseFromJson(json);
+  static AppealItemResponse fromJson(Map<String, dynamic> json) => _$AppealItemResponseFromJson(json);
 }

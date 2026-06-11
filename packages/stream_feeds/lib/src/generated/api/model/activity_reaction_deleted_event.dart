@@ -16,8 +16,7 @@ part 'activity_reaction_deleted_event.freezed.dart';
 @freezed
 @immutable
 @JsonSerializable()
-class ActivityReactionDeletedEvent extends core.WsEvent
-    with _$ActivityReactionDeletedEvent {
+class ActivityReactionDeletedEvent extends core.WsEvent with _$ActivityReactionDeletedEvent {
   const ActivityReactionDeletedEvent({
     required this.activity,
     required this.createdAt,

@@ -48,6 +48,5 @@ class CollectionResponse with _$CollectionResponse {
 
   Map<String, dynamic> toJson() => _$CollectionResponseToJson(this);
 
-  static CollectionResponse fromJson(Map<String, dynamic> json) =>
-      _$CollectionResponseFromJson(json);
+  static CollectionResponse fromJson(Map<String, dynamic> json) => _$CollectionResponseFromJson(json);
 }

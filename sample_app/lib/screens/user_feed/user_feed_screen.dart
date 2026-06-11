@@ -119,11 +119,11 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
         ),
         leading: switch (breakpoint) {
           Breakpoint.compact => GestureDetector(
-              onTap: () => _showUserProfile(context),
-              child: Center(
-                child: UserAvatar.appBar(user: client.user),
-              ),
+            onTap: () => _showUserProfile(context),
+            child: Center(
+              child: UserAvatar.appBar(user: client.user),
             ),
+          ),
           _ => null,
         },
         actions: [
@@ -159,32 +159,32 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
           ...?switch (breakpoint) {
             Breakpoint.compact => null,
             Breakpoint.medium => [
-                Flexible(
-                  child: UserProfile(
-                    userFeed: userFeed,
-                    storiesFeed: storiesFeed,
-                    timelineFeed: timelineFeed,
-                  ),
+              Flexible(
+                child: UserProfile(
+                  userFeed: userFeed,
+                  storiesFeed: storiesFeed,
+                  timelineFeed: timelineFeed,
                 ),
-                VerticalDivider(
-                  width: 8,
-                  color: context.appColors.borders,
-                ),
-              ],
+              ),
+              VerticalDivider(
+                width: 8,
+                color: context.appColors.borders,
+              ),
+            ],
             _ => [
-                SizedBox(
-                  width: 420,
-                  child: UserProfile(
-                    userFeed: userFeed,
-                    storiesFeed: storiesFeed,
-                    timelineFeed: timelineFeed,
-                  ),
+              SizedBox(
+                width: 420,
+                child: UserProfile(
+                  userFeed: userFeed,
+                  storiesFeed: storiesFeed,
+                  timelineFeed: timelineFeed,
                 ),
-                VerticalDivider(
-                  width: 8,
-                  color: context.appColors.borders,
-                ),
-              ],
+              ),
+              VerticalDivider(
+                width: 8,
+                color: context.appColors.borders,
+              ),
+            ],
           },
           Flexible(
             child: UserFeed(
@@ -284,16 +284,14 @@ class _UserFeedScreenState extends State<UserFeedScreen> {
     if (request is FeedAddActivityRequest) {
       activityResult = await userFeed.addActivity(request: request);
     } else if (request is CreatePollRequest) {
-      activityResult =
-          await userFeed.createPoll(request: request, activityType: 'poll');
+      activityResult = await userFeed.createPoll(request: request, activityType: 'poll');
     } else {
       return;
     }
 
     switch (activityResult) {
       case Success():
-        if (activityResult.data.feeds
-            .any((feed) => feed == FeedId.story(client.user.id).rawValue)) {
+        if (activityResult.data.feeds.any((feed) => feed == FeedId.story(client.user.id).rawValue)) {
           await storiesFeed.getOrCreate();
         }
 

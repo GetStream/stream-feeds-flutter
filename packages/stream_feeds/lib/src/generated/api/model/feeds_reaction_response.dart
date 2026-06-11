@@ -52,6 +52,5 @@ class FeedsReactionResponse with _$FeedsReactionResponse {
 
   Map<String, dynamic> toJson() => _$FeedsReactionResponseToJson(this);
 
-  static FeedsReactionResponse fromJson(Map<String, dynamic> json) =>
-      _$FeedsReactionResponseFromJson(json);
+  static FeedsReactionResponse fromJson(Map<String, dynamic> json) => _$FeedsReactionResponseFromJson(json);
 }

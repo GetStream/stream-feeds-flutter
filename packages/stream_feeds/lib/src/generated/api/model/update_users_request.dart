@@ -26,6 +26,5 @@ class UpdateUsersRequest with _$UpdateUsersRequest {
 
   Map<String, dynamic> toJson() => _$UpdateUsersRequestToJson(this);
 
-  static UpdateUsersRequest fromJson(Map<String, dynamic> json) =>
-      _$UpdateUsersRequestFromJson(json);
+  static UpdateUsersRequest fromJson(Map<String, dynamic> json) => _$UpdateUsersRequestFromJson(json);
 }

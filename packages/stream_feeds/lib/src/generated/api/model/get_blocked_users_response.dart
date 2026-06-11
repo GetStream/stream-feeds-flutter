@@ -30,6 +30,5 @@ class GetBlockedUsersResponse with _$GetBlockedUsersResponse {
 
   Map<String, dynamic> toJson() => _$GetBlockedUsersResponseToJson(this);
 
-  static GetBlockedUsersResponse fromJson(Map<String, dynamic> json) =>
-      _$GetBlockedUsersResponseFromJson(json);
+  static GetBlockedUsersResponse fromJson(Map<String, dynamic> json) => _$GetBlockedUsersResponseFromJson(json);
 }

@@ -6,8 +6,7 @@ enum EndpointConfig {
 
   staging(
     hostname: 'https://chat-edge-frankfurt-ce1.stream-io-api.com',
-    wsEndpoint:
-        'wss://chat-edge-frankfurt-ce1.stream-io-api.com/api/v2/connect',
+    wsEndpoint: 'wss://chat-edge-frankfurt-ce1.stream-io-api.com/api/v2/connect',
   ),
 
   production(

@@ -34,6 +34,5 @@ class AcceptFollowRequest with _$AcceptFollowRequest {
 
   Map<String, dynamic> toJson() => _$AcceptFollowRequestToJson(this);
 
-  static AcceptFollowRequest fromJson(Map<String, dynamic> json) =>
-      _$AcceptFollowRequestFromJson(json);
+  static AcceptFollowRequest fromJson(Map<String, dynamic> json) => _$AcceptFollowRequestFromJson(json);
 }

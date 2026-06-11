@@ -56,6 +56,5 @@ class ActivityPinnedEvent extends core.WsEvent with _$ActivityPinnedEvent {
 
   Map<String, dynamic> toJson() => _$ActivityPinnedEventToJson(this);
 
-  static ActivityPinnedEvent fromJson(Map<String, dynamic> json) =>
-      _$ActivityPinnedEventFromJson(json);
+  static ActivityPinnedEvent fromJson(Map<String, dynamic> json) => _$ActivityPinnedEventFromJson(json);
 }

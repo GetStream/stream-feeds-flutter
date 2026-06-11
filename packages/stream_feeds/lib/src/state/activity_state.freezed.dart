@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -10,7 +9,6 @@ part of 'activity_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
@@ -23,25 +21,29 @@ mixin _$ActivityState {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $ActivityStateCopyWith<ActivityState> get copyWith =>
-      _$ActivityStateCopyWithImpl<ActivityState>(
-          this as ActivityState, _$identity);
+  $ActivityStateCopyWith<ActivityState> get copyWith => _$ActivityStateCopyWithImpl<ActivityState>(
+    this as ActivityState,
+    _$identity,
+  );
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ActivityState &&
-            (identical(other.activity, activity) ||
-                other.activity == activity) &&
+            (identical(other.activity, activity) || other.activity == activity) &&
             const DeepCollectionEquality().equals(other.comments, comments) &&
             (identical(other.commentsPagination, commentsPagination) ||
                 other.commentsPagination == commentsPagination));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, activity,
-      const DeepCollectionEquality().hash(comments), commentsPagination);
+  int get hashCode => Object.hash(
+    runtimeType,
+    activity,
+    const DeepCollectionEquality().hash(comments),
+    commentsPagination,
+  );
 
   @override
   String toString() {
@@ -52,18 +54,19 @@ mixin _$ActivityState {
 /// @nodoc
 abstract mixin class $ActivityStateCopyWith<$Res> {
   factory $ActivityStateCopyWith(
-          ActivityState value, $Res Function(ActivityState) _then) =
-      _$ActivityStateCopyWithImpl;
+    ActivityState value,
+    $Res Function(ActivityState) _then,
+  ) = _$ActivityStateCopyWithImpl;
   @useResult
-  $Res call(
-      {ActivityData? activity,
-      List<CommentData> comments,
-      PaginationData? commentsPagination});
+  $Res call({
+    ActivityData? activity,
+    List<CommentData> comments,
+    PaginationData? commentsPagination,
+  });
 }
 
 /// @nodoc
-class _$ActivityStateCopyWithImpl<$Res>
-    implements $ActivityStateCopyWith<$Res> {
+class _$ActivityStateCopyWithImpl<$Res> implements $ActivityStateCopyWith<$Res> {
   _$ActivityStateCopyWithImpl(this._self, this._then);
 
   final ActivityState _self;
@@ -78,21 +81,21 @@ class _$ActivityStateCopyWithImpl<$Res>
     Object? comments = null,
     Object? commentsPagination = freezed,
   }) {
-    return _then(ActivityState(
-      activity: freezed == activity
-          ? _self.activity
-          : activity // ignore: cast_nullable_to_non_nullable
-              as ActivityData?,
-      comments: null == comments
-          ? _self.comments
-          : comments // ignore: cast_nullable_to_non_nullable
-              as List<CommentData>,
-      commentsPagination: freezed == commentsPagination
-          ? _self.commentsPagination
-          : commentsPagination // ignore: cast_nullable_to_non_nullable
-              as PaginationData?,
-    ));
+    return _then(
+      ActivityState(
+        activity: freezed == activity
+            ? _self.activity
+            : activity // ignore: cast_nullable_to_non_nullable
+                  as ActivityData?,
+        comments: null == comments
+            ? _self.comments
+            : comments // ignore: cast_nullable_to_non_nullable
+                  as List<CommentData>,
+        commentsPagination: freezed == commentsPagination
+            ? _self.commentsPagination
+            : commentsPagination // ignore: cast_nullable_to_non_nullable
+                  as PaginationData?,
+      ),
+    );
   }
 }
-
-// dart format on

@@ -13,8 +13,7 @@ part 'comment_reply_list_state.freezed.dart';
 ///
 /// Provides methods to update the comment reply list state in response to data changes
 /// and real-time events from the Stream Feeds API.
-class CommentReplyListStateNotifier
-    extends StateNotifier<CommentReplyListState> {
+class CommentReplyListStateNotifier extends StateNotifier<CommentReplyListState> {
   CommentReplyListStateNotifier({
     required this.currentUserId,
     required this.parentCommentId,

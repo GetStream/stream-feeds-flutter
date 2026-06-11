@@ -30,6 +30,5 @@ class GetActivityResponse with _$GetActivityResponse {
 
   Map<String, dynamic> toJson() => _$GetActivityResponseToJson(this);
 
-  static GetActivityResponse fromJson(Map<String, dynamic> json) =>
-      _$GetActivityResponseFromJson(json);
+  static GetActivityResponse fromJson(Map<String, dynamic> json) => _$GetActivityResponseFromJson(json);
 }

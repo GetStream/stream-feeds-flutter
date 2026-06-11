@@ -7,13 +7,13 @@ part of 'field.dart';
 // **************************************************************************
 
 Field _$FieldFromJson(Map<String, dynamic> json) => Field(
-      short: json['short'] as bool,
-      title: json['title'] as String,
-      value: json['value'] as String,
-    );
+  short: json['short'] as bool,
+  title: json['title'] as String,
+  value: json['value'] as String,
+);
 
 Map<String, dynamic> _$FieldToJson(Field instance) => <String, dynamic>{
-      'short': instance.short,
-      'title': instance.title,
-      'value': instance.value,
-    };
+  'short': instance.short,
+  'title': instance.title,
+  'value': instance.value,
+};

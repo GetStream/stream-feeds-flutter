@@ -7,15 +7,12 @@ part of 'update_bookmark_folder_request.dart';
 // **************************************************************************
 
 UpdateBookmarkFolderRequest _$UpdateBookmarkFolderRequestFromJson(
-        Map<String, dynamic> json) =>
-    UpdateBookmarkFolderRequest(
-      custom: json['custom'] as Map<String, dynamic>?,
-      name: json['name'] as String?,
-    );
+  Map<String, dynamic> json,
+) => UpdateBookmarkFolderRequest(
+  custom: json['custom'] as Map<String, dynamic>?,
+  name: json['name'] as String?,
+);
 
 Map<String, dynamic> _$UpdateBookmarkFolderRequestToJson(
-        UpdateBookmarkFolderRequest instance) =>
-    <String, dynamic>{
-      'custom': instance.custom,
-      'name': instance.name,
-    };
+  UpdateBookmarkFolderRequest instance,
+) => <String, dynamic>{'custom': instance.custom, 'name': instance.name};

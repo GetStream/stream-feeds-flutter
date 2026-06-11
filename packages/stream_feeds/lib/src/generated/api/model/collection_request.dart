@@ -34,6 +34,5 @@ class CollectionRequest with _$CollectionRequest {
 
   Map<String, dynamic> toJson() => _$CollectionRequestToJson(this);
 
-  static CollectionRequest fromJson(Map<String, dynamic> json) =>
-      _$CollectionRequestFromJson(json);
+  static CollectionRequest fromJson(Map<String, dynamic> json) => _$CollectionRequestFromJson(json);
 }

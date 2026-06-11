@@ -19,12 +19,16 @@ part 'notification_trigger.freezed.dart';
 class NotificationTrigger with _$NotificationTrigger {
   const NotificationTrigger({
     this.comment,
+    this.custom,
     required this.text,
     required this.type,
   });
 
   @override
   final NotificationComment? comment;
+
+  @override
+  final Map<String, Object?>? custom;
 
   @override
   final String text;
@@ -34,6 +38,5 @@ class NotificationTrigger with _$NotificationTrigger {
 
   Map<String, dynamic> toJson() => _$NotificationTriggerToJson(this);
 
-  static NotificationTrigger fromJson(Map<String, dynamic> json) =>
-      _$NotificationTriggerFromJson(json);
+  static NotificationTrigger fromJson(Map<String, dynamic> json) => _$NotificationTriggerFromJson(json);
 }

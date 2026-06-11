@@ -26,6 +26,5 @@ class DeleteCollectionsResponse with _$DeleteCollectionsResponse {
 
   Map<String, dynamic> toJson() => _$DeleteCollectionsResponseToJson(this);
 
-  static DeleteCollectionsResponse fromJson(Map<String, dynamic> json) =>
-      _$DeleteCollectionsResponseFromJson(json);
+  static DeleteCollectionsResponse fromJson(Map<String, dynamic> json) => _$DeleteCollectionsResponseFromJson(json);
 }

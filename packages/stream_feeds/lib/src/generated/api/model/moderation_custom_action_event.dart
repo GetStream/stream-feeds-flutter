@@ -16,8 +16,7 @@ part 'moderation_custom_action_event.freezed.dart';
 @freezed
 @immutable
 @JsonSerializable()
-class ModerationCustomActionEvent extends core.WsEvent
-    with _$ModerationCustomActionEvent {
+class ModerationCustomActionEvent extends core.WsEvent with _$ModerationCustomActionEvent {
   const ModerationCustomActionEvent({
     required this.actionId,
     this.actionOptions,
@@ -57,6 +56,5 @@ class ModerationCustomActionEvent extends core.WsEvent
 
   Map<String, dynamic> toJson() => _$ModerationCustomActionEventToJson(this);
 
-  static ModerationCustomActionEvent fromJson(Map<String, dynamic> json) =>
-      _$ModerationCustomActionEventFromJson(json);
+  static ModerationCustomActionEvent fromJson(Map<String, dynamic> json) => _$ModerationCustomActionEventFromJson(json);
 }

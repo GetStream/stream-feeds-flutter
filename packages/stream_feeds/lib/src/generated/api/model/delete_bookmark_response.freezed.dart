@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -10,7 +9,6 @@ part of 'delete_bookmark_response.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
@@ -24,17 +22,17 @@ mixin _$DeleteBookmarkResponse {
   @pragma('vm:prefer-inline')
   $DeleteBookmarkResponseCopyWith<DeleteBookmarkResponse> get copyWith =>
       _$DeleteBookmarkResponseCopyWithImpl<DeleteBookmarkResponse>(
-          this as DeleteBookmarkResponse, _$identity);
+        this as DeleteBookmarkResponse,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is DeleteBookmarkResponse &&
-            (identical(other.bookmark, bookmark) ||
-                other.bookmark == bookmark) &&
-            (identical(other.duration, duration) ||
-                other.duration == duration));
+            (identical(other.bookmark, bookmark) || other.bookmark == bookmark) &&
+            (identical(other.duration, duration) || other.duration == duration));
   }
 
   @override
@@ -48,16 +46,16 @@ mixin _$DeleteBookmarkResponse {
 
 /// @nodoc
 abstract mixin class $DeleteBookmarkResponseCopyWith<$Res> {
-  factory $DeleteBookmarkResponseCopyWith(DeleteBookmarkResponse value,
-          $Res Function(DeleteBookmarkResponse) _then) =
-      _$DeleteBookmarkResponseCopyWithImpl;
+  factory $DeleteBookmarkResponseCopyWith(
+    DeleteBookmarkResponse value,
+    $Res Function(DeleteBookmarkResponse) _then,
+  ) = _$DeleteBookmarkResponseCopyWithImpl;
   @useResult
   $Res call({BookmarkResponse bookmark, String duration});
 }
 
 /// @nodoc
-class _$DeleteBookmarkResponseCopyWithImpl<$Res>
-    implements $DeleteBookmarkResponseCopyWith<$Res> {
+class _$DeleteBookmarkResponseCopyWithImpl<$Res> implements $DeleteBookmarkResponseCopyWith<$Res> {
   _$DeleteBookmarkResponseCopyWithImpl(this._self, this._then);
 
   final DeleteBookmarkResponse _self;
@@ -67,21 +65,18 @@ class _$DeleteBookmarkResponseCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? bookmark = null,
-    Object? duration = null,
-  }) {
-    return _then(DeleteBookmarkResponse(
-      bookmark: null == bookmark
-          ? _self.bookmark
-          : bookmark // ignore: cast_nullable_to_non_nullable
-              as BookmarkResponse,
-      duration: null == duration
-          ? _self.duration
-          : duration // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+  $Res call({Object? bookmark = null, Object? duration = null}) {
+    return _then(
+      DeleteBookmarkResponse(
+        bookmark: null == bookmark
+            ? _self.bookmark
+            : bookmark // ignore: cast_nullable_to_non_nullable
+                  as BookmarkResponse,
+        duration: null == duration
+            ? _self.duration
+            : duration // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
   }
 }
-
-// dart format on

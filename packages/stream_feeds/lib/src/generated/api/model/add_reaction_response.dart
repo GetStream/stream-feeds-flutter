@@ -20,6 +20,7 @@ class AddReactionResponse with _$AddReactionResponse {
   const AddReactionResponse({
     required this.activity,
     required this.duration,
+    this.notificationCreated,
     required this.reaction,
   });
 
@@ -30,10 +31,12 @@ class AddReactionResponse with _$AddReactionResponse {
   final String duration;
 
   @override
+  final bool? notificationCreated;
+
+  @override
   final FeedsReactionResponse reaction;
 
   Map<String, dynamic> toJson() => _$AddReactionResponseToJson(this);
 
-  static AddReactionResponse fromJson(Map<String, dynamic> json) =>
-      _$AddReactionResponseFromJson(json);
+  static AddReactionResponse fromJson(Map<String, dynamic> json) => _$AddReactionResponseFromJson(json);
 }

@@ -22,100 +22,57 @@ abstract class WSEvent<T extends core.WsEvent> {
 
     return switch (eventType) {
       "app.updated" => _AppUpdatedEvent(AppUpdatedEvent.fromJson(json)),
-      "feeds.activity.added" =>
-        _ActivityAddedEvent(ActivityAddedEvent.fromJson(json)),
-      "feeds.activity.deleted" =>
-        _ActivityDeletedEvent(ActivityDeletedEvent.fromJson(json)),
-      "feeds.activity.feedback" =>
-        _ActivityFeedbackEvent(ActivityFeedbackEvent.fromJson(json)),
-      "feeds.activity.marked" =>
-        _ActivityMarkEvent(ActivityMarkEvent.fromJson(json)),
-      "feeds.activity.pinned" =>
-        _ActivityPinnedEvent(ActivityPinnedEvent.fromJson(json)),
-      "feeds.activity.reaction.added" =>
-        _ActivityReactionAddedEvent(ActivityReactionAddedEvent.fromJson(json)),
-      "feeds.activity.reaction.deleted" => _ActivityReactionDeletedEvent(
-          ActivityReactionDeletedEvent.fromJson(json)),
-      "feeds.activity.reaction.updated" => _ActivityReactionUpdatedEvent(
-          ActivityReactionUpdatedEvent.fromJson(json)),
-      "feeds.activity.removed_from_feed" => _ActivityRemovedFromFeedEvent(
-          ActivityRemovedFromFeedEvent.fromJson(json)),
-      "feeds.activity.unpinned" =>
-        _ActivityUnpinnedEvent(ActivityUnpinnedEvent.fromJson(json)),
-      "feeds.activity.updated" =>
-        _ActivityUpdatedEvent(ActivityUpdatedEvent.fromJson(json)),
-      "feeds.bookmark.added" =>
-        _BookmarkAddedEvent(BookmarkAddedEvent.fromJson(json)),
-      "feeds.bookmark.deleted" =>
-        _BookmarkDeletedEvent(BookmarkDeletedEvent.fromJson(json)),
-      "feeds.bookmark.updated" =>
-        _BookmarkUpdatedEvent(BookmarkUpdatedEvent.fromJson(json)),
-      "feeds.bookmark_folder.deleted" =>
-        _BookmarkFolderDeletedEvent(BookmarkFolderDeletedEvent.fromJson(json)),
-      "feeds.bookmark_folder.updated" =>
-        _BookmarkFolderUpdatedEvent(BookmarkFolderUpdatedEvent.fromJson(json)),
-      "feeds.comment.added" =>
-        _CommentAddedEvent(CommentAddedEvent.fromJson(json)),
-      "feeds.comment.deleted" =>
-        _CommentDeletedEvent(CommentDeletedEvent.fromJson(json)),
-      "feeds.comment.reaction.added" =>
-        _CommentReactionAddedEvent(CommentReactionAddedEvent.fromJson(json)),
-      "feeds.comment.reaction.deleted" => _CommentReactionDeletedEvent(
-          CommentReactionDeletedEvent.fromJson(json)),
-      "feeds.comment.reaction.updated" => _CommentReactionUpdatedEvent(
-          CommentReactionUpdatedEvent.fromJson(json)),
-      "feeds.comment.updated" =>
-        _CommentUpdatedEvent(CommentUpdatedEvent.fromJson(json)),
-      "feeds.feed.created" =>
-        _FeedCreatedEvent(FeedCreatedEvent.fromJson(json)),
-      "feeds.feed.deleted" =>
-        _FeedDeletedEvent(FeedDeletedEvent.fromJson(json)),
-      "feeds.feed.updated" =>
-        _FeedUpdatedEvent(FeedUpdatedEvent.fromJson(json)),
-      "feeds.feed_group.changed" =>
-        _FeedGroupChangedEvent(FeedGroupChangedEvent.fromJson(json)),
-      "feeds.feed_group.deleted" =>
-        _FeedGroupDeletedEvent(FeedGroupDeletedEvent.fromJson(json)),
-      "feeds.feed_member.added" =>
-        _FeedMemberAddedEvent(FeedMemberAddedEvent.fromJson(json)),
-      "feeds.feed_member.removed" =>
-        _FeedMemberRemovedEvent(FeedMemberRemovedEvent.fromJson(json)),
-      "feeds.feed_member.updated" =>
-        _FeedMemberUpdatedEvent(FeedMemberUpdatedEvent.fromJson(json)),
-      "feeds.follow.created" =>
-        _FollowCreatedEvent(FollowCreatedEvent.fromJson(json)),
-      "feeds.follow.deleted" =>
-        _FollowDeletedEvent(FollowDeletedEvent.fromJson(json)),
-      "feeds.follow.updated" =>
-        _FollowUpdatedEvent(FollowUpdatedEvent.fromJson(json)),
-      "feeds.notification_feed.updated" => _NotificationFeedUpdatedEvent(
-          NotificationFeedUpdatedEvent.fromJson(json)),
-      "feeds.poll.closed" =>
-        _PollClosedFeedEvent(PollClosedFeedEvent.fromJson(json)),
-      "feeds.poll.deleted" =>
-        _PollDeletedFeedEvent(PollDeletedFeedEvent.fromJson(json)),
-      "feeds.poll.updated" =>
-        _PollUpdatedFeedEvent(PollUpdatedFeedEvent.fromJson(json)),
-      "feeds.poll.vote_casted" =>
-        _PollVoteCastedFeedEvent(PollVoteCastedFeedEvent.fromJson(json)),
-      "feeds.poll.vote_changed" =>
-        _PollVoteChangedFeedEvent(PollVoteChangedFeedEvent.fromJson(json)),
-      "feeds.poll.vote_removed" =>
-        _PollVoteRemovedFeedEvent(PollVoteRemovedFeedEvent.fromJson(json)),
-      "feeds.stories_feed.updated" =>
-        _StoriesFeedUpdatedEvent(StoriesFeedUpdatedEvent.fromJson(json)),
-      "moderation.custom_action" => _ModerationCustomActionEvent(
-          ModerationCustomActionEvent.fromJson(json)),
-      "moderation.flagged" =>
-        _ModerationFlaggedEvent(ModerationFlaggedEvent.fromJson(json)),
-      "moderation.mark_reviewed" => _ModerationMarkReviewedEvent(
-          ModerationMarkReviewedEvent.fromJson(json)),
+      "feeds.activity.added" => _ActivityAddedEvent(ActivityAddedEvent.fromJson(json)),
+      "feeds.activity.deleted" => _ActivityDeletedEvent(ActivityDeletedEvent.fromJson(json)),
+      "feeds.activity.feedback" => _ActivityFeedbackEvent(ActivityFeedbackEvent.fromJson(json)),
+      "feeds.activity.marked" => _ActivityMarkEvent(ActivityMarkEvent.fromJson(json)),
+      "feeds.activity.pinned" => _ActivityPinnedEvent(ActivityPinnedEvent.fromJson(json)),
+      "feeds.activity.reaction.added" => _ActivityReactionAddedEvent(ActivityReactionAddedEvent.fromJson(json)),
+      "feeds.activity.reaction.deleted" => _ActivityReactionDeletedEvent(ActivityReactionDeletedEvent.fromJson(json)),
+      "feeds.activity.reaction.updated" => _ActivityReactionUpdatedEvent(ActivityReactionUpdatedEvent.fromJson(json)),
+      "feeds.activity.removed_from_feed" => _ActivityRemovedFromFeedEvent(ActivityRemovedFromFeedEvent.fromJson(json)),
+      "feeds.activity.restored" => _ActivityRestoredEvent(ActivityRestoredEvent.fromJson(json)),
+      "feeds.activity.unpinned" => _ActivityUnpinnedEvent(ActivityUnpinnedEvent.fromJson(json)),
+      "feeds.activity.updated" => _ActivityUpdatedEvent(ActivityUpdatedEvent.fromJson(json)),
+      "feeds.bookmark.added" => _BookmarkAddedEvent(BookmarkAddedEvent.fromJson(json)),
+      "feeds.bookmark.deleted" => _BookmarkDeletedEvent(BookmarkDeletedEvent.fromJson(json)),
+      "feeds.bookmark.updated" => _BookmarkUpdatedEvent(BookmarkUpdatedEvent.fromJson(json)),
+      "feeds.bookmark_folder.deleted" => _BookmarkFolderDeletedEvent(BookmarkFolderDeletedEvent.fromJson(json)),
+      "feeds.bookmark_folder.updated" => _BookmarkFolderUpdatedEvent(BookmarkFolderUpdatedEvent.fromJson(json)),
+      "feeds.comment.added" => _CommentAddedEvent(CommentAddedEvent.fromJson(json)),
+      "feeds.comment.deleted" => _CommentDeletedEvent(CommentDeletedEvent.fromJson(json)),
+      "feeds.comment.reaction.added" => _CommentReactionAddedEvent(CommentReactionAddedEvent.fromJson(json)),
+      "feeds.comment.reaction.deleted" => _CommentReactionDeletedEvent(CommentReactionDeletedEvent.fromJson(json)),
+      "feeds.comment.reaction.updated" => _CommentReactionUpdatedEvent(CommentReactionUpdatedEvent.fromJson(json)),
+      "feeds.comment.restored" => _CommentRestoredEvent(CommentRestoredEvent.fromJson(json)),
+      "feeds.comment.updated" => _CommentUpdatedEvent(CommentUpdatedEvent.fromJson(json)),
+      "feeds.feed.created" => _FeedCreatedEvent(FeedCreatedEvent.fromJson(json)),
+      "feeds.feed.deleted" => _FeedDeletedEvent(FeedDeletedEvent.fromJson(json)),
+      "feeds.feed.updated" => _FeedUpdatedEvent(FeedUpdatedEvent.fromJson(json)),
+      "feeds.feed_group.changed" => _FeedGroupChangedEvent(FeedGroupChangedEvent.fromJson(json)),
+      "feeds.feed_group.deleted" => _FeedGroupDeletedEvent(FeedGroupDeletedEvent.fromJson(json)),
+      "feeds.feed_group.restored" => _FeedGroupRestoredEvent(FeedGroupRestoredEvent.fromJson(json)),
+      "feeds.feed_member.added" => _FeedMemberAddedEvent(FeedMemberAddedEvent.fromJson(json)),
+      "feeds.feed_member.removed" => _FeedMemberRemovedEvent(FeedMemberRemovedEvent.fromJson(json)),
+      "feeds.feed_member.updated" => _FeedMemberUpdatedEvent(FeedMemberUpdatedEvent.fromJson(json)),
+      "feeds.follow.created" => _FollowCreatedEvent(FollowCreatedEvent.fromJson(json)),
+      "feeds.follow.deleted" => _FollowDeletedEvent(FollowDeletedEvent.fromJson(json)),
+      "feeds.follow.updated" => _FollowUpdatedEvent(FollowUpdatedEvent.fromJson(json)),
+      "feeds.notification_feed.updated" => _NotificationFeedUpdatedEvent(NotificationFeedUpdatedEvent.fromJson(json)),
+      "feeds.poll.closed" => _PollClosedFeedEvent(PollClosedFeedEvent.fromJson(json)),
+      "feeds.poll.deleted" => _PollDeletedFeedEvent(PollDeletedFeedEvent.fromJson(json)),
+      "feeds.poll.updated" => _PollUpdatedFeedEvent(PollUpdatedFeedEvent.fromJson(json)),
+      "feeds.poll.vote_casted" => _PollVoteCastedFeedEvent(PollVoteCastedFeedEvent.fromJson(json)),
+      "feeds.poll.vote_changed" => _PollVoteChangedFeedEvent(PollVoteChangedFeedEvent.fromJson(json)),
+      "feeds.poll.vote_removed" => _PollVoteRemovedFeedEvent(PollVoteRemovedFeedEvent.fromJson(json)),
+      "feeds.stories_feed.updated" => _StoriesFeedUpdatedEvent(StoriesFeedUpdatedEvent.fromJson(json)),
+      "moderation.custom_action" => _ModerationCustomActionEvent(ModerationCustomActionEvent.fromJson(json)),
+      "moderation.flagged" => _ModerationFlaggedEvent(ModerationFlaggedEvent.fromJson(json)),
+      "moderation.mark_reviewed" => _ModerationMarkReviewedEvent(ModerationMarkReviewedEvent.fromJson(json)),
       "user.banned" => _UserBannedEvent(UserBannedEvent.fromJson(json)),
-      "user.deactivated" =>
-        _UserDeactivatedEvent(UserDeactivatedEvent.fromJson(json)),
-      "user.muted" => _UserMutedEvent(UserMutedEvent.fromJson(json)),
-      "user.reactivated" =>
-        _UserReactivatedEvent(UserReactivatedEvent.fromJson(json)),
+      "user.deactivated" => _UserDeactivatedEvent(UserDeactivatedEvent.fromJson(json)),
+      "user.reactivated" => _UserReactivatedEvent(UserReactivatedEvent.fromJson(json)),
+      "user.unbanned" => _UserUnbannedEvent(UserUnbannedEvent.fromJson(json)),
       "user.updated" => _UserUpdatedEvent(UserUpdatedEvent.fromJson(json)),
       _ => _UnknownWSEvent(UnknownWSEvent(eventType, json)),
     };
@@ -171,25 +128,29 @@ class _ActivityReactionAddedEvent extends WSEvent<ActivityReactionAddedEvent> {
   String get type => wrapped.type;
 }
 
-class _ActivityReactionDeletedEvent
-    extends WSEvent<ActivityReactionDeletedEvent> {
+class _ActivityReactionDeletedEvent extends WSEvent<ActivityReactionDeletedEvent> {
   const _ActivityReactionDeletedEvent(super.wrapped);
 
   @override
   String get type => wrapped.type;
 }
 
-class _ActivityReactionUpdatedEvent
-    extends WSEvent<ActivityReactionUpdatedEvent> {
+class _ActivityReactionUpdatedEvent extends WSEvent<ActivityReactionUpdatedEvent> {
   const _ActivityReactionUpdatedEvent(super.wrapped);
 
   @override
   String get type => wrapped.type;
 }
 
-class _ActivityRemovedFromFeedEvent
-    extends WSEvent<ActivityRemovedFromFeedEvent> {
+class _ActivityRemovedFromFeedEvent extends WSEvent<ActivityRemovedFromFeedEvent> {
   const _ActivityRemovedFromFeedEvent(super.wrapped);
+
+  @override
+  String get type => wrapped.type;
+}
+
+class _ActivityRestoredEvent extends WSEvent<ActivityRestoredEvent> {
+  const _ActivityRestoredEvent(super.wrapped);
 
   @override
   String get type => wrapped.type;
@@ -265,17 +226,22 @@ class _CommentReactionAddedEvent extends WSEvent<CommentReactionAddedEvent> {
   String get type => wrapped.type;
 }
 
-class _CommentReactionDeletedEvent
-    extends WSEvent<CommentReactionDeletedEvent> {
+class _CommentReactionDeletedEvent extends WSEvent<CommentReactionDeletedEvent> {
   const _CommentReactionDeletedEvent(super.wrapped);
 
   @override
   String get type => wrapped.type;
 }
 
-class _CommentReactionUpdatedEvent
-    extends WSEvent<CommentReactionUpdatedEvent> {
+class _CommentReactionUpdatedEvent extends WSEvent<CommentReactionUpdatedEvent> {
   const _CommentReactionUpdatedEvent(super.wrapped);
+
+  @override
+  String get type => wrapped.type;
+}
+
+class _CommentRestoredEvent extends WSEvent<CommentRestoredEvent> {
+  const _CommentRestoredEvent(super.wrapped);
 
   @override
   String get type => wrapped.type;
@@ -323,6 +289,13 @@ class _FeedGroupDeletedEvent extends WSEvent<FeedGroupDeletedEvent> {
   String get type => wrapped.type;
 }
 
+class _FeedGroupRestoredEvent extends WSEvent<FeedGroupRestoredEvent> {
+  const _FeedGroupRestoredEvent(super.wrapped);
+
+  @override
+  String get type => wrapped.type;
+}
+
 class _FeedMemberAddedEvent extends WSEvent<FeedMemberAddedEvent> {
   const _FeedMemberAddedEvent(super.wrapped);
 
@@ -365,8 +338,7 @@ class _FollowUpdatedEvent extends WSEvent<FollowUpdatedEvent> {
   String get type => wrapped.type;
 }
 
-class _NotificationFeedUpdatedEvent
-    extends WSEvent<NotificationFeedUpdatedEvent> {
+class _NotificationFeedUpdatedEvent extends WSEvent<NotificationFeedUpdatedEvent> {
   const _NotificationFeedUpdatedEvent(super.wrapped);
 
   @override
@@ -422,8 +394,7 @@ class _StoriesFeedUpdatedEvent extends WSEvent<StoriesFeedUpdatedEvent> {
   String get type => wrapped.type;
 }
 
-class _ModerationCustomActionEvent
-    extends WSEvent<ModerationCustomActionEvent> {
+class _ModerationCustomActionEvent extends WSEvent<ModerationCustomActionEvent> {
   const _ModerationCustomActionEvent(super.wrapped);
 
   @override
@@ -437,8 +408,7 @@ class _ModerationFlaggedEvent extends WSEvent<ModerationFlaggedEvent> {
   String get type => wrapped.type;
 }
 
-class _ModerationMarkReviewedEvent
-    extends WSEvent<ModerationMarkReviewedEvent> {
+class _ModerationMarkReviewedEvent extends WSEvent<ModerationMarkReviewedEvent> {
   const _ModerationMarkReviewedEvent(super.wrapped);
 
   @override
@@ -459,15 +429,15 @@ class _UserDeactivatedEvent extends WSEvent<UserDeactivatedEvent> {
   String get type => wrapped.type;
 }
 
-class _UserMutedEvent extends WSEvent<UserMutedEvent> {
-  const _UserMutedEvent(super.wrapped);
+class _UserReactivatedEvent extends WSEvent<UserReactivatedEvent> {
+  const _UserReactivatedEvent(super.wrapped);
 
   @override
   String get type => wrapped.type;
 }
 
-class _UserReactivatedEvent extends WSEvent<UserReactivatedEvent> {
-  const _UserReactivatedEvent(super.wrapped);
+class _UserUnbannedEvent extends WSEvent<UserUnbannedEvent> {
+  const _UserUnbannedEvent(super.wrapped);
 
   @override
   String get type => wrapped.type;

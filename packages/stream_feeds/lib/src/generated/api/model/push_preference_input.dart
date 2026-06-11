@@ -22,21 +22,25 @@ enum PushPreferenceInputCallLevel {
   @JsonValue('none')
   none,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @JsonEnum(alwaysCreate: true)
 enum PushPreferenceInputChatLevel {
   @JsonValue('all')
   all,
+  @JsonValue('all_mentions')
+  allMentions,
   @JsonValue('default')
   default_,
+  @JsonValue('direct_mentions')
+  directMentions,
   @JsonValue('mentions')
   mentions,
   @JsonValue('none')
   none,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -48,7 +52,7 @@ enum PushPreferenceInputFeedsLevel {
   @JsonValue('none')
   none,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -59,6 +63,7 @@ class PushPreferenceInput with _$PushPreferenceInput {
     this.callLevel,
     this.channelCid,
     this.chatLevel,
+    this.chatPreferences,
     this.disabledUntil,
     this.feedsLevel,
     this.feedsPreferences,
@@ -76,6 +81,9 @@ class PushPreferenceInput with _$PushPreferenceInput {
   @override
   @JsonKey(unknownEnumValue: PushPreferenceInputChatLevel.unknown)
   final PushPreferenceInputChatLevel? chatLevel;
+
+  @override
+  final ChatPreferencesInput? chatPreferences;
 
   @override
   @EpochDateTimeConverter()
@@ -96,6 +104,5 @@ class PushPreferenceInput with _$PushPreferenceInput {
 
   Map<String, dynamic> toJson() => _$PushPreferenceInputToJson(this);
 
-  static PushPreferenceInput fromJson(Map<String, dynamic> json) =>
-      _$PushPreferenceInputFromJson(json);
+  static PushPreferenceInput fromJson(Map<String, dynamic> json) => _$PushPreferenceInputFromJson(json);
 }

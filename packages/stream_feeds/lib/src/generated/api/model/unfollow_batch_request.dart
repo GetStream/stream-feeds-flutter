@@ -18,14 +18,21 @@ part 'unfollow_batch_request.freezed.dart';
 @JsonSerializable()
 class UnfollowBatchRequest with _$UnfollowBatchRequest {
   const UnfollowBatchRequest({
+    this.deleteNotificationActivity,
+    this.enrichOwnFields,
     required this.follows,
   });
 
   @override
-  final List<FollowPair> follows;
+  final bool? deleteNotificationActivity;
+
+  @override
+  final bool? enrichOwnFields;
+
+  @override
+  final List<UnfollowPair> follows;
 
   Map<String, dynamic> toJson() => _$UnfollowBatchRequestToJson(this);
 
-  static UnfollowBatchRequest fromJson(Map<String, dynamic> json) =>
-      _$UnfollowBatchRequestFromJson(json);
+  static UnfollowBatchRequest fromJson(Map<String, dynamic> json) => _$UnfollowBatchRequestFromJson(json);
 }

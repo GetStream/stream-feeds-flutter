@@ -19,6 +19,8 @@ part 'filter_config_response.freezed.dart';
 class FilterConfigResponse with _$FilterConfigResponse {
   const FilterConfigResponse({
     this.aiTextLabels,
+    this.configKeys,
+    this.filterableCustomKeys,
     required this.llmLabels,
   });
 
@@ -26,10 +28,15 @@ class FilterConfigResponse with _$FilterConfigResponse {
   final List<String>? aiTextLabels;
 
   @override
+  final List<String>? configKeys;
+
+  @override
+  final List<String>? filterableCustomKeys;
+
+  @override
   final List<String> llmLabels;
 
   Map<String, dynamic> toJson() => _$FilterConfigResponseToJson(this);
 
-  static FilterConfigResponse fromJson(Map<String, dynamic> json) =>
-      _$FilterConfigResponseFromJson(json);
+  static FilterConfigResponse fromJson(Map<String, dynamic> json) => _$FilterConfigResponseFromJson(json);
 }

@@ -124,15 +124,15 @@ class NotificationFeed extends StatelessWidget {
           if (index == activities.length) {
             return switch (canLoadMore) {
               true => TextButton(
-                  onPressed: notificationFeed.queryMoreActivities,
-                  child: const Text('Load more...'),
-                ),
+                onPressed: notificationFeed.queryMoreActivities,
+                child: const Text('Load more...'),
+              ),
               false => const Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Center(
-                    child: Text('End of notifications'),
-                  ),
+                padding: EdgeInsets.all(16),
+                child: Center(
+                  child: Text('End of notifications'),
                 ),
+              ),
             };
           }
 

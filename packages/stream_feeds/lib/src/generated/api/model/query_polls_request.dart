@@ -42,6 +42,5 @@ class QueryPollsRequest with _$QueryPollsRequest {
 
   Map<String, dynamic> toJson() => _$QueryPollsRequestToJson(this);
 
-  static QueryPollsRequest fromJson(Map<String, dynamic> json) =>
-      _$QueryPollsRequestFromJson(json);
+  static QueryPollsRequest fromJson(Map<String, dynamic> json) => _$QueryPollsRequestFromJson(json);
 }

@@ -12,13 +12,14 @@ import 'websocket_tester.dart';
 /// Factory function signature for creating tester instances.
 ///
 /// All concrete tester factory functions must conform to this signature.
-typedef TesterFactory<S, T extends BaseTester<S>> = Future<T> Function({
-  required S subject,
-  required StreamFeedsClient client,
-  required MockCdnApi cdnApi,
-  required MockDefaultApi feedsApi,
-  required MockWebSocketChannel webSocketChannel,
-});
+typedef TesterFactory<S, T extends BaseTester<S>> =
+    Future<T> Function({
+      required S subject,
+      required StreamFeedsClient client,
+      required MockCdnApi cdnApi,
+      required MockDefaultApi feedsApi,
+      required MockWebSocketChannel webSocketChannel,
+    });
 
 /// Base class for all test utilities with WebSocket support.
 ///
@@ -33,8 +34,8 @@ abstract base class BaseTester<S> with ApiMockerMixin, CdnMockerMixin {
     required this.feedsApi,
     required WebSocketTester wsTester,
     required StreamFeedsClient client,
-  })  : _client = client,
-        _wsTester = wsTester;
+  }) : _client = client,
+       _wsTester = wsTester;
 
   /// The subject being tested.
   final S subject;
@@ -315,11 +316,14 @@ Future<void> _defaultConnect(BaseTester<Object?> tester) async {
 // main async chain.
 Future<void> _runZonedGuarded(Future<void> Function() body) {
   final completer = Completer<void>();
-  runZonedGuarded(() async {
-    await body();
-    if (!completer.isCompleted) completer.complete();
-  }, (error, stackTrace) {
-    if (!completer.isCompleted) completer.completeError(error, stackTrace);
-  });
+  runZonedGuarded(
+    () async {
+      await body();
+      if (!completer.isCompleted) completer.complete();
+    },
+    (error, stackTrace) {
+      if (!completer.isCompleted) completer.completeError(error, stackTrace);
+    },
+  );
   return completer.future;
 }

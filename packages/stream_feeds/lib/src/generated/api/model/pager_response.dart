@@ -30,6 +30,5 @@ class PagerResponse with _$PagerResponse {
 
   Map<String, dynamic> toJson() => _$PagerResponseToJson(this);
 
-  static PagerResponse fromJson(Map<String, dynamic> json) =>
-      _$PagerResponseFromJson(json);
+  static PagerResponse fromJson(Map<String, dynamic> json) => _$PagerResponseFromJson(json);
 }

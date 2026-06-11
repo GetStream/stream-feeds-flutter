@@ -119,8 +119,7 @@ void main() {
             createdAt: DateTime.timestamp(),
             custom: const {},
             fid: feedId.rawValue,
-            feed:
-                createDefaultFeedResponse(id: feedId.id, groupId: feedId.group),
+            feed: createDefaultFeedResponse(id: feedId.id, groupId: feedId.group),
             members: const [],
             user: UserResponseCommonFields(
               id: 'user-id',
@@ -235,7 +234,7 @@ void main() {
             fid: 'user:feed-1',
             feed: createDefaultFeedResponse(
               id: 'feed-1',
-            ).copyWith(visibility: FeedVisibility.private),
+            ).copyWith(visibility: FeedResponseVisibility.private),
           ),
         );
 
@@ -263,7 +262,7 @@ void main() {
             fid: 'user:feed-1',
             feed: createDefaultFeedResponse(
               id: 'feed-1',
-            ).copyWith(visibility: FeedVisibility.private),
+            ).copyWith(visibility: FeedResponseVisibility.private),
           ),
         );
 

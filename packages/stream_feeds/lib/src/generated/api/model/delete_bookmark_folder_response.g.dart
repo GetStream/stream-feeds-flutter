@@ -7,13 +7,9 @@ part of 'delete_bookmark_folder_response.dart';
 // **************************************************************************
 
 DeleteBookmarkFolderResponse _$DeleteBookmarkFolderResponseFromJson(
-        Map<String, dynamic> json) =>
-    DeleteBookmarkFolderResponse(
-      duration: json['duration'] as String,
-    );
+  Map<String, dynamic> json,
+) => DeleteBookmarkFolderResponse(duration: json['duration'] as String);
 
 Map<String, dynamic> _$DeleteBookmarkFolderResponseToJson(
-        DeleteBookmarkFolderResponse instance) =>
-    <String, dynamic>{
-      'duration': instance.duration,
-    };
+  DeleteBookmarkFolderResponse instance,
+) => <String, dynamic>{'duration': instance.duration};

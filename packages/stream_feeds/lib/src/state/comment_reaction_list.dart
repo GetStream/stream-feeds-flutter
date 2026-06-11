@@ -63,8 +63,7 @@ class CommentReactionList with Disposable {
   /// Queries the initial list of comment reactions based on the provided query.
   ///
   /// Returns a [Result] containing a list of comment reactions or an error.
-  Future<Result<List<FeedsReactionData>>> get() =>
-      _queryCommentReactions(query);
+  Future<Result<List<FeedsReactionData>>> get() => _queryCommentReactions(query);
 
   /// Loads more comment reactions based on the current pagination state.
   ///

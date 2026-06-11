@@ -13,6 +13,7 @@ GetCommentsResponse createDefaultCommentsResponse({
     prev: prev,
     comments: comments,
     duration: '10ms',
+    sort: '',
   );
 }
 
@@ -26,6 +27,7 @@ GetCommentRepliesResponse createDefaultCommentRepliesResponse({
     prev: prev,
     comments: comments,
     duration: '10ms',
+    sort: '',
   );
 }
 
@@ -93,29 +95,29 @@ ActivityResponse createDefaultActivityResponse({
   List<BookmarkResponse> ownBookmarks = const [],
   List<FeedsReactionResponse> ownReactions = const [],
   List<FeedsReactionResponse> latestReactions = const [],
-  Map<String, ReactionGroupResponse> reactionGroups = const {},
+  Map<String, FeedsReactionGroupResponse> reactionGroups = const {},
   List<CommentResponse> comments = const [],
 }) {
   latestReactions = latestReactions.isEmpty ? ownReactions : latestReactions;
   reactionGroups = switch (reactionGroups.isNotEmpty) {
     true => reactionGroups,
     _ => latestReactions.fold(
-        <String, ReactionGroupResponse>{},
-        (prev, curr) => prev
-          ..update(
-            curr.type,
-            (it) => it.copyWith(
-              count: it.count + 1,
-              firstReactionAt: [it.firstReactionAt, curr.createdAt].min,
-              lastReactionAt: [it.lastReactionAt, curr.createdAt].max,
-            ),
-            ifAbsent: () => ReactionGroupResponse(
-              count: 1,
-              firstReactionAt: curr.createdAt,
-              lastReactionAt: curr.createdAt,
-            ),
+      <String, FeedsReactionGroupResponse>{},
+      (prev, curr) => prev
+        ..update(
+          curr.type,
+          (it) => it.copyWith(
+            count: it.count + 1,
+            firstReactionAt: [it.firstReactionAt, curr.createdAt].min,
+            lastReactionAt: [it.lastReactionAt, curr.createdAt].max,
           ),
-      ),
+          ifAbsent: () => FeedsReactionGroupResponse(
+            count: 1,
+            firstReactionAt: curr.createdAt,
+            lastReactionAt: curr.createdAt,
+          ),
+        ),
+    ),
   };
 
   return ActivityResponse(
@@ -143,7 +145,7 @@ ActivityResponse createDefaultActivityResponse({
     preview: false,
     reactionCount: reactionGroups.values.sumOf((group) => group.count),
     reactionGroups: reactionGroups,
-    restrictReplies: 'everyone',
+    restrictReplies: ActivityResponseRestrictReplies.everyone,
     score: 0,
     searchData: const {},
     shareCount: 0,
@@ -181,14 +183,9 @@ PollResponseData createDefaultPollResponse({
   latestVotesByOption = switch (latestVotesByOption.isNotEmpty) {
     true => latestVotesByOption,
     _ => latestVotes.fold(
-        <String, List<PollVoteResponseData>>{},
-        (prev, curr) => prev
-          ..update(
-            curr.optionId,
-            (it) => [curr, ...it],
-            ifAbsent: () => [curr],
-          ),
-      ),
+      <String, List<PollVoteResponseData>>{},
+      (prev, curr) => prev..update(curr.optionId, (it) => [curr, ...it], ifAbsent: () => [curr]),
+    ),
   };
 
   return PollResponseData(
@@ -219,11 +216,7 @@ PollOptionResponseData createDefaultPollOptionResponse({
   String id = 'option-id',
   String text = 'Option Text',
 }) {
-  return PollOptionResponseData(
-    id: id,
-    text: text,
-    custom: const {},
-  );
+  return PollOptionResponseData(id: id, text: text, custom: const {});
 }
 
 GetOrCreateFeedResponse createDefaultGetOrCreateFeedResponse({
@@ -260,7 +253,7 @@ FeedResponse createDefaultFeedResponse({
   int activityCount = 0,
   int followerCount = 0,
   int followingCount = 0,
-  List<FeedOwnCapability>? ownCapabilities,
+  List<FeedResponseOwnCapabilities>? ownCapabilities,
   FeedMemberResponse? ownMembership,
   List<FollowResponse>? ownFollowings,
   List<FollowResponse>? ownFollows,
@@ -271,7 +264,7 @@ FeedResponse createDefaultFeedResponse({
     feed: FeedId(group: groupId, id: id).toString(),
     name: name,
     description: description,
-    visibility: FeedVisibility.public,
+    visibility: FeedResponseVisibility.public,
     createdAt: DateTime(2021, 1, 1),
     createdBy: createDefaultUserResponse(),
     activityCount: activityCount,
@@ -296,32 +289,33 @@ CommentResponse createDefaultCommentResponse({
   String? parentId,
   List<FeedsReactionResponse> ownReactions = const [],
   List<FeedsReactionResponse> latestReactions = const [],
-  Map<String, ReactionGroupResponse> reactionGroups = const {},
+  Map<String, FeedsReactionGroupResponse> reactionGroups = const {},
 }) {
   latestReactions = latestReactions.isEmpty ? ownReactions : latestReactions;
   reactionGroups = switch (reactionGroups.isNotEmpty) {
     true => reactionGroups,
     _ => latestReactions.fold(
-        {},
-        (prev, curr) => prev
-          ..update(
-            curr.type,
-            (it) => it.copyWith(
-              count: it.count + 1,
-              firstReactionAt: [it.firstReactionAt, curr.createdAt].min,
-              lastReactionAt: [it.lastReactionAt, curr.createdAt].max,
-            ),
-            ifAbsent: () => ReactionGroupResponse(
-              count: 1,
-              firstReactionAt: curr.createdAt,
-              lastReactionAt: curr.createdAt,
-            ),
+      {},
+      (prev, curr) => prev
+        ..update(
+          curr.type,
+          (it) => it.copyWith(
+            count: it.count + 1,
+            firstReactionAt: [it.firstReactionAt, curr.createdAt].min,
+            lastReactionAt: [it.lastReactionAt, curr.createdAt].max,
           ),
-      ),
+          ifAbsent: () => FeedsReactionGroupResponse(
+            count: 1,
+            firstReactionAt: curr.createdAt,
+            lastReactionAt: curr.createdAt,
+          ),
+        ),
+    ),
   };
 
   return CommentResponse(
     id: id,
+    bookmarkCount: 0,
     confidenceScore: 0,
     createdAt: DateTime(2021, 1, 1),
     custom: const {},
@@ -336,7 +330,7 @@ CommentResponse createDefaultCommentResponse({
     reactionGroups: reactionGroups,
     replyCount: 0,
     score: 0,
-    status: 'status',
+    status: CommentResponseStatus.active,
     text: text,
     updatedAt: DateTime(2021, 2, 1),
     upvoteCount: 0,
@@ -355,6 +349,7 @@ ThreadedCommentResponse createDefaultThreadedCommentResponse({
 }) {
   return ThreadedCommentResponse(
     id: id,
+    bookmarkCount: 0,
     confidenceScore: 0,
     createdAt: DateTime(2021, 1, 1),
     custom: const {},
@@ -367,7 +362,7 @@ ThreadedCommentResponse createDefaultThreadedCommentResponse({
     replyCount: replies.length,
     replies: replies.isEmpty ? null : replies,
     score: 0,
-    status: 'status',
+    status: ThreadedCommentResponseStatus.active,
     text: text,
     updatedAt: DateTime(2021, 2, 1),
     upvoteCount: 0,
@@ -489,10 +484,7 @@ PinActivityResponse createDefaultPinActivityResponse({
   String type = 'post',
 }) {
   return PinActivityResponse(
-    activity: createDefaultActivityResponse(
-      id: activityId,
-      type: type,
-    ),
+    activity: createDefaultActivityResponse(id: activityId, type: type),
     createdAt: DateTime(2021, 1, 1),
     duration: 'duration',
     feed: 'user:id',
@@ -506,10 +498,7 @@ ActivityPinResponse createDefaultActivityPinResponse({
   String userId = 'user-id',
 }) {
   return ActivityPinResponse(
-    activity: createDefaultActivityResponse(
-      id: activityId,
-      type: type,
-    ),
+    activity: createDefaultActivityResponse(id: activityId, type: type),
     createdAt: DateTime(2021, 1, 1),
     feed: 'user:id',
     updatedAt: DateTime(2021, 1, 2),
@@ -528,6 +517,8 @@ BookmarkResponse createDefaultBookmarkResponse({
     createdAt: DateTime(2021, 1, 1),
     custom: const {},
     folder: createDefaultBookmarkFolderResponse(id: folderId),
+    objectId: activityId,
+    objectType: activityType,
     updatedAt: DateTime(2021, 2, 1),
     user: createDefaultUserResponse(id: userId),
   );
@@ -729,10 +720,7 @@ FollowBatchResponse createDefaultFollowBatchResponse({
 UnfollowBatchResponse createDefaultUnfollowBatchResponse({
   List<FollowResponse> follows = const [],
 }) {
-  return UnfollowBatchResponse(
-    duration: '10ms',
-    follows: follows,
-  );
+  return UnfollowBatchResponse(duration: '10ms', follows: follows);
 }
 
 BookmarkFolderResponse createDefaultBookmarkFolderResponse({
@@ -853,7 +841,7 @@ FeedSuggestionResponse createDefaultFeedSuggestionResponse({
     feed: FeedId(group: groupId, id: feedId).toString(),
     name: 'Suggested Feed',
     description: 'A suggested feed for you',
-    visibility: FeedVisibility.public,
+    visibility: FeedSuggestionResponseVisibility.public,
     createdAt: DateTime(2021, 1, 1),
     createdBy: createDefaultUserResponse(),
     activityCount: activityCount,
@@ -882,10 +870,7 @@ GetFollowSuggestionsResponse createDefaultGetFollowSuggestionsResponse({
 ActivityFeedbackResponse createDefaultActivityFeedbackResponse({
   String activityId = 'activity-id',
 }) {
-  return ActivityFeedbackResponse(
-    duration: '10ms',
-    activityId: activityId,
-  );
+  return ActivityFeedbackResponse(duration: '10ms', activityId: activityId);
 }
 
 ConfigResponse createDefaultModerationConfigResponse({
@@ -934,13 +919,8 @@ BanResponse createDefaultBanResponse() {
   return const BanResponse(duration: '10ms');
 }
 
-MuteResponse createDefaultMuteResponse({
-  List<UserMute>? mutes,
-}) {
-  return MuteResponse(
-    duration: '10ms',
-    mutes: mutes,
-  );
+MuteResponse createDefaultMuteResponse({List<UserMuteResponse>? mutes}) {
+  return MuteResponse(duration: '10ms', mutes: mutes);
 }
 
 BlockUsersResponse createDefaultBlockUsersResponse({
@@ -962,10 +942,7 @@ UnblockUsersResponse createDefaultUnblockUsersResponse() {
 GetBlockedUsersResponse createDefaultGetBlockedUsersResponse({
   List<BlockedUserResponse> blocks = const [],
 }) {
-  return GetBlockedUsersResponse(
-    blocks: blocks,
-    duration: '10ms',
-  );
+  return GetBlockedUsersResponse(blocks: blocks, duration: '10ms');
 }
 
 BlockedUserResponse createDefaultBlockedUserResponse({
@@ -981,22 +958,14 @@ BlockedUserResponse createDefaultBlockedUserResponse({
   );
 }
 
-FlagResponse createDefaultFlagResponse({
-  String itemId = 'activity-123',
-}) {
-  return FlagResponse(
-    duration: '10ms',
-    itemId: itemId,
-  );
+FlagResponse createDefaultFlagResponse({String itemId = 'activity-123'}) {
+  return FlagResponse(duration: '10ms', itemId: itemId);
 }
 
 SubmitActionResponse createDefaultSubmitActionResponse({
   ReviewQueueItemResponse? item,
 }) {
-  return SubmitActionResponse(
-    duration: '10ms',
-    item: item,
-  );
+  return SubmitActionResponse(duration: '10ms', item: item);
 }
 
 QueryReviewQueueResponse createDefaultQueryReviewQueueResponse({
@@ -1093,28 +1062,19 @@ EnrichedCollectionResponse createDefaultEnrichedCollectionResponse({
 ReadCollectionsResponse createDefaultReadCollectionsResponse({
   List<CollectionResponse> collections = const [],
 }) {
-  return ReadCollectionsResponse(
-    collections: collections,
-    duration: '10ms',
-  );
+  return ReadCollectionsResponse(collections: collections, duration: '10ms');
 }
 
 CreateCollectionsResponse createDefaultCreateCollectionsResponse({
   List<CollectionResponse> collections = const [],
 }) {
-  return CreateCollectionsResponse(
-    collections: collections,
-    duration: '10ms',
-  );
+  return CreateCollectionsResponse(collections: collections, duration: '10ms');
 }
 
 UpdateCollectionsResponse createDefaultUpdateCollectionsResponse({
   List<CollectionResponse> collections = const [],
 }) {
-  return UpdateCollectionsResponse(
-    collections: collections,
-    duration: '10ms',
-  );
+  return UpdateCollectionsResponse(collections: collections, duration: '10ms');
 }
 
 DeleteCollectionsResponse createDefaultDeleteCollectionsResponse() {
@@ -1124,19 +1084,11 @@ DeleteCollectionsResponse createDefaultDeleteCollectionsResponse() {
 DeleteActivitiesResponse createDefaultDeleteActivitiesResponse({
   List<String> ids = const ['activity-1'],
 }) {
-  return DeleteActivitiesResponse(
-    deletedIds: ids,
-    duration: '10ms',
-  );
+  return DeleteActivitiesResponse(deletedIds: ids, duration: '10ms');
 }
 
-AppealResponse createDefaultAppealResponse({
-  String appealId = 'appeal-123',
-}) {
-  return AppealResponse(
-    appealId: appealId,
-    duration: '10ms',
-  );
+AppealResponse createDefaultAppealResponse({String appealId = 'appeal-123'}) {
+  return AppealResponse(appealId: appealId, duration: '10ms');
 }
 
 AppealItemResponse createDefaultAppealItemResponse({
@@ -1158,9 +1110,7 @@ AppealItemResponse createDefaultAppealItemResponse({
   );
 }
 
-GetAppealResponse createDefaultGetAppealResponse({
-  AppealItemResponse? item,
-}) {
+GetAppealResponse createDefaultGetAppealResponse({AppealItemResponse? item}) {
   return GetAppealResponse(
     item: item ?? createDefaultAppealItemResponse(),
     duration: '10ms',
@@ -1212,10 +1162,7 @@ GetApplicationResponse createDefaultGetApplicationResponse({
 ListDevicesResponse createDefaultListDevicesResponse({
   List<DeviceResponse> devices = const [],
 }) {
-  return ListDevicesResponse(
-    devices: devices,
-    duration: '10ms',
-  );
+  return ListDevicesResponse(devices: devices, duration: '10ms');
 }
 
 DurationResponse createDefaultCreateDeviceResponse() {

@@ -56,6 +56,5 @@ class FeedUpdatedEvent extends core.WsEvent with _$FeedUpdatedEvent {
 
   Map<String, dynamic> toJson() => _$FeedUpdatedEventToJson(this);
 
-  static FeedUpdatedEvent fromJson(Map<String, dynamic> json) =>
-      _$FeedUpdatedEventFromJson(json);
+  static FeedUpdatedEvent fromJson(Map<String, dynamic> json) => _$FeedUpdatedEventFromJson(json);
 }

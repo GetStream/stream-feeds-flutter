@@ -34,6 +34,5 @@ class VideoRuleParameters with _$VideoRuleParameters {
 
   Map<String, dynamic> toJson() => _$VideoRuleParametersToJson(this);
 
-  static VideoRuleParameters fromJson(Map<String, dynamic> json) =>
-      _$VideoRuleParametersFromJson(json);
+  static VideoRuleParameters fromJson(Map<String, dynamic> json) => _$VideoRuleParametersFromJson(json);
 }

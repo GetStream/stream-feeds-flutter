@@ -34,6 +34,5 @@ class VideoCallRuleConfig with _$VideoCallRuleConfig {
 
   Map<String, dynamic> toJson() => _$VideoCallRuleConfigToJson(this);
 
-  static VideoCallRuleConfig fromJson(Map<String, dynamic> json) =>
-      _$VideoCallRuleConfigFromJson(json);
+  static VideoCallRuleConfig fromJson(Map<String, dynamic> json) => _$VideoCallRuleConfigFromJson(json);
 }

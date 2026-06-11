@@ -14,7 +14,7 @@ part of 'app_router.dart';
 /// [AppSplash]
 class AppSplashRoute extends PageRouteInfo<void> {
   const AppSplashRoute({List<PageRouteInfo>? children})
-      : super(AppSplashRoute.name, initialChildren: children);
+    : super(AppSplashRoute.name, initialChildren: children);
 
   static const String name = 'AppSplashRoute';
 
@@ -36,15 +36,15 @@ class AttachmentGalleryRoute extends PageRouteInfo<AttachmentGalleryRouteArgs> {
     int initialIndex = 0,
     List<PageRouteInfo>? children,
   }) : super(
-          AttachmentGalleryRoute.name,
-          args: AttachmentGalleryRouteArgs(
-            key: key,
-            attachments: attachments,
-            metadata: metadata,
-            initialIndex: initialIndex,
-          ),
-          initialChildren: children,
-        );
+         AttachmentGalleryRoute.name,
+         args: AttachmentGalleryRouteArgs(
+           key: key,
+           attachments: attachments,
+           metadata: metadata,
+           initialIndex: initialIndex,
+         ),
+         initialChildren: children,
+       );
 
   static const String name = 'AttachmentGalleryRoute';
 
@@ -88,7 +88,10 @@ class AttachmentGalleryRouteArgs {
     if (identical(this, other)) return true;
     if (other is! AttachmentGalleryRouteArgs) return false;
     return key == other.key &&
-        const ListEquality().equals(attachments, other.attachments) &&
+        const ListEquality<Attachment>().equals(
+          attachments,
+          other.attachments,
+        ) &&
         metadata == other.metadata &&
         initialIndex == other.initialIndex;
   }
@@ -96,7 +99,7 @@ class AttachmentGalleryRouteArgs {
   @override
   int get hashCode =>
       key.hashCode ^
-      const ListEquality().hash(attachments) ^
+      const ListEquality<Attachment>().hash(attachments) ^
       metadata.hashCode ^
       initialIndex.hashCode;
 }
@@ -105,7 +108,7 @@ class AttachmentGalleryRouteArgs {
 /// [ChooseUserScreen]
 class ChooseUserRoute extends PageRouteInfo<void> {
   const ChooseUserRoute({List<PageRouteInfo>? children})
-      : super(ChooseUserRoute.name, initialChildren: children);
+    : super(ChooseUserRoute.name, initialChildren: children);
 
   static const String name = 'ChooseUserRoute';
 
@@ -121,7 +124,7 @@ class ChooseUserRoute extends PageRouteInfo<void> {
 /// [HomeScreen]
 class HomeRoute extends PageRouteInfo<void> {
   const HomeRoute({List<PageRouteInfo>? children})
-      : super(HomeRoute.name, initialChildren: children);
+    : super(HomeRoute.name, initialChildren: children);
 
   static const String name = 'HomeRoute';
 
@@ -137,7 +140,7 @@ class HomeRoute extends PageRouteInfo<void> {
 /// [UserFeedScreen]
 class UserFeedRoute extends PageRouteInfo<void> {
   const UserFeedRoute({List<PageRouteInfo>? children})
-      : super(UserFeedRoute.name, initialChildren: children);
+    : super(UserFeedRoute.name, initialChildren: children);
 
   static const String name = 'UserFeedRoute';
 

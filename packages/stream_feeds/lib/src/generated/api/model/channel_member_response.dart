@@ -13,20 +13,6 @@ import '../models.dart';
 part 'channel_member_response.g.dart';
 part 'channel_member_response.freezed.dart';
 
-@JsonEnum(alwaysCreate: true)
-enum ChannelMemberResponseRole {
-  @JsonValue('admin')
-  admin,
-  @JsonValue('member')
-  member,
-  @JsonValue('moderator')
-  moderator,
-  @JsonValue('owner')
-  owner,
-  @JsonValue('_unknown')
-  unknown;
-}
-
 @freezed
 @immutable
 @JsonSerializable()
@@ -104,8 +90,7 @@ class ChannelMemberResponse with _$ChannelMemberResponse {
   final DateTime? pinnedAt;
 
   @override
-  @JsonKey(unknownEnumValue: ChannelMemberResponseRole.unknown)
-  final ChannelMemberResponseRole? role;
+  final String? role;
 
   @override
   final bool shadowBanned;
@@ -125,6 +110,5 @@ class ChannelMemberResponse with _$ChannelMemberResponse {
 
   Map<String, dynamic> toJson() => _$ChannelMemberResponseToJson(this);
 
-  static ChannelMemberResponse fromJson(Map<String, dynamic> json) =>
-      _$ChannelMemberResponseFromJson(json);
+  static ChannelMemberResponse fromJson(Map<String, dynamic> json) => _$ChannelMemberResponseFromJson(json);
 }

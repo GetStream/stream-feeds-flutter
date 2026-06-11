@@ -30,6 +30,5 @@ class AddFolderRequest with _$AddFolderRequest {
 
   Map<String, dynamic> toJson() => _$AddFolderRequestToJson(this);
 
-  static AddFolderRequest fromJson(Map<String, dynamic> json) =>
-      _$AddFolderRequestFromJson(json);
+  static AddFolderRequest fromJson(Map<String, dynamic> json) => _$AddFolderRequestFromJson(json);
 }

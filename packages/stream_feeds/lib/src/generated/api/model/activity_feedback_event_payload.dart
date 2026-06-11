@@ -22,7 +22,7 @@ enum ActivityFeedbackEventPayloadAction {
   @JsonValue('show_more')
   showMore,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed

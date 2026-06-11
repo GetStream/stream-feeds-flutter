@@ -38,6 +38,5 @@ class ImageUploadResponse with _$ImageUploadResponse {
 
   Map<String, dynamic> toJson() => _$ImageUploadResponseToJson(this);
 
-  static ImageUploadResponse fromJson(Map<String, dynamic> json) =>
-      _$ImageUploadResponseFromJson(json);
+  static ImageUploadResponse fromJson(Map<String, dynamic> json) => _$ImageUploadResponseFromJson(json);
 }

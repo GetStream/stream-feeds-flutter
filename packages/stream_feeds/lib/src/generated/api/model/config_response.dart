@@ -19,14 +19,18 @@ part 'config_response.freezed.dart';
 class ConfigResponse with _$ConfigResponse {
   const ConfigResponse({
     this.aiImageConfig,
+    this.aiImageLabelDefinitions,
+    this.aiImageSubclassifications,
     this.aiTextConfig,
     this.aiVideoConfig,
     required this.async,
     this.automodPlatformCircumventionConfig,
     this.automodSemanticFiltersConfig,
     this.automodToxicityConfig,
+    this.availableBodyguardProfiles,
     this.blockListConfig,
     required this.createdAt,
+    this.floodConfig,
     required this.key,
     this.llmConfig,
     required this.supportedVideoCallHarmTypes,
@@ -38,6 +42,12 @@ class ConfigResponse with _$ConfigResponse {
 
   @override
   final AIImageConfig? aiImageConfig;
+
+  @override
+  final List<AIImageLabelDefinition>? aiImageLabelDefinitions;
+
+  @override
+  final Map<String, List<String>>? aiImageSubclassifications;
 
   @override
   final AITextConfig? aiTextConfig;
@@ -58,11 +68,17 @@ class ConfigResponse with _$ConfigResponse {
   final AutomodToxicityConfig? automodToxicityConfig;
 
   @override
+  final List<BodyguardProfileSummary>? availableBodyguardProfiles;
+
+  @override
   final BlockListConfig? blockListConfig;
 
   @override
   @EpochDateTimeConverter()
   final DateTime createdAt;
+
+  @override
+  final FloodConfig? floodConfig;
 
   @override
   final String key;
@@ -88,6 +104,5 @@ class ConfigResponse with _$ConfigResponse {
 
   Map<String, dynamic> toJson() => _$ConfigResponseToJson(this);
 
-  static ConfigResponse fromJson(Map<String, dynamic> json) =>
-      _$ConfigResponseFromJson(json);
+  static ConfigResponse fromJson(Map<String, dynamic> json) => _$ConfigResponseFromJson(json);
 }

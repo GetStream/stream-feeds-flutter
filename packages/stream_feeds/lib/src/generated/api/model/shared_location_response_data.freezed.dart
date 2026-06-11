@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -10,7 +9,6 @@ part of 'shared_location_response_data.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
@@ -31,10 +29,11 @@ mixin _$SharedLocationResponseData {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $SharedLocationResponseDataCopyWith<SharedLocationResponseData>
-      get copyWith =>
-          _$SharedLocationResponseDataCopyWithImpl<SharedLocationResponseData>(
-              this as SharedLocationResponseData, _$identity);
+  $SharedLocationResponseDataCopyWith<SharedLocationResponseData> get copyWith =>
+      _$SharedLocationResponseDataCopyWithImpl<SharedLocationResponseData>(
+        this as SharedLocationResponseData,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -42,39 +41,33 @@ mixin _$SharedLocationResponseData {
         (other.runtimeType == runtimeType &&
             other is SharedLocationResponseData &&
             (identical(other.channel, channel) || other.channel == channel) &&
-            (identical(other.channelCid, channelCid) ||
-                other.channelCid == channelCid) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
-            (identical(other.createdByDeviceId, createdByDeviceId) ||
-                other.createdByDeviceId == createdByDeviceId) &&
+            (identical(other.channelCid, channelCid) || other.channelCid == channelCid) &&
+            (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
+            (identical(other.createdByDeviceId, createdByDeviceId) || other.createdByDeviceId == createdByDeviceId) &&
             (identical(other.endAt, endAt) || other.endAt == endAt) &&
-            (identical(other.latitude, latitude) ||
-                other.latitude == latitude) &&
-            (identical(other.longitude, longitude) ||
-                other.longitude == longitude) &&
+            (identical(other.latitude, latitude) || other.latitude == latitude) &&
+            (identical(other.longitude, longitude) || other.longitude == longitude) &&
             (identical(other.message, message) || other.message == message) &&
-            (identical(other.messageId, messageId) ||
-                other.messageId == messageId) &&
-            (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt) &&
+            (identical(other.messageId, messageId) || other.messageId == messageId) &&
+            (identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt) &&
             (identical(other.userId, userId) || other.userId == userId));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      channel,
-      channelCid,
-      createdAt,
-      createdByDeviceId,
-      endAt,
-      latitude,
-      longitude,
-      message,
-      messageId,
-      updatedAt,
-      userId);
+    runtimeType,
+    channel,
+    channelCid,
+    createdAt,
+    createdByDeviceId,
+    endAt,
+    latitude,
+    longitude,
+    message,
+    messageId,
+    updatedAt,
+    userId,
+  );
 
   @override
   String toString() {
@@ -84,27 +77,28 @@ mixin _$SharedLocationResponseData {
 
 /// @nodoc
 abstract mixin class $SharedLocationResponseDataCopyWith<$Res> {
-  factory $SharedLocationResponseDataCopyWith(SharedLocationResponseData value,
-          $Res Function(SharedLocationResponseData) _then) =
-      _$SharedLocationResponseDataCopyWithImpl;
+  factory $SharedLocationResponseDataCopyWith(
+    SharedLocationResponseData value,
+    $Res Function(SharedLocationResponseData) _then,
+  ) = _$SharedLocationResponseDataCopyWithImpl;
   @useResult
-  $Res call(
-      {ChannelResponse? channel,
-      String channelCid,
-      DateTime createdAt,
-      String createdByDeviceId,
-      DateTime? endAt,
-      double latitude,
-      double longitude,
-      MessageResponse? message,
-      String messageId,
-      DateTime updatedAt,
-      String userId});
+  $Res call({
+    ChannelResponse? channel,
+    String channelCid,
+    DateTime createdAt,
+    String createdByDeviceId,
+    DateTime? endAt,
+    double latitude,
+    double longitude,
+    MessageResponse? message,
+    String messageId,
+    DateTime updatedAt,
+    String userId,
+  });
 }
 
 /// @nodoc
-class _$SharedLocationResponseDataCopyWithImpl<$Res>
-    implements $SharedLocationResponseDataCopyWith<$Res> {
+class _$SharedLocationResponseDataCopyWithImpl<$Res> implements $SharedLocationResponseDataCopyWith<$Res> {
   _$SharedLocationResponseDataCopyWithImpl(this._self, this._then);
 
   final SharedLocationResponseData _self;
@@ -127,53 +121,53 @@ class _$SharedLocationResponseDataCopyWithImpl<$Res>
     Object? updatedAt = null,
     Object? userId = null,
   }) {
-    return _then(SharedLocationResponseData(
-      channel: freezed == channel
-          ? _self.channel
-          : channel // ignore: cast_nullable_to_non_nullable
-              as ChannelResponse?,
-      channelCid: null == channelCid
-          ? _self.channelCid
-          : channelCid // ignore: cast_nullable_to_non_nullable
-              as String,
-      createdAt: null == createdAt
-          ? _self.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      createdByDeviceId: null == createdByDeviceId
-          ? _self.createdByDeviceId
-          : createdByDeviceId // ignore: cast_nullable_to_non_nullable
-              as String,
-      endAt: freezed == endAt
-          ? _self.endAt
-          : endAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      latitude: null == latitude
-          ? _self.latitude
-          : latitude // ignore: cast_nullable_to_non_nullable
-              as double,
-      longitude: null == longitude
-          ? _self.longitude
-          : longitude // ignore: cast_nullable_to_non_nullable
-              as double,
-      message: freezed == message
-          ? _self.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as MessageResponse?,
-      messageId: null == messageId
-          ? _self.messageId
-          : messageId // ignore: cast_nullable_to_non_nullable
-              as String,
-      updatedAt: null == updatedAt
-          ? _self.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      userId: null == userId
-          ? _self.userId
-          : userId // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+    return _then(
+      SharedLocationResponseData(
+        channel: freezed == channel
+            ? _self.channel
+            : channel // ignore: cast_nullable_to_non_nullable
+                  as ChannelResponse?,
+        channelCid: null == channelCid
+            ? _self.channelCid
+            : channelCid // ignore: cast_nullable_to_non_nullable
+                  as String,
+        createdAt: null == createdAt
+            ? _self.createdAt
+            : createdAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+        createdByDeviceId: null == createdByDeviceId
+            ? _self.createdByDeviceId
+            : createdByDeviceId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        endAt: freezed == endAt
+            ? _self.endAt
+            : endAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime?,
+        latitude: null == latitude
+            ? _self.latitude
+            : latitude // ignore: cast_nullable_to_non_nullable
+                  as double,
+        longitude: null == longitude
+            ? _self.longitude
+            : longitude // ignore: cast_nullable_to_non_nullable
+                  as double,
+        message: freezed == message
+            ? _self.message
+            : message // ignore: cast_nullable_to_non_nullable
+                  as MessageResponse?,
+        messageId: null == messageId
+            ? _self.messageId
+            : messageId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        updatedAt: null == updatedAt
+            ? _self.updatedAt
+            : updatedAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+        userId: null == userId
+            ? _self.userId
+            : userId // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
   }
 }
-
-// dart format on

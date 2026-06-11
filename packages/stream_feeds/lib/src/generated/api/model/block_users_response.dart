@@ -39,6 +39,5 @@ class BlockUsersResponse with _$BlockUsersResponse {
 
   Map<String, dynamic> toJson() => _$BlockUsersResponseToJson(this);
 
-  static BlockUsersResponse fromJson(Map<String, dynamic> json) =>
-      _$BlockUsersResponseFromJson(json);
+  static BlockUsersResponse fromJson(Map<String, dynamic> json) => _$BlockUsersResponseFromJson(json);
 }

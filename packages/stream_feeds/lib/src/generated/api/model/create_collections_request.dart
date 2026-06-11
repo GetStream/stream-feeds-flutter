@@ -26,6 +26,5 @@ class CreateCollectionsRequest with _$CreateCollectionsRequest {
 
   Map<String, dynamic> toJson() => _$CreateCollectionsRequestToJson(this);
 
-  static CreateCollectionsRequest fromJson(Map<String, dynamic> json) =>
-      _$CreateCollectionsRequestFromJson(json);
+  static CreateCollectionsRequest fromJson(Map<String, dynamic> json) => _$CreateCollectionsRequestFromJson(json);
 }

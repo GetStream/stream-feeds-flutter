@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -10,7 +9,6 @@ part of 'moderation.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
@@ -27,8 +25,7 @@ mixin _$Moderation {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $ModerationCopyWith<Moderation> get copyWith =>
-      _$ModerationCopyWithImpl<Moderation>(this as Moderation, _$identity);
+  $ModerationCopyWith<Moderation> get copyWith => _$ModerationCopyWithImpl<Moderation>(this as Moderation, _$identity);
 
   @override
   bool operator ==(Object other) {
@@ -36,12 +33,12 @@ mixin _$Moderation {
         (other.runtimeType == runtimeType &&
             other is Moderation &&
             (identical(other.action, action) || other.action == action) &&
-            (identical(other.blocklistMatched, blocklistMatched) ||
-                other.blocklistMatched == blocklistMatched) &&
-            const DeepCollectionEquality()
-                .equals(other.imageHarms, imageHarms) &&
-            (identical(other.originalText, originalText) ||
-                other.originalText == originalText) &&
+            (identical(other.blocklistMatched, blocklistMatched) || other.blocklistMatched == blocklistMatched) &&
+            const DeepCollectionEquality().equals(
+              other.imageHarms,
+              imageHarms,
+            ) &&
+            (identical(other.originalText, originalText) || other.originalText == originalText) &&
             (identical(other.platformCircumvented, platformCircumvented) ||
                 other.platformCircumvented == platformCircumvented) &&
             (identical(other.semanticFilterMatched, semanticFilterMatched) ||
@@ -51,14 +48,15 @@ mixin _$Moderation {
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      action,
-      blocklistMatched,
-      const DeepCollectionEquality().hash(imageHarms),
-      originalText,
-      platformCircumvented,
-      semanticFilterMatched,
-      const DeepCollectionEquality().hash(textHarms));
+    runtimeType,
+    action,
+    blocklistMatched,
+    const DeepCollectionEquality().hash(imageHarms),
+    originalText,
+    platformCircumvented,
+    semanticFilterMatched,
+    const DeepCollectionEquality().hash(textHarms),
+  );
 
   @override
   String toString() {
@@ -69,17 +67,19 @@ mixin _$Moderation {
 /// @nodoc
 abstract mixin class $ModerationCopyWith<$Res> {
   factory $ModerationCopyWith(
-          Moderation value, $Res Function(Moderation) _then) =
-      _$ModerationCopyWithImpl;
+    Moderation value,
+    $Res Function(Moderation) _then,
+  ) = _$ModerationCopyWithImpl;
   @useResult
-  $Res call(
-      {String action,
-      String originalText,
-      List<String> imageHarms,
-      List<String> textHarms,
-      String? blocklistMatched,
-      bool? platformCircumvented,
-      String? semanticFilterMatched});
+  $Res call({
+    String action,
+    String originalText,
+    List<String> imageHarms,
+    List<String> textHarms,
+    String? blocklistMatched,
+    bool? platformCircumvented,
+    String? semanticFilterMatched,
+  });
 }
 
 /// @nodoc
@@ -102,37 +102,37 @@ class _$ModerationCopyWithImpl<$Res> implements $ModerationCopyWith<$Res> {
     Object? platformCircumvented = freezed,
     Object? semanticFilterMatched = freezed,
   }) {
-    return _then(Moderation(
-      action: null == action
-          ? _self.action
-          : action // ignore: cast_nullable_to_non_nullable
-              as String,
-      originalText: null == originalText
-          ? _self.originalText
-          : originalText // ignore: cast_nullable_to_non_nullable
-              as String,
-      imageHarms: null == imageHarms
-          ? _self.imageHarms
-          : imageHarms // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      textHarms: null == textHarms
-          ? _self.textHarms
-          : textHarms // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      blocklistMatched: freezed == blocklistMatched
-          ? _self.blocklistMatched
-          : blocklistMatched // ignore: cast_nullable_to_non_nullable
-              as String?,
-      platformCircumvented: freezed == platformCircumvented
-          ? _self.platformCircumvented
-          : platformCircumvented // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      semanticFilterMatched: freezed == semanticFilterMatched
-          ? _self.semanticFilterMatched
-          : semanticFilterMatched // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
+    return _then(
+      Moderation(
+        action: null == action
+            ? _self.action
+            : action // ignore: cast_nullable_to_non_nullable
+                  as String,
+        originalText: null == originalText
+            ? _self.originalText
+            : originalText // ignore: cast_nullable_to_non_nullable
+                  as String,
+        imageHarms: null == imageHarms
+            ? _self.imageHarms
+            : imageHarms // ignore: cast_nullable_to_non_nullable
+                  as List<String>,
+        textHarms: null == textHarms
+            ? _self.textHarms
+            : textHarms // ignore: cast_nullable_to_non_nullable
+                  as List<String>,
+        blocklistMatched: freezed == blocklistMatched
+            ? _self.blocklistMatched
+            : blocklistMatched // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        platformCircumvented: freezed == platformCircumvented
+            ? _self.platformCircumvented
+            : platformCircumvented // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        semanticFilterMatched: freezed == semanticFilterMatched
+            ? _self.semanticFilterMatched
+            : semanticFilterMatched // ignore: cast_nullable_to_non_nullable
+                  as String?,
+      ),
+    );
   }
 }
-
-// dart format on

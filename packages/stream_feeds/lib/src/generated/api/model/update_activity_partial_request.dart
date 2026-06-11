@@ -18,9 +18,26 @@ part 'update_activity_partial_request.freezed.dart';
 @JsonSerializable()
 class UpdateActivityPartialRequest with _$UpdateActivityPartialRequest {
   const UpdateActivityPartialRequest({
+    this.copyCustomToNotification,
+    this.enrichOwnFields,
+    this.handleMentionNotifications,
+    this.runActivityProcessors,
     this.set,
     this.unset,
   });
+
+  @Deprecated('This field is deprecated.')
+  @override
+  final bool? copyCustomToNotification;
+
+  @override
+  final bool? enrichOwnFields;
+
+  @override
+  final bool? handleMentionNotifications;
+
+  @override
+  final bool? runActivityProcessors;
 
   @override
   final Map<String, Object?>? set;

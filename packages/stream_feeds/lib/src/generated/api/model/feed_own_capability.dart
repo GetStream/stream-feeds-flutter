@@ -5,6 +5,7 @@
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
+import '../models.dart';
 
 part 'feed_own_capability.g.dart';
 
@@ -69,5 +70,5 @@ enum FeedOwnCapability {
   @JsonValue('update-own-comment')
   updateOwnComment,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }

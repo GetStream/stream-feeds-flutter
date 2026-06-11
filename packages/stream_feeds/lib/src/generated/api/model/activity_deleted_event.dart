@@ -56,6 +56,5 @@ class ActivityDeletedEvent extends core.WsEvent with _$ActivityDeletedEvent {
 
   Map<String, dynamic> toJson() => _$ActivityDeletedEventToJson(this);
 
-  static ActivityDeletedEvent fromJson(Map<String, dynamic> json) =>
-      _$ActivityDeletedEventFromJson(json);
+  static ActivityDeletedEvent fromJson(Map<String, dynamic> json) => _$ActivityDeletedEventFromJson(json);
 }

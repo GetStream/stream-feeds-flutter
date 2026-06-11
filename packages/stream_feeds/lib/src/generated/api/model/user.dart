@@ -18,91 +18,15 @@ part 'user.freezed.dart';
 @JsonSerializable()
 class User with _$User {
   const User({
-    this.avgResponseTime,
-    this.banExpires,
-    required this.banned,
-    this.createdAt,
-    required this.custom,
-    this.deactivatedAt,
-    this.deletedAt,
+    this.data,
     required this.id,
-    this.invisible,
-    this.language,
-    this.lastActive,
-    this.lastEngagedAt,
-    required this.online,
-    this.privacySettings,
-    this.revokeTokensIssuedBefore,
-    required this.role,
-    this.teams,
-    required this.teamsRole,
-    this.updatedAt,
   });
 
   @override
-  final int? avgResponseTime;
-
-  @override
-  @EpochDateTimeConverter()
-  final DateTime? banExpires;
-
-  @override
-  final bool banned;
-
-  @override
-  @EpochDateTimeConverter()
-  final DateTime? createdAt;
-
-  @override
-  final Map<String, Object?> custom;
-
-  @override
-  @EpochDateTimeConverter()
-  final DateTime? deactivatedAt;
-
-  @override
-  @EpochDateTimeConverter()
-  final DateTime? deletedAt;
+  final Map<String, Object?>? data;
 
   @override
   final String id;
-
-  @override
-  final bool? invisible;
-
-  @override
-  final String? language;
-
-  @override
-  @EpochDateTimeConverter()
-  final DateTime? lastActive;
-
-  @override
-  @EpochDateTimeConverter()
-  final DateTime? lastEngagedAt;
-
-  @override
-  final bool online;
-
-  @override
-  final PrivacySettings? privacySettings;
-
-  @override
-  @EpochDateTimeConverter()
-  final DateTime? revokeTokensIssuedBefore;
-
-  @override
-  final String role;
-
-  @override
-  final List<String>? teams;
-
-  @override
-  final Map<String, String> teamsRole;
-
-  @override
-  @EpochDateTimeConverter()
-  final DateTime? updatedAt;
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
 

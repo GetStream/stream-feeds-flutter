@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -10,7 +9,6 @@ part of 'channel_mute.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
@@ -34,17 +32,14 @@ mixin _$ChannelMute {
         (other.runtimeType == runtimeType &&
             other is ChannelMute &&
             (identical(other.channel, channel) || other.channel == channel) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
+            (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
             (identical(other.expires, expires) || other.expires == expires) &&
-            (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt) &&
+            (identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt) &&
             (identical(other.user, user) || other.user == user));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, channel, createdAt, expires, updatedAt, user);
+  int get hashCode => Object.hash(runtimeType, channel, createdAt, expires, updatedAt, user);
 
   @override
   String toString() {
@@ -55,15 +50,17 @@ mixin _$ChannelMute {
 /// @nodoc
 abstract mixin class $ChannelMuteCopyWith<$Res> {
   factory $ChannelMuteCopyWith(
-          ChannelMute value, $Res Function(ChannelMute) _then) =
-      _$ChannelMuteCopyWithImpl;
+    ChannelMute value,
+    $Res Function(ChannelMute) _then,
+  ) = _$ChannelMuteCopyWithImpl;
   @useResult
-  $Res call(
-      {ChannelResponse? channel,
-      DateTime createdAt,
-      DateTime? expires,
-      DateTime updatedAt,
-      UserResponse? user});
+  $Res call({
+    ChannelResponse? channel,
+    DateTime createdAt,
+    DateTime? expires,
+    DateTime updatedAt,
+    UserResponse? user,
+  });
 }
 
 /// @nodoc
@@ -84,29 +81,29 @@ class _$ChannelMuteCopyWithImpl<$Res> implements $ChannelMuteCopyWith<$Res> {
     Object? updatedAt = null,
     Object? user = freezed,
   }) {
-    return _then(ChannelMute(
-      channel: freezed == channel
-          ? _self.channel
-          : channel // ignore: cast_nullable_to_non_nullable
-              as ChannelResponse?,
-      createdAt: null == createdAt
-          ? _self.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      expires: freezed == expires
-          ? _self.expires
-          : expires // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      updatedAt: null == updatedAt
-          ? _self.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      user: freezed == user
-          ? _self.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as UserResponse?,
-    ));
+    return _then(
+      ChannelMute(
+        channel: freezed == channel
+            ? _self.channel
+            : channel // ignore: cast_nullable_to_non_nullable
+                  as ChannelResponse?,
+        createdAt: null == createdAt
+            ? _self.createdAt
+            : createdAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+        expires: freezed == expires
+            ? _self.expires
+            : expires // ignore: cast_nullable_to_non_nullable
+                  as DateTime?,
+        updatedAt: null == updatedAt
+            ? _self.updatedAt
+            : updatedAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+        user: freezed == user
+            ? _self.user
+            : user // ignore: cast_nullable_to_non_nullable
+                  as UserResponse?,
+      ),
+    );
   }
 }
-
-// dart format on

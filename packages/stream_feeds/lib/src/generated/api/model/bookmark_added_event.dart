@@ -48,6 +48,5 @@ class BookmarkAddedEvent extends core.WsEvent with _$BookmarkAddedEvent {
 
   Map<String, dynamic> toJson() => _$BookmarkAddedEventToJson(this);
 
-  static BookmarkAddedEvent fromJson(Map<String, dynamic> json) =>
-      _$BookmarkAddedEventFromJson(json);
+  static BookmarkAddedEvent fromJson(Map<String, dynamic> json) => _$BookmarkAddedEventFromJson(json);
 }

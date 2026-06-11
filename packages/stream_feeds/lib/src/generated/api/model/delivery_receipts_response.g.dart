@@ -7,13 +7,9 @@ part of 'delivery_receipts_response.dart';
 // **************************************************************************
 
 DeliveryReceiptsResponse _$DeliveryReceiptsResponseFromJson(
-        Map<String, dynamic> json) =>
-    DeliveryReceiptsResponse(
-      enabled: json['enabled'] as bool,
-    );
+  Map<String, dynamic> json,
+) => DeliveryReceiptsResponse(enabled: json['enabled'] as bool?);
 
 Map<String, dynamic> _$DeliveryReceiptsResponseToJson(
-        DeliveryReceiptsResponse instance) =>
-    <String, dynamic>{
-      'enabled': instance.enabled,
-    };
+  DeliveryReceiptsResponse instance,
+) => <String, dynamic>{'enabled': instance.enabled};

@@ -107,7 +107,8 @@ final class BookmarkFolderListTester extends BaseTester<BookmarkFolderList> {
   Future<Result<List<BookmarkFolderData>>> get({
     QueryBookmarkFoldersResponse Function(
       QueryBookmarkFoldersResponse,
-    )? modifyResponse,
+    )?
+    modifyResponse,
   }) {
     final query = bookmarkFolderList.query;
 

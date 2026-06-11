@@ -24,7 +24,7 @@ enum VelocityFilterConfigRuleAction {
   @JsonValue('shadow')
   shadow,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -38,7 +38,7 @@ enum VelocityFilterConfigRuleCascadingAction {
   @JsonValue('shadow')
   shadow,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -108,6 +108,5 @@ class VelocityFilterConfigRule with _$VelocityFilterConfigRule {
 
   Map<String, dynamic> toJson() => _$VelocityFilterConfigRuleToJson(this);
 
-  static VelocityFilterConfigRule fromJson(Map<String, dynamic> json) =>
-      _$VelocityFilterConfigRuleFromJson(json);
+  static VelocityFilterConfigRule fromJson(Map<String, dynamic> json) => _$VelocityFilterConfigRuleFromJson(json);
 }

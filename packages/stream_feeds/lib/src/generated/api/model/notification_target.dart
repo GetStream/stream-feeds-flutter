@@ -20,8 +20,10 @@ class NotificationTarget with _$NotificationTarget {
   const NotificationTarget({
     this.attachments,
     this.comment,
+    this.custom,
     required this.id,
     this.name,
+    this.parentActivity,
     this.text,
     this.type,
     this.userId,
@@ -34,10 +36,16 @@ class NotificationTarget with _$NotificationTarget {
   final NotificationComment? comment;
 
   @override
+  final Map<String, Object?>? custom;
+
+  @override
   final String id;
 
   @override
   final String? name;
+
+  @override
+  final NotificationParentActivity? parentActivity;
 
   @override
   final String? text;
@@ -50,6 +58,5 @@ class NotificationTarget with _$NotificationTarget {
 
   Map<String, dynamic> toJson() => _$NotificationTargetToJson(this);
 
-  static NotificationTarget fromJson(Map<String, dynamic> json) =>
-      _$NotificationTargetFromJson(json);
+  static NotificationTarget fromJson(Map<String, dynamic> json) => _$NotificationTargetFromJson(json);
 }

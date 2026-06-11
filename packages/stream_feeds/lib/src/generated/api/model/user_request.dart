@@ -50,6 +50,5 @@ class UserRequest with _$UserRequest {
 
   Map<String, dynamic> toJson() => _$UserRequestToJson(this);
 
-  static UserRequest fromJson(Map<String, dynamic> json) =>
-      _$UserRequestFromJson(json);
+  static UserRequest fromJson(Map<String, dynamic> json) => _$UserRequestFromJson(json);
 }

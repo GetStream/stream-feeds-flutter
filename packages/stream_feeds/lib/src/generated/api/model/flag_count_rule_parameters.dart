@@ -26,6 +26,5 @@ class FlagCountRuleParameters with _$FlagCountRuleParameters {
 
   Map<String, dynamic> toJson() => _$FlagCountRuleParametersToJson(this);
 
-  static FlagCountRuleParameters fromJson(Map<String, dynamic> json) =>
-      _$FlagCountRuleParametersFromJson(json);
+  static FlagCountRuleParameters fromJson(Map<String, dynamic> json) => _$FlagCountRuleParametersFromJson(json);
 }

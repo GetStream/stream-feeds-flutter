@@ -7,16 +7,15 @@ part of 'update_collections_request.dart';
 // **************************************************************************
 
 UpdateCollectionsRequest _$UpdateCollectionsRequestFromJson(
-        Map<String, dynamic> json) =>
-    UpdateCollectionsRequest(
-      collections: (json['collections'] as List<dynamic>)
-          .map((e) =>
-              UpdateCollectionRequest.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
+  Map<String, dynamic> json,
+) => UpdateCollectionsRequest(
+  collections: (json['collections'] as List<dynamic>)
+      .map((e) => UpdateCollectionRequest.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
 
 Map<String, dynamic> _$UpdateCollectionsRequestToJson(
-        UpdateCollectionsRequest instance) =>
-    <String, dynamic>{
-      'collections': instance.collections.map((e) => e.toJson()).toList(),
-    };
+  UpdateCollectionsRequest instance,
+) => <String, dynamic>{
+  'collections': instance.collections.map((e) => e.toJson()).toList(),
+};

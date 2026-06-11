@@ -30,6 +30,5 @@ class RuleBuilderConfig with _$RuleBuilderConfig {
 
   Map<String, dynamic> toJson() => _$RuleBuilderConfigToJson(this);
 
-  static RuleBuilderConfig fromJson(Map<String, dynamic> json) =>
-      _$RuleBuilderConfigFromJson(json);
+  static RuleBuilderConfig fromJson(Map<String, dynamic> json) => _$RuleBuilderConfigFromJson(json);
 }

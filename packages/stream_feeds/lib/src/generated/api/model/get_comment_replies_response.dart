@@ -22,6 +22,7 @@ class GetCommentRepliesResponse with _$GetCommentRepliesResponse {
     required this.duration,
     this.next,
     this.prev,
+    required this.sort,
   });
 
   @override
@@ -36,8 +37,10 @@ class GetCommentRepliesResponse with _$GetCommentRepliesResponse {
   @override
   final String? prev;
 
+  @override
+  final String sort;
+
   Map<String, dynamic> toJson() => _$GetCommentRepliesResponseToJson(this);
 
-  static GetCommentRepliesResponse fromJson(Map<String, dynamic> json) =>
-      _$GetCommentRepliesResponseFromJson(json);
+  static GetCommentRepliesResponse fromJson(Map<String, dynamic> json) => _$GetCommentRepliesResponseFromJson(json);
 }

@@ -106,8 +106,7 @@ class FollowData with _$FollowData {
   /// - Parameters:
   ///   - fid: The feed ID to check against.
   /// - Returns: true if this is a pending follow request where the target feed matches the given ID.
-  bool isFollowRequestFor(FeedId fid) =>
-      isFollowRequest && targetFeed.fid == fid;
+  bool isFollowRequestFor(FeedId fid) => isFollowRequest && targetFeed.fid == fid;
 }
 
 /// Extension type representing the status of a follow relationship.

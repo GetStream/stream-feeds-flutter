@@ -5,6 +5,7 @@
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
+import '../models.dart';
 
 part 'channel_own_capability.g.dart';
 
@@ -36,6 +37,14 @@ enum ChannelOwnCapability {
   leaveChannel,
   @JsonValue('mute-channel')
   muteChannel,
+  @JsonValue('notify-channel')
+  notifyChannel,
+  @JsonValue('notify-group')
+  notifyGroup,
+  @JsonValue('notify-here')
+  notifyHere,
+  @JsonValue('notify-role')
+  notifyRole,
   @JsonValue('pin-message')
   pinMessage,
   @JsonValue('query-poll-votes')
@@ -85,5 +94,5 @@ enum ChannelOwnCapability {
   @JsonValue('upload-file')
   uploadFile,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }

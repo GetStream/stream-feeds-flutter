@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -10,7 +9,6 @@ part of 'field.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
@@ -23,8 +21,7 @@ mixin _$Field {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $FieldCopyWith<Field> get copyWith =>
-      _$FieldCopyWithImpl<Field>(this as Field, _$identity);
+  $FieldCopyWith<Field> get copyWith => _$FieldCopyWithImpl<Field>(this as Field, _$identity);
 
   @override
   bool operator ==(Object other) {
@@ -47,8 +44,7 @@ mixin _$Field {
 
 /// @nodoc
 abstract mixin class $FieldCopyWith<$Res> {
-  factory $FieldCopyWith(Field value, $Res Function(Field) _then) =
-      _$FieldCopyWithImpl;
+  factory $FieldCopyWith(Field value, $Res Function(Field) _then) = _$FieldCopyWithImpl;
   @useResult
   $Res call({bool short, String title, String value});
 }
@@ -69,21 +65,21 @@ class _$FieldCopyWithImpl<$Res> implements $FieldCopyWith<$Res> {
     Object? title = null,
     Object? value = null,
   }) {
-    return _then(Field(
-      short: null == short
-          ? _self.short
-          : short // ignore: cast_nullable_to_non_nullable
-              as bool,
-      title: null == title
-          ? _self.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      value: null == value
-          ? _self.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+    return _then(
+      Field(
+        short: null == short
+            ? _self.short
+            : short // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        title: null == title
+            ? _self.title
+            : title // ignore: cast_nullable_to_non_nullable
+                  as String,
+        value: null == value
+            ? _self.value
+            : value // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
   }
 }
-
-// dart format on

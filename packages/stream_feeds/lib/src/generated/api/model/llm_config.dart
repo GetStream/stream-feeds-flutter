@@ -42,6 +42,5 @@ class LLMConfig with _$LLMConfig {
 
   Map<String, dynamic> toJson() => _$LLMConfigToJson(this);
 
-  static LLMConfig fromJson(Map<String, dynamic> json) =>
-      _$LLMConfigFromJson(json);
+  static LLMConfig fromJson(Map<String, dynamic> json) => _$LLMConfigFromJson(json);
 }

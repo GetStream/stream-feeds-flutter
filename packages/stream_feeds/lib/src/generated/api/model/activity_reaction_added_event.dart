@@ -16,8 +16,7 @@ part 'activity_reaction_added_event.freezed.dart';
 @freezed
 @immutable
 @JsonSerializable()
-class ActivityReactionAddedEvent extends core.WsEvent
-    with _$ActivityReactionAddedEvent {
+class ActivityReactionAddedEvent extends core.WsEvent with _$ActivityReactionAddedEvent {
   const ActivityReactionAddedEvent({
     required this.activity,
     required this.createdAt,
@@ -61,6 +60,5 @@ class ActivityReactionAddedEvent extends core.WsEvent
 
   Map<String, dynamic> toJson() => _$ActivityReactionAddedEventToJson(this);
 
-  static ActivityReactionAddedEvent fromJson(Map<String, dynamic> json) =>
-      _$ActivityReactionAddedEventFromJson(json);
+  static ActivityReactionAddedEvent fromJson(Map<String, dynamic> json) => _$ActivityReactionAddedEventFromJson(json);
 }

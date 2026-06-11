@@ -14,6 +14,18 @@ part 'activity_response.g.dart';
 part 'activity_response.freezed.dart';
 
 @JsonEnum(alwaysCreate: true)
+enum ActivityResponseRestrictReplies {
+  @JsonValue('everyone')
+  everyone,
+  @JsonValue('nobody')
+  nobody,
+  @JsonValue('people_i_follow')
+  peopleIFollow,
+  @JsonValue('_unknown')
+  unknown,
+}
+
+@JsonEnum(alwaysCreate: true)
 enum ActivityResponseVisibility {
   @JsonValue('private')
   private,
@@ -22,7 +34,7 @@ enum ActivityResponseVisibility {
   @JsonValue('tag')
   tag,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -43,13 +55,18 @@ class ActivityResponse with _$ActivityResponse {
     this.expiresAt,
     required this.feeds,
     required this.filterTags,
+    this.friendReactionCount,
+    this.friendReactions,
     required this.hidden,
     required this.id,
     required this.interestTags,
+    this.isRead,
+    this.isSeen,
     this.isWatched,
     required this.latestReactions,
     this.location,
     required this.mentionedUsers,
+    this.metrics,
     this.moderation,
     this.moderationAction,
     this.notificationContext,
@@ -63,7 +80,9 @@ class ActivityResponse with _$ActivityResponse {
     required this.reactionGroups,
     required this.restrictReplies,
     required this.score,
+    this.scoreVars,
     required this.searchData,
+    this.selectorSource,
     required this.shareCount,
     this.text,
     required this.type,
@@ -117,6 +136,12 @@ class ActivityResponse with _$ActivityResponse {
   final List<String> filterTags;
 
   @override
+  final int? friendReactionCount;
+
+  @override
+  final List<FeedsReactionResponse>? friendReactions;
+
+  @override
   final bool hidden;
 
   @override
@@ -126,16 +151,25 @@ class ActivityResponse with _$ActivityResponse {
   final List<String> interestTags;
 
   @override
+  final bool? isRead;
+
+  @override
+  final bool? isSeen;
+
+  @override
   final bool? isWatched;
 
   @override
   final List<FeedsReactionResponse> latestReactions;
 
   @override
-  final ActivityLocation? location;
+  final Location? location;
 
   @override
   final List<UserResponse> mentionedUsers;
+
+  @override
+  final Map<String, int>? metrics;
 
   @override
   final ModerationV2Response? moderation;
@@ -168,16 +202,23 @@ class ActivityResponse with _$ActivityResponse {
   final int reactionCount;
 
   @override
-  final Map<String, ReactionGroupResponse> reactionGroups;
+  final Map<String, FeedsReactionGroupResponse> reactionGroups;
 
   @override
-  final String restrictReplies;
+  @JsonKey(unknownEnumValue: ActivityResponseRestrictReplies.unknown)
+  final ActivityResponseRestrictReplies restrictReplies;
 
   @override
   final double score;
 
   @override
+  final Map<String, Object?>? scoreVars;
+
+  @override
   final Map<String, Object?> searchData;
+
+  @override
+  final String? selectorSource;
 
   @override
   final int shareCount;
@@ -204,6 +245,5 @@ class ActivityResponse with _$ActivityResponse {
 
   Map<String, dynamic> toJson() => _$ActivityResponseToJson(this);
 
-  static ActivityResponse fromJson(Map<String, dynamic> json) =>
-      _$ActivityResponseFromJson(json);
+  static ActivityResponse fromJson(Map<String, dynamic> json) => _$ActivityResponseFromJson(json);
 }

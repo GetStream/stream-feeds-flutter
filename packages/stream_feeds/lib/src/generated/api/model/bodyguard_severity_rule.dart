@@ -23,12 +23,16 @@ enum BodyguardSeverityRuleAction {
   bounceRemove,
   @JsonValue('flag')
   flag,
+  @JsonValue('keep')
+  keep,
+  @JsonValue('mask')
+  mask,
   @JsonValue('remove')
   remove,
   @JsonValue('shadow')
   shadow,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -42,7 +46,7 @@ enum BodyguardSeverityRuleSeverity {
   @JsonValue('medium')
   medium,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -64,6 +68,5 @@ class BodyguardSeverityRule with _$BodyguardSeverityRule {
 
   Map<String, dynamic> toJson() => _$BodyguardSeverityRuleToJson(this);
 
-  static BodyguardSeverityRule fromJson(Map<String, dynamic> json) =>
-      _$BodyguardSeverityRuleFromJson(json);
+  static BodyguardSeverityRule fromJson(Map<String, dynamic> json) => _$BodyguardSeverityRuleFromJson(json);
 }

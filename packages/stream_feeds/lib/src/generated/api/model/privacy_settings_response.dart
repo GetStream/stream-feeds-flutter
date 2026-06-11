@@ -34,6 +34,5 @@ class PrivacySettingsResponse with _$PrivacySettingsResponse {
 
   Map<String, dynamic> toJson() => _$PrivacySettingsResponseToJson(this);
 
-  static PrivacySettingsResponse fromJson(Map<String, dynamic> json) =>
-      _$PrivacySettingsResponseFromJson(json);
+  static PrivacySettingsResponse fromJson(Map<String, dynamic> json) => _$PrivacySettingsResponseFromJson(json);
 }

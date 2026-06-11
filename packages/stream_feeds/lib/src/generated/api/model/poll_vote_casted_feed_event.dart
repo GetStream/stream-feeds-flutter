@@ -16,8 +16,7 @@ part 'poll_vote_casted_feed_event.freezed.dart';
 @freezed
 @immutable
 @JsonSerializable()
-class PollVoteCastedFeedEvent extends core.WsEvent
-    with _$PollVoteCastedFeedEvent {
+class PollVoteCastedFeedEvent extends core.WsEvent with _$PollVoteCastedFeedEvent {
   const PollVoteCastedFeedEvent({
     required this.createdAt,
     required this.custom,
@@ -57,6 +56,5 @@ class PollVoteCastedFeedEvent extends core.WsEvent
 
   Map<String, dynamic> toJson() => _$PollVoteCastedFeedEventToJson(this);
 
-  static PollVoteCastedFeedEvent fromJson(Map<String, dynamic> json) =>
-      _$PollVoteCastedFeedEventFromJson(json);
+  static PollVoteCastedFeedEvent fromJson(Map<String, dynamic> json) => _$PollVoteCastedFeedEventFromJson(json);
 }

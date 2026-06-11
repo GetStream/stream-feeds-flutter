@@ -38,6 +38,5 @@ class AIImageConfig with _$AIImageConfig {
 
   Map<String, dynamic> toJson() => _$AIImageConfigToJson(this);
 
-  static AIImageConfig fromJson(Map<String, dynamic> json) =>
-      _$AIImageConfigFromJson(json);
+  static AIImageConfig fromJson(Map<String, dynamic> json) => _$AIImageConfigFromJson(json);
 }

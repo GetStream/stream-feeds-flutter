@@ -19,13 +19,20 @@ part 'image_content_parameters.freezed.dart';
 class ImageContentParameters with _$ImageContentParameters {
   const ImageContentParameters({
     this.harmLabels,
+    this.labelOperator,
+    this.minConfidence,
   });
 
   @override
   final List<String>? harmLabels;
 
+  @override
+  final String? labelOperator;
+
+  @override
+  final double? minConfidence;
+
   Map<String, dynamic> toJson() => _$ImageContentParametersToJson(this);
 
-  static ImageContentParameters fromJson(Map<String, dynamic> json) =>
-      _$ImageContentParametersFromJson(json);
+  static ImageContentParameters fromJson(Map<String, dynamic> json) => _$ImageContentParametersFromJson(json);
 }

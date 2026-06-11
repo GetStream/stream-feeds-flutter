@@ -38,6 +38,5 @@ class QueryCommentsResponse with _$QueryCommentsResponse {
 
   Map<String, dynamic> toJson() => _$QueryCommentsResponseToJson(this);
 
-  static QueryCommentsResponse fromJson(Map<String, dynamic> json) =>
-      _$QueryCommentsResponseFromJson(json);
+  static QueryCommentsResponse fromJson(Map<String, dynamic> json) => _$QueryCommentsResponseFromJson(json);
 }

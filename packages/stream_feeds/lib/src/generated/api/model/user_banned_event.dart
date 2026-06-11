@@ -18,34 +18,53 @@ part 'user_banned_event.freezed.dart';
 @JsonSerializable()
 class UserBannedEvent extends core.WsEvent with _$UserBannedEvent {
   const UserBannedEvent({
-    required this.channelId,
-    required this.channelType,
-    required this.cid,
+    this.channelCustom,
+    this.channelId,
+    this.channelMemberCount,
+    this.channelMessageCount,
+    this.channelType,
+    this.cid,
     required this.createdAt,
-    required this.createdBy,
+    this.createdBy,
+    required this.custom,
     this.expiration,
     this.reason,
-    required this.shadow,
+    this.receivedAt,
+    this.reviewQueueItemId,
+    this.shadow,
     this.team,
+    this.totalBans,
     required this.type,
-    this.user,
+    required this.user,
   });
 
   @override
-  final String channelId;
+  final Map<String, Object?>? channelCustom;
 
   @override
-  final String channelType;
+  final String? channelId;
 
   @override
-  final String cid;
+  final int? channelMemberCount;
+
+  @override
+  final int? channelMessageCount;
+
+  @override
+  final String? channelType;
+
+  @override
+  final String? cid;
 
   @override
   @EpochDateTimeConverter()
   final DateTime createdAt;
 
   @override
-  final User createdBy;
+  final UserResponseCommonFields? createdBy;
+
+  @override
+  final Map<String, Object?> custom;
 
   @override
   @EpochDateTimeConverter()
@@ -55,19 +74,28 @@ class UserBannedEvent extends core.WsEvent with _$UserBannedEvent {
   final String? reason;
 
   @override
-  final bool shadow;
+  @EpochDateTimeConverter()
+  final DateTime? receivedAt;
+
+  @override
+  final String? reviewQueueItemId;
+
+  @override
+  final bool? shadow;
 
   @override
   final String? team;
 
   @override
+  final int? totalBans;
+
+  @override
   final String type;
 
   @override
-  final User? user;
+  final UserResponseCommonFields user;
 
   Map<String, dynamic> toJson() => _$UserBannedEventToJson(this);
 
-  static UserBannedEvent fromJson(Map<String, dynamic> json) =>
-      _$UserBannedEventFromJson(json);
+  static UserBannedEvent fromJson(Map<String, dynamic> json) => _$UserBannedEventFromJson(json);
 }

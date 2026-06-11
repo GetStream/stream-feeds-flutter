@@ -26,6 +26,5 @@ class UnblockUsersResponse with _$UnblockUsersResponse {
 
   Map<String, dynamic> toJson() => _$UnblockUsersResponseToJson(this);
 
-  static UnblockUsersResponse fromJson(Map<String, dynamic> json) =>
-      _$UnblockUsersResponseFromJson(json);
+  static UnblockUsersResponse fromJson(Map<String, dynamic> json) => _$UnblockUsersResponseFromJson(json);
 }

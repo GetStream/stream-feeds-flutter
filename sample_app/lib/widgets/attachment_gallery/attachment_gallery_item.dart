@@ -42,7 +42,7 @@ class PhotoItem extends StatelessWidget {
       imageProvider: NetworkImage(photoUrl),
       maxScale: PhotoViewComputedScale.covered,
       minScale: PhotoViewComputedScale.contained,
-      errorBuilder: (_, __, ___) => const ErrorItem(),
+      errorBuilder: (_, _, _) => const ErrorItem(),
       backgroundDecoration: const BoxDecoration(color: Colors.transparent),
     );
   }

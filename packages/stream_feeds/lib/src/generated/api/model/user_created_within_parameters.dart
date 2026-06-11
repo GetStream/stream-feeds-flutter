@@ -26,6 +26,5 @@ class UserCreatedWithinParameters with _$UserCreatedWithinParameters {
 
   Map<String, dynamic> toJson() => _$UserCreatedWithinParametersToJson(this);
 
-  static UserCreatedWithinParameters fromJson(Map<String, dynamic> json) =>
-      _$UserCreatedWithinParametersFromJson(json);
+  static UserCreatedWithinParameters fromJson(Map<String, dynamic> json) => _$UserCreatedWithinParametersFromJson(json);
 }

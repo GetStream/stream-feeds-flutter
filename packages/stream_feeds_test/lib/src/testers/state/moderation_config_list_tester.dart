@@ -70,8 +70,7 @@ void moderationConfigListTest(
 /// Provides helper methods for emitting events and verifying moderation config list state.
 ///
 /// Resources are automatically cleaned up after the test completes.
-final class ModerationConfigListTester
-    extends BaseTester<ModerationConfigList> {
+final class ModerationConfigListTester extends BaseTester<ModerationConfigList> {
   const ModerationConfigListTester._({
     required ModerationConfigList moderationConfigList,
     required super.client,
@@ -103,12 +102,12 @@ final class ModerationConfigListTester
   Future<Result<List<ModerationConfigData>>> get({
     QueryModerationConfigsResponse Function(
       QueryModerationConfigsResponse,
-    )? modifyResponse,
+    )?
+    modifyResponse,
   }) {
     final query = moderationConfigList.query;
 
-    final defaultConfigListResponse =
-        createDefaultQueryModerationConfigsResponse(
+    final defaultConfigListResponse = createDefaultQueryModerationConfigsResponse(
       configs: [
         createDefaultModerationConfigResponse(key: 'config-1'),
         createDefaultModerationConfigResponse(key: 'config-2'),

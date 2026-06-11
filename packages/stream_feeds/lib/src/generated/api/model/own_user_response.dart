@@ -148,6 +148,5 @@ class OwnUserResponse with _$OwnUserResponse {
 
   Map<String, dynamic> toJson() => _$OwnUserResponseToJson(this);
 
-  static OwnUserResponse fromJson(Map<String, dynamic> json) =>
-      _$OwnUserResponseFromJson(json);
+  static OwnUserResponse fromJson(Map<String, dynamic> json) => _$OwnUserResponseFromJson(json);
 }

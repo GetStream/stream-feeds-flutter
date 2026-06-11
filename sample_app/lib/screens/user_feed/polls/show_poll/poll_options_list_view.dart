@@ -31,12 +31,12 @@ class PollOptionsListView extends StatelessWidget {
 
   /// Callback invoked when the user wants to cast a vote.
   ///
-  /// The [PollOption] parameter is the option the user wants to vote for.
+  /// The [PollOptionResponseData] parameter is the option the user wants to vote for.
   final ValueChanged<PollOptionData>? onCastVote;
 
   /// Callback invoked when the user wants to remove a vote.
   ///
-  /// The [PollVote] parameter is the vote the user wants to remove.
+  /// The [PollVoteResponseData] parameter is the vote the user wants to remove.
   final ValueChanged<PollVoteData>? onRemoveVote;
 
   void _handleVoteRemoval(PollOptionData option) {
@@ -65,7 +65,7 @@ class PollOptionsListView extends StatelessWidget {
       shrinkWrap: true,
       itemCount: options.length,
       physics: const NeverScrollableScrollPhysics(),
-      separatorBuilder: (_, __) => const SizedBox(height: 8),
+      separatorBuilder: (_, _) => const SizedBox(height: 8),
       itemBuilder: (context, index) {
         final option = options.elementAt(index);
         return PollOptionItem(
@@ -90,8 +90,7 @@ class PollOptionsListView extends StatelessWidget {
               case PollVotingMode.limited:
                 return _handleVoteAction(
                   option,
-                  checked:
-                      checked && poll.ownVotes.length < poll.maxVotesAllowed!,
+                  checked: checked && poll.ownVotes.length < poll.maxVotesAllowed!,
                 );
             }
           },
@@ -230,9 +229,9 @@ class OptionVoters extends StatelessWidget {
     this.overlap = 0.5,
     required this.voters,
   }) : assert(
-          overlap >= 0 && overlap <= 1,
-          'Overlap must be between 0 and 1',
-        );
+         overlap >= 0 && overlap <= 1,
+         'Overlap must be between 0 and 1',
+       );
 
   /// The radius of the avatars.
   final double radius;
@@ -363,8 +362,7 @@ class OptionVotesProgressBar extends StatelessWidget {
 
 extension on PollData {
   PollVoteData? currentUserVoteFor(PollOptionData option) {
-    return ownVotesAndAnswers
-        .firstWhereOrNull((it) => it.optionId == option.id);
+    return ownVotesAndAnswers.firstWhereOrNull((it) => it.optionId == option.id);
   }
 
   bool hasCurrentUserVotedFor(PollOptionData option) {

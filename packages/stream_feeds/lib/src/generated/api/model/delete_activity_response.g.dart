@@ -7,13 +7,9 @@ part of 'delete_activity_response.dart';
 // **************************************************************************
 
 DeleteActivityResponse _$DeleteActivityResponseFromJson(
-        Map<String, dynamic> json) =>
-    DeleteActivityResponse(
-      duration: json['duration'] as String,
-    );
+  Map<String, dynamic> json,
+) => DeleteActivityResponse(duration: json['duration'] as String);
 
 Map<String, dynamic> _$DeleteActivityResponseToJson(
-        DeleteActivityResponse instance) =>
-    <String, dynamic>{
-      'duration': instance.duration,
-    };
+  DeleteActivityResponse instance,
+) => <String, dynamic>{'duration': instance.duration};

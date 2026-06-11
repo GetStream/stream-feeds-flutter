@@ -20,6 +20,7 @@ class AddActivityResponse with _$AddActivityResponse {
   const AddActivityResponse({
     required this.activity,
     required this.duration,
+    this.mentionNotificationsCreated,
   });
 
   @override
@@ -28,8 +29,10 @@ class AddActivityResponse with _$AddActivityResponse {
   @override
   final String duration;
 
+  @override
+  final int? mentionNotificationsCreated;
+
   Map<String, dynamic> toJson() => _$AddActivityResponseToJson(this);
 
-  static AddActivityResponse fromJson(Map<String, dynamic> json) =>
-      _$AddActivityResponseFromJson(json);
+  static AddActivityResponse fromJson(Map<String, dynamic> json) => _$AddActivityResponseFromJson(json);
 }

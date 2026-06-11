@@ -309,7 +309,7 @@ class PollVotesByOptionItem extends StatelessWidget {
                 shrinkWrap: true,
                 itemCount: votes.length,
                 physics: const NeverScrollableScrollPhysics(),
-                separatorBuilder: (_, __) => const SizedBox(height: 16),
+                separatorBuilder: (_, _) => const SizedBox(height: 16),
                 itemBuilder: (context, index) {
                   final pollVote = votes.elementAt(index);
                   return StreamPollVoteListTile(
@@ -339,9 +339,9 @@ class PollVotesByOptionItem extends StatelessWidget {
 extension IterableExtension<T> on Iterable<T> {
   /// Insert any item inBetween the list items
   List<T> insertBetween(T item) => expand((e) sync* {
-        yield item;
-        yield e;
-      }).skip(1).toList(growable: false);
+    yield item;
+    yield e;
+  }).skip(1).toList(growable: false);
 }
 
 extension on PollData {

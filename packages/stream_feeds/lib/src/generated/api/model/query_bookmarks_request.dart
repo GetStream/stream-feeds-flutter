@@ -18,12 +18,16 @@ part 'query_bookmarks_request.freezed.dart';
 @JsonSerializable()
 class QueryBookmarksRequest with _$QueryBookmarksRequest {
   const QueryBookmarksRequest({
+    this.enrichOwnFields,
     this.filter,
     this.limit,
     this.next,
     this.prev,
     this.sort,
   });
+
+  @override
+  final bool? enrichOwnFields;
 
   @override
   final Map<String, Object?>? filter;
@@ -42,6 +46,5 @@ class QueryBookmarksRequest with _$QueryBookmarksRequest {
 
   Map<String, dynamic> toJson() => _$QueryBookmarksRequestToJson(this);
 
-  static QueryBookmarksRequest fromJson(Map<String, dynamic> json) =>
-      _$QueryBookmarksRequestFromJson(json);
+  static QueryBookmarksRequest fromJson(Map<String, dynamic> json) => _$QueryBookmarksRequestFromJson(json);
 }

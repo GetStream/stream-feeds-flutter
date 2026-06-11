@@ -20,7 +20,17 @@ enum FeedsPreferencesComment {
   @JsonValue('none')
   none,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
+}
+
+@JsonEnum(alwaysCreate: true)
+enum FeedsPreferencesCommentMention {
+  @JsonValue('all')
+  all,
+  @JsonValue('none')
+  none,
+  @JsonValue('_unknown')
+  unknown,
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -30,7 +40,7 @@ enum FeedsPreferencesCommentReaction {
   @JsonValue('none')
   none,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -40,7 +50,7 @@ enum FeedsPreferencesCommentReply {
   @JsonValue('none')
   none,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -50,7 +60,7 @@ enum FeedsPreferencesFollow {
   @JsonValue('none')
   none,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -60,7 +70,7 @@ enum FeedsPreferencesMention {
   @JsonValue('none')
   none,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -70,7 +80,7 @@ enum FeedsPreferencesReaction {
   @JsonValue('none')
   none,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -79,6 +89,7 @@ enum FeedsPreferencesReaction {
 class FeedsPreferences with _$FeedsPreferences {
   const FeedsPreferences({
     this.comment,
+    this.commentMention,
     this.commentReaction,
     this.commentReply,
     this.customActivityTypes,
@@ -90,6 +101,10 @@ class FeedsPreferences with _$FeedsPreferences {
   @override
   @JsonKey(unknownEnumValue: FeedsPreferencesComment.unknown)
   final FeedsPreferencesComment? comment;
+
+  @override
+  @JsonKey(unknownEnumValue: FeedsPreferencesCommentMention.unknown)
+  final FeedsPreferencesCommentMention? commentMention;
 
   @override
   @JsonKey(unknownEnumValue: FeedsPreferencesCommentReaction.unknown)
@@ -116,6 +131,5 @@ class FeedsPreferences with _$FeedsPreferences {
 
   Map<String, dynamic> toJson() => _$FeedsPreferencesToJson(this);
 
-  static FeedsPreferences fromJson(Map<String, dynamic> json) =>
-      _$FeedsPreferencesFromJson(json);
+  static FeedsPreferences fromJson(Map<String, dynamic> json) => _$FeedsPreferencesFromJson(json);
 }

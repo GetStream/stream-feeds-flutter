@@ -23,12 +23,18 @@ enum BodyguardRuleAction {
   bounceRemove,
   @JsonValue('flag')
   flag,
+  @JsonValue('keep')
+  keep,
+  @JsonValue('mask')
+  mask,
+  @JsonValue('mask_flag')
+  maskFlag,
   @JsonValue('remove')
   remove,
   @JsonValue('shadow')
   shadow,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -53,6 +59,5 @@ class BodyguardRule with _$BodyguardRule {
 
   Map<String, dynamic> toJson() => _$BodyguardRuleToJson(this);
 
-  static BodyguardRule fromJson(Map<String, dynamic> json) =>
-      _$BodyguardRuleFromJson(json);
+  static BodyguardRule fromJson(Map<String, dynamic> json) => _$BodyguardRuleFromJson(json);
 }

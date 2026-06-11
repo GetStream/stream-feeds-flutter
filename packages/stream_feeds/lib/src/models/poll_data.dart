@@ -260,8 +260,7 @@ extension PollResponseMapper on PollResponseData {
       isClosed: isClosed ?? false,
       latestAnswers: [...latestAnswers.map((e) => e.toModel())],
       latestVotesByOption: {
-        for (final entry in latestVotesByOption.entries)
-          entry.key: [...entry.value.map((e) => e.toModel())],
+        for (final entry in latestVotesByOption.entries) entry.key: [...entry.value.map((e) => e.toModel())],
       },
       maxVotesAllowed: maxVotesAllowed,
       name: name,

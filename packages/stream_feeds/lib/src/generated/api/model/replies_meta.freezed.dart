@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -10,7 +9,6 @@ part of 'replies_meta.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
@@ -32,18 +30,14 @@ mixin _$RepliesMeta {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is RepliesMeta &&
-            (identical(other.depthTruncated, depthTruncated) ||
-                other.depthTruncated == depthTruncated) &&
+            (identical(other.depthTruncated, depthTruncated) || other.depthTruncated == depthTruncated) &&
             (identical(other.hasMore, hasMore) || other.hasMore == hasMore) &&
-            (identical(other.nextCursor, nextCursor) ||
-                other.nextCursor == nextCursor) &&
-            (identical(other.remaining, remaining) ||
-                other.remaining == remaining));
+            (identical(other.nextCursor, nextCursor) || other.nextCursor == nextCursor) &&
+            (identical(other.remaining, remaining) || other.remaining == remaining));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, depthTruncated, hasMore, nextCursor, remaining);
+  int get hashCode => Object.hash(runtimeType, depthTruncated, hasMore, nextCursor, remaining);
 
   @override
   String toString() {
@@ -54,11 +48,16 @@ mixin _$RepliesMeta {
 /// @nodoc
 abstract mixin class $RepliesMetaCopyWith<$Res> {
   factory $RepliesMetaCopyWith(
-          RepliesMeta value, $Res Function(RepliesMeta) _then) =
-      _$RepliesMetaCopyWithImpl;
+    RepliesMeta value,
+    $Res Function(RepliesMeta) _then,
+  ) = _$RepliesMetaCopyWithImpl;
   @useResult
-  $Res call(
-      {bool depthTruncated, bool hasMore, String? nextCursor, int remaining});
+  $Res call({
+    bool depthTruncated,
+    bool hasMore,
+    String? nextCursor,
+    int remaining,
+  });
 }
 
 /// @nodoc
@@ -78,25 +77,25 @@ class _$RepliesMetaCopyWithImpl<$Res> implements $RepliesMetaCopyWith<$Res> {
     Object? nextCursor = freezed,
     Object? remaining = null,
   }) {
-    return _then(RepliesMeta(
-      depthTruncated: null == depthTruncated
-          ? _self.depthTruncated
-          : depthTruncated // ignore: cast_nullable_to_non_nullable
-              as bool,
-      hasMore: null == hasMore
-          ? _self.hasMore
-          : hasMore // ignore: cast_nullable_to_non_nullable
-              as bool,
-      nextCursor: freezed == nextCursor
-          ? _self.nextCursor
-          : nextCursor // ignore: cast_nullable_to_non_nullable
-              as String?,
-      remaining: null == remaining
-          ? _self.remaining
-          : remaining // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
+    return _then(
+      RepliesMeta(
+        depthTruncated: null == depthTruncated
+            ? _self.depthTruncated
+            : depthTruncated // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        hasMore: null == hasMore
+            ? _self.hasMore
+            : hasMore // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        nextCursor: freezed == nextCursor
+            ? _self.nextCursor
+            : nextCursor // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        remaining: null == remaining
+            ? _self.remaining
+            : remaining // ignore: cast_nullable_to_non_nullable
+                  as int,
+      ),
+    );
   }
 }
-
-// dart format on

@@ -22,7 +22,7 @@ enum BlockListOptionsBehavior {
   @JsonValue('shadow_block')
   shadowBlock,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -43,6 +43,5 @@ class BlockListOptions with _$BlockListOptions {
 
   Map<String, dynamic> toJson() => _$BlockListOptionsToJson(this);
 
-  static BlockListOptions fromJson(Map<String, dynamic> json) =>
-      _$BlockListOptionsFromJson(json);
+  static BlockListOptions fromJson(Map<String, dynamic> json) => _$BlockListOptionsFromJson(json);
 }

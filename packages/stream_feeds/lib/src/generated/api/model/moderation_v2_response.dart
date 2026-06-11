@@ -20,6 +20,7 @@ class ModerationV2Response with _$ModerationV2Response {
   const ModerationV2Response({
     required this.action,
     this.blocklistMatched,
+    this.blocklistsMatched,
     this.imageHarms,
     required this.originalText,
     this.platformCircumvented,
@@ -32,6 +33,9 @@ class ModerationV2Response with _$ModerationV2Response {
 
   @override
   final String? blocklistMatched;
+
+  @override
+  final List<String>? blocklistsMatched;
 
   @override
   final List<String>? imageHarms;
@@ -50,6 +54,5 @@ class ModerationV2Response with _$ModerationV2Response {
 
   Map<String, dynamic> toJson() => _$ModerationV2ResponseToJson(this);
 
-  static ModerationV2Response fromJson(Map<String, dynamic> json) =>
-      _$ModerationV2ResponseFromJson(json);
+  static ModerationV2Response fromJson(Map<String, dynamic> json) => _$ModerationV2ResponseFromJson(json);
 }

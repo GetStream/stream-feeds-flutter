@@ -28,7 +28,7 @@ enum AutomodRuleAction {
   @JsonValue('shadow')
   shadow,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -53,6 +53,5 @@ class AutomodRule with _$AutomodRule {
 
   Map<String, dynamic> toJson() => _$AutomodRuleToJson(this);
 
-  static AutomodRule fromJson(Map<String, dynamic> json) =>
-      _$AutomodRuleFromJson(json);
+  static AutomodRule fromJson(Map<String, dynamic> json) => _$AutomodRuleFromJson(json);
 }

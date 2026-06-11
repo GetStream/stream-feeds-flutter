@@ -32,6 +32,10 @@ class ReviewQueueItemResponse with _$ReviewQueueItemResponse {
     this.entityCreatorId,
     required this.entityId,
     required this.entityType,
+    required this.escalated,
+    this.escalatedAt,
+    this.escalatedBy,
+    this.escalationMetadata,
     this.feedsV2Activity,
     this.feedsV2Reaction,
     this.feedsV3Activity,
@@ -69,7 +73,7 @@ class ReviewQueueItemResponse with _$ReviewQueueItemResponse {
   final UserResponse? assignedTo;
 
   @override
-  final List<Ban> bans;
+  final List<BanInfoResponse> bans;
 
   @override
   final CallResponse? call;
@@ -98,16 +102,29 @@ class ReviewQueueItemResponse with _$ReviewQueueItemResponse {
   final String entityType;
 
   @override
+  final bool escalated;
+
+  @override
+  @EpochDateTimeConverter()
+  final DateTime? escalatedAt;
+
+  @override
+  final String? escalatedBy;
+
+  @override
+  final EscalationMetadata? escalationMetadata;
+
+  @override
   final EnrichedActivity? feedsV2Activity;
 
   @override
   final Reaction? feedsV2Reaction;
 
   @override
-  final ActivityResponse? feedsV3Activity;
+  final FeedsV3ActivityResponse? feedsV3Activity;
 
   @override
-  final CommentResponse? feedsV3Comment;
+  final FeedsV3CommentResponse? feedsV3Comment;
 
   @override
   final List<ModerationFlagResponse> flags;
@@ -125,10 +142,10 @@ class ReviewQueueItemResponse with _$ReviewQueueItemResponse {
   final String latestModeratorAction;
 
   @override
-  final MessageResponse? message;
+  final ChatMessageResponse? message;
 
   @override
-  final ModerationPayload? moderationPayload;
+  final ModerationPayloadResponse? moderationPayload;
 
   @override
   final Reaction? reaction;
@@ -158,6 +175,5 @@ class ReviewQueueItemResponse with _$ReviewQueueItemResponse {
 
   Map<String, dynamic> toJson() => _$ReviewQueueItemResponseToJson(this);
 
-  static ReviewQueueItemResponse fromJson(Map<String, dynamic> json) =>
-      _$ReviewQueueItemResponseFromJson(json);
+  static ReviewQueueItemResponse fromJson(Map<String, dynamic> json) => _$ReviewQueueItemResponseFromJson(json);
 }

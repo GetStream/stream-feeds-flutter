@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -10,7 +9,6 @@ part of 'activity_comment_list_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
@@ -24,7 +22,9 @@ mixin _$ActivityCommentListState {
   @pragma('vm:prefer-inline')
   $ActivityCommentListStateCopyWith<ActivityCommentListState> get copyWith =>
       _$ActivityCommentListStateCopyWithImpl<ActivityCommentListState>(
-          this as ActivityCommentListState, _$identity);
+        this as ActivityCommentListState,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -32,13 +32,15 @@ mixin _$ActivityCommentListState {
         (other.runtimeType == runtimeType &&
             other is ActivityCommentListState &&
             const DeepCollectionEquality().equals(other.comments, comments) &&
-            (identical(other.pagination, pagination) ||
-                other.pagination == pagination));
+            (identical(other.pagination, pagination) || other.pagination == pagination));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(comments), pagination);
+    runtimeType,
+    const DeepCollectionEquality().hash(comments),
+    pagination,
+  );
 
   @override
   String toString() {
@@ -48,16 +50,16 @@ mixin _$ActivityCommentListState {
 
 /// @nodoc
 abstract mixin class $ActivityCommentListStateCopyWith<$Res> {
-  factory $ActivityCommentListStateCopyWith(ActivityCommentListState value,
-          $Res Function(ActivityCommentListState) _then) =
-      _$ActivityCommentListStateCopyWithImpl;
+  factory $ActivityCommentListStateCopyWith(
+    ActivityCommentListState value,
+    $Res Function(ActivityCommentListState) _then,
+  ) = _$ActivityCommentListStateCopyWithImpl;
   @useResult
   $Res call({List<CommentData> comments, PaginationData? pagination});
 }
 
 /// @nodoc
-class _$ActivityCommentListStateCopyWithImpl<$Res>
-    implements $ActivityCommentListStateCopyWith<$Res> {
+class _$ActivityCommentListStateCopyWithImpl<$Res> implements $ActivityCommentListStateCopyWith<$Res> {
   _$ActivityCommentListStateCopyWithImpl(this._self, this._then);
 
   final ActivityCommentListState _self;
@@ -67,21 +69,18 @@ class _$ActivityCommentListStateCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? comments = null,
-    Object? pagination = freezed,
-  }) {
-    return _then(ActivityCommentListState(
-      comments: null == comments
-          ? _self.comments
-          : comments // ignore: cast_nullable_to_non_nullable
-              as List<CommentData>,
-      pagination: freezed == pagination
-          ? _self.pagination
-          : pagination // ignore: cast_nullable_to_non_nullable
-              as PaginationData?,
-    ));
+  $Res call({Object? comments = null, Object? pagination = freezed}) {
+    return _then(
+      ActivityCommentListState(
+        comments: null == comments
+            ? _self.comments
+            : comments // ignore: cast_nullable_to_non_nullable
+                  as List<CommentData>,
+        pagination: freezed == pagination
+            ? _self.pagination
+            : pagination // ignore: cast_nullable_to_non_nullable
+                  as PaginationData?,
+      ),
+    );
   }
 }
-
-// dart format on

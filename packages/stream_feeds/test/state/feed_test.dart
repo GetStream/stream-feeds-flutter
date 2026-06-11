@@ -72,9 +72,7 @@ void main() {
         );
 
         final result = await tester.feed.updateFeed(
-          request: const UpdateFeedRequest(
-            custom: {'updated': true},
-          ),
+          request: const UpdateFeedRequest(custom: {'updated': true}),
         );
 
         expect(result.isSuccess, isTrue);
@@ -104,10 +102,7 @@ void main() {
             feedId: 'john',
             hardDelete: any(named: 'hardDelete'),
           ),
-          result: const DeleteFeedResponse(
-            taskId: 'task-1',
-            duration: '0ms',
-          ),
+          result: const DeleteFeedResponse(taskId: 'task-1', duration: '0ms'),
         );
 
         final expectEventEmitted = expectLater(
@@ -187,9 +182,7 @@ void main() {
     const feedId = FeedId(group: 'user', id: 'john');
 
     setUpAll(() {
-      registerFallbackValue(
-        const AddActivityRequest(type: 'post', feeds: []),
-      );
+      registerFallbackValue(const AddActivityRequest(type: 'post', feeds: []));
     });
 
     feedTest(
@@ -397,8 +390,9 @@ void main() {
             activityId: 'activity-1',
             activityFeedbackRequest: any(named: 'activityFeedbackRequest'),
           ),
-          result:
-              createDefaultActivityFeedbackResponse(activityId: 'activity-1'),
+          result: createDefaultActivityFeedbackResponse(
+            activityId: 'activity-1',
+          ),
         );
 
         final expectEventEmitted = expectLater(
@@ -439,9 +433,7 @@ void main() {
         );
 
         final result = await tester.feed.markActivity(
-          request: const MarkActivityRequest(
-            markRead: ['activity-1'],
-          ),
+          request: const MarkActivityRequest(markRead: ['activity-1']),
         );
 
         expect(result.isSuccess, isTrue);
@@ -680,9 +672,7 @@ void main() {
       build: (client) => client.feedFromId(feedId),
       setUp: (tester) => tester.getOrCreate(
         modifyResponse: (response) => response.copyWith(
-          activities: [
-            createDefaultActivityResponse(id: 'activity-1'),
-          ],
+          activities: [createDefaultActivityResponse(id: 'activity-1')],
         ),
       ),
       body: (tester) async {
@@ -733,9 +723,7 @@ void main() {
       setUp: (tester) => tester.getOrCreate(
         modifyResponse: (response) => response.copyWith(
           pinnedActivities: [
-            createDefaultActivityPinResponse(
-              activityId: 'activity-1',
-            ),
+            createDefaultActivityPinResponse(activityId: 'activity-1'),
           ],
         ),
       ),
@@ -763,9 +751,7 @@ void main() {
       build: (client) => client.feedFromId(feedId),
       setUp: (tester) => tester.getOrCreate(
         modifyResponse: (response) => response.copyWith(
-          activities: [
-            createDefaultActivityResponse(id: 'activity-1'),
-          ],
+          activities: [createDefaultActivityResponse(id: 'activity-1')],
         ),
       ),
       body: (tester) async {
@@ -912,9 +898,7 @@ void main() {
               createdAt: DateTime.timestamp(),
               custom: const {},
               fid: feedId.rawValue,
-              activity: createDefaultActivityResponse(
-                id: 'activity-4',
-              ).copyWith(
+              activity: createDefaultActivityResponse(id: 'activity-4').copyWith(
                 type: 'post', // Matches first condition
                 filterTags: ['general'], // Doesn't match second condition
               ),
@@ -951,13 +935,14 @@ void main() {
               createdAt: DateTime.timestamp(),
               custom: const {},
               fid: feedId.rawValue,
-              activity: createDefaultActivityResponse(
-                id: 'activity-4',
-                userId: 'luke_skywalker',
-              ).copyWith(
-                type: 'post', // Matches first condition
-                filterTags: ['general'], // Doesn't match second condition
-              ),
+              activity:
+                  createDefaultActivityResponse(
+                    id: 'activity-4',
+                    userId: 'luke_skywalker',
+                  ).copyWith(
+                    type: 'post', // Matches first condition
+                    filterTags: ['general'], // Doesn't match second condition
+                  ),
             ),
           );
 
@@ -1406,9 +1391,7 @@ void main() {
         // Verify the event is emitted
         await expectEventEmitted;
       },
-      verify: (tester) => tester.verifyApi(
-        (api) => api.getComment(id: commentId),
-      ),
+      verify: (tester) => tester.verifyApi((api) => api.getComment(id: commentId)),
     );
 
     feedTest(
@@ -1463,9 +1446,7 @@ void main() {
         await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
-        (api) => api.addComment(
-          addCommentRequest: any(named: 'addCommentRequest'),
-        ),
+        (api) => api.addComment(addCommentRequest: any(named: 'addCommentRequest')),
       ),
     );
 
@@ -1647,10 +1628,7 @@ void main() {
       ),
       body: (tester) async {
         tester.mockApi(
-          (api) => api.deleteCommentReaction(
-            id: commentId,
-            type: 'like',
-          ),
+          (api) => api.deleteCommentReaction(id: commentId, type: 'like'),
           result: createDefaultDeleteCommentReactionResponse(
             commentId: commentId,
             objectId: 'activity-1',
@@ -1678,10 +1656,7 @@ void main() {
         await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
-        (api) => api.deleteCommentReaction(
-          id: commentId,
-          type: 'like',
-        ),
+        (api) => api.deleteCommentReaction(id: commentId, type: 'like'),
       ),
     );
 
@@ -2034,9 +2009,7 @@ void main() {
             queryFeedMembersRequest: any(named: 'queryFeedMembersRequest'),
           ),
           result: createDefaultQueryFeedMembersResponse(
-            members: [
-              createDefaultFeedMemberResponse(id: currentUser.id),
-            ],
+            members: [createDefaultFeedMemberResponse(id: currentUser.id)],
           ),
         );
 
@@ -2739,9 +2712,7 @@ void main() {
 
     feedTest(
       'FollowUpdatedEvent - should update follow relationship',
-      build: (client) => client.feedFromQuery(
-        const FeedQuery(fid: feedId, followerLimit: 10),
-      ),
+      build: (client) => client.feedFromQuery(const FeedQuery(fid: feedId, followerLimit: 10)),
       setUp: (tester) => tester.getOrCreate(
         modifyResponse: (it) => it.copyWith(
           feed: createDefaultFeedResponse(
@@ -3036,10 +3007,7 @@ void main() {
         await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
-        (api) => api.deleteActivityReaction(
-          activityId: 'activity-1',
-          type: 'heart',
-        ),
+        (api) => api.deleteActivityReaction(activityId: 'activity-1', type: 'heart'),
       ),
     );
 
@@ -3075,9 +3043,9 @@ void main() {
             createdAt: DateTime.timestamp(),
             custom: const {},
             fid: feedId.rawValue,
-            activity: createDefaultActivityResponse(id: 'activity-1').copyWith(
-              reactionGroups: const {},
-            ),
+            activity: createDefaultActivityResponse(
+              id: 'activity-1',
+            ).copyWith(reactionGroups: const {}),
             reaction: createDefaultReactionResponse(
               reactionType: 'heart',
               userId: userId,
@@ -3152,12 +3120,12 @@ void main() {
             fid: feedId.rawValue,
             activity: createDefaultActivityResponse(id: 'activity-1').copyWith(
               reactionGroups: {
-                'heart': ReactionGroupResponse(
+                'heart': FeedsReactionGroupResponse(
                   count: 1,
                   firstReactionAt: DateTime.timestamp(),
                   lastReactionAt: DateTime.timestamp(),
                 ),
-                'fire': ReactionGroupResponse(
+                'fire': FeedsReactionGroupResponse(
                   count: 1,
                   firstReactionAt: DateTime.timestamp(),
                   lastReactionAt: DateTime.timestamp(),
@@ -3227,7 +3195,7 @@ void main() {
             fid: feedId.rawValue,
             activity: createDefaultActivityResponse(id: 'activity-1').copyWith(
               reactionGroups: {
-                'fire': ReactionGroupResponse(
+                'fire': FeedsReactionGroupResponse(
                   count: 1,
                   firstReactionAt: DateTime.timestamp(),
                   lastReactionAt: DateTime.timestamp(),
@@ -3876,9 +3844,7 @@ void main() {
     final initialAggregatedActivities = [
       createDefaultAggregatedActivityResponse(
         group: 'group1',
-        activities: [
-          createDefaultActivityResponse(id: 'notification-1'),
-        ],
+        activities: [createDefaultActivityResponse(id: 'notification-1')],
       ),
     ];
 

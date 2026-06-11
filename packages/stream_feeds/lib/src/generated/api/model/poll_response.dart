@@ -30,6 +30,5 @@ class PollResponse with _$PollResponse {
 
   Map<String, dynamic> toJson() => _$PollResponseToJson(this);
 
-  static PollResponse fromJson(Map<String, dynamic> json) =>
-      _$PollResponseFromJson(json);
+  static PollResponse fromJson(Map<String, dynamic> json) => _$PollResponseFromJson(json);
 }

@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -10,7 +9,6 @@ part of 'ai_text_config.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
@@ -25,9 +23,10 @@ mixin _$AITextConfig {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $AITextConfigCopyWith<AITextConfig> get copyWith =>
-      _$AITextConfigCopyWithImpl<AITextConfig>(
-          this as AITextConfig, _$identity);
+  $AITextConfigCopyWith<AITextConfig> get copyWith => _$AITextConfigCopyWithImpl<AITextConfig>(
+    this as AITextConfig,
+    _$identity,
+  );
 
   @override
   bool operator ==(Object other) {
@@ -38,18 +37,21 @@ mixin _$AITextConfig {
             (identical(other.enabled, enabled) || other.enabled == enabled) &&
             (identical(other.profile, profile) || other.profile == profile) &&
             const DeepCollectionEquality().equals(other.rules, rules) &&
-            const DeepCollectionEquality()
-                .equals(other.severityRules, severityRules));
+            const DeepCollectionEquality().equals(
+              other.severityRules,
+              severityRules,
+            ));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      async,
-      enabled,
-      profile,
-      const DeepCollectionEquality().hash(rules),
-      const DeepCollectionEquality().hash(severityRules));
+    runtimeType,
+    async,
+    enabled,
+    profile,
+    const DeepCollectionEquality().hash(rules),
+    const DeepCollectionEquality().hash(severityRules),
+  );
 
   @override
   String toString() {
@@ -60,15 +62,17 @@ mixin _$AITextConfig {
 /// @nodoc
 abstract mixin class $AITextConfigCopyWith<$Res> {
   factory $AITextConfigCopyWith(
-          AITextConfig value, $Res Function(AITextConfig) _then) =
-      _$AITextConfigCopyWithImpl;
+    AITextConfig value,
+    $Res Function(AITextConfig) _then,
+  ) = _$AITextConfigCopyWithImpl;
   @useResult
-  $Res call(
-      {bool? async,
-      bool enabled,
-      String profile,
-      List<BodyguardRule> rules,
-      List<BodyguardSeverityRule> severityRules});
+  $Res call({
+    bool? async,
+    bool enabled,
+    String profile,
+    List<BodyguardRule> rules,
+    List<BodyguardSeverityRule> severityRules,
+  });
 }
 
 /// @nodoc
@@ -89,29 +93,29 @@ class _$AITextConfigCopyWithImpl<$Res> implements $AITextConfigCopyWith<$Res> {
     Object? rules = null,
     Object? severityRules = null,
   }) {
-    return _then(AITextConfig(
-      async: freezed == async
-          ? _self.async
-          : async // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      enabled: null == enabled
-          ? _self.enabled
-          : enabled // ignore: cast_nullable_to_non_nullable
-              as bool,
-      profile: null == profile
-          ? _self.profile
-          : profile // ignore: cast_nullable_to_non_nullable
-              as String,
-      rules: null == rules
-          ? _self.rules
-          : rules // ignore: cast_nullable_to_non_nullable
-              as List<BodyguardRule>,
-      severityRules: null == severityRules
-          ? _self.severityRules
-          : severityRules // ignore: cast_nullable_to_non_nullable
-              as List<BodyguardSeverityRule>,
-    ));
+    return _then(
+      AITextConfig(
+        async: freezed == async
+            ? _self.async
+            : async // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        enabled: null == enabled
+            ? _self.enabled
+            : enabled // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        profile: null == profile
+            ? _self.profile
+            : profile // ignore: cast_nullable_to_non_nullable
+                  as String,
+        rules: null == rules
+            ? _self.rules
+            : rules // ignore: cast_nullable_to_non_nullable
+                  as List<BodyguardRule>,
+        severityRules: null == severityRules
+            ? _self.severityRules
+            : severityRules // ignore: cast_nullable_to_non_nullable
+                  as List<BodyguardSeverityRule>,
+      ),
+    );
   }
 }
-
-// dart format on

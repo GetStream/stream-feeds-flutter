@@ -16,34 +16,37 @@ part 'moderation_flagged_event.freezed.dart';
 @freezed
 @immutable
 @JsonSerializable()
-class ModerationFlaggedEvent extends core.WsEvent
-    with _$ModerationFlaggedEvent {
+class ModerationFlaggedEvent extends core.WsEvent with _$ModerationFlaggedEvent {
   const ModerationFlaggedEvent({
+    required this.contentType,
     required this.createdAt,
-    this.item,
-    this.objectId,
+    required this.custom,
+    required this.objectId,
+    this.receivedAt,
     required this.type,
-    this.user,
   });
+
+  @override
+  final String contentType;
 
   @override
   @EpochDateTimeConverter()
   final DateTime createdAt;
 
   @override
-  final String? item;
+  final Map<String, Object?> custom;
 
   @override
-  final String? objectId;
+  final String objectId;
+
+  @override
+  @EpochDateTimeConverter()
+  final DateTime? receivedAt;
 
   @override
   final String type;
 
-  @override
-  final User? user;
-
   Map<String, dynamic> toJson() => _$ModerationFlaggedEventToJson(this);
 
-  static ModerationFlaggedEvent fromJson(Map<String, dynamic> json) =>
-      _$ModerationFlaggedEventFromJson(json);
+  static ModerationFlaggedEvent fromJson(Map<String, dynamic> json) => _$ModerationFlaggedEventFromJson(json);
 }

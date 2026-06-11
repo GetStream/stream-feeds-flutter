@@ -23,6 +23,7 @@ class ActionLogResponse with _$ActionLogResponse {
     required this.custom,
     required this.id,
     required this.reason,
+    required this.reporterType,
     this.reviewQueueItem,
     this.targetUser,
     required this.targetUserId,
@@ -48,6 +49,9 @@ class ActionLogResponse with _$ActionLogResponse {
   final String reason;
 
   @override
+  final String reporterType;
+
+  @override
   final ReviewQueueItemResponse? reviewQueueItem;
 
   @override
@@ -67,6 +71,5 @@ class ActionLogResponse with _$ActionLogResponse {
 
   Map<String, dynamic> toJson() => _$ActionLogResponseToJson(this);
 
-  static ActionLogResponse fromJson(Map<String, dynamic> json) =>
-      _$ActionLogResponseFromJson(json);
+  static ActionLogResponse fromJson(Map<String, dynamic> json) => _$ActionLogResponseFromJson(json);
 }

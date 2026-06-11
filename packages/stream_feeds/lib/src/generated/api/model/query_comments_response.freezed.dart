@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -10,7 +9,6 @@ part of 'query_comments_response.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
@@ -26,7 +24,9 @@ mixin _$QueryCommentsResponse {
   @pragma('vm:prefer-inline')
   $QueryCommentsResponseCopyWith<QueryCommentsResponse> get copyWith =>
       _$QueryCommentsResponseCopyWithImpl<QueryCommentsResponse>(
-          this as QueryCommentsResponse, _$identity);
+        this as QueryCommentsResponse,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -34,15 +34,19 @@ mixin _$QueryCommentsResponse {
         (other.runtimeType == runtimeType &&
             other is QueryCommentsResponse &&
             const DeepCollectionEquality().equals(other.comments, comments) &&
-            (identical(other.duration, duration) ||
-                other.duration == duration) &&
+            (identical(other.duration, duration) || other.duration == duration) &&
             (identical(other.next, next) || other.next == next) &&
             (identical(other.prev, prev) || other.prev == prev));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(comments), duration, next, prev);
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(comments),
+    duration,
+    next,
+    prev,
+  );
 
   @override
   String toString() {
@@ -52,20 +56,21 @@ mixin _$QueryCommentsResponse {
 
 /// @nodoc
 abstract mixin class $QueryCommentsResponseCopyWith<$Res> {
-  factory $QueryCommentsResponseCopyWith(QueryCommentsResponse value,
-          $Res Function(QueryCommentsResponse) _then) =
-      _$QueryCommentsResponseCopyWithImpl;
+  factory $QueryCommentsResponseCopyWith(
+    QueryCommentsResponse value,
+    $Res Function(QueryCommentsResponse) _then,
+  ) = _$QueryCommentsResponseCopyWithImpl;
   @useResult
-  $Res call(
-      {List<CommentResponse> comments,
-      String duration,
-      String? next,
-      String? prev});
+  $Res call({
+    List<CommentResponse> comments,
+    String duration,
+    String? next,
+    String? prev,
+  });
 }
 
 /// @nodoc
-class _$QueryCommentsResponseCopyWithImpl<$Res>
-    implements $QueryCommentsResponseCopyWith<$Res> {
+class _$QueryCommentsResponseCopyWithImpl<$Res> implements $QueryCommentsResponseCopyWith<$Res> {
   _$QueryCommentsResponseCopyWithImpl(this._self, this._then);
 
   final QueryCommentsResponse _self;
@@ -81,25 +86,25 @@ class _$QueryCommentsResponseCopyWithImpl<$Res>
     Object? next = freezed,
     Object? prev = freezed,
   }) {
-    return _then(QueryCommentsResponse(
-      comments: null == comments
-          ? _self.comments
-          : comments // ignore: cast_nullable_to_non_nullable
-              as List<CommentResponse>,
-      duration: null == duration
-          ? _self.duration
-          : duration // ignore: cast_nullable_to_non_nullable
-              as String,
-      next: freezed == next
-          ? _self.next
-          : next // ignore: cast_nullable_to_non_nullable
-              as String?,
-      prev: freezed == prev
-          ? _self.prev
-          : prev // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
+    return _then(
+      QueryCommentsResponse(
+        comments: null == comments
+            ? _self.comments
+            : comments // ignore: cast_nullable_to_non_nullable
+                  as List<CommentResponse>,
+        duration: null == duration
+            ? _self.duration
+            : duration // ignore: cast_nullable_to_non_nullable
+                  as String,
+        next: freezed == next
+            ? _self.next
+            : next // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        prev: freezed == prev
+            ? _self.prev
+            : prev // ignore: cast_nullable_to_non_nullable
+                  as String?,
+      ),
+    );
   }
 }
-
-// dart format on

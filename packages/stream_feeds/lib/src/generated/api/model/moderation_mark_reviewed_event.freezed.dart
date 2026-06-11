@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -10,7 +9,6 @@ part of 'moderation_mark_reviewed_event.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
@@ -26,35 +24,35 @@ mixin _$ModerationMarkReviewedEvent {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $ModerationMarkReviewedEventCopyWith<ModerationMarkReviewedEvent>
-      get copyWith => _$ModerationMarkReviewedEventCopyWithImpl<
-              ModerationMarkReviewedEvent>(
-          this as ModerationMarkReviewedEvent, _$identity);
+  $ModerationMarkReviewedEventCopyWith<ModerationMarkReviewedEvent> get copyWith =>
+      _$ModerationMarkReviewedEventCopyWithImpl<ModerationMarkReviewedEvent>(
+        this as ModerationMarkReviewedEvent,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ModerationMarkReviewedEvent &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
+            (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
             (identical(other.item, item) || other.item == item) &&
             (identical(other.message, message) || other.message == message) &&
-            (identical(other.receivedAt, receivedAt) ||
-                other.receivedAt == receivedAt) &&
+            (identical(other.receivedAt, receivedAt) || other.receivedAt == receivedAt) &&
             (identical(other.type, type) || other.type == type));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      createdAt,
-      const DeepCollectionEquality().hash(custom),
-      item,
-      message,
-      receivedAt,
-      type);
+    runtimeType,
+    createdAt,
+    const DeepCollectionEquality().hash(custom),
+    item,
+    message,
+    receivedAt,
+    type,
+  );
 
   @override
   String toString() {
@@ -65,22 +63,22 @@ mixin _$ModerationMarkReviewedEvent {
 /// @nodoc
 abstract mixin class $ModerationMarkReviewedEventCopyWith<$Res> {
   factory $ModerationMarkReviewedEventCopyWith(
-          ModerationMarkReviewedEvent value,
-          $Res Function(ModerationMarkReviewedEvent) _then) =
-      _$ModerationMarkReviewedEventCopyWithImpl;
+    ModerationMarkReviewedEvent value,
+    $Res Function(ModerationMarkReviewedEvent) _then,
+  ) = _$ModerationMarkReviewedEventCopyWithImpl;
   @useResult
-  $Res call(
-      {DateTime createdAt,
-      Map<String, Object?> custom,
-      ReviewQueueItemResponse item,
-      MessageResponse? message,
-      DateTime? receivedAt,
-      String type});
+  $Res call({
+    DateTime createdAt,
+    Map<String, Object?> custom,
+    ReviewQueueItemResponse item,
+    MessageResponse? message,
+    DateTime? receivedAt,
+    String type,
+  });
 }
 
 /// @nodoc
-class _$ModerationMarkReviewedEventCopyWithImpl<$Res>
-    implements $ModerationMarkReviewedEventCopyWith<$Res> {
+class _$ModerationMarkReviewedEventCopyWithImpl<$Res> implements $ModerationMarkReviewedEventCopyWith<$Res> {
   _$ModerationMarkReviewedEventCopyWithImpl(this._self, this._then);
 
   final ModerationMarkReviewedEvent _self;
@@ -98,33 +96,33 @@ class _$ModerationMarkReviewedEventCopyWithImpl<$Res>
     Object? receivedAt = freezed,
     Object? type = null,
   }) {
-    return _then(ModerationMarkReviewedEvent(
-      createdAt: null == createdAt
-          ? _self.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      custom: null == custom
-          ? _self.custom
-          : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object?>,
-      item: null == item
-          ? _self.item
-          : item // ignore: cast_nullable_to_non_nullable
-              as ReviewQueueItemResponse,
-      message: freezed == message
-          ? _self.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as MessageResponse?,
-      receivedAt: freezed == receivedAt
-          ? _self.receivedAt
-          : receivedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      type: null == type
-          ? _self.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+    return _then(
+      ModerationMarkReviewedEvent(
+        createdAt: null == createdAt
+            ? _self.createdAt
+            : createdAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+        custom: null == custom
+            ? _self.custom
+            : custom // ignore: cast_nullable_to_non_nullable
+                  as Map<String, Object?>,
+        item: null == item
+            ? _self.item
+            : item // ignore: cast_nullable_to_non_nullable
+                  as ReviewQueueItemResponse,
+        message: freezed == message
+            ? _self.message
+            : message // ignore: cast_nullable_to_non_nullable
+                  as MessageResponse?,
+        receivedAt: freezed == receivedAt
+            ? _self.receivedAt
+            : receivedAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime?,
+        type: null == type
+            ? _self.type
+            : type // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
   }
 }
-
-// dart format on

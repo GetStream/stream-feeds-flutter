@@ -42,6 +42,5 @@ class MarkActivityRequest with _$MarkActivityRequest {
 
   Map<String, dynamic> toJson() => _$MarkActivityRequestToJson(this);
 
-  static MarkActivityRequest fromJson(Map<String, dynamic> json) =>
-      _$MarkActivityRequestFromJson(json);
+  static MarkActivityRequest fromJson(Map<String, dynamic> json) => _$MarkActivityRequestFromJson(json);
 }

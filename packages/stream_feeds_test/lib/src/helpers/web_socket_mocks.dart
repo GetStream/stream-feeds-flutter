@@ -44,9 +44,11 @@ void whenListenWebSocket(
   when(
     () => webSocketSink.add(any<Object>()),
   ).thenAnswer((invocation) {
-    final event = jsonDecode(
-      invocation.positionalArguments.first as String,
-    ) as Map<String, dynamic>;
+    final event =
+        jsonDecode(
+              invocation.positionalArguments.first as String,
+            )
+            as Map<String, dynamic>;
 
     if (event['token'] != null) {
       return wsStreamController.add(

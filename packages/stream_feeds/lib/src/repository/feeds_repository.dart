@@ -59,13 +59,11 @@ class FeedsRepository {
           previous: response.prev,
         ),
         activities: response.activities.map((a) => a.toModel()).toList(),
-        aggregatedActivities:
-            response.aggregatedActivities.map((a) => a.toModel()).toList(),
+        aggregatedActivities: response.aggregatedActivities.map((a) => a.toModel()).toList(),
         feed: response.feed.toModel(),
         followers: rawFollowers.where((f) => f.isFollowerOf(fid)).toList(),
         following: rawFollowing.where((f) => f.isFollowingFeed(fid)).toList(),
-        followRequests:
-            rawFollowers.where((f) => f.isFollowRequestFor(fid)).toList(),
+        followRequests: rawFollowers.where((f) => f.isFollowRequestFor(fid)).toList(),
         members: PaginationResult(
           items: response.members.map((m) => m.toModel()).toList(),
           pagination: switch (response.memberPagination) {
@@ -73,8 +71,7 @@ class FeedsRepository {
             _ => PaginationData.empty,
           },
         ),
-        pinnedActivities:
-            response.pinnedActivities.map((a) => a.toModel()).toList(),
+        pinnedActivities: response.pinnedActivities.map((a) => a.toModel()).toList(),
         notificationStatus: response.notificationStatus,
       );
     });

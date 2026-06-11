@@ -30,6 +30,5 @@ class GetApplicationResponse with _$GetApplicationResponse {
 
   Map<String, dynamic> toJson() => _$GetApplicationResponseToJson(this);
 
-  static GetApplicationResponse fromJson(Map<String, dynamic> json) =>
-      _$GetApplicationResponseFromJson(json);
+  static GetApplicationResponse fromJson(Map<String, dynamic> json) => _$GetApplicationResponseFromJson(json);
 }

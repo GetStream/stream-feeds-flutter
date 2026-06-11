@@ -24,7 +24,7 @@ enum CreateDeviceRequestPushProvider {
   @JsonValue('xiaomi')
   xiaomi,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -32,11 +32,15 @@ enum CreateDeviceRequestPushProvider {
 @JsonSerializable()
 class CreateDeviceRequest with _$CreateDeviceRequest {
   const CreateDeviceRequest({
+    this.hardwareId,
     required this.id,
     required this.pushProvider,
     this.pushProviderName,
     this.voipToken,
   });
+
+  @override
+  final String? hardwareId;
 
   @override
   final String id;
@@ -53,6 +57,5 @@ class CreateDeviceRequest with _$CreateDeviceRequest {
 
   Map<String, dynamic> toJson() => _$CreateDeviceRequestToJson(this);
 
-  static CreateDeviceRequest fromJson(Map<String, dynamic> json) =>
-      _$CreateDeviceRequestFromJson(json);
+  static CreateDeviceRequest fromJson(Map<String, dynamic> json) => _$CreateDeviceRequestFromJson(json);
 }

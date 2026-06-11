@@ -7,12 +7,11 @@ part of 'flag_response.dart';
 // **************************************************************************
 
 FlagResponse _$FlagResponseFromJson(Map<String, dynamic> json) => FlagResponse(
-      duration: json['duration'] as String,
-      itemId: json['item_id'] as String,
-    );
+  duration: json['duration'] as String,
+  itemId: json['item_id'] as String,
+);
 
-Map<String, dynamic> _$FlagResponseToJson(FlagResponse instance) =>
-    <String, dynamic>{
-      'duration': instance.duration,
-      'item_id': instance.itemId,
-    };
+Map<String, dynamic> _$FlagResponseToJson(FlagResponse instance) => <String, dynamic>{
+  'duration': instance.duration,
+  'item_id': instance.itemId,
+};

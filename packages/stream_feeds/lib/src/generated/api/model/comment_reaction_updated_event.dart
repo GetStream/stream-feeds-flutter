@@ -16,8 +16,7 @@ part 'comment_reaction_updated_event.freezed.dart';
 @freezed
 @immutable
 @JsonSerializable()
-class CommentReactionUpdatedEvent extends core.WsEvent
-    with _$CommentReactionUpdatedEvent {
+class CommentReactionUpdatedEvent extends core.WsEvent with _$CommentReactionUpdatedEvent {
   const CommentReactionUpdatedEvent({
     required this.activity,
     required this.comment,
@@ -65,6 +64,5 @@ class CommentReactionUpdatedEvent extends core.WsEvent
 
   Map<String, dynamic> toJson() => _$CommentReactionUpdatedEventToJson(this);
 
-  static CommentReactionUpdatedEvent fromJson(Map<String, dynamic> json) =>
-      _$CommentReactionUpdatedEventFromJson(json);
+  static CommentReactionUpdatedEvent fromJson(Map<String, dynamic> json) => _$CommentReactionUpdatedEventFromJson(json);
 }

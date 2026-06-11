@@ -48,6 +48,5 @@ class NotificationStatusResponse with _$NotificationStatusResponse {
 
   Map<String, dynamic> toJson() => _$NotificationStatusResponseToJson(this);
 
-  static NotificationStatusResponse fromJson(Map<String, dynamic> json) =>
-      _$NotificationStatusResponseFromJson(json);
+  static NotificationStatusResponse fromJson(Map<String, dynamic> json) => _$NotificationStatusResponseFromJson(json);
 }

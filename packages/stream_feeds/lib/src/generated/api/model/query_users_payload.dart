@@ -46,6 +46,5 @@ class QueryUsersPayload with _$QueryUsersPayload {
 
   Map<String, dynamic> toJson() => _$QueryUsersPayloadToJson(this);
 
-  static QueryUsersPayload fromJson(Map<String, dynamic> json) =>
-      _$QueryUsersPayloadFromJson(json);
+  static QueryUsersPayload fromJson(Map<String, dynamic> json) => _$QueryUsersPayloadFromJson(json);
 }

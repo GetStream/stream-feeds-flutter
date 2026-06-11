@@ -13,36 +13,6 @@ import '../models.dart';
 part 'image_size.g.dart';
 part 'image_size.freezed.dart';
 
-@JsonEnum(alwaysCreate: true)
-enum ImageSizeCrop {
-  @JsonValue('bottom')
-  bottom,
-  @JsonValue('center')
-  center,
-  @JsonValue('left')
-  left,
-  @JsonValue('right')
-  right,
-  @JsonValue('top')
-  top,
-  @JsonValue('_unknown')
-  unknown;
-}
-
-@JsonEnum(alwaysCreate: true)
-enum ImageSizeResize {
-  @JsonValue('clip')
-  clip,
-  @JsonValue('crop')
-  crop,
-  @JsonValue('fill')
-  fill,
-  @JsonValue('scale')
-  scale,
-  @JsonValue('_unknown')
-  unknown;
-}
-
 @freezed
 @immutable
 @JsonSerializable()
@@ -55,21 +25,18 @@ class ImageSize with _$ImageSize {
   });
 
   @override
-  @JsonKey(unknownEnumValue: ImageSizeCrop.unknown)
-  final ImageSizeCrop? crop;
+  final String? crop;
 
   @override
   final int? height;
 
   @override
-  @JsonKey(unknownEnumValue: ImageSizeResize.unknown)
-  final ImageSizeResize? resize;
+  final String? resize;
 
   @override
   final int? width;
 
   Map<String, dynamic> toJson() => _$ImageSizeToJson(this);
 
-  static ImageSize fromJson(Map<String, dynamic> json) =>
-      _$ImageSizeFromJson(json);
+  static ImageSize fromJson(Map<String, dynamic> json) => _$ImageSizeFromJson(json);
 }

@@ -82,6 +82,5 @@ class GetOrCreateFeedResponse with _$GetOrCreateFeedResponse {
 
   Map<String, dynamic> toJson() => _$GetOrCreateFeedResponseToJson(this);
 
-  static GetOrCreateFeedResponse fromJson(Map<String, dynamic> json) =>
-      _$GetOrCreateFeedResponseFromJson(json);
+  static GetOrCreateFeedResponse fromJson(Map<String, dynamic> json) => _$GetOrCreateFeedResponseFromJson(json);
 }

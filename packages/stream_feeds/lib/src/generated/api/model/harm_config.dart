@@ -42,6 +42,5 @@ class HarmConfig with _$HarmConfig {
 
   Map<String, dynamic> toJson() => _$HarmConfigToJson(this);
 
-  static HarmConfig fromJson(Map<String, dynamic> json) =>
-      _$HarmConfigFromJson(json);
+  static HarmConfig fromJson(Map<String, dynamic> json) => _$HarmConfigFromJson(json);
 }

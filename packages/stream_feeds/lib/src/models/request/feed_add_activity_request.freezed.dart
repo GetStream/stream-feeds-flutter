@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -10,7 +9,6 @@ part of 'feed_add_activity_request.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
@@ -18,17 +16,20 @@ mixin _$FeedAddActivityRequest {
   List<Attachment>? get attachments;
   List<StreamAttachment>? get attachmentUploads;
   List<String>? get collectionRefs;
+  bool? get createNotificationActivity;
   Map<String, Object>? get custom;
+  bool? get enrichOwnFields;
   String? get expiresAt;
   List<String> get feeds;
   List<String>? get filterTags;
   String? get id;
   List<String>? get interestTags;
-  ActivityLocation? get location;
+  Location? get location;
   List<String>? get mentionedUserIds;
   String? get parentId;
   String? get pollId;
   Map<String, Object>? get searchData;
+  bool? get skipPush;
   String? get text;
   String get type;
   AddActivityRequestVisibility? get visibility;
@@ -40,103 +41,129 @@ mixin _$FeedAddActivityRequest {
   @pragma('vm:prefer-inline')
   $FeedAddActivityRequestCopyWith<FeedAddActivityRequest> get copyWith =>
       _$FeedAddActivityRequestCopyWithImpl<FeedAddActivityRequest>(
-          this as FeedAddActivityRequest, _$identity);
+        this as FeedAddActivityRequest,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is FeedAddActivityRequest &&
-            const DeepCollectionEquality()
-                .equals(other.attachments, attachments) &&
-            const DeepCollectionEquality()
-                .equals(other.attachmentUploads, attachmentUploads) &&
-            const DeepCollectionEquality()
-                .equals(other.collectionRefs, collectionRefs) &&
+            const DeepCollectionEquality().equals(
+              other.attachments,
+              attachments,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other.attachmentUploads,
+              attachmentUploads,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other.collectionRefs,
+              collectionRefs,
+            ) &&
+            (identical(
+                  other.createNotificationActivity,
+                  createNotificationActivity,
+                ) ||
+                other.createNotificationActivity == createNotificationActivity) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
-            (identical(other.expiresAt, expiresAt) ||
-                other.expiresAt == expiresAt) &&
+            (identical(other.enrichOwnFields, enrichOwnFields) || other.enrichOwnFields == enrichOwnFields) &&
+            (identical(other.expiresAt, expiresAt) || other.expiresAt == expiresAt) &&
             const DeepCollectionEquality().equals(other.feeds, feeds) &&
-            const DeepCollectionEquality()
-                .equals(other.filterTags, filterTags) &&
+            const DeepCollectionEquality().equals(
+              other.filterTags,
+              filterTags,
+            ) &&
             (identical(other.id, id) || other.id == id) &&
-            const DeepCollectionEquality()
-                .equals(other.interestTags, interestTags) &&
-            (identical(other.location, location) ||
-                other.location == location) &&
-            const DeepCollectionEquality()
-                .equals(other.mentionedUserIds, mentionedUserIds) &&
-            (identical(other.parentId, parentId) ||
-                other.parentId == parentId) &&
+            const DeepCollectionEquality().equals(
+              other.interestTags,
+              interestTags,
+            ) &&
+            (identical(other.location, location) || other.location == location) &&
+            const DeepCollectionEquality().equals(
+              other.mentionedUserIds,
+              mentionedUserIds,
+            ) &&
+            (identical(other.parentId, parentId) || other.parentId == parentId) &&
             (identical(other.pollId, pollId) || other.pollId == pollId) &&
-            const DeepCollectionEquality()
-                .equals(other.searchData, searchData) &&
+            const DeepCollectionEquality().equals(
+              other.searchData,
+              searchData,
+            ) &&
+            (identical(other.skipPush, skipPush) || other.skipPush == skipPush) &&
             (identical(other.text, text) || other.text == text) &&
             (identical(other.type, type) || other.type == type) &&
-            (identical(other.visibility, visibility) ||
-                other.visibility == visibility) &&
-            (identical(other.visibilityTag, visibilityTag) ||
-                other.visibilityTag == visibilityTag));
+            (identical(other.visibility, visibility) || other.visibility == visibility) &&
+            (identical(other.visibilityTag, visibilityTag) || other.visibilityTag == visibilityTag));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(attachments),
-      const DeepCollectionEquality().hash(attachmentUploads),
-      const DeepCollectionEquality().hash(collectionRefs),
-      const DeepCollectionEquality().hash(custom),
-      expiresAt,
-      const DeepCollectionEquality().hash(feeds),
-      const DeepCollectionEquality().hash(filterTags),
-      id,
-      const DeepCollectionEquality().hash(interestTags),
-      location,
-      const DeepCollectionEquality().hash(mentionedUserIds),
-      parentId,
-      pollId,
-      const DeepCollectionEquality().hash(searchData),
-      text,
-      type,
-      visibility,
-      visibilityTag);
+  int get hashCode => Object.hashAll([
+    runtimeType,
+    const DeepCollectionEquality().hash(attachments),
+    const DeepCollectionEquality().hash(attachmentUploads),
+    const DeepCollectionEquality().hash(collectionRefs),
+    createNotificationActivity,
+    const DeepCollectionEquality().hash(custom),
+    enrichOwnFields,
+    expiresAt,
+    const DeepCollectionEquality().hash(feeds),
+    const DeepCollectionEquality().hash(filterTags),
+    id,
+    const DeepCollectionEquality().hash(interestTags),
+    location,
+    const DeepCollectionEquality().hash(mentionedUserIds),
+    parentId,
+    pollId,
+    const DeepCollectionEquality().hash(searchData),
+    skipPush,
+    text,
+    type,
+    visibility,
+    visibilityTag,
+  ]);
 
   @override
   String toString() {
-    return 'FeedAddActivityRequest(attachments: $attachments, attachmentUploads: $attachmentUploads, collectionRefs: $collectionRefs, custom: $custom, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, id: $id, interestTags: $interestTags, location: $location, mentionedUserIds: $mentionedUserIds, parentId: $parentId, pollId: $pollId, searchData: $searchData, text: $text, type: $type, visibility: $visibility, visibilityTag: $visibilityTag)';
+    return 'FeedAddActivityRequest(attachments: $attachments, attachmentUploads: $attachmentUploads, collectionRefs: $collectionRefs, createNotificationActivity: $createNotificationActivity, custom: $custom, enrichOwnFields: $enrichOwnFields, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, id: $id, interestTags: $interestTags, location: $location, mentionedUserIds: $mentionedUserIds, parentId: $parentId, pollId: $pollId, searchData: $searchData, skipPush: $skipPush, text: $text, type: $type, visibility: $visibility, visibilityTag: $visibilityTag)';
   }
 }
 
 /// @nodoc
 abstract mixin class $FeedAddActivityRequestCopyWith<$Res> {
-  factory $FeedAddActivityRequestCopyWith(FeedAddActivityRequest value,
-          $Res Function(FeedAddActivityRequest) _then) =
-      _$FeedAddActivityRequestCopyWithImpl;
+  factory $FeedAddActivityRequestCopyWith(
+    FeedAddActivityRequest value,
+    $Res Function(FeedAddActivityRequest) _then,
+  ) = _$FeedAddActivityRequestCopyWithImpl;
   @useResult
-  $Res call(
-      {String type,
-      List<String> feeds,
-      List<Attachment>? attachments,
-      List<StreamAttachment>? attachmentUploads,
-      List<String>? collectionRefs,
-      Map<String, Object>? custom,
-      String? expiresAt,
-      List<String>? filterTags,
-      String? id,
-      List<String>? interestTags,
-      ActivityLocation? location,
-      List<String>? mentionedUserIds,
-      String? parentId,
-      String? pollId,
-      Map<String, Object>? searchData,
-      String? text,
-      AddActivityRequestVisibility? visibility,
-      String? visibilityTag});
+  $Res call({
+    String type,
+    List<String> feeds,
+    List<Attachment>? attachments,
+    List<StreamAttachment>? attachmentUploads,
+    List<String>? collectionRefs,
+    bool? createNotificationActivity,
+    Map<String, Object>? custom,
+    bool? enrichOwnFields,
+    String? expiresAt,
+    List<String>? filterTags,
+    String? id,
+    List<String>? interestTags,
+    Location? location,
+    List<String>? mentionedUserIds,
+    String? parentId,
+    String? pollId,
+    Map<String, Object>? searchData,
+    bool? skipPush,
+    String? text,
+    AddActivityRequestVisibility? visibility,
+    String? visibilityTag,
+  });
 }
 
 /// @nodoc
-class _$FeedAddActivityRequestCopyWithImpl<$Res>
-    implements $FeedAddActivityRequestCopyWith<$Res> {
+class _$FeedAddActivityRequestCopyWithImpl<$Res> implements $FeedAddActivityRequestCopyWith<$Res> {
   _$FeedAddActivityRequestCopyWithImpl(this._self, this._then);
 
   final FeedAddActivityRequest _self;
@@ -152,7 +179,9 @@ class _$FeedAddActivityRequestCopyWithImpl<$Res>
     Object? attachments = freezed,
     Object? attachmentUploads = freezed,
     Object? collectionRefs = freezed,
+    Object? createNotificationActivity = freezed,
     Object? custom = freezed,
+    Object? enrichOwnFields = freezed,
     Object? expiresAt = freezed,
     Object? filterTags = freezed,
     Object? id = freezed,
@@ -162,85 +191,98 @@ class _$FeedAddActivityRequestCopyWithImpl<$Res>
     Object? parentId = freezed,
     Object? pollId = freezed,
     Object? searchData = freezed,
+    Object? skipPush = freezed,
     Object? text = freezed,
     Object? visibility = freezed,
     Object? visibilityTag = freezed,
   }) {
-    return _then(FeedAddActivityRequest(
-      type: null == type
-          ? _self.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
-      feeds: null == feeds
-          ? _self.feeds
-          : feeds // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      attachments: freezed == attachments
-          ? _self.attachments
-          : attachments // ignore: cast_nullable_to_non_nullable
-              as List<Attachment>?,
-      attachmentUploads: freezed == attachmentUploads
-          ? _self.attachmentUploads
-          : attachmentUploads // ignore: cast_nullable_to_non_nullable
-              as List<StreamAttachment>?,
-      collectionRefs: freezed == collectionRefs
-          ? _self.collectionRefs
-          : collectionRefs // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-      custom: freezed == custom
-          ? _self.custom
-          : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
-      expiresAt: freezed == expiresAt
-          ? _self.expiresAt
-          : expiresAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-      filterTags: freezed == filterTags
-          ? _self.filterTags
-          : filterTags // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-      id: freezed == id
-          ? _self.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String?,
-      interestTags: freezed == interestTags
-          ? _self.interestTags
-          : interestTags // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-      location: freezed == location
-          ? _self.location
-          : location // ignore: cast_nullable_to_non_nullable
-              as ActivityLocation?,
-      mentionedUserIds: freezed == mentionedUserIds
-          ? _self.mentionedUserIds
-          : mentionedUserIds // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-      parentId: freezed == parentId
-          ? _self.parentId
-          : parentId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      pollId: freezed == pollId
-          ? _self.pollId
-          : pollId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      searchData: freezed == searchData
-          ? _self.searchData
-          : searchData // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object>?,
-      text: freezed == text
-          ? _self.text
-          : text // ignore: cast_nullable_to_non_nullable
-              as String?,
-      visibility: freezed == visibility
-          ? _self.visibility
-          : visibility // ignore: cast_nullable_to_non_nullable
-              as AddActivityRequestVisibility?,
-      visibilityTag: freezed == visibilityTag
-          ? _self.visibilityTag
-          : visibilityTag // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
+    return _then(
+      FeedAddActivityRequest(
+        type: null == type
+            ? _self.type
+            : type // ignore: cast_nullable_to_non_nullable
+                  as String,
+        feeds: null == feeds
+            ? _self.feeds
+            : feeds // ignore: cast_nullable_to_non_nullable
+                  as List<String>,
+        attachments: freezed == attachments
+            ? _self.attachments
+            : attachments // ignore: cast_nullable_to_non_nullable
+                  as List<Attachment>?,
+        attachmentUploads: freezed == attachmentUploads
+            ? _self.attachmentUploads
+            : attachmentUploads // ignore: cast_nullable_to_non_nullable
+                  as List<StreamAttachment>?,
+        collectionRefs: freezed == collectionRefs
+            ? _self.collectionRefs
+            : collectionRefs // ignore: cast_nullable_to_non_nullable
+                  as List<String>?,
+        createNotificationActivity: freezed == createNotificationActivity
+            ? _self.createNotificationActivity
+            : createNotificationActivity // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        custom: freezed == custom
+            ? _self.custom
+            : custom // ignore: cast_nullable_to_non_nullable
+                  as Map<String, Object>?,
+        enrichOwnFields: freezed == enrichOwnFields
+            ? _self.enrichOwnFields
+            : enrichOwnFields // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        expiresAt: freezed == expiresAt
+            ? _self.expiresAt
+            : expiresAt // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        filterTags: freezed == filterTags
+            ? _self.filterTags
+            : filterTags // ignore: cast_nullable_to_non_nullable
+                  as List<String>?,
+        id: freezed == id
+            ? _self.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        interestTags: freezed == interestTags
+            ? _self.interestTags
+            : interestTags // ignore: cast_nullable_to_non_nullable
+                  as List<String>?,
+        location: freezed == location
+            ? _self.location
+            : location // ignore: cast_nullable_to_non_nullable
+                  as Location?,
+        mentionedUserIds: freezed == mentionedUserIds
+            ? _self.mentionedUserIds
+            : mentionedUserIds // ignore: cast_nullable_to_non_nullable
+                  as List<String>?,
+        parentId: freezed == parentId
+            ? _self.parentId
+            : parentId // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        pollId: freezed == pollId
+            ? _self.pollId
+            : pollId // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        searchData: freezed == searchData
+            ? _self.searchData
+            : searchData // ignore: cast_nullable_to_non_nullable
+                  as Map<String, Object>?,
+        skipPush: freezed == skipPush
+            ? _self.skipPush
+            : skipPush // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        text: freezed == text
+            ? _self.text
+            : text // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        visibility: freezed == visibility
+            ? _self.visibility
+            : visibility // ignore: cast_nullable_to_non_nullable
+                  as AddActivityRequestVisibility?,
+        visibilityTag: freezed == visibilityTag
+            ? _self.visibilityTag
+            : visibilityTag // ignore: cast_nullable_to_non_nullable
+                  as String?,
+      ),
+    );
   }
 }
-
-// dart format on

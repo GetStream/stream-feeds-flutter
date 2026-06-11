@@ -50,6 +50,5 @@ class VelocityFilterConfig with _$VelocityFilterConfig {
 
   Map<String, dynamic> toJson() => _$VelocityFilterConfigToJson(this);
 
-  static VelocityFilterConfig fromJson(Map<String, dynamic> json) =>
-      _$VelocityFilterConfigFromJson(json);
+  static VelocityFilterConfig fromJson(Map<String, dynamic> json) => _$VelocityFilterConfigFromJson(json);
 }

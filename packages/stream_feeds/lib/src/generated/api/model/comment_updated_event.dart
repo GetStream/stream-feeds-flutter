@@ -56,6 +56,5 @@ class CommentUpdatedEvent extends core.WsEvent with _$CommentUpdatedEvent {
 
   Map<String, dynamic> toJson() => _$CommentUpdatedEventToJson(this);
 
-  static CommentUpdatedEvent fromJson(Map<String, dynamic> json) =>
-      _$CommentUpdatedEventFromJson(json);
+  static CommentUpdatedEvent fromJson(Map<String, dynamic> json) => _$CommentUpdatedEventFromJson(json);
 }

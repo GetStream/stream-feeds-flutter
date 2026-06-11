@@ -18,7 +18,9 @@ part 'query_activities_request.freezed.dart';
 @JsonSerializable()
 class QueryActivitiesRequest with _$QueryActivitiesRequest {
   const QueryActivitiesRequest({
+    this.enrichOwnFields,
     this.filter,
+    this.includeSoftDeletedActivities,
     this.limit,
     this.next,
     this.prev,
@@ -26,7 +28,13 @@ class QueryActivitiesRequest with _$QueryActivitiesRequest {
   });
 
   @override
+  final bool? enrichOwnFields;
+
+  @override
   final Map<String, Object?>? filter;
+
+  @override
+  final bool? includeSoftDeletedActivities;
 
   @override
   final int? limit;
@@ -42,6 +50,5 @@ class QueryActivitiesRequest with _$QueryActivitiesRequest {
 
   Map<String, dynamic> toJson() => _$QueryActivitiesRequestToJson(this);
 
-  static QueryActivitiesRequest fromJson(Map<String, dynamic> json) =>
-      _$QueryActivitiesRequestFromJson(json);
+  static QueryActivitiesRequest fromJson(Map<String, dynamic> json) => _$QueryActivitiesRequestFromJson(json);
 }

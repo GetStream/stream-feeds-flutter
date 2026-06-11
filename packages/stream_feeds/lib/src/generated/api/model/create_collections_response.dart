@@ -30,6 +30,5 @@ class CreateCollectionsResponse with _$CreateCollectionsResponse {
 
   Map<String, dynamic> toJson() => _$CreateCollectionsResponseToJson(this);
 
-  static CreateCollectionsResponse fromJson(Map<String, dynamic> json) =>
-      _$CreateCollectionsResponseFromJson(json);
+  static CreateCollectionsResponse fromJson(Map<String, dynamic> json) => _$CreateCollectionsResponseFromJson(json);
 }

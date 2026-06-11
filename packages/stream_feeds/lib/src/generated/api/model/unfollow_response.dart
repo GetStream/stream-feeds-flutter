@@ -30,6 +30,5 @@ class UnfollowResponse with _$UnfollowResponse {
 
   Map<String, dynamic> toJson() => _$UnfollowResponseToJson(this);
 
-  static UnfollowResponse fromJson(Map<String, dynamic> json) =>
-      _$UnfollowResponseFromJson(json);
+  static UnfollowResponse fromJson(Map<String, dynamic> json) => _$UnfollowResponseFromJson(json);
 }

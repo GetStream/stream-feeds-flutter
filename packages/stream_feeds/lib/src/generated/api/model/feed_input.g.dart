@@ -7,28 +7,30 @@ part of 'feed_input.dart';
 // **************************************************************************
 
 FeedInput _$FeedInputFromJson(Map<String, dynamic> json) => FeedInput(
-      custom: json['custom'] as Map<String, dynamic>?,
-      description: json['description'] as String?,
-      filterTags: (json['filter_tags'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
-      members: (json['members'] as List<dynamic>?)
-          ?.map((e) => FeedMemberRequest.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      name: json['name'] as String?,
-      visibility: $enumDecodeNullable(
-          _$FeedInputVisibilityEnumMap, json['visibility'],
-          unknownValue: FeedInputVisibility.unknown),
-    );
+  custom: json['custom'] as Map<String, dynamic>?,
+  description: json['description'] as String?,
+  filterTags: (json['filter_tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
+  location: json['location'] == null ? null : Location.fromJson(json['location'] as Map<String, dynamic>),
+  members: (json['members'] as List<dynamic>?)
+      ?.map((e) => FeedMemberRequest.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  name: json['name'] as String?,
+  visibility: $enumDecodeNullable(
+    _$FeedInputVisibilityEnumMap,
+    json['visibility'],
+    unknownValue: FeedInputVisibility.unknown,
+  ),
+);
 
 Map<String, dynamic> _$FeedInputToJson(FeedInput instance) => <String, dynamic>{
-      'custom': instance.custom,
-      'description': instance.description,
-      'filter_tags': instance.filterTags,
-      'members': instance.members?.map((e) => e.toJson()).toList(),
-      'name': instance.name,
-      'visibility': _$FeedInputVisibilityEnumMap[instance.visibility],
-    };
+  'custom': instance.custom,
+  'description': instance.description,
+  'filter_tags': instance.filterTags,
+  'location': instance.location?.toJson(),
+  'members': instance.members?.map((e) => e.toJson()).toList(),
+  'name': instance.name,
+  'visibility': _$FeedInputVisibilityEnumMap[instance.visibility],
+};
 
 const _$FeedInputVisibilityEnumMap = {
   FeedInputVisibility.followers: 'followers',

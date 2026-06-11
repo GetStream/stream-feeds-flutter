@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -10,7 +9,6 @@ part of 'update_users_partial_request.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
@@ -23,7 +21,9 @@ mixin _$UpdateUsersPartialRequest {
   @pragma('vm:prefer-inline')
   $UpdateUsersPartialRequestCopyWith<UpdateUsersPartialRequest> get copyWith =>
       _$UpdateUsersPartialRequestCopyWithImpl<UpdateUsersPartialRequest>(
-          this as UpdateUsersPartialRequest, _$identity);
+        this as UpdateUsersPartialRequest,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -34,8 +34,7 @@ mixin _$UpdateUsersPartialRequest {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(users));
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(users));
 
   @override
   String toString() {
@@ -45,16 +44,16 @@ mixin _$UpdateUsersPartialRequest {
 
 /// @nodoc
 abstract mixin class $UpdateUsersPartialRequestCopyWith<$Res> {
-  factory $UpdateUsersPartialRequestCopyWith(UpdateUsersPartialRequest value,
-          $Res Function(UpdateUsersPartialRequest) _then) =
-      _$UpdateUsersPartialRequestCopyWithImpl;
+  factory $UpdateUsersPartialRequestCopyWith(
+    UpdateUsersPartialRequest value,
+    $Res Function(UpdateUsersPartialRequest) _then,
+  ) = _$UpdateUsersPartialRequestCopyWithImpl;
   @useResult
   $Res call({List<UpdateUserPartialRequest> users});
 }
 
 /// @nodoc
-class _$UpdateUsersPartialRequestCopyWithImpl<$Res>
-    implements $UpdateUsersPartialRequestCopyWith<$Res> {
+class _$UpdateUsersPartialRequestCopyWithImpl<$Res> implements $UpdateUsersPartialRequestCopyWith<$Res> {
   _$UpdateUsersPartialRequestCopyWithImpl(this._self, this._then);
 
   final UpdateUsersPartialRequest _self;
@@ -64,16 +63,14 @@ class _$UpdateUsersPartialRequestCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? users = null,
-  }) {
-    return _then(UpdateUsersPartialRequest(
-      users: null == users
-          ? _self.users
-          : users // ignore: cast_nullable_to_non_nullable
-              as List<UpdateUserPartialRequest>,
-    ));
+  $Res call({Object? users = null}) {
+    return _then(
+      UpdateUsersPartialRequest(
+        users: null == users
+            ? _self.users
+            : users // ignore: cast_nullable_to_non_nullable
+                  as List<UpdateUserPartialRequest>,
+      ),
+    );
   }
 }
-
-// dart format on

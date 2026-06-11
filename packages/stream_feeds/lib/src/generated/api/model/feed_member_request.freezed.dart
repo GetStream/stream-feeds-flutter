@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -10,7 +9,6 @@ part of 'feed_member_request.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
@@ -25,9 +23,10 @@ mixin _$FeedMemberRequest {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $FeedMemberRequestCopyWith<FeedMemberRequest> get copyWith =>
-      _$FeedMemberRequestCopyWithImpl<FeedMemberRequest>(
-          this as FeedMemberRequest, _$identity);
+  $FeedMemberRequestCopyWith<FeedMemberRequest> get copyWith => _$FeedMemberRequestCopyWithImpl<FeedMemberRequest>(
+    this as FeedMemberRequest,
+    _$identity,
+  );
 
   @override
   bool operator ==(Object other) {
@@ -36,20 +35,20 @@ mixin _$FeedMemberRequest {
             other is FeedMemberRequest &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
             (identical(other.invite, invite) || other.invite == invite) &&
-            (identical(other.membershipLevel, membershipLevel) ||
-                other.membershipLevel == membershipLevel) &&
+            (identical(other.membershipLevel, membershipLevel) || other.membershipLevel == membershipLevel) &&
             (identical(other.role, role) || other.role == role) &&
             (identical(other.userId, userId) || other.userId == userId));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(custom),
-      invite,
-      membershipLevel,
-      role,
-      userId);
+    runtimeType,
+    const DeepCollectionEquality().hash(custom),
+    invite,
+    membershipLevel,
+    role,
+    userId,
+  );
 
   @override
   String toString() {
@@ -60,20 +59,21 @@ mixin _$FeedMemberRequest {
 /// @nodoc
 abstract mixin class $FeedMemberRequestCopyWith<$Res> {
   factory $FeedMemberRequestCopyWith(
-          FeedMemberRequest value, $Res Function(FeedMemberRequest) _then) =
-      _$FeedMemberRequestCopyWithImpl;
+    FeedMemberRequest value,
+    $Res Function(FeedMemberRequest) _then,
+  ) = _$FeedMemberRequestCopyWithImpl;
   @useResult
-  $Res call(
-      {Map<String, Object?>? custom,
-      bool? invite,
-      String? membershipLevel,
-      String? role,
-      String userId});
+  $Res call({
+    Map<String, Object?>? custom,
+    bool? invite,
+    String? membershipLevel,
+    String? role,
+    String userId,
+  });
 }
 
 /// @nodoc
-class _$FeedMemberRequestCopyWithImpl<$Res>
-    implements $FeedMemberRequestCopyWith<$Res> {
+class _$FeedMemberRequestCopyWithImpl<$Res> implements $FeedMemberRequestCopyWith<$Res> {
   _$FeedMemberRequestCopyWithImpl(this._self, this._then);
 
   final FeedMemberRequest _self;
@@ -90,29 +90,29 @@ class _$FeedMemberRequestCopyWithImpl<$Res>
     Object? role = freezed,
     Object? userId = null,
   }) {
-    return _then(FeedMemberRequest(
-      custom: freezed == custom
-          ? _self.custom
-          : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object?>?,
-      invite: freezed == invite
-          ? _self.invite
-          : invite // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      membershipLevel: freezed == membershipLevel
-          ? _self.membershipLevel
-          : membershipLevel // ignore: cast_nullable_to_non_nullable
-              as String?,
-      role: freezed == role
-          ? _self.role
-          : role // ignore: cast_nullable_to_non_nullable
-              as String?,
-      userId: null == userId
-          ? _self.userId
-          : userId // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+    return _then(
+      FeedMemberRequest(
+        custom: freezed == custom
+            ? _self.custom
+            : custom // ignore: cast_nullable_to_non_nullable
+                  as Map<String, Object?>?,
+        invite: freezed == invite
+            ? _self.invite
+            : invite // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        membershipLevel: freezed == membershipLevel
+            ? _self.membershipLevel
+            : membershipLevel // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        role: freezed == role
+            ? _self.role
+            : role // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        userId: null == userId
+            ? _self.userId
+            : userId // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
   }
 }
-
-// dart format on

@@ -41,8 +41,10 @@ class CommentData with _$CommentData implements CommentsSortDataFields {
     required this.upvoteCount,
     required this.user,
     this.attachments,
+    this.bookmarkCount = 0,
     this.controversyScore,
     this.deletedAt,
+    this.editedAt,
     this.meta,
     this.moderation,
     this.parentId,
@@ -54,6 +56,10 @@ class CommentData with _$CommentData implements CommentsSortDataFields {
   /// File attachments associated with the comment.
   @override
   final List<Attachment>? attachments;
+
+  /// The number of bookmarks this comment has received.
+  @override
+  final int bookmarkCount;
 
   /// A confidence score indicating the quality or relevance of the comment.
   @override
@@ -70,6 +76,10 @@ class CommentData with _$CommentData implements CommentsSortDataFields {
   /// The date and time when the comment was deleted, if applicable.
   @override
   final DateTime? deletedAt;
+
+  /// The date and time when the comment was last edited, if applicable.
+  @override
+  final DateTime? editedAt;
 
   /// The number of downvotes received by the comment.
   @override
@@ -309,11 +319,13 @@ extension CommentResponseMapper on CommentResponse {
   CommentData toModel() {
     return CommentData(
       attachments: attachments,
+      bookmarkCount: bookmarkCount,
       confidenceScore: confidenceScore,
       controversyScore: controversyScore,
       createdAt: createdAt,
       custom: custom,
       deletedAt: deletedAt,
+      editedAt: editedAt,
       downvoteCount: downvoteCount,
       id: id,
       latestReactions: [...?latestReactions?.map((e) => e.toModel())],
@@ -326,13 +338,12 @@ extension CommentResponseMapper on CommentResponse {
       parentId: parentId,
       reactionCount: reactionCount,
       reactionGroups: {
-        for (final entry in {...?reactionGroups?.entries})
-          entry.key: entry.value.toModel(),
+        for (final entry in {...?reactionGroups?.entries}) entry.key: entry.value.toModel(),
       },
       replies: null, // Comments don't have replies loaded by default
       replyCount: replyCount,
       score: score,
-      status: status,
+      status: status.toModel(),
       text: text,
       updatedAt: updatedAt,
       upvoteCount: upvoteCount,
@@ -349,11 +360,13 @@ extension ThreadedCommentResponseMapper on ThreadedCommentResponse {
   CommentData toModel() {
     return CommentData(
       attachments: attachments,
+      bookmarkCount: bookmarkCount,
       confidenceScore: confidenceScore,
       controversyScore: controversyScore,
       createdAt: createdAt,
       custom: custom,
       deletedAt: deletedAt,
+      editedAt: editedAt,
       downvoteCount: downvoteCount,
       id: id,
       latestReactions: [...?latestReactions?.map((e) => e.toModel())],
@@ -366,17 +379,46 @@ extension ThreadedCommentResponseMapper on ThreadedCommentResponse {
       parentId: parentId,
       reactionCount: reactionCount,
       reactionGroups: {
-        for (final entry in {...?reactionGroups?.entries})
-          entry.key: entry.value.toModel(),
+        for (final entry in {...?reactionGroups?.entries}) entry.key: entry.value.toModel(),
       },
       replies: replies?.map((e) => e.toModel()).toList(),
       replyCount: replyCount,
       score: score,
-      status: status,
+      status: status.toModel(),
       text: text,
       updatedAt: updatedAt,
       upvoteCount: upvoteCount,
       user: user.toModel(),
     );
+  }
+}
+
+/// Extension to convert [CommentResponseStatus] to its wire-value string.
+extension CommentResponseStatusMapper on CommentResponseStatus {
+  /// Returns the API wire value string for this status.
+  String toModel() {
+    return switch (this) {
+      CommentResponseStatus.active => 'active',
+      CommentResponseStatus.deleted => 'deleted',
+      CommentResponseStatus.hidden => 'hidden',
+      CommentResponseStatus.removed => 'removed',
+      CommentResponseStatus.shadowBlocked => 'shadow_blocked',
+      CommentResponseStatus.unknown => 'unknown',
+    };
+  }
+}
+
+/// Extension to convert [ThreadedCommentResponseStatus] to its wire-value string.
+extension ThreadedCommentResponseStatusMapper on ThreadedCommentResponseStatus {
+  /// Returns the API wire value string for this status.
+  String toModel() {
+    return switch (this) {
+      ThreadedCommentResponseStatus.active => 'active',
+      ThreadedCommentResponseStatus.deleted => 'deleted',
+      ThreadedCommentResponseStatus.hidden => 'hidden',
+      ThreadedCommentResponseStatus.removed => 'removed',
+      ThreadedCommentResponseStatus.shadowBlocked => 'shadow_blocked',
+      ThreadedCommentResponseStatus.unknown => 'unknown',
+    };
   }
 }

@@ -55,7 +55,7 @@ class ModerationFlagResponse with _$ModerationFlagResponse {
   final List<String>? labels;
 
   @override
-  final ModerationPayload? moderationPayload;
+  final ModerationPayloadResponse? moderationPayload;
 
   @override
   final String? reason;
@@ -84,6 +84,5 @@ class ModerationFlagResponse with _$ModerationFlagResponse {
 
   Map<String, dynamic> toJson() => _$ModerationFlagResponseToJson(this);
 
-  static ModerationFlagResponse fromJson(Map<String, dynamic> json) =>
-      _$ModerationFlagResponseFromJson(json);
+  static ModerationFlagResponse fromJson(Map<String, dynamic> json) => _$ModerationFlagResponseFromJson(json);
 }

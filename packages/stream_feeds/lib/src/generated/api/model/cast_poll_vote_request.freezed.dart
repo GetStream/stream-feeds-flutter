@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -10,7 +9,6 @@ part of 'cast_poll_vote_request.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
@@ -23,7 +21,9 @@ mixin _$CastPollVoteRequest {
   @pragma('vm:prefer-inline')
   $CastPollVoteRequestCopyWith<CastPollVoteRequest> get copyWith =>
       _$CastPollVoteRequestCopyWithImpl<CastPollVoteRequest>(
-          this as CastPollVoteRequest, _$identity);
+        this as CastPollVoteRequest,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -45,15 +45,15 @@ mixin _$CastPollVoteRequest {
 /// @nodoc
 abstract mixin class $CastPollVoteRequestCopyWith<$Res> {
   factory $CastPollVoteRequestCopyWith(
-          CastPollVoteRequest value, $Res Function(CastPollVoteRequest) _then) =
-      _$CastPollVoteRequestCopyWithImpl;
+    CastPollVoteRequest value,
+    $Res Function(CastPollVoteRequest) _then,
+  ) = _$CastPollVoteRequestCopyWithImpl;
   @useResult
   $Res call({VoteData? vote});
 }
 
 /// @nodoc
-class _$CastPollVoteRequestCopyWithImpl<$Res>
-    implements $CastPollVoteRequestCopyWith<$Res> {
+class _$CastPollVoteRequestCopyWithImpl<$Res> implements $CastPollVoteRequestCopyWith<$Res> {
   _$CastPollVoteRequestCopyWithImpl(this._self, this._then);
 
   final CastPollVoteRequest _self;
@@ -63,16 +63,14 @@ class _$CastPollVoteRequestCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? vote = freezed,
-  }) {
-    return _then(CastPollVoteRequest(
-      vote: freezed == vote
-          ? _self.vote
-          : vote // ignore: cast_nullable_to_non_nullable
-              as VoteData?,
-    ));
+  $Res call({Object? vote = freezed}) {
+    return _then(
+      CastPollVoteRequest(
+        vote: freezed == vote
+            ? _self.vote
+            : vote // ignore: cast_nullable_to_non_nullable
+                  as VoteData?,
+      ),
+    );
   }
 }
-
-// dart format on

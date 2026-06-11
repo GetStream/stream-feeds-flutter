@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -10,7 +9,6 @@ part of 'feed_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
@@ -33,8 +31,7 @@ mixin _$FeedState {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $FeedStateCopyWith<FeedState> get copyWith =>
-      _$FeedStateCopyWithImpl<FeedState>(this as FeedState, _$identity);
+  $FeedStateCopyWith<FeedState> get copyWith => _$FeedStateCopyWithImpl<FeedState>(this as FeedState, _$identity);
 
   @override
   bool operator ==(Object other) {
@@ -42,22 +39,28 @@ mixin _$FeedState {
         (other.runtimeType == runtimeType &&
             other is FeedState &&
             (identical(other.fid, fid) || other.fid == fid) &&
-            (identical(other.feedQuery, feedQuery) ||
-                other.feedQuery == feedQuery) &&
-            const DeepCollectionEquality()
-                .equals(other.activities, activities) &&
-            const DeepCollectionEquality()
-                .equals(other.aggregatedActivities, aggregatedActivities) &&
+            (identical(other.feedQuery, feedQuery) || other.feedQuery == feedQuery) &&
+            const DeepCollectionEquality().equals(
+              other.activities,
+              activities,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other.aggregatedActivities,
+              aggregatedActivities,
+            ) &&
             (identical(other.feed, feed) || other.feed == feed) &&
             const DeepCollectionEquality().equals(other.followers, followers) &&
             const DeepCollectionEquality().equals(other.following, following) &&
-            const DeepCollectionEquality()
-                .equals(other.followRequests, followRequests) &&
+            const DeepCollectionEquality().equals(
+              other.followRequests,
+              followRequests,
+            ) &&
             const DeepCollectionEquality().equals(other.members, members) &&
-            (identical(other.membersPagination, membersPagination) ||
-                other.membersPagination == membersPagination) &&
-            const DeepCollectionEquality()
-                .equals(other.pinnedActivities, pinnedActivities) &&
+            (identical(other.membersPagination, membersPagination) || other.membersPagination == membersPagination) &&
+            const DeepCollectionEquality().equals(
+              other.pinnedActivities,
+              pinnedActivities,
+            ) &&
             (identical(other.notificationStatus, notificationStatus) ||
                 other.notificationStatus == notificationStatus) &&
             (identical(other.activitiesPagination, activitiesPagination) ||
@@ -66,20 +69,21 @@ mixin _$FeedState {
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      fid,
-      feedQuery,
-      const DeepCollectionEquality().hash(activities),
-      const DeepCollectionEquality().hash(aggregatedActivities),
-      feed,
-      const DeepCollectionEquality().hash(followers),
-      const DeepCollectionEquality().hash(following),
-      const DeepCollectionEquality().hash(followRequests),
-      const DeepCollectionEquality().hash(members),
-      membersPagination,
-      const DeepCollectionEquality().hash(pinnedActivities),
-      notificationStatus,
-      activitiesPagination);
+    runtimeType,
+    fid,
+    feedQuery,
+    const DeepCollectionEquality().hash(activities),
+    const DeepCollectionEquality().hash(aggregatedActivities),
+    feed,
+    const DeepCollectionEquality().hash(followers),
+    const DeepCollectionEquality().hash(following),
+    const DeepCollectionEquality().hash(followRequests),
+    const DeepCollectionEquality().hash(members),
+    membersPagination,
+    const DeepCollectionEquality().hash(pinnedActivities),
+    notificationStatus,
+    activitiesPagination,
+  );
 
   @override
   String toString() {
@@ -89,23 +93,23 @@ mixin _$FeedState {
 
 /// @nodoc
 abstract mixin class $FeedStateCopyWith<$Res> {
-  factory $FeedStateCopyWith(FeedState value, $Res Function(FeedState) _then) =
-      _$FeedStateCopyWithImpl;
+  factory $FeedStateCopyWith(FeedState value, $Res Function(FeedState) _then) = _$FeedStateCopyWithImpl;
   @useResult
-  $Res call(
-      {FeedId fid,
-      FeedQuery feedQuery,
-      List<ActivityData> activities,
-      List<AggregatedActivityData> aggregatedActivities,
-      FeedData? feed,
-      List<FollowData> followers,
-      List<FollowData> following,
-      List<FollowData> followRequests,
-      List<FeedMemberData> members,
-      PaginationData? membersPagination,
-      List<ActivityPinData> pinnedActivities,
-      NotificationStatusResponse? notificationStatus,
-      PaginationData? activitiesPagination});
+  $Res call({
+    FeedId fid,
+    FeedQuery feedQuery,
+    List<ActivityData> activities,
+    List<AggregatedActivityData> aggregatedActivities,
+    FeedData? feed,
+    List<FollowData> followers,
+    List<FollowData> following,
+    List<FollowData> followRequests,
+    List<FeedMemberData> members,
+    PaginationData? membersPagination,
+    List<ActivityPinData> pinnedActivities,
+    NotificationStatusResponse? notificationStatus,
+    PaginationData? activitiesPagination,
+  });
 }
 
 /// @nodoc
@@ -134,61 +138,61 @@ class _$FeedStateCopyWithImpl<$Res> implements $FeedStateCopyWith<$Res> {
     Object? notificationStatus = freezed,
     Object? activitiesPagination = freezed,
   }) {
-    return _then(FeedState(
-      fid: null == fid
-          ? _self.fid
-          : fid // ignore: cast_nullable_to_non_nullable
-              as FeedId,
-      feedQuery: null == feedQuery
-          ? _self.feedQuery
-          : feedQuery // ignore: cast_nullable_to_non_nullable
-              as FeedQuery,
-      activities: null == activities
-          ? _self.activities
-          : activities // ignore: cast_nullable_to_non_nullable
-              as List<ActivityData>,
-      aggregatedActivities: null == aggregatedActivities
-          ? _self.aggregatedActivities
-          : aggregatedActivities // ignore: cast_nullable_to_non_nullable
-              as List<AggregatedActivityData>,
-      feed: freezed == feed
-          ? _self.feed
-          : feed // ignore: cast_nullable_to_non_nullable
-              as FeedData?,
-      followers: null == followers
-          ? _self.followers
-          : followers // ignore: cast_nullable_to_non_nullable
-              as List<FollowData>,
-      following: null == following
-          ? _self.following
-          : following // ignore: cast_nullable_to_non_nullable
-              as List<FollowData>,
-      followRequests: null == followRequests
-          ? _self.followRequests
-          : followRequests // ignore: cast_nullable_to_non_nullable
-              as List<FollowData>,
-      members: null == members
-          ? _self.members
-          : members // ignore: cast_nullable_to_non_nullable
-              as List<FeedMemberData>,
-      membersPagination: freezed == membersPagination
-          ? _self.membersPagination
-          : membersPagination // ignore: cast_nullable_to_non_nullable
-              as PaginationData?,
-      pinnedActivities: null == pinnedActivities
-          ? _self.pinnedActivities
-          : pinnedActivities // ignore: cast_nullable_to_non_nullable
-              as List<ActivityPinData>,
-      notificationStatus: freezed == notificationStatus
-          ? _self.notificationStatus
-          : notificationStatus // ignore: cast_nullable_to_non_nullable
-              as NotificationStatusResponse?,
-      activitiesPagination: freezed == activitiesPagination
-          ? _self.activitiesPagination
-          : activitiesPagination // ignore: cast_nullable_to_non_nullable
-              as PaginationData?,
-    ));
+    return _then(
+      FeedState(
+        fid: null == fid
+            ? _self.fid
+            : fid // ignore: cast_nullable_to_non_nullable
+                  as FeedId,
+        feedQuery: null == feedQuery
+            ? _self.feedQuery
+            : feedQuery // ignore: cast_nullable_to_non_nullable
+                  as FeedQuery,
+        activities: null == activities
+            ? _self.activities
+            : activities // ignore: cast_nullable_to_non_nullable
+                  as List<ActivityData>,
+        aggregatedActivities: null == aggregatedActivities
+            ? _self.aggregatedActivities
+            : aggregatedActivities // ignore: cast_nullable_to_non_nullable
+                  as List<AggregatedActivityData>,
+        feed: freezed == feed
+            ? _self.feed
+            : feed // ignore: cast_nullable_to_non_nullable
+                  as FeedData?,
+        followers: null == followers
+            ? _self.followers
+            : followers // ignore: cast_nullable_to_non_nullable
+                  as List<FollowData>,
+        following: null == following
+            ? _self.following
+            : following // ignore: cast_nullable_to_non_nullable
+                  as List<FollowData>,
+        followRequests: null == followRequests
+            ? _self.followRequests
+            : followRequests // ignore: cast_nullable_to_non_nullable
+                  as List<FollowData>,
+        members: null == members
+            ? _self.members
+            : members // ignore: cast_nullable_to_non_nullable
+                  as List<FeedMemberData>,
+        membersPagination: freezed == membersPagination
+            ? _self.membersPagination
+            : membersPagination // ignore: cast_nullable_to_non_nullable
+                  as PaginationData?,
+        pinnedActivities: null == pinnedActivities
+            ? _self.pinnedActivities
+            : pinnedActivities // ignore: cast_nullable_to_non_nullable
+                  as List<ActivityPinData>,
+        notificationStatus: freezed == notificationStatus
+            ? _self.notificationStatus
+            : notificationStatus // ignore: cast_nullable_to_non_nullable
+                  as NotificationStatusResponse?,
+        activitiesPagination: freezed == activitiesPagination
+            ? _self.activitiesPagination
+            : activitiesPagination // ignore: cast_nullable_to_non_nullable
+                  as PaginationData?,
+      ),
+    );
   }
 }
-
-// dart format on

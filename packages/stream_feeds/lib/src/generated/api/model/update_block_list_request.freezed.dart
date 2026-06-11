@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -10,7 +9,6 @@ part of 'update_block_list_request.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
@@ -26,7 +24,9 @@ mixin _$UpdateBlockListRequest {
   @pragma('vm:prefer-inline')
   $UpdateBlockListRequestCopyWith<UpdateBlockListRequest> get copyWith =>
       _$UpdateBlockListRequestCopyWithImpl<UpdateBlockListRequest>(
-          this as UpdateBlockListRequest, _$identity);
+        this as UpdateBlockListRequest,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -42,8 +42,13 @@ mixin _$UpdateBlockListRequest {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLeetCheckEnabled,
-      isPluralCheckEnabled, team, const DeepCollectionEquality().hash(words));
+  int get hashCode => Object.hash(
+    runtimeType,
+    isLeetCheckEnabled,
+    isPluralCheckEnabled,
+    team,
+    const DeepCollectionEquality().hash(words),
+  );
 
   @override
   String toString() {
@@ -53,20 +58,21 @@ mixin _$UpdateBlockListRequest {
 
 /// @nodoc
 abstract mixin class $UpdateBlockListRequestCopyWith<$Res> {
-  factory $UpdateBlockListRequestCopyWith(UpdateBlockListRequest value,
-          $Res Function(UpdateBlockListRequest) _then) =
-      _$UpdateBlockListRequestCopyWithImpl;
+  factory $UpdateBlockListRequestCopyWith(
+    UpdateBlockListRequest value,
+    $Res Function(UpdateBlockListRequest) _then,
+  ) = _$UpdateBlockListRequestCopyWithImpl;
   @useResult
-  $Res call(
-      {bool? isLeetCheckEnabled,
-      bool? isPluralCheckEnabled,
-      String? team,
-      List<String>? words});
+  $Res call({
+    bool? isLeetCheckEnabled,
+    bool? isPluralCheckEnabled,
+    String? team,
+    List<String>? words,
+  });
 }
 
 /// @nodoc
-class _$UpdateBlockListRequestCopyWithImpl<$Res>
-    implements $UpdateBlockListRequestCopyWith<$Res> {
+class _$UpdateBlockListRequestCopyWithImpl<$Res> implements $UpdateBlockListRequestCopyWith<$Res> {
   _$UpdateBlockListRequestCopyWithImpl(this._self, this._then);
 
   final UpdateBlockListRequest _self;
@@ -82,25 +88,25 @@ class _$UpdateBlockListRequestCopyWithImpl<$Res>
     Object? team = freezed,
     Object? words = freezed,
   }) {
-    return _then(UpdateBlockListRequest(
-      isLeetCheckEnabled: freezed == isLeetCheckEnabled
-          ? _self.isLeetCheckEnabled
-          : isLeetCheckEnabled // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      isPluralCheckEnabled: freezed == isPluralCheckEnabled
-          ? _self.isPluralCheckEnabled
-          : isPluralCheckEnabled // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      team: freezed == team
-          ? _self.team
-          : team // ignore: cast_nullable_to_non_nullable
-              as String?,
-      words: freezed == words
-          ? _self.words
-          : words // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-    ));
+    return _then(
+      UpdateBlockListRequest(
+        isLeetCheckEnabled: freezed == isLeetCheckEnabled
+            ? _self.isLeetCheckEnabled
+            : isLeetCheckEnabled // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        isPluralCheckEnabled: freezed == isPluralCheckEnabled
+            ? _self.isPluralCheckEnabled
+            : isPluralCheckEnabled // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        team: freezed == team
+            ? _self.team
+            : team // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        words: freezed == words
+            ? _self.words
+            : words // ignore: cast_nullable_to_non_nullable
+                  as List<String>?,
+      ),
+    );
   }
 }
-
-// dart format on

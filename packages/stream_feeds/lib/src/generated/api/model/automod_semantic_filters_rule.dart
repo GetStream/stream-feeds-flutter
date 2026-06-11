@@ -15,6 +15,12 @@ part 'automod_semantic_filters_rule.freezed.dart';
 
 @JsonEnum(alwaysCreate: true)
 enum AutomodSemanticFiltersRuleAction {
+  @JsonValue('bounce')
+  bounce,
+  @JsonValue('bounce_flag')
+  bounceFlag,
+  @JsonValue('bounce_remove')
+  bounceRemove,
   @JsonValue('flag')
   flag,
   @JsonValue('remove')
@@ -22,7 +28,7 @@ enum AutomodSemanticFiltersRuleAction {
   @JsonValue('shadow')
   shadow,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -47,6 +53,5 @@ class AutomodSemanticFiltersRule with _$AutomodSemanticFiltersRule {
 
   Map<String, dynamic> toJson() => _$AutomodSemanticFiltersRuleToJson(this);
 
-  static AutomodSemanticFiltersRule fromJson(Map<String, dynamic> json) =>
-      _$AutomodSemanticFiltersRuleFromJson(json);
+  static AutomodSemanticFiltersRule fromJson(Map<String, dynamic> json) => _$AutomodSemanticFiltersRuleFromJson(json);
 }

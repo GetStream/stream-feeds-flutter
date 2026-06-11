@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -10,12 +9,12 @@ part of 'notification_trigger.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$NotificationTrigger {
   NotificationComment? get comment;
+  Map<String, Object?>? get custom;
   String get text;
   String get type;
 
@@ -25,7 +24,9 @@ mixin _$NotificationTrigger {
   @pragma('vm:prefer-inline')
   $NotificationTriggerCopyWith<NotificationTrigger> get copyWith =>
       _$NotificationTriggerCopyWithImpl<NotificationTrigger>(
-          this as NotificationTrigger, _$identity);
+        this as NotificationTrigger,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -33,31 +34,43 @@ mixin _$NotificationTrigger {
         (other.runtimeType == runtimeType &&
             other is NotificationTrigger &&
             (identical(other.comment, comment) || other.comment == comment) &&
+            const DeepCollectionEquality().equals(other.custom, custom) &&
             (identical(other.text, text) || other.text == text) &&
             (identical(other.type, type) || other.type == type));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, comment, text, type);
+  int get hashCode => Object.hash(
+    runtimeType,
+    comment,
+    const DeepCollectionEquality().hash(custom),
+    text,
+    type,
+  );
 
   @override
   String toString() {
-    return 'NotificationTrigger(comment: $comment, text: $text, type: $type)';
+    return 'NotificationTrigger(comment: $comment, custom: $custom, text: $text, type: $type)';
   }
 }
 
 /// @nodoc
 abstract mixin class $NotificationTriggerCopyWith<$Res> {
   factory $NotificationTriggerCopyWith(
-          NotificationTrigger value, $Res Function(NotificationTrigger) _then) =
-      _$NotificationTriggerCopyWithImpl;
+    NotificationTrigger value,
+    $Res Function(NotificationTrigger) _then,
+  ) = _$NotificationTriggerCopyWithImpl;
   @useResult
-  $Res call({NotificationComment? comment, String text, String type});
+  $Res call({
+    NotificationComment? comment,
+    Map<String, Object?>? custom,
+    String text,
+    String type,
+  });
 }
 
 /// @nodoc
-class _$NotificationTriggerCopyWithImpl<$Res>
-    implements $NotificationTriggerCopyWith<$Res> {
+class _$NotificationTriggerCopyWithImpl<$Res> implements $NotificationTriggerCopyWith<$Res> {
   _$NotificationTriggerCopyWithImpl(this._self, this._then);
 
   final NotificationTrigger _self;
@@ -69,24 +82,29 @@ class _$NotificationTriggerCopyWithImpl<$Res>
   @override
   $Res call({
     Object? comment = freezed,
+    Object? custom = freezed,
     Object? text = null,
     Object? type = null,
   }) {
-    return _then(NotificationTrigger(
-      comment: freezed == comment
-          ? _self.comment
-          : comment // ignore: cast_nullable_to_non_nullable
-              as NotificationComment?,
-      text: null == text
-          ? _self.text
-          : text // ignore: cast_nullable_to_non_nullable
-              as String,
-      type: null == type
-          ? _self.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+    return _then(
+      NotificationTrigger(
+        comment: freezed == comment
+            ? _self.comment
+            : comment // ignore: cast_nullable_to_non_nullable
+                  as NotificationComment?,
+        custom: freezed == custom
+            ? _self.custom
+            : custom // ignore: cast_nullable_to_non_nullable
+                  as Map<String, Object?>?,
+        text: null == text
+            ? _self.text
+            : text // ignore: cast_nullable_to_non_nullable
+                  as String,
+        type: null == type
+            ? _self.type
+            : type // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
   }
 }
-
-// dart format on

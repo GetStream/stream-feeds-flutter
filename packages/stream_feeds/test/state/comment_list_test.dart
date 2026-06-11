@@ -232,10 +232,7 @@ void main() {
       setUp: (tester) => tester.get(
         modifyResponse: (it) => it.copyWith(
           comments: [
-            createDefaultCommentResponse(
-              id: 'comment-1',
-              objectId: 'obj-1',
-            ),
+            createDefaultCommentResponse(id: 'comment-1', objectId: 'obj-1'),
           ],
         ),
       ),
@@ -417,7 +414,7 @@ void main() {
             comment: createDefaultCommentResponse(
               id: 'comment-1',
               objectId: 'obj-1',
-            ).copyWith(status: 'deleted'),
+            ).copyWith(status: CommentResponseStatus.deleted),
           ),
         );
 
@@ -446,7 +443,7 @@ void main() {
             comment: createDefaultCommentResponse(
               id: 'comment-1',
               objectId: 'obj-1',
-            ).copyWith(status: 'deleted'),
+            ).copyWith(status: CommentResponseStatus.deleted),
           ),
         );
 

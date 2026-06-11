@@ -13,8 +13,7 @@ part 'activity_comment_list_state.freezed.dart';
 ///
 /// Provides methods to update the activity comment list state in response to data changes
 /// and real-time events from the Stream Feeds API.
-class ActivityCommentListStateNotifier
-    extends StateNotifier<ActivityCommentListState> {
+class ActivityCommentListStateNotifier extends StateNotifier<ActivityCommentListState> {
   ActivityCommentListStateNotifier({
     required this.currentUserId,
     required ActivityCommentListState initialState,

@@ -30,6 +30,5 @@ class RejectFollowRequest with _$RejectFollowRequest {
 
   Map<String, dynamic> toJson() => _$RejectFollowRequestToJson(this);
 
-  static RejectFollowRequest fromJson(Map<String, dynamic> json) =>
-      _$RejectFollowRequestFromJson(json);
+  static RejectFollowRequest fromJson(Map<String, dynamic> json) => _$RejectFollowRequestFromJson(json);
 }

@@ -34,6 +34,5 @@ class FileUploadResponse with _$FileUploadResponse {
 
   Map<String, dynamic> toJson() => _$FileUploadResponseToJson(this);
 
-  static FileUploadResponse fromJson(Map<String, dynamic> json) =>
-      _$FileUploadResponseFromJson(json);
+  static FileUploadResponse fromJson(Map<String, dynamic> json) => _$FileUploadResponseFromJson(json);
 }

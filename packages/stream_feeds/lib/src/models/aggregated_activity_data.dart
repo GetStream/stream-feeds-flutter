@@ -18,6 +18,8 @@ class AggregatedActivityData with _$AggregatedActivityData {
     required this.activityCount,
     required this.createdAt,
     required this.group,
+    this.isRead,
+    this.isSeen,
     required this.score,
     required this.updatedAt,
     required this.userCount,
@@ -38,6 +40,20 @@ class AggregatedActivityData with _$AggregatedActivityData {
   /// The grouping identifier or key used to aggregate these activities.
   @override
   final String group;
+
+  /// Whether this aggregated activity group has been read by the current user.
+  ///
+  /// Relevant for notification feeds — `true` once the user has opened or
+  /// acknowledged activities in this group.
+  @override
+  final bool? isRead;
+
+  /// Whether this aggregated activity group has been seen by the current user.
+  ///
+  /// Relevant for notification feeds — `true` once activities in this group
+  /// have appeared in the user's feed view.
+  @override
+  final bool? isSeen;
 
   /// A relevance or ranking score for this aggregated group.
   @override
@@ -73,6 +89,8 @@ extension AggregatedActivityResponseMapper on AggregatedActivityResponse {
       activityCount: activityCount,
       createdAt: createdAt,
       group: group,
+      isRead: isRead,
+      isSeen: isSeen,
       score: score,
       updatedAt: updatedAt,
       userCount: userCount,

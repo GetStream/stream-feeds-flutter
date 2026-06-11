@@ -42,6 +42,5 @@ class AITextConfig with _$AITextConfig {
 
   Map<String, dynamic> toJson() => _$AITextConfigToJson(this);
 
-  static AITextConfig fromJson(Map<String, dynamic> json) =>
-      _$AITextConfigFromJson(json);
+  static AITextConfig fromJson(Map<String, dynamic> json) => _$AITextConfigFromJson(json);
 }

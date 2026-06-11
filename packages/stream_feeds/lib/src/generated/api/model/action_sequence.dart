@@ -50,6 +50,5 @@ class ActionSequence with _$ActionSequence {
 
   Map<String, dynamic> toJson() => _$ActionSequenceToJson(this);
 
-  static ActionSequence fromJson(Map<String, dynamic> json) =>
-      _$ActionSequenceFromJson(json);
+  static ActionSequence fromJson(Map<String, dynamic> json) => _$ActionSequenceFromJson(json);
 }

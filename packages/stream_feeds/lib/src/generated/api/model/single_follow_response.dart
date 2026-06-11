@@ -20,6 +20,7 @@ class SingleFollowResponse with _$SingleFollowResponse {
   const SingleFollowResponse({
     required this.duration,
     required this.follow,
+    this.notificationCreated,
   });
 
   @override
@@ -28,8 +29,10 @@ class SingleFollowResponse with _$SingleFollowResponse {
   @override
   final FollowResponse follow;
 
+  @override
+  final bool? notificationCreated;
+
   Map<String, dynamic> toJson() => _$SingleFollowResponseToJson(this);
 
-  static SingleFollowResponse fromJson(Map<String, dynamic> json) =>
-      _$SingleFollowResponseFromJson(json);
+  static SingleFollowResponse fromJson(Map<String, dynamic> json) => _$SingleFollowResponseFromJson(json);
 }

@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -10,11 +9,11 @@ part of 'feed_group.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$FeedGroup {
+  ActivityFilterConfig? get activityFilter;
   List<ActivityProcessorConfig> get activityProcessors;
   List<ActivitySelectorConfig> get activitySelectors;
   AggregationConfig? get aggregation;
@@ -36,91 +35,90 @@ mixin _$FeedGroup {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $FeedGroupCopyWith<FeedGroup> get copyWith =>
-      _$FeedGroupCopyWithImpl<FeedGroup>(this as FeedGroup, _$identity);
+  $FeedGroupCopyWith<FeedGroup> get copyWith => _$FeedGroupCopyWithImpl<FeedGroup>(this as FeedGroup, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is FeedGroup &&
-            const DeepCollectionEquality()
-                .equals(other.activityProcessors, activityProcessors) &&
-            const DeepCollectionEquality()
-                .equals(other.activitySelectors, activitySelectors) &&
-            (identical(other.aggregation, aggregation) ||
-                other.aggregation == aggregation) &&
+            (identical(other.activityFilter, activityFilter) || other.activityFilter == activityFilter) &&
+            const DeepCollectionEquality().equals(
+              other.activityProcessors,
+              activityProcessors,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other.activitySelectors,
+              activitySelectors,
+            ) &&
+            (identical(other.aggregation, aggregation) || other.aggregation == aggregation) &&
             (identical(other.aggregationVersion, aggregationVersion) ||
                 other.aggregationVersion == aggregationVersion) &&
             (identical(other.appPk, appPk) || other.appPk == appPk) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
+            (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
-            (identical(other.defaultVisibility, defaultVisibility) ||
-                other.defaultVisibility == defaultVisibility) &&
-            (identical(other.deletedAt, deletedAt) ||
-                other.deletedAt == deletedAt) &&
+            (identical(other.defaultVisibility, defaultVisibility) || other.defaultVisibility == defaultVisibility) &&
+            (identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt) &&
             (identical(other.groupId, groupId) || other.groupId == groupId) &&
-            (identical(other.lastFeedGetAt, lastFeedGetAt) ||
-                other.lastFeedGetAt == lastFeedGetAt) &&
-            (identical(other.notification, notification) ||
-                other.notification == notification) &&
-            (identical(other.pushNotification, pushNotification) ||
-                other.pushNotification == pushNotification) &&
+            (identical(other.lastFeedGetAt, lastFeedGetAt) || other.lastFeedGetAt == lastFeedGetAt) &&
+            (identical(other.notification, notification) || other.notification == notification) &&
+            (identical(other.pushNotification, pushNotification) || other.pushNotification == pushNotification) &&
             (identical(other.ranking, ranking) || other.ranking == ranking) &&
             (identical(other.stories, stories) || other.stories == stories) &&
-            (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+            (identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(activityProcessors),
-      const DeepCollectionEquality().hash(activitySelectors),
-      aggregation,
-      aggregationVersion,
-      appPk,
-      createdAt,
-      const DeepCollectionEquality().hash(custom),
-      defaultVisibility,
-      deletedAt,
-      groupId,
-      lastFeedGetAt,
-      notification,
-      pushNotification,
-      ranking,
-      stories,
-      updatedAt);
+    runtimeType,
+    activityFilter,
+    const DeepCollectionEquality().hash(activityProcessors),
+    const DeepCollectionEquality().hash(activitySelectors),
+    aggregation,
+    aggregationVersion,
+    appPk,
+    createdAt,
+    const DeepCollectionEquality().hash(custom),
+    defaultVisibility,
+    deletedAt,
+    groupId,
+    lastFeedGetAt,
+    notification,
+    pushNotification,
+    ranking,
+    stories,
+    updatedAt,
+  );
 
   @override
   String toString() {
-    return 'FeedGroup(activityProcessors: $activityProcessors, activitySelectors: $activitySelectors, aggregation: $aggregation, aggregationVersion: $aggregationVersion, appPk: $appPk, createdAt: $createdAt, custom: $custom, defaultVisibility: $defaultVisibility, deletedAt: $deletedAt, groupId: $groupId, lastFeedGetAt: $lastFeedGetAt, notification: $notification, pushNotification: $pushNotification, ranking: $ranking, stories: $stories, updatedAt: $updatedAt)';
+    return 'FeedGroup(activityFilter: $activityFilter, activityProcessors: $activityProcessors, activitySelectors: $activitySelectors, aggregation: $aggregation, aggregationVersion: $aggregationVersion, appPk: $appPk, createdAt: $createdAt, custom: $custom, defaultVisibility: $defaultVisibility, deletedAt: $deletedAt, groupId: $groupId, lastFeedGetAt: $lastFeedGetAt, notification: $notification, pushNotification: $pushNotification, ranking: $ranking, stories: $stories, updatedAt: $updatedAt)';
   }
 }
 
 /// @nodoc
 abstract mixin class $FeedGroupCopyWith<$Res> {
-  factory $FeedGroupCopyWith(FeedGroup value, $Res Function(FeedGroup) _then) =
-      _$FeedGroupCopyWithImpl;
+  factory $FeedGroupCopyWith(FeedGroup value, $Res Function(FeedGroup) _then) = _$FeedGroupCopyWithImpl;
   @useResult
-  $Res call(
-      {List<ActivityProcessorConfig> activityProcessors,
-      List<ActivitySelectorConfig> activitySelectors,
-      AggregationConfig? aggregation,
-      int aggregationVersion,
-      int appPk,
-      DateTime createdAt,
-      Map<String, Object?> custom,
-      String defaultVisibility,
-      DateTime? deletedAt,
-      String groupId,
-      DateTime? lastFeedGetAt,
-      NotificationConfig? notification,
-      PushNotificationConfig? pushNotification,
-      RankingConfig? ranking,
-      StoriesConfig? stories,
-      DateTime updatedAt});
+  $Res call({
+    ActivityFilterConfig? activityFilter,
+    List<ActivityProcessorConfig> activityProcessors,
+    List<ActivitySelectorConfig> activitySelectors,
+    AggregationConfig? aggregation,
+    int aggregationVersion,
+    int appPk,
+    DateTime createdAt,
+    Map<String, Object?> custom,
+    String defaultVisibility,
+    DateTime? deletedAt,
+    String groupId,
+    DateTime? lastFeedGetAt,
+    NotificationConfig? notification,
+    PushNotificationConfig? pushNotification,
+    RankingConfig? ranking,
+    StoriesConfig? stories,
+    DateTime updatedAt,
+  });
 }
 
 /// @nodoc
@@ -135,6 +133,7 @@ class _$FeedGroupCopyWithImpl<$Res> implements $FeedGroupCopyWith<$Res> {
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? activityFilter = freezed,
     Object? activityProcessors = null,
     Object? activitySelectors = null,
     Object? aggregation = freezed,
@@ -152,73 +151,77 @@ class _$FeedGroupCopyWithImpl<$Res> implements $FeedGroupCopyWith<$Res> {
     Object? stories = freezed,
     Object? updatedAt = null,
   }) {
-    return _then(FeedGroup(
-      activityProcessors: null == activityProcessors
-          ? _self.activityProcessors
-          : activityProcessors // ignore: cast_nullable_to_non_nullable
-              as List<ActivityProcessorConfig>,
-      activitySelectors: null == activitySelectors
-          ? _self.activitySelectors
-          : activitySelectors // ignore: cast_nullable_to_non_nullable
-              as List<ActivitySelectorConfig>,
-      aggregation: freezed == aggregation
-          ? _self.aggregation
-          : aggregation // ignore: cast_nullable_to_non_nullable
-              as AggregationConfig?,
-      aggregationVersion: null == aggregationVersion
-          ? _self.aggregationVersion
-          : aggregationVersion // ignore: cast_nullable_to_non_nullable
-              as int,
-      appPk: null == appPk
-          ? _self.appPk
-          : appPk // ignore: cast_nullable_to_non_nullable
-              as int,
-      createdAt: null == createdAt
-          ? _self.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      custom: null == custom
-          ? _self.custom
-          : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object?>,
-      defaultVisibility: null == defaultVisibility
-          ? _self.defaultVisibility
-          : defaultVisibility // ignore: cast_nullable_to_non_nullable
-              as String,
-      deletedAt: freezed == deletedAt
-          ? _self.deletedAt
-          : deletedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      groupId: null == groupId
-          ? _self.groupId
-          : groupId // ignore: cast_nullable_to_non_nullable
-              as String,
-      lastFeedGetAt: freezed == lastFeedGetAt
-          ? _self.lastFeedGetAt
-          : lastFeedGetAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      notification: freezed == notification
-          ? _self.notification
-          : notification // ignore: cast_nullable_to_non_nullable
-              as NotificationConfig?,
-      pushNotification: freezed == pushNotification
-          ? _self.pushNotification
-          : pushNotification // ignore: cast_nullable_to_non_nullable
-              as PushNotificationConfig?,
-      ranking: freezed == ranking
-          ? _self.ranking
-          : ranking // ignore: cast_nullable_to_non_nullable
-              as RankingConfig?,
-      stories: freezed == stories
-          ? _self.stories
-          : stories // ignore: cast_nullable_to_non_nullable
-              as StoriesConfig?,
-      updatedAt: null == updatedAt
-          ? _self.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-    ));
+    return _then(
+      FeedGroup(
+        activityFilter: freezed == activityFilter
+            ? _self.activityFilter
+            : activityFilter // ignore: cast_nullable_to_non_nullable
+                  as ActivityFilterConfig?,
+        activityProcessors: null == activityProcessors
+            ? _self.activityProcessors
+            : activityProcessors // ignore: cast_nullable_to_non_nullable
+                  as List<ActivityProcessorConfig>,
+        activitySelectors: null == activitySelectors
+            ? _self.activitySelectors
+            : activitySelectors // ignore: cast_nullable_to_non_nullable
+                  as List<ActivitySelectorConfig>,
+        aggregation: freezed == aggregation
+            ? _self.aggregation
+            : aggregation // ignore: cast_nullable_to_non_nullable
+                  as AggregationConfig?,
+        aggregationVersion: null == aggregationVersion
+            ? _self.aggregationVersion
+            : aggregationVersion // ignore: cast_nullable_to_non_nullable
+                  as int,
+        appPk: null == appPk
+            ? _self.appPk
+            : appPk // ignore: cast_nullable_to_non_nullable
+                  as int,
+        createdAt: null == createdAt
+            ? _self.createdAt
+            : createdAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+        custom: null == custom
+            ? _self.custom
+            : custom // ignore: cast_nullable_to_non_nullable
+                  as Map<String, Object?>,
+        defaultVisibility: null == defaultVisibility
+            ? _self.defaultVisibility
+            : defaultVisibility // ignore: cast_nullable_to_non_nullable
+                  as String,
+        deletedAt: freezed == deletedAt
+            ? _self.deletedAt
+            : deletedAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime?,
+        groupId: null == groupId
+            ? _self.groupId
+            : groupId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        lastFeedGetAt: freezed == lastFeedGetAt
+            ? _self.lastFeedGetAt
+            : lastFeedGetAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime?,
+        notification: freezed == notification
+            ? _self.notification
+            : notification // ignore: cast_nullable_to_non_nullable
+                  as NotificationConfig?,
+        pushNotification: freezed == pushNotification
+            ? _self.pushNotification
+            : pushNotification // ignore: cast_nullable_to_non_nullable
+                  as PushNotificationConfig?,
+        ranking: freezed == ranking
+            ? _self.ranking
+            : ranking // ignore: cast_nullable_to_non_nullable
+                  as RankingConfig?,
+        stories: freezed == stories
+            ? _self.stories
+            : stories // ignore: cast_nullable_to_non_nullable
+                  as StoriesConfig?,
+        updatedAt: null == updatedAt
+            ? _self.updatedAt
+            : updatedAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+      ),
+    );
   }
 }
-
-// dart format on

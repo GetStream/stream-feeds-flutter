@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -10,7 +9,6 @@ part of 'activity_feedback_request.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
@@ -25,7 +23,9 @@ mixin _$ActivityFeedbackRequest {
   @pragma('vm:prefer-inline')
   $ActivityFeedbackRequestCopyWith<ActivityFeedbackRequest> get copyWith =>
       _$ActivityFeedbackRequestCopyWithImpl<ActivityFeedbackRequest>(
-          this as ActivityFeedbackRequest, _$identity);
+        this as ActivityFeedbackRequest,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -33,10 +33,8 @@ mixin _$ActivityFeedbackRequest {
         (other.runtimeType == runtimeType &&
             other is ActivityFeedbackRequest &&
             (identical(other.hide, hide) || other.hide == hide) &&
-            (identical(other.showLess, showLess) ||
-                other.showLess == showLess) &&
-            (identical(other.showMore, showMore) ||
-                other.showMore == showMore));
+            (identical(other.showLess, showLess) || other.showLess == showLess) &&
+            (identical(other.showMore, showMore) || other.showMore == showMore));
   }
 
   @override
@@ -50,16 +48,16 @@ mixin _$ActivityFeedbackRequest {
 
 /// @nodoc
 abstract mixin class $ActivityFeedbackRequestCopyWith<$Res> {
-  factory $ActivityFeedbackRequestCopyWith(ActivityFeedbackRequest value,
-          $Res Function(ActivityFeedbackRequest) _then) =
-      _$ActivityFeedbackRequestCopyWithImpl;
+  factory $ActivityFeedbackRequestCopyWith(
+    ActivityFeedbackRequest value,
+    $Res Function(ActivityFeedbackRequest) _then,
+  ) = _$ActivityFeedbackRequestCopyWithImpl;
   @useResult
   $Res call({bool? hide, bool? showLess, bool? showMore});
 }
 
 /// @nodoc
-class _$ActivityFeedbackRequestCopyWithImpl<$Res>
-    implements $ActivityFeedbackRequestCopyWith<$Res> {
+class _$ActivityFeedbackRequestCopyWithImpl<$Res> implements $ActivityFeedbackRequestCopyWith<$Res> {
   _$ActivityFeedbackRequestCopyWithImpl(this._self, this._then);
 
   final ActivityFeedbackRequest _self;
@@ -74,21 +72,21 @@ class _$ActivityFeedbackRequestCopyWithImpl<$Res>
     Object? showLess = freezed,
     Object? showMore = freezed,
   }) {
-    return _then(ActivityFeedbackRequest(
-      hide: freezed == hide
-          ? _self.hide
-          : hide // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      showLess: freezed == showLess
-          ? _self.showLess
-          : showLess // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      showMore: freezed == showMore
-          ? _self.showMore
-          : showMore // ignore: cast_nullable_to_non_nullable
-              as bool?,
-    ));
+    return _then(
+      ActivityFeedbackRequest(
+        hide: freezed == hide
+            ? _self.hide
+            : hide // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        showLess: freezed == showLess
+            ? _self.showLess
+            : showLess // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        showMore: freezed == showMore
+            ? _self.showMore
+            : showMore // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+      ),
+    );
   }
 }
-
-// dart format on

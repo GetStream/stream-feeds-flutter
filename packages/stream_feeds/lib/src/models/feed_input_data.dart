@@ -125,10 +125,7 @@ extension FeedInputDataMapper on FeedInputData {
       name: name,
       visibility: visibility?.toRequest(),
       filterTags: filterTags.takeIf((it) => it.isNotEmpty),
-      members: members
-          .takeIf((it) => it.isNotEmpty)
-          ?.map((e) => e.toRequest())
-          .toList(),
+      members: members.takeIf((it) => it.isNotEmpty)?.map((e) => e.toRequest()).toList(),
       custom: custom,
     );
   }

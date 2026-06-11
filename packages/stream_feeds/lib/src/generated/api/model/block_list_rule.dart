@@ -23,6 +23,8 @@ enum BlockListRuleAction {
   bounceRemove,
   @JsonValue('flag')
   flag,
+  @JsonValue('mask')
+  mask,
   @JsonValue('mask_flag')
   maskFlag,
   @JsonValue('remove')
@@ -30,7 +32,7 @@ enum BlockListRuleAction {
   @JsonValue('shadow')
   shadow,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -55,6 +57,5 @@ class BlockListRule with _$BlockListRule {
 
   Map<String, dynamic> toJson() => _$BlockListRuleToJson(this);
 
-  static BlockListRule fromJson(Map<String, dynamic> json) =>
-      _$BlockListRuleFromJson(json);
+  static BlockListRule fromJson(Map<String, dynamic> json) => _$BlockListRuleFromJson(json);
 }

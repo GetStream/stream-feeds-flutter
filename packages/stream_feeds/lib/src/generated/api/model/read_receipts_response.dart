@@ -18,14 +18,13 @@ part 'read_receipts_response.freezed.dart';
 @JsonSerializable()
 class ReadReceiptsResponse with _$ReadReceiptsResponse {
   const ReadReceiptsResponse({
-    required this.enabled,
+    this.enabled,
   });
 
   @override
-  final bool enabled;
+  final bool? enabled;
 
   Map<String, dynamic> toJson() => _$ReadReceiptsResponseToJson(this);
 
-  static ReadReceiptsResponse fromJson(Map<String, dynamic> json) =>
-      _$ReadReceiptsResponseFromJson(json);
+  static ReadReceiptsResponse fromJson(Map<String, dynamic> json) => _$ReadReceiptsResponseFromJson(json);
 }

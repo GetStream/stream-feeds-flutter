@@ -20,6 +20,7 @@ class AddCommentReactionResponse with _$AddCommentReactionResponse {
   const AddCommentReactionResponse({
     required this.comment,
     required this.duration,
+    this.notificationCreated,
     required this.reaction,
   });
 
@@ -30,10 +31,12 @@ class AddCommentReactionResponse with _$AddCommentReactionResponse {
   final String duration;
 
   @override
+  final bool? notificationCreated;
+
+  @override
   final FeedsReactionResponse reaction;
 
   Map<String, dynamic> toJson() => _$AddCommentReactionResponseToJson(this);
 
-  static AddCommentReactionResponse fromJson(Map<String, dynamic> json) =>
-      _$AddCommentReactionResponseFromJson(json);
+  static AddCommentReactionResponse fromJson(Map<String, dynamic> json) => _$AddCommentReactionResponseFromJson(json);
 }

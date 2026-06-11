@@ -21,6 +21,7 @@ class DeviceResponse with _$DeviceResponse {
     required this.createdAt,
     this.disabled,
     this.disabledReason,
+    this.hardwareId,
     required this.id,
     required this.pushProvider,
     this.pushProviderName,
@@ -39,6 +40,9 @@ class DeviceResponse with _$DeviceResponse {
   final String? disabledReason;
 
   @override
+  final String? hardwareId;
+
+  @override
   final String id;
 
   @override
@@ -55,6 +59,5 @@ class DeviceResponse with _$DeviceResponse {
 
   Map<String, dynamic> toJson() => _$DeviceResponseToJson(this);
 
-  static DeviceResponse fromJson(Map<String, dynamic> json) =>
-      _$DeviceResponseFromJson(json);
+  static DeviceResponse fromJson(Map<String, dynamic> json) => _$DeviceResponseFromJson(json);
 }

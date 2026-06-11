@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -10,7 +9,6 @@ part of 'update_user_partial_request.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
@@ -25,7 +23,9 @@ mixin _$UpdateUserPartialRequest {
   @pragma('vm:prefer-inline')
   $UpdateUserPartialRequestCopyWith<UpdateUserPartialRequest> get copyWith =>
       _$UpdateUserPartialRequestCopyWithImpl<UpdateUserPartialRequest>(
-          this as UpdateUserPartialRequest, _$identity);
+        this as UpdateUserPartialRequest,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -39,10 +39,11 @@ mixin _$UpdateUserPartialRequest {
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      const DeepCollectionEquality().hash(set),
-      const DeepCollectionEquality().hash(unset));
+    runtimeType,
+    id,
+    const DeepCollectionEquality().hash(set),
+    const DeepCollectionEquality().hash(unset),
+  );
 
   @override
   String toString() {
@@ -52,16 +53,16 @@ mixin _$UpdateUserPartialRequest {
 
 /// @nodoc
 abstract mixin class $UpdateUserPartialRequestCopyWith<$Res> {
-  factory $UpdateUserPartialRequestCopyWith(UpdateUserPartialRequest value,
-          $Res Function(UpdateUserPartialRequest) _then) =
-      _$UpdateUserPartialRequestCopyWithImpl;
+  factory $UpdateUserPartialRequestCopyWith(
+    UpdateUserPartialRequest value,
+    $Res Function(UpdateUserPartialRequest) _then,
+  ) = _$UpdateUserPartialRequestCopyWithImpl;
   @useResult
   $Res call({String id, Map<String, Object?>? set, List<String>? unset});
 }
 
 /// @nodoc
-class _$UpdateUserPartialRequestCopyWithImpl<$Res>
-    implements $UpdateUserPartialRequestCopyWith<$Res> {
+class _$UpdateUserPartialRequestCopyWithImpl<$Res> implements $UpdateUserPartialRequestCopyWith<$Res> {
   _$UpdateUserPartialRequestCopyWithImpl(this._self, this._then);
 
   final UpdateUserPartialRequest _self;
@@ -76,21 +77,21 @@ class _$UpdateUserPartialRequestCopyWithImpl<$Res>
     Object? set = freezed,
     Object? unset = freezed,
   }) {
-    return _then(UpdateUserPartialRequest(
-      id: null == id
-          ? _self.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      set: freezed == set
-          ? _self.set
-          : set // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object?>?,
-      unset: freezed == unset
-          ? _self.unset
-          : unset // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-    ));
+    return _then(
+      UpdateUserPartialRequest(
+        id: null == id
+            ? _self.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String,
+        set: freezed == set
+            ? _self.set
+            : set // ignore: cast_nullable_to_non_nullable
+                  as Map<String, Object?>?,
+        unset: freezed == unset
+            ? _self.unset
+            : unset // ignore: cast_nullable_to_non_nullable
+                  as List<String>?,
+      ),
+    );
   }
 }
-
-// dart format on

@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -10,7 +9,6 @@ part of 'duration_response.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
@@ -21,17 +19,17 @@ mixin _$DurationResponse {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $DurationResponseCopyWith<DurationResponse> get copyWith =>
-      _$DurationResponseCopyWithImpl<DurationResponse>(
-          this as DurationResponse, _$identity);
+  $DurationResponseCopyWith<DurationResponse> get copyWith => _$DurationResponseCopyWithImpl<DurationResponse>(
+    this as DurationResponse,
+    _$identity,
+  );
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is DurationResponse &&
-            (identical(other.duration, duration) ||
-                other.duration == duration));
+            (identical(other.duration, duration) || other.duration == duration));
   }
 
   @override
@@ -46,15 +44,15 @@ mixin _$DurationResponse {
 /// @nodoc
 abstract mixin class $DurationResponseCopyWith<$Res> {
   factory $DurationResponseCopyWith(
-          DurationResponse value, $Res Function(DurationResponse) _then) =
-      _$DurationResponseCopyWithImpl;
+    DurationResponse value,
+    $Res Function(DurationResponse) _then,
+  ) = _$DurationResponseCopyWithImpl;
   @useResult
   $Res call({String duration});
 }
 
 /// @nodoc
-class _$DurationResponseCopyWithImpl<$Res>
-    implements $DurationResponseCopyWith<$Res> {
+class _$DurationResponseCopyWithImpl<$Res> implements $DurationResponseCopyWith<$Res> {
   _$DurationResponseCopyWithImpl(this._self, this._then);
 
   final DurationResponse _self;
@@ -64,16 +62,14 @@ class _$DurationResponseCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? duration = null,
-  }) {
-    return _then(DurationResponse(
-      duration: null == duration
-          ? _self.duration
-          : duration // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+  $Res call({Object? duration = null}) {
+    return _then(
+      DurationResponse(
+        duration: null == duration
+            ? _self.duration
+            : duration // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
   }
 }
-
-// dart format on

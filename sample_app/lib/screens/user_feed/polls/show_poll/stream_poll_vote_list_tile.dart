@@ -48,17 +48,16 @@ class StreamPollVoteListTile extends StatelessWidget {
     Color? tileColor,
     BorderRadiusGeometry? borderRadius,
     EdgeInsetsGeometry? contentPadding,
-  }) =>
-      StreamPollVoteListTile(
-        key: key ?? this.key,
-        pollVote: pollVote ?? this.pollVote,
-        showAnswerText: showAnswerText ?? this.showAnswerText,
-        onTap: onTap ?? this.onTap,
-        onLongPress: onLongPress ?? this.onLongPress,
-        tileColor: tileColor ?? this.tileColor,
-        borderRadius: borderRadius ?? this.borderRadius,
-        contentPadding: contentPadding ?? this.contentPadding,
-      );
+  }) => StreamPollVoteListTile(
+    key: key ?? this.key,
+    pollVote: pollVote ?? this.pollVote,
+    showAnswerText: showAnswerText ?? this.showAnswerText,
+    onTap: onTap ?? this.onTap,
+    onLongPress: onLongPress ?? this.onLongPress,
+    tileColor: tileColor ?? this.tileColor,
+    borderRadius: borderRadius ?? this.borderRadius,
+    contentPadding: contentPadding ?? this.contentPadding,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -77,8 +76,7 @@ class StreamPollVoteListTile extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (pollVote.answerText case final answerText?
-                when showAnswerText) ...[
+            if (pollVote.answerText case final answerText? when showAnswerText) ...[
               Text(
                 answerText,
                 style: textTheme.headlineBold.copyWith(

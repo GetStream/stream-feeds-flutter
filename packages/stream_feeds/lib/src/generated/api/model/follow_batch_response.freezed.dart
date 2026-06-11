@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -10,7 +9,6 @@ part of 'follow_batch_response.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
@@ -25,7 +23,9 @@ mixin _$FollowBatchResponse {
   @pragma('vm:prefer-inline')
   $FollowBatchResponseCopyWith<FollowBatchResponse> get copyWith =>
       _$FollowBatchResponseCopyWithImpl<FollowBatchResponse>(
-          this as FollowBatchResponse, _$identity);
+        this as FollowBatchResponse,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -33,17 +33,17 @@ mixin _$FollowBatchResponse {
         (other.runtimeType == runtimeType &&
             other is FollowBatchResponse &&
             const DeepCollectionEquality().equals(other.created, created) &&
-            (identical(other.duration, duration) ||
-                other.duration == duration) &&
+            (identical(other.duration, duration) || other.duration == duration) &&
             const DeepCollectionEquality().equals(other.follows, follows));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(created),
-      duration,
-      const DeepCollectionEquality().hash(follows));
+    runtimeType,
+    const DeepCollectionEquality().hash(created),
+    duration,
+    const DeepCollectionEquality().hash(follows),
+  );
 
   @override
   String toString() {
@@ -54,18 +54,19 @@ mixin _$FollowBatchResponse {
 /// @nodoc
 abstract mixin class $FollowBatchResponseCopyWith<$Res> {
   factory $FollowBatchResponseCopyWith(
-          FollowBatchResponse value, $Res Function(FollowBatchResponse) _then) =
-      _$FollowBatchResponseCopyWithImpl;
+    FollowBatchResponse value,
+    $Res Function(FollowBatchResponse) _then,
+  ) = _$FollowBatchResponseCopyWithImpl;
   @useResult
-  $Res call(
-      {List<FollowResponse> created,
-      String duration,
-      List<FollowResponse> follows});
+  $Res call({
+    List<FollowResponse> created,
+    String duration,
+    List<FollowResponse> follows,
+  });
 }
 
 /// @nodoc
-class _$FollowBatchResponseCopyWithImpl<$Res>
-    implements $FollowBatchResponseCopyWith<$Res> {
+class _$FollowBatchResponseCopyWithImpl<$Res> implements $FollowBatchResponseCopyWith<$Res> {
   _$FollowBatchResponseCopyWithImpl(this._self, this._then);
 
   final FollowBatchResponse _self;
@@ -80,21 +81,21 @@ class _$FollowBatchResponseCopyWithImpl<$Res>
     Object? duration = null,
     Object? follows = null,
   }) {
-    return _then(FollowBatchResponse(
-      created: null == created
-          ? _self.created
-          : created // ignore: cast_nullable_to_non_nullable
-              as List<FollowResponse>,
-      duration: null == duration
-          ? _self.duration
-          : duration // ignore: cast_nullable_to_non_nullable
-              as String,
-      follows: null == follows
-          ? _self.follows
-          : follows // ignore: cast_nullable_to_non_nullable
-              as List<FollowResponse>,
-    ));
+    return _then(
+      FollowBatchResponse(
+        created: null == created
+            ? _self.created
+            : created // ignore: cast_nullable_to_non_nullable
+                  as List<FollowResponse>,
+        duration: null == duration
+            ? _self.duration
+            : duration // ignore: cast_nullable_to_non_nullable
+                  as String,
+        follows: null == follows
+            ? _self.follows
+            : follows // ignore: cast_nullable_to_non_nullable
+                  as List<FollowResponse>,
+      ),
+    );
   }
 }
-
-// dart format on

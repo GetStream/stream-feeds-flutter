@@ -38,6 +38,5 @@ class ModerationPayload with _$ModerationPayload {
 
   Map<String, dynamic> toJson() => _$ModerationPayloadToJson(this);
 
-  static ModerationPayload fromJson(Map<String, dynamic> json) =>
-      _$ModerationPayloadFromJson(json);
+  static ModerationPayload fromJson(Map<String, dynamic> json) => _$ModerationPayloadFromJson(json);
 }

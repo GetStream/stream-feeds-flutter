@@ -28,6 +28,7 @@ class UpsertConfigRequest with _$UpsertConfigRequest {
     this.awsRekognitionConfig,
     this.blockListConfig,
     this.bodyguardConfig,
+    this.floodConfig,
     this.googleVisionConfig,
     required this.key,
     this.llmConfig,
@@ -68,6 +69,9 @@ class UpsertConfigRequest with _$UpsertConfigRequest {
   final AITextConfig? bodyguardConfig;
 
   @override
+  final FloodConfig? floodConfig;
+
+  @override
   final GoogleVisionConfig? googleVisionConfig;
 
   @override
@@ -90,6 +94,5 @@ class UpsertConfigRequest with _$UpsertConfigRequest {
 
   Map<String, dynamic> toJson() => _$UpsertConfigRequestToJson(this);
 
-  static UpsertConfigRequest fromJson(Map<String, dynamic> json) =>
-      _$UpsertConfigRequestFromJson(json);
+  static UpsertConfigRequest fromJson(Map<String, dynamic> json) => _$UpsertConfigRequestFromJson(json);
 }

@@ -26,6 +26,5 @@ class UserRuleParameters with _$UserRuleParameters {
 
   Map<String, dynamic> toJson() => _$UserRuleParametersToJson(this);
 
-  static UserRuleParameters fromJson(Map<String, dynamic> json) =>
-      _$UserRuleParametersFromJson(json);
+  static UserRuleParameters fromJson(Map<String, dynamic> json) => _$UserRuleParametersFromJson(json);
 }

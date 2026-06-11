@@ -24,20 +24,16 @@ class CallResponse with _$CallResponse {
     this.channelCid,
     required this.cid,
     required this.createdAt,
-    required this.createdBy,
+    this.createdBy,
     required this.currentSessionId,
     required this.custom,
-    required this.egress,
     this.endedAt,
     required this.id,
-    required this.ingress,
     this.joinAheadTimeSeconds,
     required this.recording,
-    this.session,
-    required this.settings,
+    this.routingNumber,
     this.startsAt,
     this.team,
-    this.thumbnails,
     required this.transcribing,
     required this.translating,
     required this.type,
@@ -64,16 +60,13 @@ class CallResponse with _$CallResponse {
   final DateTime createdAt;
 
   @override
-  final UserResponse createdBy;
+  final UserResponse? createdBy;
 
   @override
   final String currentSessionId;
 
   @override
   final Map<String, Object?> custom;
-
-  @override
-  final EgressResponse egress;
 
   @override
   @EpochDateTimeConverter()
@@ -83,19 +76,13 @@ class CallResponse with _$CallResponse {
   final String id;
 
   @override
-  final CallIngressResponse ingress;
-
-  @override
   final int? joinAheadTimeSeconds;
 
   @override
   final bool recording;
 
   @override
-  final CallSessionResponse? session;
-
-  @override
-  final CallSettingsResponse settings;
+  final String? routingNumber;
 
   @override
   @EpochDateTimeConverter()
@@ -103,9 +90,6 @@ class CallResponse with _$CallResponse {
 
   @override
   final String? team;
-
-  @override
-  final ThumbnailResponse? thumbnails;
 
   @override
   final bool transcribing;
@@ -122,6 +106,5 @@ class CallResponse with _$CallResponse {
 
   Map<String, dynamic> toJson() => _$CallResponseToJson(this);
 
-  static CallResponse fromJson(Map<String, dynamic> json) =>
-      _$CallResponseFromJson(json);
+  static CallResponse fromJson(Map<String, dynamic> json) => _$CallResponseFromJson(json);
 }

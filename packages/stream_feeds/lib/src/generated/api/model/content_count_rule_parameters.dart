@@ -30,6 +30,5 @@ class ContentCountRuleParameters with _$ContentCountRuleParameters {
 
   Map<String, dynamic> toJson() => _$ContentCountRuleParametersToJson(this);
 
-  static ContentCountRuleParameters fromJson(Map<String, dynamic> json) =>
-      _$ContentCountRuleParametersFromJson(json);
+  static ContentCountRuleParameters fromJson(Map<String, dynamic> json) => _$ContentCountRuleParametersFromJson(json);
 }

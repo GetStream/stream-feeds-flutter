@@ -30,6 +30,5 @@ class ReadCollectionsResponse with _$ReadCollectionsResponse {
 
   Map<String, dynamic> toJson() => _$ReadCollectionsResponseToJson(this);
 
-  static ReadCollectionsResponse fromJson(Map<String, dynamic> json) =>
-      _$ReadCollectionsResponseFromJson(json);
+  static ReadCollectionsResponse fromJson(Map<String, dynamic> json) => _$ReadCollectionsResponseFromJson(json);
 }

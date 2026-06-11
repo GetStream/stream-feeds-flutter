@@ -7,11 +7,11 @@ part of 'vote_data.dart';
 // **************************************************************************
 
 VoteData _$VoteDataFromJson(Map<String, dynamic> json) => VoteData(
-      answerText: json['answer_text'] as String?,
-      optionId: json['option_id'] as String?,
-    );
+  answerText: json['answer_text'] as String?,
+  optionId: json['option_id'] as String?,
+);
 
 Map<String, dynamic> _$VoteDataToJson(VoteData instance) => <String, dynamic>{
-      'answer_text': instance.answerText,
-      'option_id': instance.optionId,
-    };
+  'answer_text': instance.answerText,
+  'option_id': instance.optionId,
+};

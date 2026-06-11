@@ -30,6 +30,5 @@ class FlagResponse with _$FlagResponse {
 
   Map<String, dynamic> toJson() => _$FlagResponseToJson(this);
 
-  static FlagResponse fromJson(Map<String, dynamic> json) =>
-      _$FlagResponseFromJson(json);
+  static FlagResponse fromJson(Map<String, dynamic> json) => _$FlagResponseFromJson(json);
 }

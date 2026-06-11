@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -10,26 +9,28 @@ part of 'activity_request.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$ActivityRequest {
   List<Attachment>? get attachments;
   List<String>? get collectionRefs;
+  bool? get copyCustomToNotification;
+  bool? get createNotificationActivity;
   Map<String, Object?>? get custom;
   String? get expiresAt;
   List<String> get feeds;
   List<String>? get filterTags;
   String? get id;
   List<String>? get interestTags;
-  ActivityLocation? get location;
+  Location? get location;
   List<String>? get mentionedUserIds;
   String? get parentId;
   String? get pollId;
   ActivityRequestRestrictReplies? get restrictReplies;
   Map<String, Object?>? get searchData;
   bool? get skipEnrichUrl;
+  bool? get skipPush;
   String? get text;
   String get type;
   ActivityRequestVisibility? get visibility;
@@ -39,110 +40,134 @@ mixin _$ActivityRequest {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $ActivityRequestCopyWith<ActivityRequest> get copyWith =>
-      _$ActivityRequestCopyWithImpl<ActivityRequest>(
-          this as ActivityRequest, _$identity);
+  $ActivityRequestCopyWith<ActivityRequest> get copyWith => _$ActivityRequestCopyWithImpl<ActivityRequest>(
+    this as ActivityRequest,
+    _$identity,
+  );
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ActivityRequest &&
-            const DeepCollectionEquality()
-                .equals(other.attachments, attachments) &&
-            const DeepCollectionEquality()
-                .equals(other.collectionRefs, collectionRefs) &&
+            const DeepCollectionEquality().equals(
+              other.attachments,
+              attachments,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other.collectionRefs,
+              collectionRefs,
+            ) &&
+            (identical(
+                  other.copyCustomToNotification,
+                  copyCustomToNotification,
+                ) ||
+                other.copyCustomToNotification == copyCustomToNotification) &&
+            (identical(
+                  other.createNotificationActivity,
+                  createNotificationActivity,
+                ) ||
+                other.createNotificationActivity == createNotificationActivity) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
-            (identical(other.expiresAt, expiresAt) ||
-                other.expiresAt == expiresAt) &&
+            (identical(other.expiresAt, expiresAt) || other.expiresAt == expiresAt) &&
             const DeepCollectionEquality().equals(other.feeds, feeds) &&
-            const DeepCollectionEquality()
-                .equals(other.filterTags, filterTags) &&
+            const DeepCollectionEquality().equals(
+              other.filterTags,
+              filterTags,
+            ) &&
             (identical(other.id, id) || other.id == id) &&
-            const DeepCollectionEquality()
-                .equals(other.interestTags, interestTags) &&
-            (identical(other.location, location) ||
-                other.location == location) &&
-            const DeepCollectionEquality()
-                .equals(other.mentionedUserIds, mentionedUserIds) &&
-            (identical(other.parentId, parentId) ||
-                other.parentId == parentId) &&
+            const DeepCollectionEquality().equals(
+              other.interestTags,
+              interestTags,
+            ) &&
+            (identical(other.location, location) || other.location == location) &&
+            const DeepCollectionEquality().equals(
+              other.mentionedUserIds,
+              mentionedUserIds,
+            ) &&
+            (identical(other.parentId, parentId) || other.parentId == parentId) &&
             (identical(other.pollId, pollId) || other.pollId == pollId) &&
-            (identical(other.restrictReplies, restrictReplies) ||
-                other.restrictReplies == restrictReplies) &&
-            const DeepCollectionEquality()
-                .equals(other.searchData, searchData) &&
-            (identical(other.skipEnrichUrl, skipEnrichUrl) ||
-                other.skipEnrichUrl == skipEnrichUrl) &&
+            (identical(other.restrictReplies, restrictReplies) || other.restrictReplies == restrictReplies) &&
+            const DeepCollectionEquality().equals(
+              other.searchData,
+              searchData,
+            ) &&
+            (identical(other.skipEnrichUrl, skipEnrichUrl) || other.skipEnrichUrl == skipEnrichUrl) &&
+            (identical(other.skipPush, skipPush) || other.skipPush == skipPush) &&
             (identical(other.text, text) || other.text == text) &&
             (identical(other.type, type) || other.type == type) &&
-            (identical(other.visibility, visibility) ||
-                other.visibility == visibility) &&
-            (identical(other.visibilityTag, visibilityTag) ||
-                other.visibilityTag == visibilityTag));
+            (identical(other.visibility, visibility) || other.visibility == visibility) &&
+            (identical(other.visibilityTag, visibilityTag) || other.visibilityTag == visibilityTag));
   }
 
   @override
   int get hashCode => Object.hashAll([
-        runtimeType,
-        const DeepCollectionEquality().hash(attachments),
-        const DeepCollectionEquality().hash(collectionRefs),
-        const DeepCollectionEquality().hash(custom),
-        expiresAt,
-        const DeepCollectionEquality().hash(feeds),
-        const DeepCollectionEquality().hash(filterTags),
-        id,
-        const DeepCollectionEquality().hash(interestTags),
-        location,
-        const DeepCollectionEquality().hash(mentionedUserIds),
-        parentId,
-        pollId,
-        restrictReplies,
-        const DeepCollectionEquality().hash(searchData),
-        skipEnrichUrl,
-        text,
-        type,
-        visibility,
-        visibilityTag
-      ]);
+    runtimeType,
+    const DeepCollectionEquality().hash(attachments),
+    const DeepCollectionEquality().hash(collectionRefs),
+    copyCustomToNotification,
+    createNotificationActivity,
+    const DeepCollectionEquality().hash(custom),
+    expiresAt,
+    const DeepCollectionEquality().hash(feeds),
+    const DeepCollectionEquality().hash(filterTags),
+    id,
+    const DeepCollectionEquality().hash(interestTags),
+    location,
+    const DeepCollectionEquality().hash(mentionedUserIds),
+    parentId,
+    pollId,
+    restrictReplies,
+    const DeepCollectionEquality().hash(searchData),
+    skipEnrichUrl,
+    skipPush,
+    text,
+    type,
+    visibility,
+    visibilityTag,
+  ]);
 
   @override
   String toString() {
-    return 'ActivityRequest(attachments: $attachments, collectionRefs: $collectionRefs, custom: $custom, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, id: $id, interestTags: $interestTags, location: $location, mentionedUserIds: $mentionedUserIds, parentId: $parentId, pollId: $pollId, restrictReplies: $restrictReplies, searchData: $searchData, skipEnrichUrl: $skipEnrichUrl, text: $text, type: $type, visibility: $visibility, visibilityTag: $visibilityTag)';
+    return 'ActivityRequest(attachments: $attachments, collectionRefs: $collectionRefs, copyCustomToNotification: $copyCustomToNotification, createNotificationActivity: $createNotificationActivity, custom: $custom, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, id: $id, interestTags: $interestTags, location: $location, mentionedUserIds: $mentionedUserIds, parentId: $parentId, pollId: $pollId, restrictReplies: $restrictReplies, searchData: $searchData, skipEnrichUrl: $skipEnrichUrl, skipPush: $skipPush, text: $text, type: $type, visibility: $visibility, visibilityTag: $visibilityTag)';
   }
 }
 
 /// @nodoc
 abstract mixin class $ActivityRequestCopyWith<$Res> {
   factory $ActivityRequestCopyWith(
-          ActivityRequest value, $Res Function(ActivityRequest) _then) =
-      _$ActivityRequestCopyWithImpl;
+    ActivityRequest value,
+    $Res Function(ActivityRequest) _then,
+  ) = _$ActivityRequestCopyWithImpl;
   @useResult
-  $Res call(
-      {List<Attachment>? attachments,
-      List<String>? collectionRefs,
-      Map<String, Object?>? custom,
-      String? expiresAt,
-      List<String> feeds,
-      List<String>? filterTags,
-      String? id,
-      List<String>? interestTags,
-      ActivityLocation? location,
-      List<String>? mentionedUserIds,
-      String? parentId,
-      String? pollId,
-      ActivityRequestRestrictReplies? restrictReplies,
-      Map<String, Object?>? searchData,
-      bool? skipEnrichUrl,
-      String? text,
-      String type,
-      ActivityRequestVisibility? visibility,
-      String? visibilityTag});
+  $Res call({
+    List<Attachment>? attachments,
+    List<String>? collectionRefs,
+    bool? copyCustomToNotification,
+    bool? createNotificationActivity,
+    Map<String, Object?>? custom,
+    String? expiresAt,
+    List<String> feeds,
+    List<String>? filterTags,
+    String? id,
+    List<String>? interestTags,
+    Location? location,
+    List<String>? mentionedUserIds,
+    String? parentId,
+    String? pollId,
+    ActivityRequestRestrictReplies? restrictReplies,
+    Map<String, Object?>? searchData,
+    bool? skipEnrichUrl,
+    bool? skipPush,
+    String? text,
+    String type,
+    ActivityRequestVisibility? visibility,
+    String? visibilityTag,
+  });
 }
 
 /// @nodoc
-class _$ActivityRequestCopyWithImpl<$Res>
-    implements $ActivityRequestCopyWith<$Res> {
+class _$ActivityRequestCopyWithImpl<$Res> implements $ActivityRequestCopyWith<$Res> {
   _$ActivityRequestCopyWithImpl(this._self, this._then);
 
   final ActivityRequest _self;
@@ -155,6 +180,8 @@ class _$ActivityRequestCopyWithImpl<$Res>
   $Res call({
     Object? attachments = freezed,
     Object? collectionRefs = freezed,
+    Object? copyCustomToNotification = freezed,
+    Object? createNotificationActivity = freezed,
     Object? custom = freezed,
     Object? expiresAt = freezed,
     Object? feeds = null,
@@ -168,90 +195,103 @@ class _$ActivityRequestCopyWithImpl<$Res>
     Object? restrictReplies = freezed,
     Object? searchData = freezed,
     Object? skipEnrichUrl = freezed,
+    Object? skipPush = freezed,
     Object? text = freezed,
     Object? type = null,
     Object? visibility = freezed,
     Object? visibilityTag = freezed,
   }) {
-    return _then(ActivityRequest(
-      attachments: freezed == attachments
-          ? _self.attachments
-          : attachments // ignore: cast_nullable_to_non_nullable
-              as List<Attachment>?,
-      collectionRefs: freezed == collectionRefs
-          ? _self.collectionRefs
-          : collectionRefs // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-      custom: freezed == custom
-          ? _self.custom
-          : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object?>?,
-      expiresAt: freezed == expiresAt
-          ? _self.expiresAt
-          : expiresAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-      feeds: null == feeds
-          ? _self.feeds
-          : feeds // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      filterTags: freezed == filterTags
-          ? _self.filterTags
-          : filterTags // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-      id: freezed == id
-          ? _self.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String?,
-      interestTags: freezed == interestTags
-          ? _self.interestTags
-          : interestTags // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-      location: freezed == location
-          ? _self.location
-          : location // ignore: cast_nullable_to_non_nullable
-              as ActivityLocation?,
-      mentionedUserIds: freezed == mentionedUserIds
-          ? _self.mentionedUserIds
-          : mentionedUserIds // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-      parentId: freezed == parentId
-          ? _self.parentId
-          : parentId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      pollId: freezed == pollId
-          ? _self.pollId
-          : pollId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      restrictReplies: freezed == restrictReplies
-          ? _self.restrictReplies
-          : restrictReplies // ignore: cast_nullable_to_non_nullable
-              as ActivityRequestRestrictReplies?,
-      searchData: freezed == searchData
-          ? _self.searchData
-          : searchData // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object?>?,
-      skipEnrichUrl: freezed == skipEnrichUrl
-          ? _self.skipEnrichUrl
-          : skipEnrichUrl // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      text: freezed == text
-          ? _self.text
-          : text // ignore: cast_nullable_to_non_nullable
-              as String?,
-      type: null == type
-          ? _self.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
-      visibility: freezed == visibility
-          ? _self.visibility
-          : visibility // ignore: cast_nullable_to_non_nullable
-              as ActivityRequestVisibility?,
-      visibilityTag: freezed == visibilityTag
-          ? _self.visibilityTag
-          : visibilityTag // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
+    return _then(
+      ActivityRequest(
+        attachments: freezed == attachments
+            ? _self.attachments
+            : attachments // ignore: cast_nullable_to_non_nullable
+                  as List<Attachment>?,
+        collectionRefs: freezed == collectionRefs
+            ? _self.collectionRefs
+            : collectionRefs // ignore: cast_nullable_to_non_nullable
+                  as List<String>?,
+        copyCustomToNotification: freezed == copyCustomToNotification
+            ? _self.copyCustomToNotification
+            : copyCustomToNotification // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        createNotificationActivity: freezed == createNotificationActivity
+            ? _self.createNotificationActivity
+            : createNotificationActivity // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        custom: freezed == custom
+            ? _self.custom
+            : custom // ignore: cast_nullable_to_non_nullable
+                  as Map<String, Object?>?,
+        expiresAt: freezed == expiresAt
+            ? _self.expiresAt
+            : expiresAt // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        feeds: null == feeds
+            ? _self.feeds
+            : feeds // ignore: cast_nullable_to_non_nullable
+                  as List<String>,
+        filterTags: freezed == filterTags
+            ? _self.filterTags
+            : filterTags // ignore: cast_nullable_to_non_nullable
+                  as List<String>?,
+        id: freezed == id
+            ? _self.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        interestTags: freezed == interestTags
+            ? _self.interestTags
+            : interestTags // ignore: cast_nullable_to_non_nullable
+                  as List<String>?,
+        location: freezed == location
+            ? _self.location
+            : location // ignore: cast_nullable_to_non_nullable
+                  as Location?,
+        mentionedUserIds: freezed == mentionedUserIds
+            ? _self.mentionedUserIds
+            : mentionedUserIds // ignore: cast_nullable_to_non_nullable
+                  as List<String>?,
+        parentId: freezed == parentId
+            ? _self.parentId
+            : parentId // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        pollId: freezed == pollId
+            ? _self.pollId
+            : pollId // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        restrictReplies: freezed == restrictReplies
+            ? _self.restrictReplies
+            : restrictReplies // ignore: cast_nullable_to_non_nullable
+                  as ActivityRequestRestrictReplies?,
+        searchData: freezed == searchData
+            ? _self.searchData
+            : searchData // ignore: cast_nullable_to_non_nullable
+                  as Map<String, Object?>?,
+        skipEnrichUrl: freezed == skipEnrichUrl
+            ? _self.skipEnrichUrl
+            : skipEnrichUrl // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        skipPush: freezed == skipPush
+            ? _self.skipPush
+            : skipPush // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        text: freezed == text
+            ? _self.text
+            : text // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        type: null == type
+            ? _self.type
+            : type // ignore: cast_nullable_to_non_nullable
+                  as String,
+        visibility: freezed == visibility
+            ? _self.visibility
+            : visibility // ignore: cast_nullable_to_non_nullable
+                  as ActivityRequestVisibility?,
+        visibilityTag: freezed == visibilityTag
+            ? _self.visibilityTag
+            : visibilityTag // ignore: cast_nullable_to_non_nullable
+                  as String?,
+      ),
+    );
   }
 }
-
-// dart format on

@@ -38,12 +38,17 @@ class ActivityData with _$ActivityData {
     this.expiresAt,
     this.feeds = const [],
     this.filterTags = const [],
+    this.friendReactionCount,
+    this.friendReactions = const [],
     required this.id,
     this.interestTags = const [],
+    this.isRead,
+    this.isSeen,
     this.isWatched,
     this.latestReactions = const [],
     this.location,
     this.mentionedUsers = const [],
+    this.metrics = const {},
     this.moderation,
     this.notificationContext,
     this.ownBookmarks = const [],
@@ -118,6 +123,14 @@ class ActivityData with _$ActivityData {
   @override
   final List<String> filterTags;
 
+  /// The number of reactions from friends on this activity.
+  @override
+  final int? friendReactionCount;
+
+  /// The reactions from friends on this activity.
+  @override
+  final List<FeedsReactionData> friendReactions;
+
   /// The unique identifier of the activity.
   @override
   final String id;
@@ -125,6 +138,20 @@ class ActivityData with _$ActivityData {
   /// Tags indicating user interests or content categories.
   @override
   final List<String> interestTags;
+
+  /// Whether this activity has been read by the current user.
+  ///
+  /// Relevant for notification feeds — `true` once the user has opened or
+  /// acknowledged the activity.
+  @override
+  final bool? isRead;
+
+  /// Whether this activity has been seen by the current user.
+  ///
+  /// Relevant for notification feeds — `true` once the activity has
+  /// appeared in the user's feed view.
+  @override
+  final bool? isSeen;
 
   /// Whether the activity was watched by the current user. Relevant for stories.
   @override
@@ -141,6 +168,13 @@ class ActivityData with _$ActivityData {
   /// Users mentioned in the activity.
   @override
   final List<UserData> mentionedUsers;
+
+  /// Activity metrics such as click counts, impression counts, etc.
+  ///
+  /// Keys are metric names (e.g. `"click_count"`, `"impression_count"`) and
+  /// values are their integer counts.
+  @override
+  final Map<String, int> metrics;
 
   /// Moderation state and data for the activity.
   @override
@@ -274,8 +308,7 @@ extension ActivityResponseMapper on ActivityResponse {
       attachments: attachments,
       bookmarkCount: bookmarkCount,
       collections: {
-        for (final entry in collections.entries)
-          entry.key: entry.value.toModel(),
+        for (final entry in collections.entries) entry.key: entry.value.toModel(),
       },
       commentCount: commentCount,
       comments: [...comments.map((c) => c.toModel())],
@@ -286,8 +319,12 @@ extension ActivityResponseMapper on ActivityResponse {
       expiresAt: expiresAt,
       feeds: feeds,
       filterTags: filterTags,
+      friendReactionCount: friendReactionCount,
+      friendReactions: [...?friendReactions?.map((r) => r.toModel())],
       id: id,
       interestTags: interestTags,
+      isRead: isRead,
+      isSeen: isSeen,
       isWatched: isWatched,
       latestReactions: [...latestReactions.map((r) => r.toModel())],
       location: location?.let(
@@ -297,6 +334,7 @@ extension ActivityResponseMapper on ActivityResponse {
         ),
       ),
       mentionedUsers: [...mentionedUsers.map((u) => u.toModel())],
+      metrics: metrics ?? const {},
       moderation: moderation?.toModel(),
       notificationContext: notificationContext,
       ownBookmarks: [...ownBookmarks.map((b) => b.toModel())],
@@ -308,8 +346,7 @@ extension ActivityResponseMapper on ActivityResponse {
       preview: preview,
       reactionCount: reactionCount,
       reactionGroups: {
-        for (final entry in reactionGroups.entries)
-          entry.key: entry.value.toModel(),
+        for (final entry in reactionGroups.entries) entry.key: entry.value.toModel(),
       },
       score: score,
       searchData: searchData,

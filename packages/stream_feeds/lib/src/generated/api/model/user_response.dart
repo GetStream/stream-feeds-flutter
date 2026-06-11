@@ -100,6 +100,5 @@ class UserResponse with _$UserResponse {
 
   Map<String, dynamic> toJson() => _$UserResponseToJson(this);
 
-  static UserResponse fromJson(Map<String, dynamic> json) =>
-      _$UserResponseFromJson(json);
+  static UserResponse fromJson(Map<String, dynamic> json) => _$UserResponseFromJson(json);
 }

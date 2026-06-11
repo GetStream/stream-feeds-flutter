@@ -26,6 +26,5 @@ class CastPollVoteRequest with _$CastPollVoteRequest {
 
   Map<String, dynamic> toJson() => _$CastPollVoteRequestToJson(this);
 
-  static CastPollVoteRequest fromJson(Map<String, dynamic> json) =>
-      _$CastPollVoteRequestFromJson(json);
+  static CastPollVoteRequest fromJson(Map<String, dynamic> json) => _$CastPollVoteRequestFromJson(json);
 }

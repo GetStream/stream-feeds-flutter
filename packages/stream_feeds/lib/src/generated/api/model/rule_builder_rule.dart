@@ -18,7 +18,8 @@ part 'rule_builder_rule.freezed.dart';
 @JsonSerializable()
 class RuleBuilderRule with _$RuleBuilderRule {
   const RuleBuilderRule({
-    required this.action,
+    this.action,
+    this.actionSequences,
     this.conditions,
     this.cooldownPeriod,
     this.groups,
@@ -28,7 +29,10 @@ class RuleBuilderRule with _$RuleBuilderRule {
   });
 
   @override
-  final RuleBuilderAction action;
+  final RuleBuilderAction? action;
+
+  @override
+  final List<CallRuleActionSequence>? actionSequences;
 
   @override
   final List<RuleBuilderCondition>? conditions;
@@ -50,6 +54,5 @@ class RuleBuilderRule with _$RuleBuilderRule {
 
   Map<String, dynamic> toJson() => _$RuleBuilderRuleToJson(this);
 
-  static RuleBuilderRule fromJson(Map<String, dynamic> json) =>
-      _$RuleBuilderRuleFromJson(json);
+  static RuleBuilderRule fromJson(Map<String, dynamic> json) => _$RuleBuilderRuleFromJson(json);
 }

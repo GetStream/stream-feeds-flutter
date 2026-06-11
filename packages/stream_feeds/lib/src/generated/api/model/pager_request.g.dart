@@ -7,14 +7,13 @@ part of 'pager_request.dart';
 // **************************************************************************
 
 PagerRequest _$PagerRequestFromJson(Map<String, dynamic> json) => PagerRequest(
-      limit: (json['limit'] as num?)?.toInt(),
-      next: json['next'] as String?,
-      prev: json['prev'] as String?,
-    );
+  limit: (json['limit'] as num?)?.toInt(),
+  next: json['next'] as String?,
+  prev: json['prev'] as String?,
+);
 
-Map<String, dynamic> _$PagerRequestToJson(PagerRequest instance) =>
-    <String, dynamic>{
-      'limit': instance.limit,
-      'next': instance.next,
-      'prev': instance.prev,
-    };
+Map<String, dynamic> _$PagerRequestToJson(PagerRequest instance) => <String, dynamic>{
+  'limit': instance.limit,
+  'next': instance.next,
+  'prev': instance.prev,
+};

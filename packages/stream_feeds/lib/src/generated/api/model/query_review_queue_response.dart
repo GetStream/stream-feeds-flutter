@@ -19,6 +19,7 @@ part 'query_review_queue_response.freezed.dart';
 class QueryReviewQueueResponse with _$QueryReviewQueueResponse {
   const QueryReviewQueueResponse({
     required this.actionConfig,
+    this.defaultActionConfig,
     required this.duration,
     this.filterConfig,
     required this.items,
@@ -28,7 +29,10 @@ class QueryReviewQueueResponse with _$QueryReviewQueueResponse {
   });
 
   @override
-  final Map<String, List<ModerationActionConfig>> actionConfig;
+  final Map<String, List<ModerationActionConfigResponse>> actionConfig;
+
+  @override
+  final Map<String, List<ModerationActionConfigResponse>>? defaultActionConfig;
 
   @override
   final String duration;
@@ -50,6 +54,5 @@ class QueryReviewQueueResponse with _$QueryReviewQueueResponse {
 
   Map<String, dynamic> toJson() => _$QueryReviewQueueResponseToJson(this);
 
-  static QueryReviewQueueResponse fromJson(Map<String, dynamic> json) =>
-      _$QueryReviewQueueResponseFromJson(json);
+  static QueryReviewQueueResponse fromJson(Map<String, dynamic> json) => _$QueryReviewQueueResponseFromJson(json);
 }

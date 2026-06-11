@@ -30,6 +30,5 @@ class DeleteActivitiesResponse with _$DeleteActivitiesResponse {
 
   Map<String, dynamic> toJson() => _$DeleteActivitiesResponseToJson(this);
 
-  static DeleteActivitiesResponse fromJson(Map<String, dynamic> json) =>
-      _$DeleteActivitiesResponseFromJson(json);
+  static DeleteActivitiesResponse fromJson(Map<String, dynamic> json) => _$DeleteActivitiesResponseFromJson(json);
 }

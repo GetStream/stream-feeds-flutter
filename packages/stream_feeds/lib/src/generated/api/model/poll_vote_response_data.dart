@@ -60,6 +60,5 @@ class PollVoteResponseData with _$PollVoteResponseData {
 
   Map<String, dynamic> toJson() => _$PollVoteResponseDataToJson(this);
 
-  static PollVoteResponseData fromJson(Map<String, dynamic> json) =>
-      _$PollVoteResponseDataFromJson(json);
+  static PollVoteResponseData fromJson(Map<String, dynamic> json) => _$PollVoteResponseDataFromJson(json);
 }

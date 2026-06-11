@@ -67,15 +67,15 @@ class UserFeed extends StatelessWidget {
                 SliverToBoxAdapter(
                   child: switch (canLoadMore) {
                     true => TextButton(
-                        onPressed: timelineFeed.queryMoreActivities,
-                        child: const Text('Load more...'),
-                      ),
+                      onPressed: timelineFeed.queryMoreActivities,
+                      child: const Text('Load more...'),
+                    ),
                     false => const Padding(
-                        padding: EdgeInsets.all(16),
-                        child: Center(
-                          child: Text('End of feed'),
-                        ),
-                      )
+                      padding: EdgeInsets.all(16),
+                      child: Center(
+                        child: Text('End of feed'),
+                      ),
+                    ),
                   },
                 ),
             ],
@@ -137,7 +137,7 @@ class UserFeed extends StatelessWidget {
         createNotificationActivity: true,
         custom: {
           // Add emoji code only if available
-          if (reaction.emojiCode case final code?) 'emoji_code': code,
+          'emoji_code': ?reaction.emojiCode,
         },
       ),
     );

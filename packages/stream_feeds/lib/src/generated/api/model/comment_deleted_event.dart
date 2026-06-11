@@ -56,6 +56,5 @@ class CommentDeletedEvent extends core.WsEvent with _$CommentDeletedEvent {
 
   Map<String, dynamic> toJson() => _$CommentDeletedEventToJson(this);
 
-  static CommentDeletedEvent fromJson(Map<String, dynamic> json) =>
-      _$CommentDeletedEventFromJson(json);
+  static CommentDeletedEvent fromJson(Map<String, dynamic> json) => _$CommentDeletedEventFromJson(json);
 }

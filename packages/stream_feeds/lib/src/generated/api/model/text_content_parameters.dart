@@ -21,6 +21,7 @@ class TextContentParameters with _$TextContentParameters {
     this.blocklistMatch,
     this.containsUrl,
     this.harmLabels,
+    this.labelOperator,
     this.llmHarmLabels,
     this.severity,
   });
@@ -35,6 +36,9 @@ class TextContentParameters with _$TextContentParameters {
   final List<String>? harmLabels;
 
   @override
+  final String? labelOperator;
+
+  @override
   final Map<String, String>? llmHarmLabels;
 
   @override
@@ -42,6 +46,5 @@ class TextContentParameters with _$TextContentParameters {
 
   Map<String, dynamic> toJson() => _$TextContentParametersToJson(this);
 
-  static TextContentParameters fromJson(Map<String, dynamic> json) =>
-      _$TextContentParametersFromJson(json);
+  static TextContentParameters fromJson(Map<String, dynamic> json) => _$TextContentParametersFromJson(json);
 }

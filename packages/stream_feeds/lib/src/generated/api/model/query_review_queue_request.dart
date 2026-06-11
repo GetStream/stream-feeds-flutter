@@ -18,6 +18,7 @@ part 'query_review_queue_request.freezed.dart';
 @JsonSerializable()
 class QueryReviewQueueRequest with _$QueryReviewQueueRequest {
   const QueryReviewQueueRequest({
+    this.excludeDefaultActionConfig,
     this.filter,
     this.limit,
     this.lockCount,
@@ -28,6 +29,9 @@ class QueryReviewQueueRequest with _$QueryReviewQueueRequest {
     this.sort,
     this.statsOnly,
   });
+
+  @override
+  final bool? excludeDefaultActionConfig;
 
   @override
   final Map<String, Object?>? filter;
@@ -58,6 +62,5 @@ class QueryReviewQueueRequest with _$QueryReviewQueueRequest {
 
   Map<String, dynamic> toJson() => _$QueryReviewQueueRequestToJson(this);
 
-  static QueryReviewQueueRequest fromJson(Map<String, dynamic> json) =>
-      _$QueryReviewQueueRequestFromJson(json);
+  static QueryReviewQueueRequest fromJson(Map<String, dynamic> json) => _$QueryReviewQueueRequestFromJson(json);
 }

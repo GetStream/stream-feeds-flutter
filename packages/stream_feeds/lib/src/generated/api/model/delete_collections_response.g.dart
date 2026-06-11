@@ -7,13 +7,9 @@ part of 'delete_collections_response.dart';
 // **************************************************************************
 
 DeleteCollectionsResponse _$DeleteCollectionsResponseFromJson(
-        Map<String, dynamic> json) =>
-    DeleteCollectionsResponse(
-      duration: json['duration'] as String,
-    );
+  Map<String, dynamic> json,
+) => DeleteCollectionsResponse(duration: json['duration'] as String);
 
 Map<String, dynamic> _$DeleteCollectionsResponseToJson(
-        DeleteCollectionsResponse instance) =>
-    <String, dynamic>{
-      'duration': instance.duration,
-    };
+  DeleteCollectionsResponse instance,
+) => <String, dynamic>{'duration': instance.duration};

@@ -38,6 +38,5 @@ class QueryAppealsResponse with _$QueryAppealsResponse {
 
   Map<String, dynamic> toJson() => _$QueryAppealsResponseToJson(this);
 
-  static QueryAppealsResponse fromJson(Map<String, dynamic> json) =>
-      _$QueryAppealsResponseFromJson(json);
+  static QueryAppealsResponse fromJson(Map<String, dynamic> json) => _$QueryAppealsResponseFromJson(json);
 }

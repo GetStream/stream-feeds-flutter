@@ -364,13 +364,9 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
     // New accepted followings shouldn't count as follow requests anymore
     removedFollowRequests.addAll(newFollowers.map((it) => it.id));
 
-    final updatedFollowing = updates
-        .copyWith(added: newFollowing)
-        .applyTo(state.following, key: (it) => it.id);
+    final updatedFollowing = updates.copyWith(added: newFollowing).applyTo(state.following, key: (it) => it.id);
 
-    final updatedFollowers = updates
-        .copyWith(added: newFollowers)
-        .applyTo(state.followers, key: (it) => it.id);
+    final updatedFollowers = updates.copyWith(added: newFollowers).applyTo(state.followers, key: (it) => it.id);
 
     final updatedFollowRequests = updates
         .copyWith(added: newFollowRequests, removedIds: removedFollowRequests)

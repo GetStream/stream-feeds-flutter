@@ -70,6 +70,5 @@ class EnrichedActivity with _$EnrichedActivity {
 
   Map<String, dynamic> toJson() => _$EnrichedActivityToJson(this);
 
-  static EnrichedActivity fromJson(Map<String, dynamic> json) =>
-      _$EnrichedActivityFromJson(json);
+  static EnrichedActivity fromJson(Map<String, dynamic> json) => _$EnrichedActivityFromJson(json);
 }

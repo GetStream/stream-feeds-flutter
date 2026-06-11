@@ -621,9 +621,7 @@ class Feed with Disposable {
 
         capabilitiesRepository.cacheCapabilitiesForFeeds([
           feedData.feed,
-          ...feedData.activities
-              .map((activity) => activity.currentFeed)
-              .nonNulls,
+          ...feedData.activities.map((activity) => activity.currentFeed).nonNulls,
         ]);
       },
     );

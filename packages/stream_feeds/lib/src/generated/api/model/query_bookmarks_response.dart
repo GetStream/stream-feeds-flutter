@@ -38,6 +38,5 @@ class QueryBookmarksResponse with _$QueryBookmarksResponse {
 
   Map<String, dynamic> toJson() => _$QueryBookmarksResponseToJson(this);
 
-  static QueryBookmarksResponse fromJson(Map<String, dynamic> json) =>
-      _$QueryBookmarksResponseFromJson(json);
+  static QueryBookmarksResponse fromJson(Map<String, dynamic> json) => _$QueryBookmarksResponseFromJson(json);
 }

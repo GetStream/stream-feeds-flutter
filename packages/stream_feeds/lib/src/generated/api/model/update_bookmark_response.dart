@@ -30,6 +30,5 @@ class UpdateBookmarkResponse with _$UpdateBookmarkResponse {
 
   Map<String, dynamic> toJson() => _$UpdateBookmarkResponseToJson(this);
 
-  static UpdateBookmarkResponse fromJson(Map<String, dynamic> json) =>
-      _$UpdateBookmarkResponseFromJson(json);
+  static UpdateBookmarkResponse fromJson(Map<String, dynamic> json) => _$UpdateBookmarkResponseFromJson(json);
 }

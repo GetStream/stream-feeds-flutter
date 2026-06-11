@@ -20,7 +20,7 @@ enum UpdatePollRequestVotingVisibility {
   @JsonValue('public')
   public,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -77,6 +77,5 @@ class UpdatePollRequest with _$UpdatePollRequest {
 
   Map<String, dynamic> toJson() => _$UpdatePollRequestToJson(this);
 
-  static UpdatePollRequest fromJson(Map<String, dynamic> json) =>
-      _$UpdatePollRequestFromJson(json);
+  static UpdatePollRequest fromJson(Map<String, dynamic> json) => _$UpdatePollRequestFromJson(json);
 }

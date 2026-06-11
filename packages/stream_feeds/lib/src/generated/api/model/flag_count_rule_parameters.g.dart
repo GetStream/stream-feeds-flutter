@@ -7,13 +7,9 @@ part of 'flag_count_rule_parameters.dart';
 // **************************************************************************
 
 FlagCountRuleParameters _$FlagCountRuleParametersFromJson(
-        Map<String, dynamic> json) =>
-    FlagCountRuleParameters(
-      threshold: (json['threshold'] as num?)?.toInt(),
-    );
+  Map<String, dynamic> json,
+) => FlagCountRuleParameters(threshold: (json['threshold'] as num?)?.toInt());
 
 Map<String, dynamic> _$FlagCountRuleParametersToJson(
-        FlagCountRuleParameters instance) =>
-    <String, dynamic>{
-      'threshold': instance.threshold,
-    };
+  FlagCountRuleParameters instance,
+) => <String, dynamic>{'threshold': instance.threshold};

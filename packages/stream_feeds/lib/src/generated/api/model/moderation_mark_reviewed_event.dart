@@ -16,8 +16,7 @@ part 'moderation_mark_reviewed_event.freezed.dart';
 @freezed
 @immutable
 @JsonSerializable()
-class ModerationMarkReviewedEvent extends core.WsEvent
-    with _$ModerationMarkReviewedEvent {
+class ModerationMarkReviewedEvent extends core.WsEvent with _$ModerationMarkReviewedEvent {
   const ModerationMarkReviewedEvent({
     required this.createdAt,
     required this.custom,
@@ -49,6 +48,5 @@ class ModerationMarkReviewedEvent extends core.WsEvent
 
   Map<String, dynamic> toJson() => _$ModerationMarkReviewedEventToJson(this);
 
-  static ModerationMarkReviewedEvent fromJson(Map<String, dynamic> json) =>
-      _$ModerationMarkReviewedEventFromJson(json);
+  static ModerationMarkReviewedEvent fromJson(Map<String, dynamic> json) => _$ModerationMarkReviewedEventFromJson(json);
 }

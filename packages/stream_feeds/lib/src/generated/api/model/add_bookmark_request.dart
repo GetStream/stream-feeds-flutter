@@ -34,6 +34,5 @@ class AddBookmarkRequest with _$AddBookmarkRequest {
 
   Map<String, dynamic> toJson() => _$AddBookmarkRequestToJson(this);
 
-  static AddBookmarkRequest fromJson(Map<String, dynamic> json) =>
-      _$AddBookmarkRequestFromJson(json);
+  static AddBookmarkRequest fromJson(Map<String, dynamic> json) => _$AddBookmarkRequestFromJson(json);
 }

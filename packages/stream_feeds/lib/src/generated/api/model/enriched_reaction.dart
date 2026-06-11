@@ -66,6 +66,5 @@ class EnrichedReaction with _$EnrichedReaction {
 
   Map<String, dynamic> toJson() => _$EnrichedReactionToJson(this);
 
-  static EnrichedReaction fromJson(Map<String, dynamic> json) =>
-      _$EnrichedReactionFromJson(json);
+  static EnrichedReaction fromJson(Map<String, dynamic> json) => _$EnrichedReactionFromJson(json);
 }

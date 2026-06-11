@@ -30,6 +30,5 @@ class UnfollowBatchResponse with _$UnfollowBatchResponse {
 
   Map<String, dynamic> toJson() => _$UnfollowBatchResponseToJson(this);
 
-  static UnfollowBatchResponse fromJson(Map<String, dynamic> json) =>
-      _$UnfollowBatchResponseFromJson(json);
+  static UnfollowBatchResponse fromJson(Map<String, dynamic> json) => _$UnfollowBatchResponseFromJson(json);
 }

@@ -30,6 +30,5 @@ class QueryUsersResponse with _$QueryUsersResponse {
 
   Map<String, dynamic> toJson() => _$QueryUsersResponseToJson(this);
 
-  static QueryUsersResponse fromJson(Map<String, dynamic> json) =>
-      _$QueryUsersResponseFromJson(json);
+  static QueryUsersResponse fromJson(Map<String, dynamic> json) => _$QueryUsersResponseFromJson(json);
 }

@@ -114,6 +114,5 @@ class GetOGResponse with _$GetOGResponse {
 
   Map<String, dynamic> toJson() => _$GetOGResponseToJson(this);
 
-  static GetOGResponse fromJson(Map<String, dynamic> json) =>
-      _$GetOGResponseFromJson(json);
+  static GetOGResponse fromJson(Map<String, dynamic> json) => _$GetOGResponseFromJson(json);
 }

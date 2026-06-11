@@ -22,6 +22,8 @@ class AggregatedActivityResponse with _$AggregatedActivityResponse {
     required this.activityCount,
     required this.createdAt,
     required this.group,
+    this.isRead,
+    this.isSeen,
     this.isWatched,
     required this.score,
     required this.updatedAt,
@@ -43,6 +45,12 @@ class AggregatedActivityResponse with _$AggregatedActivityResponse {
   final String group;
 
   @override
+  final bool? isRead;
+
+  @override
+  final bool? isSeen;
+
+  @override
   final bool? isWatched;
 
   @override
@@ -60,6 +68,5 @@ class AggregatedActivityResponse with _$AggregatedActivityResponse {
 
   Map<String, dynamic> toJson() => _$AggregatedActivityResponseToJson(this);
 
-  static AggregatedActivityResponse fromJson(Map<String, dynamic> json) =>
-      _$AggregatedActivityResponseFromJson(json);
+  static AggregatedActivityResponse fromJson(Map<String, dynamic> json) => _$AggregatedActivityResponseFromJson(json);
 }

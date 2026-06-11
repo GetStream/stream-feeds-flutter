@@ -100,8 +100,7 @@ class PollFooter extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        if (visibleOptionCount case final count?
-            when count < poll.options.length)
+        if (visibleOptionCount case final count? when count < poll.options.length)
           PollFooterButton(
             title: 'See all options (${poll.options.length})',
             onPressed: onSeeMoreOptions,

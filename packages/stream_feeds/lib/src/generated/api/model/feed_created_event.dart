@@ -60,6 +60,5 @@ class FeedCreatedEvent extends core.WsEvent with _$FeedCreatedEvent {
 
   Map<String, dynamic> toJson() => _$FeedCreatedEventToJson(this);
 
-  static FeedCreatedEvent fromJson(Map<String, dynamic> json) =>
-      _$FeedCreatedEventFromJson(json);
+  static FeedCreatedEvent fromJson(Map<String, dynamic> json) => _$FeedCreatedEventFromJson(json);
 }

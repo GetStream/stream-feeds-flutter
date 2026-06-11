@@ -20,7 +20,7 @@ enum FollowRequestPushPreference {
   @JsonValue('none')
   none,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -28,8 +28,11 @@ enum FollowRequestPushPreference {
 @JsonSerializable()
 class FollowRequest with _$FollowRequest {
   const FollowRequest({
+    this.activityCopyLimit,
+    this.copyCustomToNotification,
     this.createNotificationActivity,
     this.custom,
+    this.enrichOwnFields,
     this.pushPreference,
     this.skipPush,
     required this.source,
@@ -37,10 +40,20 @@ class FollowRequest with _$FollowRequest {
   });
 
   @override
+  final int? activityCopyLimit;
+
+  @Deprecated('This field is deprecated.')
+  @override
+  final bool? copyCustomToNotification;
+
+  @override
   final bool? createNotificationActivity;
 
   @override
   final Map<String, Object?>? custom;
+
+  @override
+  final bool? enrichOwnFields;
 
   @override
   @JsonKey(unknownEnumValue: FollowRequestPushPreference.unknown)
@@ -57,6 +70,5 @@ class FollowRequest with _$FollowRequest {
 
   Map<String, dynamic> toJson() => _$FollowRequestToJson(this);
 
-  static FollowRequest fromJson(Map<String, dynamic> json) =>
-      _$FollowRequestFromJson(json);
+  static FollowRequest fromJson(Map<String, dynamic> json) => _$FollowRequestFromJson(json);
 }

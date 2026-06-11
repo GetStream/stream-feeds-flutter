@@ -19,15 +19,25 @@ part 'bookmark_response.freezed.dart';
 class BookmarkResponse with _$BookmarkResponse {
   const BookmarkResponse({
     required this.activity,
+    this.activityId,
+    this.comment,
     required this.createdAt,
     this.custom,
     this.folder,
+    required this.objectId,
+    required this.objectType,
     required this.updatedAt,
     required this.user,
   });
 
   @override
   final ActivityResponse activity;
+
+  @override
+  final String? activityId;
+
+  @override
+  final CommentResponse? comment;
 
   @override
   @EpochDateTimeConverter()
@@ -40,6 +50,12 @@ class BookmarkResponse with _$BookmarkResponse {
   final BookmarkFolderResponse? folder;
 
   @override
+  final String objectId;
+
+  @override
+  final String objectType;
+
+  @override
   @EpochDateTimeConverter()
   final DateTime updatedAt;
 
@@ -48,6 +64,5 @@ class BookmarkResponse with _$BookmarkResponse {
 
   Map<String, dynamic> toJson() => _$BookmarkResponseToJson(this);
 
-  static BookmarkResponse fromJson(Map<String, dynamic> json) =>
-      _$BookmarkResponseFromJson(json);
+  static BookmarkResponse fromJson(Map<String, dynamic> json) => _$BookmarkResponseFromJson(json);
 }

@@ -279,21 +279,21 @@ extension CommentsSortExtension on CommentsSort {
     final sortComparator = switch (this) {
       // Desc by score, then by creation date (newest first)
       CommentsSort.top => [
-          Sort.desc(CommentsSortField.score),
-          Sort.desc(CommentsSortField.createdAt),
-        ],
+        Sort.desc(CommentsSortField.score),
+        Sort.desc(CommentsSortField.createdAt),
+      ],
       // Desc by confidence score, then by creation date (newest first)
       CommentsSort.best => [
-          Sort.desc(CommentsSortField.confidenceScore),
-          Sort.desc(CommentsSortField.createdAt),
-        ],
+        Sort.desc(CommentsSortField.confidenceScore),
+        Sort.desc(CommentsSortField.createdAt),
+      ],
       // Desc by controversy score, then by creation date (newest first)
       CommentsSort.controversial => [
-          Sort.desc(
-            CommentsSortField.controversyScore,
-            nullOrdering: NullOrdering.nullsLast,
-          ),
-        ],
+        Sort.desc(
+          CommentsSortField.controversyScore,
+          nullOrdering: NullOrdering.nullsLast,
+        ),
+      ],
       // Asc by creation date (oldest first)
       CommentsSort.first => [Sort.asc(CommentsSortField.createdAt)],
       // Desc by creation date (newest first)

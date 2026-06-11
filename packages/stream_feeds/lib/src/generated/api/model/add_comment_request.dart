@@ -20,6 +20,7 @@ class AddCommentRequest with _$AddCommentRequest {
   const AddCommentRequest({
     this.attachments,
     this.comment,
+    this.copyCustomToNotification,
     this.createNotificationActivity,
     this.custom,
     this.id,
@@ -36,6 +37,10 @@ class AddCommentRequest with _$AddCommentRequest {
 
   @override
   final String? comment;
+
+  @Deprecated('This field is deprecated.')
+  @override
+  final bool? copyCustomToNotification;
 
   @override
   final bool? createNotificationActivity;
@@ -66,6 +71,5 @@ class AddCommentRequest with _$AddCommentRequest {
 
   Map<String, dynamic> toJson() => _$AddCommentRequestToJson(this);
 
-  static AddCommentRequest fromJson(Map<String, dynamic> json) =>
-      _$AddCommentRequestFromJson(json);
+  static AddCommentRequest fromJson(Map<String, dynamic> json) => _$AddCommentRequestFromJson(json);
 }

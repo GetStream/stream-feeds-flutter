@@ -16,8 +16,7 @@ part 'activity_reaction_updated_event.freezed.dart';
 @freezed
 @immutable
 @JsonSerializable()
-class ActivityReactionUpdatedEvent extends core.WsEvent
-    with _$ActivityReactionUpdatedEvent {
+class ActivityReactionUpdatedEvent extends core.WsEvent with _$ActivityReactionUpdatedEvent {
   const ActivityReactionUpdatedEvent({
     required this.activity,
     required this.createdAt,

@@ -51,7 +51,7 @@ class _AttachmentGalleryState extends State<AttachmentGallery> {
         builder: (context, currentPage, child) {
           return Stack(
             children: [
-              if (child case final child?) child,
+              ?child,
               // Chrome overlay
               ValueListenableBuilder<bool>(
                 valueListenable: _isDisplayingDetail,

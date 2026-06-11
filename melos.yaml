@@ -14,12 +14,12 @@ command:
   bootstrap:
     # Dart and Flutter environment used in the project.
     environment:
-      sdk: ^3.6.2
-      flutter: ">=3.27.4"
+      sdk: ^3.10.0
+      flutter: ">=3.38.0"
 
     # List of all the dependencies used in the project.
     dependencies:
-      auto_route: ^10.0.0
+      auto_route: ^11.0.0
       collection: ^1.18.0
       chewie: ^1.11.3
       dio: ^5.9.0
@@ -27,23 +27,22 @@ command:
       flutter_state_notifier: ^1.0.0
       flutter_svg: ^2.2.0
       freezed_annotation: ^3.0.0
-      get_it: ^8.0.3
-      google_fonts: ^6.3.0
-      file_picker: ^8.1.4
-      firebase_core: ^3.0.0
-      firebase_messaging: ^15.0.0
+      get_it: ^9.0.0
+      google_fonts: ^8.0.0
+      file_picker: ^11.0.0
+      firebase_core: ^4.0.0
+      firebase_messaging: ^16.0.0
       flex_grid_view: ^0.1.0
-      flutter_local_notifications: ^18.0.1
+      flutter_local_notifications: ^22.0.0
       http: ^1.1.0
-      injectable: ^2.5.1
+      injectable: ^3.0.0
       intl: ">=0.18.1 <=0.21.0"
-      internet_connection_checker_plus: ^2.9.0
+      internet_connection_checker_plus: ^3.0.0
       jiffy: ^6.3.2
       photo_view: ^0.15.0
       json_annotation: ^4.9.0
       meta: ^1.9.1
-      # There's a breaking change in retrofit 4.10.0, so we limit the version to <=4.9.0
-      retrofit: ">=4.6.0 <=4.9.0"
+      retrofit: ^4.9.2
       rxdart: ^0.28.0
       shared_preferences: ^2.5.3
       state_notifier: ^1.0.0
@@ -51,17 +50,19 @@ command:
       stream_core: ^0.4.0
       video_player: ^2.10.0
       uuid: ^4.5.1
+      web_socket_channel: ^3.0.0
 
     # List of all the dev_dependencies used in the project.
     dev_dependencies:
       auto_route_generator: ^10.0.0
       build_runner: ^2.4.15
       flutter_launcher_icons: ^0.14.4
+      flutter_lints: ^6.0.0
       freezed: ^3.0.0
-      injectable_generator: ^2.7.0
+      injectable_generator: ^3.0.0
       json_serializable: ^6.9.5
       mocktail: ^1.0.4
-      retrofit_generator: ^9.6.0
+      retrofit_generator: ^10.2.6
       test: ^1.26.3
 
 scripts:
@@ -100,6 +101,12 @@ scripts:
     description: |
       Run `dart analyze` in all packages.
        Flags all compiler `errors` in the project.
+
+
+  fix:apply:
+    run: dart fix --apply
+    description: |
+      Run `dart fix --apply` in all packages.
 
   format:
     run: dart format .

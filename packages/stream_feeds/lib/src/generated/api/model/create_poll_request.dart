@@ -20,7 +20,7 @@ enum CreatePollRequestVotingVisibility {
   @JsonValue('public')
   public,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @freezed
@@ -77,6 +77,5 @@ class CreatePollRequest with _$CreatePollRequest {
 
   Map<String, dynamic> toJson() => _$CreatePollRequestToJson(this);
 
-  static CreatePollRequest fromJson(Map<String, dynamic> json) =>
-      _$CreatePollRequestFromJson(json);
+  static CreatePollRequest fromJson(Map<String, dynamic> json) => _$CreatePollRequestFromJson(json);
 }

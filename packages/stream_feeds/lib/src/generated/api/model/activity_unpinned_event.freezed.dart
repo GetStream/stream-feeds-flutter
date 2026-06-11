@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -10,7 +9,6 @@ part of 'activity_unpinned_event.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
@@ -30,38 +28,37 @@ mixin _$ActivityUnpinnedEvent {
   @pragma('vm:prefer-inline')
   $ActivityUnpinnedEventCopyWith<ActivityUnpinnedEvent> get copyWith =>
       _$ActivityUnpinnedEventCopyWithImpl<ActivityUnpinnedEvent>(
-          this as ActivityUnpinnedEvent, _$identity);
+        this as ActivityUnpinnedEvent,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ActivityUnpinnedEvent &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
+            (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
-            (identical(other.feedVisibility, feedVisibility) ||
-                other.feedVisibility == feedVisibility) &&
+            (identical(other.feedVisibility, feedVisibility) || other.feedVisibility == feedVisibility) &&
             (identical(other.fid, fid) || other.fid == fid) &&
-            (identical(other.pinnedActivity, pinnedActivity) ||
-                other.pinnedActivity == pinnedActivity) &&
-            (identical(other.receivedAt, receivedAt) ||
-                other.receivedAt == receivedAt) &&
+            (identical(other.pinnedActivity, pinnedActivity) || other.pinnedActivity == pinnedActivity) &&
+            (identical(other.receivedAt, receivedAt) || other.receivedAt == receivedAt) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.user, user) || other.user == user));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      createdAt,
-      const DeepCollectionEquality().hash(custom),
-      feedVisibility,
-      fid,
-      pinnedActivity,
-      receivedAt,
-      type,
-      user);
+    runtimeType,
+    createdAt,
+    const DeepCollectionEquality().hash(custom),
+    feedVisibility,
+    fid,
+    pinnedActivity,
+    receivedAt,
+    type,
+    user,
+  );
 
   @override
   String toString() {
@@ -71,24 +68,25 @@ mixin _$ActivityUnpinnedEvent {
 
 /// @nodoc
 abstract mixin class $ActivityUnpinnedEventCopyWith<$Res> {
-  factory $ActivityUnpinnedEventCopyWith(ActivityUnpinnedEvent value,
-          $Res Function(ActivityUnpinnedEvent) _then) =
-      _$ActivityUnpinnedEventCopyWithImpl;
+  factory $ActivityUnpinnedEventCopyWith(
+    ActivityUnpinnedEvent value,
+    $Res Function(ActivityUnpinnedEvent) _then,
+  ) = _$ActivityUnpinnedEventCopyWithImpl;
   @useResult
-  $Res call(
-      {DateTime createdAt,
-      Map<String, Object?> custom,
-      String? feedVisibility,
-      String fid,
-      PinActivityResponse pinnedActivity,
-      DateTime? receivedAt,
-      String type,
-      UserResponseCommonFields? user});
+  $Res call({
+    DateTime createdAt,
+    Map<String, Object?> custom,
+    String? feedVisibility,
+    String fid,
+    PinActivityResponse pinnedActivity,
+    DateTime? receivedAt,
+    String type,
+    UserResponseCommonFields? user,
+  });
 }
 
 /// @nodoc
-class _$ActivityUnpinnedEventCopyWithImpl<$Res>
-    implements $ActivityUnpinnedEventCopyWith<$Res> {
+class _$ActivityUnpinnedEventCopyWithImpl<$Res> implements $ActivityUnpinnedEventCopyWith<$Res> {
   _$ActivityUnpinnedEventCopyWithImpl(this._self, this._then);
 
   final ActivityUnpinnedEvent _self;
@@ -108,41 +106,41 @@ class _$ActivityUnpinnedEventCopyWithImpl<$Res>
     Object? type = null,
     Object? user = freezed,
   }) {
-    return _then(ActivityUnpinnedEvent(
-      createdAt: null == createdAt
-          ? _self.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      custom: null == custom
-          ? _self.custom
-          : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object?>,
-      feedVisibility: freezed == feedVisibility
-          ? _self.feedVisibility
-          : feedVisibility // ignore: cast_nullable_to_non_nullable
-              as String?,
-      fid: null == fid
-          ? _self.fid
-          : fid // ignore: cast_nullable_to_non_nullable
-              as String,
-      pinnedActivity: null == pinnedActivity
-          ? _self.pinnedActivity
-          : pinnedActivity // ignore: cast_nullable_to_non_nullable
-              as PinActivityResponse,
-      receivedAt: freezed == receivedAt
-          ? _self.receivedAt
-          : receivedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      type: null == type
-          ? _self.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
-      user: freezed == user
-          ? _self.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as UserResponseCommonFields?,
-    ));
+    return _then(
+      ActivityUnpinnedEvent(
+        createdAt: null == createdAt
+            ? _self.createdAt
+            : createdAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+        custom: null == custom
+            ? _self.custom
+            : custom // ignore: cast_nullable_to_non_nullable
+                  as Map<String, Object?>,
+        feedVisibility: freezed == feedVisibility
+            ? _self.feedVisibility
+            : feedVisibility // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        fid: null == fid
+            ? _self.fid
+            : fid // ignore: cast_nullable_to_non_nullable
+                  as String,
+        pinnedActivity: null == pinnedActivity
+            ? _self.pinnedActivity
+            : pinnedActivity // ignore: cast_nullable_to_non_nullable
+                  as PinActivityResponse,
+        receivedAt: freezed == receivedAt
+            ? _self.receivedAt
+            : receivedAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime?,
+        type: null == type
+            ? _self.type
+            : type // ignore: cast_nullable_to_non_nullable
+                  as String,
+        user: freezed == user
+            ? _self.user
+            : user // ignore: cast_nullable_to_non_nullable
+                  as UserResponseCommonFields?,
+      ),
+    );
   }
 }
-
-// dart format on

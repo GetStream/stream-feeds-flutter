@@ -10,8 +10,7 @@ mixin FeedCapabilitiesMixin {
     final currentFeed = activity.currentFeed;
     if (currentFeed == null) return null;
 
-    final ownCapabilities =
-        await capabilitiesRepository.getCapabilities(currentFeed.id);
+    final ownCapabilities = await capabilitiesRepository.getCapabilities(currentFeed.id);
     return activity.copyWithCurrentFeedCapabilities(
       capabilities: ownCapabilities ?? [],
     );

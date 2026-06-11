@@ -18,9 +18,14 @@ part 'aggregation_config.freezed.dart';
 @JsonSerializable()
 class AggregationConfig with _$AggregationConfig {
   const AggregationConfig({
+    this.activitiesSort,
     this.format,
     this.groupSize,
+    this.scoreStrategy,
   });
+
+  @override
+  final String? activitiesSort;
 
   @override
   final String? format;
@@ -28,8 +33,10 @@ class AggregationConfig with _$AggregationConfig {
   @override
   final int? groupSize;
 
+  @override
+  final String? scoreStrategy;
+
   Map<String, dynamic> toJson() => _$AggregationConfigToJson(this);
 
-  static AggregationConfig fromJson(Map<String, dynamic> json) =>
-      _$AggregationConfigFromJson(json);
+  static AggregationConfig fromJson(Map<String, dynamic> json) => _$AggregationConfigFromJson(json);
 }

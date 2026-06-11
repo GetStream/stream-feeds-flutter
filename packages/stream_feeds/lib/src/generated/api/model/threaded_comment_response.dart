@@ -13,18 +13,36 @@ import '../models.dart';
 part 'threaded_comment_response.g.dart';
 part 'threaded_comment_response.freezed.dart';
 
+@JsonEnum(alwaysCreate: true)
+enum ThreadedCommentResponseStatus {
+  @JsonValue('active')
+  active,
+  @JsonValue('deleted')
+  deleted,
+  @JsonValue('hidden')
+  hidden,
+  @JsonValue('removed')
+  removed,
+  @JsonValue('shadow_blocked')
+  shadowBlocked,
+  @JsonValue('_unknown')
+  unknown,
+}
+
 @freezed
 @immutable
 @JsonSerializable()
 class ThreadedCommentResponse with _$ThreadedCommentResponse {
   const ThreadedCommentResponse({
     this.attachments,
+    required this.bookmarkCount,
     required this.confidenceScore,
     this.controversyScore,
     required this.createdAt,
     this.custom,
     this.deletedAt,
     required this.downvoteCount,
+    this.editedAt,
     required this.id,
     this.latestReactions,
     required this.mentionedUsers,
@@ -50,6 +68,9 @@ class ThreadedCommentResponse with _$ThreadedCommentResponse {
   final List<Attachment>? attachments;
 
   @override
+  final int bookmarkCount;
+
+  @override
   final double confidenceScore;
 
   @override
@@ -68,6 +89,10 @@ class ThreadedCommentResponse with _$ThreadedCommentResponse {
 
   @override
   final int downvoteCount;
+
+  @override
+  @EpochDateTimeConverter()
+  final DateTime? editedAt;
 
   @override
   final String id;
@@ -100,7 +125,7 @@ class ThreadedCommentResponse with _$ThreadedCommentResponse {
   final int reactionCount;
 
   @override
-  final Map<String, ReactionGroupResponse>? reactionGroups;
+  final Map<String, FeedsReactionGroupResponse>? reactionGroups;
 
   @override
   final List<ThreadedCommentResponse>? replies;
@@ -112,7 +137,8 @@ class ThreadedCommentResponse with _$ThreadedCommentResponse {
   final int score;
 
   @override
-  final String status;
+  @JsonKey(unknownEnumValue: ThreadedCommentResponseStatus.unknown)
+  final ThreadedCommentResponseStatus status;
 
   @override
   final String? text;
@@ -129,6 +155,5 @@ class ThreadedCommentResponse with _$ThreadedCommentResponse {
 
   Map<String, dynamic> toJson() => _$ThreadedCommentResponseToJson(this);
 
-  static ThreadedCommentResponse fromJson(Map<String, dynamic> json) =>
-      _$ThreadedCommentResponseFromJson(json);
+  static ThreadedCommentResponse fromJson(Map<String, dynamic> json) => _$ThreadedCommentResponseFromJson(json);
 }

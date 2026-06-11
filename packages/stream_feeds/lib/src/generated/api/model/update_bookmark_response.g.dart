@@ -7,16 +7,15 @@ part of 'update_bookmark_response.dart';
 // **************************************************************************
 
 UpdateBookmarkResponse _$UpdateBookmarkResponseFromJson(
-        Map<String, dynamic> json) =>
-    UpdateBookmarkResponse(
-      bookmark:
-          BookmarkResponse.fromJson(json['bookmark'] as Map<String, dynamic>),
-      duration: json['duration'] as String,
-    );
+  Map<String, dynamic> json,
+) => UpdateBookmarkResponse(
+  bookmark: BookmarkResponse.fromJson(json['bookmark'] as Map<String, dynamic>),
+  duration: json['duration'] as String,
+);
 
 Map<String, dynamic> _$UpdateBookmarkResponseToJson(
-        UpdateBookmarkResponse instance) =>
-    <String, dynamic>{
-      'bookmark': instance.bookmark.toJson(),
-      'duration': instance.duration,
-    };
+  UpdateBookmarkResponse instance,
+) => <String, dynamic>{
+  'bookmark': instance.bookmark.toJson(),
+  'duration': instance.duration,
+};

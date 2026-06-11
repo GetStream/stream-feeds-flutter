@@ -18,6 +18,7 @@ part 'query_feeds_request.freezed.dart';
 @JsonSerializable()
 class QueryFeedsRequest with _$QueryFeedsRequest {
   const QueryFeedsRequest({
+    this.enrichOwnFields,
     this.filter,
     this.limit,
     this.next,
@@ -25,6 +26,9 @@ class QueryFeedsRequest with _$QueryFeedsRequest {
     this.sort,
     this.watch,
   });
+
+  @override
+  final bool? enrichOwnFields;
 
   @override
   final Map<String, Object?>? filter;
@@ -46,6 +50,5 @@ class QueryFeedsRequest with _$QueryFeedsRequest {
 
   Map<String, dynamic> toJson() => _$QueryFeedsRequestToJson(this);
 
-  static QueryFeedsRequest fromJson(Map<String, dynamic> json) =>
-      _$QueryFeedsRequestFromJson(json);
+  static QueryFeedsRequest fromJson(Map<String, dynamic> json) => _$QueryFeedsRequestFromJson(json);
 }

@@ -30,6 +30,5 @@ class UpdateFollowResponse with _$UpdateFollowResponse {
 
   Map<String, dynamic> toJson() => _$UpdateFollowResponseToJson(this);
 
-  static UpdateFollowResponse fromJson(Map<String, dynamic> json) =>
-      _$UpdateFollowResponseFromJson(json);
+  static UpdateFollowResponse fromJson(Map<String, dynamic> json) => _$UpdateFollowResponseFromJson(json);
 }

@@ -30,6 +30,5 @@ class UpdateBookmarkFolderRequest with _$UpdateBookmarkFolderRequest {
 
   Map<String, dynamic> toJson() => _$UpdateBookmarkFolderRequestToJson(this);
 
-  static UpdateBookmarkFolderRequest fromJson(Map<String, dynamic> json) =>
-      _$UpdateBookmarkFolderRequestFromJson(json);
+  static UpdateBookmarkFolderRequest fromJson(Map<String, dynamic> json) => _$UpdateBookmarkFolderRequestFromJson(json);
 }

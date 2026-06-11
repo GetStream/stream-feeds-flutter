@@ -22,7 +22,7 @@ enum ChannelConfigWithInfoAutomod {
   @JsonValue('simple')
   simple,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -34,7 +34,7 @@ enum ChannelConfigWithInfoAutomodBehavior {
   @JsonValue('shadow_block')
   shadowBlock,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -46,7 +46,23 @@ enum ChannelConfigWithInfoBlocklistBehavior {
   @JsonValue('shadow_block')
   shadowBlock,
   @JsonValue('_unknown')
-  unknown;
+  unknown,
+}
+
+@JsonEnum(alwaysCreate: true)
+enum ChannelConfigWithInfoPushLevel {
+  @JsonValue('all')
+  all,
+  @JsonValue('all_mentions')
+  allMentions,
+  @JsonValue('direct_mentions')
+  directMentions,
+  @JsonValue('mentions')
+  mentions,
+  @JsonValue('none')
+  none,
+  @JsonValue('_unknown')
+  unknown,
 }
 
 @freezed
@@ -61,6 +77,7 @@ class ChannelConfigWithInfo with _$ChannelConfigWithInfo {
     this.blocklist,
     this.blocklistBehavior,
     this.blocklists,
+    this.chatPreferences,
     required this.commands,
     required this.connectEvents,
     required this.countMessages,
@@ -75,6 +92,7 @@ class ChannelConfigWithInfo with _$ChannelConfigWithInfo {
     this.partitionSize,
     this.partitionTtl,
     required this.polls,
+    this.pushLevel,
     required this.pushNotifications,
     required this.quotes,
     required this.reactions,
@@ -114,6 +132,9 @@ class ChannelConfigWithInfo with _$ChannelConfigWithInfo {
 
   @override
   final List<BlockListOptions>? blocklists;
+
+  @override
+  final ChatPreferences? chatPreferences;
 
   @override
   final List<Command> commands;
@@ -157,6 +178,10 @@ class ChannelConfigWithInfo with _$ChannelConfigWithInfo {
 
   @override
   final bool polls;
+
+  @override
+  @JsonKey(unknownEnumValue: ChannelConfigWithInfoPushLevel.unknown)
+  final ChannelConfigWithInfoPushLevel? pushLevel;
 
   @override
   final bool pushNotifications;
@@ -203,6 +228,5 @@ class ChannelConfigWithInfo with _$ChannelConfigWithInfo {
 
   Map<String, dynamic> toJson() => _$ChannelConfigWithInfoToJson(this);
 
-  static ChannelConfigWithInfo fromJson(Map<String, dynamic> json) =>
-      _$ChannelConfigWithInfoFromJson(json);
+  static ChannelConfigWithInfo fromJson(Map<String, dynamic> json) => _$ChannelConfigWithInfoFromJson(json);
 }

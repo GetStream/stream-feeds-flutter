@@ -38,6 +38,5 @@ class UpdateBookmarkRequest with _$UpdateBookmarkRequest {
 
   Map<String, dynamic> toJson() => _$UpdateBookmarkRequestToJson(this);
 
-  static UpdateBookmarkRequest fromJson(Map<String, dynamic> json) =>
-      _$UpdateBookmarkRequestFromJson(json);
+  static UpdateBookmarkRequest fromJson(Map<String, dynamic> json) => _$UpdateBookmarkRequestFromJson(json);
 }

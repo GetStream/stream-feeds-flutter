@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -10,7 +9,6 @@ part of 'feeds_reaction_data.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
@@ -27,31 +25,36 @@ mixin _$FeedsReactionData {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $FeedsReactionDataCopyWith<FeedsReactionData> get copyWith =>
-      _$FeedsReactionDataCopyWithImpl<FeedsReactionData>(
-          this as FeedsReactionData, _$identity);
+  $FeedsReactionDataCopyWith<FeedsReactionData> get copyWith => _$FeedsReactionDataCopyWithImpl<FeedsReactionData>(
+    this as FeedsReactionData,
+    _$identity,
+  );
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is FeedsReactionData &&
-            (identical(other.activityId, activityId) ||
-                other.activityId == activityId) &&
-            (identical(other.commentId, commentId) ||
-                other.commentId == commentId) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
+            (identical(other.activityId, activityId) || other.activityId == activityId) &&
+            (identical(other.commentId, commentId) || other.commentId == commentId) &&
+            (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
             (identical(other.type, type) || other.type == type) &&
-            (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt) &&
+            (identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt) &&
             (identical(other.user, user) || other.user == user) &&
             const DeepCollectionEquality().equals(other.custom, custom));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, activityId, commentId, createdAt,
-      type, updatedAt, user, const DeepCollectionEquality().hash(custom));
+  int get hashCode => Object.hash(
+    runtimeType,
+    activityId,
+    commentId,
+    createdAt,
+    type,
+    updatedAt,
+    user,
+    const DeepCollectionEquality().hash(custom),
+  );
 
   @override
   String toString() {
@@ -62,22 +65,23 @@ mixin _$FeedsReactionData {
 /// @nodoc
 abstract mixin class $FeedsReactionDataCopyWith<$Res> {
   factory $FeedsReactionDataCopyWith(
-          FeedsReactionData value, $Res Function(FeedsReactionData) _then) =
-      _$FeedsReactionDataCopyWithImpl;
+    FeedsReactionData value,
+    $Res Function(FeedsReactionData) _then,
+  ) = _$FeedsReactionDataCopyWithImpl;
   @useResult
-  $Res call(
-      {String activityId,
-      String? commentId,
-      DateTime createdAt,
-      String type,
-      DateTime updatedAt,
-      UserData user,
-      Map<String, Object?>? custom});
+  $Res call({
+    String activityId,
+    String? commentId,
+    DateTime createdAt,
+    String type,
+    DateTime updatedAt,
+    UserData user,
+    Map<String, Object?>? custom,
+  });
 }
 
 /// @nodoc
-class _$FeedsReactionDataCopyWithImpl<$Res>
-    implements $FeedsReactionDataCopyWith<$Res> {
+class _$FeedsReactionDataCopyWithImpl<$Res> implements $FeedsReactionDataCopyWith<$Res> {
   _$FeedsReactionDataCopyWithImpl(this._self, this._then);
 
   final FeedsReactionData _self;
@@ -96,37 +100,37 @@ class _$FeedsReactionDataCopyWithImpl<$Res>
     Object? user = null,
     Object? custom = freezed,
   }) {
-    return _then(FeedsReactionData(
-      activityId: null == activityId
-          ? _self.activityId
-          : activityId // ignore: cast_nullable_to_non_nullable
-              as String,
-      commentId: freezed == commentId
-          ? _self.commentId
-          : commentId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      createdAt: null == createdAt
-          ? _self.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      type: null == type
-          ? _self.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
-      updatedAt: null == updatedAt
-          ? _self.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      user: null == user
-          ? _self.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as UserData,
-      custom: freezed == custom
-          ? _self.custom
-          : custom // ignore: cast_nullable_to_non_nullable
-              as Map<String, Object?>?,
-    ));
+    return _then(
+      FeedsReactionData(
+        activityId: null == activityId
+            ? _self.activityId
+            : activityId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        commentId: freezed == commentId
+            ? _self.commentId
+            : commentId // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        createdAt: null == createdAt
+            ? _self.createdAt
+            : createdAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+        type: null == type
+            ? _self.type
+            : type // ignore: cast_nullable_to_non_nullable
+                  as String,
+        updatedAt: null == updatedAt
+            ? _self.updatedAt
+            : updatedAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+        user: null == user
+            ? _self.user
+            : user // ignore: cast_nullable_to_non_nullable
+                  as UserData,
+        custom: freezed == custom
+            ? _self.custom
+            : custom // ignore: cast_nullable_to_non_nullable
+                  as Map<String, Object?>?,
+      ),
+    );
   }
 }
-
-// dart format on

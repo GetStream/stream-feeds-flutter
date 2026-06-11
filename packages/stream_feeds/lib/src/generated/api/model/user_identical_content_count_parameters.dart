@@ -16,8 +16,7 @@ part 'user_identical_content_count_parameters.freezed.dart';
 @freezed
 @immutable
 @JsonSerializable()
-class UserIdenticalContentCountParameters
-    with _$UserIdenticalContentCountParameters {
+class UserIdenticalContentCountParameters with _$UserIdenticalContentCountParameters {
   const UserIdenticalContentCountParameters({
     this.threshold,
     this.timeWindow,
@@ -29,10 +28,8 @@ class UserIdenticalContentCountParameters
   @override
   final String? timeWindow;
 
-  Map<String, dynamic> toJson() =>
-      _$UserIdenticalContentCountParametersToJson(this);
+  Map<String, dynamic> toJson() => _$UserIdenticalContentCountParametersToJson(this);
 
-  static UserIdenticalContentCountParameters fromJson(
-          Map<String, dynamic> json) =>
+  static UserIdenticalContentCountParameters fromJson(Map<String, dynamic> json) =>
       _$UserIdenticalContentCountParametersFromJson(json);
 }
