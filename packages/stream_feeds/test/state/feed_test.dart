@@ -4372,16 +4372,6 @@ void main() {
       registerFallbackValue(const AddActivityRequest(type: 'post', feeds: []));
     });
 
-    AddActivityRequest captureAddActivityRequest(FeedTester tester) {
-      final captured = verify(
-        // ignore: invalid_use_of_protected_member
-        () => tester.feedsApi.addActivity(
-          addActivityRequest: captureAny(named: 'addActivityRequest'),
-        ),
-      ).captured;
-      return captured.single as AddActivityRequest;
-    }
-
     feedTest(
       'addActivity() passes createNotificationActivity, skipPush, enrichOwnFields to API',
       build: (client) => client.feedFromId(feedId),
@@ -4389,7 +4379,12 @@ void main() {
       body: (tester) async {
         tester.mockApi(
           (api) => api.addActivity(
-            addActivityRequest: any(named: 'addActivityRequest'),
+            addActivityRequest: any(
+              named: 'addActivityRequest',
+              that: predicate<AddActivityRequest>(
+                (r) => (r.createNotificationActivity ?? false) && (r.skipPush ?? false) && !(r.enrichOwnFields ?? true),
+              ),
+            ),
           ),
           result: AddActivityResponse(
             duration: '0ms',
@@ -4407,11 +4402,6 @@ void main() {
         );
 
         expect(result.isSuccess, isTrue);
-
-        final request = captureAddActivityRequest(tester);
-        expect(request.createNotificationActivity, isTrue);
-        expect(request.skipPush, isTrue);
-        expect(request.enrichOwnFields, isFalse);
       },
     );
 
@@ -4422,7 +4412,12 @@ void main() {
       body: (tester) async {
         tester.mockApi(
           (api) => api.addActivity(
-            addActivityRequest: any(named: 'addActivityRequest'),
+            addActivityRequest: any(
+              named: 'addActivityRequest',
+              that: predicate<AddActivityRequest>(
+                (r) => r.location?.lat == 52 && r.location?.lng == 4,
+              ),
+            ),
           ),
           result: AddActivityResponse(
             duration: '0ms',
@@ -4436,11 +4431,6 @@ void main() {
         );
 
         expect(result.isSuccess, isTrue);
-
-        final request = captureAddActivityRequest(tester);
-        expect(request.location, isNotNull);
-        expect(request.location!.lat, 52);
-        expect(request.location!.lng, 4);
       },
     );
   });
