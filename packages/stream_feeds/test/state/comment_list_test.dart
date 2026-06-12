@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_redundant_argument_values
+
 import 'package:collection/collection.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 
@@ -486,6 +488,68 @@ void main() {
         );
 
         expect(tester.commentListState.comments, hasLength(3));
+      },
+    );
+  });
+
+  group('Comment List - CommentData field mapping', () {
+    const query = CommentsQuery();
+
+    commentListTest(
+      'bookmarkCount is forwarded from API response',
+      build: (client) => client.commentList(query),
+      body: (tester) async {
+        final result = await tester.get(
+          modifyResponse: (response) => response.copyWith(
+            comments: [
+              createDefaultCommentResponse(
+                id: 'comment-1',
+                objectId: 'obj-1',
+                bookmarkCount: 5,
+              ),
+            ],
+          ),
+        );
+        expect(result.getOrThrow().first.bookmarkCount, 5);
+      },
+    );
+
+    commentListTest(
+      'editedAt is forwarded from API response',
+      build: (client) => client.commentList(query),
+      body: (tester) async {
+        final editedAt = DateTime(2024, 6, 1);
+        final result = await tester.get(
+          modifyResponse: (response) => response.copyWith(
+            comments: [
+              createDefaultCommentResponse(
+                id: 'comment-1',
+                objectId: 'obj-1',
+                editedAt: editedAt,
+              ),
+            ],
+          ),
+        );
+        expect(result.getOrThrow().first.editedAt, editedAt);
+      },
+    );
+
+    commentListTest(
+      'status shadowBlocked maps to shadow_blocked string',
+      build: (client) => client.commentList(query),
+      body: (tester) async {
+        final result = await tester.get(
+          modifyResponse: (response) => response.copyWith(
+            comments: [
+              createDefaultCommentResponse(
+                id: 'comment-1',
+                objectId: 'obj-1',
+                status: CommentResponseStatus.shadowBlocked,
+              ),
+            ],
+          ),
+        );
+        expect(result.getOrThrow().first.status, 'shadow_blocked');
       },
     );
   });

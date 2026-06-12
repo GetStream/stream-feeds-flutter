@@ -1550,4 +1550,96 @@ void main() {
       },
     );
   });
+
+  group('Activity List - ActivityData field mapping', () {
+    activityListTest(
+      'friendReactions null in response maps to empty list',
+      build: (client) => client.activityList(query),
+      body: (tester) async {
+        final result = await tester.get(
+          modifyResponse: (response) => response.copyWith(
+            activities: [
+              createDefaultActivityResponse(id: activityId, friendReactions: null),
+            ],
+          ),
+        );
+        final activity = result.getOrThrow().first;
+        expect(activity.friendReactions, isEmpty);
+      },
+    );
+
+    activityListTest(
+      'metrics null in response maps to empty map',
+      build: (client) => client.activityList(query),
+      body: (tester) async {
+        final result = await tester.get(
+          modifyResponse: (response) => response.copyWith(
+            activities: [
+              createDefaultActivityResponse(id: activityId, metrics: null),
+            ],
+          ),
+        );
+        final activity = result.getOrThrow().first;
+        expect(activity.metrics, isEmpty);
+      },
+    );
+
+    activityListTest(
+      'isRead is forwarded from API response',
+      build: (client) => client.activityList(query),
+      body: (tester) async {
+        final result = await tester.get(
+          modifyResponse: (response) => response.copyWith(
+            activities: [
+              createDefaultActivityResponse(id: activityId, isRead: true),
+            ],
+          ),
+        );
+        expect(result.getOrThrow().first.isRead, isTrue);
+      },
+    );
+
+    activityListTest(
+      'isSeen is forwarded from API response',
+      build: (client) => client.activityList(query),
+      body: (tester) async {
+        final result = await tester.get(
+          modifyResponse: (response) => response.copyWith(
+            activities: [
+              createDefaultActivityResponse(id: activityId, isSeen: false),
+            ],
+          ),
+        );
+        expect(result.getOrThrow().first.isSeen, isFalse);
+      },
+    );
+
+    activityListTest(
+      'friendReactions non-null list is mapped to FeedsReactionData',
+      build: (client) => client.activityList(query),
+      body: (tester) async {
+        final result = await tester.get(
+          modifyResponse: (response) => response.copyWith(
+            activities: [
+              createDefaultActivityResponse(
+                id: activityId,
+                friendReactions: [
+                  FeedsReactionResponse(
+                    activityId: activityId,
+                    type: 'like',
+                    createdAt: DateTime(2021, 1, 1),
+                    updatedAt: DateTime(2021, 2, 1),
+                    user: createDefaultUserResponse(id: 'user-1'),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+        final activity = result.getOrThrow().first;
+        expect(activity.friendReactions, hasLength(1));
+        expect(activity.friendReactions.first.type, 'like');
+      },
+    );
+  });
 }

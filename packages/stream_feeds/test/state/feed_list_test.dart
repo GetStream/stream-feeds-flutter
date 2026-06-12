@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_redundant_argument_values
+
 import 'package:stream_feeds/stream_feeds.dart';
 
 import 'package:stream_feeds_test/stream_feeds_test.dart';
@@ -267,6 +269,81 @@ void main() {
         );
 
         expect(tester.feedListState.feeds, hasLength(3));
+      },
+    );
+  });
+
+  group('Feed List - FeedData field mapping', () {
+    feedListTest(
+      'location lat/lng maps to latitude/longitude in FeedData',
+      build: (client) => client.feedList(const FeedsQuery()),
+      body: (tester) async {
+        final result = await tester.get(
+          modifyResponse: (response) => response.copyWith(
+            feeds: [
+              createDefaultFeedResponse(
+                location: const Location(lat: 52.370216, lng: 4.895168),
+              ),
+            ],
+          ),
+        );
+        final feed = result.getOrThrow().first;
+        expect(feed.location, isNotNull);
+        expect(feed.location!.latitude, 52.370216);
+        expect(feed.location!.longitude, 4.895168);
+      },
+    );
+
+    feedListTest(
+      'ownCapabilities null in response maps to empty list',
+      build: (client) => client.feedList(const FeedsQuery()),
+      body: (tester) async {
+        final result = await tester.get(
+          modifyResponse: (response) => response.copyWith(
+            feeds: [createDefaultFeedResponse(ownCapabilities: null)],
+          ),
+        );
+        expect(result.getOrThrow().first.ownCapabilities, isEmpty);
+      },
+    );
+
+    feedListTest(
+      'ownCapabilities are mapped to FeedOwnCapability values',
+      build: (client) => client.feedList(const FeedsQuery()),
+      body: (tester) async {
+        final result = await tester.get(
+          modifyResponse: (response) => response.copyWith(
+            feeds: [
+              createDefaultFeedResponse(
+                ownCapabilities: [
+                  FeedResponseOwnCapabilities.readFeed,
+                  FeedResponseOwnCapabilities.addActivity,
+                ],
+              ),
+            ],
+          ),
+        );
+        final capabilities = result.getOrThrow().first.ownCapabilities;
+        expect(capabilities, hasLength(2));
+        expect(capabilities, contains(FeedOwnCapability.readFeed));
+        expect(capabilities, contains(FeedOwnCapability.addActivity));
+      },
+    );
+
+    feedListTest(
+      'visibility string is forwarded correctly',
+      build: (client) => client.feedList(const FeedsQuery()),
+      body: (tester) async {
+        final result = await tester.get(
+          modifyResponse: (response) => response.copyWith(
+            feeds: [
+              createDefaultFeedResponse(
+                visibility: FeedResponseVisibility.members,
+              ),
+            ],
+          ),
+        );
+        expect(result.getOrThrow().first.visibility, 'members');
       },
     );
   });
