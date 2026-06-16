@@ -157,12 +157,164 @@ Future<Result<ActivityData>> getActivity(String id) async {
 
 ## Testing Strategy
 
-### Test Structure
+### Core Principle: Test Through Public APIs Only
 
-- Tests mirror the `lib/` structure in `test/`
-- Focus on testing through public APIs only
-- Use HTTP interceptors instead of mocking repositories
-- Test StateNotifier behavior through high-level state objects
+**All tests must be written from the perspective of a consuming app.** This means:
+
+- **Test the SDK's public surface** — `FeedsClient`, `Feed`, and the state objects they expose
+- **Never test internal implementation details** — no mapper methods (`.toModel()`), no repository classes, no `StateNotifier` implementations directly
+- **If a consuming app cannot call it directly, do not test it directly**
+
+Tests that directly call internal methods like `response.toModel()`, or that instantiate `*Repository` / `*StateNotifier` classes, are testing implementation details. These tests break on refactors without providing real coverage guarantees for app developers.
+
+### Test Helpers
+
+Tests use the `package:stream_feeds_test/stream_feeds_test.dart` package which provides:
+
+- `feedsClientTest(...)` — for testing `FeedsClient` methods
+- `feedTest(...)` — for testing `Feed` methods and state
+
+These helpers:
+1. Set up a fully wired client with a mocked HTTP API
+2. Provide `tester.mockApi(...)` to stub specific HTTP responses
+3. Provide `tester.verifyApi(...)` to assert that specific API calls were made
+4. Provide `tester.emitEvent(...)` to simulate WebSocket events
+5. Expose `tester.feed`, `tester.feedState`, and `tester.client` for assertions
+
+### Mocking API Calls — Use Specific Request Objects, Not `any()`
+
+**Always pass the exact expected request object to `mockApi` and `verifyApi`.** The mock only returns the stubbed response when the call matches exactly, so this simultaneously stubs the response _and_ validates what the SDK sent.
+
+```dart
+// ✅ CORRECT — specific request; mock only fires when the SDK sends this exact value
+const request = CreateDeviceRequest(
+  id: 'firebase-token-123',
+  pushProvider: CreateDeviceRequestPushProvider.firebase,
+  pushProviderName: 'MyApp Firebase',
+);
+tester.mockApi(
+  (api) => api.createDevice(createDeviceRequest: request),
+  result: createDefaultCreateDeviceResponse(),
+);
+final result = await tester.client.createDevice(
+  id: 'firebase-token-123',
+  pushProvider: PushNotificationsProvider.firebase,
+  pushProviderName: 'MyApp Firebase',
+);
+tester.verifyApi((api) => api.createDevice(createDeviceRequest: request));
+```
+
+```dart
+// ❌ WRONG — any() matches anything; the mock returns the response even if the SDK
+//           sends the wrong request, hiding bugs
+tester.mockApi(
+  (api) => api.createDevice(createDeviceRequest: any(named: 'createDeviceRequest')),
+  result: createDefaultCreateDeviceResponse(),
+);
+```
+
+When you use specific request objects, you also **do not need `registerFallbackValue` or `setUpAll`** — those are only required by mocktail when `any()` matchers are used for custom types.
+
+For nullable or primitive parameters (e.g., `hardDelete`, `folderId`) pass the exact value you expect the SDK to use:
+
+```dart
+// ✅ pass the actual expected value
+tester.mockApi(
+  (api) => api.deleteActivity(id: 'activity-1', hardDelete: false),
+  result: const DeleteActivityResponse(duration: '0ms'),
+);
+```
+
+### Correct Pattern — `feedsClientTest` example
+
+```dart
+import 'package:stream_feeds/stream_feeds.dart';          // ✅ public API only
+import 'package:stream_feeds_test/stream_feeds_test.dart';
+
+feedsClientTest(
+  'should upsert activities successfully',
+  body: (tester) async {
+    final activities = [
+      const ActivityRequest(feeds: ['user:123'], id: '1', text: 'Hello', type: 'post'),
+    ];
+    const request = UpsertActivitiesRequest(activities: activities);
+
+    tester.mockApi(
+      (api) => api.upsertActivities(upsertActivitiesRequest: request),
+      result: createDefaultUpsertActivitiesResponse(count: 1),
+    );
+
+    final result = await tester.client.upsertActivities(activities: activities);
+
+    expect(result.isSuccess, isTrue);
+    tester.verifyApi(
+      (api) => api.upsertActivities(upsertActivitiesRequest: request),
+    );
+  },
+);
+```
+
+### Correct Pattern — `feedTest` example
+
+```dart
+feedTest(
+  'deleteActivity() - should delete activity',
+  build: (client) => client.feedFromId(feedId),
+  setUp: (tester) => tester.getOrCreate(),
+  body: (tester) async {
+    tester.mockApi(
+      (api) => api.deleteActivity(id: 'activity-1', hardDelete: false),
+      result: const DeleteActivityResponse(duration: '0ms'),
+    );
+
+    final result = await tester.feed.deleteActivity(id: 'activity-1');
+
+    expect(result.isSuccess, isTrue);
+  },
+  verify: (tester) => tester.verifyApi(
+    (api) => api.deleteActivity(id: 'activity-1', hardDelete: false),
+  ),
+);
+```
+
+### Wrong Patterns — Never Do This
+
+```dart
+// ❌ Using any() — mock matches regardless of what the SDK sends
+tester.mockApi(
+  (api) => api.addActivity(addActivityRequest: any(named: 'addActivityRequest')),
+  result: ...,
+);
+
+// ❌ Testing internal mapper directly
+final response = createDefaultActivityResponse(id: 'act-1');
+final model = response.toModel();   // tests implementation detail, not public API
+expect(model.id, 'act-1');
+
+// ❌ Instantiating a repository directly
+final repo = ActivitiesRepository(apiClient);
+final result = await repo.addActivity(request);
+
+// ❌ Instantiating a StateNotifier directly
+final notifier = FeedStateNotifier(feedId, repo);
+notifier.state;
+```
+
+### What to Put in Each Test
+
+- **State mutations**: assert the state via `tester.feedState` after calling a method
+- **API calls**: verify with `tester.verifyApi(...)` that the correct HTTP call was made
+- **Events**: use `tester.emitEvent(...)` to push a WebSocket event, then assert state changed
+- **Emitted domain events**: use `expectLater(tester.client.stateUpdateEvents, emits(...))` to assert `StateUpdateEvent`s
+
+### Test File Location
+
+| What you're testing | Test file location |
+|---|---|
+| `FeedsClient` methods | `test/client/feeds_client_test.dart` |
+| `Feed` methods and state | `test/state/feed_test.dart` |
+| `ActivityList`, `CommentList`, etc. | `test/state/*_test.dart` |
+| `FeedId` or pure model helpers | `test/models/*_test.dart` (pure Dart logic only, no mappers) |
 
 ### Running Tests
 
@@ -305,7 +457,7 @@ melos run clean:flutter
 1. **Always run code generation** after modifying `@freezed` models or OpenAPI specs
 2. **Never edit generated files** (`*.freezed.dart`, `*.g.dart`, `src/generated/`)
 3. **Use Result pattern** for error handling, not exceptions
-4. **Test through public APIs** only, not internal StateNotifier implementations
+4. **Test through public APIs only** — use `feedTest`/`feedsClientTest` helpers; never test mappers (`.toModel()`), repositories, or StateNotifiers directly; see the Testing Strategy section for correct patterns and anti-patterns
 5. **Follow Freezed 3.0 syntax** with `@override` annotations for fields
 6. **Keep public API minimal** - most code should be in `lib/src/`
 7. **Use early returns** for validation and error cases
