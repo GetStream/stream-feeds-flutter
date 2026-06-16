@@ -8,6 +8,7 @@ class EventTypes {
   static const activityUnpinned = 'feeds.activity.unpinned';
   static const activityUpdated = 'feeds.activity.updated';
   static const activityFeedback = 'feeds.activity.feedback';
+  static const activityRestored = 'feeds.activity.restored';
 
   // Reaction events
   static const activityReactionAdded = 'feeds.activity.reaction.added';
@@ -38,6 +39,7 @@ class EventTypes {
   // Comment events
   static const commentAdded = 'feeds.comment.added';
   static const commentDeleted = 'feeds.comment.deleted';
+  static const commentRestored = 'feeds.comment.restored';
   static const commentUpdated = 'feeds.comment.updated';
   static const commentReactionAdded = 'feeds.comment.reaction.added';
   static const commentReactionDeleted = 'feeds.comment.reaction.deleted';

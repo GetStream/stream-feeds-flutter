@@ -226,6 +226,44 @@ void main() {
     );
 
     commentListTest(
+      'CommentRestoredEvent - should re-add comment (same as added)',
+      build: (client) => client.commentList(query),
+      setUp: (tester) => tester.get(
+        modifyResponse: (it) => it.copyWith(comments: const []),
+      ),
+      body: (tester) async {
+        // Initial state - no comments
+        expect(tester.commentListState.comments, isEmpty);
+
+        const newCommentId = 'restored-comment-1';
+        final restoredComment = createDefaultCommentResponse(
+          id: newCommentId,
+          objectId: 'obj-1',
+        );
+
+        await tester.emitEvent(
+          CommentRestoredEvent(
+            type: EventTypes.commentRestored,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: 'user:source',
+            comment: restoredComment,
+          ),
+        );
+
+        final comments = tester.commentListState.comments;
+        expect(comments, hasLength(1));
+
+        final found = comments.firstWhereOrNull(
+          (c) => c.id == newCommentId,
+        );
+
+        expect(found, isNotNull);
+        expect(found!.id, newCommentId);
+      },
+    );
+
+    commentListTest(
       'CommentReactionAddedEvent - should add reaction to comment',
       user: currentUser,
       build: (client) => client.commentList(query),

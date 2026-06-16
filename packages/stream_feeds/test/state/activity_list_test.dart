@@ -293,6 +293,35 @@ void main() {
         expect(tester.activityListState.activities, isEmpty);
       },
     );
+
+    activityListTest(
+      'should handle ActivityRestoredEvent and add activity (same as added)',
+      build: (client) => client.activityList(query),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(activities: const []),
+      ),
+      body: (tester) async {
+        // Initial state - no activities
+        expect(tester.activityListState.activities, isEmpty);
+
+        // Emit restored event — should behave identically to ActivityAddedEvent
+        await tester.emitEvent(
+          ActivityRestoredEvent(
+            type: EventTypes.activityRestored,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: 'user:john',
+            activity: createDefaultActivityResponse(id: activityId),
+          ),
+        );
+
+        // Verify activity reappears in state
+        expect(tester.activityListState.activities, hasLength(1));
+        final restoredActivity = tester.activityListState.activities.first;
+        expect(restoredActivity.id, activityId);
+        expect(restoredActivity.type, 'post');
+      },
+    );
   });
 
   // ============================================================

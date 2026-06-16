@@ -9,10 +9,6 @@ void main() {
   // ============================================================
 
   group('ban', () {
-    setUpAll(() {
-      registerFallbackValue(const BanRequest(targetUserId: 'fallback'));
-    });
-
     moderationClientTest(
       'should ban user successfully',
       body: (tester) async {
@@ -53,10 +49,6 @@ void main() {
   // ============================================================
 
   group('mute', () {
-    setUpAll(() {
-      registerFallbackValue(const MuteRequest(targetIds: []));
-    });
-
     moderationClientTest(
       'should mute users successfully',
       body: (tester) async {
@@ -97,10 +89,6 @@ void main() {
   // ============================================================
 
   group('blockUsers', () {
-    setUpAll(() {
-      registerFallbackValue(const BlockUsersRequest(blockedUserId: 'fallback'));
-    });
-
     moderationClientTest(
       'should block user successfully',
       body: (tester) async {
@@ -145,12 +133,6 @@ void main() {
   });
 
   group('unblockUsers', () {
-    setUpAll(() {
-      registerFallbackValue(
-        const UnblockUsersRequest(blockedUserId: 'fallback'),
-      );
-    });
-
     moderationClientTest(
       'should unblock user successfully',
       body: (tester) async {
@@ -235,12 +217,6 @@ void main() {
   // ============================================================
 
   group('flag', () {
-    setUpAll(() {
-      registerFallbackValue(
-        const FlagRequest(entityId: 'fallback', entityType: 'fallback'),
-      );
-    });
-
     moderationClientTest(
       'should flag content successfully',
       body: (tester) async {
@@ -287,16 +263,6 @@ void main() {
   // ============================================================
 
   group('appeal', () {
-    setUpAll(() {
-      registerFallbackValue(
-        const AppealRequest(
-          entityId: 'fallback',
-          entityType: 'fallback',
-          appealReason: 'fallback',
-        ),
-      );
-    });
-
     moderationClientTest(
       'should submit appeal successfully',
       body: (tester) async {
@@ -379,10 +345,6 @@ void main() {
   });
 
   group('queryAppeals', () {
-    setUpAll(() {
-      registerFallbackValue(const QueryAppealsRequest());
-    });
-
     moderationClientTest(
       'should query appeals successfully',
       body: (tester) async {
@@ -437,15 +399,6 @@ void main() {
   // ============================================================
 
   group('submitAction', () {
-    setUpAll(() {
-      registerFallbackValue(
-        const SubmitActionRequest(
-          actionType: SubmitActionRequestActionType.markReviewed,
-          itemId: 'fallback',
-        ),
-      );
-    });
-
     moderationClientTest(
       'should submit moderation action successfully',
       body: (tester) async {
@@ -500,10 +453,6 @@ void main() {
   // ============================================================
 
   group('queryReviewQueue', () {
-    setUpAll(() {
-      registerFallbackValue(const QueryReviewQueueRequest());
-    });
-
     moderationClientTest(
       'should query review queue successfully',
       body: (tester) async {
@@ -552,10 +501,6 @@ void main() {
   // ============================================================
 
   group('upsertConfig', () {
-    setUpAll(() {
-      registerFallbackValue(const UpsertConfigRequest(key: 'fallback'));
-    });
-
     moderationClientTest(
       'should upsert config successfully',
       body: (tester) async {
@@ -672,10 +617,6 @@ void main() {
   });
 
   group('queryModerationConfigs', () {
-    setUpAll(() {
-      registerFallbackValue(const QueryModerationConfigsRequest());
-    });
-
     moderationClientTest(
       'should query moderation configs successfully',
       body: (tester) async {
