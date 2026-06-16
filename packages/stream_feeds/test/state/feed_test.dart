@@ -54,7 +54,7 @@ void main() {
           (api) => api.updateFeed(
             feedGroupId: 'user',
             feedId: 'john',
-            updateFeedRequest: any(named: 'updateFeedRequest'),
+            updateFeedRequest: const UpdateFeedRequest(custom: {'updated': true}),
           ),
           result: UpdateFeedResponse(
             duration: '0ms',
@@ -86,7 +86,7 @@ void main() {
         (api) => api.updateFeed(
           feedGroupId: 'user',
           feedId: 'john',
-          updateFeedRequest: any(named: 'updateFeedRequest'),
+          updateFeedRequest: const UpdateFeedRequest(custom: {'updated': true}),
         ),
       ),
     );
@@ -100,7 +100,7 @@ void main() {
           (api) => api.deleteFeed(
             feedGroupId: 'user',
             feedId: 'john',
-            hardDelete: any(named: 'hardDelete'),
+            hardDelete: false,
           ),
           result: const DeleteFeedResponse(taskId: 'task-1', duration: '0ms'),
         );
@@ -121,7 +121,7 @@ void main() {
         (api) => api.deleteFeed(
           feedGroupId: 'user',
           feedId: 'john',
-          hardDelete: any(named: 'hardDelete'),
+          hardDelete: false,
         ),
       ),
     );
@@ -181,10 +181,6 @@ void main() {
   group('Feed - Activities', () {
     const feedId = FeedId(group: 'user', id: 'john');
 
-    setUpAll(() {
-      registerFallbackValue(const AddActivityRequest(type: 'post', feeds: []));
-    });
-
     feedTest(
       'addActivity() - should add activity to feed',
       build: (client) => client.feedFromId(feedId),
@@ -192,7 +188,7 @@ void main() {
       body: (tester) async {
         tester.mockApi(
           (api) => api.addActivity(
-            addActivityRequest: any(named: 'addActivityRequest'),
+            addActivityRequest: const AddActivityRequest(type: 'post', feeds: []),
           ),
           result: AddActivityResponse(
             duration: '0ms',
@@ -221,7 +217,7 @@ void main() {
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.addActivity(
-          addActivityRequest: any(named: 'addActivityRequest'),
+          addActivityRequest: const AddActivityRequest(type: 'post', feeds: []),
         ),
       ),
     );
@@ -243,7 +239,7 @@ void main() {
         tester.mockApi(
           (api) => api.updateActivity(
             id: 'activity-1',
-            updateActivityRequest: any(named: 'updateActivityRequest'),
+            updateActivityRequest: const UpdateActivityRequest(custom: {'updated': true}),
           ),
           result: UpdateActivityResponse(
             duration: '0ms',
@@ -274,7 +270,7 @@ void main() {
       verify: (tester) => tester.verifyApi(
         (api) => api.updateActivity(
           id: 'activity-1',
-          updateActivityRequest: any(named: 'updateActivityRequest'),
+          updateActivityRequest: const UpdateActivityRequest(custom: {'updated': true}),
         ),
       ),
     );
@@ -296,9 +292,7 @@ void main() {
         tester.mockApi(
           (api) => api.updateActivityPartial(
             id: 'activity-1',
-            updateActivityPartialRequest: any(
-              named: 'updateActivityPartialRequest',
-            ),
+            updateActivityPartialRequest: const UpdateActivityPartialRequest(set: {'text': 'Updated text'}),
           ),
           result: UpdateActivityPartialResponse(
             duration: '0ms',
@@ -331,9 +325,7 @@ void main() {
       verify: (tester) => tester.verifyApi(
         (api) => api.updateActivityPartial(
           id: 'activity-1',
-          updateActivityPartialRequest: any(
-            named: 'updateActivityPartialRequest',
-          ),
+          updateActivityPartialRequest: const UpdateActivityPartialRequest(set: {'text': 'Updated text'}),
         ),
       ),
     );
@@ -355,7 +347,7 @@ void main() {
         tester.mockApi(
           (api) => api.deleteActivity(
             id: 'activity-1',
-            hardDelete: any(named: 'hardDelete'),
+            hardDelete: false,
           ),
           result: const DeleteActivityResponse(duration: '0ms'),
         );
@@ -375,7 +367,7 @@ void main() {
       verify: (tester) => tester.verifyApi(
         (api) => api.deleteActivity(
           id: 'activity-1',
-          hardDelete: any(named: 'hardDelete'),
+          hardDelete: false,
         ),
       ),
     );
@@ -388,7 +380,7 @@ void main() {
         tester.mockApi(
           (api) => api.activityFeedback(
             activityId: 'activity-1',
-            activityFeedbackRequest: any(named: 'activityFeedbackRequest'),
+            activityFeedbackRequest: const ActivityFeedbackRequest(hide: true),
           ),
           result: createDefaultActivityFeedbackResponse(
             activityId: 'activity-1',
@@ -413,7 +405,7 @@ void main() {
       verify: (tester) => tester.verifyApi(
         (api) => api.activityFeedback(
           activityId: 'activity-1',
-          activityFeedbackRequest: any(named: 'activityFeedbackRequest'),
+          activityFeedbackRequest: const ActivityFeedbackRequest(hide: true),
         ),
       ),
     );
@@ -427,7 +419,7 @@ void main() {
           (api) => api.markActivity(
             feedGroupId: feedId.group,
             feedId: feedId.id,
-            markActivityRequest: any(named: 'markActivityRequest'),
+            markActivityRequest: const MarkActivityRequest(markRead: ['activity-1']),
           ),
           result: const DurationResponse(duration: '0ms'),
         );
@@ -442,7 +434,7 @@ void main() {
         (api) => api.markActivity(
           feedGroupId: feedId.group,
           feedId: feedId.id,
-          markActivityRequest: any(named: 'markActivityRequest'),
+          markActivityRequest: const MarkActivityRequest(markRead: ['activity-1']),
         ),
       ),
     );
@@ -469,7 +461,7 @@ void main() {
           (api) => api.getOrCreateFeed(
             feedGroupId: feedId.group,
             feedId: feedId.id,
-            getOrCreateFeedRequest: any(named: 'getOrCreateFeedRequest'),
+            getOrCreateFeedRequest: const GetOrCreateFeedRequest(next: 'next-cursor', watch: true),
           ),
           result: createDefaultGetOrCreateFeedResponse(
             prevPagination: 'prev-cursor',
@@ -499,7 +491,12 @@ void main() {
       body: (tester) async {
         tester.mockApi(
           (api) => api.addActivity(
-            addActivityRequest: any(named: 'addActivityRequest'),
+            addActivityRequest: const AddActivityRequest(
+              type: 'post',
+              feeds: ['user:john'],
+              text: 'Check this out!',
+              parentId: 'activity-1',
+            ),
           ),
           result: AddActivityResponse(
             duration: '0ms',
@@ -522,7 +519,12 @@ void main() {
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.addActivity(
-          addActivityRequest: any(named: 'addActivityRequest'),
+          addActivityRequest: const AddActivityRequest(
+            type: 'post',
+            feeds: ['user:john'],
+            text: 'Check this out!',
+            parentId: 'activity-1',
+          ),
         ),
       ),
     );
@@ -1016,7 +1018,7 @@ void main() {
         tester.mockApi(
           (api) => api.addBookmark(
             activityId: 'activity-1',
-            addBookmarkRequest: any(named: 'addBookmarkRequest'),
+            addBookmarkRequest: const AddBookmarkRequest(),
           ),
           result: createDefaultAddBookmarkResponse(
             userId: userId,
@@ -1042,7 +1044,7 @@ void main() {
       verify: (tester) => tester.verifyApi(
         (api) => api.addBookmark(
           activityId: 'activity-1',
-          addBookmarkRequest: any(named: 'addBookmarkRequest'),
+          addBookmarkRequest: const AddBookmarkRequest(),
         ),
       ),
     );
@@ -1072,7 +1074,7 @@ void main() {
         tester.mockApi(
           (api) => api.updateBookmark(
             activityId: 'activity-1',
-            updateBookmarkRequest: any(named: 'updateBookmarkRequest'),
+            updateBookmarkRequest: const UpdateBookmarkRequest(folderId: 'new-folder-id'),
           ),
           result: createDefaultUpdateBookmarkResponse(
             userId: userId,
@@ -1102,7 +1104,7 @@ void main() {
       verify: (tester) => tester.verifyApi(
         (api) => api.updateBookmark(
           activityId: 'activity-1',
-          updateBookmarkRequest: any(named: 'updateBookmarkRequest'),
+          updateBookmarkRequest: const UpdateBookmarkRequest(folderId: 'new-folder-id'),
         ),
       ),
     );
@@ -1131,7 +1133,7 @@ void main() {
         tester.mockApi(
           (api) => api.deleteBookmark(
             activityId: 'activity-1',
-            folderId: any(named: 'folderId'),
+            folderId: null,
           ),
           result: createDefaultDeleteBookmarkResponse(
             userId: userId,
@@ -1160,7 +1162,7 @@ void main() {
       verify: (tester) => tester.verifyApi(
         (api) => api.deleteBookmark(
           activityId: 'activity-1',
-          folderId: any(named: 'folderId'),
+          folderId: null,
         ),
       ),
     );
@@ -1346,10 +1348,6 @@ void main() {
     const feedId = FeedId(group: 'user', id: 'john');
     const commentId = 'comment-1';
 
-    setUpAll(() {
-      registerFallbackValue(const AddCommentReactionRequest(type: 'like'));
-    });
-
     feedTest(
       'getComment() - should fetch comment by ID',
       user: currentUser,
@@ -1411,7 +1409,11 @@ void main() {
       body: (tester) async {
         tester.mockApi(
           (api) => api.addComment(
-            addCommentRequest: any(named: 'addCommentRequest'),
+            addCommentRequest: const AddCommentRequest(
+              comment: 'Test comment',
+              objectId: 'activity-1',
+              objectType: 'activity',
+            ),
           ),
           result: AddCommentResponse(
             comment: createDefaultCommentResponse(
@@ -1446,7 +1448,13 @@ void main() {
         await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
-        (api) => api.addComment(addCommentRequest: any(named: 'addCommentRequest')),
+        (api) => api.addComment(
+          addCommentRequest: const AddCommentRequest(
+            comment: 'Test comment',
+            objectId: 'activity-1',
+            objectType: 'activity',
+          ),
+        ),
       ),
     );
 
@@ -1470,7 +1478,7 @@ void main() {
         tester.mockApi(
           (api) => api.updateComment(
             id: commentId,
-            updateCommentRequest: any(named: 'updateCommentRequest'),
+            updateCommentRequest: const UpdateCommentRequest(comment: 'Updated comment text'),
           ),
           result: UpdateCommentResponse(
             comment: createDefaultCommentResponse(
@@ -1503,7 +1511,7 @@ void main() {
       verify: (tester) => tester.verifyApi(
         (api) => api.updateComment(
           id: commentId,
-          updateCommentRequest: any(named: 'updateCommentRequest'),
+          updateCommentRequest: const UpdateCommentRequest(comment: 'Updated comment text'),
         ),
       ),
     );
@@ -1526,7 +1534,7 @@ void main() {
         tester.mockApi(
           (api) => api.deleteComment(
             id: commentId,
-            hardDelete: any(named: 'hardDelete'),
+            hardDelete: null,
           ),
           result: DeleteCommentResponse(
             activity: createDefaultActivityResponse(id: 'activity-1'),
@@ -1553,7 +1561,7 @@ void main() {
       verify: (tester) => tester.verifyApi(
         (api) => api.deleteComment(
           id: commentId,
-          hardDelete: any(named: 'hardDelete'),
+          hardDelete: null,
         ),
       ),
     );
@@ -1576,7 +1584,7 @@ void main() {
         tester.mockApi(
           (api) => api.addCommentReaction(
             id: commentId,
-            addCommentReactionRequest: any(named: 'addCommentReactionRequest'),
+            addCommentReactionRequest: const AddCommentReactionRequest(type: 'like'),
           ),
           result: createDefaultAddCommentReactionResponse(
             commentId: commentId,
@@ -1607,7 +1615,7 @@ void main() {
       verify: (tester) => tester.verifyApi(
         (api) => api.addCommentReaction(
           id: commentId,
-          addCommentReactionRequest: any(named: 'addCommentReactionRequest'),
+          addCommentReactionRequest: const AddCommentReactionRequest(type: 'like'),
         ),
       ),
     );
@@ -1988,14 +1996,6 @@ void main() {
     const currentUser = User(id: 'test_user');
     const feedId = FeedId(group: 'team', id: 'developers');
 
-    setUpAll(() {
-      registerFallbackValue(
-        const UpdateFeedMembersRequest(
-          operation: UpdateFeedMembersRequestOperation.upsert,
-        ),
-      );
-    });
-
     feedTest(
       'queryFeedMembers() - should query initial members',
       user: currentUser,
@@ -2006,7 +2006,7 @@ void main() {
           (api) => api.queryFeedMembers(
             feedGroupId: feedId.group,
             feedId: feedId.id,
-            queryFeedMembersRequest: any(named: 'queryFeedMembersRequest'),
+            queryFeedMembersRequest: const QueryFeedMembersRequest(),
           ),
           result: createDefaultQueryFeedMembersResponse(
             members: [createDefaultFeedMemberResponse(id: currentUser.id)],
@@ -2024,7 +2024,7 @@ void main() {
         (api) => api.queryFeedMembers(
           feedGroupId: feedId.group,
           feedId: feedId.id,
-          queryFeedMembersRequest: any(named: 'queryFeedMembersRequest'),
+          queryFeedMembersRequest: const QueryFeedMembersRequest(),
         ),
       ),
     );
@@ -2040,7 +2040,7 @@ void main() {
           (api) => api.queryFeedMembers(
             feedGroupId: feedId.group,
             feedId: feedId.id,
-            queryFeedMembersRequest: any(named: 'queryFeedMembersRequest'),
+            queryFeedMembersRequest: const QueryFeedMembersRequest(),
           ),
           result: createDefaultQueryFeedMembersResponse(
             next: 'next-cursor',
@@ -2060,14 +2060,7 @@ void main() {
           (api) => api.queryFeedMembers(
             feedGroupId: feedId.group,
             feedId: feedId.id,
-            queryFeedMembersRequest: any(
-              named: 'queryFeedMembersRequest',
-              that: isA<QueryFeedMembersRequest>().having(
-                (r) => r.next,
-                'next',
-                'next-cursor',
-              ),
-            ),
+            queryFeedMembersRequest: const QueryFeedMembersRequest(next: 'next-cursor'),
           ),
           result: createDefaultQueryFeedMembersResponse(
             prev: 'prev-cursor',
@@ -2090,14 +2083,7 @@ void main() {
         (api) => api.queryFeedMembers(
           feedGroupId: feedId.group,
           feedId: feedId.id,
-          queryFeedMembersRequest: any(
-            named: 'queryFeedMembersRequest',
-            that: isA<QueryFeedMembersRequest>().having(
-              (r) => r.next,
-              'next',
-              'next-cursor',
-            ),
-          ),
+          queryFeedMembersRequest: const QueryFeedMembersRequest(next: 'next-cursor'),
         ),
       ),
     );
@@ -2112,7 +2098,10 @@ void main() {
           (api) => api.updateFeedMembers(
             feedGroupId: feedId.group,
             feedId: feedId.id,
-            updateFeedMembersRequest: any(named: 'updateFeedMembersRequest'),
+            updateFeedMembersRequest: const UpdateFeedMembersRequest(
+              operation: UpdateFeedMembersRequestOperation.upsert,
+              members: [FeedMemberRequest(userId: 'user-new', role: 'member')],
+            ),
           ),
           result: UpdateFeedMembersResponse(
             added: [createDefaultFeedMemberResponse(id: 'user-new')],
@@ -2146,7 +2135,10 @@ void main() {
         (api) => api.updateFeedMembers(
           feedGroupId: feedId.group,
           feedId: feedId.id,
-          updateFeedMembersRequest: any(named: 'updateFeedMembersRequest'),
+          updateFeedMembersRequest: const UpdateFeedMembersRequest(
+            operation: UpdateFeedMembersRequestOperation.upsert,
+            members: [FeedMemberRequest(userId: 'user-new', role: 'member')],
+          ),
         ),
       ),
     );
@@ -2246,20 +2238,6 @@ void main() {
     const feedId = FeedId(group: 'user', id: 'john');
     const targetFeedId = FeedId(group: 'group', id: 'target');
 
-    setUpAll(() {
-      registerFallbackValue(
-        const FollowRequest(source: 'user:john', target: 'user:target'),
-      );
-
-      registerFallbackValue(
-        const AcceptFollowRequest(source: 'user:john', target: 'user:target'),
-      );
-
-      registerFallbackValue(
-        const RejectFollowRequest(source: 'user:john', target: 'user:target'),
-      );
-    });
-
     feedTest(
       'queryFollowSuggestions() - should return list of FeedSuggestionData',
       build: (client) => client.feedFromId(feedId),
@@ -2267,7 +2245,7 @@ void main() {
         tester.mockApi(
           (api) => api.getFollowSuggestions(
             feedGroupId: feedId.group,
-            limit: any(named: 'limit'),
+            limit: 10,
           ),
           result: createDefaultGetFollowSuggestionsResponse(
             suggestions: [
@@ -2309,7 +2287,7 @@ void main() {
       verify: (tester) => tester.verifyApi(
         (api) => api.getFollowSuggestions(
           feedGroupId: feedId.group,
-          limit: any(named: 'limit'),
+          limit: 10,
         ),
       ),
     );
@@ -2319,7 +2297,9 @@ void main() {
       build: (client) => client.feedFromId(feedId),
       body: (tester) async {
         tester.mockApi(
-          (api) => api.follow(followRequest: any(named: 'followRequest')),
+          (api) => api.follow(
+            followRequest: const FollowRequest(source: 'user:john', target: 'group:target'),
+          ),
           result: SingleFollowResponse(
             duration: '0ms',
             follow: FollowResponse(
@@ -2359,7 +2339,9 @@ void main() {
         await expectEventEmitted;
       },
       verify: (tester) => tester.verifyApi(
-        (api) => api.follow(followRequest: any(named: 'followRequest')),
+        (api) => api.follow(
+          followRequest: const FollowRequest(source: 'user:john', target: 'group:target'),
+        ),
       ),
     );
 
@@ -2369,8 +2351,8 @@ void main() {
       body: (tester) async {
         tester.mockApi(
           (api) => api.unfollow(
-            source: any(named: 'source'),
-            target: any(named: 'target'),
+            source: 'user:john',
+            target: 'group:target',
           ),
           result: UnfollowResponse(
             duration: '0ms',
@@ -2408,8 +2390,8 @@ void main() {
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.unfollow(
-          source: any(named: 'source'),
-          target: any(named: 'target'),
+          source: 'user:john',
+          target: 'group:target',
         ),
       ),
     );
@@ -2421,7 +2403,10 @@ void main() {
         const sourceFeedId = FeedId(group: 'user', id: 'source');
         tester.mockApi(
           (api) => api.acceptFollow(
-            acceptFollowRequest: any(named: 'acceptFollowRequest'),
+            acceptFollowRequest: const AcceptFollowRequest(
+              source: 'user:source',
+              target: 'group:target',
+            ),
           ),
           result: AcceptFollowResponse(
             duration: '0ms',
@@ -2463,7 +2448,10 @@ void main() {
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.acceptFollow(
-          acceptFollowRequest: any(named: 'acceptFollowRequest'),
+          acceptFollowRequest: const AcceptFollowRequest(
+            source: 'user:source',
+            target: 'group:target',
+          ),
         ),
       ),
     );
@@ -2475,7 +2463,10 @@ void main() {
         const sourceFeedId = FeedId(group: 'user', id: 'source');
         tester.mockApi(
           (api) => api.rejectFollow(
-            rejectFollowRequest: any(named: 'rejectFollowRequest'),
+            rejectFollowRequest: const RejectFollowRequest(
+              source: 'user:source',
+              target: 'group:target',
+            ),
           ),
           result: RejectFollowResponse(
             duration: '0ms',
@@ -2517,7 +2508,10 @@ void main() {
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.rejectFollow(
-          rejectFollowRequest: any(named: 'rejectFollowRequest'),
+          rejectFollowRequest: const RejectFollowRequest(
+            source: 'user:source',
+            target: 'group:target',
+          ),
         ),
       ),
     );
@@ -2779,10 +2773,6 @@ void main() {
     const feedId = FeedId(group: 'user', id: 'john');
     const userId = 'luke_skywalker';
 
-    setUpAll(() {
-      registerFallbackValue(const AddReactionRequest(type: 'like'));
-    });
-
     feedTest(
       'addActivityReaction() - should add reaction to activity via API',
       build: (client) => client.feedFromId(feedId),
@@ -2801,7 +2791,7 @@ void main() {
         tester.mockApi(
           (api) => api.addActivityReaction(
             activityId: 'activity-1',
-            addReactionRequest: any(named: 'addReactionRequest'),
+            addReactionRequest: const AddReactionRequest(type: 'heart'),
           ),
           result: createDefaultAddReactionResponse(
             activityId: 'activity-1',
@@ -2832,7 +2822,7 @@ void main() {
       verify: (tester) => tester.verifyApi(
         (api) => api.addActivityReaction(
           activityId: 'activity-1',
-          addReactionRequest: any(named: 'addReactionRequest'),
+          addReactionRequest: const AddReactionRequest(type: 'heart'),
         ),
       ),
     );
@@ -3227,18 +3217,13 @@ void main() {
     const pollId = 'poll-1';
     const feedId = FeedId(group: 'user', id: 'john');
 
-    setUpAll(() {
-      registerFallbackValue(const CreatePollRequest(name: 'Fallback Poll'));
-      registerFallbackValue(const AddActivityRequest(type: 'poll', feeds: []));
-    });
-
     feedTest(
       'createPoll() - should create poll and add activity',
       build: (client) => client.feedFromId(feedId),
       body: (tester) async {
         tester.mockApi(
           (api) => api.createPoll(
-            createPollRequest: any(named: 'createPollRequest'),
+            createPollRequest: const CreatePollRequest(name: 'Test Poll'),
           ),
           result: PollResponse(
             duration: '0ms',
@@ -3248,7 +3233,11 @@ void main() {
 
         tester.mockApi(
           (api) => api.addActivity(
-            addActivityRequest: any(named: 'addActivityRequest'),
+            addActivityRequest: const AddActivityRequest(
+              type: 'poll',
+              feeds: ['user:john'],
+              pollId: 'poll-1',
+            ),
           ),
           result: AddActivityResponse(
             duration: '0ms',
@@ -3273,12 +3262,16 @@ void main() {
       verify: (tester) {
         tester.verifyApi(
           (api) => api.createPoll(
-            createPollRequest: any(named: 'createPollRequest'),
+            createPollRequest: const CreatePollRequest(name: 'Test Poll'),
           ),
         );
         tester.verifyApi(
           (api) => api.addActivity(
-            addActivityRequest: any(named: 'addActivityRequest'),
+            addActivityRequest: const AddActivityRequest(
+              type: 'poll',
+              feeds: ['user:john'],
+              pollId: 'poll-1',
+            ),
           ),
         );
       },
@@ -4368,10 +4361,6 @@ void main() {
   group('Feed - FeedAddActivityRequest field mapping', () {
     const feedId = FeedId(group: 'user', id: 'john');
 
-    setUpAll(() {
-      registerFallbackValue(const AddActivityRequest(type: 'post', feeds: []));
-    });
-
     feedTest(
       'addActivity() passes createNotificationActivity, skipPush, enrichOwnFields to API',
       build: (client) => client.feedFromId(feedId),
@@ -4379,11 +4368,12 @@ void main() {
       body: (tester) async {
         tester.mockApi(
           (api) => api.addActivity(
-            addActivityRequest: any(
-              named: 'addActivityRequest',
-              that: predicate<AddActivityRequest>(
-                (r) => (r.createNotificationActivity ?? false) && (r.skipPush ?? false) && !(r.enrichOwnFields ?? true),
-              ),
+            addActivityRequest: const AddActivityRequest(
+              type: 'post',
+              feeds: [],
+              createNotificationActivity: true,
+              skipPush: true,
+              enrichOwnFields: false,
             ),
           ),
           result: AddActivityResponse(
@@ -4403,6 +4393,17 @@ void main() {
 
         expect(result.isSuccess, isTrue);
       },
+      verify: (tester) => tester.verifyApi(
+        (api) => api.addActivity(
+          addActivityRequest: const AddActivityRequest(
+            type: 'post',
+            feeds: [],
+            createNotificationActivity: true,
+            skipPush: true,
+            enrichOwnFields: false,
+          ),
+        ),
+      ),
     );
 
     feedTest(
@@ -4412,11 +4413,10 @@ void main() {
       body: (tester) async {
         tester.mockApi(
           (api) => api.addActivity(
-            addActivityRequest: any(
-              named: 'addActivityRequest',
-              that: predicate<AddActivityRequest>(
-                (r) => r.location?.lat == 52 && r.location?.lng == 4,
-              ),
+            addActivityRequest: const AddActivityRequest(
+              type: 'post',
+              feeds: [],
+              location: Location(lat: 52, lng: 4),
             ),
           ),
           result: AddActivityResponse(
@@ -4432,6 +4432,15 @@ void main() {
 
         expect(result.isSuccess, isTrue);
       },
+      verify: (tester) => tester.verifyApi(
+        (api) => api.addActivity(
+          addActivityRequest: const AddActivityRequest(
+            type: 'post',
+            feeds: [],
+            location: Location(lat: 52, lng: 4),
+          ),
+        ),
+      ),
     );
   });
 }

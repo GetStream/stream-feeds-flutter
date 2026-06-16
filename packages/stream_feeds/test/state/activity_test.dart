@@ -489,12 +489,6 @@ void main() {
     const commentId = 'comment-test-1';
     const userId = 'luke_skywalker';
 
-    setUpAll(() {
-      registerFallbackValue(
-        const AddCommentsBatchRequest(comments: []),
-      );
-    });
-
     activityTest(
       'addComment - should add comment to activity via API',
       build: (client) => client.activity(activityId: activityId, fid: fid),
@@ -503,7 +497,11 @@ void main() {
         // Mock API call that will be used
         tester.mockApi(
           (api) => api.addComment(
-            addCommentRequest: any(named: 'addCommentRequest'),
+            addCommentRequest: const AddCommentRequest(
+              comment: 'Test comment',
+              objectId: 'activity-1',
+              objectType: 'activity',
+            ),
           ),
           result: createDefaultAddCommentResponse(
             commentId: commentId,
@@ -541,7 +539,11 @@ void main() {
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.addComment(
-          addCommentRequest: any(named: 'addCommentRequest'),
+          addCommentRequest: const AddCommentRequest(
+            comment: 'Test comment',
+            objectId: 'activity-1',
+            objectType: 'activity',
+          ),
         ),
       ),
     );
@@ -557,7 +559,11 @@ void main() {
         // Mock API call that will be used
         tester.mockApi(
           (api) => api.addComment(
-            addCommentRequest: any(named: 'addCommentRequest'),
+            addCommentRequest: const AddCommentRequest(
+              comment: 'Test comment',
+              objectId: 'activity-1',
+              objectType: 'activity',
+            ),
           ),
           result: createDefaultAddCommentResponse(
             commentId: commentId,
@@ -621,7 +627,6 @@ void main() {
         tester.mockApi(
           (api) => api.deleteComment(
             id: commentId,
-            hardDelete: any(named: 'hardDelete'),
           ),
           result: createDefaultDeleteCommentResponse(
             commentId: commentId,
@@ -647,7 +652,6 @@ void main() {
       verify: (tester) => tester.verifyApi(
         (api) => api.deleteComment(
           id: commentId,
-          hardDelete: any(named: 'hardDelete'),
         ),
       ),
     );
@@ -673,7 +677,7 @@ void main() {
         tester.mockApi(
           (api) => api.updateComment(
             id: commentId,
-            updateCommentRequest: any(named: 'updateCommentRequest'),
+            updateCommentRequest: const UpdateCommentRequest(comment: 'Updated comment'),
           ),
           result: createDefaultUpdateCommentResponse(
             commentId: commentId,
@@ -707,7 +711,7 @@ void main() {
       verify: (tester) => tester.verifyApi(
         (api) => api.updateComment(
           id: commentId,
-          updateCommentRequest: any(named: 'updateCommentRequest'),
+          updateCommentRequest: const UpdateCommentRequest(comment: 'Updated comment'),
         ),
       ),
     );
@@ -722,7 +726,20 @@ void main() {
 
         tester.mockApi(
           (api) => api.addCommentsBatch(
-            addCommentsBatchRequest: any(named: 'addCommentsBatchRequest'),
+            addCommentsBatchRequest: const AddCommentsBatchRequest(
+              comments: [
+                AddCommentRequest(
+                  comment: 'First comment',
+                  objectId: 'activity-1',
+                  objectType: 'activity',
+                ),
+                AddCommentRequest(
+                  comment: 'Second comment',
+                  objectId: 'activity-1',
+                  objectType: 'activity',
+                ),
+              ],
+            ),
           ),
           result: AddCommentsBatchResponse(
             duration: DateTime.timestamp().toIso8601String(),
@@ -773,7 +790,20 @@ void main() {
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.addCommentsBatch(
-          addCommentsBatchRequest: any(named: 'addCommentsBatchRequest'),
+          addCommentsBatchRequest: const AddCommentsBatchRequest(
+            comments: [
+              AddCommentRequest(
+                comment: 'First comment',
+                objectId: 'activity-1',
+                objectType: 'activity',
+              ),
+              AddCommentRequest(
+                comment: 'Second comment',
+                objectId: 'activity-1',
+                objectType: 'activity',
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -787,10 +817,6 @@ void main() {
     const commentId = 'comment-test-1';
     const userId = 'luke_skywalker';
     const reactionType = 'heart';
-
-    setUpAll(() {
-      registerFallbackValue(const AddCommentReactionRequest(type: 'like'));
-    });
 
     activityTest(
       'addCommentReaction - should add reaction to comment via API',
@@ -813,7 +839,7 @@ void main() {
         tester.mockApi(
           (api) => api.addCommentReaction(
             id: commentId,
-            addCommentReactionRequest: any(named: 'addCommentReactionRequest'),
+            addCommentReactionRequest: const AddCommentReactionRequest(type: 'heart'),
           ),
           result: createDefaultAddCommentReactionResponse(
             commentId: commentId,
@@ -846,7 +872,7 @@ void main() {
       verify: (tester) => tester.verifyApi(
         (api) => api.addCommentReaction(
           id: commentId,
-          addCommentReactionRequest: any(named: 'addCommentReactionRequest'),
+          addCommentReactionRequest: const AddCommentReactionRequest(type: 'heart'),
         ),
       ),
     );
@@ -876,7 +902,7 @@ void main() {
         tester.mockApi(
           (api) => api.addCommentReaction(
             id: commentId,
-            addCommentReactionRequest: any(named: 'addCommentReactionRequest'),
+            addCommentReactionRequest: const AddCommentReactionRequest(type: 'heart'),
           ),
           result: createDefaultAddCommentReactionResponse(
             commentId: commentId,

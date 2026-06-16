@@ -110,10 +110,6 @@ void main() {
   // ============================================================
 
   group('upsertActivities', () {
-    setUpAll(() {
-      registerFallbackValue(const UpsertActivitiesRequest(activities: []));
-    });
-
     feedsClientTest(
       'should upsert activities successfully',
       body: (tester) async {
@@ -186,10 +182,6 @@ void main() {
   });
 
   group('deleteActivities', () {
-    setUpAll(() {
-      registerFallbackValue(const DeleteActivitiesRequest(ids: []));
-    });
-
     feedsClientTest(
       'should delete activities successfully',
       body: (tester) async {
@@ -328,15 +320,6 @@ void main() {
   });
 
   group('createDevice', () {
-    setUpAll(() {
-      registerFallbackValue(
-        const CreateDeviceRequest(
-          id: 'fallback',
-          pushProvider: CreateDeviceRequestPushProvider.firebase,
-        ),
-      );
-    });
-
     feedsClientTest(
       'should create device successfully',
       body: (tester) async {
@@ -525,12 +508,6 @@ void main() {
   // ============================================================
 
   group('getOrCreateFollows', () {
-    setUpAll(() {
-      registerFallbackValue(
-        const FollowBatchRequest(follows: []),
-      );
-    });
-
     feedsClientTest(
       'should get or create follows successfully',
       body: (tester) async {
@@ -626,12 +603,6 @@ void main() {
   });
 
   group('getOrCreateUnfollows', () {
-    setUpAll(() {
-      registerFallbackValue(
-        const UnfollowBatchRequest(follows: []),
-      );
-    });
-
     feedsClientTest(
       'should get or create unfollows successfully',
       body: (tester) async {
@@ -783,12 +754,6 @@ void main() {
   });
 
   group('createCollections', () {
-    setUpAll(() {
-      registerFallbackValue(
-        const CreateCollectionsRequest(collections: []),
-      );
-    });
-
     feedsClientTest(
       'should create collections successfully',
       body: (tester) async {
@@ -860,12 +825,6 @@ void main() {
   });
 
   group('updateCollections', () {
-    setUpAll(() {
-      registerFallbackValue(
-        const UpdateCollectionsRequest(collections: []),
-      );
-    });
-
     feedsClientTest(
       'should update collections successfully',
       body: (tester) async {
