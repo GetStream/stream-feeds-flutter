@@ -119,3 +119,38 @@ Future<void> commentThreading() async {
   );
   final replies = await replyList.get();
 }
+
+Future<void> restrictReplies() async {
+  // Post an activity that restricts who can reply/comment.
+  // Options: everyone (default), nobody, peopleIFollow.
+  await feed.addActivity(
+    request: const FeedAddActivityRequest(
+      type: 'post',
+      text: 'Only my followers can reply to this.',
+      restrictReplies: AddActivityRequestRestrictReplies.peopleIFollow,
+    ),
+  );
+
+  // Read the restriction from a fetched activity.
+  await feed.getOrCreate();
+  final activity = feed.state.activities.first;
+
+  switch (activity.restrictReplies) {
+    case ActivityRestrictReplies.everyone:
+      print('Anyone can comment');
+    case ActivityRestrictReplies.nobody:
+      print('Comments are disabled');
+    case ActivityRestrictReplies.peopleIFollow:
+      // For 'peopleIFollow' the backend returns `own_followings` on the feed —
+      // a list of up to 5 follows where the source is owned by the activity
+      // author and the target is owned by the current user. A non-empty list
+      // means the current user IS followed by the author, so they may comment.
+      await feed.getOrCreate();
+      final currentFeed = activity.currentFeed;
+      final ownFollowings = currentFeed?.ownFollowings ?? [];
+      final canComment = ownFollowings.isNotEmpty;
+      print('Can current user comment? $canComment');
+    default:
+      print('Unknown restriction: ${activity.restrictReplies}');
+  }
+}

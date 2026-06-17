@@ -47,6 +47,7 @@ mixin _$ActivityData {
   bool get preview;
   int get reactionCount;
   Map<String, ReactionGroupData> get reactionGroups;
+  ActivityRestrictReplies get restrictReplies;
   double get score;
   Map<String, Object?> get searchData;
   int get shareCount;
@@ -62,10 +63,11 @@ mixin _$ActivityData {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $ActivityDataCopyWith<ActivityData> get copyWith => _$ActivityDataCopyWithImpl<ActivityData>(
-    this as ActivityData,
-    _$identity,
-  );
+  $ActivityDataCopyWith<ActivityData> get copyWith =>
+      _$ActivityDataCopyWithImpl<ActivityData>(
+        this as ActivityData,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -76,18 +78,25 @@ mixin _$ActivityData {
               other.attachments,
               attachments,
             ) &&
-            (identical(other.bookmarkCount, bookmarkCount) || other.bookmarkCount == bookmarkCount) &&
+            (identical(other.bookmarkCount, bookmarkCount) ||
+                other.bookmarkCount == bookmarkCount) &&
             const DeepCollectionEquality().equals(
               other.collections,
               collections,
             ) &&
-            (identical(other.commentCount, commentCount) || other.commentCount == commentCount) &&
+            (identical(other.commentCount, commentCount) ||
+                other.commentCount == commentCount) &&
             const DeepCollectionEquality().equals(other.comments, comments) &&
-            (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
-            (identical(other.currentFeed, currentFeed) || other.currentFeed == currentFeed) &&
-            (identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt) &&
-            (identical(other.editedAt, editedAt) || other.editedAt == editedAt) &&
-            (identical(other.expiresAt, expiresAt) || other.expiresAt == expiresAt) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.currentFeed, currentFeed) ||
+                other.currentFeed == currentFeed) &&
+            (identical(other.deletedAt, deletedAt) ||
+                other.deletedAt == deletedAt) &&
+            (identical(other.editedAt, editedAt) ||
+                other.editedAt == editedAt) &&
+            (identical(other.expiresAt, expiresAt) ||
+                other.expiresAt == expiresAt) &&
             const DeepCollectionEquality().equals(other.feeds, feeds) &&
             const DeepCollectionEquality().equals(
               other.filterTags,
@@ -106,18 +115,21 @@ mixin _$ActivityData {
             ) &&
             (identical(other.isRead, isRead) || other.isRead == isRead) &&
             (identical(other.isSeen, isSeen) || other.isSeen == isSeen) &&
-            (identical(other.isWatched, isWatched) || other.isWatched == isWatched) &&
+            (identical(other.isWatched, isWatched) ||
+                other.isWatched == isWatched) &&
             const DeepCollectionEquality().equals(
               other.latestReactions,
               latestReactions,
             ) &&
-            (identical(other.location, location) || other.location == location) &&
+            (identical(other.location, location) ||
+                other.location == location) &&
             const DeepCollectionEquality().equals(
               other.mentionedUsers,
               mentionedUsers,
             ) &&
             const DeepCollectionEquality().equals(other.metrics, metrics) &&
-            (identical(other.moderation, moderation) || other.moderation == moderation) &&
+            (identical(other.moderation, moderation) ||
+                other.moderation == moderation) &&
             (identical(other.notificationContext, notificationContext) ||
                 other.notificationContext == notificationContext) &&
             const DeepCollectionEquality().equals(
@@ -130,26 +142,34 @@ mixin _$ActivityData {
             ) &&
             (identical(other.parent, parent) || other.parent == parent) &&
             (identical(other.poll, poll) || other.poll == poll) &&
-            (identical(other.popularity, popularity) || other.popularity == popularity) &&
+            (identical(other.popularity, popularity) ||
+                other.popularity == popularity) &&
             (identical(other.hidden, hidden) || other.hidden == hidden) &&
             (identical(other.preview, preview) || other.preview == preview) &&
-            (identical(other.reactionCount, reactionCount) || other.reactionCount == reactionCount) &&
+            (identical(other.reactionCount, reactionCount) ||
+                other.reactionCount == reactionCount) &&
             const DeepCollectionEquality().equals(
               other.reactionGroups,
               reactionGroups,
             ) &&
+            (identical(other.restrictReplies, restrictReplies) ||
+                other.restrictReplies == restrictReplies) &&
             (identical(other.score, score) || other.score == score) &&
             const DeepCollectionEquality().equals(
               other.searchData,
               searchData,
             ) &&
-            (identical(other.shareCount, shareCount) || other.shareCount == shareCount) &&
+            (identical(other.shareCount, shareCount) ||
+                other.shareCount == shareCount) &&
             (identical(other.text, text) || other.text == text) &&
             (identical(other.type, type) || other.type == type) &&
-            (identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
             (identical(other.user, user) || other.user == user) &&
-            (identical(other.visibility, visibility) || other.visibility == visibility) &&
-            (identical(other.visibilityTag, visibilityTag) || other.visibilityTag == visibilityTag) &&
+            (identical(other.visibility, visibility) ||
+                other.visibility == visibility) &&
+            (identical(other.visibilityTag, visibilityTag) ||
+                other.visibilityTag == visibilityTag) &&
             const DeepCollectionEquality().equals(other.custom, custom));
   }
 
@@ -190,6 +210,7 @@ mixin _$ActivityData {
     preview,
     reactionCount,
     const DeepCollectionEquality().hash(reactionGroups),
+    restrictReplies,
     score,
     const DeepCollectionEquality().hash(searchData),
     shareCount,
@@ -204,7 +225,7 @@ mixin _$ActivityData {
 
   @override
   String toString() {
-    return 'ActivityData(attachments: $attachments, bookmarkCount: $bookmarkCount, collections: $collections, commentCount: $commentCount, comments: $comments, createdAt: $createdAt, currentFeed: $currentFeed, deletedAt: $deletedAt, editedAt: $editedAt, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, friendReactionCount: $friendReactionCount, friendReactions: $friendReactions, id: $id, interestTags: $interestTags, isRead: $isRead, isSeen: $isSeen, isWatched: $isWatched, latestReactions: $latestReactions, location: $location, mentionedUsers: $mentionedUsers, metrics: $metrics, moderation: $moderation, notificationContext: $notificationContext, ownBookmarks: $ownBookmarks, ownReactions: $ownReactions, parent: $parent, poll: $poll, popularity: $popularity, hidden: $hidden, preview: $preview, reactionCount: $reactionCount, reactionGroups: $reactionGroups, score: $score, searchData: $searchData, shareCount: $shareCount, text: $text, type: $type, updatedAt: $updatedAt, user: $user, visibility: $visibility, visibilityTag: $visibilityTag, custom: $custom)';
+    return 'ActivityData(attachments: $attachments, bookmarkCount: $bookmarkCount, collections: $collections, commentCount: $commentCount, comments: $comments, createdAt: $createdAt, currentFeed: $currentFeed, deletedAt: $deletedAt, editedAt: $editedAt, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, friendReactionCount: $friendReactionCount, friendReactions: $friendReactions, id: $id, interestTags: $interestTags, isRead: $isRead, isSeen: $isSeen, isWatched: $isWatched, latestReactions: $latestReactions, location: $location, mentionedUsers: $mentionedUsers, metrics: $metrics, moderation: $moderation, notificationContext: $notificationContext, ownBookmarks: $ownBookmarks, ownReactions: $ownReactions, parent: $parent, poll: $poll, popularity: $popularity, hidden: $hidden, preview: $preview, reactionCount: $reactionCount, reactionGroups: $reactionGroups, restrictReplies: $restrictReplies, score: $score, searchData: $searchData, shareCount: $shareCount, text: $text, type: $type, updatedAt: $updatedAt, user: $user, visibility: $visibility, visibilityTag: $visibilityTag, custom: $custom)';
   }
 }
 
@@ -250,6 +271,7 @@ abstract mixin class $ActivityDataCopyWith<$Res> {
     bool preview,
     int reactionCount,
     Map<String, ReactionGroupData> reactionGroups,
+    ActivityRestrictReplies restrictReplies,
     double score,
     Map<String, Object?> searchData,
     int shareCount,
@@ -309,6 +331,7 @@ class _$ActivityDataCopyWithImpl<$Res> implements $ActivityDataCopyWith<$Res> {
     Object? preview = null,
     Object? reactionCount = null,
     Object? reactionGroups = null,
+    Object? restrictReplies = null,
     Object? score = null,
     Object? searchData = null,
     Object? shareCount = null,
@@ -458,6 +481,10 @@ class _$ActivityDataCopyWithImpl<$Res> implements $ActivityDataCopyWith<$Res> {
             ? _self.reactionGroups
             : reactionGroups // ignore: cast_nullable_to_non_nullable
                   as Map<String, ReactionGroupData>,
+        restrictReplies: null == restrictReplies
+            ? _self.restrictReplies
+            : restrictReplies // ignore: cast_nullable_to_non_nullable
+                  as ActivityRestrictReplies,
         score: null == score
             ? _self.score
             : score // ignore: cast_nullable_to_non_nullable

@@ -1,6 +1,8 @@
 ## Upcoming
 
 ### New fields
+- Added `restrictReplies` (`ActivityRestrictReplies`) to `ActivityData` to expose the comment-reply restriction on an activity (everyone / nobody / people_i_follow).
+- Added `restrictReplies` (`AddActivityRequestRestrictReplies?`) to `FeedAddActivityRequest` so comment restrictions can be set when creating an activity.
 - Added `isRead` and `isSeen` fields to `ActivityData` and `AggregatedActivityData` for notification-feed read/seen state.
 - Added `friendReactionCount` and `friendReactions` fields to `ActivityData` to expose reactions from friends.
 - Added `metrics` field to `ActivityData` for server-side activity metrics (impressions, clicks, etc.).

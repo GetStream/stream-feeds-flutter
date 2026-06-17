@@ -60,6 +60,7 @@ class ActivityData with _$ActivityData {
     this.preview = false,
     this.reactionCount = 0,
     this.reactionGroups = const {},
+    this.restrictReplies = ActivityRestrictReplies.everyone,
     this.score = 0.0,
     this.searchData = const {},
     this.shareCount = 0,
@@ -226,6 +227,17 @@ class ActivityData with _$ActivityData {
   @override
   final Map<String, ReactionGroupData> reactionGroups;
 
+  /// Who is allowed to add comments/replies to this activity.
+  ///
+  /// Controls the comment restriction setting for this activity:
+  /// - [ActivityRestrictReplies.everyone] (default) — anyone can comment.
+  /// - [ActivityRestrictReplies.nobody] — comments are disabled.
+  /// - [ActivityRestrictReplies.peopleIFollow] — only users followed by the
+  ///   activity author may comment. Use [FeedData.ownFollowings] from the
+  ///   current feed to decide whether to show the comment input.
+  @override
+  final ActivityRestrictReplies restrictReplies;
+
   /// A relevance or quality score assigned to the activity.
   @override
   final double score;
@@ -348,6 +360,7 @@ extension ActivityResponseMapper on ActivityResponse {
       reactionGroups: {
         for (final entry in reactionGroups.entries) entry.key: entry.value.toModel(),
       },
+      restrictReplies: restrictReplies.toModel(),
       score: score,
       searchData: searchData,
       shareCount: shareCount,
@@ -610,6 +623,37 @@ extension ActivityDataMutations on ActivityData {
     });
 
     return updateWith(updatedActivity, ownReactions: updatedOwnReactions);
+  }
+}
+
+/// Controls who can add comments/replies to an activity.
+///
+/// Implemented as an extension type so any future server-side values are
+/// handled without requiring a client update.
+extension type const ActivityRestrictReplies(String value) implements String {
+  /// Anyone can comment on the activity (default).
+  static const everyone = ActivityRestrictReplies('everyone');
+
+  /// No one can comment on the activity.
+  static const nobody = ActivityRestrictReplies('nobody');
+
+  /// Only users followed by the activity author can comment.
+  static const peopleIFollow = ActivityRestrictReplies('people_i_follow');
+
+  /// Unknown value received from the API.
+  static const unknown = ActivityRestrictReplies('_unknown');
+}
+
+/// Extension function to convert an [ActivityResponseRestrictReplies] to an [ActivityRestrictReplies].
+extension ActivityResponseRestrictRepliesMapper on ActivityResponseRestrictReplies {
+  /// Converts this API restrict-replies enum to the domain [ActivityRestrictReplies].
+  ActivityRestrictReplies toModel() {
+    return switch (this) {
+      ActivityResponseRestrictReplies.everyone => ActivityRestrictReplies.everyone,
+      ActivityResponseRestrictReplies.nobody => ActivityRestrictReplies.nobody,
+      ActivityResponseRestrictReplies.peopleIFollow => ActivityRestrictReplies.peopleIFollow,
+      ActivityResponseRestrictReplies.unknown => ActivityRestrictReplies.unknown,
+    };
   }
 }
 
