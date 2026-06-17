@@ -1,5 +1,8 @@
 ## Upcoming
 
+### New methods
+- Added `queryUsers` to `StreamFeedsClient` for searching users by filter conditions, sort, and pagination.
+
 ### New fields
 - Added `isRead` and `isSeen` fields to `ActivityData` and `AggregatedActivityData` for notification-feed read/seen state.
 - Added `friendReactionCount` and `friendReactions` fields to `ActivityData` to expose reactions from friends.

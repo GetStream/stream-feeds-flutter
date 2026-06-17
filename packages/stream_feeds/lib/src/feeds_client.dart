@@ -11,6 +11,7 @@ import 'models/feed_id.dart';
 import 'models/feeds_config.dart';
 import 'models/follow_data.dart';
 import 'models/push_notifications_config.dart';
+import 'models/user_data.dart';
 import 'state/activity.dart';
 import 'state/activity_comment_list.dart';
 import 'state/activity_list.dart';
@@ -959,6 +960,39 @@ abstract interface class StreamFeedsClient {
   /// Returns a [Result] containing [api.DeleteCollectionsResponse] or an error.
   Future<Result<api.DeleteCollectionsResponse>> deleteCollections({
     required List<String> refs,
+  });
+
+  /// Queries users matching the provided filter conditions.
+  ///
+  /// Searches for users using the specified [filterConditions] map and optional
+  /// [sort], [limit], [offset], [presence], and [includeDeactivatedUsers] parameters.
+  ///
+  /// Example:
+  /// ```dart
+  /// final result = await client.queryUsers(
+  ///   filterConditions: {'name': {'$autocomplete': 'Al'}},
+  ///   sort: [api.SortParamRequest(field: 'name', direction: 1)],
+  ///   limit: 25,
+  /// );
+  ///
+  /// switch (result) {
+  ///   case Success(value: final users):
+  ///     for (final user in users) {
+  ///       print('${user.id}: ${user.name}');
+  ///     }
+  ///   case Failure(error: final error):
+  ///     print('Failed to query users: $error');
+  /// }
+  /// ```
+  ///
+  /// Returns a [Result] containing a list of [UserData] or an error.
+  Future<Result<List<UserData>>> queryUsers({
+    required Map<String, Object?> filterConditions,
+    List<api.SortParamRequest>? sort,
+    int? limit,
+    int? offset,
+    bool? presence,
+    bool? includeDeactivatedUsers,
   });
 
   /// The moderation client for managing moderation-related operations.
