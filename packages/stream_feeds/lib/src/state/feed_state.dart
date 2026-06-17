@@ -664,17 +664,25 @@ extension on FeedState {
   ///
   /// Returns a new [FeedState] instance with the updated notification status.
   FeedState markAllRead() {
-    final aggregatedActivities = [...this.aggregatedActivities];
-    final readActivities = aggregatedActivities.map((it) => it.group).toList();
+    final updatedAggregated = aggregatedActivities.map((group) {
+      final updatedActivities = group.activities.map((a) => a.copyWith(isRead: true)).toList();
+      return group.copyWith(isRead: true, activities: updatedActivities);
+    }).toList();
 
-    // Set unread count to 0 and update read activities
+    final readActivities = updatedAggregated.map((it) => it.group).toList();
+    final updatedActivities = activities.map((a) => a.copyWith(isRead: true)).toList();
+
     final updatedNotificationStatus = notificationStatus?.copyWith(
       unread: 0,
       readActivities: readActivities,
       lastReadAt: DateTime.timestamp(),
     );
 
-    return copyWith(notificationStatus: updatedNotificationStatus);
+    return copyWith(
+      activities: updatedActivities,
+      aggregatedActivities: updatedAggregated,
+      notificationStatus: updatedNotificationStatus,
+    );
   }
 
   /// Marks all activities in this feed state as seen.
@@ -684,31 +692,46 @@ extension on FeedState {
   ///
   /// Returns a new [FeedState] instance with the updated notification status.
   FeedState markAllSeen() {
-    final aggregatedActivities = [...this.aggregatedActivities];
-    final seenActivities = aggregatedActivities.map((it) => it.group).toList();
+    final updatedAggregated = aggregatedActivities.map((group) {
+      final updatedActivities = group.activities.map((a) => a.copyWith(isSeen: true)).toList();
+      return group.copyWith(isSeen: true, activities: updatedActivities);
+    }).toList();
 
-    // Set unseen count to 0 and update seen activities
+    final seenActivities = updatedAggregated.map((it) => it.group).toList();
+    final updatedActivities = activities.map((a) => a.copyWith(isSeen: true)).toList();
+
     final updatedNotificationStatus = notificationStatus?.copyWith(
       unseen: 0,
       seenActivities: seenActivities,
       lastSeenAt: DateTime.timestamp(),
     );
 
-    return copyWith(notificationStatus: updatedNotificationStatus);
+    return copyWith(
+      activities: updatedActivities,
+      aggregatedActivities: updatedAggregated,
+      notificationStatus: updatedNotificationStatus,
+    );
   }
 
   /// Marks specific activities as read in this feed state.
   ///
-  /// Adds the activity IDs in [readIds] to the read activities set and decreases the unread
+  /// Adds the activity group IDs in [readIds] to the read activities set and decreases the unread
   /// count by the number of newly read activities. Updates the last read timestamp to the
-  /// current time.
+  /// current time. Also updates per-activity and per-group `isRead` flags.
   ///
   /// Returns a new [FeedState] instance with the updated notification status.
   FeedState markRead(Set<String> readIds) {
+    final updatedAggregated = aggregatedActivities.map((group) {
+      if (!readIds.contains(group.group)) return group;
+      final updatedActivities = group.activities.map((a) => a.copyWith(isRead: true)).toList();
+      return group.copyWith(isRead: true, activities: updatedActivities);
+    }).toList();
+
+    final updatedActivities = activities.map((a) => readIds.contains(a.id) ? a.copyWith(isRead: true) : a).toList();
+
     final readActivities = notificationStatus?.readActivities?.toSet();
     final updatedReadActivities = readActivities?.union(readIds).toList();
 
-    // Decrease unread count by the number of newly read activities
     final unreadCount = notificationStatus?.unread ?? 0;
     final updatedUnreadCount = max(unreadCount - readIds.length, 0);
 
@@ -718,21 +741,32 @@ extension on FeedState {
       lastReadAt: DateTime.timestamp(),
     );
 
-    return copyWith(notificationStatus: updatedNotificationStatus);
+    return copyWith(
+      activities: updatedActivities,
+      aggregatedActivities: updatedAggregated,
+      notificationStatus: updatedNotificationStatus,
+    );
   }
 
   /// Marks specific activities as seen in this feed state.
   ///
-  /// Adds the activity IDs in [seenIds] to the seen activities set and decreases the unseen
+  /// Adds the activity group IDs in [seenIds] to the seen activities set and decreases the unseen
   /// count by the number of newly seen activities. Updates the last seen timestamp to the
-  /// current time.
+  /// current time. Also updates per-activity and per-group `isSeen` flags.
   ///
   /// Returns a new [FeedState] instance with the updated notification status.
   FeedState markSeen(Set<String> seenIds) {
+    final updatedAggregated = aggregatedActivities.map((group) {
+      if (!seenIds.contains(group.group)) return group;
+      final updatedActivities = group.activities.map((a) => a.copyWith(isSeen: true)).toList();
+      return group.copyWith(isSeen: true, activities: updatedActivities);
+    }).toList();
+
+    final updatedActivities = activities.map((a) => seenIds.contains(a.id) ? a.copyWith(isSeen: true) : a).toList();
+
     final seenActivities = notificationStatus?.seenActivities?.toSet();
     final updatedSeenActivities = seenActivities?.union(seenIds).toList();
 
-    // Decrease unseen count by the number of newly seen activities
     final unseenCount = notificationStatus?.unseen ?? 0;
     final updatedUnseenCount = max(unseenCount - seenIds.length, 0);
 
@@ -742,7 +776,11 @@ extension on FeedState {
       lastSeenAt: DateTime.timestamp(),
     );
 
-    return copyWith(notificationStatus: updatedNotificationStatus);
+    return copyWith(
+      activities: updatedActivities,
+      aggregatedActivities: updatedAggregated,
+      notificationStatus: updatedNotificationStatus,
+    );
   }
 
   /// Marks specific activities as watched in this feed state.

@@ -1,5 +1,8 @@
 ## Upcoming
 
+### Improvements
+- `markRead`, `markSeen`, `markAllRead`, and `markAllSeen` now update per-activity and per-group `isRead`/`isSeen` flags on the feed state in addition to the aggregate notification counts. These flags are now kept in sync when the `activity.marked` WebSocket event is received.
+
 ### New fields
 - Added `isRead` and `isSeen` fields to `ActivityData` and `AggregatedActivityData` for notification-feed read/seen state.
 - Added `friendReactionCount` and `friendReactions` fields to `ActivityData` to expose reactions from friends.

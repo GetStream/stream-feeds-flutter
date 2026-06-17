@@ -71,3 +71,41 @@ Future<void> markNotificationsAsRead() async {
     ),
   );
 }
+
+Future<void> readPerActivityReadSeenState() async {
+  // After getOrCreate(), the feed state exposes per-activity and per-group isRead/isSeen flags.
+  // These are updated automatically when markActivity() is called (via the WS activity.marked event).
+  final feedState = notificationFeed.state;
+
+  // Check per-group read/seen status for aggregated notification feeds
+  for (final group in feedState.aggregatedActivities) {
+    final isRead = group.isRead ?? false;
+    final isSeen = group.isSeen ?? false;
+    print('Group ${group.group}: read=$isRead, seen=$isSeen');
+
+    // Individual activities within the group also carry isRead/isSeen
+    for (final activity in group.activities) {
+      print('  Activity ${activity.id}: read=${activity.isRead}, seen=${activity.isSeen}');
+    }
+  }
+
+  // For flat (non-aggregated) notification feeds, check individual activities
+  for (final activity in feedState.activities) {
+    final isRead = activity.isRead ?? false;
+    final isSeen = activity.isSeen ?? false;
+    print('Activity ${activity.id}: read=$isRead, seen=$isSeen');
+  }
+}
+
+Future<void> markSpecificGroupAsRead() async {
+  // Mark specific notification groups as read using their group IDs.
+  // The feed state isRead/isSeen flags are updated automatically via the WS activity.marked event.
+  final feedState = notificationFeed.state;
+  final unreadGroups = feedState.aggregatedActivities.where((g) => g.isRead != true).map((g) => g.group).toList();
+
+  if (unreadGroups.isNotEmpty) {
+    await notificationFeed.markActivity(
+      request: MarkActivityRequest(markRead: unreadGroups),
+    );
+  }
+}
