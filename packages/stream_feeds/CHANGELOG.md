@@ -1,5 +1,8 @@
 ## Upcoming
 
+### Improvements
+- Guest users (`User.guest(id)`) now obtain a real JWT by calling `POST /api/v2/guest` during `connect()`, giving them a full authenticated session with WebSocket support. Previously guest users fell back to the anonymous token which prevented WS connectivity.
+
 ### New fields
 - Added `isRead` and `isSeen` fields to `ActivityData` and `AggregatedActivityData` for notification-feed read/seen state.
 - Added `friendReactionCount` and `friendReactions` fields to `ActivityData` to expose reactions from friends.

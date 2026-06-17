@@ -84,9 +84,41 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
       (UserType.regular, null) => throw ArgumentError(
         'TokenProvider must be provided for regular users.',
       ),
-      (UserType.anonymous || UserType.guest, _) => TokenProvider.static(
+      (UserType.anonymous, _) => TokenProvider.static(
         UserToken.anonymous(userId: user.id),
       ),
+      (UserType.guest, _) => TokenProvider.dynamic((_) async {
+        // Create a minimal unauthenticated HTTP client for the guest endpoint.
+        // This client only carries the API key header — no auth token needed.
+        final guestHttpClient =
+            StreamCoreHttpClient(
+              options: BaseOptions(
+                baseUrl: endpointConfig.baseFeedsUrl,
+                connectTimeout: const Duration(seconds: 6),
+                receiveTimeout: const Duration(seconds: 6),
+              ),
+            ).apply(
+              (client) => client.interceptors.addAll([
+                ApiKeyInterceptor(apiKey),
+                HeadersInterceptor(_systemEnvironmentManager),
+                const ApiErrorInterceptor(),
+              ]),
+            );
+
+        final guestApi = api.DefaultApi(guestHttpClient);
+        final result = await guestApi.createGuest(
+          createGuestRequest: api.CreateGuestRequest(
+            user: api.UserRequest(
+              id: user.id,
+              name: user.originalName,
+              image: user.image,
+              custom: user.custom.isEmpty ? null : user.custom,
+            ),
+          ),
+        );
+
+        return result.map((r) => UserToken(r.accessToken)).getOrThrow();
+      }),
     };
 
     _tokenManager = TokenManager(
