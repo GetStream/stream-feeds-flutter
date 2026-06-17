@@ -265,10 +265,12 @@ class Feed with Disposable {
   Future<Result<void>> deleteActivity({
     required String id,
     bool hardDelete = false,
+    bool? deleteNotificationActivity,
   }) async {
     final result = await activitiesRepository.deleteActivity(
       id,
       hardDelete: hardDelete,
+      deleteNotificationActivity: deleteNotificationActivity,
     );
 
     result.onSuccess(
@@ -469,8 +471,14 @@ class Feed with Disposable {
   ///
   /// The [commentId] is the unique identifier of the comment to remove.
   /// Returns a [Result] indicating success or failure of the deletion operation.
-  Future<Result<void>> deleteComment({required String commentId}) async {
-    final result = await commentsRepository.deleteComment(commentId);
+  Future<Result<void>> deleteComment({
+    required String commentId,
+    bool? deleteNotificationActivity,
+  }) async {
+    final result = await commentsRepository.deleteComment(
+      commentId,
+      deleteNotificationActivity: deleteNotificationActivity,
+    );
 
     result.onSuccess(
       (pair) {
@@ -791,10 +799,12 @@ class Feed with Disposable {
   Future<Result<FeedsReactionData>> deleteActivityReaction({
     required String activityId,
     required String type,
+    bool? deleteNotificationActivity,
   }) async {
     final result = await activitiesRepository.deleteActivityReaction(
       activityId,
       type,
+      deleteNotificationActivity: deleteNotificationActivity,
     );
 
     result.onSuccess(
@@ -848,10 +858,12 @@ class Feed with Disposable {
   Future<Result<FeedsReactionData>> deleteCommentReaction({
     required String commentId,
     required String type,
+    bool? deleteNotificationActivity,
   }) async {
     final result = await commentsRepository.deleteCommentReaction(
       commentId,
       type,
+      deleteNotificationActivity: deleteNotificationActivity,
     );
 
     result.onSuccess(

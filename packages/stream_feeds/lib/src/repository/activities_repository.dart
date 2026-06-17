@@ -54,10 +54,12 @@ class ActivitiesRepository {
   Future<Result<void>> deleteActivity(
     String activityId, {
     required bool hardDelete,
+    bool? deleteNotificationActivity,
   }) {
     return _api.deleteActivity(
       id: activityId,
       hardDelete: hardDelete,
+      deleteNotificationActivity: deleteNotificationActivity,
     );
   }
 
@@ -245,11 +247,13 @@ class ActivitiesRepository {
   /// was removed, and the `reaction` field contains the deleted [FeedsReactionData].
   Future<Result<({ActivityData activity, FeedsReactionData reaction})>> deleteActivityReaction(
     String activityId,
-    String type,
-  ) async {
+    String type, {
+    bool? deleteNotificationActivity,
+  }) async {
     final result = await _api.deleteActivityReaction(
       activityId: activityId,
       type: type,
+      deleteNotificationActivity: deleteNotificationActivity,
     );
 
     return result.map(
