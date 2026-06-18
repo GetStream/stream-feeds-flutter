@@ -36,13 +36,16 @@ mixin _$CommentRepliesQuery {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is CommentRepliesQuery &&
-            (identical(other.commentId, commentId) || other.commentId == commentId) &&
+            (identical(other.commentId, commentId) ||
+                other.commentId == commentId) &&
             (identical(other.sort, sort) || other.sort == sort) &&
             (identical(other.depth, depth) || other.depth == depth) &&
             (identical(other.limit, limit) || other.limit == limit) &&
-            (identical(other.repliesLimit, repliesLimit) || other.repliesLimit == repliesLimit) &&
+            (identical(other.repliesLimit, repliesLimit) ||
+                other.repliesLimit == repliesLimit) &&
             (identical(other.next, next) || other.next == next) &&
-            (identical(other.previous, previous) || other.previous == previous));
+            (identical(other.previous, previous) ||
+                other.previous == previous));
   }
 
   @override
@@ -82,7 +85,8 @@ abstract mixin class $CommentRepliesQueryCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$CommentRepliesQueryCopyWithImpl<$Res> implements $CommentRepliesQueryCopyWith<$Res> {
+class _$CommentRepliesQueryCopyWithImpl<$Res>
+    implements $CommentRepliesQueryCopyWith<$Res> {
   _$CommentRepliesQueryCopyWithImpl(this._self, this._then);
 
   final CommentRepliesQuery _self;

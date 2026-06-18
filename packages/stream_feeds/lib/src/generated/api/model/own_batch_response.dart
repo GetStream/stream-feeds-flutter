@@ -23,6 +23,7 @@ class OwnBatchResponse with _$OwnBatchResponse {
   });
 
   @override
+  @JsonKey(defaultValue: {})
   final Map<String, FeedOwnData> data;
 
   @override

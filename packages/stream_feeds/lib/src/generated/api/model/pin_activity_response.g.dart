@@ -11,7 +11,7 @@ PinActivityResponse _$PinActivityResponseFromJson(Map<String, dynamic> json) => 
     json['activity'] as Map<String, dynamic>,
   ),
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
   duration: json['duration'] as String,
   feed: json['feed'] as String,

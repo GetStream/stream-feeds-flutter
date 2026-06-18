@@ -24,12 +24,14 @@ class FollowBatchResponse with _$FollowBatchResponse {
   });
 
   @override
+  @JsonKey(defaultValue: [])
   final List<FollowResponse> created;
 
   @override
   final String duration;
 
   @override
+  @JsonKey(defaultValue: [])
   final List<FollowResponse> follows;
 
   Map<String, dynamic> toJson() => _$FollowBatchResponseToJson(this);

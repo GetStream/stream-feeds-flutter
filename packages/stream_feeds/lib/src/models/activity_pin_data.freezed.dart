@@ -23,25 +23,30 @@ mixin _$ActivityPinData {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $ActivityPinDataCopyWith<ActivityPinData> get copyWith => _$ActivityPinDataCopyWithImpl<ActivityPinData>(
-    this as ActivityPinData,
-    _$identity,
-  );
+  $ActivityPinDataCopyWith<ActivityPinData> get copyWith =>
+      _$ActivityPinDataCopyWithImpl<ActivityPinData>(
+        this as ActivityPinData,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ActivityPinData &&
-            (identical(other.activity, activity) || other.activity == activity) &&
-            (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
+            (identical(other.activity, activity) ||
+                other.activity == activity) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
             (identical(other.fid, fid) || other.fid == fid) &&
-            (identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
             (identical(other.userId, userId) || other.userId == userId));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, activity, createdAt, fid, updatedAt, userId);
+  int get hashCode =>
+      Object.hash(runtimeType, activity, createdAt, fid, updatedAt, userId);
 
   @override
   String toString() {
@@ -66,7 +71,8 @@ abstract mixin class $ActivityPinDataCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ActivityPinDataCopyWithImpl<$Res> implements $ActivityPinDataCopyWith<$Res> {
+class _$ActivityPinDataCopyWithImpl<$Res>
+    implements $ActivityPinDataCopyWith<$Res> {
   _$ActivityPinDataCopyWithImpl(this._self, this._then);
 
   final ActivityPinData _self;

@@ -31,6 +31,7 @@ class QueryPinnedActivitiesResponse with _$QueryPinnedActivitiesResponse {
   final String? next;
 
   @override
+  @JsonKey(defaultValue: [])
   final List<ActivityPinResponse> pinnedActivities;
 
   @override

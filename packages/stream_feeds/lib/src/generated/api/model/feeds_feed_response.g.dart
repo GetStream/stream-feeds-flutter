@@ -9,13 +9,13 @@ part of 'feeds_feed_response.dart';
 FeedsFeedResponse _$FeedsFeedResponseFromJson(Map<String, dynamic> json) => FeedsFeedResponse(
   activityCount: (json['activity_count'] as num).toInt(),
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
   createdBy: UserResponse.fromJson(
     json['created_by'] as Map<String, dynamic>,
   ),
   custom: json['custom'] as Map<String, dynamic>?,
-  deletedAt: _$JsonConverterFromJson<int, DateTime>(
+  deletedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['deleted_at'],
     const EpochDateTimeConverter().fromJson,
   ),
@@ -35,7 +35,7 @@ FeedsFeedResponse _$FeedsFeedResponseFromJson(Map<String, dynamic> json) => Feed
   name: json['name'] as String,
   pinCount: (json['pin_count'] as num).toInt(),
   updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+    json['updated_at'] as Object,
   ),
   visibility: json['visibility'] as String?,
 );
@@ -45,7 +45,7 @@ Map<String, dynamic> _$FeedsFeedResponseToJson(FeedsFeedResponse instance) => <S
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
   'created_by': instance.createdBy.toJson(),
   'custom': instance.custom,
-  'deleted_at': _$JsonConverterToJson<int, DateTime>(
+  'deleted_at': _$JsonConverterToJson<Object, DateTime>(
     instance.deletedAt,
     const EpochDateTimeConverter().toJson,
   ),

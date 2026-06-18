@@ -30,6 +30,7 @@ class AutomodPlatformCircumventionConfig with _$AutomodPlatformCircumventionConf
   final bool enabled;
 
   @override
+  @JsonKey(defaultValue: [])
   final List<AutomodRule> rules;
 
   Map<String, dynamic> toJson() => _$AutomodPlatformCircumventionConfigToJson(this);

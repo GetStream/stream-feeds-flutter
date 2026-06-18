@@ -8,22 +8,22 @@ part of 'user_mute_response.dart';
 
 UserMuteResponse _$UserMuteResponseFromJson(Map<String, dynamic> json) => UserMuteResponse(
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
-  expires: _$JsonConverterFromJson<int, DateTime>(
+  expires: _$JsonConverterFromJson<Object, DateTime>(
     json['expires'],
     const EpochDateTimeConverter().fromJson,
   ),
   target: json['target'] == null ? null : UserResponse.fromJson(json['target'] as Map<String, dynamic>),
   updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+    json['updated_at'] as Object,
   ),
   user: json['user'] == null ? null : UserResponse.fromJson(json['user'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$UserMuteResponseToJson(UserMuteResponse instance) => <String, dynamic>{
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
-  'expires': _$JsonConverterToJson<int, DateTime>(
+  'expires': _$JsonConverterToJson<Object, DateTime>(
     instance.expires,
     const EpochDateTimeConverter().toJson,
   ),

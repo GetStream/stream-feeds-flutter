@@ -489,17 +489,33 @@ export 'model/ws_auth_message.dart';
 export 'model/ws_client_event.dart';
 export 'model/ws_event.dart';
 
-/// A [JsonConverter] that converts between [DateTime] and epoch nanoseconds as [int].
+/// A [JsonConverter] for the API's [DateTime] fields.
 ///
-/// - `fromJson`: Converts an integer (nanoseconds since epoch) to a [DateTime].
-/// - `toJson`: Converts a [DateTime] to an integer (nanoseconds since epoch).
-class EpochDateTimeConverter implements JsonConverter<DateTime, int> {
+/// Depending on the product, the backend encodes timestamps either as
+/// ISO-8601 strings (e.g. the video coordinator) or as epoch nanoseconds
+/// (e.g. feeds, generated with `--encode-time-as-unix-timestamp`). The same
+/// generated client must read both, so this converter accepts either form:
+///
+/// - `fromJson`: parses an ISO-8601 [String] or epoch-nanoseconds [num] into a
+///   UTC [DateTime].
+/// - `toJson`: emits an ISO-8601 [String]; the backend accepts RFC3339 on
+///   request bodies regardless of how it encodes responses.
+class EpochDateTimeConverter implements JsonConverter<DateTime, Object> {
   /// Creates a constant [EpochDateTimeConverter].
   const EpochDateTimeConverter();
 
   @override
-  DateTime fromJson(int json) => DateTime.fromMicrosecondsSinceEpoch(json ~/ 1000);
+  DateTime fromJson(Object json) {
+    if (json is String) {
+      return DateTime.parse(json).toUtc();
+    }
+    if (json is num) {
+      // Epoch nanoseconds -> microseconds.
+      return DateTime.fromMicrosecondsSinceEpoch(json ~/ 1000, isUtc: true);
+    }
+    throw ArgumentError('Cannot convert $json (${json.runtimeType}) to DateTime');
+  }
 
   @override
-  int toJson(DateTime object) => object.microsecondsSinceEpoch * 1000;
+  Object toJson(DateTime object) => object.toUtc().toIso8601String();
 }

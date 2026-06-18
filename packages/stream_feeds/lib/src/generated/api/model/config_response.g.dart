@@ -53,17 +53,16 @@ ConfigResponse _$ConfigResponseFromJson(
           json['block_list_config'] as Map<String, dynamic>,
         ),
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
   floodConfig: json['flood_config'] == null ? null : FloodConfig.fromJson(json['flood_config'] as Map<String, dynamic>),
   key: json['key'] as String,
   llmConfig: json['llm_config'] == null ? null : LLMConfig.fromJson(json['llm_config'] as Map<String, dynamic>),
-  supportedVideoCallHarmTypes: (json['supported_video_call_harm_types'] as List<dynamic>)
-      .map((e) => e as String)
-      .toList(),
+  supportedVideoCallHarmTypes:
+      (json['supported_video_call_harm_types'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
   team: json['team'] as String,
   updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+    json['updated_at'] as Object,
   ),
   velocityFilterConfig: json['velocity_filter_config'] == null
       ? null

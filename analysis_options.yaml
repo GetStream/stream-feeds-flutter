@@ -11,6 +11,7 @@ analyzer:
     # in this file.
     included_file_warning: ignore
   exclude:
+    - build/**
     # exclude all the generated files
     - packages/*/lib/**/*.*.dart
     - packages/stream_feeds/lib/src/generated/**

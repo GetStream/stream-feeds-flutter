@@ -21,7 +21,8 @@ mixin _$FeedId {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $FeedIdCopyWith<FeedId> get copyWith => _$FeedIdCopyWithImpl<FeedId>(this as FeedId, _$identity);
+  $FeedIdCopyWith<FeedId> get copyWith =>
+      _$FeedIdCopyWithImpl<FeedId>(this as FeedId, _$identity);
 
   @override
   bool operator ==(Object other) {
@@ -30,7 +31,8 @@ mixin _$FeedId {
             other is FeedId &&
             (identical(other.group, group) || other.group == group) &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.rawValue, rawValue) || other.rawValue == rawValue));
+            (identical(other.rawValue, rawValue) ||
+                other.rawValue == rawValue));
   }
 
   @override
@@ -44,7 +46,8 @@ mixin _$FeedId {
 
 /// @nodoc
 abstract mixin class $FeedIdCopyWith<$Res> {
-  factory $FeedIdCopyWith(FeedId value, $Res Function(FeedId) _then) = _$FeedIdCopyWithImpl;
+  factory $FeedIdCopyWith(FeedId value, $Res Function(FeedId) _then) =
+      _$FeedIdCopyWithImpl;
   @useResult
   $Res call({String group, String id});
 }

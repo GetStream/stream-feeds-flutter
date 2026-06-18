@@ -33,6 +33,7 @@ class PollVoteCastedFeedEvent extends core.WsEvent with _$PollVoteCastedFeedEven
   final DateTime createdAt;
 
   @override
+  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override

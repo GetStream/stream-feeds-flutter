@@ -13,14 +13,14 @@ BookmarkResponse _$BookmarkResponseFromJson(
   activityId: json['activity_id'] as String?,
   comment: json['comment'] == null ? null : CommentResponse.fromJson(json['comment'] as Map<String, dynamic>),
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
   custom: json['custom'] as Map<String, dynamic>?,
   folder: json['folder'] == null ? null : BookmarkFolderResponse.fromJson(json['folder'] as Map<String, dynamic>),
   objectId: json['object_id'] as String,
   objectType: json['object_type'] as String,
   updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+    json['updated_at'] as Object,
   ),
   user: UserResponse.fromJson(json['user'] as Map<String, dynamic>),
 );

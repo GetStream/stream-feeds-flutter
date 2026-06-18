@@ -26,6 +26,7 @@ class CreateFeedsBatchResponse with _$CreateFeedsBatchResponse {
   final String duration;
 
   @override
+  @JsonKey(defaultValue: [])
   final List<FeedResponse> feeds;
 
   Map<String, dynamic> toJson() => _$CreateFeedsBatchResponseToJson(this);

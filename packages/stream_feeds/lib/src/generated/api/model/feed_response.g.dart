@@ -9,11 +9,11 @@ part of 'feed_response.dart';
 FeedResponse _$FeedResponseFromJson(Map<String, dynamic> json) => FeedResponse(
   activityCount: (json['activity_count'] as num).toInt(),
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
   createdBy: UserResponse.fromJson(json['created_by'] as Map<String, dynamic>),
   custom: json['custom'] as Map<String, dynamic>?,
-  deletedAt: _$JsonConverterFromJson<int, DateTime>(
+  deletedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['deleted_at'],
     const EpochDateTimeConverter().fromJson,
   ),
@@ -30,9 +30,9 @@ FeedResponse _$FeedResponseFromJson(Map<String, dynamic> json) => FeedResponse(
   ownCapabilities: (json['own_capabilities'] as List<dynamic>?)
       ?.map(
         (e) => $enumDecode(
-          _$FeedResponseOwnCapabilitiesEnumMap,
+          _$FeedOwnCapabilityEnumMap,
           e,
-          unknownValue: FeedResponseOwnCapabilities.unknown,
+          unknownValue: FeedOwnCapability.unknown,
         ),
       )
       .toList(),
@@ -49,7 +49,7 @@ FeedResponse _$FeedResponseFromJson(Map<String, dynamic> json) => FeedResponse(
         ),
   pinCount: (json['pin_count'] as num).toInt(),
   updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+    json['updated_at'] as Object,
   ),
   visibility: $enumDecodeNullable(
     _$FeedResponseVisibilityEnumMap,
@@ -63,7 +63,7 @@ Map<String, dynamic> _$FeedResponseToJson(FeedResponse instance) => <String, dyn
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
   'created_by': instance.createdBy.toJson(),
   'custom': instance.custom,
-  'deleted_at': _$JsonConverterToJson<int, DateTime>(
+  'deleted_at': _$JsonConverterToJson<Object, DateTime>(
     instance.deletedAt,
     const EpochDateTimeConverter().toJson,
   ),
@@ -77,7 +77,7 @@ Map<String, dynamic> _$FeedResponseToJson(FeedResponse instance) => <String, dyn
   'location': instance.location?.toJson(),
   'member_count': instance.memberCount,
   'name': instance.name,
-  'own_capabilities': instance.ownCapabilities?.map((e) => _$FeedResponseOwnCapabilitiesEnumMap[e]!).toList(),
+  'own_capabilities': instance.ownCapabilities?.map((e) => _$FeedOwnCapabilityEnumMap[e]!).toList(),
   'own_followings': instance.ownFollowings?.map((e) => e.toJson()).toList(),
   'own_follows': instance.ownFollows?.map((e) => e.toJson()).toList(),
   'own_membership': instance.ownMembership?.toJson(),
@@ -91,37 +91,37 @@ Value? _$JsonConverterFromJson<Json, Value>(
   Value? Function(Json json) fromJson,
 ) => json == null ? null : fromJson(json as Json);
 
-const _$FeedResponseOwnCapabilitiesEnumMap = {
-  FeedResponseOwnCapabilities.addActivity: 'add-activity',
-  FeedResponseOwnCapabilities.addActivityBookmark: 'add-activity-bookmark',
-  FeedResponseOwnCapabilities.addActivityReaction: 'add-activity-reaction',
-  FeedResponseOwnCapabilities.addComment: 'add-comment',
-  FeedResponseOwnCapabilities.addCommentReaction: 'add-comment-reaction',
-  FeedResponseOwnCapabilities.createFeed: 'create-feed',
-  FeedResponseOwnCapabilities.deleteAnyActivity: 'delete-any-activity',
-  FeedResponseOwnCapabilities.deleteAnyComment: 'delete-any-comment',
-  FeedResponseOwnCapabilities.deleteFeed: 'delete-feed',
-  FeedResponseOwnCapabilities.deleteOwnActivity: 'delete-own-activity',
-  FeedResponseOwnCapabilities.deleteOwnActivityBookmark: 'delete-own-activity-bookmark',
-  FeedResponseOwnCapabilities.deleteOwnActivityReaction: 'delete-own-activity-reaction',
-  FeedResponseOwnCapabilities.deleteOwnComment: 'delete-own-comment',
-  FeedResponseOwnCapabilities.deleteOwnCommentReaction: 'delete-own-comment-reaction',
-  FeedResponseOwnCapabilities.follow: 'follow',
-  FeedResponseOwnCapabilities.pinActivity: 'pin-activity',
-  FeedResponseOwnCapabilities.queryFeedMembers: 'query-feed-members',
-  FeedResponseOwnCapabilities.queryFollows: 'query-follows',
-  FeedResponseOwnCapabilities.readActivities: 'read-activities',
-  FeedResponseOwnCapabilities.readFeed: 'read-feed',
-  FeedResponseOwnCapabilities.unfollow: 'unfollow',
-  FeedResponseOwnCapabilities.updateAnyActivity: 'update-any-activity',
-  FeedResponseOwnCapabilities.updateAnyComment: 'update-any-comment',
-  FeedResponseOwnCapabilities.updateFeed: 'update-feed',
-  FeedResponseOwnCapabilities.updateFeedFollowers: 'update-feed-followers',
-  FeedResponseOwnCapabilities.updateFeedMembers: 'update-feed-members',
-  FeedResponseOwnCapabilities.updateOwnActivity: 'update-own-activity',
-  FeedResponseOwnCapabilities.updateOwnActivityBookmark: 'update-own-activity-bookmark',
-  FeedResponseOwnCapabilities.updateOwnComment: 'update-own-comment',
-  FeedResponseOwnCapabilities.unknown: '_unknown',
+const _$FeedOwnCapabilityEnumMap = {
+  FeedOwnCapability.addActivity: 'add-activity',
+  FeedOwnCapability.addActivityBookmark: 'add-activity-bookmark',
+  FeedOwnCapability.addActivityReaction: 'add-activity-reaction',
+  FeedOwnCapability.addComment: 'add-comment',
+  FeedOwnCapability.addCommentReaction: 'add-comment-reaction',
+  FeedOwnCapability.createFeed: 'create-feed',
+  FeedOwnCapability.deleteAnyActivity: 'delete-any-activity',
+  FeedOwnCapability.deleteAnyComment: 'delete-any-comment',
+  FeedOwnCapability.deleteFeed: 'delete-feed',
+  FeedOwnCapability.deleteOwnActivity: 'delete-own-activity',
+  FeedOwnCapability.deleteOwnActivityBookmark: 'delete-own-activity-bookmark',
+  FeedOwnCapability.deleteOwnActivityReaction: 'delete-own-activity-reaction',
+  FeedOwnCapability.deleteOwnComment: 'delete-own-comment',
+  FeedOwnCapability.deleteOwnCommentReaction: 'delete-own-comment-reaction',
+  FeedOwnCapability.follow: 'follow',
+  FeedOwnCapability.pinActivity: 'pin-activity',
+  FeedOwnCapability.queryFeedMembers: 'query-feed-members',
+  FeedOwnCapability.queryFollows: 'query-follows',
+  FeedOwnCapability.readActivities: 'read-activities',
+  FeedOwnCapability.readFeed: 'read-feed',
+  FeedOwnCapability.unfollow: 'unfollow',
+  FeedOwnCapability.updateAnyActivity: 'update-any-activity',
+  FeedOwnCapability.updateAnyComment: 'update-any-comment',
+  FeedOwnCapability.updateFeed: 'update-feed',
+  FeedOwnCapability.updateFeedFollowers: 'update-feed-followers',
+  FeedOwnCapability.updateFeedMembers: 'update-feed-members',
+  FeedOwnCapability.updateOwnActivity: 'update-own-activity',
+  FeedOwnCapability.updateOwnActivityBookmark: 'update-own-activity-bookmark',
+  FeedOwnCapability.updateOwnComment: 'update-own-comment',
+  FeedOwnCapability.unknown: '_unknown',
 };
 
 const _$FeedResponseVisibilityEnumMap = {

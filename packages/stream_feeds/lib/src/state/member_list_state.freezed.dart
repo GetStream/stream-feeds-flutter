@@ -20,10 +20,11 @@ mixin _$MemberListState {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $MemberListStateCopyWith<MemberListState> get copyWith => _$MemberListStateCopyWithImpl<MemberListState>(
-    this as MemberListState,
-    _$identity,
-  );
+  $MemberListStateCopyWith<MemberListState> get copyWith =>
+      _$MemberListStateCopyWithImpl<MemberListState>(
+        this as MemberListState,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -31,7 +32,8 @@ mixin _$MemberListState {
         (other.runtimeType == runtimeType &&
             other is MemberListState &&
             const DeepCollectionEquality().equals(other.members, members) &&
-            (identical(other.pagination, pagination) || other.pagination == pagination));
+            (identical(other.pagination, pagination) ||
+                other.pagination == pagination));
   }
 
   @override
@@ -58,7 +60,8 @@ abstract mixin class $MemberListStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$MemberListStateCopyWithImpl<$Res> implements $MemberListStateCopyWith<$Res> {
+class _$MemberListStateCopyWithImpl<$Res>
+    implements $MemberListStateCopyWith<$Res> {
   _$MemberListStateCopyWithImpl(this._self, this._then);
 
   final MemberListState _self;

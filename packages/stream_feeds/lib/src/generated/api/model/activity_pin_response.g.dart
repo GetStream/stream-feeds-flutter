@@ -11,11 +11,11 @@ ActivityPinResponse _$ActivityPinResponseFromJson(Map<String, dynamic> json) => 
     json['activity'] as Map<String, dynamic>,
   ),
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
   feed: json['feed'] as String,
   updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+    json['updated_at'] as Object,
   ),
   user: UserResponse.fromJson(json['user'] as Map<String, dynamic>),
 );

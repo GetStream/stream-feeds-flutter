@@ -34,7 +34,8 @@ mixin _$ActivityReactionListState {
             other is ActivityReactionListState &&
             (identical(other.query, query) || other.query == query) &&
             const DeepCollectionEquality().equals(other.reactions, reactions) &&
-            (identical(other.pagination, pagination) || other.pagination == pagination));
+            (identical(other.pagination, pagination) ||
+                other.pagination == pagination));
   }
 
   @override
@@ -66,7 +67,8 @@ abstract mixin class $ActivityReactionListStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ActivityReactionListStateCopyWithImpl<$Res> implements $ActivityReactionListStateCopyWith<$Res> {
+class _$ActivityReactionListStateCopyWithImpl<$Res>
+    implements $ActivityReactionListStateCopyWith<$Res> {
   _$ActivityReactionListStateCopyWithImpl(this._self, this._then);
 
   final ActivityReactionListState _self;

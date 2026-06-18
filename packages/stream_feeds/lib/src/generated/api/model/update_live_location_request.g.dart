@@ -9,7 +9,7 @@ part of 'update_live_location_request.dart';
 UpdateLiveLocationRequest _$UpdateLiveLocationRequestFromJson(
   Map<String, dynamic> json,
 ) => UpdateLiveLocationRequest(
-  endAt: _$JsonConverterFromJson<int, DateTime>(
+  endAt: _$JsonConverterFromJson<Object, DateTime>(
     json['end_at'],
     const EpochDateTimeConverter().fromJson,
   ),
@@ -21,7 +21,7 @@ UpdateLiveLocationRequest _$UpdateLiveLocationRequestFromJson(
 Map<String, dynamic> _$UpdateLiveLocationRequestToJson(
   UpdateLiveLocationRequest instance,
 ) => <String, dynamic>{
-  'end_at': _$JsonConverterToJson<int, DateTime>(
+  'end_at': _$JsonConverterToJson<Object, DateTime>(
     instance.endAt,
     const EpochDateTimeConverter().toJson,
   ),

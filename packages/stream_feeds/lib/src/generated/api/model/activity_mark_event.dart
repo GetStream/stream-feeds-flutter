@@ -37,6 +37,7 @@ class ActivityMarkEvent extends core.WsEvent with _$ActivityMarkEvent {
   final DateTime createdAt;
 
   @override
+  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override

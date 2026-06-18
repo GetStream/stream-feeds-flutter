@@ -10,13 +10,13 @@ FeedMemberUpdatedEvent _$FeedMemberUpdatedEventFromJson(
   Map<String, dynamic> json,
 ) => FeedMemberUpdatedEvent(
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
-  custom: json['custom'] as Map<String, dynamic>,
+  custom: json['custom'] as Map<String, dynamic>? ?? {},
   feedVisibility: json['feed_visibility'] as String?,
   fid: json['fid'] as String,
   member: FeedMemberResponse.fromJson(json['member'] as Map<String, dynamic>),
-  receivedAt: _$JsonConverterFromJson<int, DateTime>(
+  receivedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['received_at'],
     const EpochDateTimeConverter().fromJson,
   ),
@@ -32,7 +32,7 @@ Map<String, dynamic> _$FeedMemberUpdatedEventToJson(
   'feed_visibility': instance.feedVisibility,
   'fid': instance.fid,
   'member': instance.member.toJson(),
-  'received_at': _$JsonConverterToJson<int, DateTime>(
+  'received_at': _$JsonConverterToJson<Object, DateTime>(
     instance.receivedAt,
     const EpochDateTimeConverter().toJson,
   ),

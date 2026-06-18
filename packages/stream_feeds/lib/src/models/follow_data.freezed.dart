@@ -28,22 +28,31 @@ mixin _$FollowData {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $FollowDataCopyWith<FollowData> get copyWith => _$FollowDataCopyWithImpl<FollowData>(this as FollowData, _$identity);
+  $FollowDataCopyWith<FollowData> get copyWith =>
+      _$FollowDataCopyWithImpl<FollowData>(this as FollowData, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is FollowData &&
-            (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
-            (identical(other.followerRole, followerRole) || other.followerRole == followerRole) &&
-            (identical(other.pushPreference, pushPreference) || other.pushPreference == pushPreference) &&
-            (identical(other.requestAcceptedAt, requestAcceptedAt) || other.requestAcceptedAt == requestAcceptedAt) &&
-            (identical(other.requestRejectedAt, requestRejectedAt) || other.requestRejectedAt == requestRejectedAt) &&
-            (identical(other.sourceFeed, sourceFeed) || other.sourceFeed == sourceFeed) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.followerRole, followerRole) ||
+                other.followerRole == followerRole) &&
+            (identical(other.pushPreference, pushPreference) ||
+                other.pushPreference == pushPreference) &&
+            (identical(other.requestAcceptedAt, requestAcceptedAt) ||
+                other.requestAcceptedAt == requestAcceptedAt) &&
+            (identical(other.requestRejectedAt, requestRejectedAt) ||
+                other.requestRejectedAt == requestRejectedAt) &&
+            (identical(other.sourceFeed, sourceFeed) ||
+                other.sourceFeed == sourceFeed) &&
             (identical(other.status, status) || other.status == status) &&
-            (identical(other.targetFeed, targetFeed) || other.targetFeed == targetFeed) &&
-            (identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt) &&
+            (identical(other.targetFeed, targetFeed) ||
+                other.targetFeed == targetFeed) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
             const DeepCollectionEquality().equals(other.custom, custom));
   }
 

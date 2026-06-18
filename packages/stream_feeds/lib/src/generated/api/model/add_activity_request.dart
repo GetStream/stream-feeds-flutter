@@ -90,6 +90,7 @@ class AddActivityRequest with _$AddActivityRequest {
   final String? expiresAt;
 
   @override
+  @JsonKey(defaultValue: [])
   final List<String> feeds;
 
   @override

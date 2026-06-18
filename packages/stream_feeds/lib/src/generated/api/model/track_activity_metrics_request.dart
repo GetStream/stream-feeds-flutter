@@ -22,6 +22,7 @@ class TrackActivityMetricsRequest with _$TrackActivityMetricsRequest {
   });
 
   @override
+  @JsonKey(defaultValue: [])
   final List<TrackActivityMetricsEvent> events;
 
   Map<String, dynamic> toJson() => _$TrackActivityMetricsRequestToJson(this);

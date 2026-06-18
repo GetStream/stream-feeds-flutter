@@ -13,10 +13,10 @@ ActivityFeedbackEvent _$ActivityFeedbackEventFromJson(
     json['activity_feedback'] as Map<String, dynamic>,
   ),
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
-  custom: json['custom'] as Map<String, dynamic>,
-  receivedAt: _$JsonConverterFromJson<int, DateTime>(
+  custom: json['custom'] as Map<String, dynamic>? ?? {},
+  receivedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['received_at'],
     const EpochDateTimeConverter().fromJson,
   ),
@@ -30,7 +30,7 @@ Map<String, dynamic> _$ActivityFeedbackEventToJson(
   'activity_feedback': instance.activityFeedback.toJson(),
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
   'custom': instance.custom,
-  'received_at': _$JsonConverterToJson<int, DateTime>(
+  'received_at': _$JsonConverterToJson<Object, DateTime>(
     instance.receivedAt,
     const EpochDateTimeConverter().toJson,
   ),

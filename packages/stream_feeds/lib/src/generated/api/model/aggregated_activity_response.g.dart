@@ -9,12 +9,14 @@ part of 'aggregated_activity_response.dart';
 AggregatedActivityResponse _$AggregatedActivityResponseFromJson(
   Map<String, dynamic> json,
 ) => AggregatedActivityResponse(
-  activities: (json['activities'] as List<dynamic>)
-      .map((e) => ActivityResponse.fromJson(e as Map<String, dynamic>))
-      .toList(),
+  activities:
+      (json['activities'] as List<dynamic>?)
+          ?.map((e) => ActivityResponse.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
   activityCount: (json['activity_count'] as num).toInt(),
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
   group: json['group'] as String,
   isRead: json['is_read'] as bool?,
@@ -22,7 +24,7 @@ AggregatedActivityResponse _$AggregatedActivityResponseFromJson(
   isWatched: json['is_watched'] as bool?,
   score: (json['score'] as num).toDouble(),
   updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+    json['updated_at'] as Object,
   ),
   userCount: (json['user_count'] as num).toInt(),
   userCountTruncated: json['user_count_truncated'] as bool,

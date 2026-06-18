@@ -26,6 +26,7 @@ class GetCommentRepliesResponse with _$GetCommentRepliesResponse {
   });
 
   @override
+  @JsonKey(defaultValue: [])
   final List<ThreadedCommentResponse> comments;
 
   @override

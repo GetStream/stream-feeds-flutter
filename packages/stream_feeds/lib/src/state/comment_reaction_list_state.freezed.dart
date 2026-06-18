@@ -32,7 +32,8 @@ mixin _$CommentReactionListState {
         (other.runtimeType == runtimeType &&
             other is CommentReactionListState &&
             const DeepCollectionEquality().equals(other.reactions, reactions) &&
-            (identical(other.pagination, pagination) || other.pagination == pagination));
+            (identical(other.pagination, pagination) ||
+                other.pagination == pagination));
   }
 
   @override
@@ -59,7 +60,8 @@ abstract mixin class $CommentReactionListStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$CommentReactionListStateCopyWithImpl<$Res> implements $CommentReactionListStateCopyWith<$Res> {
+class _$CommentReactionListStateCopyWithImpl<$Res>
+    implements $CommentReactionListStateCopyWith<$Res> {
   _$CommentReactionListStateCopyWithImpl(this._self, this._then);
 
   final CommentReactionListState _self;

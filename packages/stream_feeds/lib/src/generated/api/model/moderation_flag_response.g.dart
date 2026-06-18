@@ -10,7 +10,7 @@ ModerationFlagResponse _$ModerationFlagResponseFromJson(
   Map<String, dynamic> json,
 ) => ModerationFlagResponse(
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
   custom: json['custom'] as Map<String, dynamic>?,
   entityCreatorId: json['entity_creator_id'] as String?,
@@ -23,7 +23,7 @@ ModerationFlagResponse _$ModerationFlagResponseFromJson(
           json['moderation_payload'] as Map<String, dynamic>,
         ),
   reason: json['reason'] as String?,
-  result: (json['result'] as List<dynamic>).map((e) => e as Map<String, dynamic>).toList(),
+  result: (json['result'] as List<dynamic>?)?.map((e) => e as Map<String, dynamic>).toList() ?? [],
   reviewQueueItem: json['review_queue_item'] == null
       ? null
       : ReviewQueueItemResponse.fromJson(
@@ -32,7 +32,7 @@ ModerationFlagResponse _$ModerationFlagResponseFromJson(
   reviewQueueItemId: json['review_queue_item_id'] as String?,
   type: json['type'] as String,
   updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+    json['updated_at'] as Object,
   ),
   user: json['user'] == null ? null : UserResponse.fromJson(json['user'] as Map<String, dynamic>),
   userId: json['user_id'] as String,

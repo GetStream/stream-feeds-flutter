@@ -20,10 +20,11 @@ mixin _$CommentListState {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $CommentListStateCopyWith<CommentListState> get copyWith => _$CommentListStateCopyWithImpl<CommentListState>(
-    this as CommentListState,
-    _$identity,
-  );
+  $CommentListStateCopyWith<CommentListState> get copyWith =>
+      _$CommentListStateCopyWithImpl<CommentListState>(
+        this as CommentListState,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -31,7 +32,8 @@ mixin _$CommentListState {
         (other.runtimeType == runtimeType &&
             other is CommentListState &&
             const DeepCollectionEquality().equals(other.comments, comments) &&
-            (identical(other.pagination, pagination) || other.pagination == pagination));
+            (identical(other.pagination, pagination) ||
+                other.pagination == pagination));
   }
 
   @override
@@ -58,7 +60,8 @@ abstract mixin class $CommentListStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$CommentListStateCopyWithImpl<$Res> implements $CommentListStateCopyWith<$Res> {
+class _$CommentListStateCopyWithImpl<$Res>
+    implements $CommentListStateCopyWith<$Res> {
   _$CommentListStateCopyWithImpl(this._self, this._then);
 
   final CommentListState _self;

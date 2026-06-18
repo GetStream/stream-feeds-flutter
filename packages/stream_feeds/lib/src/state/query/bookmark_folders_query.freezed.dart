@@ -38,7 +38,8 @@ mixin _$BookmarkFoldersQuery {
             const DeepCollectionEquality().equals(other.sort, sort) &&
             (identical(other.limit, limit) || other.limit == limit) &&
             (identical(other.next, next) || other.next == next) &&
-            (identical(other.previous, previous) || other.previous == previous));
+            (identical(other.previous, previous) ||
+                other.previous == previous));
   }
 
   @override
@@ -74,7 +75,8 @@ abstract mixin class $BookmarkFoldersQueryCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$BookmarkFoldersQueryCopyWithImpl<$Res> implements $BookmarkFoldersQueryCopyWith<$Res> {
+class _$BookmarkFoldersQueryCopyWithImpl<$Res>
+    implements $BookmarkFoldersQueryCopyWith<$Res> {
   _$BookmarkFoldersQueryCopyWithImpl(this._self, this._then);
 
   final BookmarkFoldersQuery _self;

@@ -23,10 +23,11 @@ mixin _$BookmarksQuery {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $BookmarksQueryCopyWith<BookmarksQuery> get copyWith => _$BookmarksQueryCopyWithImpl<BookmarksQuery>(
-    this as BookmarksQuery,
-    _$identity,
-  );
+  $BookmarksQueryCopyWith<BookmarksQuery> get copyWith =>
+      _$BookmarksQueryCopyWithImpl<BookmarksQuery>(
+        this as BookmarksQuery,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -37,7 +38,8 @@ mixin _$BookmarksQuery {
             const DeepCollectionEquality().equals(other.sort, sort) &&
             (identical(other.limit, limit) || other.limit == limit) &&
             (identical(other.next, next) || other.next == next) &&
-            (identical(other.previous, previous) || other.previous == previous));
+            (identical(other.previous, previous) ||
+                other.previous == previous));
   }
 
   @override
@@ -73,7 +75,8 @@ abstract mixin class $BookmarksQueryCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$BookmarksQueryCopyWithImpl<$Res> implements $BookmarksQueryCopyWith<$Res> {
+class _$BookmarksQueryCopyWithImpl<$Res>
+    implements $BookmarksQueryCopyWith<$Res> {
   _$BookmarksQueryCopyWithImpl(this._self, this._then);
 
   final BookmarksQuery _self;

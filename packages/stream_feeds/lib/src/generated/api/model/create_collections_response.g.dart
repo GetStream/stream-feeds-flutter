@@ -9,9 +9,11 @@ part of 'create_collections_response.dart';
 CreateCollectionsResponse _$CreateCollectionsResponseFromJson(
   Map<String, dynamic> json,
 ) => CreateCollectionsResponse(
-  collections: (json['collections'] as List<dynamic>)
-      .map((e) => CollectionResponse.fromJson(e as Map<String, dynamic>))
-      .toList(),
+  collections:
+      (json['collections'] as List<dynamic>?)
+          ?.map((e) => CollectionResponse.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
   duration: json['duration'] as String,
 );
 

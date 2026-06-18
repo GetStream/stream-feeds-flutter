@@ -23,6 +23,7 @@ class AddCommentsBatchResponse with _$AddCommentsBatchResponse {
   });
 
   @override
+  @JsonKey(defaultValue: [])
   final List<CommentResponse> comments;
 
   @override

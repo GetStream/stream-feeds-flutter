@@ -16,7 +16,7 @@ UpdateActivityRequest _$UpdateActivityRequestFromJson(
   copyCustomToNotification: json['copy_custom_to_notification'] as bool?,
   custom: json['custom'] as Map<String, dynamic>?,
   enrichOwnFields: json['enrich_own_fields'] as bool?,
-  expiresAt: _$JsonConverterFromJson<int, DateTime>(
+  expiresAt: _$JsonConverterFromJson<Object, DateTime>(
     json['expires_at'],
     const EpochDateTimeConverter().fromJson,
   ),
@@ -52,7 +52,7 @@ Map<String, dynamic> _$UpdateActivityRequestToJson(
   'copy_custom_to_notification': instance.copyCustomToNotification,
   'custom': instance.custom,
   'enrich_own_fields': instance.enrichOwnFields,
-  'expires_at': _$JsonConverterToJson<int, DateTime>(
+  'expires_at': _$JsonConverterToJson<Object, DateTime>(
     instance.expiresAt,
     const EpochDateTimeConverter().toJson,
   ),

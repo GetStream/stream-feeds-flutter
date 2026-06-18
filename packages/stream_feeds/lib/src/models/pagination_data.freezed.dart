@@ -20,10 +20,11 @@ mixin _$PaginationData {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $PaginationDataCopyWith<PaginationData> get copyWith => _$PaginationDataCopyWithImpl<PaginationData>(
-    this as PaginationData,
-    _$identity,
-  );
+  $PaginationDataCopyWith<PaginationData> get copyWith =>
+      _$PaginationDataCopyWithImpl<PaginationData>(
+        this as PaginationData,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -31,7 +32,8 @@ mixin _$PaginationData {
         (other.runtimeType == runtimeType &&
             other is PaginationData &&
             (identical(other.next, next) || other.next == next) &&
-            (identical(other.previous, previous) || other.previous == previous));
+            (identical(other.previous, previous) ||
+                other.previous == previous));
   }
 
   @override
@@ -54,7 +56,8 @@ abstract mixin class $PaginationDataCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$PaginationDataCopyWithImpl<$Res> implements $PaginationDataCopyWith<$Res> {
+class _$PaginationDataCopyWithImpl<$Res>
+    implements $PaginationDataCopyWith<$Res> {
   _$PaginationDataCopyWithImpl(this._self, this._then);
 
   final PaginationData _self;
@@ -101,7 +104,8 @@ mixin _$PaginationResult<T> {
         (other.runtimeType == runtimeType &&
             other is PaginationResult<T> &&
             const DeepCollectionEquality().equals(other.items, items) &&
-            (identical(other.pagination, pagination) || other.pagination == pagination));
+            (identical(other.pagination, pagination) ||
+                other.pagination == pagination));
   }
 
   @override
@@ -128,7 +132,8 @@ abstract mixin class $PaginationResultCopyWith<T, $Res> {
 }
 
 /// @nodoc
-class _$PaginationResultCopyWithImpl<T, $Res> implements $PaginationResultCopyWith<T, $Res> {
+class _$PaginationResultCopyWithImpl<T, $Res>
+    implements $PaginationResultCopyWith<T, $Res> {
   _$PaginationResultCopyWithImpl(this._self, this._then);
 
   final PaginationResult<T> _self;

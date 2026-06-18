@@ -9,11 +9,11 @@ part of 'notification_status_response.dart';
 NotificationStatusResponse _$NotificationStatusResponseFromJson(
   Map<String, dynamic> json,
 ) => NotificationStatusResponse(
-  lastReadAt: _$JsonConverterFromJson<int, DateTime>(
+  lastReadAt: _$JsonConverterFromJson<Object, DateTime>(
     json['last_read_at'],
     const EpochDateTimeConverter().fromJson,
   ),
-  lastSeenAt: _$JsonConverterFromJson<int, DateTime>(
+  lastSeenAt: _$JsonConverterFromJson<Object, DateTime>(
     json['last_seen_at'],
     const EpochDateTimeConverter().fromJson,
   ),
@@ -26,11 +26,11 @@ NotificationStatusResponse _$NotificationStatusResponseFromJson(
 Map<String, dynamic> _$NotificationStatusResponseToJson(
   NotificationStatusResponse instance,
 ) => <String, dynamic>{
-  'last_read_at': _$JsonConverterToJson<int, DateTime>(
+  'last_read_at': _$JsonConverterToJson<Object, DateTime>(
     instance.lastReadAt,
     const EpochDateTimeConverter().toJson,
   ),
-  'last_seen_at': _$JsonConverterToJson<int, DateTime>(
+  'last_seen_at': _$JsonConverterToJson<Object, DateTime>(
     instance.lastSeenAt,
     const EpochDateTimeConverter().toJson,
   ),

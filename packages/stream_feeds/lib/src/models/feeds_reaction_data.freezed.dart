@@ -25,21 +25,26 @@ mixin _$FeedsReactionData {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $FeedsReactionDataCopyWith<FeedsReactionData> get copyWith => _$FeedsReactionDataCopyWithImpl<FeedsReactionData>(
-    this as FeedsReactionData,
-    _$identity,
-  );
+  $FeedsReactionDataCopyWith<FeedsReactionData> get copyWith =>
+      _$FeedsReactionDataCopyWithImpl<FeedsReactionData>(
+        this as FeedsReactionData,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is FeedsReactionData &&
-            (identical(other.activityId, activityId) || other.activityId == activityId) &&
-            (identical(other.commentId, commentId) || other.commentId == commentId) &&
-            (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
+            (identical(other.activityId, activityId) ||
+                other.activityId == activityId) &&
+            (identical(other.commentId, commentId) ||
+                other.commentId == commentId) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
             (identical(other.type, type) || other.type == type) &&
-            (identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
             (identical(other.user, user) || other.user == user) &&
             const DeepCollectionEquality().equals(other.custom, custom));
   }
@@ -81,7 +86,8 @@ abstract mixin class $FeedsReactionDataCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$FeedsReactionDataCopyWithImpl<$Res> implements $FeedsReactionDataCopyWith<$Res> {
+class _$FeedsReactionDataCopyWithImpl<$Res>
+    implements $FeedsReactionDataCopyWith<$Res> {
   _$FeedsReactionDataCopyWithImpl(this._self, this._then);
 
   final FeedsReactionData _self;

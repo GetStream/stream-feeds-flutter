@@ -38,7 +38,8 @@ mixin _$ModerationConfigsQuery {
             const DeepCollectionEquality().equals(other.sort, sort) &&
             (identical(other.limit, limit) || other.limit == limit) &&
             (identical(other.next, next) || other.next == next) &&
-            (identical(other.previous, previous) || other.previous == previous));
+            (identical(other.previous, previous) ||
+                other.previous == previous));
   }
 
   @override
@@ -74,7 +75,8 @@ abstract mixin class $ModerationConfigsQueryCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ModerationConfigsQueryCopyWithImpl<$Res> implements $ModerationConfigsQueryCopyWith<$Res> {
+class _$ModerationConfigsQueryCopyWithImpl<$Res>
+    implements $ModerationConfigsQueryCopyWith<$Res> {
   _$ModerationConfigsQueryCopyWithImpl(this._self, this._then);
 
   final ModerationConfigsQuery _self;

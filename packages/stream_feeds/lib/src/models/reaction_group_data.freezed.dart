@@ -21,10 +21,11 @@ mixin _$ReactionGroupData {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $ReactionGroupDataCopyWith<ReactionGroupData> get copyWith => _$ReactionGroupDataCopyWithImpl<ReactionGroupData>(
-    this as ReactionGroupData,
-    _$identity,
-  );
+  $ReactionGroupDataCopyWith<ReactionGroupData> get copyWith =>
+      _$ReactionGroupDataCopyWithImpl<ReactionGroupData>(
+        this as ReactionGroupData,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -32,12 +33,15 @@ mixin _$ReactionGroupData {
         (other.runtimeType == runtimeType &&
             other is ReactionGroupData &&
             (identical(other.count, count) || other.count == count) &&
-            (identical(other.firstReactionAt, firstReactionAt) || other.firstReactionAt == firstReactionAt) &&
-            (identical(other.lastReactionAt, lastReactionAt) || other.lastReactionAt == lastReactionAt));
+            (identical(other.firstReactionAt, firstReactionAt) ||
+                other.firstReactionAt == firstReactionAt) &&
+            (identical(other.lastReactionAt, lastReactionAt) ||
+                other.lastReactionAt == lastReactionAt));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, count, firstReactionAt, lastReactionAt);
+  int get hashCode =>
+      Object.hash(runtimeType, count, firstReactionAt, lastReactionAt);
 
   @override
   String toString() {
@@ -56,7 +60,8 @@ abstract mixin class $ReactionGroupDataCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ReactionGroupDataCopyWithImpl<$Res> implements $ReactionGroupDataCopyWith<$Res> {
+class _$ReactionGroupDataCopyWithImpl<$Res>
+    implements $ReactionGroupDataCopyWith<$Res> {
   _$ReactionGroupDataCopyWithImpl(this._self, this._then);
 
   final ReactionGroupData _self;

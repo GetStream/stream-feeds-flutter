@@ -11,7 +11,7 @@ DeleteActivitiesRequest _$DeleteActivitiesRequestFromJson(
 ) => DeleteActivitiesRequest(
   deleteNotificationActivity: json['delete_notification_activity'] as bool?,
   hardDelete: json['hard_delete'] as bool?,
-  ids: (json['ids'] as List<dynamic>).map((e) => e as String).toList(),
+  ids: (json['ids'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
 );
 
 Map<String, dynamic> _$DeleteActivitiesRequestToJson(

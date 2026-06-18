@@ -31,6 +31,7 @@ class ModerationMarkReviewedEvent extends core.WsEvent with _$ModerationMarkRevi
   final DateTime createdAt;
 
   @override
+  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override

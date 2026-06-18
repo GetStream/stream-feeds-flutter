@@ -20,10 +20,11 @@ mixin _$ActivityListState {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $ActivityListStateCopyWith<ActivityListState> get copyWith => _$ActivityListStateCopyWithImpl<ActivityListState>(
-    this as ActivityListState,
-    _$identity,
-  );
+  $ActivityListStateCopyWith<ActivityListState> get copyWith =>
+      _$ActivityListStateCopyWithImpl<ActivityListState>(
+        this as ActivityListState,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -34,7 +35,8 @@ mixin _$ActivityListState {
               other.activities,
               activities,
             ) &&
-            (identical(other.pagination, pagination) || other.pagination == pagination));
+            (identical(other.pagination, pagination) ||
+                other.pagination == pagination));
   }
 
   @override
@@ -61,7 +63,8 @@ abstract mixin class $ActivityListStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ActivityListStateCopyWithImpl<$Res> implements $ActivityListStateCopyWith<$Res> {
+class _$ActivityListStateCopyWithImpl<$Res>
+    implements $ActivityListStateCopyWith<$Res> {
   _$ActivityListStateCopyWithImpl(this._self, this._then);
 
   final ActivityListState _self;

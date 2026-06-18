@@ -20,10 +20,11 @@ mixin _$BookmarkListState {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $BookmarkListStateCopyWith<BookmarkListState> get copyWith => _$BookmarkListStateCopyWithImpl<BookmarkListState>(
-    this as BookmarkListState,
-    _$identity,
-  );
+  $BookmarkListStateCopyWith<BookmarkListState> get copyWith =>
+      _$BookmarkListStateCopyWithImpl<BookmarkListState>(
+        this as BookmarkListState,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -31,7 +32,8 @@ mixin _$BookmarkListState {
         (other.runtimeType == runtimeType &&
             other is BookmarkListState &&
             const DeepCollectionEquality().equals(other.bookmarks, bookmarks) &&
-            (identical(other.pagination, pagination) || other.pagination == pagination));
+            (identical(other.pagination, pagination) ||
+                other.pagination == pagination));
   }
 
   @override
@@ -58,7 +60,8 @@ abstract mixin class $BookmarkListStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$BookmarkListStateCopyWithImpl<$Res> implements $BookmarkListStateCopyWith<$Res> {
+class _$BookmarkListStateCopyWithImpl<$Res>
+    implements $BookmarkListStateCopyWith<$Res> {
   _$BookmarkListStateCopyWithImpl(this._self, this._then);
 
   final BookmarkListState _self;

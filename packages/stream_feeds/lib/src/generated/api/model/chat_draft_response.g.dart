@@ -9,7 +9,7 @@ part of 'chat_draft_response.dart';
 ChatDraftResponse _$ChatDraftResponseFromJson(Map<String, dynamic> json) => ChatDraftResponse(
   channelCid: json['channel_cid'] as String,
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
   message: ChatDraftPayloadResponse.fromJson(
     json['message'] as Map<String, dynamic>,

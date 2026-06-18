@@ -30,7 +30,8 @@ mixin _$PushNotificationsConfig {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is PushNotificationsConfig &&
-            (identical(other.pushProviderInfo, pushProviderInfo) || other.pushProviderInfo == pushProviderInfo));
+            (identical(other.pushProviderInfo, pushProviderInfo) ||
+                other.pushProviderInfo == pushProviderInfo));
   }
 
   @override
@@ -53,7 +54,8 @@ abstract mixin class $PushNotificationsConfigCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$PushNotificationsConfigCopyWithImpl<$Res> implements $PushNotificationsConfigCopyWith<$Res> {
+class _$PushNotificationsConfigCopyWithImpl<$Res>
+    implements $PushNotificationsConfigCopyWith<$Res> {
   _$PushNotificationsConfigCopyWithImpl(this._self, this._then);
 
   final PushNotificationsConfig _self;
@@ -84,10 +86,11 @@ mixin _$PushProviderInfo {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $PushProviderInfoCopyWith<PushProviderInfo> get copyWith => _$PushProviderInfoCopyWithImpl<PushProviderInfo>(
-    this as PushProviderInfo,
-    _$identity,
-  );
+  $PushProviderInfoCopyWith<PushProviderInfo> get copyWith =>
+      _$PushProviderInfoCopyWithImpl<PushProviderInfo>(
+        this as PushProviderInfo,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -95,7 +98,8 @@ mixin _$PushProviderInfo {
         (other.runtimeType == runtimeType &&
             other is PushProviderInfo &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.pushProvider, pushProvider) || other.pushProvider == pushProvider));
+            (identical(other.pushProvider, pushProvider) ||
+                other.pushProvider == pushProvider));
   }
 
   @override
@@ -118,7 +122,8 @@ abstract mixin class $PushProviderInfoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$PushProviderInfoCopyWithImpl<$Res> implements $PushProviderInfoCopyWith<$Res> {
+class _$PushProviderInfoCopyWithImpl<$Res>
+    implements $PushProviderInfoCopyWith<$Res> {
   _$PushProviderInfoCopyWithImpl(this._self, this._then);
 
   final PushProviderInfo _self;

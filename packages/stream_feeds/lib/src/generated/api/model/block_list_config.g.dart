@@ -10,7 +10,8 @@ BlockListConfig _$BlockListConfigFromJson(Map<String, dynamic> json) => BlockLis
   async: json['async'] as bool?,
   enabled: json['enabled'] as bool,
   matchSubstring: json['match_substring'] as bool?,
-  rules: (json['rules'] as List<dynamic>).map((e) => BlockListRule.fromJson(e as Map<String, dynamic>)).toList(),
+  rules:
+      (json['rules'] as List<dynamic>?)?.map((e) => BlockListRule.fromJson(e as Map<String, dynamic>)).toList() ?? [],
 );
 
 Map<String, dynamic> _$BlockListConfigToJson(BlockListConfig instance) => <String, dynamic>{

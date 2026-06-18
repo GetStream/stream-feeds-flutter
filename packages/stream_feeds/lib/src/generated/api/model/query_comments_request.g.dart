@@ -9,7 +9,7 @@ part of 'query_comments_request.dart';
 QueryCommentsRequest _$QueryCommentsRequestFromJson(
   Map<String, dynamic> json,
 ) => QueryCommentsRequest(
-  filter: json['filter'] as Map<String, dynamic>,
+  filter: json['filter'] as Map<String, dynamic>? ?? {},
   idAround: json['id_around'] as String?,
   limit: (json['limit'] as num?)?.toInt(),
   next: json['next'] as String?,

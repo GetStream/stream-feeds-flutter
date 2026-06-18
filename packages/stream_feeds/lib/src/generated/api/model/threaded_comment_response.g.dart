@@ -16,15 +16,15 @@ ThreadedCommentResponse _$ThreadedCommentResponseFromJson(
   confidenceScore: (json['confidence_score'] as num).toDouble(),
   controversyScore: (json['controversy_score'] as num?)?.toDouble(),
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
   custom: json['custom'] as Map<String, dynamic>?,
-  deletedAt: _$JsonConverterFromJson<int, DateTime>(
+  deletedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['deleted_at'],
     const EpochDateTimeConverter().fromJson,
   ),
   downvoteCount: (json['downvote_count'] as num).toInt(),
-  editedAt: _$JsonConverterFromJson<int, DateTime>(
+  editedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['edited_at'],
     const EpochDateTimeConverter().fromJson,
   ),
@@ -32,9 +32,11 @@ ThreadedCommentResponse _$ThreadedCommentResponseFromJson(
   latestReactions: (json['latest_reactions'] as List<dynamic>?)
       ?.map((e) => FeedsReactionResponse.fromJson(e as Map<String, dynamic>))
       .toList(),
-  mentionedUsers: (json['mentioned_users'] as List<dynamic>)
-      .map((e) => UserResponse.fromJson(e as Map<String, dynamic>))
-      .toList(),
+  mentionedUsers:
+      (json['mentioned_users'] as List<dynamic>?)
+          ?.map((e) => UserResponse.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
   meta: json['meta'] == null ? null : RepliesMeta.fromJson(json['meta'] as Map<String, dynamic>),
   moderation: json['moderation'] == null
       ? null
@@ -43,9 +45,13 @@ ThreadedCommentResponse _$ThreadedCommentResponseFromJson(
         ),
   objectId: json['object_id'] as String,
   objectType: json['object_type'] as String,
-  ownReactions: (json['own_reactions'] as List<dynamic>)
-      .map((e) => FeedsReactionResponse.fromJson(e as Map<String, dynamic>))
-      .toList(),
+  ownReactions:
+      (json['own_reactions'] as List<dynamic>?)
+          ?.map(
+            (e) => FeedsReactionResponse.fromJson(e as Map<String, dynamic>),
+          )
+          .toList() ??
+      [],
   parentId: json['parent_id'] as String?,
   reactionCount: (json['reaction_count'] as num).toInt(),
   reactionGroups: (json['reaction_groups'] as Map<String, dynamic>?)?.map(
@@ -66,7 +72,7 @@ ThreadedCommentResponse _$ThreadedCommentResponseFromJson(
   ),
   text: json['text'] as String?,
   updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+    json['updated_at'] as Object,
   ),
   upvoteCount: (json['upvote_count'] as num).toInt(),
   user: UserResponse.fromJson(json['user'] as Map<String, dynamic>),
@@ -81,12 +87,12 @@ Map<String, dynamic> _$ThreadedCommentResponseToJson(
   'controversy_score': instance.controversyScore,
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
   'custom': instance.custom,
-  'deleted_at': _$JsonConverterToJson<int, DateTime>(
+  'deleted_at': _$JsonConverterToJson<Object, DateTime>(
     instance.deletedAt,
     const EpochDateTimeConverter().toJson,
   ),
   'downvote_count': instance.downvoteCount,
-  'edited_at': _$JsonConverterToJson<int, DateTime>(
+  'edited_at': _$JsonConverterToJson<Object, DateTime>(
     instance.editedAt,
     const EpochDateTimeConverter().toJson,
   ),

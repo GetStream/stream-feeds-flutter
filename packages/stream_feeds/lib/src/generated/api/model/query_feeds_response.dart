@@ -28,6 +28,7 @@ class QueryFeedsResponse with _$QueryFeedsResponse {
   final String duration;
 
   @override
+  @JsonKey(defaultValue: [])
   final List<FeedResponse> feeds;
 
   @override

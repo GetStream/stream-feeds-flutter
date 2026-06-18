@@ -20,10 +20,11 @@ mixin _$BatchFollowData {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $BatchFollowDataCopyWith<BatchFollowData> get copyWith => _$BatchFollowDataCopyWithImpl<BatchFollowData>(
-    this as BatchFollowData,
-    _$identity,
-  );
+  $BatchFollowDataCopyWith<BatchFollowData> get copyWith =>
+      _$BatchFollowDataCopyWithImpl<BatchFollowData>(
+        this as BatchFollowData,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -58,7 +59,8 @@ abstract mixin class $BatchFollowDataCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$BatchFollowDataCopyWithImpl<$Res> implements $BatchFollowDataCopyWith<$Res> {
+class _$BatchFollowDataCopyWithImpl<$Res>
+    implements $BatchFollowDataCopyWith<$Res> {
   _$BatchFollowDataCopyWithImpl(this._self, this._then);
 
   final BatchFollowData _self;

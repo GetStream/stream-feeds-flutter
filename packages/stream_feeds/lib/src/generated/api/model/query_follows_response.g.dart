@@ -10,7 +10,9 @@ QueryFollowsResponse _$QueryFollowsResponseFromJson(
   Map<String, dynamic> json,
 ) => QueryFollowsResponse(
   duration: json['duration'] as String,
-  follows: (json['follows'] as List<dynamic>).map((e) => FollowResponse.fromJson(e as Map<String, dynamic>)).toList(),
+  follows:
+      (json['follows'] as List<dynamic>?)?.map((e) => FollowResponse.fromJson(e as Map<String, dynamic>)).toList() ??
+      [],
   next: json['next'] as String?,
   prev: json['prev'] as String?,
 );

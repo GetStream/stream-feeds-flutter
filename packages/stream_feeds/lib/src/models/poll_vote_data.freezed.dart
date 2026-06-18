@@ -26,22 +26,27 @@ mixin _$PollVoteData {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $PollVoteDataCopyWith<PollVoteData> get copyWith => _$PollVoteDataCopyWithImpl<PollVoteData>(
-    this as PollVoteData,
-    _$identity,
-  );
+  $PollVoteDataCopyWith<PollVoteData> get copyWith =>
+      _$PollVoteDataCopyWithImpl<PollVoteData>(
+        this as PollVoteData,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is PollVoteData &&
-            (identical(other.answerText, answerText) || other.answerText == answerText) &&
-            (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
+            (identical(other.answerText, answerText) ||
+                other.answerText == answerText) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.optionId, optionId) || other.optionId == optionId) &&
+            (identical(other.optionId, optionId) ||
+                other.optionId == optionId) &&
             (identical(other.pollId, pollId) || other.pollId == pollId) &&
-            (identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
             (identical(other.user, user) || other.user == user) &&
             (identical(other.userId, userId) || other.userId == userId));
   }

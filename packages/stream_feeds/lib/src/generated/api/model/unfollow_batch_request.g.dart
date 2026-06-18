@@ -11,7 +11,8 @@ UnfollowBatchRequest _$UnfollowBatchRequestFromJson(
 ) => UnfollowBatchRequest(
   deleteNotificationActivity: json['delete_notification_activity'] as bool?,
   enrichOwnFields: json['enrich_own_fields'] as bool?,
-  follows: (json['follows'] as List<dynamic>).map((e) => UnfollowPair.fromJson(e as Map<String, dynamic>)).toList(),
+  follows:
+      (json['follows'] as List<dynamic>?)?.map((e) => UnfollowPair.fromJson(e as Map<String, dynamic>)).toList() ?? [],
 );
 
 Map<String, dynamic> _$UnfollowBatchRequestToJson(

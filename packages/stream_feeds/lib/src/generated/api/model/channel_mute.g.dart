@@ -9,14 +9,14 @@ part of 'channel_mute.dart';
 ChannelMute _$ChannelMuteFromJson(Map<String, dynamic> json) => ChannelMute(
   channel: json['channel'] == null ? null : ChannelResponse.fromJson(json['channel'] as Map<String, dynamic>),
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
-  expires: _$JsonConverterFromJson<int, DateTime>(
+  expires: _$JsonConverterFromJson<Object, DateTime>(
     json['expires'],
     const EpochDateTimeConverter().fromJson,
   ),
   updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+    json['updated_at'] as Object,
   ),
   user: json['user'] == null ? null : UserResponse.fromJson(json['user'] as Map<String, dynamic>),
 );
@@ -24,7 +24,7 @@ ChannelMute _$ChannelMuteFromJson(Map<String, dynamic> json) => ChannelMute(
 Map<String, dynamic> _$ChannelMuteToJson(ChannelMute instance) => <String, dynamic>{
   'channel': instance.channel?.toJson(),
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
-  'expires': _$JsonConverterToJson<int, DateTime>(
+  'expires': _$JsonConverterToJson<Object, DateTime>(
     instance.expires,
     const EpochDateTimeConverter().toJson,
   ),

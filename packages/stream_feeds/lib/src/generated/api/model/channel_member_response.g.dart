@@ -9,37 +9,37 @@ part of 'channel_member_response.dart';
 ChannelMemberResponse _$ChannelMemberResponseFromJson(
   Map<String, dynamic> json,
 ) => ChannelMemberResponse(
-  archivedAt: _$JsonConverterFromJson<int, DateTime>(
+  archivedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['archived_at'],
     const EpochDateTimeConverter().fromJson,
   ),
-  banExpires: _$JsonConverterFromJson<int, DateTime>(
+  banExpires: _$JsonConverterFromJson<Object, DateTime>(
     json['ban_expires'],
     const EpochDateTimeConverter().fromJson,
   ),
   banned: json['banned'] as bool,
   channelRole: json['channel_role'] as String,
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
-  custom: json['custom'] as Map<String, dynamic>,
-  deletedAt: _$JsonConverterFromJson<int, DateTime>(
+  custom: json['custom'] as Map<String, dynamic>? ?? {},
+  deletedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['deleted_at'],
     const EpochDateTimeConverter().fromJson,
   ),
   deletedMessages: (json['deleted_messages'] as List<dynamic>?)?.map((e) => e as String).toList(),
-  inviteAcceptedAt: _$JsonConverterFromJson<int, DateTime>(
+  inviteAcceptedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['invite_accepted_at'],
     const EpochDateTimeConverter().fromJson,
   ),
-  inviteRejectedAt: _$JsonConverterFromJson<int, DateTime>(
+  inviteRejectedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['invite_rejected_at'],
     const EpochDateTimeConverter().fromJson,
   ),
   invited: json['invited'] as bool?,
   isModerator: json['is_moderator'] as bool?,
   notificationsMuted: json['notifications_muted'] as bool,
-  pinnedAt: _$JsonConverterFromJson<int, DateTime>(
+  pinnedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['pinned_at'],
     const EpochDateTimeConverter().fromJson,
   ),
@@ -47,7 +47,7 @@ ChannelMemberResponse _$ChannelMemberResponseFromJson(
   shadowBanned: json['shadow_banned'] as bool,
   status: json['status'] as String?,
   updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+    json['updated_at'] as Object,
   ),
   user: json['user'] == null ? null : UserResponse.fromJson(json['user'] as Map<String, dynamic>),
   userId: json['user_id'] as String?,
@@ -56,11 +56,11 @@ ChannelMemberResponse _$ChannelMemberResponseFromJson(
 Map<String, dynamic> _$ChannelMemberResponseToJson(
   ChannelMemberResponse instance,
 ) => <String, dynamic>{
-  'archived_at': _$JsonConverterToJson<int, DateTime>(
+  'archived_at': _$JsonConverterToJson<Object, DateTime>(
     instance.archivedAt,
     const EpochDateTimeConverter().toJson,
   ),
-  'ban_expires': _$JsonConverterToJson<int, DateTime>(
+  'ban_expires': _$JsonConverterToJson<Object, DateTime>(
     instance.banExpires,
     const EpochDateTimeConverter().toJson,
   ),
@@ -68,23 +68,23 @@ Map<String, dynamic> _$ChannelMemberResponseToJson(
   'channel_role': instance.channelRole,
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
   'custom': instance.custom,
-  'deleted_at': _$JsonConverterToJson<int, DateTime>(
+  'deleted_at': _$JsonConverterToJson<Object, DateTime>(
     instance.deletedAt,
     const EpochDateTimeConverter().toJson,
   ),
   'deleted_messages': instance.deletedMessages,
-  'invite_accepted_at': _$JsonConverterToJson<int, DateTime>(
+  'invite_accepted_at': _$JsonConverterToJson<Object, DateTime>(
     instance.inviteAcceptedAt,
     const EpochDateTimeConverter().toJson,
   ),
-  'invite_rejected_at': _$JsonConverterToJson<int, DateTime>(
+  'invite_rejected_at': _$JsonConverterToJson<Object, DateTime>(
     instance.inviteRejectedAt,
     const EpochDateTimeConverter().toJson,
   ),
   'invited': instance.invited,
   'is_moderator': instance.isModerator,
   'notifications_muted': instance.notificationsMuted,
-  'pinned_at': _$JsonConverterToJson<int, DateTime>(
+  'pinned_at': _$JsonConverterToJson<Object, DateTime>(
     instance.pinnedAt,
     const EpochDateTimeConverter().toJson,
   ),

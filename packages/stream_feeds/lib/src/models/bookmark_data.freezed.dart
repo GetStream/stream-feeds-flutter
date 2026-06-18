@@ -24,20 +24,24 @@ mixin _$BookmarkData {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $BookmarkDataCopyWith<BookmarkData> get copyWith => _$BookmarkDataCopyWithImpl<BookmarkData>(
-    this as BookmarkData,
-    _$identity,
-  );
+  $BookmarkDataCopyWith<BookmarkData> get copyWith =>
+      _$BookmarkDataCopyWithImpl<BookmarkData>(
+        this as BookmarkData,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is BookmarkData &&
-            (identical(other.activity, activity) || other.activity == activity) &&
-            (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
+            (identical(other.activity, activity) ||
+                other.activity == activity) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
             (identical(other.folder, folder) || other.folder == folder) &&
-            (identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
             (identical(other.user, user) || other.user == user) &&
             const DeepCollectionEquality().equals(other.custom, custom));
   }

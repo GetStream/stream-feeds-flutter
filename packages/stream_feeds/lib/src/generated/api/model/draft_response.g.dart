@@ -10,7 +10,7 @@ DraftResponse _$DraftResponseFromJson(Map<String, dynamic> json) => DraftRespons
   channel: json['channel'] == null ? null : ChannelResponse.fromJson(json['channel'] as Map<String, dynamic>),
   channelCid: json['channel_cid'] as String,
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
   message: DraftPayloadResponse.fromJson(
     json['message'] as Map<String, dynamic>,

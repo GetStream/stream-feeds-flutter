@@ -42,27 +42,35 @@ mixin _$ModerationConfigData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ModerationConfigData &&
-            (identical(other.aiImageConfig, aiImageConfig) || other.aiImageConfig == aiImageConfig) &&
-            (identical(other.aiTextConfig, aiTextConfig) || other.aiTextConfig == aiTextConfig) &&
-            (identical(other.aiVideoConfig, aiVideoConfig) || other.aiVideoConfig == aiVideoConfig) &&
+            (identical(other.aiImageConfig, aiImageConfig) ||
+                other.aiImageConfig == aiImageConfig) &&
+            (identical(other.aiTextConfig, aiTextConfig) ||
+                other.aiTextConfig == aiTextConfig) &&
+            (identical(other.aiVideoConfig, aiVideoConfig) ||
+                other.aiVideoConfig == aiVideoConfig) &&
             (identical(other.async, async) || other.async == async) &&
             (identical(
                   other.automodPlatformCircumventionConfig,
                   automodPlatformCircumventionConfig,
                 ) ||
-                other.automodPlatformCircumventionConfig == automodPlatformCircumventionConfig) &&
+                other.automodPlatformCircumventionConfig ==
+                    automodPlatformCircumventionConfig) &&
             (identical(
                   other.automodSemanticFiltersConfig,
                   automodSemanticFiltersConfig,
                 ) ||
-                other.automodSemanticFiltersConfig == automodSemanticFiltersConfig) &&
+                other.automodSemanticFiltersConfig ==
+                    automodSemanticFiltersConfig) &&
             (identical(other.automodToxicityConfig, automodToxicityConfig) ||
                 other.automodToxicityConfig == automodToxicityConfig) &&
-            (identical(other.blockListConfig, blockListConfig) || other.blockListConfig == blockListConfig) &&
-            (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
+            (identical(other.blockListConfig, blockListConfig) ||
+                other.blockListConfig == blockListConfig) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
             (identical(other.key, key) || other.key == key) &&
             (identical(other.team, team) || other.team == team) &&
-            (identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
             (identical(other.velocityFilterConfig, velocityFilterConfig) ||
                 other.velocityFilterConfig == velocityFilterConfig));
   }
@@ -116,7 +124,8 @@ abstract mixin class $ModerationConfigDataCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ModerationConfigDataCopyWithImpl<$Res> implements $ModerationConfigDataCopyWith<$Res> {
+class _$ModerationConfigDataCopyWithImpl<$Res>
+    implements $ModerationConfigDataCopyWith<$Res> {
   _$ModerationConfigDataCopyWithImpl(this._self, this._then);
 
   final ModerationConfigData _self;
@@ -159,7 +168,8 @@ class _$ModerationConfigDataCopyWithImpl<$Res> implements $ModerationConfigDataC
             ? _self.async
             : async // ignore: cast_nullable_to_non_nullable
                   as bool,
-        automodPlatformCircumventionConfig: freezed == automodPlatformCircumventionConfig
+        automodPlatformCircumventionConfig:
+            freezed == automodPlatformCircumventionConfig
             ? _self.automodPlatformCircumventionConfig
             : automodPlatformCircumventionConfig // ignore: cast_nullable_to_non_nullable
                   as AutomodPlatformCircumventionConfig?,

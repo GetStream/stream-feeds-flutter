@@ -9,9 +9,11 @@ part of 'query_bookmarks_response.dart';
 QueryBookmarksResponse _$QueryBookmarksResponseFromJson(
   Map<String, dynamic> json,
 ) => QueryBookmarksResponse(
-  bookmarks: (json['bookmarks'] as List<dynamic>)
-      .map((e) => BookmarkResponse.fromJson(e as Map<String, dynamic>))
-      .toList(),
+  bookmarks:
+      (json['bookmarks'] as List<dynamic>?)
+          ?.map((e) => BookmarkResponse.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
   duration: json['duration'] as String,
   next: json['next'] as String?,
   prev: json['prev'] as String?,

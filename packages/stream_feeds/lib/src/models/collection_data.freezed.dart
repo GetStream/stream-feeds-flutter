@@ -25,10 +25,11 @@ mixin _$CollectionData {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $CollectionDataCopyWith<CollectionData> get copyWith => _$CollectionDataCopyWithImpl<CollectionData>(
-    this as CollectionData,
-    _$identity,
-  );
+  $CollectionDataCopyWith<CollectionData> get copyWith =>
+      _$CollectionDataCopyWithImpl<CollectionData>(
+        this as CollectionData,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -38,8 +39,10 @@ mixin _$CollectionData {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.status, status) || other.status == status) &&
-            (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
-            (identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             const DeepCollectionEquality().equals(other.custom, custom));
   }
@@ -81,7 +84,8 @@ abstract mixin class $CollectionDataCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$CollectionDataCopyWithImpl<$Res> implements $CollectionDataCopyWith<$Res> {
+class _$CollectionDataCopyWithImpl<$Res>
+    implements $CollectionDataCopyWith<$Res> {
   _$CollectionDataCopyWithImpl(this._self, this._then);
 
   final CollectionData _self;

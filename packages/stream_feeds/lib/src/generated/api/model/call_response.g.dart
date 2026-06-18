@@ -8,17 +8,17 @@ part of 'call_response.dart';
 
 CallResponse _$CallResponseFromJson(Map<String, dynamic> json) => CallResponse(
   backstage: json['backstage'] as bool,
-  blockedUserIds: (json['blocked_user_ids'] as List<dynamic>).map((e) => e as String).toList(),
+  blockedUserIds: (json['blocked_user_ids'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
   captioning: json['captioning'] as bool,
   channelCid: json['channel_cid'] as String?,
   cid: json['cid'] as String,
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
   createdBy: json['created_by'] == null ? null : UserResponse.fromJson(json['created_by'] as Map<String, dynamic>),
   currentSessionId: json['current_session_id'] as String,
-  custom: json['custom'] as Map<String, dynamic>,
-  endedAt: _$JsonConverterFromJson<int, DateTime>(
+  custom: json['custom'] as Map<String, dynamic>? ?? {},
+  endedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['ended_at'],
     const EpochDateTimeConverter().fromJson,
   ),
@@ -26,7 +26,7 @@ CallResponse _$CallResponseFromJson(Map<String, dynamic> json) => CallResponse(
   joinAheadTimeSeconds: (json['join_ahead_time_seconds'] as num?)?.toInt(),
   recording: json['recording'] as bool,
   routingNumber: json['routing_number'] as String?,
-  startsAt: _$JsonConverterFromJson<int, DateTime>(
+  startsAt: _$JsonConverterFromJson<Object, DateTime>(
     json['starts_at'],
     const EpochDateTimeConverter().fromJson,
   ),
@@ -35,7 +35,7 @@ CallResponse _$CallResponseFromJson(Map<String, dynamic> json) => CallResponse(
   translating: json['translating'] as bool,
   type: json['type'] as String,
   updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+    json['updated_at'] as Object,
   ),
 );
 
@@ -49,7 +49,7 @@ Map<String, dynamic> _$CallResponseToJson(CallResponse instance) => <String, dyn
   'created_by': instance.createdBy?.toJson(),
   'current_session_id': instance.currentSessionId,
   'custom': instance.custom,
-  'ended_at': _$JsonConverterToJson<int, DateTime>(
+  'ended_at': _$JsonConverterToJson<Object, DateTime>(
     instance.endedAt,
     const EpochDateTimeConverter().toJson,
   ),
@@ -57,7 +57,7 @@ Map<String, dynamic> _$CallResponseToJson(CallResponse instance) => <String, dyn
   'join_ahead_time_seconds': instance.joinAheadTimeSeconds,
   'recording': instance.recording,
   'routing_number': instance.routingNumber,
-  'starts_at': _$JsonConverterToJson<int, DateTime>(
+  'starts_at': _$JsonConverterToJson<Object, DateTime>(
     instance.startsAt,
     const EpochDateTimeConverter().toJson,
   ),

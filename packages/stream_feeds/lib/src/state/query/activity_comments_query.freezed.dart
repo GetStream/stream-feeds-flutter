@@ -37,14 +37,18 @@ mixin _$ActivityCommentsQuery {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ActivityCommentsQuery &&
-            (identical(other.objectId, objectId) || other.objectId == objectId) &&
-            (identical(other.objectType, objectType) || other.objectType == objectType) &&
+            (identical(other.objectId, objectId) ||
+                other.objectId == objectId) &&
+            (identical(other.objectType, objectType) ||
+                other.objectType == objectType) &&
             (identical(other.sort, sort) || other.sort == sort) &&
             (identical(other.depth, depth) || other.depth == depth) &&
             (identical(other.limit, limit) || other.limit == limit) &&
-            (identical(other.repliesLimit, repliesLimit) || other.repliesLimit == repliesLimit) &&
+            (identical(other.repliesLimit, repliesLimit) ||
+                other.repliesLimit == repliesLimit) &&
             (identical(other.next, next) || other.next == next) &&
-            (identical(other.previous, previous) || other.previous == previous));
+            (identical(other.previous, previous) ||
+                other.previous == previous));
   }
 
   @override
@@ -86,7 +90,8 @@ abstract mixin class $ActivityCommentsQueryCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ActivityCommentsQueryCopyWithImpl<$Res> implements $ActivityCommentsQueryCopyWith<$Res> {
+class _$ActivityCommentsQueryCopyWithImpl<$Res>
+    implements $ActivityCommentsQueryCopyWith<$Res> {
   _$ActivityCommentsQueryCopyWithImpl(this._self, this._then);
 
   final ActivityCommentsQuery _self;

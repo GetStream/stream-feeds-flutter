@@ -10,9 +10,11 @@ QueryFeedMembersResponse _$QueryFeedMembersResponseFromJson(
   Map<String, dynamic> json,
 ) => QueryFeedMembersResponse(
   duration: json['duration'] as String,
-  members: (json['members'] as List<dynamic>)
-      .map((e) => FeedMemberResponse.fromJson(e as Map<String, dynamic>))
-      .toList(),
+  members:
+      (json['members'] as List<dynamic>?)
+          ?.map((e) => FeedMemberResponse.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
   next: json['next'] as String?,
   prev: json['prev'] as String?,
 );

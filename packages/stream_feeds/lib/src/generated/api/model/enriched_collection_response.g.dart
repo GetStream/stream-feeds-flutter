@@ -9,7 +9,7 @@ part of 'enriched_collection_response.dart';
 EnrichedCollectionResponse _$EnrichedCollectionResponseFromJson(
   Map<String, dynamic> json,
 ) => EnrichedCollectionResponse(
-  createdAt: _$JsonConverterFromJson<int, DateTime>(
+  createdAt: _$JsonConverterFromJson<Object, DateTime>(
     json['created_at'],
     const EpochDateTimeConverter().fromJson,
   ),
@@ -21,7 +21,7 @@ EnrichedCollectionResponse _$EnrichedCollectionResponseFromJson(
     json['status'],
     unknownValue: EnrichedCollectionResponseStatus.unknown,
   ),
-  updatedAt: _$JsonConverterFromJson<int, DateTime>(
+  updatedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['updated_at'],
     const EpochDateTimeConverter().fromJson,
   ),
@@ -31,7 +31,7 @@ EnrichedCollectionResponse _$EnrichedCollectionResponseFromJson(
 Map<String, dynamic> _$EnrichedCollectionResponseToJson(
   EnrichedCollectionResponse instance,
 ) => <String, dynamic>{
-  'created_at': _$JsonConverterToJson<int, DateTime>(
+  'created_at': _$JsonConverterToJson<Object, DateTime>(
     instance.createdAt,
     const EpochDateTimeConverter().toJson,
   ),
@@ -39,7 +39,7 @@ Map<String, dynamic> _$EnrichedCollectionResponseToJson(
   'id': instance.id,
   'name': instance.name,
   'status': _$EnrichedCollectionResponseStatusEnumMap[instance.status]!,
-  'updated_at': _$JsonConverterToJson<int, DateTime>(
+  'updated_at': _$JsonConverterToJson<Object, DateTime>(
     instance.updatedAt,
     const EpochDateTimeConverter().toJson,
   ),

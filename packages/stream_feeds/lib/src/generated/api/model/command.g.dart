@@ -8,14 +8,14 @@ part of 'command.dart';
 
 Command _$CommandFromJson(Map<String, dynamic> json) => Command(
   args: json['args'] as String,
-  createdAt: _$JsonConverterFromJson<int, DateTime>(
+  createdAt: _$JsonConverterFromJson<Object, DateTime>(
     json['created_at'],
     const EpochDateTimeConverter().fromJson,
   ),
   description: json['description'] as String,
   name: json['name'] as String,
   set: json['set'] as String,
-  updatedAt: _$JsonConverterFromJson<int, DateTime>(
+  updatedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['updated_at'],
     const EpochDateTimeConverter().fromJson,
   ),
@@ -23,14 +23,14 @@ Command _$CommandFromJson(Map<String, dynamic> json) => Command(
 
 Map<String, dynamic> _$CommandToJson(Command instance) => <String, dynamic>{
   'args': instance.args,
-  'created_at': _$JsonConverterToJson<int, DateTime>(
+  'created_at': _$JsonConverterToJson<Object, DateTime>(
     instance.createdAt,
     const EpochDateTimeConverter().toJson,
   ),
   'description': instance.description,
   'name': instance.name,
   'set': instance.set,
-  'updated_at': _$JsonConverterToJson<int, DateTime>(
+  'updated_at': _$JsonConverterToJson<Object, DateTime>(
     instance.updatedAt,
     const EpochDateTimeConverter().toJson,
   ),

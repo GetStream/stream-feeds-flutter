@@ -25,10 +25,11 @@ mixin _$HealthCheckEvent {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $HealthCheckEventCopyWith<HealthCheckEvent> get copyWith => _$HealthCheckEventCopyWithImpl<HealthCheckEvent>(
-    this as HealthCheckEvent,
-    _$identity,
-  );
+  $HealthCheckEventCopyWith<HealthCheckEvent> get copyWith =>
+      _$HealthCheckEventCopyWithImpl<HealthCheckEvent>(
+        this as HealthCheckEvent,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -36,11 +37,14 @@ mixin _$HealthCheckEvent {
         (other.runtimeType == runtimeType &&
             other is HealthCheckEvent &&
             (identical(other.cid, cid) || other.cid == cid) &&
-            (identical(other.connectionId, connectionId) || other.connectionId == connectionId) &&
-            (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
+            (identical(other.connectionId, connectionId) ||
+                other.connectionId == connectionId) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
             (identical(other.me, me) || other.me == me) &&
-            (identical(other.receivedAt, receivedAt) || other.receivedAt == receivedAt) &&
+            (identical(other.receivedAt, receivedAt) ||
+                other.receivedAt == receivedAt) &&
             (identical(other.type, type) || other.type == type));
   }
 
@@ -81,7 +85,8 @@ abstract mixin class $HealthCheckEventCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$HealthCheckEventCopyWithImpl<$Res> implements $HealthCheckEventCopyWith<$Res> {
+class _$HealthCheckEventCopyWithImpl<$Res>
+    implements $HealthCheckEventCopyWith<$Res> {
   _$HealthCheckEventCopyWithImpl(this._self, this._then);
 
   final HealthCheckEvent _self;
@@ -146,24 +151,28 @@ mixin _$ConnectedEvent {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $ConnectedEventCopyWith<ConnectedEvent> get copyWith => _$ConnectedEventCopyWithImpl<ConnectedEvent>(
-    this as ConnectedEvent,
-    _$identity,
-  );
+  $ConnectedEventCopyWith<ConnectedEvent> get copyWith =>
+      _$ConnectedEventCopyWithImpl<ConnectedEvent>(
+        this as ConnectedEvent,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ConnectedEvent &&
-            (identical(other.connectionId, connectionId) || other.connectionId == connectionId) &&
-            (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
+            (identical(other.connectionId, connectionId) ||
+                other.connectionId == connectionId) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
             (identical(other.me, me) || other.me == me) &&
             (identical(other.type, type) || other.type == type));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, connectionId, createdAt, me, type);
+  int get hashCode =>
+      Object.hash(runtimeType, connectionId, createdAt, me, type);
 
   @override
   String toString() {
@@ -187,7 +196,8 @@ abstract mixin class $ConnectedEventCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ConnectedEventCopyWithImpl<$Res> implements $ConnectedEventCopyWith<$Res> {
+class _$ConnectedEventCopyWithImpl<$Res>
+    implements $ConnectedEventCopyWith<$Res> {
   _$ConnectedEventCopyWithImpl(this._self, this._then);
 
   final ConnectedEvent _self;
@@ -248,14 +258,17 @@ mixin _$ConnectionErrorEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ConnectionErrorEvent &&
-            (identical(other.connectionId, connectionId) || other.connectionId == connectionId) &&
-            (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
+            (identical(other.connectionId, connectionId) ||
+                other.connectionId == connectionId) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
             (identical(other.error, error) || other.error == error) &&
             (identical(other.type, type) || other.type == type));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, connectionId, createdAt, error, type);
+  int get hashCode =>
+      Object.hash(runtimeType, connectionId, createdAt, error, type);
 
   @override
   String toString() {
@@ -279,7 +292,8 @@ abstract mixin class $ConnectionErrorEventCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ConnectionErrorEventCopyWithImpl<$Res> implements $ConnectionErrorEventCopyWith<$Res> {
+class _$ConnectionErrorEventCopyWithImpl<$Res>
+    implements $ConnectionErrorEventCopyWith<$Res> {
   _$ConnectionErrorEventCopyWithImpl(this._self, this._then);
 
   final ConnectionErrorEvent _self;

@@ -11,9 +11,13 @@ GetFollowSuggestionsResponse _$GetFollowSuggestionsResponseFromJson(
 ) => GetFollowSuggestionsResponse(
   algorithmUsed: json['algorithm_used'] as String?,
   duration: json['duration'] as String,
-  suggestions: (json['suggestions'] as List<dynamic>)
-      .map((e) => FeedSuggestionResponse.fromJson(e as Map<String, dynamic>))
-      .toList(),
+  suggestions:
+      (json['suggestions'] as List<dynamic>?)
+          ?.map(
+            (e) => FeedSuggestionResponse.fromJson(e as Map<String, dynamic>),
+          )
+          .toList() ??
+      [],
 );
 
 Map<String, dynamic> _$GetFollowSuggestionsResponseToJson(

@@ -41,9 +41,11 @@ class FeedGroup with _$FeedGroup {
   final ActivityFilterConfig? activityFilter;
 
   @override
+  @JsonKey(defaultValue: [])
   final List<ActivityProcessorConfig> activityProcessors;
 
   @override
+  @JsonKey(defaultValue: [])
   final List<ActivitySelectorConfig> activitySelectors;
 
   @override
@@ -60,6 +62,7 @@ class FeedGroup with _$FeedGroup {
   final DateTime createdAt;
 
   @override
+  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override

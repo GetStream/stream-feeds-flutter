@@ -43,6 +43,7 @@ class QueryCommentsRequest with _$QueryCommentsRequest {
   });
 
   @override
+  @JsonKey(defaultValue: {})
   final Map<String, Object?> filter;
 
   @override

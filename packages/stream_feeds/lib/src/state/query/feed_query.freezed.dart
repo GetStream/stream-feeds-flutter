@@ -31,7 +31,8 @@ mixin _$FeedQuery {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $FeedQueryCopyWith<FeedQuery> get copyWith => _$FeedQueryCopyWithImpl<FeedQuery>(this as FeedQuery, _$identity);
+  $FeedQueryCopyWith<FeedQuery> get copyWith =>
+      _$FeedQueryCopyWithImpl<FeedQuery>(this as FeedQuery, _$identity);
 
   @override
   bool operator ==(Object other) {
@@ -39,22 +40,29 @@ mixin _$FeedQuery {
         (other.runtimeType == runtimeType &&
             other is FeedQuery &&
             (identical(other.fid, fid) || other.fid == fid) &&
-            (identical(other.activityFilter, activityFilter) || other.activityFilter == activityFilter) &&
-            (identical(other.activityLimit, activityLimit) || other.activityLimit == activityLimit) &&
-            (identical(other.activityNext, activityNext) || other.activityNext == activityNext) &&
-            (identical(other.activityPrevious, activityPrevious) || other.activityPrevious == activityPrevious) &&
+            (identical(other.activityFilter, activityFilter) ||
+                other.activityFilter == activityFilter) &&
+            (identical(other.activityLimit, activityLimit) ||
+                other.activityLimit == activityLimit) &&
+            (identical(other.activityNext, activityNext) ||
+                other.activityNext == activityNext) &&
+            (identical(other.activityPrevious, activityPrevious) ||
+                other.activityPrevious == activityPrevious) &&
             (identical(other.data, data) || other.data == data) &&
             const DeepCollectionEquality().equals(
               other.externalRanking,
               externalRanking,
             ) &&
-            (identical(other.followerLimit, followerLimit) || other.followerLimit == followerLimit) &&
-            (identical(other.followingLimit, followingLimit) || other.followingLimit == followingLimit) &&
+            (identical(other.followerLimit, followerLimit) ||
+                other.followerLimit == followerLimit) &&
+            (identical(other.followingLimit, followingLimit) ||
+                other.followingLimit == followingLimit) &&
             const DeepCollectionEquality().equals(
               other.interestWeights,
               interestWeights,
             ) &&
-            (identical(other.memberLimit, memberLimit) || other.memberLimit == memberLimit) &&
+            (identical(other.memberLimit, memberLimit) ||
+                other.memberLimit == memberLimit) &&
             (identical(other.view, view) || other.view == view) &&
             (identical(other.watch, watch) || other.watch == watch));
   }
@@ -85,7 +93,8 @@ mixin _$FeedQuery {
 
 /// @nodoc
 abstract mixin class $FeedQueryCopyWith<$Res> {
-  factory $FeedQueryCopyWith(FeedQuery value, $Res Function(FeedQuery) _then) = _$FeedQueryCopyWithImpl;
+  factory $FeedQueryCopyWith(FeedQuery value, $Res Function(FeedQuery) _then) =
+      _$FeedQueryCopyWithImpl;
   @useResult
   $Res call({
     FeedId fid,

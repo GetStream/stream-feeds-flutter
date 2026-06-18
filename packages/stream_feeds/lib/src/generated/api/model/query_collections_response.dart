@@ -25,6 +25,7 @@ class QueryCollectionsResponse with _$QueryCollectionsResponse {
   });
 
   @override
+  @JsonKey(defaultValue: [])
   final List<CollectionResponse> collections;
 
   @override

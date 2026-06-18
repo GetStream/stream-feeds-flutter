@@ -11,14 +11,14 @@ PollVoteResponseData _$PollVoteResponseDataFromJson(
 ) => PollVoteResponseData(
   answerText: json['answer_text'] as String?,
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
   id: json['id'] as String,
   isAnswer: json['is_answer'] as bool?,
   optionId: json['option_id'] as String,
   pollId: json['poll_id'] as String,
   updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+    json['updated_at'] as Object,
   ),
   user: json['user'] == null ? null : UserResponse.fromJson(json['user'] as Map<String, dynamic>),
   userId: json['user_id'] as String?,

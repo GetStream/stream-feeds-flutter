@@ -16,7 +16,7 @@ AppealItemResponse _$AppealItemResponseFromJson(Map<String, dynamic> json) => Ap
   channelCid: json['channel_cid'] as String?,
   configKey: json['config_key'] as String?,
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
   decisionReason: json['decision_reason'] as String?,
   entityContent: json['entity_content'] == null
@@ -49,7 +49,7 @@ AppealItemResponse _$AppealItemResponseFromJson(Map<String, dynamic> json) => Ap
   severity: (json['severity'] as num?)?.toInt(),
   status: json['status'] as String,
   updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+    json['updated_at'] as Object,
   ),
   user: json['user'] == null ? null : UserResponse.fromJson(json['user'] as Map<String, dynamic>),
 );

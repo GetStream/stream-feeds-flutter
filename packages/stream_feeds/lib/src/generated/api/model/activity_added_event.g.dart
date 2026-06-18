@@ -11,12 +11,12 @@ ActivityAddedEvent _$ActivityAddedEventFromJson(
 ) => ActivityAddedEvent(
   activity: ActivityResponse.fromJson(json['activity'] as Map<String, dynamic>),
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
-  custom: json['custom'] as Map<String, dynamic>,
+  custom: json['custom'] as Map<String, dynamic>? ?? {},
   feedVisibility: json['feed_visibility'] as String?,
   fid: json['fid'] as String,
-  receivedAt: _$JsonConverterFromJson<int, DateTime>(
+  receivedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['received_at'],
     const EpochDateTimeConverter().fromJson,
   ),
@@ -30,7 +30,7 @@ Map<String, dynamic> _$ActivityAddedEventToJson(ActivityAddedEvent instance) => 
   'custom': instance.custom,
   'feed_visibility': instance.feedVisibility,
   'fid': instance.fid,
-  'received_at': _$JsonConverterToJson<int, DateTime>(
+  'received_at': _$JsonConverterToJson<Object, DateTime>(
     instance.receivedAt,
     const EpochDateTimeConverter().toJson,
   ),

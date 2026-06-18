@@ -8,14 +8,14 @@ part of 'feed_member_response.dart';
 
 FeedMemberResponse _$FeedMemberResponseFromJson(Map<String, dynamic> json) => FeedMemberResponse(
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
   custom: json['custom'] as Map<String, dynamic>?,
-  inviteAcceptedAt: _$JsonConverterFromJson<int, DateTime>(
+  inviteAcceptedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['invite_accepted_at'],
     const EpochDateTimeConverter().fromJson,
   ),
-  inviteRejectedAt: _$JsonConverterFromJson<int, DateTime>(
+  inviteRejectedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['invite_rejected_at'],
     const EpochDateTimeConverter().fromJson,
   ),
@@ -31,7 +31,7 @@ FeedMemberResponse _$FeedMemberResponseFromJson(Map<String, dynamic> json) => Fe
     unknownValue: FeedMemberResponseStatus.unknown,
   ),
   updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+    json['updated_at'] as Object,
   ),
   user: UserResponse.fromJson(json['user'] as Map<String, dynamic>),
 );
@@ -39,11 +39,11 @@ FeedMemberResponse _$FeedMemberResponseFromJson(Map<String, dynamic> json) => Fe
 Map<String, dynamic> _$FeedMemberResponseToJson(FeedMemberResponse instance) => <String, dynamic>{
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
   'custom': instance.custom,
-  'invite_accepted_at': _$JsonConverterToJson<int, DateTime>(
+  'invite_accepted_at': _$JsonConverterToJson<Object, DateTime>(
     instance.inviteAcceptedAt,
     const EpochDateTimeConverter().toJson,
   ),
-  'invite_rejected_at': _$JsonConverterToJson<int, DateTime>(
+  'invite_rejected_at': _$JsonConverterToJson<Object, DateTime>(
     instance.inviteRejectedAt,
     const EpochDateTimeConverter().toJson,
   ),

@@ -39,7 +39,8 @@ mixin _$GetOrCreateFeedData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is GetOrCreateFeedData &&
-            (identical(other.pagination, pagination) || other.pagination == pagination) &&
+            (identical(other.pagination, pagination) ||
+                other.pagination == pagination) &&
             const DeepCollectionEquality().equals(
               other.activities,
               activities,
@@ -107,7 +108,8 @@ abstract mixin class $GetOrCreateFeedDataCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$GetOrCreateFeedDataCopyWithImpl<$Res> implements $GetOrCreateFeedDataCopyWith<$Res> {
+class _$GetOrCreateFeedDataCopyWithImpl<$Res>
+    implements $GetOrCreateFeedDataCopyWith<$Res> {
   _$GetOrCreateFeedDataCopyWithImpl(this._self, this._then);
 
   final GetOrCreateFeedData _self;

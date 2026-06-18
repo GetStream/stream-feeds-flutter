@@ -14,20 +14,20 @@ UserBannedEvent _$UserBannedEventFromJson(Map<String, dynamic> json) => UserBann
   channelType: json['channel_type'] as String?,
   cid: json['cid'] as String?,
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
   createdBy: json['created_by'] == null
       ? null
       : UserResponseCommonFields.fromJson(
           json['created_by'] as Map<String, dynamic>,
         ),
-  custom: json['custom'] as Map<String, dynamic>,
-  expiration: _$JsonConverterFromJson<int, DateTime>(
+  custom: json['custom'] as Map<String, dynamic>? ?? {},
+  expiration: _$JsonConverterFromJson<Object, DateTime>(
     json['expiration'],
     const EpochDateTimeConverter().fromJson,
   ),
   reason: json['reason'] as String?,
-  receivedAt: _$JsonConverterFromJson<int, DateTime>(
+  receivedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['received_at'],
     const EpochDateTimeConverter().fromJson,
   ),
@@ -51,12 +51,12 @@ Map<String, dynamic> _$UserBannedEventToJson(UserBannedEvent instance) => <Strin
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
   'created_by': instance.createdBy?.toJson(),
   'custom': instance.custom,
-  'expiration': _$JsonConverterToJson<int, DateTime>(
+  'expiration': _$JsonConverterToJson<Object, DateTime>(
     instance.expiration,
     const EpochDateTimeConverter().toJson,
   ),
   'reason': instance.reason,
-  'received_at': _$JsonConverterToJson<int, DateTime>(
+  'received_at': _$JsonConverterToJson<Object, DateTime>(
     instance.receivedAt,
     const EpochDateTimeConverter().toJson,
   ),

@@ -9,9 +9,9 @@ part of 'add_comments_batch_response.dart';
 AddCommentsBatchResponse _$AddCommentsBatchResponseFromJson(
   Map<String, dynamic> json,
 ) => AddCommentsBatchResponse(
-  comments: (json['comments'] as List<dynamic>)
-      .map((e) => CommentResponse.fromJson(e as Map<String, dynamic>))
-      .toList(),
+  comments:
+      (json['comments'] as List<dynamic>?)?.map((e) => CommentResponse.fromJson(e as Map<String, dynamic>)).toList() ??
+      [],
   duration: json['duration'] as String,
 );
 

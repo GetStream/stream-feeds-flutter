@@ -34,7 +34,8 @@ mixin _$UserData {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $UserDataCopyWith<UserData> get copyWith => _$UserDataCopyWithImpl<UserData>(this as UserData, _$identity);
+  $UserDataCopyWith<UserData> get copyWith =>
+      _$UserDataCopyWithImpl<UserData>(this as UserData, _$identity);
 
   @override
   bool operator ==(Object other) {
@@ -46,13 +47,18 @@ mixin _$UserData {
               other.blockedUserIds,
               blockedUserIds,
             ) &&
-            (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
-            (identical(other.deactivatedAt, deactivatedAt) || other.deactivatedAt == deactivatedAt) &&
-            (identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.deactivatedAt, deactivatedAt) ||
+                other.deactivatedAt == deactivatedAt) &&
+            (identical(other.deletedAt, deletedAt) ||
+                other.deletedAt == deletedAt) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.image, image) || other.image == image) &&
-            (identical(other.language, language) || other.language == language) &&
-            (identical(other.lastActive, lastActive) || other.lastActive == lastActive) &&
+            (identical(other.language, language) ||
+                other.language == language) &&
+            (identical(other.lastActive, lastActive) ||
+                other.lastActive == lastActive) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.online, online) || other.online == online) &&
             (identical(
@@ -62,7 +68,8 @@ mixin _$UserData {
                 other.revokeTokensIssuedBefore == revokeTokensIssuedBefore) &&
             (identical(other.role, role) || other.role == role) &&
             const DeepCollectionEquality().equals(other.teams, teams) &&
-            (identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
             const DeepCollectionEquality().equals(other.custom, custom));
   }
 
@@ -95,7 +102,8 @@ mixin _$UserData {
 
 /// @nodoc
 abstract mixin class $UserDataCopyWith<$Res> {
-  factory $UserDataCopyWith(UserData value, $Res Function(UserData) _then) = _$UserDataCopyWithImpl;
+  factory $UserDataCopyWith(UserData value, $Res Function(UserData) _then) =
+      _$UserDataCopyWithImpl;
   @useResult
   $Res call({
     bool banned,

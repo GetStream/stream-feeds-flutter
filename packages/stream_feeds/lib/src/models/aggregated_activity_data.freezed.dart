@@ -42,14 +42,18 @@ mixin _$AggregatedActivityData {
               other.activities,
               activities,
             ) &&
-            (identical(other.activityCount, activityCount) || other.activityCount == activityCount) &&
-            (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
+            (identical(other.activityCount, activityCount) ||
+                other.activityCount == activityCount) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
             (identical(other.group, group) || other.group == group) &&
             (identical(other.isRead, isRead) || other.isRead == isRead) &&
             (identical(other.isSeen, isSeen) || other.isSeen == isSeen) &&
             (identical(other.score, score) || other.score == score) &&
-            (identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt) &&
-            (identical(other.userCount, userCount) || other.userCount == userCount));
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
+            (identical(other.userCount, userCount) ||
+                other.userCount == userCount));
   }
 
   @override
@@ -93,7 +97,8 @@ abstract mixin class $AggregatedActivityDataCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$AggregatedActivityDataCopyWithImpl<$Res> implements $AggregatedActivityDataCopyWith<$Res> {
+class _$AggregatedActivityDataCopyWithImpl<$Res>
+    implements $AggregatedActivityDataCopyWith<$Res> {
   _$AggregatedActivityDataCopyWithImpl(this._self, this._then);
 
   final AggregatedActivityData _self;

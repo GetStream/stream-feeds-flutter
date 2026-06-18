@@ -23,7 +23,8 @@ mixin _$AppData {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $AppDataCopyWith<AppData> get copyWith => _$AppDataCopyWithImpl<AppData>(this as AppData, _$identity);
+  $AppDataCopyWith<AppData> get copyWith =>
+      _$AppDataCopyWithImpl<AppData>(this as AppData, _$identity);
 
   @override
   bool operator ==(Object other) {
@@ -34,8 +35,10 @@ mixin _$AppData {
                 other.asyncUrlEnrichEnabled == asyncUrlEnrichEnabled) &&
             (identical(other.autoTranslationEnabled, autoTranslationEnabled) ||
                 other.autoTranslationEnabled == autoTranslationEnabled) &&
-            (identical(other.fileUploadConfig, fileUploadConfig) || other.fileUploadConfig == fileUploadConfig) &&
-            (identical(other.imageUploadConfig, imageUploadConfig) || other.imageUploadConfig == imageUploadConfig) &&
+            (identical(other.fileUploadConfig, fileUploadConfig) ||
+                other.fileUploadConfig == fileUploadConfig) &&
+            (identical(other.imageUploadConfig, imageUploadConfig) ||
+                other.imageUploadConfig == imageUploadConfig) &&
             (identical(other.name, name) || other.name == name));
   }
 
@@ -57,7 +60,8 @@ mixin _$AppData {
 
 /// @nodoc
 abstract mixin class $AppDataCopyWith<$Res> {
-  factory $AppDataCopyWith(AppData value, $Res Function(AppData) _then) = _$AppDataCopyWithImpl;
+  factory $AppDataCopyWith(AppData value, $Res Function(AppData) _then) =
+      _$AppDataCopyWithImpl;
   @useResult
   $Res call({
     bool asyncUrlEnrichEnabled,

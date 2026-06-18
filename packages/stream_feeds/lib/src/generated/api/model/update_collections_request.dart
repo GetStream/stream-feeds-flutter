@@ -22,6 +22,7 @@ class UpdateCollectionsRequest with _$UpdateCollectionsRequest {
   });
 
   @override
+  @JsonKey(defaultValue: [])
   final List<UpdateCollectionRequest> collections;
 
   Map<String, dynamic> toJson() => _$UpdateCollectionsRequestToJson(this);

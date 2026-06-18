@@ -35,12 +35,14 @@ mixin _$CommentReactionsQuery {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is CommentReactionsQuery &&
-            (identical(other.commentId, commentId) || other.commentId == commentId) &&
+            (identical(other.commentId, commentId) ||
+                other.commentId == commentId) &&
             (identical(other.filter, filter) || other.filter == filter) &&
             const DeepCollectionEquality().equals(other.sort, sort) &&
             (identical(other.limit, limit) || other.limit == limit) &&
             (identical(other.next, next) || other.next == next) &&
-            (identical(other.previous, previous) || other.previous == previous));
+            (identical(other.previous, previous) ||
+                other.previous == previous));
   }
 
   @override
@@ -78,7 +80,8 @@ abstract mixin class $CommentReactionsQueryCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$CommentReactionsQueryCopyWithImpl<$Res> implements $CommentReactionsQueryCopyWith<$Res> {
+class _$CommentReactionsQueryCopyWithImpl<$Res>
+    implements $CommentReactionsQueryCopyWith<$Res> {
   _$CommentReactionsQueryCopyWithImpl(this._self, this._then);
 
   final CommentReactionsQuery _self;

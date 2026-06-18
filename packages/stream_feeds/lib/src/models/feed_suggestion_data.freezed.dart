@@ -22,10 +22,11 @@ mixin _$FeedSuggestionData {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $FeedSuggestionDataCopyWith<FeedSuggestionData> get copyWith => _$FeedSuggestionDataCopyWithImpl<FeedSuggestionData>(
-    this as FeedSuggestionData,
-    _$identity,
-  );
+  $FeedSuggestionDataCopyWith<FeedSuggestionData> get copyWith =>
+      _$FeedSuggestionDataCopyWithImpl<FeedSuggestionData>(
+        this as FeedSuggestionData,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -73,7 +74,8 @@ abstract mixin class $FeedSuggestionDataCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$FeedSuggestionDataCopyWithImpl<$Res> implements $FeedSuggestionDataCopyWith<$Res> {
+class _$FeedSuggestionDataCopyWithImpl<$Res>
+    implements $FeedSuggestionDataCopyWith<$Res> {
   _$FeedSuggestionDataCopyWithImpl(this._self, this._then);
 
   final FeedSuggestionData _self;

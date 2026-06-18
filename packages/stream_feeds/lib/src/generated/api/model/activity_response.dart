@@ -93,18 +93,21 @@ class ActivityResponse with _$ActivityResponse {
   });
 
   @override
+  @JsonKey(defaultValue: [])
   final List<Attachment> attachments;
 
   @override
   final int bookmarkCount;
 
   @override
+  @JsonKey(defaultValue: {})
   final Map<String, EnrichedCollectionResponse> collections;
 
   @override
   final int commentCount;
 
   @override
+  @JsonKey(defaultValue: [])
   final List<CommentResponse> comments;
 
   @override
@@ -115,6 +118,7 @@ class ActivityResponse with _$ActivityResponse {
   final FeedResponse? currentFeed;
 
   @override
+  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override
@@ -130,9 +134,11 @@ class ActivityResponse with _$ActivityResponse {
   final DateTime? expiresAt;
 
   @override
+  @JsonKey(defaultValue: [])
   final List<String> feeds;
 
   @override
+  @JsonKey(defaultValue: [])
   final List<String> filterTags;
 
   @override
@@ -148,6 +154,7 @@ class ActivityResponse with _$ActivityResponse {
   final String id;
 
   @override
+  @JsonKey(defaultValue: [])
   final List<String> interestTags;
 
   @override
@@ -160,12 +167,14 @@ class ActivityResponse with _$ActivityResponse {
   final bool? isWatched;
 
   @override
+  @JsonKey(defaultValue: [])
   final List<FeedsReactionResponse> latestReactions;
 
   @override
   final Location? location;
 
   @override
+  @JsonKey(defaultValue: [])
   final List<UserResponse> mentionedUsers;
 
   @override
@@ -181,9 +190,11 @@ class ActivityResponse with _$ActivityResponse {
   final NotificationContext? notificationContext;
 
   @override
+  @JsonKey(defaultValue: [])
   final List<BookmarkResponse> ownBookmarks;
 
   @override
+  @JsonKey(defaultValue: [])
   final List<FeedsReactionResponse> ownReactions;
 
   @override
@@ -202,6 +213,7 @@ class ActivityResponse with _$ActivityResponse {
   final int reactionCount;
 
   @override
+  @JsonKey(defaultValue: {})
   final Map<String, FeedsReactionGroupResponse> reactionGroups;
 
   @override
@@ -215,6 +227,7 @@ class ActivityResponse with _$ActivityResponse {
   final Map<String, Object?>? scoreVars;
 
   @override
+  @JsonKey(defaultValue: {})
   final Map<String, Object?> searchData;
 
   @override

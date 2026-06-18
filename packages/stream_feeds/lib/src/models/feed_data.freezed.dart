@@ -40,35 +40,46 @@ mixin _$FeedData {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $FeedDataCopyWith<FeedData> get copyWith => _$FeedDataCopyWithImpl<FeedData>(this as FeedData, _$identity);
+  $FeedDataCopyWith<FeedData> get copyWith =>
+      _$FeedDataCopyWithImpl<FeedData>(this as FeedData, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is FeedData &&
-            (identical(other.activityCount, activityCount) || other.activityCount == activityCount) &&
-            (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
-            (identical(other.createdBy, createdBy) || other.createdBy == createdBy) &&
-            (identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt) &&
-            (identical(other.description, description) || other.description == description) &&
+            (identical(other.activityCount, activityCount) ||
+                other.activityCount == activityCount) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.createdBy, createdBy) ||
+                other.createdBy == createdBy) &&
+            (identical(other.deletedAt, deletedAt) ||
+                other.deletedAt == deletedAt) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
             (identical(other.fid, fid) || other.fid == fid) &&
             const DeepCollectionEquality().equals(
               other.filterTags,
               filterTags,
             ) &&
-            (identical(other.followerCount, followerCount) || other.followerCount == followerCount) &&
-            (identical(other.followingCount, followingCount) || other.followingCount == followingCount) &&
+            (identical(other.followerCount, followerCount) ||
+                other.followerCount == followerCount) &&
+            (identical(other.followingCount, followingCount) ||
+                other.followingCount == followingCount) &&
             (identical(other.groupId, groupId) || other.groupId == groupId) &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.location, location) || other.location == location) &&
-            (identical(other.memberCount, memberCount) || other.memberCount == memberCount) &&
+            (identical(other.location, location) ||
+                other.location == location) &&
+            (identical(other.memberCount, memberCount) ||
+                other.memberCount == memberCount) &&
             (identical(other.name, name) || other.name == name) &&
             const DeepCollectionEquality().equals(
               other.ownCapabilities,
               ownCapabilities,
             ) &&
-            (identical(other.ownMembership, ownMembership) || other.ownMembership == ownMembership) &&
+            (identical(other.ownMembership, ownMembership) ||
+                other.ownMembership == ownMembership) &&
             const DeepCollectionEquality().equals(
               other.ownFollowings,
               ownFollowings,
@@ -77,9 +88,12 @@ mixin _$FeedData {
               other.ownFollows,
               ownFollows,
             ) &&
-            (identical(other.pinCount, pinCount) || other.pinCount == pinCount) &&
-            (identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt) &&
-            (identical(other.visibility, visibility) || other.visibility == visibility) &&
+            (identical(other.pinCount, pinCount) ||
+                other.pinCount == pinCount) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
+            (identical(other.visibility, visibility) ||
+                other.visibility == visibility) &&
             const DeepCollectionEquality().equals(other.custom, custom));
   }
 
@@ -118,7 +132,8 @@ mixin _$FeedData {
 
 /// @nodoc
 abstract mixin class $FeedDataCopyWith<$Res> {
-  factory $FeedDataCopyWith(FeedData value, $Res Function(FeedData) _then) = _$FeedDataCopyWithImpl;
+  factory $FeedDataCopyWith(FeedData value, $Res Function(FeedData) _then) =
+      _$FeedDataCopyWithImpl;
   @useResult
   $Res call({
     int activityCount,

@@ -58,13 +58,20 @@ mixin _$CommentData {
               other.attachments,
               attachments,
             ) &&
-            (identical(other.bookmarkCount, bookmarkCount) || other.bookmarkCount == bookmarkCount) &&
-            (identical(other.confidenceScore, confidenceScore) || other.confidenceScore == confidenceScore) &&
-            (identical(other.controversyScore, controversyScore) || other.controversyScore == controversyScore) &&
-            (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
-            (identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt) &&
-            (identical(other.editedAt, editedAt) || other.editedAt == editedAt) &&
-            (identical(other.downvoteCount, downvoteCount) || other.downvoteCount == downvoteCount) &&
+            (identical(other.bookmarkCount, bookmarkCount) ||
+                other.bookmarkCount == bookmarkCount) &&
+            (identical(other.confidenceScore, confidenceScore) ||
+                other.confidenceScore == confidenceScore) &&
+            (identical(other.controversyScore, controversyScore) ||
+                other.controversyScore == controversyScore) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.deletedAt, deletedAt) ||
+                other.deletedAt == deletedAt) &&
+            (identical(other.editedAt, editedAt) ||
+                other.editedAt == editedAt) &&
+            (identical(other.downvoteCount, downvoteCount) ||
+                other.downvoteCount == downvoteCount) &&
             (identical(other.id, id) || other.id == id) &&
             const DeepCollectionEquality().equals(
               other.latestReactions,
@@ -75,26 +82,34 @@ mixin _$CommentData {
               mentionedUsers,
             ) &&
             (identical(other.meta, meta) || other.meta == meta) &&
-            (identical(other.moderation, moderation) || other.moderation == moderation) &&
-            (identical(other.objectId, objectId) || other.objectId == objectId) &&
-            (identical(other.objectType, objectType) || other.objectType == objectType) &&
+            (identical(other.moderation, moderation) ||
+                other.moderation == moderation) &&
+            (identical(other.objectId, objectId) ||
+                other.objectId == objectId) &&
+            (identical(other.objectType, objectType) ||
+                other.objectType == objectType) &&
             const DeepCollectionEquality().equals(
               other.ownReactions,
               ownReactions,
             ) &&
-            (identical(other.parentId, parentId) || other.parentId == parentId) &&
-            (identical(other.reactionCount, reactionCount) || other.reactionCount == reactionCount) &&
+            (identical(other.parentId, parentId) ||
+                other.parentId == parentId) &&
+            (identical(other.reactionCount, reactionCount) ||
+                other.reactionCount == reactionCount) &&
             const DeepCollectionEquality().equals(
               other.reactionGroups,
               reactionGroups,
             ) &&
             const DeepCollectionEquality().equals(other.replies, replies) &&
-            (identical(other.replyCount, replyCount) || other.replyCount == replyCount) &&
+            (identical(other.replyCount, replyCount) ||
+                other.replyCount == replyCount) &&
             (identical(other.score, score) || other.score == score) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.text, text) || other.text == text) &&
-            (identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt) &&
-            (identical(other.upvoteCount, upvoteCount) || other.upvoteCount == upvoteCount) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
+            (identical(other.upvoteCount, upvoteCount) ||
+                other.upvoteCount == upvoteCount) &&
             (identical(other.user, user) || other.user == user) &&
             const DeepCollectionEquality().equals(other.custom, custom));
   }

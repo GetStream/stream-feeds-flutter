@@ -10,7 +10,7 @@ ChatReactionGroupUserResponse _$ChatReactionGroupUserResponseFromJson(
   Map<String, dynamic> json,
 ) => ChatReactionGroupUserResponse(
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
   user: json['user'] == null ? null : UserResponse.fromJson(json['user'] as Map<String, dynamic>),
   userId: json['user_id'] as String,

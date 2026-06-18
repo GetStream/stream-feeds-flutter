@@ -23,10 +23,11 @@ mixin _$CommentsQuery {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $CommentsQueryCopyWith<CommentsQuery> get copyWith => _$CommentsQueryCopyWithImpl<CommentsQuery>(
-    this as CommentsQuery,
-    _$identity,
-  );
+  $CommentsQueryCopyWith<CommentsQuery> get copyWith =>
+      _$CommentsQueryCopyWithImpl<CommentsQuery>(
+        this as CommentsQuery,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -37,11 +38,13 @@ mixin _$CommentsQuery {
             (identical(other.sort, sort) || other.sort == sort) &&
             (identical(other.limit, limit) || other.limit == limit) &&
             (identical(other.next, next) || other.next == next) &&
-            (identical(other.previous, previous) || other.previous == previous));
+            (identical(other.previous, previous) ||
+                other.previous == previous));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, filter, sort, limit, next, previous);
+  int get hashCode =>
+      Object.hash(runtimeType, filter, sort, limit, next, previous);
 
   @override
   String toString() {
@@ -66,7 +69,8 @@ abstract mixin class $CommentsQueryCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$CommentsQueryCopyWithImpl<$Res> implements $CommentsQueryCopyWith<$Res> {
+class _$CommentsQueryCopyWithImpl<$Res>
+    implements $CommentsQueryCopyWith<$Res> {
   _$CommentsQueryCopyWithImpl(this._self, this._then);
 
   final CommentsQuery _self;

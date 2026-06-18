@@ -10,16 +10,16 @@ MembershipLevelResponse _$MembershipLevelResponseFromJson(
   Map<String, dynamic> json,
 ) => MembershipLevelResponse(
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
   custom: json['custom'] as Map<String, dynamic>?,
   description: json['description'] as String?,
   id: json['id'] as String,
   name: json['name'] as String,
   priority: (json['priority'] as num).toInt(),
-  tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
+  tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
   updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+    json['updated_at'] as Object,
   ),
 );
 

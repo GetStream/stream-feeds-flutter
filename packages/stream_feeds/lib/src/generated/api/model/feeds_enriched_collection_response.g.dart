@@ -10,14 +10,14 @@ FeedsEnrichedCollectionResponse _$FeedsEnrichedCollectionResponseFromJson(
   Map<String, dynamic> json,
 ) => FeedsEnrichedCollectionResponse(
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
-  custom: json['custom'] as Map<String, dynamic>,
+  custom: json['custom'] as Map<String, dynamic>? ?? {},
   id: json['id'] as String,
   name: json['name'] as String,
   status: json['status'] as String,
   updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+    json['updated_at'] as Object,
   ),
   userId: json['user_id'] as String,
 );

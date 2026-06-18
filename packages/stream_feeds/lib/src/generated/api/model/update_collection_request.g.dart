@@ -9,7 +9,7 @@ part of 'update_collection_request.dart';
 UpdateCollectionRequest _$UpdateCollectionRequestFromJson(
   Map<String, dynamic> json,
 ) => UpdateCollectionRequest(
-  custom: json['custom'] as Map<String, dynamic>,
+  custom: json['custom'] as Map<String, dynamic>? ?? {},
   id: json['id'] as String,
   name: json['name'] as String,
 );

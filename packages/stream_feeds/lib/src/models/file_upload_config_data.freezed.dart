@@ -50,7 +50,8 @@ mixin _$FileUploadConfigData {
               other.blockedMimeTypes,
               blockedMimeTypes,
             ) &&
-            (identical(other.sizeLimit, sizeLimit) || other.sizeLimit == sizeLimit));
+            (identical(other.sizeLimit, sizeLimit) ||
+                other.sizeLimit == sizeLimit));
   }
 
   @override
@@ -86,7 +87,8 @@ abstract mixin class $FileUploadConfigDataCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$FileUploadConfigDataCopyWithImpl<$Res> implements $FileUploadConfigDataCopyWith<$Res> {
+class _$FileUploadConfigDataCopyWithImpl<$Res>
+    implements $FileUploadConfigDataCopyWith<$Res> {
   _$FileUploadConfigDataCopyWithImpl(this._self, this._then);
 
   final FileUploadConfigData _self;

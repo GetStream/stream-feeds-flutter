@@ -23,6 +23,7 @@ class UpsertActivitiesRequest with _$UpsertActivitiesRequest {
   });
 
   @override
+  @JsonKey(defaultValue: [])
   final List<ActivityRequest> activities;
 
   @override

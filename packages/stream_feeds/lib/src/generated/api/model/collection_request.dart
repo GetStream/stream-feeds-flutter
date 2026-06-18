@@ -24,6 +24,7 @@ class CollectionRequest with _$CollectionRequest {
   });
 
   @override
+  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override

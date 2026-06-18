@@ -14,70 +14,6 @@ part 'feed_suggestion_response.g.dart';
 part 'feed_suggestion_response.freezed.dart';
 
 @JsonEnum(alwaysCreate: true)
-enum FeedSuggestionResponseOwnCapabilities {
-  @JsonValue('add-activity')
-  addActivity,
-  @JsonValue('add-activity-bookmark')
-  addActivityBookmark,
-  @JsonValue('add-activity-reaction')
-  addActivityReaction,
-  @JsonValue('add-comment')
-  addComment,
-  @JsonValue('add-comment-reaction')
-  addCommentReaction,
-  @JsonValue('create-feed')
-  createFeed,
-  @JsonValue('delete-any-activity')
-  deleteAnyActivity,
-  @JsonValue('delete-any-comment')
-  deleteAnyComment,
-  @JsonValue('delete-feed')
-  deleteFeed,
-  @JsonValue('delete-own-activity')
-  deleteOwnActivity,
-  @JsonValue('delete-own-activity-bookmark')
-  deleteOwnActivityBookmark,
-  @JsonValue('delete-own-activity-reaction')
-  deleteOwnActivityReaction,
-  @JsonValue('delete-own-comment')
-  deleteOwnComment,
-  @JsonValue('delete-own-comment-reaction')
-  deleteOwnCommentReaction,
-  @JsonValue('follow')
-  follow,
-  @JsonValue('pin-activity')
-  pinActivity,
-  @JsonValue('query-feed-members')
-  queryFeedMembers,
-  @JsonValue('query-follows')
-  queryFollows,
-  @JsonValue('read-activities')
-  readActivities,
-  @JsonValue('read-feed')
-  readFeed,
-  @JsonValue('unfollow')
-  unfollow,
-  @JsonValue('update-any-activity')
-  updateAnyActivity,
-  @JsonValue('update-any-comment')
-  updateAnyComment,
-  @JsonValue('update-feed')
-  updateFeed,
-  @JsonValue('update-feed-followers')
-  updateFeedFollowers,
-  @JsonValue('update-feed-members')
-  updateFeedMembers,
-  @JsonValue('update-own-activity')
-  updateOwnActivity,
-  @JsonValue('update-own-activity-bookmark')
-  updateOwnActivityBookmark,
-  @JsonValue('update-own-comment')
-  updateOwnComment,
-  @JsonValue('_unknown')
-  unknown,
-}
-
-@JsonEnum(alwaysCreate: true)
 enum FeedSuggestionResponseVisibility {
   @JsonValue('followers')
   followers,
@@ -176,8 +112,8 @@ class FeedSuggestionResponse with _$FeedSuggestionResponse {
   final String name;
 
   @override
-  @JsonKey(unknownEnumValue: FeedSuggestionResponseOwnCapabilities.unknown)
-  final List<FeedSuggestionResponseOwnCapabilities>? ownCapabilities;
+  @JsonKey(unknownEnumValue: FeedOwnCapability.unknown)
+  final List<FeedOwnCapability>? ownCapabilities;
 
   @override
   final List<FollowResponse>? ownFollowings;

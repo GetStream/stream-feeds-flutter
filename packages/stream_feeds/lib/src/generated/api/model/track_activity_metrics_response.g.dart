@@ -10,11 +10,15 @@ TrackActivityMetricsResponse _$TrackActivityMetricsResponseFromJson(
   Map<String, dynamic> json,
 ) => TrackActivityMetricsResponse(
   duration: json['duration'] as String,
-  results: (json['results'] as List<dynamic>)
-      .map(
-        (e) => TrackActivityMetricsEventResult.fromJson(e as Map<String, dynamic>),
-      )
-      .toList(),
+  results:
+      (json['results'] as List<dynamic>?)
+          ?.map(
+            (e) => TrackActivityMetricsEventResult.fromJson(
+              e as Map<String, dynamic>,
+            ),
+          )
+          .toList() ??
+      [],
 );
 
 Map<String, dynamic> _$TrackActivityMetricsResponseToJson(

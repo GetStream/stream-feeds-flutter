@@ -101,6 +101,7 @@ class ThreadedCommentResponse with _$ThreadedCommentResponse {
   final List<FeedsReactionResponse>? latestReactions;
 
   @override
+  @JsonKey(defaultValue: [])
   final List<UserResponse> mentionedUsers;
 
   @override
@@ -116,6 +117,7 @@ class ThreadedCommentResponse with _$ThreadedCommentResponse {
   final String objectType;
 
   @override
+  @JsonKey(defaultValue: [])
   final List<FeedsReactionResponse> ownReactions;
 
   @override

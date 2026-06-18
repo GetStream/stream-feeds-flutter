@@ -21,10 +21,11 @@ mixin _$ModelUpdates<T> {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $ModelUpdatesCopyWith<T, ModelUpdates<T>> get copyWith => _$ModelUpdatesCopyWithImpl<T, ModelUpdates<T>>(
-    this as ModelUpdates<T>,
-    _$identity,
-  );
+  $ModelUpdatesCopyWith<T, ModelUpdates<T>> get copyWith =>
+      _$ModelUpdatesCopyWithImpl<T, ModelUpdates<T>>(
+        this as ModelUpdates<T>,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -64,7 +65,8 @@ abstract mixin class $ModelUpdatesCopyWith<T, $Res> {
 }
 
 /// @nodoc
-class _$ModelUpdatesCopyWithImpl<T, $Res> implements $ModelUpdatesCopyWith<T, $Res> {
+class _$ModelUpdatesCopyWithImpl<T, $Res>
+    implements $ModelUpdatesCopyWith<T, $Res> {
   _$ModelUpdatesCopyWithImpl(this._self, this._then);
 
   final ModelUpdates<T> _self;

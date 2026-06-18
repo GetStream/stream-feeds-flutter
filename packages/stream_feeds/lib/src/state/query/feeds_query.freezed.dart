@@ -24,7 +24,8 @@ mixin _$FeedsQuery {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $FeedsQueryCopyWith<FeedsQuery> get copyWith => _$FeedsQueryCopyWithImpl<FeedsQuery>(this as FeedsQuery, _$identity);
+  $FeedsQueryCopyWith<FeedsQuery> get copyWith =>
+      _$FeedsQueryCopyWithImpl<FeedsQuery>(this as FeedsQuery, _$identity);
 
   @override
   bool operator ==(Object other) {
@@ -35,7 +36,8 @@ mixin _$FeedsQuery {
             const DeepCollectionEquality().equals(other.sort, sort) &&
             (identical(other.limit, limit) || other.limit == limit) &&
             (identical(other.next, next) || other.next == next) &&
-            (identical(other.previous, previous) || other.previous == previous) &&
+            (identical(other.previous, previous) ||
+                other.previous == previous) &&
             (identical(other.watch, watch) || other.watch == watch));
   }
 

@@ -20,10 +20,11 @@ mixin _$PollListState {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $PollListStateCopyWith<PollListState> get copyWith => _$PollListStateCopyWithImpl<PollListState>(
-    this as PollListState,
-    _$identity,
-  );
+  $PollListStateCopyWith<PollListState> get copyWith =>
+      _$PollListStateCopyWithImpl<PollListState>(
+        this as PollListState,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -31,7 +32,8 @@ mixin _$PollListState {
         (other.runtimeType == runtimeType &&
             other is PollListState &&
             const DeepCollectionEquality().equals(other.polls, polls) &&
-            (identical(other.pagination, pagination) || other.pagination == pagination));
+            (identical(other.pagination, pagination) ||
+                other.pagination == pagination));
   }
 
   @override
@@ -58,7 +60,8 @@ abstract mixin class $PollListStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$PollListStateCopyWithImpl<$Res> implements $PollListStateCopyWith<$Res> {
+class _$PollListStateCopyWithImpl<$Res>
+    implements $PollListStateCopyWith<$Res> {
   _$PollListStateCopyWithImpl(this._self, this._then);
 
   final PollListState _self;

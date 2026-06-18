@@ -41,6 +41,7 @@ class CommentReactionAddedEvent extends core.WsEvent with _$CommentReactionAdded
   final DateTime createdAt;
 
   @override
+  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override

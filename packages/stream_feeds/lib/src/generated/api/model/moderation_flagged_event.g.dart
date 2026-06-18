@@ -11,11 +11,11 @@ ModerationFlaggedEvent _$ModerationFlaggedEventFromJson(
 ) => ModerationFlaggedEvent(
   contentType: json['content_type'] as String,
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
-  custom: json['custom'] as Map<String, dynamic>,
+  custom: json['custom'] as Map<String, dynamic>? ?? {},
   objectId: json['object_id'] as String,
-  receivedAt: _$JsonConverterFromJson<int, DateTime>(
+  receivedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['received_at'],
     const EpochDateTimeConverter().fromJson,
   ),
@@ -29,7 +29,7 @@ Map<String, dynamic> _$ModerationFlaggedEventToJson(
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
   'custom': instance.custom,
   'object_id': instance.objectId,
-  'received_at': _$JsonConverterToJson<int, DateTime>(
+  'received_at': _$JsonConverterToJson<Object, DateTime>(
     instance.receivedAt,
     const EpochDateTimeConverter().toJson,
   ),

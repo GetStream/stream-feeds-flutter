@@ -8,13 +8,13 @@ part of 'role.dart';
 
 Role _$RoleFromJson(Map<String, dynamic> json) => Role(
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
   custom: json['custom'] as bool,
   name: json['name'] as String,
-  scopes: (json['scopes'] as List<dynamic>).map((e) => e as String).toList(),
+  scopes: (json['scopes'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
   updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+    json['updated_at'] as Object,
   ),
 );
 

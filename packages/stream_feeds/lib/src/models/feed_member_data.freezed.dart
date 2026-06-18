@@ -26,22 +26,27 @@ mixin _$FeedMemberData {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $FeedMemberDataCopyWith<FeedMemberData> get copyWith => _$FeedMemberDataCopyWithImpl<FeedMemberData>(
-    this as FeedMemberData,
-    _$identity,
-  );
+  $FeedMemberDataCopyWith<FeedMemberData> get copyWith =>
+      _$FeedMemberDataCopyWithImpl<FeedMemberData>(
+        this as FeedMemberData,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is FeedMemberData &&
-            (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
-            (identical(other.inviteAcceptedAt, inviteAcceptedAt) || other.inviteAcceptedAt == inviteAcceptedAt) &&
-            (identical(other.inviteRejectedAt, inviteRejectedAt) || other.inviteRejectedAt == inviteRejectedAt) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.inviteAcceptedAt, inviteAcceptedAt) ||
+                other.inviteAcceptedAt == inviteAcceptedAt) &&
+            (identical(other.inviteRejectedAt, inviteRejectedAt) ||
+                other.inviteRejectedAt == inviteRejectedAt) &&
             (identical(other.role, role) || other.role == role) &&
             (identical(other.status, status) || other.status == status) &&
-            (identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
             (identical(other.user, user) || other.user == user) &&
             const DeepCollectionEquality().equals(other.custom, custom));
   }
@@ -85,7 +90,8 @@ abstract mixin class $FeedMemberDataCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$FeedMemberDataCopyWithImpl<$Res> implements $FeedMemberDataCopyWith<$Res> {
+class _$FeedMemberDataCopyWithImpl<$Res>
+    implements $FeedMemberDataCopyWith<$Res> {
   _$FeedMemberDataCopyWithImpl(this._self, this._then);
 
   final FeedMemberData _self;

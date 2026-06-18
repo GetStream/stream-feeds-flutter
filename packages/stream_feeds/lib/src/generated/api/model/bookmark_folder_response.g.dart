@@ -10,13 +10,13 @@ BookmarkFolderResponse _$BookmarkFolderResponseFromJson(
   Map<String, dynamic> json,
 ) => BookmarkFolderResponse(
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
   custom: json['custom'] as Map<String, dynamic>?,
   id: json['id'] as String,
   name: json['name'] as String,
   updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+    json['updated_at'] as Object,
   ),
   user: UserResponse.fromJson(json['user'] as Map<String, dynamic>),
 );

@@ -7,9 +7,13 @@ part of 'follow_batch_response.dart';
 // **************************************************************************
 
 FollowBatchResponse _$FollowBatchResponseFromJson(Map<String, dynamic> json) => FollowBatchResponse(
-  created: (json['created'] as List<dynamic>).map((e) => FollowResponse.fromJson(e as Map<String, dynamic>)).toList(),
+  created:
+      (json['created'] as List<dynamic>?)?.map((e) => FollowResponse.fromJson(e as Map<String, dynamic>)).toList() ??
+      [],
   duration: json['duration'] as String,
-  follows: (json['follows'] as List<dynamic>).map((e) => FollowResponse.fromJson(e as Map<String, dynamic>)).toList(),
+  follows:
+      (json['follows'] as List<dynamic>?)?.map((e) => FollowResponse.fromJson(e as Map<String, dynamic>)).toList() ??
+      [],
 );
 
 Map<String, dynamic> _$FollowBatchResponseToJson(

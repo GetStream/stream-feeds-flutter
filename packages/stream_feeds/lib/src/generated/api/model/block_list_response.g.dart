@@ -7,7 +7,7 @@ part of 'block_list_response.dart';
 // **************************************************************************
 
 BlockListResponse _$BlockListResponseFromJson(Map<String, dynamic> json) => BlockListResponse(
-  createdAt: _$JsonConverterFromJson<int, DateTime>(
+  createdAt: _$JsonConverterFromJson<Object, DateTime>(
     json['created_at'],
     const EpochDateTimeConverter().fromJson,
   ),
@@ -17,15 +17,15 @@ BlockListResponse _$BlockListResponseFromJson(Map<String, dynamic> json) => Bloc
   name: json['name'] as String,
   team: json['team'] as String?,
   type: json['type'] as String,
-  updatedAt: _$JsonConverterFromJson<int, DateTime>(
+  updatedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['updated_at'],
     const EpochDateTimeConverter().fromJson,
   ),
-  words: (json['words'] as List<dynamic>).map((e) => e as String).toList(),
+  words: (json['words'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
 );
 
 Map<String, dynamic> _$BlockListResponseToJson(BlockListResponse instance) => <String, dynamic>{
-  'created_at': _$JsonConverterToJson<int, DateTime>(
+  'created_at': _$JsonConverterToJson<Object, DateTime>(
     instance.createdAt,
     const EpochDateTimeConverter().toJson,
   ),
@@ -35,7 +35,7 @@ Map<String, dynamic> _$BlockListResponseToJson(BlockListResponse instance) => <S
   'name': instance.name,
   'team': instance.team,
   'type': instance.type,
-  'updated_at': _$JsonConverterToJson<int, DateTime>(
+  'updated_at': _$JsonConverterToJson<Object, DateTime>(
     instance.updatedAt,
     const EpochDateTimeConverter().toJson,
   ),

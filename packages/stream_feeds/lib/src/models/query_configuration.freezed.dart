@@ -59,7 +59,8 @@ abstract mixin class $QueryConfigurationCopyWith<T extends Object, $Res> {
 }
 
 /// @nodoc
-class _$QueryConfigurationCopyWithImpl<T extends Object, $Res> implements $QueryConfigurationCopyWith<T, $Res> {
+class _$QueryConfigurationCopyWithImpl<T extends Object, $Res>
+    implements $QueryConfigurationCopyWith<T, $Res> {
   _$QueryConfigurationCopyWithImpl(this._self, this._then);
 
   final QueryConfiguration<T> _self;

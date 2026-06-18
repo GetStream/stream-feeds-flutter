@@ -25,6 +25,7 @@ class QueryCommentsResponse with _$QueryCommentsResponse {
   });
 
   @override
+  @JsonKey(defaultValue: [])
   final List<CommentResponse> comments;
 
   @override

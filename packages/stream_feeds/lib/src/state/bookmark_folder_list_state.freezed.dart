@@ -37,7 +37,8 @@ mixin _$BookmarkFolderListState {
               other.bookmarkFolders,
               bookmarkFolders,
             ) &&
-            (identical(other.pagination, pagination) || other.pagination == pagination));
+            (identical(other.pagination, pagination) ||
+                other.pagination == pagination));
   }
 
   @override
@@ -69,7 +70,8 @@ abstract mixin class $BookmarkFolderListStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$BookmarkFolderListStateCopyWithImpl<$Res> implements $BookmarkFolderListStateCopyWith<$Res> {
+class _$BookmarkFolderListStateCopyWithImpl<$Res>
+    implements $BookmarkFolderListStateCopyWith<$Res> {
   _$BookmarkFolderListStateCopyWithImpl(this._self, this._then);
 
   final BookmarkFolderListState _self;

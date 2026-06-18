@@ -32,6 +32,7 @@ class AggregatedActivityResponse with _$AggregatedActivityResponse {
   });
 
   @override
+  @JsonKey(defaultValue: [])
   final List<ActivityResponse> activities;
 
   @override

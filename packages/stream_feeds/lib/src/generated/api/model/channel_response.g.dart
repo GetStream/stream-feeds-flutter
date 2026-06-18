@@ -16,11 +16,11 @@ ChannelResponse _$ChannelResponseFromJson(
   config: json['config'] == null ? null : ChannelConfigWithInfo.fromJson(json['config'] as Map<String, dynamic>),
   cooldown: (json['cooldown'] as num?)?.toInt(),
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
   createdBy: json['created_by'] == null ? null : UserResponse.fromJson(json['created_by'] as Map<String, dynamic>),
-  custom: json['custom'] as Map<String, dynamic>,
-  deletedAt: _$JsonConverterFromJson<int, DateTime>(
+  custom: json['custom'] as Map<String, dynamic>? ?? {},
+  deletedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['deleted_at'],
     const EpochDateTimeConverter().fromJson,
   ),
@@ -28,12 +28,12 @@ ChannelResponse _$ChannelResponseFromJson(
   filterTags: (json['filter_tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
   frozen: json['frozen'] as bool,
   hidden: json['hidden'] as bool?,
-  hideMessagesBefore: _$JsonConverterFromJson<int, DateTime>(
+  hideMessagesBefore: _$JsonConverterFromJson<Object, DateTime>(
     json['hide_messages_before'],
     const EpochDateTimeConverter().fromJson,
   ),
   id: json['id'] as String,
-  lastMessageAt: _$JsonConverterFromJson<int, DateTime>(
+  lastMessageAt: _$JsonConverterFromJson<Object, DateTime>(
     json['last_message_at'],
     const EpochDateTimeConverter().fromJson,
   ),
@@ -42,7 +42,7 @@ ChannelResponse _$ChannelResponseFromJson(
       ?.map((e) => ChannelMemberResponse.fromJson(e as Map<String, dynamic>))
       .toList(),
   messageCount: (json['message_count'] as num?)?.toInt(),
-  muteExpiresAt: _$JsonConverterFromJson<int, DateTime>(
+  muteExpiresAt: _$JsonConverterFromJson<Object, DateTime>(
     json['mute_expires_at'],
     const EpochDateTimeConverter().fromJson,
   ),
@@ -50,14 +50,14 @@ ChannelResponse _$ChannelResponseFromJson(
   ownCapabilities: (json['own_capabilities'] as List<dynamic>?)
       ?.map(
         (e) => $enumDecode(
-          _$ChannelResponseOwnCapabilitiesEnumMap,
+          _$ChannelOwnCapabilityEnumMap,
           e,
-          unknownValue: ChannelResponseOwnCapabilities.unknown,
+          unknownValue: ChannelOwnCapability.unknown,
         ),
       )
       .toList(),
   team: json['team'] as String?,
-  truncatedAt: _$JsonConverterFromJson<int, DateTime>(
+  truncatedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['truncated_at'],
     const EpochDateTimeConverter().fromJson,
   ),
@@ -66,7 +66,7 @@ ChannelResponse _$ChannelResponseFromJson(
       : UserResponse.fromJson(json['truncated_by'] as Map<String, dynamic>),
   type: json['type'] as String,
   updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+    json['updated_at'] as Object,
   ),
 );
 
@@ -80,7 +80,7 @@ Map<String, dynamic> _$ChannelResponseToJson(ChannelResponse instance) => <Strin
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
   'created_by': instance.createdBy?.toJson(),
   'custom': instance.custom,
-  'deleted_at': _$JsonConverterToJson<int, DateTime>(
+  'deleted_at': _$JsonConverterToJson<Object, DateTime>(
     instance.deletedAt,
     const EpochDateTimeConverter().toJson,
   ),
@@ -88,26 +88,26 @@ Map<String, dynamic> _$ChannelResponseToJson(ChannelResponse instance) => <Strin
   'filter_tags': instance.filterTags,
   'frozen': instance.frozen,
   'hidden': instance.hidden,
-  'hide_messages_before': _$JsonConverterToJson<int, DateTime>(
+  'hide_messages_before': _$JsonConverterToJson<Object, DateTime>(
     instance.hideMessagesBefore,
     const EpochDateTimeConverter().toJson,
   ),
   'id': instance.id,
-  'last_message_at': _$JsonConverterToJson<int, DateTime>(
+  'last_message_at': _$JsonConverterToJson<Object, DateTime>(
     instance.lastMessageAt,
     const EpochDateTimeConverter().toJson,
   ),
   'member_count': instance.memberCount,
   'members': instance.members?.map((e) => e.toJson()).toList(),
   'message_count': instance.messageCount,
-  'mute_expires_at': _$JsonConverterToJson<int, DateTime>(
+  'mute_expires_at': _$JsonConverterToJson<Object, DateTime>(
     instance.muteExpiresAt,
     const EpochDateTimeConverter().toJson,
   ),
   'muted': instance.muted,
-  'own_capabilities': instance.ownCapabilities?.map((e) => _$ChannelResponseOwnCapabilitiesEnumMap[e]!).toList(),
+  'own_capabilities': instance.ownCapabilities?.map((e) => _$ChannelOwnCapabilityEnumMap[e]!).toList(),
   'team': instance.team,
-  'truncated_at': _$JsonConverterToJson<int, DateTime>(
+  'truncated_at': _$JsonConverterToJson<Object, DateTime>(
     instance.truncatedAt,
     const EpochDateTimeConverter().toJson,
   ),
@@ -121,49 +121,49 @@ Value? _$JsonConverterFromJson<Json, Value>(
   Value? Function(Json json) fromJson,
 ) => json == null ? null : fromJson(json as Json);
 
-const _$ChannelResponseOwnCapabilitiesEnumMap = {
-  ChannelResponseOwnCapabilities.banChannelMembers: 'ban-channel-members',
-  ChannelResponseOwnCapabilities.castPollVote: 'cast-poll-vote',
-  ChannelResponseOwnCapabilities.connectEvents: 'connect-events',
-  ChannelResponseOwnCapabilities.createAttachment: 'create-attachment',
-  ChannelResponseOwnCapabilities.deleteAnyMessage: 'delete-any-message',
-  ChannelResponseOwnCapabilities.deleteChannel: 'delete-channel',
-  ChannelResponseOwnCapabilities.deleteOwnMessage: 'delete-own-message',
-  ChannelResponseOwnCapabilities.deliveryEvents: 'delivery-events',
-  ChannelResponseOwnCapabilities.flagMessage: 'flag-message',
-  ChannelResponseOwnCapabilities.freezeChannel: 'freeze-channel',
-  ChannelResponseOwnCapabilities.joinChannel: 'join-channel',
-  ChannelResponseOwnCapabilities.leaveChannel: 'leave-channel',
-  ChannelResponseOwnCapabilities.muteChannel: 'mute-channel',
-  ChannelResponseOwnCapabilities.notifyChannel: 'notify-channel',
-  ChannelResponseOwnCapabilities.notifyGroup: 'notify-group',
-  ChannelResponseOwnCapabilities.notifyHere: 'notify-here',
-  ChannelResponseOwnCapabilities.notifyRole: 'notify-role',
-  ChannelResponseOwnCapabilities.pinMessage: 'pin-message',
-  ChannelResponseOwnCapabilities.queryPollVotes: 'query-poll-votes',
-  ChannelResponseOwnCapabilities.quoteMessage: 'quote-message',
-  ChannelResponseOwnCapabilities.readEvents: 'read-events',
-  ChannelResponseOwnCapabilities.searchMessages: 'search-messages',
-  ChannelResponseOwnCapabilities.sendCustomEvents: 'send-custom-events',
-  ChannelResponseOwnCapabilities.sendLinks: 'send-links',
-  ChannelResponseOwnCapabilities.sendMessage: 'send-message',
-  ChannelResponseOwnCapabilities.sendPoll: 'send-poll',
-  ChannelResponseOwnCapabilities.sendReaction: 'send-reaction',
-  ChannelResponseOwnCapabilities.sendReply: 'send-reply',
-  ChannelResponseOwnCapabilities.sendRestrictedVisibilityMessage: 'send-restricted-visibility-message',
-  ChannelResponseOwnCapabilities.sendTypingEvents: 'send-typing-events',
-  ChannelResponseOwnCapabilities.setChannelCooldown: 'set-channel-cooldown',
-  ChannelResponseOwnCapabilities.shareLocation: 'share-location',
-  ChannelResponseOwnCapabilities.skipSlowMode: 'skip-slow-mode',
-  ChannelResponseOwnCapabilities.slowMode: 'slow-mode',
-  ChannelResponseOwnCapabilities.typingEvents: 'typing-events',
-  ChannelResponseOwnCapabilities.updateAnyMessage: 'update-any-message',
-  ChannelResponseOwnCapabilities.updateChannel: 'update-channel',
-  ChannelResponseOwnCapabilities.updateChannelMembers: 'update-channel-members',
-  ChannelResponseOwnCapabilities.updateOwnMessage: 'update-own-message',
-  ChannelResponseOwnCapabilities.updateThread: 'update-thread',
-  ChannelResponseOwnCapabilities.uploadFile: 'upload-file',
-  ChannelResponseOwnCapabilities.unknown: '_unknown',
+const _$ChannelOwnCapabilityEnumMap = {
+  ChannelOwnCapability.banChannelMembers: 'ban-channel-members',
+  ChannelOwnCapability.castPollVote: 'cast-poll-vote',
+  ChannelOwnCapability.connectEvents: 'connect-events',
+  ChannelOwnCapability.createAttachment: 'create-attachment',
+  ChannelOwnCapability.deleteAnyMessage: 'delete-any-message',
+  ChannelOwnCapability.deleteChannel: 'delete-channel',
+  ChannelOwnCapability.deleteOwnMessage: 'delete-own-message',
+  ChannelOwnCapability.deliveryEvents: 'delivery-events',
+  ChannelOwnCapability.flagMessage: 'flag-message',
+  ChannelOwnCapability.freezeChannel: 'freeze-channel',
+  ChannelOwnCapability.joinChannel: 'join-channel',
+  ChannelOwnCapability.leaveChannel: 'leave-channel',
+  ChannelOwnCapability.muteChannel: 'mute-channel',
+  ChannelOwnCapability.notifyChannel: 'notify-channel',
+  ChannelOwnCapability.notifyGroup: 'notify-group',
+  ChannelOwnCapability.notifyHere: 'notify-here',
+  ChannelOwnCapability.notifyRole: 'notify-role',
+  ChannelOwnCapability.pinMessage: 'pin-message',
+  ChannelOwnCapability.queryPollVotes: 'query-poll-votes',
+  ChannelOwnCapability.quoteMessage: 'quote-message',
+  ChannelOwnCapability.readEvents: 'read-events',
+  ChannelOwnCapability.searchMessages: 'search-messages',
+  ChannelOwnCapability.sendCustomEvents: 'send-custom-events',
+  ChannelOwnCapability.sendLinks: 'send-links',
+  ChannelOwnCapability.sendMessage: 'send-message',
+  ChannelOwnCapability.sendPoll: 'send-poll',
+  ChannelOwnCapability.sendReaction: 'send-reaction',
+  ChannelOwnCapability.sendReply: 'send-reply',
+  ChannelOwnCapability.sendRestrictedVisibilityMessage: 'send-restricted-visibility-message',
+  ChannelOwnCapability.sendTypingEvents: 'send-typing-events',
+  ChannelOwnCapability.setChannelCooldown: 'set-channel-cooldown',
+  ChannelOwnCapability.shareLocation: 'share-location',
+  ChannelOwnCapability.skipSlowMode: 'skip-slow-mode',
+  ChannelOwnCapability.slowMode: 'slow-mode',
+  ChannelOwnCapability.typingEvents: 'typing-events',
+  ChannelOwnCapability.updateAnyMessage: 'update-any-message',
+  ChannelOwnCapability.updateChannel: 'update-channel',
+  ChannelOwnCapability.updateChannelMembers: 'update-channel-members',
+  ChannelOwnCapability.updateOwnMessage: 'update-own-message',
+  ChannelOwnCapability.updateThread: 'update-thread',
+  ChannelOwnCapability.uploadFile: 'upload-file',
+  ChannelOwnCapability.unknown: '_unknown',
 };
 
 Json? _$JsonConverterToJson<Json, Value>(

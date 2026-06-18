@@ -10,7 +10,7 @@ ActivitySelectorConfig _$ActivitySelectorConfigFromJson(
   Map<String, dynamic> json,
 ) => ActivitySelectorConfig(
   cutoffTime: const EpochDateTimeConverter().fromJson(
-    (json['cutoff_time'] as num).toInt(),
+    json['cutoff_time'] as Object,
   ),
   cutoffWindow: json['cutoff_window'] as String?,
   filter: json['filter'] as Map<String, dynamic>?,

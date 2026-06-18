@@ -11,10 +11,10 @@ FeedsReactionGroupResponse _$FeedsReactionGroupResponseFromJson(
 ) => FeedsReactionGroupResponse(
   count: (json['count'] as num).toInt(),
   firstReactionAt: const EpochDateTimeConverter().fromJson(
-    (json['first_reaction_at'] as num).toInt(),
+    json['first_reaction_at'] as Object,
   ),
   lastReactionAt: const EpochDateTimeConverter().fromJson(
-    (json['last_reaction_at'] as num).toInt(),
+    json['last_reaction_at'] as Object,
   ),
 );
 

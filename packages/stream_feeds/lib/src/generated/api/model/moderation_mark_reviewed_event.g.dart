@@ -10,12 +10,12 @@ ModerationMarkReviewedEvent _$ModerationMarkReviewedEventFromJson(
   Map<String, dynamic> json,
 ) => ModerationMarkReviewedEvent(
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
-  custom: json['custom'] as Map<String, dynamic>,
+  custom: json['custom'] as Map<String, dynamic>? ?? {},
   item: ReviewQueueItemResponse.fromJson(json['item'] as Map<String, dynamic>),
   message: json['message'] == null ? null : MessageResponse.fromJson(json['message'] as Map<String, dynamic>),
-  receivedAt: _$JsonConverterFromJson<int, DateTime>(
+  receivedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['received_at'],
     const EpochDateTimeConverter().fromJson,
   ),
@@ -29,7 +29,7 @@ Map<String, dynamic> _$ModerationMarkReviewedEventToJson(
   'custom': instance.custom,
   'item': instance.item.toJson(),
   'message': instance.message?.toJson(),
-  'received_at': _$JsonConverterToJson<int, DateTime>(
+  'received_at': _$JsonConverterToJson<Object, DateTime>(
     instance.receivedAt,
     const EpochDateTimeConverter().toJson,
   ),

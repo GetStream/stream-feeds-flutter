@@ -6,8 +6,10 @@ part of 'own_batch_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-OwnBatchRequest _$OwnBatchRequestFromJson(Map<String, dynamic> json) => OwnBatchRequest(
-  feeds: (json['feeds'] as List<dynamic>).map((e) => e as String).toList(),
+OwnBatchRequest _$OwnBatchRequestFromJson(
+  Map<String, dynamic> json,
+) => OwnBatchRequest(
+  feeds: (json['feeds'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
   fields: (json['fields'] as List<dynamic>?)?.map((e) => e as String).toList(),
 );
 

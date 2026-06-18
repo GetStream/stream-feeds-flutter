@@ -15,9 +15,9 @@ NotificationFeedUpdatedEvent _$NotificationFeedUpdatedEventFromJson(
       )
       .toList(),
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
-  custom: json['custom'] as Map<String, dynamic>,
+  custom: json['custom'] as Map<String, dynamic>? ?? {},
   feedVisibility: json['feed_visibility'] as String?,
   fid: json['fid'] as String,
   notificationStatus: json['notification_status'] == null
@@ -25,7 +25,7 @@ NotificationFeedUpdatedEvent _$NotificationFeedUpdatedEventFromJson(
       : NotificationStatusResponse.fromJson(
           json['notification_status'] as Map<String, dynamic>,
         ),
-  receivedAt: _$JsonConverterFromJson<int, DateTime>(
+  receivedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['received_at'],
     const EpochDateTimeConverter().fromJson,
   ),
@@ -42,7 +42,7 @@ Map<String, dynamic> _$NotificationFeedUpdatedEventToJson(
   'feed_visibility': instance.feedVisibility,
   'fid': instance.fid,
   'notification_status': instance.notificationStatus?.toJson(),
-  'received_at': _$JsonConverterToJson<int, DateTime>(
+  'received_at': _$JsonConverterToJson<Object, DateTime>(
     instance.receivedAt,
     const EpochDateTimeConverter().toJson,
   ),

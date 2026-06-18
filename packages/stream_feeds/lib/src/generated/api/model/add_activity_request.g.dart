@@ -16,7 +16,7 @@ AddActivityRequest _$AddActivityRequestFromJson(Map<String, dynamic> json) => Ad
   custom: json['custom'] as Map<String, dynamic>?,
   enrichOwnFields: json['enrich_own_fields'] as bool?,
   expiresAt: json['expires_at'] as String?,
-  feeds: (json['feeds'] as List<dynamic>).map((e) => e as String).toList(),
+  feeds: (json['feeds'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
   filterTags: (json['filter_tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
   id: json['id'] as String?,
   interestTags: (json['interest_tags'] as List<dynamic>?)?.map((e) => e as String).toList(),

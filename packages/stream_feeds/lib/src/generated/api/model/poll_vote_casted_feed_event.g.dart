@@ -10,16 +10,16 @@ PollVoteCastedFeedEvent _$PollVoteCastedFeedEventFromJson(
   Map<String, dynamic> json,
 ) => PollVoteCastedFeedEvent(
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
-  custom: json['custom'] as Map<String, dynamic>,
+  custom: json['custom'] as Map<String, dynamic>? ?? {},
   feedVisibility: json['feed_visibility'] as String?,
   fid: json['fid'] as String,
   poll: PollResponseData.fromJson(json['poll'] as Map<String, dynamic>),
   pollVote: PollVoteResponseData.fromJson(
     json['poll_vote'] as Map<String, dynamic>,
   ),
-  receivedAt: _$JsonConverterFromJson<int, DateTime>(
+  receivedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['received_at'],
     const EpochDateTimeConverter().fromJson,
   ),
@@ -35,7 +35,7 @@ Map<String, dynamic> _$PollVoteCastedFeedEventToJson(
   'fid': instance.fid,
   'poll': instance.poll.toJson(),
   'poll_vote': instance.pollVote.toJson(),
-  'received_at': _$JsonConverterToJson<int, DateTime>(
+  'received_at': _$JsonConverterToJson<Object, DateTime>(
     instance.receivedAt,
     const EpochDateTimeConverter().toJson,
   ),

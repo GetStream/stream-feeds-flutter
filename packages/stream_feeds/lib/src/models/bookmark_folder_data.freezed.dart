@@ -24,21 +24,24 @@ mixin _$BookmarkFolderData {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $BookmarkFolderDataCopyWith<BookmarkFolderData> get copyWith => _$BookmarkFolderDataCopyWithImpl<BookmarkFolderData>(
-    this as BookmarkFolderData,
-    _$identity,
-  );
+  $BookmarkFolderDataCopyWith<BookmarkFolderData> get copyWith =>
+      _$BookmarkFolderDataCopyWithImpl<BookmarkFolderData>(
+        this as BookmarkFolderData,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is BookmarkFolderData &&
-            (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.user, user) || other.user == user) &&
-            (identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
             const DeepCollectionEquality().equals(other.custom, custom));
   }
 
@@ -77,7 +80,8 @@ abstract mixin class $BookmarkFolderDataCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$BookmarkFolderDataCopyWithImpl<$Res> implements $BookmarkFolderDataCopyWith<$Res> {
+class _$BookmarkFolderDataCopyWithImpl<$Res>
+    implements $BookmarkFolderDataCopyWith<$Res> {
   _$BookmarkFolderDataCopyWithImpl(this._self, this._then);
 
   final BookmarkFolderData _self;

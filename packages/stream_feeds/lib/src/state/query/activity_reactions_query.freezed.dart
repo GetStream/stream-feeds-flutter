@@ -35,12 +35,14 @@ mixin _$ActivityReactionsQuery {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ActivityReactionsQuery &&
-            (identical(other.activityId, activityId) || other.activityId == activityId) &&
+            (identical(other.activityId, activityId) ||
+                other.activityId == activityId) &&
             (identical(other.filter, filter) || other.filter == filter) &&
             const DeepCollectionEquality().equals(other.sort, sort) &&
             (identical(other.limit, limit) || other.limit == limit) &&
             (identical(other.next, next) || other.next == next) &&
-            (identical(other.previous, previous) || other.previous == previous));
+            (identical(other.previous, previous) ||
+                other.previous == previous));
   }
 
   @override
@@ -78,7 +80,8 @@ abstract mixin class $ActivityReactionsQueryCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ActivityReactionsQueryCopyWithImpl<$Res> implements $ActivityReactionsQueryCopyWith<$Res> {
+class _$ActivityReactionsQueryCopyWithImpl<$Res>
+    implements $ActivityReactionsQueryCopyWith<$Res> {
   _$ActivityReactionsQueryCopyWithImpl(this._self, this._then);
 
   final ActivityReactionsQuery _self;

@@ -9,9 +9,13 @@ part of 'update_collections_request.dart';
 UpdateCollectionsRequest _$UpdateCollectionsRequestFromJson(
   Map<String, dynamic> json,
 ) => UpdateCollectionsRequest(
-  collections: (json['collections'] as List<dynamic>)
-      .map((e) => UpdateCollectionRequest.fromJson(e as Map<String, dynamic>))
-      .toList(),
+  collections:
+      (json['collections'] as List<dynamic>?)
+          ?.map(
+            (e) => UpdateCollectionRequest.fromJson(e as Map<String, dynamic>),
+          )
+          .toList() ??
+      [],
 );
 
 Map<String, dynamic> _$UpdateCollectionsRequestToJson(

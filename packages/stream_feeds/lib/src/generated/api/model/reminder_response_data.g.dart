@@ -12,16 +12,16 @@ ReminderResponseData _$ReminderResponseDataFromJson(
   channel: json['channel'] == null ? null : ChannelResponse.fromJson(json['channel'] as Map<String, dynamic>),
   channelCid: json['channel_cid'] as String,
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
   message: json['message'] == null ? null : MessageResponse.fromJson(json['message'] as Map<String, dynamic>),
   messageId: json['message_id'] as String,
-  remindAt: _$JsonConverterFromJson<int, DateTime>(
+  remindAt: _$JsonConverterFromJson<Object, DateTime>(
     json['remind_at'],
     const EpochDateTimeConverter().fromJson,
   ),
   updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+    json['updated_at'] as Object,
   ),
   user: json['user'] == null ? null : UserResponse.fromJson(json['user'] as Map<String, dynamic>),
   userId: json['user_id'] as String,
@@ -35,7 +35,7 @@ Map<String, dynamic> _$ReminderResponseDataToJson(
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
   'message': instance.message?.toJson(),
   'message_id': instance.messageId,
-  'remind_at': _$JsonConverterToJson<int, DateTime>(
+  'remind_at': _$JsonConverterToJson<Object, DateTime>(
     instance.remindAt,
     const EpochDateTimeConverter().toJson,
   ),

@@ -8,15 +8,15 @@ part of 'activity_pinned_event.dart';
 
 ActivityPinnedEvent _$ActivityPinnedEventFromJson(Map<String, dynamic> json) => ActivityPinnedEvent(
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
-  custom: json['custom'] as Map<String, dynamic>,
+  custom: json['custom'] as Map<String, dynamic>? ?? {},
   feedVisibility: json['feed_visibility'] as String?,
   fid: json['fid'] as String,
   pinnedActivity: PinActivityResponse.fromJson(
     json['pinned_activity'] as Map<String, dynamic>,
   ),
-  receivedAt: _$JsonConverterFromJson<int, DateTime>(
+  receivedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['received_at'],
     const EpochDateTimeConverter().fromJson,
   ),
@@ -36,7 +36,7 @@ Map<String, dynamic> _$ActivityPinnedEventToJson(
   'feed_visibility': instance.feedVisibility,
   'fid': instance.fid,
   'pinned_activity': instance.pinnedActivity.toJson(),
-  'received_at': _$JsonConverterToJson<int, DateTime>(
+  'received_at': _$JsonConverterToJson<Object, DateTime>(
     instance.receivedAt,
     const EpochDateTimeConverter().toJson,
   ),

@@ -21,7 +21,8 @@ mixin _$ActivityUpdateCommentRequest {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $ActivityUpdateCommentRequestCopyWith<ActivityUpdateCommentRequest> get copyWith =>
+  $ActivityUpdateCommentRequestCopyWith<ActivityUpdateCommentRequest>
+  get copyWith =>
       _$ActivityUpdateCommentRequestCopyWithImpl<ActivityUpdateCommentRequest>(
         this as ActivityUpdateCommentRequest,
         _$identity,
@@ -34,7 +35,8 @@ mixin _$ActivityUpdateCommentRequest {
             other is ActivityUpdateCommentRequest &&
             (identical(other.comment, comment) || other.comment == comment) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
-            (identical(other.skipPush, skipPush) || other.skipPush == skipPush));
+            (identical(other.skipPush, skipPush) ||
+                other.skipPush == skipPush));
   }
 
   @override
@@ -62,7 +64,8 @@ abstract mixin class $ActivityUpdateCommentRequestCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ActivityUpdateCommentRequestCopyWithImpl<$Res> implements $ActivityUpdateCommentRequestCopyWith<$Res> {
+class _$ActivityUpdateCommentRequestCopyWithImpl<$Res>
+    implements $ActivityUpdateCommentRequestCopyWith<$Res> {
   _$ActivityUpdateCommentRequestCopyWithImpl(this._self, this._then);
 
   final ActivityUpdateCommentRequest _self;

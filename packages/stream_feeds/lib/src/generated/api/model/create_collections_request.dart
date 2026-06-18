@@ -22,6 +22,7 @@ class CreateCollectionsRequest with _$CreateCollectionsRequest {
   });
 
   @override
+  @JsonKey(defaultValue: [])
   final List<CollectionRequest> collections;
 
   Map<String, dynamic> toJson() => _$CreateCollectionsRequestToJson(this);

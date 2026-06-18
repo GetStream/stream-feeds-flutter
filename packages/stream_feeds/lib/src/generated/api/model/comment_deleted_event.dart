@@ -36,6 +36,7 @@ class CommentDeletedEvent extends core.WsEvent with _$CommentDeletedEvent {
   final DateTime createdAt;
 
   @override
+  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override

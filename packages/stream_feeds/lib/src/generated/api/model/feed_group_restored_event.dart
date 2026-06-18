@@ -32,6 +32,7 @@ class FeedGroupRestoredEvent extends core.WsEvent with _$FeedGroupRestoredEvent 
   final DateTime createdAt;
 
   @override
+  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override

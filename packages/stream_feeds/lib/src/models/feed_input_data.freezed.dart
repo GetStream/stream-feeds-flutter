@@ -24,19 +24,22 @@ mixin _$FeedInputData {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $FeedInputDataCopyWith<FeedInputData> get copyWith => _$FeedInputDataCopyWithImpl<FeedInputData>(
-    this as FeedInputData,
-    _$identity,
-  );
+  $FeedInputDataCopyWith<FeedInputData> get copyWith =>
+      _$FeedInputDataCopyWithImpl<FeedInputData>(
+        this as FeedInputData,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is FeedInputData &&
-            (identical(other.description, description) || other.description == description) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.visibility, visibility) || other.visibility == visibility) &&
+            (identical(other.visibility, visibility) ||
+                other.visibility == visibility) &&
             const DeepCollectionEquality().equals(
               other.filterTags,
               filterTags,
@@ -80,7 +83,8 @@ abstract mixin class $FeedInputDataCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$FeedInputDataCopyWithImpl<$Res> implements $FeedInputDataCopyWith<$Res> {
+class _$FeedInputDataCopyWithImpl<$Res>
+    implements $FeedInputDataCopyWith<$Res> {
   _$FeedInputDataCopyWithImpl(this._self, this._then);
 
   final FeedInputData _self;

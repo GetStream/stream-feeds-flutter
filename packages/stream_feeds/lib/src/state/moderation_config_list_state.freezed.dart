@@ -32,7 +32,8 @@ mixin _$ModerationConfigListState {
         (other.runtimeType == runtimeType &&
             other is ModerationConfigListState &&
             const DeepCollectionEquality().equals(other.configs, configs) &&
-            (identical(other.pagination, pagination) || other.pagination == pagination));
+            (identical(other.pagination, pagination) ||
+                other.pagination == pagination));
   }
 
   @override
@@ -59,7 +60,8 @@ abstract mixin class $ModerationConfigListStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ModerationConfigListStateCopyWithImpl<$Res> implements $ModerationConfigListStateCopyWith<$Res> {
+class _$ModerationConfigListStateCopyWithImpl<$Res>
+    implements $ModerationConfigListStateCopyWith<$Res> {
   _$ModerationConfigListStateCopyWithImpl(this._self, this._then);
 
   final ModerationConfigListState _self;

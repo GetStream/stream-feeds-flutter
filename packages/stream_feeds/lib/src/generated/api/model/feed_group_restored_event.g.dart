@@ -10,13 +10,13 @@ FeedGroupRestoredEvent _$FeedGroupRestoredEventFromJson(
   Map<String, dynamic> json,
 ) => FeedGroupRestoredEvent(
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
-  custom: json['custom'] as Map<String, dynamic>,
+  custom: json['custom'] as Map<String, dynamic>? ?? {},
   feedVisibility: json['feed_visibility'] as String?,
   fid: json['fid'] as String,
   groupId: json['group_id'] as String,
-  receivedAt: _$JsonConverterFromJson<int, DateTime>(
+  receivedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['received_at'],
     const EpochDateTimeConverter().fromJson,
   ),
@@ -31,7 +31,7 @@ Map<String, dynamic> _$FeedGroupRestoredEventToJson(
   'feed_visibility': instance.feedVisibility,
   'fid': instance.fid,
   'group_id': instance.groupId,
-  'received_at': _$JsonConverterToJson<int, DateTime>(
+  'received_at': _$JsonConverterToJson<Object, DateTime>(
     instance.receivedAt,
     const EpochDateTimeConverter().toJson,
   ),

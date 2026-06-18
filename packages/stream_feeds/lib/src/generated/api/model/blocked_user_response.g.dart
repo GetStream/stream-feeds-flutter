@@ -12,7 +12,7 @@ BlockedUserResponse _$BlockedUserResponseFromJson(Map<String, dynamic> json) => 
   ),
   blockedUserId: json['blocked_user_id'] as String,
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
   user: UserResponse.fromJson(json['user'] as Map<String, dynamic>),
   userId: json['user_id'] as String,

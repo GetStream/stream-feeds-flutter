@@ -34,6 +34,7 @@ class FeedCreatedEvent extends core.WsEvent with _$FeedCreatedEvent {
   final DateTime createdAt;
 
   @override
+  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override
@@ -46,6 +47,7 @@ class FeedCreatedEvent extends core.WsEvent with _$FeedCreatedEvent {
   final String fid;
 
   @override
+  @JsonKey(defaultValue: [])
   final List<FeedMemberResponse> members;
 
   @override

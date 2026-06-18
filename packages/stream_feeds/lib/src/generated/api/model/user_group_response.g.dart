@@ -8,7 +8,7 @@ part of 'user_group_response.dart';
 
 UserGroupResponse _$UserGroupResponseFromJson(Map<String, dynamic> json) => UserGroupResponse(
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
   createdBy: json['created_by'] as String?,
   description: json['description'] as String?,
@@ -16,7 +16,7 @@ UserGroupResponse _$UserGroupResponseFromJson(Map<String, dynamic> json) => User
   name: json['name'] as String,
   teamId: json['team_id'] as String?,
   updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+    json['updated_at'] as Object,
   ),
 );
 

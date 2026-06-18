@@ -38,8 +38,10 @@ mixin _$ActivityAddCommentRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ActivityAddCommentRequest &&
-            (identical(other.activityId, activityId) || other.activityId == activityId) &&
-            (identical(other.activityType, activityType) || other.activityType == activityType) &&
+            (identical(other.activityId, activityId) ||
+                other.activityId == activityId) &&
+            (identical(other.activityType, activityType) ||
+                other.activityType == activityType) &&
             const DeepCollectionEquality().equals(
               other.attachments,
               attachments,
@@ -53,12 +55,14 @@ mixin _$ActivityAddCommentRequest {
                   other.createNotificationActivity,
                   createNotificationActivity,
                 ) ||
-                other.createNotificationActivity == createNotificationActivity) &&
+                other.createNotificationActivity ==
+                    createNotificationActivity) &&
             const DeepCollectionEquality().equals(
               other.mentionedUserIds,
               mentionedUserIds,
             ) &&
-            (identical(other.parentId, parentId) || other.parentId == parentId) &&
+            (identical(other.parentId, parentId) ||
+                other.parentId == parentId) &&
             const DeepCollectionEquality().equals(other.custom, custom));
   }
 
@@ -103,7 +107,8 @@ abstract mixin class $ActivityAddCommentRequestCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ActivityAddCommentRequestCopyWithImpl<$Res> implements $ActivityAddCommentRequestCopyWith<$Res> {
+class _$ActivityAddCommentRequestCopyWithImpl<$Res>
+    implements $ActivityAddCommentRequestCopyWith<$Res> {
   _$ActivityAddCommentRequestCopyWithImpl(this._self, this._then);
 
   final ActivityAddCommentRequest _self;

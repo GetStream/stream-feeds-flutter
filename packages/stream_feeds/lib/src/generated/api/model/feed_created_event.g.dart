@@ -6,25 +6,27 @@ part of 'feed_created_event.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-FeedCreatedEvent _$FeedCreatedEventFromJson(Map<String, dynamic> json) => FeedCreatedEvent(
+FeedCreatedEvent _$FeedCreatedEventFromJson(
+  Map<String, dynamic> json,
+) => FeedCreatedEvent(
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
-  custom: json['custom'] as Map<String, dynamic>,
+  custom: json['custom'] as Map<String, dynamic>? ?? {},
   feed: FeedResponse.fromJson(json['feed'] as Map<String, dynamic>),
   feedVisibility: json['feed_visibility'] as String?,
   fid: json['fid'] as String,
-  members: (json['members'] as List<dynamic>)
-      .map((e) => FeedMemberResponse.fromJson(e as Map<String, dynamic>))
-      .toList(),
-  receivedAt: _$JsonConverterFromJson<int, DateTime>(
+  members:
+      (json['members'] as List<dynamic>?)
+          ?.map((e) => FeedMemberResponse.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+  receivedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['received_at'],
     const EpochDateTimeConverter().fromJson,
   ),
   type: json['type'] as String,
-  user: UserResponseCommonFields.fromJson(
-    json['user'] as Map<String, dynamic>,
-  ),
+  user: UserResponseCommonFields.fromJson(json['user'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$FeedCreatedEventToJson(FeedCreatedEvent instance) => <String, dynamic>{
@@ -34,7 +36,7 @@ Map<String, dynamic> _$FeedCreatedEventToJson(FeedCreatedEvent instance) => <Str
   'feed_visibility': instance.feedVisibility,
   'fid': instance.fid,
   'members': instance.members.map((e) => e.toJson()).toList(),
-  'received_at': _$JsonConverterToJson<int, DateTime>(
+  'received_at': _$JsonConverterToJson<Object, DateTime>(
     instance.receivedAt,
     const EpochDateTimeConverter().toJson,
   ),

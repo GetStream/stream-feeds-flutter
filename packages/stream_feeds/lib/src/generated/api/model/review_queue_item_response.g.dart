@@ -9,22 +9,23 @@ part of 'review_queue_item_response.dart';
 ReviewQueueItemResponse _$ReviewQueueItemResponseFromJson(
   Map<String, dynamic> json,
 ) => ReviewQueueItemResponse(
-  actions: (json['actions'] as List<dynamic>)
-      .map((e) => ActionLogResponse.fromJson(e as Map<String, dynamic>))
-      .toList(),
+  actions:
+      (json['actions'] as List<dynamic>?)?.map((e) => ActionLogResponse.fromJson(e as Map<String, dynamic>)).toList() ??
+      [],
   activity: json['activity'] == null ? null : EnrichedActivity.fromJson(json['activity'] as Map<String, dynamic>),
   aiTextSeverity: json['ai_text_severity'] as String,
   appeal: json['appeal'] == null ? null : AppealItemResponse.fromJson(json['appeal'] as Map<String, dynamic>),
   assignedTo: json['assigned_to'] == null ? null : UserResponse.fromJson(json['assigned_to'] as Map<String, dynamic>),
-  bans: (json['bans'] as List<dynamic>).map((e) => BanInfoResponse.fromJson(e as Map<String, dynamic>)).toList(),
+  bans:
+      (json['bans'] as List<dynamic>?)?.map((e) => BanInfoResponse.fromJson(e as Map<String, dynamic>)).toList() ?? [],
   call: json['call'] == null ? null : CallResponse.fromJson(json['call'] as Map<String, dynamic>),
-  completedAt: _$JsonConverterFromJson<int, DateTime>(
+  completedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['completed_at'],
     const EpochDateTimeConverter().fromJson,
   ),
   configKey: json['config_key'] as String?,
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
   entityCreator: json['entity_creator'] == null
       ? null
@@ -35,7 +36,7 @@ ReviewQueueItemResponse _$ReviewQueueItemResponseFromJson(
   entityId: json['entity_id'] as String,
   entityType: json['entity_type'] as String,
   escalated: json['escalated'] as bool,
-  escalatedAt: _$JsonConverterFromJson<int, DateTime>(
+  escalatedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['escalated_at'],
     const EpochDateTimeConverter().fromJson,
   ),
@@ -63,12 +64,16 @@ ReviewQueueItemResponse _$ReviewQueueItemResponseFromJson(
       : FeedsV3CommentResponse.fromJson(
           json['feeds_v3_comment'] as Map<String, dynamic>,
         ),
-  flags: (json['flags'] as List<dynamic>)
-      .map((e) => ModerationFlagResponse.fromJson(e as Map<String, dynamic>))
-      .toList(),
+  flags:
+      (json['flags'] as List<dynamic>?)
+          ?.map(
+            (e) => ModerationFlagResponse.fromJson(e as Map<String, dynamic>),
+          )
+          .toList() ??
+      [],
   flagsCount: (json['flags_count'] as num).toInt(),
   id: json['id'] as String,
-  languages: (json['languages'] as List<dynamic>).map((e) => e as String).toList(),
+  languages: (json['languages'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
   latestModeratorAction: json['latest_moderator_action'] as String,
   message: json['message'] == null ? null : ChatMessageResponse.fromJson(json['message'] as Map<String, dynamic>),
   moderationPayload: json['moderation_payload'] == null
@@ -78,7 +83,7 @@ ReviewQueueItemResponse _$ReviewQueueItemResponseFromJson(
         ),
   reaction: json['reaction'] == null ? null : Reaction.fromJson(json['reaction'] as Map<String, dynamic>),
   recommendedAction: json['recommended_action'] as String,
-  reviewedAt: _$JsonConverterFromJson<int, DateTime>(
+  reviewedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['reviewed_at'],
     const EpochDateTimeConverter().fromJson,
   ),
@@ -87,7 +92,7 @@ ReviewQueueItemResponse _$ReviewQueueItemResponseFromJson(
   status: json['status'] as String,
   teams: (json['teams'] as List<dynamic>?)?.map((e) => e as String).toList(),
   updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+    json['updated_at'] as Object,
   ),
 );
 
@@ -101,7 +106,7 @@ Map<String, dynamic> _$ReviewQueueItemResponseToJson(
   'assigned_to': instance.assignedTo?.toJson(),
   'bans': instance.bans.map((e) => e.toJson()).toList(),
   'call': instance.call?.toJson(),
-  'completed_at': _$JsonConverterToJson<int, DateTime>(
+  'completed_at': _$JsonConverterToJson<Object, DateTime>(
     instance.completedAt,
     const EpochDateTimeConverter().toJson,
   ),
@@ -112,7 +117,7 @@ Map<String, dynamic> _$ReviewQueueItemResponseToJson(
   'entity_id': instance.entityId,
   'entity_type': instance.entityType,
   'escalated': instance.escalated,
-  'escalated_at': _$JsonConverterToJson<int, DateTime>(
+  'escalated_at': _$JsonConverterToJson<Object, DateTime>(
     instance.escalatedAt,
     const EpochDateTimeConverter().toJson,
   ),
@@ -131,7 +136,7 @@ Map<String, dynamic> _$ReviewQueueItemResponseToJson(
   'moderation_payload': instance.moderationPayload?.toJson(),
   'reaction': instance.reaction?.toJson(),
   'recommended_action': instance.recommendedAction,
-  'reviewed_at': _$JsonConverterToJson<int, DateTime>(
+  'reviewed_at': _$JsonConverterToJson<Object, DateTime>(
     instance.reviewedAt,
     const EpochDateTimeConverter().toJson,
   ),

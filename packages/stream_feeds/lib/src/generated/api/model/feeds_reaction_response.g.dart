@@ -12,12 +12,12 @@ FeedsReactionResponse _$FeedsReactionResponseFromJson(
   activityId: json['activity_id'] as String,
   commentId: json['comment_id'] as String?,
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
   custom: json['custom'] as Map<String, dynamic>?,
   type: json['type'] as String,
   updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+    json['updated_at'] as Object,
   ),
   user: UserResponse.fromJson(json['user'] as Map<String, dynamic>),
 );

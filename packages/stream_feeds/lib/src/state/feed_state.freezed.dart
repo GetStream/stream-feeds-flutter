@@ -31,7 +31,8 @@ mixin _$FeedState {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $FeedStateCopyWith<FeedState> get copyWith => _$FeedStateCopyWithImpl<FeedState>(this as FeedState, _$identity);
+  $FeedStateCopyWith<FeedState> get copyWith =>
+      _$FeedStateCopyWithImpl<FeedState>(this as FeedState, _$identity);
 
   @override
   bool operator ==(Object other) {
@@ -39,7 +40,8 @@ mixin _$FeedState {
         (other.runtimeType == runtimeType &&
             other is FeedState &&
             (identical(other.fid, fid) || other.fid == fid) &&
-            (identical(other.feedQuery, feedQuery) || other.feedQuery == feedQuery) &&
+            (identical(other.feedQuery, feedQuery) ||
+                other.feedQuery == feedQuery) &&
             const DeepCollectionEquality().equals(
               other.activities,
               activities,
@@ -56,7 +58,8 @@ mixin _$FeedState {
               followRequests,
             ) &&
             const DeepCollectionEquality().equals(other.members, members) &&
-            (identical(other.membersPagination, membersPagination) || other.membersPagination == membersPagination) &&
+            (identical(other.membersPagination, membersPagination) ||
+                other.membersPagination == membersPagination) &&
             const DeepCollectionEquality().equals(
               other.pinnedActivities,
               pinnedActivities,
@@ -93,7 +96,8 @@ mixin _$FeedState {
 
 /// @nodoc
 abstract mixin class $FeedStateCopyWith<$Res> {
-  factory $FeedStateCopyWith(FeedState value, $Res Function(FeedState) _then) = _$FeedStateCopyWithImpl;
+  factory $FeedStateCopyWith(FeedState value, $Res Function(FeedState) _then) =
+      _$FeedStateCopyWithImpl;
   @useResult
   $Res call({
     FeedId fid,

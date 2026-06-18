@@ -8,13 +8,13 @@ part of 'follow_deleted_event.dart';
 
 FollowDeletedEvent _$FollowDeletedEventFromJson(Map<String, dynamic> json) => FollowDeletedEvent(
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
-  custom: json['custom'] as Map<String, dynamic>,
+  custom: json['custom'] as Map<String, dynamic>? ?? {},
   feedVisibility: json['feed_visibility'] as String?,
   fid: json['fid'] as String,
   follow: FollowResponse.fromJson(json['follow'] as Map<String, dynamic>),
-  receivedAt: _$JsonConverterFromJson<int, DateTime>(
+  receivedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['received_at'],
     const EpochDateTimeConverter().fromJson,
   ),
@@ -27,7 +27,7 @@ Map<String, dynamic> _$FollowDeletedEventToJson(FollowDeletedEvent instance) => 
   'feed_visibility': instance.feedVisibility,
   'fid': instance.fid,
   'follow': instance.follow.toJson(),
-  'received_at': _$JsonConverterToJson<int, DateTime>(
+  'received_at': _$JsonConverterToJson<Object, DateTime>(
     instance.receivedAt,
     const EpochDateTimeConverter().toJson,
   ),

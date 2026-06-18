@@ -10,15 +10,15 @@ UserReactivatedEvent _$UserReactivatedEventFromJson(
   Map<String, dynamic> json,
 ) => UserReactivatedEvent(
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
   createdBy: json['created_by'] == null
       ? null
       : UserResponseCommonFields.fromJson(
           json['created_by'] as Map<String, dynamic>,
         ),
-  custom: json['custom'] as Map<String, dynamic>,
-  receivedAt: _$JsonConverterFromJson<int, DateTime>(
+  custom: json['custom'] as Map<String, dynamic>? ?? {},
+  receivedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['received_at'],
     const EpochDateTimeConverter().fromJson,
   ),
@@ -32,7 +32,7 @@ Map<String, dynamic> _$UserReactivatedEventToJson(
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
   'created_by': instance.createdBy?.toJson(),
   'custom': instance.custom,
-  'received_at': _$JsonConverterToJson<int, DateTime>(
+  'received_at': _$JsonConverterToJson<Object, DateTime>(
     instance.receivedAt,
     const EpochDateTimeConverter().toJson,
   ),

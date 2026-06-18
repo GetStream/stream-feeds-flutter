@@ -34,6 +34,7 @@ class BookmarkFolderUpdatedEvent extends core.WsEvent with _$BookmarkFolderUpdat
   final DateTime createdAt;
 
   @override
+  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override

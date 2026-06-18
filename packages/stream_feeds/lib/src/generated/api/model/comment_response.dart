@@ -99,6 +99,7 @@ class CommentResponse with _$CommentResponse {
   final List<FeedsReactionResponse>? latestReactions;
 
   @override
+  @JsonKey(defaultValue: [])
   final List<UserResponse> mentionedUsers;
 
   @override
@@ -111,6 +112,7 @@ class CommentResponse with _$CommentResponse {
   final String objectType;
 
   @override
+  @JsonKey(defaultValue: [])
   final List<FeedsReactionResponse> ownReactions;
 
   @override

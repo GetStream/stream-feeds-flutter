@@ -23,6 +23,7 @@ class ReadCollectionsResponse with _$ReadCollectionsResponse {
   });
 
   @override
+  @JsonKey(defaultValue: [])
   final List<CollectionResponse> collections;
 
   @override

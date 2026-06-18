@@ -23,10 +23,11 @@ mixin _$FollowsQuery {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $FollowsQueryCopyWith<FollowsQuery> get copyWith => _$FollowsQueryCopyWithImpl<FollowsQuery>(
-    this as FollowsQuery,
-    _$identity,
-  );
+  $FollowsQueryCopyWith<FollowsQuery> get copyWith =>
+      _$FollowsQueryCopyWithImpl<FollowsQuery>(
+        this as FollowsQuery,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -37,7 +38,8 @@ mixin _$FollowsQuery {
             const DeepCollectionEquality().equals(other.sort, sort) &&
             (identical(other.limit, limit) || other.limit == limit) &&
             (identical(other.next, next) || other.next == next) &&
-            (identical(other.previous, previous) || other.previous == previous));
+            (identical(other.previous, previous) ||
+                other.previous == previous));
   }
 
   @override

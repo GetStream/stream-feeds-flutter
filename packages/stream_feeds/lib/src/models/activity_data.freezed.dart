@@ -62,10 +62,11 @@ mixin _$ActivityData {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $ActivityDataCopyWith<ActivityData> get copyWith => _$ActivityDataCopyWithImpl<ActivityData>(
-    this as ActivityData,
-    _$identity,
-  );
+  $ActivityDataCopyWith<ActivityData> get copyWith =>
+      _$ActivityDataCopyWithImpl<ActivityData>(
+        this as ActivityData,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -76,18 +77,25 @@ mixin _$ActivityData {
               other.attachments,
               attachments,
             ) &&
-            (identical(other.bookmarkCount, bookmarkCount) || other.bookmarkCount == bookmarkCount) &&
+            (identical(other.bookmarkCount, bookmarkCount) ||
+                other.bookmarkCount == bookmarkCount) &&
             const DeepCollectionEquality().equals(
               other.collections,
               collections,
             ) &&
-            (identical(other.commentCount, commentCount) || other.commentCount == commentCount) &&
+            (identical(other.commentCount, commentCount) ||
+                other.commentCount == commentCount) &&
             const DeepCollectionEquality().equals(other.comments, comments) &&
-            (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
-            (identical(other.currentFeed, currentFeed) || other.currentFeed == currentFeed) &&
-            (identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt) &&
-            (identical(other.editedAt, editedAt) || other.editedAt == editedAt) &&
-            (identical(other.expiresAt, expiresAt) || other.expiresAt == expiresAt) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.currentFeed, currentFeed) ||
+                other.currentFeed == currentFeed) &&
+            (identical(other.deletedAt, deletedAt) ||
+                other.deletedAt == deletedAt) &&
+            (identical(other.editedAt, editedAt) ||
+                other.editedAt == editedAt) &&
+            (identical(other.expiresAt, expiresAt) ||
+                other.expiresAt == expiresAt) &&
             const DeepCollectionEquality().equals(other.feeds, feeds) &&
             const DeepCollectionEquality().equals(
               other.filterTags,
@@ -106,18 +114,21 @@ mixin _$ActivityData {
             ) &&
             (identical(other.isRead, isRead) || other.isRead == isRead) &&
             (identical(other.isSeen, isSeen) || other.isSeen == isSeen) &&
-            (identical(other.isWatched, isWatched) || other.isWatched == isWatched) &&
+            (identical(other.isWatched, isWatched) ||
+                other.isWatched == isWatched) &&
             const DeepCollectionEquality().equals(
               other.latestReactions,
               latestReactions,
             ) &&
-            (identical(other.location, location) || other.location == location) &&
+            (identical(other.location, location) ||
+                other.location == location) &&
             const DeepCollectionEquality().equals(
               other.mentionedUsers,
               mentionedUsers,
             ) &&
             const DeepCollectionEquality().equals(other.metrics, metrics) &&
-            (identical(other.moderation, moderation) || other.moderation == moderation) &&
+            (identical(other.moderation, moderation) ||
+                other.moderation == moderation) &&
             (identical(other.notificationContext, notificationContext) ||
                 other.notificationContext == notificationContext) &&
             const DeepCollectionEquality().equals(
@@ -130,10 +141,12 @@ mixin _$ActivityData {
             ) &&
             (identical(other.parent, parent) || other.parent == parent) &&
             (identical(other.poll, poll) || other.poll == poll) &&
-            (identical(other.popularity, popularity) || other.popularity == popularity) &&
+            (identical(other.popularity, popularity) ||
+                other.popularity == popularity) &&
             (identical(other.hidden, hidden) || other.hidden == hidden) &&
             (identical(other.preview, preview) || other.preview == preview) &&
-            (identical(other.reactionCount, reactionCount) || other.reactionCount == reactionCount) &&
+            (identical(other.reactionCount, reactionCount) ||
+                other.reactionCount == reactionCount) &&
             const DeepCollectionEquality().equals(
               other.reactionGroups,
               reactionGroups,
@@ -143,13 +156,17 @@ mixin _$ActivityData {
               other.searchData,
               searchData,
             ) &&
-            (identical(other.shareCount, shareCount) || other.shareCount == shareCount) &&
+            (identical(other.shareCount, shareCount) ||
+                other.shareCount == shareCount) &&
             (identical(other.text, text) || other.text == text) &&
             (identical(other.type, type) || other.type == type) &&
-            (identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
             (identical(other.user, user) || other.user == user) &&
-            (identical(other.visibility, visibility) || other.visibility == visibility) &&
-            (identical(other.visibilityTag, visibilityTag) || other.visibilityTag == visibilityTag) &&
+            (identical(other.visibility, visibility) ||
+                other.visibility == visibility) &&
+            (identical(other.visibilityTag, visibilityTag) ||
+                other.visibilityTag == visibilityTag) &&
             const DeepCollectionEquality().equals(other.custom, custom));
   }
 

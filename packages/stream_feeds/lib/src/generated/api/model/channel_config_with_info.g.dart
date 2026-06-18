@@ -37,11 +37,12 @@ ChannelConfigWithInfo _$ChannelConfigWithInfoFromJson(
       : ChatPreferences.fromJson(
           json['chat_preferences'] as Map<String, dynamic>,
         ),
-  commands: (json['commands'] as List<dynamic>).map((e) => Command.fromJson(e as Map<String, dynamic>)).toList(),
+  commands:
+      (json['commands'] as List<dynamic>?)?.map((e) => Command.fromJson(e as Map<String, dynamic>)).toList() ?? [],
   connectEvents: json['connect_events'] as bool,
   countMessages: json['count_messages'] as bool,
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
   customEvents: json['custom_events'] as bool,
   deliveryEvents: json['delivery_events'] as bool,
@@ -71,7 +72,7 @@ ChannelConfigWithInfo _$ChannelConfigWithInfoFromJson(
   skipLastMsgUpdateForSystemMsgs: json['skip_last_msg_update_for_system_msgs'] as bool,
   typingEvents: json['typing_events'] as bool,
   updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+    json['updated_at'] as Object,
   ),
   uploads: json['uploads'] as bool,
   urlEnrichment: json['url_enrichment'] as bool,

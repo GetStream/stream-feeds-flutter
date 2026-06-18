@@ -36,6 +36,7 @@ class ActivityRestoredEvent extends core.WsEvent with _$ActivityRestoredEvent {
   final DateTime createdAt;
 
   @override
+  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override

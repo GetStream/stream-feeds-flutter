@@ -8,7 +8,7 @@ part of 'follow_response.dart';
 
 FollowResponse _$FollowResponseFromJson(Map<String, dynamic> json) => FollowResponse(
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
   custom: json['custom'] as Map<String, dynamic>?,
   followerRole: json['follower_role'] as String,
@@ -17,11 +17,11 @@ FollowResponse _$FollowResponseFromJson(Map<String, dynamic> json) => FollowResp
     json['push_preference'],
     unknownValue: FollowResponsePushPreference.unknown,
   ),
-  requestAcceptedAt: _$JsonConverterFromJson<int, DateTime>(
+  requestAcceptedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['request_accepted_at'],
     const EpochDateTimeConverter().fromJson,
   ),
-  requestRejectedAt: _$JsonConverterFromJson<int, DateTime>(
+  requestRejectedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['request_rejected_at'],
     const EpochDateTimeConverter().fromJson,
   ),
@@ -37,7 +37,7 @@ FollowResponse _$FollowResponseFromJson(Map<String, dynamic> json) => FollowResp
     json['target_feed'] as Map<String, dynamic>,
   ),
   updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+    json['updated_at'] as Object,
   ),
 );
 
@@ -46,11 +46,11 @@ Map<String, dynamic> _$FollowResponseToJson(FollowResponse instance) => <String,
   'custom': instance.custom,
   'follower_role': instance.followerRole,
   'push_preference': _$FollowResponsePushPreferenceEnumMap[instance.pushPreference]!,
-  'request_accepted_at': _$JsonConverterToJson<int, DateTime>(
+  'request_accepted_at': _$JsonConverterToJson<Object, DateTime>(
     instance.requestAcceptedAt,
     const EpochDateTimeConverter().toJson,
   ),
-  'request_rejected_at': _$JsonConverterToJson<int, DateTime>(
+  'request_rejected_at': _$JsonConverterToJson<Object, DateTime>(
     instance.requestRejectedAt,
     const EpochDateTimeConverter().toJson,
   ),

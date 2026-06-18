@@ -158,7 +158,7 @@ extension FeedResponseMapper on FeedResponse {
       ),
       memberCount: memberCount,
       name: name,
-      ownCapabilities: ownCapabilities?.map((e) => e.toModel()).toList() ?? const [],
+      ownCapabilities: ownCapabilities ?? const [],
       ownMembership: ownMembership?.toModel(),
       ownFollowings: ownFollowings?.map((f) => f.toModel()).toList(),
       ownFollows: ownFollows?.map((f) => f.toModel()).toList(),
@@ -168,13 +168,6 @@ extension FeedResponseMapper on FeedResponse {
       custom: custom,
     );
   }
-}
-
-/// Extension functions for [FeedData] to handle common operations.
-/// Extension to map [FeedResponseOwnCapabilities] to the canonical [FeedOwnCapability].
-extension FeedResponseOwnCapabilitiesMapper on FeedResponseOwnCapabilities {
-  /// Converts this response-specific capability enum to the canonical [FeedOwnCapability].
-  FeedOwnCapability toModel() => FeedOwnCapability.values.byName(name);
 }
 
 /// Extension to map [FeedResponseVisibility] to its wire-value string.

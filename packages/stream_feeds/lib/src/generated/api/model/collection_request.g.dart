@@ -7,7 +7,7 @@ part of 'collection_request.dart';
 // **************************************************************************
 
 CollectionRequest _$CollectionRequestFromJson(Map<String, dynamic> json) => CollectionRequest(
-  custom: json['custom'] as Map<String, dynamic>,
+  custom: json['custom'] as Map<String, dynamic>? ?? {},
   id: json['id'] as String?,
   name: json['name'] as String,
 );

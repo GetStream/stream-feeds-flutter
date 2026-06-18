@@ -263,7 +263,7 @@ FeedResponse createDefaultFeedResponse({
   int activityCount = 0,
   int followerCount = 0,
   int followingCount = 0,
-  List<FeedResponseOwnCapabilities>? ownCapabilities,
+  List<FeedOwnCapability>? ownCapabilities,
   FeedMemberResponse? ownMembership,
   List<FollowResponse>? ownFollowings,
   List<FollowResponse>? ownFollows,

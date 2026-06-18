@@ -25,7 +25,8 @@ mixin _$Moderation {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $ModerationCopyWith<Moderation> get copyWith => _$ModerationCopyWithImpl<Moderation>(this as Moderation, _$identity);
+  $ModerationCopyWith<Moderation> get copyWith =>
+      _$ModerationCopyWithImpl<Moderation>(this as Moderation, _$identity);
 
   @override
   bool operator ==(Object other) {
@@ -33,12 +34,14 @@ mixin _$Moderation {
         (other.runtimeType == runtimeType &&
             other is Moderation &&
             (identical(other.action, action) || other.action == action) &&
-            (identical(other.blocklistMatched, blocklistMatched) || other.blocklistMatched == blocklistMatched) &&
+            (identical(other.blocklistMatched, blocklistMatched) ||
+                other.blocklistMatched == blocklistMatched) &&
             const DeepCollectionEquality().equals(
               other.imageHarms,
               imageHarms,
             ) &&
-            (identical(other.originalText, originalText) || other.originalText == originalText) &&
+            (identical(other.originalText, originalText) ||
+                other.originalText == originalText) &&
             (identical(other.platformCircumvented, platformCircumvented) ||
                 other.platformCircumvented == platformCircumvented) &&
             (identical(other.semanticFilterMatched, semanticFilterMatched) ||

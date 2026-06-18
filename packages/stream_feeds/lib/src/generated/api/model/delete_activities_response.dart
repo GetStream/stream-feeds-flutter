@@ -23,6 +23,7 @@ class DeleteActivitiesResponse with _$DeleteActivitiesResponse {
   });
 
   @override
+  @JsonKey(defaultValue: [])
   final List<String> deletedIds;
 
   @override

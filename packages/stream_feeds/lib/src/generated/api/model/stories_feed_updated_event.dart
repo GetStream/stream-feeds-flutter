@@ -40,6 +40,7 @@ class StoriesFeedUpdatedEvent extends core.WsEvent with _$StoriesFeedUpdatedEven
   final DateTime createdAt;
 
   @override
+  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override

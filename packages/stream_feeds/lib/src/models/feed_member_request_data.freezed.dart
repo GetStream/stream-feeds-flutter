@@ -70,7 +70,8 @@ abstract mixin class $FeedMemberRequestDataCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$FeedMemberRequestDataCopyWithImpl<$Res> implements $FeedMemberRequestDataCopyWith<$Res> {
+class _$FeedMemberRequestDataCopyWithImpl<$Res>
+    implements $FeedMemberRequestDataCopyWith<$Res> {
   _$FeedMemberRequestDataCopyWithImpl(this._self, this._then);
 
   final FeedMemberRequestData _self;

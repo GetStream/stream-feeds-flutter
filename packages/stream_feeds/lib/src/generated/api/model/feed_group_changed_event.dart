@@ -33,6 +33,7 @@ class FeedGroupChangedEvent extends core.WsEvent with _$FeedGroupChangedEvent {
   final DateTime createdAt;
 
   @override
+  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override

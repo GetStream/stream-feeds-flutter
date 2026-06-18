@@ -10,10 +10,10 @@ Reaction _$ReactionFromJson(Map<String, dynamic> json) => Reaction(
   activityId: json['activity_id'] as String,
   childrenCounts: json['children_counts'] as Map<String, dynamic>?,
   createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+    json['created_at'] as Object,
   ),
   data: json['data'] as Map<String, dynamic>?,
-  deletedAt: _$JsonConverterFromJson<int, DateTime>(
+  deletedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['deleted_at'],
     const EpochDateTimeConverter().fromJson,
   ),
@@ -37,7 +37,7 @@ Reaction _$ReactionFromJson(Map<String, dynamic> json) => Reaction(
   targetFeeds: (json['target_feeds'] as List<dynamic>?)?.map((e) => e as String).toList(),
   targetFeedsExtraData: json['target_feeds_extra_data'] as Map<String, dynamic>?,
   updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+    json['updated_at'] as Object,
   ),
   user: json['user'] == null ? null : User.fromJson(json['user'] as Map<String, dynamic>),
   userId: json['user_id'] as String,
@@ -48,7 +48,7 @@ Map<String, dynamic> _$ReactionToJson(Reaction instance) => <String, dynamic>{
   'children_counts': instance.childrenCounts,
   'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
   'data': instance.data,
-  'deleted_at': _$JsonConverterToJson<int, DateTime>(
+  'deleted_at': _$JsonConverterToJson<Object, DateTime>(
     instance.deletedAt,
     const EpochDateTimeConverter().toJson,
   ),
