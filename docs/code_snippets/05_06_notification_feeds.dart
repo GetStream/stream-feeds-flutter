@@ -85,9 +85,9 @@ Future<void> readMentionNotifications() async {
     for (final activity in group.activities) {
       switch (activity.type) {
         case 'mention':
-          print('${activity.user.name} mentioned you in an activity');
+          print('${activity.user.name ?? 'Someone'} mentioned you in an activity');
         case 'comment_mention':
-          print('${activity.user.name} mentioned you in a comment');
+          print('${activity.user.name ?? 'Someone'} mentioned you in a comment');
         default:
           print('Notification type: ${activity.type}');
       }
