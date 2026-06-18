@@ -73,6 +73,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
     List<AutomaticReconnectionPolicy>? reconnectionPolicies,
     WebSocketProvider? wsProvider,
     api.DefaultApi? feedsRestApi,
+    api.DefaultApi? guestRestApi,
   }) {
     // TODO: Make this configurable
     const endpointConfig = EndpointConfig.production;
@@ -105,7 +106,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
               ]),
             );
 
-        final guestApi = api.DefaultApi(guestHttpClient);
+        final guestApi = guestRestApi ?? api.DefaultApi(guestHttpClient);
         final result = await guestApi.createGuest(
           createGuestRequest: api.CreateGuestRequest(
             user: api.UserRequest(

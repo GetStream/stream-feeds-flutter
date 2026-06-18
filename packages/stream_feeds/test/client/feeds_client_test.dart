@@ -935,4 +935,41 @@ void main() {
       },
     );
   });
+
+  // ============================================================
+  // FEATURE: Guest User Authentication
+  // ============================================================
+
+  group('connect as guest user', () {
+    feedsClientTest(
+      'should connect a guest user using the createGuest token flow',
+      user: User.guest('guest-123'),
+      connect: (tester) async {
+        tester.mockApi(
+          (api) => api.createGuest(
+            createGuestRequest: CreateGuestRequest(
+              user: UserRequest(
+                id: 'guest-123',
+                name: 'guest-123',
+              ),
+            ),
+          ),
+          result: CreateGuestResponse(
+            accessToken: generateTestUserToken('guest-123').rawValue,
+            duration: '10ms',
+            user: createDefaultUserResponse(id: 'guest-123'),
+          ),
+        );
+        tester.mockSuccessfulAuth('guest-123');
+        await tester.client.connect();
+        addTearDown(tester.client.disconnect);
+      },
+      body: (tester) async {
+        expect(
+          tester.client.connectionState.value,
+          isA<Connected>(),
+        );
+      },
+    );
+  });
 }
