@@ -953,7 +953,7 @@ void main() {
           (api) => api.queryUsers(payload: payload),
           result: createDefaultQueryUsersResponse(
             users: [
-              createDefaultFullUserResponse(id: 'user-1', name: 'Alice'),
+              createDefaultFullUserResponse(name: 'Alice'),
               createDefaultFullUserResponse(id: 'user-2', name: 'Alan'),
             ],
           ),
