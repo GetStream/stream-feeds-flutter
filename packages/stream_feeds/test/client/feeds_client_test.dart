@@ -943,11 +943,11 @@ void main() {
   group('connect as guest user', () {
     feedsClientTest(
       'should connect a guest user using the createGuest token flow',
-      user: User.guest('guest-123'),
+      user: const User.guest('guest-123'),
       connect: (tester) async {
         tester.mockApi(
           (api) => api.createGuest(
-            createGuestRequest: CreateGuestRequest(
+            createGuestRequest: const CreateGuestRequest(
               user: UserRequest(
                 id: 'guest-123',
                 name: 'guest-123',
@@ -964,7 +964,7 @@ void main() {
         await tester.client.connect();
         addTearDown(tester.client.disconnect);
       },
-      body: (tester) async {
+      body: (tester) {
         expect(
           tester.client.connectionState.value,
           isA<Connected>(),
