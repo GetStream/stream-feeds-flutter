@@ -146,8 +146,11 @@ Future<void> restrictReplies() async {
       // author and the target is owned by the current user. A non-empty list
       // means the current user IS followed by the author, so they may comment.
       await feed.getOrCreate();
-      final currentFeed = activity.currentFeed;
-      final ownFollowings = currentFeed?.ownFollowings ?? [];
+      final refreshedActivity = feed.state.activities.firstWhere(
+        (it) => it.id == activity.id,
+        orElse: () => activity,
+      );
+      final ownFollowings = refreshedActivity.currentFeed?.ownFollowings ?? [];
       final canComment = ownFollowings.isNotEmpty;
       print('Can current user comment? $canComment');
     default:
