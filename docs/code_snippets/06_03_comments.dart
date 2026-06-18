@@ -159,7 +159,7 @@ Future<void> restrictReplies() async {
       final ownFollowings = activity.currentFeed?.ownFollowings ?? [];
       final canComment = ownFollowings.isNotEmpty;
       print('Can current user comment? $canComment');
-    default:
+    default: // future/unknown values from the server
       print('Unknown restriction: ${activity.restrictReplies}');
   }
 }
