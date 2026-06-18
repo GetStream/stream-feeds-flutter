@@ -935,4 +935,63 @@ void main() {
       },
     );
   });
+
+  // ============================================================
+  // FEATURE: User Querying
+  // ============================================================
+
+  group('queryUsers', () {
+    feedsClientTest(
+      'should query users successfully',
+      body: (tester) async {
+        final filterConditions = {
+          'name': {r'$autocomplete': 'Al'},
+        };
+        final payload = QueryUsersPayload(filterConditions: filterConditions);
+
+        tester.mockApi(
+          (api) => api.queryUsers(payload: payload),
+          result: createDefaultQueryUsersResponse(
+            users: [
+              createDefaultFullUserResponse(id: 'user-1', name: 'Alice'),
+              createDefaultFullUserResponse(id: 'user-2', name: 'Alan'),
+            ],
+          ),
+        );
+
+        final result = await tester.client.queryUsers(
+          filterConditions: filterConditions,
+        );
+
+        expect(result.isSuccess, isTrue);
+        final users = result.getOrThrow();
+        expect(users.length, equals(2));
+        expect(users[0].id, equals('user-1'));
+        expect(users[1].id, equals('user-2'));
+
+        tester.verifyApi((api) => api.queryUsers(payload: payload));
+      },
+    );
+
+    feedsClientTest(
+      'should handle queryUsers failure',
+      body: (tester) async {
+        final filterConditions = {'id': 'bad'};
+        final payload = QueryUsersPayload(filterConditions: filterConditions);
+
+        tester.mockApiFailure(
+          (api) => api.queryUsers(payload: payload),
+          error: Exception('Failed to query users'),
+        );
+
+        final result = await tester.client.queryUsers(
+          filterConditions: filterConditions,
+        );
+
+        expect(result.isFailure, isTrue);
+
+        tester.verifyApi((api) => api.queryUsers(payload: payload));
+      },
+    );
+  });
 }

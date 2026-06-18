@@ -1210,3 +1210,43 @@ DurationResponse createDefaultCreateDeviceResponse() {
 DurationResponse createDefaultDeleteDeviceResponse() {
   return const DurationResponse(duration: '10ms');
 }
+
+FullUserResponse createDefaultFullUserResponse({
+  String id = 'user-1',
+  String? name,
+  String? image,
+}) {
+  final now = DateTime(2021, 1, 1);
+  return FullUserResponse(
+    id: id,
+    banned: false,
+    blockedUserIds: const [],
+    channelMutes: const [],
+    createdAt: now,
+    custom: const {},
+    devices: const [],
+    invisible: false,
+    language: 'en',
+    mutes: const [],
+    name: name,
+    image: image,
+    online: false,
+    role: 'user',
+    shadowBanned: false,
+    teams: const [],
+    totalUnreadCount: 0,
+    unreadChannels: 0,
+    unreadCount: 0,
+    unreadThreads: 0,
+    updatedAt: now,
+  );
+}
+
+QueryUsersResponse createDefaultQueryUsersResponse({
+  List<FullUserResponse>? users,
+}) {
+  return QueryUsersResponse(
+    duration: '10ms',
+    users: users ?? [createDefaultFullUserResponse()],
+  );
+}
