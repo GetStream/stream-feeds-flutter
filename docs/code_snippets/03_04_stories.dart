@@ -43,8 +43,10 @@ Future<void> readStories() async {
 
   // aggregatedActivities groups story activities by author.
   for (final group in storiesFeed.state.aggregatedActivities) {
-    print('Stories from ${group.activities.first.user.name}: '
-        '${group.activities.length} stories');
+    print(
+      'Stories from ${group.activities.first.user.name}: '
+      '${group.activities.length} stories',
+    );
   }
 }
 
