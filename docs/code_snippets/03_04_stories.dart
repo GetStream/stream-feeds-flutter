@@ -2,16 +2,16 @@ import 'package:stream_feeds/stream_feeds.dart';
 
 late StreamFeedsClient client;
 
-/// Stories are activities with an `expiresAt` timestamp posted to a `story`
-/// feed and aggregated in a `stories` feed.
-///
-/// Convention:
-/// - Each user has a personal story feed: `FeedId.story(userId)`
-/// - A user's stories aggregation feed: `FeedId.stories(userId)`
-/// - Posting a story = adding an activity with an `expiresAt` timestamp
-/// - Stories expire automatically once `expiresAt` passes.
-///
-/// The feed group must have `Stories` config enabled in the Stream dashboard.
+// Stories are activities with an `expiresAt` timestamp posted to a `story`
+// feed and aggregated in a `stories` feed.
+//
+// Convention:
+// - Each user has a personal story feed: `FeedId.story(userId)`
+// - A user's stories aggregation feed: `FeedId.stories(userId)`
+// - Posting a story = adding an activity with an `expiresAt` timestamp
+// - Stories expire automatically once `expiresAt` passes.
+//
+// The feed group must have `Stories` config enabled in the Stream dashboard.
 
 /// Publish a story to the current user's story feed.
 Future<void> postStory() async {
@@ -19,15 +19,20 @@ Future<void> postStory() async {
   final storyFeed = client.feedFromId(FeedId.story(userId));
   await storyFeed.getOrCreate();
 
-  // Stories expire after 24 hours.
   final expiresAt = DateTime.now().add(const Duration(hours: 24));
 
   await storyFeed.addActivity(
     request: FeedAddActivityRequest(
       type: 'story',
       text: 'My story',
-      // expiresAt is an ISO 8601 string.
       expiresAt: expiresAt.toIso8601String(),
+      attachments: const [
+        Attachment(
+          imageUrl: 'https://example.com/photo.jpg',
+          type: 'image',
+          custom: {'width': 1080, 'height': 1920},
+        ),
+      ],
     ),
   );
 }
@@ -35,7 +40,8 @@ Future<void> postStory() async {
 /// Read the current user's stories aggregation feed.
 ///
 /// The `stories` feed aggregates story activities from all users the current
-/// user follows on their `story` feed.
+/// user follows on their `story` feed. `getOrCreate()` performs the initial
+/// fetch, so [Feed.state] is populated immediately after it returns.
 Future<void> readStories() async {
   final userId = client.user.id;
   final storiesFeed = client.feedFromId(FeedId.stories(userId));
@@ -43,19 +49,21 @@ Future<void> readStories() async {
 
   // aggregatedActivities groups story activities by author.
   for (final group in storiesFeed.state.aggregatedActivities) {
+    final isWatched = group.activities.every((a) => a.isWatched == true);
     print(
       'Stories from ${group.activities.first.user.name}: '
-      '${group.activities.length} stories',
+      '${group.activities.length} stories '
+      '(${isWatched ? 'watched' : 'unwatched'})',
     );
   }
 }
 
-/// Read only story activities (activities that have an expiresAt) from a feed,
-/// excluding regular non-expiring posts. Mirrors the Swift SDK pattern.
+/// Filter story activities (have expiresAt) vs regular posts (no expiresAt)
+/// from the same user feed.
 Future<void> filterStoriesFromFeed() async {
   final userId = client.user.id;
 
-  // Stories-only feed view: activities that have an expiration date.
+  // Stories-only view: activities that have an expiration date.
   final storiesOnlyFeed = client.feedFromQuery(
     FeedQuery(
       fid: FeedId.user(userId),
@@ -63,7 +71,7 @@ Future<void> filterStoriesFromFeed() async {
     ),
   );
 
-  // Regular posts feed view: activities without an expiration date.
+  // Regular posts view: activities without an expiration date.
   final postsOnlyFeed = client.feedFromQuery(
     FeedQuery(
       fid: FeedId.user(userId),
@@ -75,6 +83,11 @@ Future<void> filterStoriesFromFeed() async {
     storiesOnlyFeed.getOrCreate(),
     postsOnlyFeed.getOrCreate(),
   ]);
+
+  final stories = storiesOnlyFeed.state.activities;
+  final posts = postsOnlyFeed.state.activities;
+
+  print('${stories.length} stories, ${posts.length} regular posts');
 }
 
 /// Mark a story as watched.
@@ -84,6 +97,7 @@ Future<void> filterStoriesFromFeed() async {
 Future<void> markStoryWatched(String activityId) async {
   final userId = client.user.id;
   final storiesFeed = client.feedFromId(FeedId.stories(userId));
+  await storiesFeed.getOrCreate();
 
   await storiesFeed.markActivity(
     request: MarkActivityRequest(markWatched: [activityId]),
@@ -97,6 +111,29 @@ Future<void> followStoryFeed(String otherUserId) async {
   final storiesFeed = client.feedFromId(FeedId.stories(userId));
   await storiesFeed.getOrCreate();
 
-  // Follow the target user's `story` feed from the current user's `stories` feed.
   await storiesFeed.follow(targetFid: FeedId.story(otherUserId));
+}
+
+/// Read expired stories from the current user's story feed.
+///
+/// Useful for showing an archive of past stories.
+Future<void> readExpiredStories() async {
+  final userId = client.user.id;
+  final now = DateTime.now();
+
+  final expiredFeed = client.feedFromQuery(
+    FeedQuery(
+      fid: FeedId.story(userId),
+      activityFilter: Filter.lessOrEqual(
+        ActivitiesFilterField.expiresAt,
+        now.toIso8601String(),
+      ),
+    ),
+  );
+
+  await expiredFeed.getOrCreate();
+
+  for (final activity in expiredFeed.state.activities) {
+    print('Expired story: ${activity.text} (expired at ${activity.expiresAt})');
+  }
 }
