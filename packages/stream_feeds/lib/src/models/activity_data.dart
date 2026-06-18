@@ -641,7 +641,7 @@ extension type const ActivityRestrictReplies(String value) implements String {
   static const peopleIFollow = ActivityRestrictReplies('people_i_follow');
 
   /// Unknown value received from the API.
-  static const unknown = ActivityRestrictReplies('_unknown');
+  static const unknown = ActivityRestrictReplies('unknown');
 }
 
 /// Extension function to convert an [ActivityResponseRestrictReplies] to an [ActivityRestrictReplies].

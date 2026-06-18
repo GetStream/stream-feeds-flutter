@@ -4442,5 +4442,67 @@ void main() {
         ),
       ),
     );
+
+    feedTest(
+      'addActivity() passes restrictReplies to API',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(),
+      body: (tester) async {
+        tester.mockApi(
+          (api) => api.addActivity(
+            addActivityRequest: const AddActivityRequest(
+              type: 'post',
+              feeds: [],
+              restrictReplies: AddActivityRequestRestrictReplies.peopleIFollow,
+            ),
+          ),
+          result: AddActivityResponse(
+            duration: '0ms',
+            activity: createDefaultActivityResponse(id: 'activity-1'),
+          ),
+        );
+
+        final result = await tester.feed.addActivity(
+          request: const FeedAddActivityRequest(
+            type: 'post',
+            restrictReplies: AddActivityRequestRestrictReplies.peopleIFollow,
+          ),
+        );
+
+        expect(result.isSuccess, isTrue);
+      },
+      verify: (tester) => tester.verifyApi(
+        (api) => api.addActivity(
+          addActivityRequest: const AddActivityRequest(
+            type: 'post',
+            feeds: [],
+            restrictReplies: AddActivityRequestRestrictReplies.peopleIFollow,
+          ),
+        ),
+      ),
+    );
+
+    feedTest(
+      'getOrCreate() exposes restrictReplies on activity state',
+      build: (client) => client.feedFromId(feedId),
+      body: (tester) async {
+        await tester.getOrCreate(
+          modifyResponse: (it) => it.copyWith(
+            activities: [
+              createDefaultActivityResponse(
+                id: 'activity-1',
+                feeds: [feedId.rawValue],
+                restrictReplies: ActivityResponseRestrictReplies.nobody,
+              ),
+            ],
+          ),
+        );
+
+        final activity = tester.feedState.activities.firstWhere(
+          (a) => a.id == 'activity-1',
+        );
+        expect(activity.restrictReplies, equals(ActivityRestrictReplies.nobody));
+      },
+    );
   });
 }

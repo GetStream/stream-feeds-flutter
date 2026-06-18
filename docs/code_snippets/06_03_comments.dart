@@ -133,7 +133,8 @@ Future<void> restrictReplies() async {
 
   // Read the restriction from a fetched activity.
   await feed.getOrCreate();
-  final activity = feed.state.activities.first;
+  final activity = feed.state.activities.firstOrNull;
+  if (activity == null) return;
 
   switch (activity.restrictReplies) {
     case ActivityRestrictReplies.everyone:
@@ -141,16 +142,10 @@ Future<void> restrictReplies() async {
     case ActivityRestrictReplies.nobody:
       print('Comments are disabled');
     case ActivityRestrictReplies.peopleIFollow:
-      // For 'peopleIFollow' the backend returns `own_followings` on the feed —
-      // a list of up to 5 follows where the source is owned by the activity
-      // author and the target is owned by the current user. A non-empty list
-      // means the current user IS followed by the author, so they may comment.
-      await feed.getOrCreate();
-      final refreshedActivity = feed.state.activities.firstWhere(
-        (it) => it.id == activity.id,
-        orElse: () => activity,
-      );
-      final ownFollowings = refreshedActivity.currentFeed?.ownFollowings ?? [];
+      // `own_followings` is already included in the getOrCreate() response on
+      // the activity's currentFeed. A non-empty list means the current user IS
+      // followed by the activity author, so they may comment.
+      final ownFollowings = activity.currentFeed?.ownFollowings ?? [];
       final canComment = ownFollowings.isNotEmpty;
       print('Can current user comment? $canComment');
     default:
