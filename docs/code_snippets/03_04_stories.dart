@@ -49,7 +49,7 @@ Future<void> readStories() async {
 
   // aggregatedActivities groups story activities by author.
   for (final group in storiesFeed.state.aggregatedActivities) {
-    final isWatched = group.activities.every((a) => a.isWatched == true);
+    final isWatched = group.activities.every((a) => a.isWatched ?? false);
     print(
       'Stories from ${group.activities.first.user.name}: '
       '${group.activities.length} stories '
