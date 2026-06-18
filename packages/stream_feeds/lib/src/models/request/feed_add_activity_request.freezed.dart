@@ -67,13 +67,10 @@ mixin _$FeedAddActivityRequest {
                   other.createNotificationActivity,
                   createNotificationActivity,
                 ) ||
-                other.createNotificationActivity ==
-                    createNotificationActivity) &&
+                other.createNotificationActivity == createNotificationActivity) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
-            (identical(other.enrichOwnFields, enrichOwnFields) ||
-                other.enrichOwnFields == enrichOwnFields) &&
-            (identical(other.expiresAt, expiresAt) ||
-                other.expiresAt == expiresAt) &&
+            (identical(other.enrichOwnFields, enrichOwnFields) || other.enrichOwnFields == enrichOwnFields) &&
+            (identical(other.expiresAt, expiresAt) || other.expiresAt == expiresAt) &&
             const DeepCollectionEquality().equals(other.feeds, feeds) &&
             const DeepCollectionEquality().equals(
               other.filterTags,
@@ -84,29 +81,23 @@ mixin _$FeedAddActivityRequest {
               other.interestTags,
               interestTags,
             ) &&
-            (identical(other.location, location) ||
-                other.location == location) &&
+            (identical(other.location, location) || other.location == location) &&
             const DeepCollectionEquality().equals(
               other.mentionedUserIds,
               mentionedUserIds,
             ) &&
-            (identical(other.parentId, parentId) ||
-                other.parentId == parentId) &&
+            (identical(other.parentId, parentId) || other.parentId == parentId) &&
             (identical(other.pollId, pollId) || other.pollId == pollId) &&
-            (identical(other.restrictReplies, restrictReplies) ||
-                other.restrictReplies == restrictReplies) &&
+            (identical(other.restrictReplies, restrictReplies) || other.restrictReplies == restrictReplies) &&
             const DeepCollectionEquality().equals(
               other.searchData,
               searchData,
             ) &&
-            (identical(other.skipPush, skipPush) ||
-                other.skipPush == skipPush) &&
+            (identical(other.skipPush, skipPush) || other.skipPush == skipPush) &&
             (identical(other.text, text) || other.text == text) &&
             (identical(other.type, type) || other.type == type) &&
-            (identical(other.visibility, visibility) ||
-                other.visibility == visibility) &&
-            (identical(other.visibilityTag, visibilityTag) ||
-                other.visibilityTag == visibilityTag));
+            (identical(other.visibility, visibility) || other.visibility == visibility) &&
+            (identical(other.visibilityTag, visibilityTag) || other.visibilityTag == visibilityTag));
   }
 
   @override
@@ -176,8 +167,7 @@ abstract mixin class $FeedAddActivityRequestCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$FeedAddActivityRequestCopyWithImpl<$Res>
-    implements $FeedAddActivityRequestCopyWith<$Res> {
+class _$FeedAddActivityRequestCopyWithImpl<$Res> implements $FeedAddActivityRequestCopyWith<$Res> {
   _$FeedAddActivityRequestCopyWithImpl(this._self, this._then);
 
   final FeedAddActivityRequest _self;
