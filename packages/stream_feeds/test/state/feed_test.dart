@@ -472,6 +472,237 @@ void main() {
     );
 
     feedTest(
+      'updateActivity() - with enrichOwnFields should apply the refreshed ownBookmarks to state',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: [
+            createDefaultActivityResponse(
+              id: 'activity-1',
+              feeds: [feedId.rawValue],
+              ownBookmarks: [createDefaultBookmarkResponse(activityId: 'activity-1')],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        expect(tester.feedState.activities.first.ownBookmarks, hasLength(1));
+
+        tester.mockApi(
+          (api) => api.updateActivity(
+            id: 'activity-1',
+            updateActivityRequest: const UpdateActivityRequest(enrichOwnFields: true),
+          ),
+          result: UpdateActivityResponse(
+            duration: '0ms',
+            // The server enriched the response: no more own bookmarks.
+            activity: createDefaultActivityResponse(
+              id: 'activity-1',
+              feeds: [feedId.rawValue],
+            ),
+          ),
+        );
+
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<ActivityUpdated>()),
+        );
+
+        final result = await tester.feed.updateActivity(
+          id: 'activity-1',
+          request: const UpdateActivityRequest(enrichOwnFields: true),
+        );
+
+        expect(result.isSuccess, isTrue);
+
+        // Wait for the state update triggered by the emitted event to land.
+        await expectEventEmitted;
+        final activity = tester.feedState.activities.first;
+        expect(activity.ownBookmarks, isEmpty);
+      },
+    );
+
+    feedTest(
+      'updateActivity() - without enrichOwnFields should preserve existing ownBookmarks in state',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: [
+            createDefaultActivityResponse(
+              id: 'activity-1',
+              feeds: [feedId.rawValue],
+              ownBookmarks: [createDefaultBookmarkResponse(activityId: 'activity-1')],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        expect(tester.feedState.activities.first.ownBookmarks, hasLength(1));
+
+        tester.mockApi(
+          (api) => api.updateActivity(
+            id: 'activity-1',
+            updateActivityRequest: const UpdateActivityRequest(custom: {'updated': true}),
+          ),
+          result: UpdateActivityResponse(
+            duration: '0ms',
+            // enrichOwnFields wasn't set: an absent ownBookmarks here means "not
+            // fetched", not "actually empty" — it must not overwrite local state.
+            activity: createDefaultActivityResponse(
+              id: 'activity-1',
+              feeds: [feedId.rawValue],
+            ).copyWith(custom: {'updated': true}),
+          ),
+        );
+
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<ActivityUpdated>()),
+        );
+
+        final result = await tester.feed.updateActivity(
+          id: 'activity-1',
+          request: const UpdateActivityRequest(custom: {'updated': true}),
+        );
+
+        expect(result.isSuccess, isTrue);
+
+        // Wait for the state update triggered by the emitted event to land.
+        await expectEventEmitted;
+        final activity = tester.feedState.activities.first;
+        expect(activity.custom?['updated'], true);
+        expect(activity.ownBookmarks, hasLength(1));
+      },
+    );
+
+    feedTest(
+      'updateActivity() - with enrichOwnFields should apply the refreshed currentFeed own '
+      'fields to state',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: [
+            createDefaultActivityResponse(
+              id: 'activity-1',
+              feeds: [feedId.rawValue],
+            ).copyWith(
+              currentFeed: createDefaultFeedResponse(
+                id: 'john',
+                groupId: 'user',
+                ownFollowings: [createDefaultFollowResponse()],
+              ),
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        expect(tester.feedState.activities.first.currentFeed?.ownFollowings, hasLength(1));
+
+        tester.mockApi(
+          (api) => api.updateActivity(
+            id: 'activity-1',
+            updateActivityRequest: const UpdateActivityRequest(enrichOwnFields: true),
+          ),
+          result: UpdateActivityResponse(
+            duration: '0ms',
+            // The server enriched the response: currentFeed's own follows are refreshed to empty.
+            activity:
+                createDefaultActivityResponse(
+                  id: 'activity-1',
+                  feeds: [feedId.rawValue],
+                ).copyWith(
+                  currentFeed: createDefaultFeedResponse(
+                    id: 'john',
+                    groupId: 'user',
+                    ownFollowings: const [],
+                  ),
+                ),
+          ),
+        );
+
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<ActivityUpdated>()),
+        );
+
+        final result = await tester.feed.updateActivity(
+          id: 'activity-1',
+          request: const UpdateActivityRequest(enrichOwnFields: true),
+        );
+
+        expect(result.isSuccess, isTrue);
+
+        // Wait for the state update triggered by the emitted event to land.
+        await expectEventEmitted;
+        final activity = tester.feedState.activities.first;
+        expect(activity.currentFeed?.ownFollowings, isEmpty);
+      },
+    );
+
+    feedTest(
+      'updateActivity() - without enrichOwnFields should preserve existing currentFeed own '
+      'fields in state',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: [
+            createDefaultActivityResponse(
+              id: 'activity-1',
+              feeds: [feedId.rawValue],
+            ).copyWith(
+              currentFeed: createDefaultFeedResponse(
+                id: 'john',
+                groupId: 'user',
+                ownFollowings: [createDefaultFollowResponse()],
+              ),
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        expect(tester.feedState.activities.first.currentFeed?.ownFollowings, hasLength(1));
+
+        tester.mockApi(
+          (api) => api.updateActivity(
+            id: 'activity-1',
+            updateActivityRequest: const UpdateActivityRequest(custom: {'updated': true}),
+          ),
+          result: UpdateActivityResponse(
+            duration: '0ms',
+            // enrichOwnFields wasn't set: an absent currentFeed.ownFollowings here means "not
+            // fetched", not "actually empty" — it must not overwrite local state.
+            activity:
+                createDefaultActivityResponse(
+                  id: 'activity-1',
+                  feeds: [feedId.rawValue],
+                ).copyWith(
+                  custom: {'updated': true},
+                  currentFeed: createDefaultFeedResponse(id: 'john', groupId: 'user'),
+                ),
+          ),
+        );
+
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<ActivityUpdated>()),
+        );
+
+        final result = await tester.feed.updateActivity(
+          id: 'activity-1',
+          request: const UpdateActivityRequest(custom: {'updated': true}),
+        );
+
+        expect(result.isSuccess, isTrue);
+
+        // Wait for the state update triggered by the emitted event to land.
+        await expectEventEmitted;
+        final activity = tester.feedState.activities.first;
+        expect(activity.custom?['updated'], true);
+        expect(activity.currentFeed?.ownFollowings, hasLength(1));
+      },
+    );
+
+    feedTest(
       'updateActivityPartial() - should partially update activity',
       build: (client) => client.feedFromId(feedId),
       setUp: (tester) => tester.getOrCreate(

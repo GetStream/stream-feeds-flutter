@@ -98,11 +98,15 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
       key: (it) => it.group,
     );
 
-    state = state.copyWith(
-      activities: updatedActivities,
-      aggregatedActivities: updatedAggregatedActivities,
-      activitiesPagination: pagination,
-    );
+    state = state
+        .copyWith(
+          activities: updatedActivities,
+          aggregatedActivities: updatedAggregatedActivities,
+          activitiesPagination: pagination,
+        )
+        // Re-derive isRead/isSeen for the newly-merged page against the current
+        // notification status, in case a local mark happened before this page loaded.
+        .reconcileReadSeen();
   }
 
   /// Handles updates to the feed state when a new activity is added.
