@@ -395,7 +395,7 @@ abstract interface class StreamFeedsClient {
   ///     ),
   ///   ],
   /// );
-  ///```
+  /// ```
   ///
   /// Returns a [Result] containing the list of upserted [ActivityData] or an error.
   Future<Result<List<ActivityData>>> upsertActivities({
@@ -406,11 +406,13 @@ abstract interface class StreamFeedsClient {
   ///
   /// Deletes the provided [ids] in a single batch operation.
   ///
-  ///```dart
-  ///await client.deleteActivities(
-  ///  ids: ['123', '456'],
-  ///  hardDelete: false,
-  ///);
+  /// Example:
+  /// ```dart
+  /// await client.deleteActivities(
+  ///   ids: ['123', '456'],
+  ///   hardDelete: false,
+  /// );
+  /// ```
   ///
   /// Returns a [Result] containing the list of deleted activity ids or an error.
   Future<Result<api.DeleteActivitiesResponse>> deleteActivities({
@@ -657,7 +659,7 @@ abstract interface class StreamFeedsClient {
   /// ```dart
   /// final result = await client.getApp();
   /// switch (result) {
-  ///   case Success(value: final appData):
+  ///   case Success(data: final appData):
   ///     print('App name: ${appData.name}');
   ///     print('File upload size limit: ${appData.fileUploadConfig.sizeLimit}');
   ///   case Failure(error: final error):
@@ -679,7 +681,7 @@ abstract interface class StreamFeedsClient {
   /// final result = await client.queryDevices();
   ///
   /// switch (result) {
-  ///   case Success(value: final devicesResponse):
+  ///   case Success(data: final devicesResponse):
   ///     print('Found ${devicesResponse.devices.length} devices');
   ///   case Failure(error: final error):
   ///     print('Failed to query devices: $error');
@@ -790,13 +792,13 @@ abstract interface class StreamFeedsClient {
   /// Example:
   /// ```dart
   /// final result = await client.getOrCreateFollows(
-  ///   api.FollowBatchRequest(
+  ///   FollowBatchRequest(
   ///     follows: [
-  ///       api.FollowRequest(
+  ///       FollowRequest(
   ///         source: FeedId.user('john').rawValue,
   ///         target: FeedId.user('jane').rawValue,
   ///       ),
-  ///       api.FollowRequest(
+  ///       FollowRequest(
   ///         source: FeedId.user('john').rawValue,
   ///         target: FeedId.user('bob').rawValue,
   ///       ),
@@ -805,7 +807,7 @@ abstract interface class StreamFeedsClient {
   /// );
   ///
   /// switch (result) {
-  ///   case Success(value: final batchFollowData):
+  ///   case Success(data: final batchFollowData):
   ///     print('Created ${batchFollowData.created.length} new follows');
   ///     print('Total follows: ${batchFollowData.follows.length}');
   ///   case Failure(error: final error):
@@ -826,13 +828,13 @@ abstract interface class StreamFeedsClient {
   /// Example:
   /// ```dart
   /// final result = await client.getOrCreateUnfollows(
-  ///   api.UnfollowBatchRequest(
+  ///   UnfollowBatchRequest(
   ///     follows: [
-  ///       api.UnfollowPair(
+  ///       UnfollowPair(
   ///         source: FeedId.user('john').rawValue,
   ///         target: FeedId.user('jane').rawValue,
   ///       ),
-  ///       api.UnfollowPair(
+  ///       UnfollowPair(
   ///         source: FeedId.user('john').rawValue,
   ///         target: FeedId.user('bob').rawValue,
   ///       ),
@@ -841,7 +843,7 @@ abstract interface class StreamFeedsClient {
   /// );
   ///
   /// switch (result) {
-  ///   case Success(value: final unfollowedFollows):
+  ///   case Success(data: final unfollowedFollows):
   ///     print('Unfollowed ${unfollowedFollows.length} feeds');
   ///   case Failure(error: final error):
   ///     print('Failed to unfollow feeds: $error');
@@ -864,7 +866,7 @@ abstract interface class StreamFeedsClient {
   /// );
   ///
   /// switch (result) {
-  ///   case Success(value: final response):
+  ///   case Success(data: final response):
   ///     print('Found ${response.collections.length} collections');
   ///   case Failure(error: final error):
   ///     print('Failed to read collections: $error');
@@ -884,9 +886,9 @@ abstract interface class StreamFeedsClient {
   /// Example:
   /// ```dart
   /// final result = await client.createCollections(
-  ///   request: api.CreateCollectionsRequest(
+  ///   request: CreateCollectionsRequest(
   ///     collections: [
-  ///       api.CollectionRequest(
+  ///       CollectionRequest(
   ///         id: '123',
   ///         name: 'my_collection',
   ///         custom: const {'key': 'value'},
@@ -896,7 +898,7 @@ abstract interface class StreamFeedsClient {
   /// );
   ///
   /// switch (result) {
-  ///   case Success(value: final response):
+  ///   case Success(data: final response):
   ///     print('Created ${response.collections.length} collections');
   ///   case Failure(error: final error):
   ///     print('Failed to create collections: $error');
@@ -915,9 +917,9 @@ abstract interface class StreamFeedsClient {
   /// Example:
   /// ```dart
   /// final result = await client.updateCollections(
-  ///   request: api.UpdateCollectionsRequest(
+  ///   request: UpdateCollectionsRequest(
   ///     collections: [
-  ///       api.UpdateCollectionRequest(
+  ///       UpdateCollectionRequest(
   ///         id: '123',
   ///         name: 'my_collection',
   ///         custom: const {'updated_key': 'updated_value'},
@@ -927,7 +929,7 @@ abstract interface class StreamFeedsClient {
   /// );
   ///
   /// switch (result) {
-  ///   case Success(value: final response):
+  ///   case Success(data: final response):
   ///     print('Updated ${response.collections.length} collections');
   ///   case Failure(error: final error):
   ///     print('Failed to update collections: $error');
@@ -950,7 +952,7 @@ abstract interface class StreamFeedsClient {
   /// );
   ///
   /// switch (result) {
-  ///   case Success(value: final response):
+  ///   case Success(data: final response):
   ///     print('Deleted collections successfully');
   ///   case Failure(error: final error):
   ///     print('Failed to delete collections: $error');
@@ -971,12 +973,12 @@ abstract interface class StreamFeedsClient {
   /// ```dart
   /// final result = await client.queryUsers(
   ///   filterConditions: {'name': {'$autocomplete': 'Al'}},
-  ///   sort: [api.SortParamRequest(field: 'name', direction: 1)],
+  ///   sort: [SortParamRequest(field: 'name', direction: 1)],
   ///   limit: 25,
   /// );
   ///
   /// switch (result) {
-  ///   case Success(value: final users):
+  ///   case Success(data: final users):
   ///     for (final user in users) {
   ///       print('${user.id}: ${user.name}');
   ///     }

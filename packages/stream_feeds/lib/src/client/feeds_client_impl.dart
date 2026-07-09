@@ -26,6 +26,7 @@ import '../repository/devices_repository.dart';
 import '../repository/feeds_repository.dart';
 import '../repository/moderation_repository.dart';
 import '../repository/polls_repository.dart';
+import '../repository/users_repository.dart';
 import '../state/activity.dart';
 import '../state/activity_comment_list.dart';
 import '../state/activity_list.dart';
@@ -159,18 +160,19 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
     _cdnClient = config.cdnClient ?? FeedsCdnClient(CdnApi(httpClient));
     attachmentUploader = StreamAttachmentUploader(cdn: _cdnClient);
 
-    _feedsApi = feedsRestApi ?? api.DefaultApi(httpClient);
+    final feedsApi = feedsRestApi ?? api.DefaultApi(httpClient);
 
-    _activitiesRepository = ActivitiesRepository(_feedsApi, attachmentUploader);
-    _appRepository = AppRepository(_feedsApi);
-    _bookmarksRepository = BookmarksRepository(_feedsApi);
-    _collectionsRepository = CollectionsRepository(_feedsApi);
-    _commentsRepository = CommentsRepository(_feedsApi, attachmentUploader);
-    _devicesRepository = DevicesRepository(_feedsApi);
-    _feedsRepository = FeedsRepository(_feedsApi);
-    _moderationRepository = ModerationRepository(_feedsApi);
-    _pollsRepository = PollsRepository(_feedsApi);
-    _capabilitiesRepository = CapabilitiesRepository(_feedsApi);
+    _activitiesRepository = ActivitiesRepository(feedsApi, attachmentUploader);
+    _appRepository = AppRepository(feedsApi);
+    _bookmarksRepository = BookmarksRepository(feedsApi);
+    _collectionsRepository = CollectionsRepository(feedsApi);
+    _commentsRepository = CommentsRepository(feedsApi, attachmentUploader);
+    _devicesRepository = DevicesRepository(feedsApi);
+    _feedsRepository = FeedsRepository(feedsApi);
+    _moderationRepository = ModerationRepository(feedsApi);
+    _pollsRepository = PollsRepository(feedsApi);
+    _capabilitiesRepository = CapabilitiesRepository(feedsApi);
+    _usersRepository = UsersRepository(feedsApi);
 
     moderation = ModerationClient(_moderationRepository);
 
@@ -199,7 +201,6 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
   @override
   late final StreamAttachmentUploader attachmentUploader;
 
-  late final api.DefaultApi _feedsApi;
   late final ActivitiesRepository _activitiesRepository;
   late final AppRepository _appRepository;
   late final BookmarksRepository _bookmarksRepository;
@@ -210,6 +211,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
   late final ModerationRepository _moderationRepository;
   late final PollsRepository _pollsRepository;
   late final CapabilitiesRepository _capabilitiesRepository;
+  late final UsersRepository _usersRepository;
 
   // TODO: Fill this with correct values
   late final _systemEnvironmentManager = SystemEnvironmentManager(
@@ -583,8 +585,8 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
     int? offset,
     bool? presence,
     bool? includeDeactivatedUsers,
-  }) async {
-    final payload = api.QueryUsersPayload(
+  }) {
+    return _usersRepository.queryUsers(
       filterConditions: filterConditions,
       sort: sort,
       limit: limit,
@@ -592,9 +594,6 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
       presence: presence,
       includeDeactivatedUsers: includeDeactivatedUsers,
     );
-
-    final result = await _feedsApi.queryUsers(payload: payload);
-    return result.map((response) => response.users.map((u) => u.toModel()).toList());
   }
 
   Stream<void> get onReconnectEmitter {
