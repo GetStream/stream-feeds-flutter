@@ -657,6 +657,51 @@ void main() {
     );
 
     activityTest(
+      'deleteComment - should pass deleteNotificationActivity to API',
+      build: (client) => client.activity(activityId: activityId, fid: fid),
+      setUp: (tester) => tester.get(
+        modifyCommentsResponse: (response) => response.copyWith(
+          comments: [
+            createDefaultThreadedCommentResponse(
+              id: commentId,
+              objectId: activityId,
+              objectType: 'activity',
+              text: 'Test comment',
+              userId: userId,
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        tester.mockApi(
+          (api) => api.deleteComment(
+            id: commentId,
+            deleteNotificationActivity: true,
+          ),
+          result: createDefaultDeleteCommentResponse(
+            commentId: commentId,
+            activityId: activityId,
+            objectId: activityId,
+            userId: userId,
+          ),
+        );
+
+        final result = await tester.activity.deleteComment(
+          commentId,
+          deleteNotificationActivity: true,
+        );
+
+        expect(result.isSuccess, isTrue);
+      },
+      verify: (tester) => tester.verifyApi(
+        (api) => api.deleteComment(
+          id: commentId,
+          deleteNotificationActivity: true,
+        ),
+      ),
+    );
+
+    activityTest(
       'updateComment - should update comment via API',
       build: (client) => client.activity(activityId: activityId, fid: fid),
       setUp: (tester) => tester.get(
@@ -1008,6 +1053,62 @@ void main() {
         (api) => api.deleteCommentReaction(
           id: commentId,
           type: reactionType,
+        ),
+      ),
+    );
+
+    activityTest(
+      'deleteCommentReaction - should pass deleteNotificationActivity to API',
+      build: (client) => client.activity(activityId: activityId, fid: fid),
+      setUp: (tester) => tester.get(
+        modifyCommentsResponse: (response) => response.copyWith(
+          comments: [
+            createDefaultThreadedCommentResponse(
+              id: commentId,
+              objectId: activityId,
+              objectType: 'activity',
+              text: 'Test comment',
+              userId: userId,
+              ownReactions: [
+                createDefaultReactionResponse(
+                  reactionType: reactionType,
+                  userId: userId,
+                  activityId: activityId,
+                  commentId: commentId,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        tester.mockApi(
+          (api) => api.deleteCommentReaction(
+            id: commentId,
+            type: reactionType,
+            deleteNotificationActivity: true,
+          ),
+          result: createDefaultDeleteCommentReactionResponse(
+            commentId: commentId,
+            objectId: activityId,
+            userId: userId,
+            reactionType: reactionType,
+          ),
+        );
+
+        final result = await tester.activity.deleteCommentReaction(
+          commentId,
+          reactionType,
+          deleteNotificationActivity: true,
+        );
+
+        expect(result.isSuccess, isTrue);
+      },
+      verify: (tester) => tester.verifyApi(
+        (api) => api.deleteCommentReaction(
+          id: commentId,
+          type: reactionType,
+          deleteNotificationActivity: true,
         ),
       ),
     );

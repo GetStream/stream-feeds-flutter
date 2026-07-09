@@ -3134,6 +3134,57 @@ void main() {
     );
 
     feedTest(
+      'deleteActivityReaction() - should pass deleteNotificationActivity to API',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: [
+            createDefaultActivityResponse(
+              id: 'activity-1',
+              feeds: [feedId.rawValue],
+              ownReactions: [
+                createDefaultReactionResponse(
+                  reactionType: 'heart',
+                  userId: userId,
+                  activityId: 'activity-1',
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        tester.mockApi(
+          (api) => api.deleteActivityReaction(
+            activityId: 'activity-1',
+            type: 'heart',
+            deleteNotificationActivity: true,
+          ),
+          result: createDefaultDeleteReactionResponse(
+            activityId: 'activity-1',
+            userId: userId,
+            reactionType: 'heart',
+          ),
+        );
+
+        final result = await tester.feed.deleteActivityReaction(
+          activityId: 'activity-1',
+          type: 'heart',
+          deleteNotificationActivity: true,
+        );
+
+        expect(result.isSuccess, isTrue);
+      },
+      verify: (tester) => tester.verifyApi(
+        (api) => api.deleteActivityReaction(
+          activityId: 'activity-1',
+          type: 'heart',
+          deleteNotificationActivity: true,
+        ),
+      ),
+    );
+
+    feedTest(
       'ActivityReactionDeletedEvent - should handle event and update activity',
       build: (client) => client.feedFromId(feedId),
       setUp: (tester) => tester.getOrCreate(
