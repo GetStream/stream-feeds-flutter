@@ -1,7 +1,8 @@
 ## Upcoming
 
 ### Improvements
-- `markRead`, `markSeen`, `markAllRead`, and `markAllSeen` now update per-activity and per-group `isRead`/`isSeen` flags on the feed state in addition to the aggregate notification counts. These flags are now kept in sync when the `activity.marked` WebSocket event is received.
+- `markRead`, `markSeen`, `markAllRead`, and `markAllSeen` now update per-activity and per-group `isRead`/`isSeen` flags on the feed state in addition to the aggregate notification counts. These flags are now kept in sync when the `activity.marked` WebSocket event is received, and are also re-derived whenever `feeds.notification_feed.updated` reports a new notification status (e.g. a mark performed from another device/session).
+- `ActivityData.currentFeed` and `FeedData`'s `own_*` fields (`ownMembership`, `ownFollowings`, `ownFollows`, `ownBookmarks`, `ownReactions`) are now updated from `updateActivity`/`updateActivityPartial`/`updateFeed` responses when the request set `enrichOwnFields: true`. Without it, existing state is preserved, since an omitted `own_*` field means "not fetched", not "empty".
 
 ### New fields
 - Added `isRead` and `isSeen` fields to `ActivityData` and `AggregatedActivityData` for notification-feed read/seen state.

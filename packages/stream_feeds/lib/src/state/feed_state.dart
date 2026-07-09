@@ -130,10 +130,14 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
   }
 
   /// Handles updates to the feed state when an activity is updated.
-  void onActivityUpdated(ActivityData activity) {
+  ///
+  /// [hasOwnFields] should be `true` when [activity] was fetched with `enrichOwnFields: true`,
+  /// so its `own_*` fields are trusted over what's already in state. See
+  /// [ActivityDataMutations.updateWith].
+  void onActivityUpdated(ActivityData activity, {bool hasOwnFields = false}) {
     state = state.updateActivitiesWhere(
       (it) => it.id == activity.id,
-      update: (it) => it.updateWith(activity),
+      update: (it) => it.updateWith(activity, hasOwnFields: hasOwnFields),
     );
   }
 
@@ -204,10 +208,17 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
       key: (it) => it.group,
     );
 
-    state = state.copyWith(
-      notificationStatus: notificationStatus,
-      aggregatedActivities: updatedAggregatedActivities,
-    );
+    state = state
+        .copyWith(
+          // The event may omit notification_status entirely; don't let that wipe
+          // out what we already know.
+          notificationStatus: notificationStatus ?? state.notificationStatus,
+          aggregatedActivities: updatedAggregatedActivities,
+        )
+        // Re-derive isRead/isSeen from the (possibly refreshed) notification
+        // status, so flags stay correct even when this update didn't originate
+        // from this session's own markActivity() call (e.g. another device).
+        .reconcileReadSeen();
   }
 
   /// Handles updates to the feed state when the stories feed is updated.
@@ -319,9 +330,13 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
   }
 
   /// Handles updates to the feed state when the feed is updated.
-  void onFeedUpdated(FeedData feed) {
+  ///
+  /// [hasOwnFields] should be `true` when [feed] was fetched with `enrichOwnFields: true`, so
+  /// its `own_*` fields are trusted over what's already in state. See
+  /// [FeedDataMutations.updateWith].
+  void onFeedUpdated(FeedData feed, {bool hasOwnFields = false}) {
     final currentFeed = state.feed;
-    final updatedFeed = currentFeed?.updateWith(feed) ?? feed;
+    final updatedFeed = currentFeed?.updateWith(feed, hasOwnFields: hasOwnFields) ?? feed;
 
     // Update the feed data in the state
     state = state.copyWith(feed: updatedFeed);
@@ -659,18 +674,13 @@ extension on FeedState {
 
   /// Marks all activities in this feed state as read.
   ///
-  /// Sets the unread count to 0 and marks all aggregated activity groups as read.
-  /// Updates the last read timestamp to the current time.
+  /// Sets the unread count to 0, records every aggregated group as read, and updates the last
+  /// read timestamp to the current time. Per-activity and per-group `isRead` flags are then
+  /// re-derived by [reconcileReadSeen].
   ///
   /// Returns a new [FeedState] instance with the updated notification status.
   FeedState markAllRead() {
-    final updatedAggregated = aggregatedActivities.map((group) {
-      final updatedActivities = group.activities.map((a) => a.copyWith(isRead: true)).toList();
-      return group.copyWith(isRead: true, activities: updatedActivities);
-    }).toList();
-
-    final readActivities = updatedAggregated.map((it) => it.group).toList();
-    final updatedActivities = activities.map((a) => a.copyWith(isRead: true)).toList();
+    final readActivities = aggregatedActivities.map((it) => it.group).toList();
 
     final updatedNotificationStatus = notificationStatus?.copyWith(
       unread: 0,
@@ -679,26 +689,19 @@ extension on FeedState {
     );
 
     return copyWith(
-      activities: updatedActivities,
-      aggregatedActivities: updatedAggregated,
       notificationStatus: updatedNotificationStatus,
-    );
+    ).reconcileReadSeen();
   }
 
   /// Marks all activities in this feed state as seen.
   ///
-  /// Sets the unseen count to 0 and marks all aggregated activity groups as seen.
-  /// Updates the last seen timestamp to the current time.
+  /// Sets the unseen count to 0, records every aggregated group as seen, and updates the last
+  /// seen timestamp to the current time. Per-activity and per-group `isSeen` flags are then
+  /// re-derived by [reconcileReadSeen].
   ///
   /// Returns a new [FeedState] instance with the updated notification status.
   FeedState markAllSeen() {
-    final updatedAggregated = aggregatedActivities.map((group) {
-      final updatedActivities = group.activities.map((a) => a.copyWith(isSeen: true)).toList();
-      return group.copyWith(isSeen: true, activities: updatedActivities);
-    }).toList();
-
-    final seenActivities = updatedAggregated.map((it) => it.group).toList();
-    final updatedActivities = activities.map((a) => a.copyWith(isSeen: true)).toList();
+    final seenActivities = aggregatedActivities.map((it) => it.group).toList();
 
     final updatedNotificationStatus = notificationStatus?.copyWith(
       unseen: 0,
@@ -707,28 +710,19 @@ extension on FeedState {
     );
 
     return copyWith(
-      activities: updatedActivities,
-      aggregatedActivities: updatedAggregated,
       notificationStatus: updatedNotificationStatus,
-    );
+    ).reconcileReadSeen();
   }
 
   /// Marks specific activities as read in this feed state.
   ///
-  /// Adds the activity group IDs in [readIds] to the read activities set and decreases the unread
-  /// count by the number of newly read activities. Updates the last read timestamp to the
-  /// current time. Also updates per-activity and per-group `isRead` flags.
+  /// Adds the activity/group IDs in [readIds] to the read activities set and decreases the
+  /// unread count by the number of newly read activities. Note: unlike [markAllRead], the
+  /// server only advances `lastReadAt` for "mark all" operations, so this leaves it untouched.
+  /// Per-activity and per-group `isRead` flags are then re-derived by [reconcileReadSeen].
   ///
   /// Returns a new [FeedState] instance with the updated notification status.
   FeedState markRead(Set<String> readIds) {
-    final updatedAggregated = aggregatedActivities.map((group) {
-      if (!readIds.contains(group.group)) return group;
-      final updatedActivities = group.activities.map((a) => a.copyWith(isRead: true)).toList();
-      return group.copyWith(isRead: true, activities: updatedActivities);
-    }).toList();
-
-    final updatedActivities = activities.map((a) => readIds.contains(a.id) ? a.copyWith(isRead: true) : a).toList();
-
     final readActivities = notificationStatus?.readActivities?.toSet();
     final updatedReadActivities = readActivities?.union(readIds).toList();
 
@@ -738,32 +732,22 @@ extension on FeedState {
     final updatedNotificationStatus = notificationStatus?.copyWith(
       unread: updatedUnreadCount,
       readActivities: updatedReadActivities,
-      lastReadAt: DateTime.timestamp(),
     );
 
     return copyWith(
-      activities: updatedActivities,
-      aggregatedActivities: updatedAggregated,
       notificationStatus: updatedNotificationStatus,
-    );
+    ).reconcileReadSeen();
   }
 
   /// Marks specific activities as seen in this feed state.
   ///
-  /// Adds the activity group IDs in [seenIds] to the seen activities set and decreases the unseen
-  /// count by the number of newly seen activities. Updates the last seen timestamp to the
-  /// current time. Also updates per-activity and per-group `isSeen` flags.
+  /// Adds the activity/group IDs in [seenIds] to the seen activities set and decreases the
+  /// unseen count by the number of newly seen activities. Note: unlike [markAllSeen], the
+  /// server only advances `lastSeenAt` for "mark all" operations, so this leaves it untouched.
+  /// Per-activity and per-group `isSeen` flags are then re-derived by [reconcileReadSeen].
   ///
   /// Returns a new [FeedState] instance with the updated notification status.
   FeedState markSeen(Set<String> seenIds) {
-    final updatedAggregated = aggregatedActivities.map((group) {
-      if (!seenIds.contains(group.group)) return group;
-      final updatedActivities = group.activities.map((a) => a.copyWith(isSeen: true)).toList();
-      return group.copyWith(isSeen: true, activities: updatedActivities);
-    }).toList();
-
-    final updatedActivities = activities.map((a) => seenIds.contains(a.id) ? a.copyWith(isSeen: true) : a).toList();
-
     final seenActivities = notificationStatus?.seenActivities?.toSet();
     final updatedSeenActivities = seenActivities?.union(seenIds).toList();
 
@@ -773,14 +757,67 @@ extension on FeedState {
     final updatedNotificationStatus = notificationStatus?.copyWith(
       unseen: updatedUnseenCount,
       seenActivities: updatedSeenActivities,
-      lastSeenAt: DateTime.timestamp(),
     );
 
     return copyWith(
-      activities: updatedActivities,
-      aggregatedActivities: updatedAggregated,
       notificationStatus: updatedNotificationStatus,
-    );
+    ).reconcileReadSeen();
+  }
+
+  /// Re-derives per-activity and per-group `isRead`/`isSeen` flags from [notificationStatus].
+  ///
+  /// Mirrors how the server itself derives these flags: an item is read/seen if it was last
+  /// updated before `lastReadAt`/`lastSeenAt`, or if its ID (flat feeds) or group name
+  /// (aggregated feeds) is listed in `readActivities`/`seenActivities`. Nested activities within
+  /// an aggregated group inherit their group's flags, since read/seen is only tracked at the
+  /// group level for aggregation.
+  ///
+  /// Returns a new [FeedState] instance with up-to-date flags, or this instance unchanged if
+  /// there's no notification status to derive them from.
+  FeedState reconcileReadSeen() {
+    final status = notificationStatus;
+    if (status == null) return this;
+
+    final lastReadAt = status.lastReadAt;
+    final lastSeenAt = status.lastSeenAt;
+    final readActivities = {...?status.readActivities};
+    final seenActivities = {...?status.seenActivities};
+
+    bool isRead(String key, DateTime updatedAt) {
+      if (readActivities.contains(key)) return true;
+      return lastReadAt != null && updatedAt.isBefore(lastReadAt);
+    }
+
+    bool isSeen(String key, DateTime updatedAt) {
+      if (seenActivities.contains(key)) return true;
+      return lastSeenAt != null && updatedAt.isBefore(lastSeenAt);
+    }
+
+    final updatedActivities = activities.map((a) {
+      final read = isRead(a.id, a.updatedAt);
+      final seen = isSeen(a.id, a.updatedAt);
+      if (a.isRead == read && a.isSeen == seen) return a;
+      return a.copyWith(isRead: read, isSeen: seen);
+    }).toList();
+
+    final updatedAggregated = aggregatedActivities.map((group) {
+      final read = isRead(group.group, group.updatedAt);
+      final seen = isSeen(group.group, group.updatedAt);
+
+      var groupActivitiesChanged = false;
+      final updatedGroupActivities = group.activities.map((a) {
+        if (a.isRead == read && a.isSeen == seen) return a;
+        groupActivitiesChanged = true;
+        return a.copyWith(isRead: read, isSeen: seen);
+      }).toList();
+
+      if (group.isRead == read && group.isSeen == seen && !groupActivitiesChanged) {
+        return group;
+      }
+      return group.copyWith(isRead: read, isSeen: seen, activities: updatedGroupActivities);
+    }).toList();
+
+    return copyWith(activities: updatedActivities, aggregatedActivities: updatedAggregated);
   }
 
   /// Marks specific activities as watched in this feed state.

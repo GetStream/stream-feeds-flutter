@@ -92,6 +92,98 @@ void main() {
     );
 
     feedTest(
+      'updateFeed() - with enrichOwnFields should apply the refreshed own fields to state',
+      build: (client) => client.feed(group: 'user', id: 'john'),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          feed: createDefaultFeedResponse(
+            id: 'john',
+            groupId: 'user',
+            ownFollowings: [createDefaultFollowResponse()],
+          ),
+        ),
+      ),
+      body: (tester) async {
+        expect(tester.feedState.feed?.ownFollowings, hasLength(1));
+
+        tester.mockApi(
+          (api) => api.updateFeed(
+            feedGroupId: 'user',
+            feedId: 'john',
+            updateFeedRequest: const UpdateFeedRequest(enrichOwnFields: true),
+          ),
+          result: UpdateFeedResponse(
+            duration: '0ms',
+            // The server enriched the response: no more own follows.
+            feed: createDefaultFeedResponse(id: 'john', groupId: 'user', ownFollowings: const []),
+          ),
+        );
+
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<FeedUpdated>()),
+        );
+
+        final result = await tester.feed.updateFeed(
+          request: const UpdateFeedRequest(enrichOwnFields: true),
+        );
+
+        expect(result.isSuccess, isTrue);
+        expect(result.getOrThrow().ownFollowings, isEmpty);
+
+        // Wait for the state update triggered by the emitted event to land.
+        await expectEventEmitted;
+        expect(tester.feedState.feed?.ownFollowings, isEmpty);
+      },
+    );
+
+    feedTest(
+      'updateFeed() - without enrichOwnFields should preserve existing own fields in state',
+      build: (client) => client.feed(group: 'user', id: 'john'),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          feed: createDefaultFeedResponse(
+            id: 'john',
+            groupId: 'user',
+            ownFollowings: [createDefaultFollowResponse()],
+          ),
+        ),
+      ),
+      body: (tester) async {
+        expect(tester.feedState.feed?.ownFollowings, hasLength(1));
+
+        tester.mockApi(
+          (api) => api.updateFeed(
+            feedGroupId: 'user',
+            feedId: 'john',
+            updateFeedRequest: const UpdateFeedRequest(custom: {'updated': true}),
+          ),
+          result: UpdateFeedResponse(
+            duration: '0ms',
+            // enrichOwnFields wasn't set: an absent ownFollowings here means "not
+            // fetched", not "actually empty" — it must not overwrite local state.
+            feed: createDefaultFeedResponse(id: 'john', groupId: 'user'),
+          ),
+        );
+
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<FeedUpdated>()),
+        );
+
+        final result = await tester.feed.updateFeed(
+          request: const UpdateFeedRequest(custom: {'updated': true}),
+        );
+
+        expect(result.isSuccess, isTrue);
+
+        // Wait for the state update triggered by the emitted event to land.
+        await expectEventEmitted;
+        expect(tester.feedState.feed?.ownFollowings, hasLength(1));
+      },
+    );
+
+    feedTest(
       'deleteFeed() - should delete feed',
       build: (client) => client.feed(group: 'user', id: 'john'),
       setUp: (tester) => tester.getOrCreate(),
@@ -273,6 +365,110 @@ void main() {
           updateActivityRequest: const UpdateActivityRequest(custom: {'updated': true}),
         ),
       ),
+    );
+
+    feedTest(
+      'updateActivity() - with enrichOwnFields should apply the refreshed ownReactions to state',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: [
+            createDefaultActivityResponse(
+              id: 'activity-1',
+              feeds: [feedId.rawValue],
+              ownReactions: [createDefaultReactionResponse(activityId: 'activity-1')],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        expect(tester.feedState.activities.first.ownReactions, hasLength(1));
+
+        tester.mockApi(
+          (api) => api.updateActivity(
+            id: 'activity-1',
+            updateActivityRequest: const UpdateActivityRequest(enrichOwnFields: true),
+          ),
+          result: UpdateActivityResponse(
+            duration: '0ms',
+            // The server enriched the response: no more own reactions.
+            activity: createDefaultActivityResponse(
+              id: 'activity-1',
+              feeds: [feedId.rawValue],
+            ),
+          ),
+        );
+
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<ActivityUpdated>()),
+        );
+
+        final result = await tester.feed.updateActivity(
+          id: 'activity-1',
+          request: const UpdateActivityRequest(enrichOwnFields: true),
+        );
+
+        expect(result.isSuccess, isTrue);
+
+        // Wait for the state update triggered by the emitted event to land.
+        await expectEventEmitted;
+        final activity = tester.feedState.activities.first;
+        expect(activity.ownReactions, isEmpty);
+      },
+    );
+
+    feedTest(
+      'updateActivity() - without enrichOwnFields should preserve existing ownReactions in state',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: [
+            createDefaultActivityResponse(
+              id: 'activity-1',
+              feeds: [feedId.rawValue],
+              ownReactions: [createDefaultReactionResponse(activityId: 'activity-1')],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        expect(tester.feedState.activities.first.ownReactions, hasLength(1));
+
+        tester.mockApi(
+          (api) => api.updateActivity(
+            id: 'activity-1',
+            updateActivityRequest: const UpdateActivityRequest(custom: {'updated': true}),
+          ),
+          result: UpdateActivityResponse(
+            duration: '0ms',
+            // enrichOwnFields wasn't set: an absent ownReactions here means "not
+            // fetched", not "actually empty" — it must not overwrite local state.
+            activity: createDefaultActivityResponse(
+              id: 'activity-1',
+              feeds: [feedId.rawValue],
+            ).copyWith(custom: {'updated': true}),
+          ),
+        );
+
+        final expectEventEmitted = expectLater(
+          tester.client.stateUpdateEvents,
+          emits(isA<ActivityUpdated>()),
+        );
+
+        final result = await tester.feed.updateActivity(
+          id: 'activity-1',
+          request: const UpdateActivityRequest(custom: {'updated': true}),
+        );
+
+        expect(result.isSuccess, isTrue);
+
+        // Wait for the state update triggered by the emitted event to land.
+        await expectEventEmitted;
+        final activity = tester.feedState.activities.first;
+        expect(activity.custom?['updated'], true);
+        expect(activity.ownReactions, hasLength(1));
+      },
     );
 
     feedTest(
@@ -3890,7 +4086,7 @@ void main() {
     );
 
     feedTest(
-      'ActivityMarkEvent - should mark activity as read',
+      'ActivityMarkEvent - should mark activity group as read',
       build: (client) => client.feedFromId(feedId),
       setUp: (tester) => tester.getOrCreate(
         modifyResponse: (response) => response.copyWith(
@@ -3910,26 +4106,39 @@ void main() {
         expect(tester.feedState.notificationStatus?.unread, 1);
         expect(tester.feedState.notificationStatus?.readActivities, isEmpty);
 
+        // markRead/markSeen address aggregated notification groups by group name,
+        // not by the ID of an individual activity within the group.
         await tester.emitEvent(
           ActivityMarkEvent(
             type: EventTypes.activityMarked,
             createdAt: DateTime.timestamp(),
             custom: const {},
             fid: feedId.rawValue,
-            markRead: const ['notification-1'],
+            markRead: const ['group1'],
           ),
         );
 
-        // Verify activity was marked as read
+        // Verify notification status was updated
         final notificationStatus = tester.feedState.notificationStatus;
         expect(notificationStatus?.unread, 0);
-        expect(notificationStatus?.readActivities, contains('notification-1'));
-        expect(notificationStatus?.lastReadAt, isNotNull);
+        expect(notificationStatus?.readActivities, contains('group1'));
+
+        // Only "mark all" operations advance lastReadAt server-side (FEEDS-674);
+        // a targeted mark leaves it untouched.
+        expect(notificationStatus?.lastReadAt, DateTime(2021, 1, 1));
+
+        // Verify the group and its nested activity were both flagged as read
+        final group = tester.feedState.aggregatedActivities.first;
+        expect(group.isRead, isTrue);
+        expect(group.activities.first.isRead, isTrue);
+
+        // Seen status must be untouched by a read-only mark
+        expect(group.isSeen, isNot(true));
       },
     );
 
     feedTest(
-      'ActivityMarkEvent - should mark activity as seen',
+      'ActivityMarkEvent - should mark activity group as seen',
       build: (client) => client.feedFromId(feedId),
       setUp: (tester) => tester.getOrCreate(
         modifyResponse: (response) => response.copyWith(
@@ -3955,15 +4164,68 @@ void main() {
             createdAt: DateTime.timestamp(),
             custom: const {},
             fid: feedId.rawValue,
+            markSeen: const ['group1'],
+          ),
+        );
+
+        // Verify notification status was updated
+        final notificationStatus = tester.feedState.notificationStatus;
+        expect(notificationStatus?.unseen, 0);
+        expect(notificationStatus?.seenActivities, contains('group1'));
+        expect(notificationStatus?.lastSeenAt, DateTime(2021, 1, 1));
+
+        // Verify the group and its nested activity were both flagged as seen
+        final group = tester.feedState.aggregatedActivities.first;
+        expect(group.isSeen, isTrue);
+        expect(group.activities.first.isSeen, isTrue);
+
+        // Read status must be untouched by a seen-only mark
+        expect(group.isRead, isNot(true));
+      },
+    );
+
+    feedTest(
+      'ActivityMarkEvent - should mark a flat (non-aggregated) activity as read and seen',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (response) => response.copyWith(
+          activities: [createDefaultActivityResponse(id: 'notification-1')],
+          notificationStatus: NotificationStatusResponse(
+            unseen: 1,
+            unread: 1,
+            seenActivities: const [],
+            readActivities: const [],
+            lastSeenAt: DateTime(2021, 1, 1),
+            lastReadAt: DateTime(2021, 1, 1),
+          ),
+        ),
+      ),
+      body: (tester) async {
+        // Note: a single ActivityMarkEvent only ever carries one mark type
+        // (markAllRead/markAllSeen/markRead/markSeen), so read and seen are
+        // marked via separate events, same as the server would emit them.
+        await tester.emitEvent(
+          ActivityMarkEvent(
+            type: EventTypes.activityMarked,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: feedId.rawValue,
+            markRead: const ['notification-1'],
+          ),
+        );
+        await tester.emitEvent(
+          ActivityMarkEvent(
+            type: EventTypes.activityMarked,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: feedId.rawValue,
             markSeen: const ['notification-1'],
           ),
         );
 
-        // Verify activity was marked as seen
-        final notificationStatus = tester.feedState.notificationStatus;
-        expect(notificationStatus?.unseen, 0);
-        expect(notificationStatus?.seenActivities, contains('notification-1'));
-        expect(notificationStatus?.lastSeenAt, isNotNull);
+        final activity = tester.feedState.activities.first;
+        expect(activity.isRead, isTrue);
+        expect(activity.isSeen, isTrue);
       },
     );
 
@@ -4011,6 +4273,11 @@ void main() {
         final notificationStatus = tester.feedState.notificationStatus;
         expect(notificationStatus?.unread, 0);
         expect(notificationStatus?.lastReadAt, isNotNull);
+
+        // Verify every group and its nested activities were flagged as read
+        final group = tester.feedState.aggregatedActivities.first;
+        expect(group.isRead, isTrue);
+        expect(group.activities.every((a) => a.isRead ?? false), isTrue);
       },
     );
 
@@ -4058,6 +4325,60 @@ void main() {
         final notificationStatus = tester.feedState.notificationStatus;
         expect(notificationStatus?.unseen, 0);
         expect(notificationStatus?.lastSeenAt, isNotNull);
+
+        // Verify every group and its nested activities were flagged as seen
+        final group = tester.feedState.aggregatedActivities.first;
+        expect(group.isSeen, isTrue);
+        expect(group.activities.every((a) => a.isSeen ?? false), isTrue);
+      },
+    );
+
+    feedTest(
+      'NotificationFeedUpdatedEvent - should re-derive isRead/isSeen from a status-only update '
+      "(e.g. another device's mark)",
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          aggregatedActivities: initialAggregatedActivities,
+          notificationStatus: NotificationStatusResponse(
+            unseen: 1,
+            unread: 1,
+            seenActivities: const [],
+            readActivities: const [],
+            lastSeenAt: DateTime(2021, 1, 1),
+            lastReadAt: DateTime(2021, 1, 1),
+          ),
+        ),
+      ),
+      body: (tester) async {
+        final group = tester.feedState.aggregatedActivities.first;
+        expect(group.isRead, isNot(true));
+        expect(group.isSeen, isNot(true));
+
+        // Another session/device marked everything read+seen: the server only
+        // reports the refreshed notification_status, with no aggregated_activities
+        // payload (mirrors the real-world event shape from stream-feeds-js#278).
+        await tester.emitEvent(
+          NotificationFeedUpdatedEvent(
+            type: EventTypes.notificationFeedUpdated,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: feedId.rawValue,
+            notificationStatus: NotificationStatusResponse(
+              unseen: 0,
+              unread: 0,
+              lastSeenAt: DateTime.timestamp(),
+              lastReadAt: DateTime.timestamp(),
+            ),
+          ),
+        );
+
+        // The existing group is still present (not wiped out by the merge)...
+        expect(tester.feedState.aggregatedActivities, hasLength(1));
+        // ...and its isRead/isSeen were re-derived from the fresh timestamps.
+        final updatedGroup = tester.feedState.aggregatedActivities.first;
+        expect(updatedGroup.isRead, isTrue);
+        expect(updatedGroup.isSeen, isTrue);
       },
     );
   });
