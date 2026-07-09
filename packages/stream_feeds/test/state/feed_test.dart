@@ -4530,6 +4530,55 @@ void main() {
     );
 
     feedTest(
+      'getOrCreate() exposes peopleIFollow restrictReplies on activity state',
+      build: (client) => client.feedFromId(feedId),
+      body: (tester) async {
+        await tester.getOrCreate(
+          modifyResponse: (it) => it.copyWith(
+            activities: [
+              createDefaultActivityResponse(
+                id: 'activity-1',
+                feeds: [feedId.rawValue],
+                restrictReplies: ActivityResponseRestrictReplies.peopleIFollow,
+              ),
+            ],
+          ),
+        );
+
+        final activity = tester.feedState.activities.firstWhere(
+          (a) => a.id == 'activity-1',
+        );
+        expect(
+          activity.restrictReplies,
+          equals(ActivityRestrictReplies.peopleIFollow),
+        );
+      },
+    );
+
+    feedTest(
+      'getOrCreate() exposes unknown restrictReplies on activity state',
+      build: (client) => client.feedFromId(feedId),
+      body: (tester) async {
+        await tester.getOrCreate(
+          modifyResponse: (it) => it.copyWith(
+            activities: [
+              createDefaultActivityResponse(
+                id: 'activity-1',
+                feeds: [feedId.rawValue],
+                restrictReplies: ActivityResponseRestrictReplies.unknown,
+              ),
+            ],
+          ),
+        );
+
+        final activity = tester.feedState.activities.firstWhere(
+          (a) => a.id == 'activity-1',
+        );
+        expect(activity.restrictReplies, equals(ActivityRestrictReplies.unknown));
+      },
+    );
+
+    feedTest(
       'updateActivity() passes restrictReplies to API',
       build: (client) => client.feedFromId(feedId),
       setUp: (tester) => tester.getOrCreate(
