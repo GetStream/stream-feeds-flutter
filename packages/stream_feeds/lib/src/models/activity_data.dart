@@ -366,26 +366,31 @@ extension ActivityResponseMapper on ActivityResponse {
 extension ActivityDataMutations on ActivityData {
   /// Updates this activity with new data while preserving own data.
   ///
-  /// Merges [updated] activity data with this instance, preserving [ownBookmarks] and
-  /// [ownReactions] from this instance when not provided. This ensures that user-specific
-  /// data is not lost when updating from WebSocket events.
+  /// Merges [updated] activity data with this instance. If [ownBookmarks]/[ownReactions] are
+  /// explicitly passed, they take precedence (used by callers that just computed a locally
+  /// up-to-date value, e.g. [upsertBookmark]). Otherwise, they're taken from [updated] only when
+  /// [hasOwnFields] is `true`; if `false`, they're preserved from this instance. This matters
+  /// because these `own_*` fields are only reliably populated when the request that produced
+  /// [updated] set `enrichOwnFields: true` (or came from a WS event, which never carries them) —
+  /// an omitted field there means "not fetched", not "empty", so blindly taking it would wipe out
+  /// state we already know to be correct. [hasOwnFields] is forwarded to [currentFeed]'s own
+  /// merge for the same reason.
   ///
   /// Returns a new [ActivityData] instance with the merged data.
   ActivityData updateWith(
     ActivityData updated, {
     List<BookmarkData>? ownBookmarks,
     List<FeedsReactionData>? ownReactions,
+    bool hasOwnFields = false,
   }) {
     return updated.copyWith(
-      // Preserve own data from the current instance if not provided
-      // as they may not be reliable from WS events.
-      ownBookmarks: ownBookmarks ?? this.ownBookmarks,
-      ownReactions: ownReactions ?? this.ownReactions,
+      ownBookmarks: ownBookmarks ?? (hasOwnFields ? updated.ownBookmarks : this.ownBookmarks),
+      ownReactions: ownReactions ?? (hasOwnFields ? updated.ownReactions : this.ownReactions),
       poll: updated.poll?.let((it) => poll?.updateWith(it) ?? it),
       // Workaround until the backend fixes the issue with missing currentFeed
       // in some WS events
       currentFeed: switch (updated.currentFeed) {
-        final it? => currentFeed?.updateWith(it) ?? it,
+        final it? => currentFeed?.updateWith(it, hasOwnFields: hasOwnFields) ?? it,
         _ => currentFeed,
       },
     );

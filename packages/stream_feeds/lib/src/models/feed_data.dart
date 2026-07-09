@@ -195,25 +195,24 @@ extension FeedResponseVisibilityMapper on FeedResponseVisibility {
 extension FeedDataMutations on FeedData {
   /// Updates this feed with new data while preserving own data.
   ///
-  /// Merges [updated] feed data with this instance, preserving [ownCapabilities],
-  /// [ownMembership], [ownFollowings], and [ownFollows] from this instance when not provided. This
-  /// ensures that user-specific data is not lost when updating from WebSocket events.
+  /// Merges [updated] feed data with this instance. [ownMembership], [ownFollowings], and
+  /// [ownFollows] are taken from [updated] only when [hasOwnFields] is `true`; otherwise they're
+  /// preserved from this instance. This matters because these `own_*` fields are only reliably
+  /// populated when the request that produced [updated] set `enrichOwnFields: true` (or came from
+  /// a WS event, which never carries them) — an omitted field there means "not fetched", not
+  /// "empty", so blindly taking it would wipe out state we already know to be correct.
+  ///
+  /// [ownCapabilities] is intentionally excluded from this gating: it's kept in sync through a
+  /// separate, always-fresh batch lookup (see `FeedCapabilitiesMixin`), independent of
+  /// `enrichOwnFields`.
   ///
   /// Returns a new [FeedData] instance with the merged data.
-  FeedData updateWith(
-    FeedData updated, {
-    List<FeedOwnCapability>? ownCapabilities,
-    FeedMemberData? ownMembership,
-    List<FollowData>? ownFollowings,
-    List<FollowData>? ownFollows,
-  }) {
+  FeedData updateWith(FeedData updated, {bool hasOwnFields = false}) {
     return updated.copyWith(
-      // Preserve own data from the current instance if not provided
-      // as they may not be reliable from WS events.
-      ownCapabilities: ownCapabilities ?? this.ownCapabilities,
-      ownMembership: ownMembership ?? this.ownMembership,
-      ownFollowings: ownFollowings ?? this.ownFollowings,
-      ownFollows: ownFollows ?? this.ownFollows,
+      ownCapabilities: ownCapabilities,
+      ownMembership: hasOwnFields ? updated.ownMembership : ownMembership,
+      ownFollowings: hasOwnFields ? updated.ownFollowings : ownFollowings,
+      ownFollows: hasOwnFields ? updated.ownFollows : ownFollows,
     );
   }
 }
