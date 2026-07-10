@@ -47,7 +47,8 @@ command:
       shared_preferences: ^2.5.3
       state_notifier: ^1.0.0
       stream_feeds: ^0.5.1
-      stream_core: ^0.4.0
+      stream_core: 
+        path: /Users/renefloor/Documents/github/stream-core-flutter/packages/stream_core
       video_player: ^2.10.0
       uuid: ^4.5.1
       web_socket_channel: ^3.0.0
