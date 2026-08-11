@@ -103,12 +103,10 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
       ),
     };
 
-    // Note: `_tokenManager.userId` stays fixed to the originally-requested
-    // id for the lifetime of this client, even though a guest user's
-    // `_user.id` may later be reassigned by the server (see
-    // `_guestTokenProvider`). REST calls stay consistent regardless, since
-    // `AuthInterceptor` derives the `user_id` query parameter from the
-    // resolved token itself rather than from `_tokenManager.userId`.
+    // For guest users this starts with the originally-requested id and is
+    // swapped for a manager carrying the server-resolved id once the token
+    // exchange completes (see `_guestTokenProvider`). `AuthInterceptor` reads
+    // the manager through a getter, so it always sees the current instance.
     _tokenManager = TokenManager(
       userId: user.id,
       tokenProvider: userTokenProvider,
@@ -161,7 +159,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
             ApiKeyInterceptor(apiKey),
             HeadersInterceptor(_systemEnvironmentManager),
             if (user.type != UserType.anonymous) connectionIdInterceptor,
-            AuthInterceptor(client, _tokenManager),
+            AuthInterceptor(client, () => _tokenManager),
             const ApiErrorInterceptor(),
             LoggingInterceptor(requestHeader: true),
           ]),
@@ -209,7 +207,10 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
 
   final FeedsConfig config;
 
-  late final TokenManager _tokenManager;
+  // Not `final`: for guest users this is swapped for a manager carrying the
+  // server-resolved user id once the token exchange completes (see
+  // `_guestTokenProvider`).
+  late TokenManager _tokenManager;
   late final StreamWebSocketClient _ws;
   late final ConnectionRecoveryHandler _connectionRecoveryHandler;
 
@@ -250,11 +251,16 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
   ///
   /// Guest users have no pre-issued token, so one is minted lazily via
   /// `POST /api/v2/guest`, called through a dedicated, unauthenticated HTTP
-  /// client (built once and reused across token refreshes). The backend may
-  /// return a different id than the one requested, to avoid colliding with
-  /// an existing user, so [_user] is updated to the server's response to
-  /// keep the WS handshake and any `client.user` reads in sync with the
-  /// identity the token actually authenticates as.
+  /// client. The backend may return a different id than the one requested, to
+  /// avoid colliding with an existing user, so [_user] is updated to the
+  /// server's response to keep the WS handshake and any `client.user` reads in
+  /// sync with the identity the token actually authenticates as.
+  ///
+  /// Once the id is known, [_tokenManager] is swapped for one pinned to that id
+  /// with a static provider: the guest identity is established once (like an
+  /// anonymous user) rather than re-minted on every token load, and
+  /// `AuthInterceptor` — which reads the manager through a getter — picks up
+  /// the resolved id for the `user_id` query parameter.
   TokenProvider _guestTokenProvider({
     required User user,
     required String apiKey,
@@ -295,7 +301,16 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
         custom: response.user.custom,
       );
 
-      return UserToken(response.accessToken);
+      final token = UserToken(response.accessToken);
+
+      // Pin the manager to the resolved id so subsequent REST/WS calls use it
+      // without re-running the guest exchange.
+      _tokenManager = TokenManager(
+        userId: response.user.id,
+        tokenProvider: TokenProvider.static(token),
+      );
+
+      return token;
     });
   }
 
