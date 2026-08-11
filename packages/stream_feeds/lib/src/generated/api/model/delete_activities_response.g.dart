@@ -9,7 +9,7 @@ part of 'delete_activities_response.dart';
 DeleteActivitiesResponse _$DeleteActivitiesResponseFromJson(
   Map<String, dynamic> json,
 ) => DeleteActivitiesResponse(
-  deletedIds: (json['deleted_ids'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
+  deletedIds: (json['deleted_ids'] as List<dynamic>).map((e) => e as String).toList(),
   duration: json['duration'] as String,
 );
 

@@ -44,14 +44,14 @@ class Reaction with _$Reaction {
   final Map<String, Object?>? childrenCounts;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
   final Map<String, Object?>? data;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? deletedAt;
 
   @override
@@ -82,7 +82,7 @@ class Reaction with _$Reaction {
   final Map<String, Object?>? targetFeedsExtraData;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
   @override

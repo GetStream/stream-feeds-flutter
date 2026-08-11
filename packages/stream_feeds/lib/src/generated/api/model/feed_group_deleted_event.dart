@@ -28,11 +28,10 @@ class FeedGroupDeletedEvent extends core.WsEvent with _$FeedGroupDeletedEvent {
   });
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override
@@ -45,7 +44,7 @@ class FeedGroupDeletedEvent extends core.WsEvent with _$FeedGroupDeletedEvent {
   final String groupId;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? receivedAt;
 
   @override

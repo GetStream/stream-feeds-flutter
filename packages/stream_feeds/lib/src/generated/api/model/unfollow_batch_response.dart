@@ -26,7 +26,6 @@ class UnfollowBatchResponse with _$UnfollowBatchResponse {
   final String duration;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<FollowResponse> follows;
 
   Map<String, dynamic> toJson() => _$UnfollowBatchResponseToJson(this);

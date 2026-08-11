@@ -81,7 +81,7 @@ class UpdateActivityRequest with _$UpdateActivityRequest {
   final bool? enrichOwnFields;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? expiresAt;
 
   @override

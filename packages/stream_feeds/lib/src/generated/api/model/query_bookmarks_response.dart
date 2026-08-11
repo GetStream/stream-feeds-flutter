@@ -25,7 +25,6 @@ class QueryBookmarksResponse with _$QueryBookmarksResponse {
   });
 
   @override
-  @JsonKey(defaultValue: [])
   final List<BookmarkResponse> bookmarks;
 
   @override

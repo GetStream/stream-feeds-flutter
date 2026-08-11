@@ -33,7 +33,7 @@ class PollVoteResponseData with _$PollVoteResponseData {
   final String? answerText;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
@@ -49,7 +49,7 @@ class PollVoteResponseData with _$PollVoteResponseData {
   final String pollId;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
   @override

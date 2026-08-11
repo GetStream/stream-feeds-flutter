@@ -22,6 +22,7 @@ mixin _$CommentResponse {
   DateTime? get deletedAt;
   int get downvoteCount;
   DateTime? get editedAt;
+  Map<String, String>? get i18n;
   String get id;
   List<FeedsReactionResponse>? get latestReactions;
   List<UserResponse> get mentionedUsers;
@@ -66,6 +67,7 @@ mixin _$CommentResponse {
             (identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt) &&
             (identical(other.downvoteCount, downvoteCount) || other.downvoteCount == downvoteCount) &&
             (identical(other.editedAt, editedAt) || other.editedAt == editedAt) &&
+            const DeepCollectionEquality().equals(other.i18n, i18n) &&
             (identical(other.id, id) || other.id == id) &&
             const DeepCollectionEquality().equals(
               other.latestReactions,
@@ -109,6 +111,7 @@ mixin _$CommentResponse {
     deletedAt,
     downvoteCount,
     editedAt,
+    const DeepCollectionEquality().hash(i18n),
     id,
     const DeepCollectionEquality().hash(latestReactions),
     const DeepCollectionEquality().hash(mentionedUsers),
@@ -130,7 +133,7 @@ mixin _$CommentResponse {
 
   @override
   String toString() {
-    return 'CommentResponse(attachments: $attachments, bookmarkCount: $bookmarkCount, confidenceScore: $confidenceScore, controversyScore: $controversyScore, createdAt: $createdAt, custom: $custom, deletedAt: $deletedAt, downvoteCount: $downvoteCount, editedAt: $editedAt, id: $id, latestReactions: $latestReactions, mentionedUsers: $mentionedUsers, moderation: $moderation, objectId: $objectId, objectType: $objectType, ownReactions: $ownReactions, parentId: $parentId, reactionCount: $reactionCount, reactionGroups: $reactionGroups, replyCount: $replyCount, score: $score, status: $status, text: $text, updatedAt: $updatedAt, upvoteCount: $upvoteCount, user: $user)';
+    return 'CommentResponse(attachments: $attachments, bookmarkCount: $bookmarkCount, confidenceScore: $confidenceScore, controversyScore: $controversyScore, createdAt: $createdAt, custom: $custom, deletedAt: $deletedAt, downvoteCount: $downvoteCount, editedAt: $editedAt, i18n: $i18n, id: $id, latestReactions: $latestReactions, mentionedUsers: $mentionedUsers, moderation: $moderation, objectId: $objectId, objectType: $objectType, ownReactions: $ownReactions, parentId: $parentId, reactionCount: $reactionCount, reactionGroups: $reactionGroups, replyCount: $replyCount, score: $score, status: $status, text: $text, updatedAt: $updatedAt, upvoteCount: $upvoteCount, user: $user)';
   }
 }
 
@@ -151,6 +154,7 @@ abstract mixin class $CommentResponseCopyWith<$Res> {
     DateTime? deletedAt,
     int downvoteCount,
     DateTime? editedAt,
+    Map<String, String>? i18n,
     String id,
     List<FeedsReactionResponse>? latestReactions,
     List<UserResponse> mentionedUsers,
@@ -192,6 +196,7 @@ class _$CommentResponseCopyWithImpl<$Res> implements $CommentResponseCopyWith<$R
     Object? deletedAt = freezed,
     Object? downvoteCount = null,
     Object? editedAt = freezed,
+    Object? i18n = freezed,
     Object? id = null,
     Object? latestReactions = freezed,
     Object? mentionedUsers = null,
@@ -248,6 +253,10 @@ class _$CommentResponseCopyWithImpl<$Res> implements $CommentResponseCopyWith<$R
             ? _self.editedAt
             : editedAt // ignore: cast_nullable_to_non_nullable
                   as DateTime?,
+        i18n: freezed == i18n
+            ? _self.i18n
+            : i18n // ignore: cast_nullable_to_non_nullable
+                  as Map<String, String>?,
         id: null == id
             ? _self.id
             : id // ignore: cast_nullable_to_non_nullable

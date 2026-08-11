@@ -23,7 +23,6 @@ class CreateCollectionsResponse with _$CreateCollectionsResponse {
   });
 
   @override
-  @JsonKey(defaultValue: [])
   final List<CollectionResponse> collections;
 
   @override

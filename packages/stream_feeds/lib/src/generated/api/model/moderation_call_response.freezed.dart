@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'call_response.dart';
+part of 'moderation_call_response.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -12,7 +12,7 @@ part of 'call_response.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$CallResponse {
+mixin _$ModerationCallResponse {
   bool get backstage;
   List<String> get blockedUserIds;
   bool get captioning;
@@ -34,20 +34,21 @@ mixin _$CallResponse {
   String get type;
   DateTime get updatedAt;
 
-  /// Create a copy of CallResponse
+  /// Create a copy of ModerationCallResponse
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $CallResponseCopyWith<CallResponse> get copyWith => _$CallResponseCopyWithImpl<CallResponse>(
-    this as CallResponse,
-    _$identity,
-  );
+  $ModerationCallResponseCopyWith<ModerationCallResponse> get copyWith =>
+      _$ModerationCallResponseCopyWithImpl<ModerationCallResponse>(
+        this as ModerationCallResponse,
+        _$identity,
+      );
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is CallResponse &&
+            other is ModerationCallResponse &&
             (identical(other.backstage, backstage) || other.backstage == backstage) &&
             const DeepCollectionEquality().equals(
               other.blockedUserIds,
@@ -101,16 +102,16 @@ mixin _$CallResponse {
 
   @override
   String toString() {
-    return 'CallResponse(backstage: $backstage, blockedUserIds: $blockedUserIds, captioning: $captioning, channelCid: $channelCid, cid: $cid, createdAt: $createdAt, createdBy: $createdBy, currentSessionId: $currentSessionId, custom: $custom, endedAt: $endedAt, id: $id, joinAheadTimeSeconds: $joinAheadTimeSeconds, recording: $recording, routingNumber: $routingNumber, startsAt: $startsAt, team: $team, transcribing: $transcribing, translating: $translating, type: $type, updatedAt: $updatedAt)';
+    return 'ModerationCallResponse(backstage: $backstage, blockedUserIds: $blockedUserIds, captioning: $captioning, channelCid: $channelCid, cid: $cid, createdAt: $createdAt, createdBy: $createdBy, currentSessionId: $currentSessionId, custom: $custom, endedAt: $endedAt, id: $id, joinAheadTimeSeconds: $joinAheadTimeSeconds, recording: $recording, routingNumber: $routingNumber, startsAt: $startsAt, team: $team, transcribing: $transcribing, translating: $translating, type: $type, updatedAt: $updatedAt)';
   }
 }
 
 /// @nodoc
-abstract mixin class $CallResponseCopyWith<$Res> {
-  factory $CallResponseCopyWith(
-    CallResponse value,
-    $Res Function(CallResponse) _then,
-  ) = _$CallResponseCopyWithImpl;
+abstract mixin class $ModerationCallResponseCopyWith<$Res> {
+  factory $ModerationCallResponseCopyWith(
+    ModerationCallResponse value,
+    $Res Function(ModerationCallResponse) _then,
+  ) = _$ModerationCallResponseCopyWithImpl;
   @useResult
   $Res call({
     bool backstage,
@@ -137,13 +138,13 @@ abstract mixin class $CallResponseCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$CallResponseCopyWithImpl<$Res> implements $CallResponseCopyWith<$Res> {
-  _$CallResponseCopyWithImpl(this._self, this._then);
+class _$ModerationCallResponseCopyWithImpl<$Res> implements $ModerationCallResponseCopyWith<$Res> {
+  _$ModerationCallResponseCopyWithImpl(this._self, this._then);
 
-  final CallResponse _self;
-  final $Res Function(CallResponse) _then;
+  final ModerationCallResponse _self;
+  final $Res Function(ModerationCallResponse) _then;
 
-  /// Create a copy of CallResponse
+  /// Create a copy of ModerationCallResponse
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -170,7 +171,7 @@ class _$CallResponseCopyWithImpl<$Res> implements $CallResponseCopyWith<$Res> {
     Object? updatedAt = null,
   }) {
     return _then(
-      CallResponse(
+      ModerationCallResponse(
         backstage: null == backstage
             ? _self.backstage
             : backstage // ignore: cast_nullable_to_non_nullable

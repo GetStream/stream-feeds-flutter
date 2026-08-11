@@ -28,7 +28,7 @@ class ActivitySelectorConfig with _$ActivitySelectorConfig {
   });
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime cutoffTime;
 
   @override

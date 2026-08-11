@@ -36,11 +36,9 @@ class GetOrCreateFeedResponse with _$GetOrCreateFeedResponse {
   });
 
   @override
-  @JsonKey(defaultValue: [])
   final List<ActivityResponse> activities;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<AggregatedActivityResponse> aggregatedActivities;
 
   @override
@@ -53,14 +51,12 @@ class GetOrCreateFeedResponse with _$GetOrCreateFeedResponse {
   final FeedResponse feed;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<FollowResponse> followers;
 
   @override
   final PagerResponse? followersPagination;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<FollowResponse> following;
 
   @override
@@ -70,7 +66,6 @@ class GetOrCreateFeedResponse with _$GetOrCreateFeedResponse {
   final PagerResponse? memberPagination;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<FeedMemberResponse> members;
 
   @override
@@ -80,7 +75,6 @@ class GetOrCreateFeedResponse with _$GetOrCreateFeedResponse {
   final NotificationStatusResponse? notificationStatus;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<ActivityPinResponse> pinnedActivities;
 
   @override

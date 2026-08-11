@@ -34,7 +34,7 @@ class FeedsReactionResponse with _$FeedsReactionResponse {
   final String? commentId;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
@@ -44,7 +44,7 @@ class FeedsReactionResponse with _$FeedsReactionResponse {
   final String type;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
   @override

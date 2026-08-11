@@ -18,17 +18,25 @@ part 'update_block_list_request.freezed.dart';
 @JsonSerializable()
 class UpdateBlockListRequest with _$UpdateBlockListRequest {
   const UpdateBlockListRequest({
+    this.isConfusableFoldingEnabled,
     this.isLeetCheckEnabled,
     this.isPluralCheckEnabled,
+    this.isSubstringMatchingEnabled,
     this.team,
     this.words,
   });
+
+  @override
+  final bool? isConfusableFoldingEnabled;
 
   @override
   final bool? isLeetCheckEnabled;
 
   @override
   final bool? isPluralCheckEnabled;
+
+  @override
+  final bool? isSubstringMatchingEnabled;
 
   @override
   final String? team;

@@ -33,11 +33,10 @@ class ActivityMarkEvent extends core.WsEvent with _$ActivityMarkEvent {
   });
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override
@@ -62,7 +61,7 @@ class ActivityMarkEvent extends core.WsEvent with _$ActivityMarkEvent {
   final List<String>? markWatched;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? receivedAt;
 
   @override

@@ -33,15 +33,13 @@ class ActionLogResponse with _$ActionLogResponse {
   });
 
   @override
-  @JsonKey(defaultValue: [])
   final List<String> aiProviders;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override

@@ -27,7 +27,7 @@ class BookmarkFolderResponse with _$BookmarkFolderResponse {
   });
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
@@ -40,7 +40,7 @@ class BookmarkFolderResponse with _$BookmarkFolderResponse {
   final String name;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
   @override

@@ -32,14 +32,13 @@ class AggregatedActivityResponse with _$AggregatedActivityResponse {
   });
 
   @override
-  @JsonKey(defaultValue: [])
   final List<ActivityResponse> activities;
 
   @override
   final int activityCount;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
@@ -58,7 +57,7 @@ class AggregatedActivityResponse with _$AggregatedActivityResponse {
   final double score;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
   @override

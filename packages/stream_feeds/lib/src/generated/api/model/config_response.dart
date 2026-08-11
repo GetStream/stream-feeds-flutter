@@ -18,6 +18,7 @@ part 'config_response.freezed.dart';
 @JsonSerializable()
 class ConfigResponse with _$ConfigResponse {
   const ConfigResponse({
+    this.aiAudioConfig,
     this.aiImageConfig,
     this.aiImageLabelDefinitions,
     this.aiImageSubclassifications,
@@ -39,6 +40,9 @@ class ConfigResponse with _$ConfigResponse {
     this.velocityFilterConfig,
     this.videoCallRuleConfig,
   });
+
+  @override
+  final AIAudioConfigResponse? aiAudioConfig;
 
   @override
   final AIImageConfig? aiImageConfig;
@@ -74,7 +78,7 @@ class ConfigResponse with _$ConfigResponse {
   final BlockListConfig? blockListConfig;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
@@ -87,14 +91,13 @@ class ConfigResponse with _$ConfigResponse {
   final LLMConfig? llmConfig;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<String> supportedVideoCallHarmTypes;
 
   @override
   final String team;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
   @override

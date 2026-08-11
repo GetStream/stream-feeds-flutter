@@ -20,6 +20,7 @@ class ClosedCaptionRuleParameters with _$ClosedCaptionRuleParameters {
   const ClosedCaptionRuleParameters({
     this.harmLabels,
     this.llmHarmLabels,
+    this.severity,
     this.threshold,
     this.timeWindow,
   });
@@ -29,6 +30,9 @@ class ClosedCaptionRuleParameters with _$ClosedCaptionRuleParameters {
 
   @override
   final Map<String, String>? llmHarmLabels;
+
+  @override
+  final String? severity;
 
   @override
   final int? threshold;

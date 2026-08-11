@@ -20,8 +20,11 @@ class AddCommentReactionResponse with _$AddCommentReactionResponse {
   const AddCommentReactionResponse({
     required this.comment,
     required this.duration,
+    this.notificationAccepted,
     this.notificationCreated,
+    this.notificationTaskId,
     required this.reaction,
+    this.referenceActivity,
   });
 
   @override
@@ -31,10 +34,20 @@ class AddCommentReactionResponse with _$AddCommentReactionResponse {
   final String duration;
 
   @override
+  final bool? notificationAccepted;
+
+  @Deprecated('This field is deprecated.')
+  @override
   final bool? notificationCreated;
 
   @override
+  final String? notificationTaskId;
+
+  @override
   final FeedsReactionResponse reaction;
+
+  @override
+  final ActivityResponse? referenceActivity;
 
   Map<String, dynamic> toJson() => _$AddCommentReactionResponseToJson(this);
 

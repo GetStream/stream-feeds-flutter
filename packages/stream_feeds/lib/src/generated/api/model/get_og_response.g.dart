@@ -13,7 +13,7 @@ GetOGResponse _$GetOGResponseFromJson(Map<String, dynamic> json) => GetOGRespons
   authorLink: json['author_link'] as String?,
   authorName: json['author_name'] as String?,
   color: json['color'] as String?,
-  custom: json['custom'] as Map<String, dynamic>? ?? {},
+  custom: json['custom'] as Map<String, dynamic>,
   duration: json['duration'] as String,
   fallback: json['fallback'] as String?,
   fields: (json['fields'] as List<dynamic>?)?.map((e) => Field.fromJson(e as Map<String, dynamic>)).toList(),

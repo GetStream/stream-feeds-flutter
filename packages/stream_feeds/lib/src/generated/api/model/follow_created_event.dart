@@ -28,11 +28,10 @@ class FollowCreatedEvent extends core.WsEvent with _$FollowCreatedEvent {
   });
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override
@@ -45,7 +44,7 @@ class FollowCreatedEvent extends core.WsEvent with _$FollowCreatedEvent {
   final FollowResponse follow;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? receivedAt;
 
   @override

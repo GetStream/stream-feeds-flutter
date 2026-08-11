@@ -29,7 +29,7 @@ class MembershipLevelResponse with _$MembershipLevelResponse {
   });
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
@@ -48,11 +48,10 @@ class MembershipLevelResponse with _$MembershipLevelResponse {
   final int priority;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<String> tags;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
   Map<String, dynamic> toJson() => _$MembershipLevelResponseToJson(this);

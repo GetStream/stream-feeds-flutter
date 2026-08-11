@@ -54,38 +54,34 @@ class FullUserResponse with _$FullUserResponse {
   final int? avgResponseTime;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? banExpires;
 
   @override
   final bool banned;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<String> blockedUserIds;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<ChannelMute> channelMutes;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? deactivatedAt;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? deletedAt;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<DeviceResponse> devices;
 
   @override
@@ -101,14 +97,13 @@ class FullUserResponse with _$FullUserResponse {
   final String language;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? lastActive;
 
   @override
   final List<String>? latestHiddenChannels;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<UserMuteResponse> mutes;
 
   @override
@@ -121,7 +116,7 @@ class FullUserResponse with _$FullUserResponse {
   final PrivacySettingsResponse? privacySettings;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? revokeTokensIssuedBefore;
 
   @override
@@ -131,7 +126,6 @@ class FullUserResponse with _$FullUserResponse {
   final bool shadowBanned;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<String> teams;
 
   @override
@@ -150,7 +144,7 @@ class FullUserResponse with _$FullUserResponse {
   final int unreadThreads;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
   Map<String, dynamic> toJson() => _$FullUserResponseToJson(this);

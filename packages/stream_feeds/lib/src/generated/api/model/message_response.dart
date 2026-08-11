@@ -70,7 +70,6 @@ class MessageResponse with _$MessageResponse {
   });
 
   @override
-  @JsonKey(defaultValue: [])
   final List<Attachment> attachments;
 
   @override
@@ -80,15 +79,14 @@ class MessageResponse with _$MessageResponse {
   final String? command;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? deletedAt;
 
   @override
@@ -113,11 +111,10 @@ class MessageResponse with _$MessageResponse {
   final Map<String, List<String>>? imageLabels;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<ReactionResponse> latestReactions;
 
   @override
-  final ChannelMemberResponse? member;
+  final ChannelMemberPartialResponse? member;
 
   @override
   final bool mentionedChannel;
@@ -135,11 +132,10 @@ class MessageResponse with _$MessageResponse {
   final List<String>? mentionedRoles;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<UserResponse> mentionedUsers;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? messageTextUpdatedAt;
 
   @override
@@ -149,21 +145,20 @@ class MessageResponse with _$MessageResponse {
   final ModerationV2Response? moderation;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<ReactionResponse> ownReactions;
 
   @override
   final String? parentId;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? pinExpires;
 
   @override
   final bool pinned;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? pinnedAt;
 
   @override
@@ -182,14 +177,12 @@ class MessageResponse with _$MessageResponse {
   final String? quotedMessageId;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, int> reactionCounts;
 
   @override
   final Map<String, ReactionGroupResponse>? reactionGroups;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, int> reactionScores;
 
   @override
@@ -199,7 +192,6 @@ class MessageResponse with _$MessageResponse {
   final int replyCount;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<String> restrictedVisibility;
 
   @override
@@ -224,7 +216,7 @@ class MessageResponse with _$MessageResponse {
   final String type;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
   @override

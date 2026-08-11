@@ -27,11 +27,10 @@ class ModerationMarkReviewedEvent extends core.WsEvent with _$ModerationMarkRevi
   });
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override
@@ -41,7 +40,7 @@ class ModerationMarkReviewedEvent extends core.WsEvent with _$ModerationMarkRevi
   final MessageResponse? message;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? receivedAt;
 
   @override

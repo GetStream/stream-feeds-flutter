@@ -30,15 +30,14 @@ class ActivityFeedbackEvent extends core.WsEvent with _$ActivityFeedbackEvent {
   final ActivityFeedbackEventPayload activityFeedback;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? receivedAt;
 
   @override

@@ -22,7 +22,6 @@ class UpsertPushPreferencesRequest with _$UpsertPushPreferencesRequest {
   });
 
   @override
-  @JsonKey(defaultValue: [])
   final List<PushPreferenceInput> preferences;
 
   Map<String, dynamic> toJson() => _$UpsertPushPreferencesRequestToJson(this);

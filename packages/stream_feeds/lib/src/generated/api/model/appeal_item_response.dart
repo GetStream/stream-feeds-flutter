@@ -62,7 +62,7 @@ class AppealItemResponse with _$AppealItemResponse {
   final String? configKey;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
@@ -108,7 +108,7 @@ class AppealItemResponse with _$AppealItemResponse {
   final String status;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
   @override

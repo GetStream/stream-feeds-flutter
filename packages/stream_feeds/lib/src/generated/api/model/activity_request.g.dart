@@ -15,7 +15,7 @@ ActivityRequest _$ActivityRequestFromJson(Map<String, dynamic> json) => Activity
   createNotificationActivity: json['create_notification_activity'] as bool?,
   custom: json['custom'] as Map<String, dynamic>?,
   expiresAt: json['expires_at'] as String?,
-  feeds: (json['feeds'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
+  feeds: (json['feeds'] as List<dynamic>).map((e) => e as String).toList(),
   filterTags: (json['filter_tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
   id: json['id'] as String?,
   interestTags: (json['interest_tags'] as List<dynamic>?)?.map((e) => e as String).toList(),

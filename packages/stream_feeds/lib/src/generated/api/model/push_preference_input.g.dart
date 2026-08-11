@@ -25,7 +25,7 @@ PushPreferenceInput _$PushPreferenceInputFromJson(Map<String, dynamic> json) => 
         ),
   disabledUntil: _$JsonConverterFromJson<Object, DateTime>(
     json['disabled_until'],
-    const EpochDateTimeConverter().fromJson,
+    const StreamDateTimeConverter().fromJson,
   ),
   feedsLevel: $enumDecodeNullable(
     _$PushPreferenceInputFeedsLevelEnumMap,
@@ -50,7 +50,7 @@ Map<String, dynamic> _$PushPreferenceInputToJson(
   'chat_preferences': instance.chatPreferences?.toJson(),
   'disabled_until': _$JsonConverterToJson<Object, DateTime>(
     instance.disabledUntil,
-    const EpochDateTimeConverter().toJson,
+    const StreamDateTimeConverter().toJson,
   ),
   'feeds_level': _$PushPreferenceInputFeedsLevelEnumMap[instance.feedsLevel],
   'feeds_preferences': instance.feedsPreferences?.toJson(),

@@ -15,10 +15,10 @@ ActivityFeedbackEventPayload _$ActivityFeedbackEventPayloadFromJson(
     unknownValue: ActivityFeedbackEventPayloadAction.unknown,
   ),
   activityId: json['activity_id'] as String,
-  createdAt: const EpochDateTimeConverter().fromJson(
+  createdAt: const StreamDateTimeConverter().fromJson(
     json['created_at'] as Object,
   ),
-  updatedAt: const EpochDateTimeConverter().fromJson(
+  updatedAt: const StreamDateTimeConverter().fromJson(
     json['updated_at'] as Object,
   ),
   user: UserResponse.fromJson(json['user'] as Map<String, dynamic>),
@@ -30,8 +30,8 @@ Map<String, dynamic> _$ActivityFeedbackEventPayloadToJson(
 ) => <String, dynamic>{
   'action': _$ActivityFeedbackEventPayloadActionEnumMap[instance.action]!,
   'activity_id': instance.activityId,
-  'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
-  'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
+  'created_at': const StreamDateTimeConverter().toJson(instance.createdAt),
+  'updated_at': const StreamDateTimeConverter().toJson(instance.updatedAt),
   'user': instance.user.toJson(),
   'value': instance.value,
 };

@@ -25,7 +25,6 @@ class QueryActivitiesResponse with _$QueryActivitiesResponse {
   });
 
   @override
-  @JsonKey(defaultValue: [])
   final List<ActivityResponse> activities;
 
   @override

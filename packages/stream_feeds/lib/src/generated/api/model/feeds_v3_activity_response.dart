@@ -34,12 +34,14 @@ class FeedsV3ActivityResponse with _$FeedsV3ActivityResponse {
     this.friendReactionCount,
     this.friendReactions,
     required this.hidden,
+    this.i18n,
     required this.id,
     required this.interestTags,
     this.isRead,
     this.isSeen,
     this.isWatched,
     required this.latestReactions,
+    this.latestShares,
     this.location,
     required this.mentionedUsers,
     this.metrics,
@@ -69,52 +71,46 @@ class FeedsV3ActivityResponse with _$FeedsV3ActivityResponse {
   });
 
   @override
-  @JsonKey(defaultValue: [])
   final List<Attachment> attachments;
 
   @override
   final int bookmarkCount;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, FeedsEnrichedCollectionResponse> collections;
 
   @override
   final int commentCount;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<FeedsV3CommentResponse> comments;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
   final FeedsFeedResponse? currentFeed;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? deletedAt;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? editedAt;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? expiresAt;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<String> feeds;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<String> filterTags;
 
   @override
@@ -127,10 +123,12 @@ class FeedsV3ActivityResponse with _$FeedsV3ActivityResponse {
   final bool hidden;
 
   @override
+  final Map<String, String>? i18n;
+
+  @override
   final String id;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<String> interestTags;
 
   @override
@@ -143,14 +141,15 @@ class FeedsV3ActivityResponse with _$FeedsV3ActivityResponse {
   final bool? isWatched;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<FeedsReactionResponse> latestReactions;
+
+  @override
+  final List<FeedsShareResponse>? latestShares;
 
   @override
   final FeedsActivityLocation? location;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<UserResponse> mentionedUsers;
 
   @override
@@ -166,11 +165,9 @@ class FeedsV3ActivityResponse with _$FeedsV3ActivityResponse {
   final FeedsNotificationContext? notificationContext;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<FeedsBookmarkResponse> ownBookmarks;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<FeedsReactionResponse> ownReactions;
 
   @override
@@ -189,7 +186,6 @@ class FeedsV3ActivityResponse with _$FeedsV3ActivityResponse {
   final int reactionCount;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, FeedsReactionGroupResponse> reactionGroups;
 
   @override
@@ -202,7 +198,6 @@ class FeedsV3ActivityResponse with _$FeedsV3ActivityResponse {
   final Map<String, Object?>? scoreVars;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> searchData;
 
   @override
@@ -218,7 +213,7 @@ class FeedsV3ActivityResponse with _$FeedsV3ActivityResponse {
   final String type;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
   @override

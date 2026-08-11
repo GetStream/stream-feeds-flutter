@@ -32,11 +32,10 @@ class ActivityRemovedFromFeedEvent extends core.WsEvent with _$ActivityRemovedFr
   final ActivityResponse activity;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override
@@ -46,7 +45,7 @@ class ActivityRemovedFromFeedEvent extends core.WsEvent with _$ActivityRemovedFr
   final String fid;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? receivedAt;
 
   @override

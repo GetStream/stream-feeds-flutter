@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'flag_response.dart';
+part of 'unmute_response.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -12,16 +12,16 @@ part of 'flag_response.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$FlagResponse {
+mixin _$UnmuteResponse {
   String get duration;
-  String get itemId;
+  List<String>? get nonExistingUsers;
 
-  /// Create a copy of FlagResponse
+  /// Create a copy of UnmuteResponse
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $FlagResponseCopyWith<FlagResponse> get copyWith => _$FlagResponseCopyWithImpl<FlagResponse>(
-    this as FlagResponse,
+  $UnmuteResponseCopyWith<UnmuteResponse> get copyWith => _$UnmuteResponseCopyWithImpl<UnmuteResponse>(
+    this as UnmuteResponse,
     _$identity,
   );
 
@@ -29,52 +29,59 @@ mixin _$FlagResponse {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is FlagResponse &&
+            other is UnmuteResponse &&
             (identical(other.duration, duration) || other.duration == duration) &&
-            (identical(other.itemId, itemId) || other.itemId == itemId));
+            const DeepCollectionEquality().equals(
+              other.nonExistingUsers,
+              nonExistingUsers,
+            ));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, duration, itemId);
+  int get hashCode => Object.hash(
+    runtimeType,
+    duration,
+    const DeepCollectionEquality().hash(nonExistingUsers),
+  );
 
   @override
   String toString() {
-    return 'FlagResponse(duration: $duration, itemId: $itemId)';
+    return 'UnmuteResponse(duration: $duration, nonExistingUsers: $nonExistingUsers)';
   }
 }
 
 /// @nodoc
-abstract mixin class $FlagResponseCopyWith<$Res> {
-  factory $FlagResponseCopyWith(
-    FlagResponse value,
-    $Res Function(FlagResponse) _then,
-  ) = _$FlagResponseCopyWithImpl;
+abstract mixin class $UnmuteResponseCopyWith<$Res> {
+  factory $UnmuteResponseCopyWith(
+    UnmuteResponse value,
+    $Res Function(UnmuteResponse) _then,
+  ) = _$UnmuteResponseCopyWithImpl;
   @useResult
-  $Res call({String duration, String itemId});
+  $Res call({String duration, List<String>? nonExistingUsers});
 }
 
 /// @nodoc
-class _$FlagResponseCopyWithImpl<$Res> implements $FlagResponseCopyWith<$Res> {
-  _$FlagResponseCopyWithImpl(this._self, this._then);
+class _$UnmuteResponseCopyWithImpl<$Res> implements $UnmuteResponseCopyWith<$Res> {
+  _$UnmuteResponseCopyWithImpl(this._self, this._then);
 
-  final FlagResponse _self;
-  final $Res Function(FlagResponse) _then;
+  final UnmuteResponse _self;
+  final $Res Function(UnmuteResponse) _then;
 
-  /// Create a copy of FlagResponse
+  /// Create a copy of UnmuteResponse
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? duration = null, Object? itemId = null}) {
+  $Res call({Object? duration = null, Object? nonExistingUsers = freezed}) {
     return _then(
-      FlagResponse(
+      UnmuteResponse(
         duration: null == duration
             ? _self.duration
             : duration // ignore: cast_nullable_to_non_nullable
                   as String,
-        itemId: null == itemId
-            ? _self.itemId
-            : itemId // ignore: cast_nullable_to_non_nullable
-                  as String,
+        nonExistingUsers: freezed == nonExistingUsers
+            ? _self.nonExistingUsers
+            : nonExistingUsers // ignore: cast_nullable_to_non_nullable
+                  as List<String>?,
       ),
     );
   }

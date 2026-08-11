@@ -36,8 +36,10 @@ enum CreateBlockListRequestType {
 @JsonSerializable()
 class CreateBlockListRequest with _$CreateBlockListRequest {
   const CreateBlockListRequest({
+    this.isConfusableFoldingEnabled,
     this.isLeetCheckEnabled,
     this.isPluralCheckEnabled,
+    this.isSubstringMatchingEnabled,
     required this.name,
     this.team,
     this.type,
@@ -45,10 +47,16 @@ class CreateBlockListRequest with _$CreateBlockListRequest {
   });
 
   @override
+  final bool? isConfusableFoldingEnabled;
+
+  @override
   final bool? isLeetCheckEnabled;
 
   @override
   final bool? isPluralCheckEnabled;
+
+  @override
+  final bool? isSubstringMatchingEnabled;
 
   @override
   final String name;
@@ -61,7 +69,6 @@ class CreateBlockListRequest with _$CreateBlockListRequest {
   final CreateBlockListRequestType? type;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<String> words;
 
   Map<String, dynamic> toJson() => _$CreateBlockListRequestToJson(this);

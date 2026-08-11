@@ -68,7 +68,7 @@ class FeedSuggestionResponse with _$FeedSuggestionResponse {
   final Map<String, double>? algorithmScores;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
@@ -78,7 +78,7 @@ class FeedSuggestionResponse with _$FeedSuggestionResponse {
   final Map<String, Object?>? custom;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? deletedAt;
 
   @override
@@ -134,7 +134,7 @@ class FeedSuggestionResponse with _$FeedSuggestionResponse {
   final double? recommendationScore;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
   @override

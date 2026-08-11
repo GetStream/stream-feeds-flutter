@@ -30,15 +30,14 @@ class BookmarkFolderDeletedEvent extends core.WsEvent with _$BookmarkFolderDelet
   final BookmarkFolderResponse bookmarkFolder;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? receivedAt;
 
   @override

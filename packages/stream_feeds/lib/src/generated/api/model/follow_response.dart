@@ -53,7 +53,7 @@ class FollowResponse with _$FollowResponse {
   });
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
@@ -67,11 +67,11 @@ class FollowResponse with _$FollowResponse {
   final FollowResponsePushPreference pushPreference;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? requestAcceptedAt;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? requestRejectedAt;
 
   @override
@@ -85,7 +85,7 @@ class FollowResponse with _$FollowResponse {
   final FeedResponse targetFeed;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
   Map<String, dynamic> toJson() => _$FollowResponseToJson(this);

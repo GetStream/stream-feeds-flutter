@@ -19,6 +19,8 @@ enum ChannelOwnCapability {
   connectEvents,
   @JsonValue('create-attachment')
   createAttachment,
+  @JsonValue('create-mention')
+  createMention,
   @JsonValue('delete-any-message')
   deleteAnyMessage,
   @JsonValue('delete-channel')

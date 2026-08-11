@@ -38,7 +38,7 @@ class EnrichedCollectionResponse with _$EnrichedCollectionResponse {
   });
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? createdAt;
 
   @override
@@ -55,7 +55,7 @@ class EnrichedCollectionResponse with _$EnrichedCollectionResponse {
   final EnrichedCollectionResponseStatus status;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? updatedAt;
 
   @override

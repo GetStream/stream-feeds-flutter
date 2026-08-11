@@ -28,7 +28,6 @@ class QueryFeedMembersResponse with _$QueryFeedMembersResponse {
   final String duration;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<FeedMemberResponse> members;
 
   @override

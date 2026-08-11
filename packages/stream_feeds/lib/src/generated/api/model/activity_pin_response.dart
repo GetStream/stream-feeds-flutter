@@ -29,14 +29,14 @@ class ActivityPinResponse with _$ActivityPinResponse {
   final ActivityResponse activity;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
   final String feed;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
   @override

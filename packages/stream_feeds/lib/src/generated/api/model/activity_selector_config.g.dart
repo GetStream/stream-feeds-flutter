@@ -9,7 +9,7 @@ part of 'activity_selector_config.dart';
 ActivitySelectorConfig _$ActivitySelectorConfigFromJson(
   Map<String, dynamic> json,
 ) => ActivitySelectorConfig(
-  cutoffTime: const EpochDateTimeConverter().fromJson(
+  cutoffTime: const StreamDateTimeConverter().fromJson(
     json['cutoff_time'] as Object,
   ),
   cutoffWindow: json['cutoff_window'] as String?,
@@ -23,7 +23,7 @@ ActivitySelectorConfig _$ActivitySelectorConfigFromJson(
 Map<String, dynamic> _$ActivitySelectorConfigToJson(
   ActivitySelectorConfig instance,
 ) => <String, dynamic>{
-  'cutoff_time': const EpochDateTimeConverter().toJson(instance.cutoffTime),
+  'cutoff_time': const StreamDateTimeConverter().toJson(instance.cutoffTime),
   'cutoff_window': instance.cutoffWindow,
   'filter': instance.filter,
   'min_popularity': instance.minPopularity,

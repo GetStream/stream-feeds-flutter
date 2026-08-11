@@ -30,7 +30,7 @@ class Command with _$Command {
   final String args;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? createdAt;
 
   @override
@@ -43,7 +43,7 @@ class Command with _$Command {
   final String set;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? updatedAt;
 
   Map<String, dynamic> toJson() => _$CommandToJson(this);

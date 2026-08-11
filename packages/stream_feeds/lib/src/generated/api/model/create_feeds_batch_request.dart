@@ -26,7 +26,6 @@ class CreateFeedsBatchRequest with _$CreateFeedsBatchRequest {
   final bool? enrichOwnFields;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<FeedRequest> feeds;
 
   Map<String, dynamic> toJson() => _$CreateFeedsBatchRequestToJson(this);

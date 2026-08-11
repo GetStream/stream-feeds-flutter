@@ -30,7 +30,6 @@ class DeleteActivitiesRequest with _$DeleteActivitiesRequest {
   final bool? hardDelete;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<String> ids;
 
   Map<String, dynamic> toJson() => _$DeleteActivitiesRequestToJson(this);

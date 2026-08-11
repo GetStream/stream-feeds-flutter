@@ -31,7 +31,6 @@ class QueryPollsResponse with _$QueryPollsResponse {
   final String? next;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<PollResponseData> polls;
 
   @override

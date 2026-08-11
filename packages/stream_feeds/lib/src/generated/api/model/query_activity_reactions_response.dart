@@ -34,7 +34,6 @@ class QueryActivityReactionsResponse with _$QueryActivityReactionsResponse {
   final String? prev;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<FeedsReactionResponse> reactions;
 
   Map<String, dynamic> toJson() => _$QueryActivityReactionsResponseToJson(this);

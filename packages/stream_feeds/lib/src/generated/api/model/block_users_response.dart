@@ -31,7 +31,7 @@ class BlockUsersResponse with _$BlockUsersResponse {
   final String blockedUserId;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override

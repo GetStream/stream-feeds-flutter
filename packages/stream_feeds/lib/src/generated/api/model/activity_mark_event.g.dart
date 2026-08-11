@@ -7,10 +7,10 @@ part of 'activity_mark_event.dart';
 // **************************************************************************
 
 ActivityMarkEvent _$ActivityMarkEventFromJson(Map<String, dynamic> json) => ActivityMarkEvent(
-  createdAt: const EpochDateTimeConverter().fromJson(
+  createdAt: const StreamDateTimeConverter().fromJson(
     json['created_at'] as Object,
   ),
-  custom: json['custom'] as Map<String, dynamic>? ?? {},
+  custom: json['custom'] as Map<String, dynamic>,
   feedVisibility: json['feed_visibility'] as String?,
   fid: json['fid'] as String,
   markAllRead: json['mark_all_read'] as bool?,
@@ -20,7 +20,7 @@ ActivityMarkEvent _$ActivityMarkEventFromJson(Map<String, dynamic> json) => Acti
   markWatched: (json['mark_watched'] as List<dynamic>?)?.map((e) => e as String).toList(),
   receivedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['received_at'],
-    const EpochDateTimeConverter().fromJson,
+    const StreamDateTimeConverter().fromJson,
   ),
   type: json['type'] as String,
   user: json['user'] == null
@@ -31,7 +31,7 @@ ActivityMarkEvent _$ActivityMarkEventFromJson(Map<String, dynamic> json) => Acti
 );
 
 Map<String, dynamic> _$ActivityMarkEventToJson(ActivityMarkEvent instance) => <String, dynamic>{
-  'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
+  'created_at': const StreamDateTimeConverter().toJson(instance.createdAt),
   'custom': instance.custom,
   'feed_visibility': instance.feedVisibility,
   'fid': instance.fid,
@@ -42,7 +42,7 @@ Map<String, dynamic> _$ActivityMarkEventToJson(ActivityMarkEvent instance) => <S
   'mark_watched': instance.markWatched,
   'received_at': _$JsonConverterToJson<Object, DateTime>(
     instance.receivedAt,
-    const EpochDateTimeConverter().toJson,
+    const StreamDateTimeConverter().toJson,
   ),
   'type': instance.type,
   'user': instance.user?.toJson(),

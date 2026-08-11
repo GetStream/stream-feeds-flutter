@@ -25,7 +25,6 @@ class QueryBookmarkFoldersResponse with _$QueryBookmarkFoldersResponse {
   });
 
   @override
-  @JsonKey(defaultValue: [])
   final List<BookmarkFolderResponse> bookmarkFolders;
 
   @override

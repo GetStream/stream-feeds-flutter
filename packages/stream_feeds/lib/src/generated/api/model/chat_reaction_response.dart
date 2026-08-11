@@ -29,11 +29,10 @@ class ChatReactionResponse with _$ChatReactionResponse {
   });
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override
@@ -46,7 +45,7 @@ class ChatReactionResponse with _$ChatReactionResponse {
   final String type;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
   @override

@@ -26,7 +26,7 @@ class Role with _$Role {
   });
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
@@ -36,11 +36,10 @@ class Role with _$Role {
   final String name;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<String> scopes;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
   Map<String, dynamic> toJson() => _$RoleToJson(this);

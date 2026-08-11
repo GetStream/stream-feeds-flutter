@@ -9,6 +9,11 @@ part of 'upsert_config_request.dart';
 UpsertConfigRequest _$UpsertConfigRequestFromJson(
   Map<String, dynamic> json,
 ) => UpsertConfigRequest(
+  aiAudioConfig: json['ai_audio_config'] == null
+      ? null
+      : AIAudioConfigRequest.fromJson(
+          json['ai_audio_config'] as Map<String, dynamic>,
+        ),
   aiImageConfig: json['ai_image_config'] == null
       ? null
       : AIImageConfig.fromJson(json['ai_image_config'] as Map<String, dynamic>),
@@ -76,6 +81,7 @@ UpsertConfigRequest _$UpsertConfigRequestFromJson(
 Map<String, dynamic> _$UpsertConfigRequestToJson(
   UpsertConfigRequest instance,
 ) => <String, dynamic>{
+  'ai_audio_config': instance.aiAudioConfig?.toJson(),
   'ai_image_config': instance.aiImageConfig?.toJson(),
   'ai_text_config': instance.aiTextConfig?.toJson(),
   'ai_video_config': instance.aiVideoConfig?.toJson(),

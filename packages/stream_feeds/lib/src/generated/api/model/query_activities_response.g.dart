@@ -9,11 +9,9 @@ part of 'query_activities_response.dart';
 QueryActivitiesResponse _$QueryActivitiesResponseFromJson(
   Map<String, dynamic> json,
 ) => QueryActivitiesResponse(
-  activities:
-      (json['activities'] as List<dynamic>?)
-          ?.map((e) => ActivityResponse.fromJson(e as Map<String, dynamic>))
-          .toList() ??
-      [],
+  activities: (json['activities'] as List<dynamic>)
+      .map((e) => ActivityResponse.fromJson(e as Map<String, dynamic>))
+      .toList(),
   duration: json['duration'] as String,
   next: json['next'] as String?,
   prev: json['prev'] as String?,

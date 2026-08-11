@@ -37,7 +37,6 @@ class DraftPayloadResponse with _$DraftPayloadResponse {
   final List<Attachment>? attachments;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override

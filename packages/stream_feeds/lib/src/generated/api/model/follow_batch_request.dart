@@ -26,7 +26,6 @@ class FollowBatchRequest with _$FollowBatchRequest {
   final bool? enrichOwnFields;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<FollowRequest> follows;
 
   Map<String, dynamic> toJson() => _$FollowBatchRequestToJson(this);

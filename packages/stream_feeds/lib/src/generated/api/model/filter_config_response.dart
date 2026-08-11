@@ -18,11 +18,19 @@ part 'filter_config_response.freezed.dart';
 @JsonSerializable()
 class FilterConfigResponse with _$FilterConfigResponse {
   const FilterConfigResponse({
+    this.aiImageLabels,
+    this.aiImageTaxonomy,
     this.aiTextLabels,
     this.configKeys,
     this.filterableCustomKeys,
     required this.llmLabels,
   });
+
+  @override
+  final List<String>? aiImageLabels;
+
+  @override
+  final Map<String, List<String>>? aiImageTaxonomy;
 
   @override
   final List<String>? aiTextLabels;
@@ -34,7 +42,6 @@ class FilterConfigResponse with _$FilterConfigResponse {
   final List<String>? filterableCustomKeys;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<String> llmLabels;
 
   Map<String, dynamic> toJson() => _$FilterConfigResponseToJson(this);

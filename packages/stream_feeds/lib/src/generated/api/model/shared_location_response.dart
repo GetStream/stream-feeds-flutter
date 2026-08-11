@@ -39,7 +39,7 @@ class SharedLocationResponse with _$SharedLocationResponse {
   final String channelCid;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
@@ -49,7 +49,7 @@ class SharedLocationResponse with _$SharedLocationResponse {
   final String duration;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? endAt;
 
   @override
@@ -65,7 +65,7 @@ class SharedLocationResponse with _$SharedLocationResponse {
   final String messageId;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
   @override

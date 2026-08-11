@@ -29,7 +29,7 @@ class PinActivityResponse with _$PinActivityResponse {
   final ActivityResponse activity;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override

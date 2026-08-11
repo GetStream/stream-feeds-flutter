@@ -86,7 +86,6 @@ class ActivityRequest with _$ActivityRequest {
   final String? expiresAt;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<String> feeds;
 
   @override

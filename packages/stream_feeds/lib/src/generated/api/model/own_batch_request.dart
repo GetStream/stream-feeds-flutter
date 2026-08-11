@@ -23,7 +23,6 @@ class OwnBatchRequest with _$OwnBatchRequest {
   });
 
   @override
-  @JsonKey(defaultValue: [])
   final List<String> feeds;
 
   @override

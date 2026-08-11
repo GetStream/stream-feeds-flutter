@@ -31,7 +31,7 @@ class FeedsBookmarkResponse with _$FeedsBookmarkResponse {
   final String? activityId;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
@@ -44,7 +44,7 @@ class FeedsBookmarkResponse with _$FeedsBookmarkResponse {
   final String objectType;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
   @override

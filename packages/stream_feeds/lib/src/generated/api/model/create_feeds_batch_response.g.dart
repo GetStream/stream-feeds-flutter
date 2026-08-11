@@ -10,7 +10,7 @@ CreateFeedsBatchResponse _$CreateFeedsBatchResponseFromJson(
   Map<String, dynamic> json,
 ) => CreateFeedsBatchResponse(
   duration: json['duration'] as String,
-  feeds: (json['feeds'] as List<dynamic>?)?.map((e) => FeedResponse.fromJson(e as Map<String, dynamic>)).toList() ?? [],
+  feeds: (json['feeds'] as List<dynamic>).map((e) => FeedResponse.fromJson(e as Map<String, dynamic>)).toList(),
 );
 
 Map<String, dynamic> _$CreateFeedsBatchResponseToJson(

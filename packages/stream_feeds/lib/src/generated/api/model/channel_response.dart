@@ -67,18 +67,17 @@ class ChannelResponse with _$ChannelResponse {
   final int? cooldown;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
   final UserResponse? createdBy;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? deletedAt;
 
   @override
@@ -94,14 +93,14 @@ class ChannelResponse with _$ChannelResponse {
   final bool? hidden;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? hideMessagesBefore;
 
   @override
   final String id;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? lastMessageAt;
 
   @override
@@ -114,7 +113,7 @@ class ChannelResponse with _$ChannelResponse {
   final int? messageCount;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? muteExpiresAt;
 
   @override
@@ -128,7 +127,7 @@ class ChannelResponse with _$ChannelResponse {
   final String? team;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? truncatedAt;
 
   @override
@@ -138,7 +137,7 @@ class ChannelResponse with _$ChannelResponse {
   final String type;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
   Map<String, dynamic> toJson() => _$ChannelResponseToJson(this);

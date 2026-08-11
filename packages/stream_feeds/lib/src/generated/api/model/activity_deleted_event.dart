@@ -32,11 +32,10 @@ class ActivityDeletedEvent extends core.WsEvent with _$ActivityDeletedEvent {
   final ActivityResponse activity;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override
@@ -46,7 +45,7 @@ class ActivityDeletedEvent extends core.WsEvent with _$ActivityDeletedEvent {
   final String fid;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? receivedAt;
 
   @override

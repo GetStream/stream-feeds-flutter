@@ -30,7 +30,7 @@ class ChannelPushPreferencesResponse with _$ChannelPushPreferencesResponse {
   final ChatPreferencesResponse? chatPreferences;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? disabledUntil;
 
   Map<String, dynamic> toJson() => _$ChannelPushPreferencesResponseToJson(this);

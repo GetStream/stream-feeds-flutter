@@ -47,23 +47,21 @@ class UserResponsePrivacyFields with _$UserResponsePrivacyFields {
   final bool banned;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<String> blockedUserIds;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? deactivatedAt;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? deletedAt;
 
   @override
@@ -79,7 +77,7 @@ class UserResponsePrivacyFields with _$UserResponsePrivacyFields {
   final String language;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? lastActive;
 
   @override
@@ -92,21 +90,20 @@ class UserResponsePrivacyFields with _$UserResponsePrivacyFields {
   final PrivacySettingsResponse? privacySettings;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? revokeTokensIssuedBefore;
 
   @override
   final String role;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<String> teams;
 
   @override
   final Map<String, String>? teamsRole;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
   Map<String, dynamic> toJson() => _$UserResponsePrivacyFieldsToJson(this);

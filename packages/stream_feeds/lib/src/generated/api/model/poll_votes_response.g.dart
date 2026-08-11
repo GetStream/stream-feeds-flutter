@@ -10,13 +10,7 @@ PollVotesResponse _$PollVotesResponseFromJson(Map<String, dynamic> json) => Poll
   duration: json['duration'] as String,
   next: json['next'] as String?,
   prev: json['prev'] as String?,
-  votes:
-      (json['votes'] as List<dynamic>?)
-          ?.map(
-            (e) => PollVoteResponseData.fromJson(e as Map<String, dynamic>),
-          )
-          .toList() ??
-      [],
+  votes: (json['votes'] as List<dynamic>).map((e) => PollVoteResponseData.fromJson(e as Map<String, dynamic>)).toList(),
 );
 
 Map<String, dynamic> _$PollVotesResponseToJson(PollVotesResponse instance) => <String, dynamic>{

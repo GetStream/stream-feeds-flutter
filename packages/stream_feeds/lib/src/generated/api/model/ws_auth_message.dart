@@ -30,9 +30,13 @@ enum WSAuthMessageProducts {
 @JsonSerializable()
 class WSAuthMessage with _$WSAuthMessage {
   const WSAuthMessage({
+    this.memberCustomInclude,
     this.products,
     required this.token,
   });
+
+  @override
+  final List<String>? memberCustomInclude;
 
   @override
   @JsonKey(unknownEnumValue: WSAuthMessageProducts.unknown)

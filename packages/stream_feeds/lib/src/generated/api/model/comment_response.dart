@@ -43,6 +43,7 @@ class CommentResponse with _$CommentResponse {
     this.deletedAt,
     required this.downvoteCount,
     this.editedAt,
+    this.i18n,
     required this.id,
     this.latestReactions,
     required this.mentionedUsers,
@@ -75,22 +76,25 @@ class CommentResponse with _$CommentResponse {
   final double? controversyScore;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
   final Map<String, Object?>? custom;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? deletedAt;
 
   @override
   final int downvoteCount;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? editedAt;
+
+  @override
+  final Map<String, String>? i18n;
 
   @override
   final String id;
@@ -99,7 +103,6 @@ class CommentResponse with _$CommentResponse {
   final List<FeedsReactionResponse>? latestReactions;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<UserResponse> mentionedUsers;
 
   @override
@@ -112,7 +115,6 @@ class CommentResponse with _$CommentResponse {
   final String objectType;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<FeedsReactionResponse> ownReactions;
 
   @override
@@ -138,7 +140,7 @@ class CommentResponse with _$CommentResponse {
   final String? text;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
   @override

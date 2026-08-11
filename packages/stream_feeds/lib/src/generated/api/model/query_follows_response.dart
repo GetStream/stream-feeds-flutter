@@ -28,7 +28,6 @@ class QueryFollowsResponse with _$QueryFollowsResponse {
   final String duration;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<FollowResponse> follows;
 
   @override

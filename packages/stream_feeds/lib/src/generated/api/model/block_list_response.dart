@@ -20,9 +20,12 @@ class BlockListResponse with _$BlockListResponse {
   const BlockListResponse({
     this.createdAt,
     this.id,
+    required this.isConfusableFoldingEnabled,
     required this.isLeetCheckEnabled,
     required this.isPluralCheckEnabled,
+    required this.isSubstringMatchingEnabled,
     required this.name,
+    this.ownerUserId,
     this.team,
     required this.type,
     this.updatedAt,
@@ -30,11 +33,14 @@ class BlockListResponse with _$BlockListResponse {
   });
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? createdAt;
 
   @override
   final String? id;
+
+  @override
+  final bool isConfusableFoldingEnabled;
 
   @override
   final bool isLeetCheckEnabled;
@@ -43,7 +49,13 @@ class BlockListResponse with _$BlockListResponse {
   final bool isPluralCheckEnabled;
 
   @override
+  final bool isSubstringMatchingEnabled;
+
+  @override
   final String name;
+
+  @override
+  final String? ownerUserId;
 
   @override
   final String? team;
@@ -52,11 +64,10 @@ class BlockListResponse with _$BlockListResponse {
   final String type;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? updatedAt;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<String> words;
 
   Map<String, dynamic> toJson() => _$BlockListResponseToJson(this);

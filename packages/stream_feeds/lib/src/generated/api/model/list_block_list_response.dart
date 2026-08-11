@@ -20,14 +20,17 @@ class ListBlockListResponse with _$ListBlockListResponse {
   const ListBlockListResponse({
     required this.blocklists,
     required this.duration,
+    this.nextCursor,
   });
 
   @override
-  @JsonKey(defaultValue: [])
   final List<BlockListResponse> blocklists;
 
   @override
   final String duration;
+
+  @override
+  final String? nextCursor;
 
   Map<String, dynamic> toJson() => _$ListBlockListResponseToJson(this);
 

@@ -26,14 +26,12 @@ class HarmConfig with _$HarmConfig {
   });
 
   @override
-  @JsonKey(defaultValue: [])
   final List<ActionSequence> actionSequences;
 
   @override
   final int cooldownPeriod;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<String> harmTypes;
 
   @override

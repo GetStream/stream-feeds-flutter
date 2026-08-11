@@ -137,7 +137,6 @@ class ChannelConfigWithInfo with _$ChannelConfigWithInfo {
   final ChatPreferences? chatPreferences;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<Command> commands;
 
   @override
@@ -147,7 +146,7 @@ class ChannelConfigWithInfo with _$ChannelConfigWithInfo {
   final bool countMessages;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
@@ -215,7 +214,7 @@ class ChannelConfigWithInfo with _$ChannelConfigWithInfo {
   final bool typingEvents;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
   @override

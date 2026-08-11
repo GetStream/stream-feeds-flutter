@@ -14,7 +14,7 @@ BulkActionAppealsRequest _$BulkActionAppealsRequestFromJson(
     json['action_type'],
     unknownValue: BulkActionAppealsRequestActionType.unknown,
   ),
-  appealIds: (json['appeal_ids'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
+  appealIds: (json['appeal_ids'] as List<dynamic>).map((e) => e as String).toList(),
   markReviewed: json['mark_reviewed'] == null
       ? null
       : MarkReviewedRequestPayload.fromJson(

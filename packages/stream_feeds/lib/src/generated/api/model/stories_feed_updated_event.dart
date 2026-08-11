@@ -36,11 +36,10 @@ class StoriesFeedUpdatedEvent extends core.WsEvent with _$StoriesFeedUpdatedEven
   final List<AggregatedActivityResponse>? aggregatedActivities;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override
@@ -50,7 +49,7 @@ class StoriesFeedUpdatedEvent extends core.WsEvent with _$StoriesFeedUpdatedEven
   final String fid;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? receivedAt;
 
   @override

@@ -34,7 +34,6 @@ class BlockListConfig with _$BlockListConfig {
   final bool? matchSubstring;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<BlockListRule> rules;
 
   Map<String, dynamic> toJson() => _$BlockListConfigToJson(this);

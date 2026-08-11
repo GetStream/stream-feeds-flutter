@@ -32,11 +32,10 @@ class CommentDeletedEvent extends core.WsEvent with _$CommentDeletedEvent {
   final CommentResponse comment;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override
@@ -46,7 +45,7 @@ class CommentDeletedEvent extends core.WsEvent with _$CommentDeletedEvent {
   final String fid;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? receivedAt;
 
   @override

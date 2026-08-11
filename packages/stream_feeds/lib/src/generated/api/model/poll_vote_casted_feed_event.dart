@@ -29,11 +29,10 @@ class PollVoteCastedFeedEvent extends core.WsEvent with _$PollVoteCastedFeedEven
   });
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override
@@ -49,7 +48,7 @@ class PollVoteCastedFeedEvent extends core.WsEvent with _$PollVoteCastedFeedEven
   final PollVoteResponseData pollVote;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? receivedAt;
 
   @override

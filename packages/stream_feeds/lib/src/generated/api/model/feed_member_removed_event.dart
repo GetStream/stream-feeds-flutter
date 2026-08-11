@@ -29,11 +29,10 @@ class FeedMemberRemovedEvent extends core.WsEvent with _$FeedMemberRemovedEvent 
   });
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override
@@ -46,7 +45,7 @@ class FeedMemberRemovedEvent extends core.WsEvent with _$FeedMemberRemovedEvent 
   final String memberId;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? receivedAt;
 
   @override

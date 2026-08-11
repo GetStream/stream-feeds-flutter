@@ -34,7 +34,6 @@ class PollVotesResponse with _$PollVotesResponse {
   final String? prev;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<PollVoteResponseData> votes;
 
   Map<String, dynamic> toJson() => _$PollVotesResponseToJson(this);

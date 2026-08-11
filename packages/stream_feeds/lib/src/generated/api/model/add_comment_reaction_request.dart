@@ -23,6 +23,7 @@ class AddCommentReactionRequest with _$AddCommentReactionRequest {
     this.custom,
     this.enforceUnique,
     this.skipPush,
+    this.targetFeeds,
     required this.type,
   });
 
@@ -41,6 +42,9 @@ class AddCommentReactionRequest with _$AddCommentReactionRequest {
 
   @override
   final bool? skipPush;
+
+  @override
+  final List<String>? targetFeeds;
 
   @override
   final String type;

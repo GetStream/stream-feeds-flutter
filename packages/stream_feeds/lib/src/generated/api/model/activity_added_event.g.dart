@@ -10,15 +10,15 @@ ActivityAddedEvent _$ActivityAddedEventFromJson(
   Map<String, dynamic> json,
 ) => ActivityAddedEvent(
   activity: ActivityResponse.fromJson(json['activity'] as Map<String, dynamic>),
-  createdAt: const EpochDateTimeConverter().fromJson(
+  createdAt: const StreamDateTimeConverter().fromJson(
     json['created_at'] as Object,
   ),
-  custom: json['custom'] as Map<String, dynamic>? ?? {},
+  custom: json['custom'] as Map<String, dynamic>,
   feedVisibility: json['feed_visibility'] as String?,
   fid: json['fid'] as String,
   receivedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['received_at'],
-    const EpochDateTimeConverter().fromJson,
+    const StreamDateTimeConverter().fromJson,
   ),
   type: json['type'] as String,
   user: json['user'] == null ? null : UserResponseCommonFields.fromJson(json['user'] as Map<String, dynamic>),
@@ -26,13 +26,13 @@ ActivityAddedEvent _$ActivityAddedEventFromJson(
 
 Map<String, dynamic> _$ActivityAddedEventToJson(ActivityAddedEvent instance) => <String, dynamic>{
   'activity': instance.activity.toJson(),
-  'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
+  'created_at': const StreamDateTimeConverter().toJson(instance.createdAt),
   'custom': instance.custom,
   'feed_visibility': instance.feedVisibility,
   'fid': instance.fid,
   'received_at': _$JsonConverterToJson<Object, DateTime>(
     instance.receivedAt,
-    const EpochDateTimeConverter().toJson,
+    const StreamDateTimeConverter().toJson,
   ),
   'type': instance.type,
   'user': instance.user?.toJson(),

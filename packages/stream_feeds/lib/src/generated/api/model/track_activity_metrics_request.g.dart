@@ -9,13 +9,9 @@ part of 'track_activity_metrics_request.dart';
 TrackActivityMetricsRequest _$TrackActivityMetricsRequestFromJson(
   Map<String, dynamic> json,
 ) => TrackActivityMetricsRequest(
-  events:
-      (json['events'] as List<dynamic>?)
-          ?.map(
-            (e) => TrackActivityMetricsEvent.fromJson(e as Map<String, dynamic>),
-          )
-          .toList() ??
-      [],
+  events: (json['events'] as List<dynamic>)
+      .map((e) => TrackActivityMetricsEvent.fromJson(e as Map<String, dynamic>))
+      .toList(),
 );
 
 Map<String, dynamic> _$TrackActivityMetricsRequestToJson(

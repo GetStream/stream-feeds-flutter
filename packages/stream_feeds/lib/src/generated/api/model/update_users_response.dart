@@ -30,7 +30,6 @@ class UpdateUsersResponse with _$UpdateUsersResponse {
   final String membershipDeletionTaskId;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, FullUserResponse> users;
 
   Map<String, dynamic> toJson() => _$UpdateUsersResponseToJson(this);

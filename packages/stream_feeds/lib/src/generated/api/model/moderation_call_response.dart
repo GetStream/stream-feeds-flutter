@@ -10,14 +10,14 @@ import 'package:stream_core/stream_core.dart' as core;
 
 import '../models.dart';
 
-part 'call_response.g.dart';
-part 'call_response.freezed.dart';
+part 'moderation_call_response.g.dart';
+part 'moderation_call_response.freezed.dart';
 
 @freezed
 @immutable
 @JsonSerializable()
-class CallResponse with _$CallResponse {
-  const CallResponse({
+class ModerationCallResponse with _$ModerationCallResponse {
+  const ModerationCallResponse({
     required this.backstage,
     required this.blockedUserIds,
     required this.captioning,
@@ -44,7 +44,6 @@ class CallResponse with _$CallResponse {
   final bool backstage;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<String> blockedUserIds;
 
   @override
@@ -57,7 +56,7 @@ class CallResponse with _$CallResponse {
   final String cid;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
@@ -67,11 +66,10 @@ class CallResponse with _$CallResponse {
   final String currentSessionId;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? endedAt;
 
   @override
@@ -87,7 +85,7 @@ class CallResponse with _$CallResponse {
   final String? routingNumber;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? startsAt;
 
   @override
@@ -103,10 +101,10 @@ class CallResponse with _$CallResponse {
   final String type;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
-  Map<String, dynamic> toJson() => _$CallResponseToJson(this);
+  Map<String, dynamic> toJson() => _$ModerationCallResponseToJson(this);
 
-  static CallResponse fromJson(Map<String, dynamic> json) => _$CallResponseFromJson(json);
+  static ModerationCallResponse fromJson(Map<String, dynamic> json) => _$ModerationCallResponseFromJson(json);
 }

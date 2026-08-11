@@ -42,18 +42,18 @@ class FeedMemberResponse with _$FeedMemberResponse {
   });
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
   final Map<String, Object?>? custom;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? inviteAcceptedAt;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? inviteRejectedAt;
 
   @override
@@ -67,7 +67,7 @@ class FeedMemberResponse with _$FeedMemberResponse {
   final FeedMemberResponseStatus status;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
   @override

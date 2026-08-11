@@ -33,11 +33,10 @@ class NotificationFeedUpdatedEvent extends core.WsEvent with _$NotificationFeedU
   final List<AggregatedActivityResponse>? aggregatedActivities;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override
@@ -50,7 +49,7 @@ class NotificationFeedUpdatedEvent extends core.WsEvent with _$NotificationFeedU
   final NotificationStatusResponse? notificationStatus;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? receivedAt;
 
   @override

@@ -86,7 +86,7 @@ class PushPreferenceInput with _$PushPreferenceInput {
   final ChatPreferencesInput? chatPreferences;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? disabledUntil;
 
   @override

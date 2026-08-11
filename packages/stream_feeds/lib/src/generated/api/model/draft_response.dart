@@ -34,7 +34,7 @@ class DraftResponse with _$DraftResponse {
   final String channelCid;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override

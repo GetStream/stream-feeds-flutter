@@ -10,9 +10,7 @@ UnfollowBatchResponse _$UnfollowBatchResponseFromJson(
   Map<String, dynamic> json,
 ) => UnfollowBatchResponse(
   duration: json['duration'] as String,
-  follows:
-      (json['follows'] as List<dynamic>?)?.map((e) => FollowResponse.fromJson(e as Map<String, dynamic>)).toList() ??
-      [],
+  follows: (json['follows'] as List<dynamic>).map((e) => FollowResponse.fromJson(e as Map<String, dynamic>)).toList(),
 );
 
 Map<String, dynamic> _$UnfollowBatchResponseToJson(

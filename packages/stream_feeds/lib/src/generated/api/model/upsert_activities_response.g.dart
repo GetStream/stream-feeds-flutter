@@ -9,11 +9,9 @@ part of 'upsert_activities_response.dart';
 UpsertActivitiesResponse _$UpsertActivitiesResponseFromJson(
   Map<String, dynamic> json,
 ) => UpsertActivitiesResponse(
-  activities:
-      (json['activities'] as List<dynamic>?)
-          ?.map((e) => ActivityResponse.fromJson(e as Map<String, dynamic>))
-          .toList() ??
-      [],
+  activities: (json['activities'] as List<dynamic>)
+      .map((e) => ActivityResponse.fromJson(e as Map<String, dynamic>))
+      .toList(),
   duration: json['duration'] as String,
   mentionNotificationsCreated: (json['mention_notifications_created'] as num?)?.toInt(),
 );

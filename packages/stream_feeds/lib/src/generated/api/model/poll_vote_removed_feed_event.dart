@@ -29,11 +29,10 @@ class PollVoteRemovedFeedEvent extends core.WsEvent with _$PollVoteRemovedFeedEv
   });
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override
@@ -49,7 +48,7 @@ class PollVoteRemovedFeedEvent extends core.WsEvent with _$PollVoteRemovedFeedEv
   final PollVoteResponseData pollVote;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? receivedAt;
 
   @override

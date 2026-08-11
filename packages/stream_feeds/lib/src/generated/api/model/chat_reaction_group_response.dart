@@ -29,15 +29,14 @@ class ChatReactionGroupResponse with _$ChatReactionGroupResponse {
   final int count;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime firstReactionAt;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime lastReactionAt;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<ChatReactionGroupUserResponse> latestReactionsBy;
 
   @override

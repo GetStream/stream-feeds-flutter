@@ -30,6 +30,7 @@ class GetOrCreateFeedRequest with _$GetOrCreateFeedRequest {
     this.limit,
     this.memberPagination,
     this.next,
+    this.overwriteInterestWeights,
     this.prev,
     this.view,
     this.watch,
@@ -70,6 +71,9 @@ class GetOrCreateFeedRequest with _$GetOrCreateFeedRequest {
 
   @override
   final String? next;
+
+  @override
+  final bool? overwriteInterestWeights;
 
   @override
   final String? prev;

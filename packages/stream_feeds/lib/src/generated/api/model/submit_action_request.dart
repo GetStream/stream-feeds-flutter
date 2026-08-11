@@ -35,6 +35,8 @@ enum SubmitActionRequestActionType {
   deleteReaction,
   @JsonValue('delete_user')
   deleteUser,
+  @JsonValue('delete_user_messages')
+  deleteUserMessages,
   @JsonValue('end_call')
   endCall,
   @JsonValue('escalate')
@@ -77,6 +79,7 @@ class SubmitActionRequest with _$SubmitActionRequest {
     this.deleteMessage,
     this.deleteReaction,
     this.deleteUser,
+    this.deleteUserMessages,
     this.escalate,
     this.flag,
     this.itemId,
@@ -121,6 +124,9 @@ class SubmitActionRequest with _$SubmitActionRequest {
 
   @override
   final DeleteUserRequestPayload? deleteUser;
+
+  @override
+  final DeleteUserMessagesRequestPayload? deleteUserMessages;
 
   @override
   final EscalatePayload? escalate;

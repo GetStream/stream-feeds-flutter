@@ -18,6 +18,7 @@ part 'upsert_config_request.freezed.dart';
 @JsonSerializable()
 class UpsertConfigRequest with _$UpsertConfigRequest {
   const UpsertConfigRequest({
+    this.aiAudioConfig,
     this.aiImageConfig,
     this.aiTextConfig,
     this.aiVideoConfig,
@@ -37,6 +38,9 @@ class UpsertConfigRequest with _$UpsertConfigRequest {
     this.velocityFilterConfig,
     this.videoCallRuleConfig,
   });
+
+  @override
+  final AIAudioConfigRequest? aiAudioConfig;
 
   @override
   final AIImageConfig? aiImageConfig;

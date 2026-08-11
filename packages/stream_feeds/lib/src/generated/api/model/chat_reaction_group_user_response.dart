@@ -24,7 +24,7 @@ class ChatReactionGroupUserResponse with _$ChatReactionGroupUserResponse {
   });
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override

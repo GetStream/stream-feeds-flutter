@@ -61,6 +61,7 @@ class RuleBuilderAction with _$RuleBuilderAction {
     this.banOptions,
     this.callOptions,
     this.flagUserOptions,
+    this.reason,
     this.skipInbox,
     this.type,
   });
@@ -73,6 +74,9 @@ class RuleBuilderAction with _$RuleBuilderAction {
 
   @override
   final FlagUserOptions? flagUserOptions;
+
+  @override
+  final String? reason;
 
   @override
   final bool? skipInbox;

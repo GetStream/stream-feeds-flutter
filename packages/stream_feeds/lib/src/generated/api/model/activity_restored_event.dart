@@ -32,11 +32,10 @@ class ActivityRestoredEvent extends core.WsEvent with _$ActivityRestoredEvent {
   final ActivityResponse activity;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override
@@ -46,7 +45,7 @@ class ActivityRestoredEvent extends core.WsEvent with _$ActivityRestoredEvent {
   final String fid;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? receivedAt;
 
   @override

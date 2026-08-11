@@ -15,7 +15,7 @@ AppealItemResponse _$AppealItemResponseFromJson(Map<String, dynamic> json) => Ap
   attachments: (json['attachments'] as List<dynamic>?)?.map((e) => e as String).toList(),
   channelCid: json['channel_cid'] as String?,
   configKey: json['config_key'] as String?,
-  createdAt: const EpochDateTimeConverter().fromJson(
+  createdAt: const StreamDateTimeConverter().fromJson(
     json['created_at'] as Object,
   ),
   decisionReason: json['decision_reason'] as String?,
@@ -48,7 +48,7 @@ AppealItemResponse _$AppealItemResponseFromJson(Map<String, dynamic> json) => Ap
   reviewQueueItemId: json['review_queue_item_id'] as String?,
   severity: (json['severity'] as num?)?.toInt(),
   status: json['status'] as String,
-  updatedAt: const EpochDateTimeConverter().fromJson(
+  updatedAt: const StreamDateTimeConverter().fromJson(
     json['updated_at'] as Object,
   ),
   user: json['user'] == null ? null : UserResponse.fromJson(json['user'] as Map<String, dynamic>),
@@ -61,7 +61,7 @@ Map<String, dynamic> _$AppealItemResponseToJson(AppealItemResponse instance) => 
   'attachments': instance.attachments,
   'channel_cid': instance.channelCid,
   'config_key': instance.configKey,
-  'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
+  'created_at': const StreamDateTimeConverter().toJson(instance.createdAt),
   'decision_reason': instance.decisionReason,
   'entity_content': instance.entityContent?.toJson(),
   'entity_id': instance.entityId,
@@ -76,6 +76,6 @@ Map<String, dynamic> _$AppealItemResponseToJson(AppealItemResponse instance) => 
   'review_queue_item_id': instance.reviewQueueItemId,
   'severity': instance.severity,
   'status': instance.status,
-  'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
+  'updated_at': const StreamDateTimeConverter().toJson(instance.updatedAt),
   'user': instance.user?.toJson(),
 };

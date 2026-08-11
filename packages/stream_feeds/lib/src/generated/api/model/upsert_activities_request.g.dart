@@ -9,11 +9,9 @@ part of 'upsert_activities_request.dart';
 UpsertActivitiesRequest _$UpsertActivitiesRequestFromJson(
   Map<String, dynamic> json,
 ) => UpsertActivitiesRequest(
-  activities:
-      (json['activities'] as List<dynamic>?)
-          ?.map((e) => ActivityRequest.fromJson(e as Map<String, dynamic>))
-          .toList() ??
-      [],
+  activities: (json['activities'] as List<dynamic>)
+      .map((e) => ActivityRequest.fromJson(e as Map<String, dynamic>))
+      .toList(),
   enrichOwnFields: json['enrich_own_fields'] as bool?,
 );
 

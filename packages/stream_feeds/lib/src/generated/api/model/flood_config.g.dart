@@ -7,6 +7,7 @@ part of 'flood_config.dart';
 // **************************************************************************
 
 FloodConfig _$FloodConfigFromJson(Map<String, dynamic> json) => FloodConfig(
+  allowlist: (json['allowlist'] as List<dynamic>?)?.map((e) => e as String).toList(),
   identical_: json['identical_'] == null
       ? null
       : FloodIdenticalConfig.fromJson(
@@ -16,6 +17,7 @@ FloodConfig _$FloodConfigFromJson(Map<String, dynamic> json) => FloodConfig(
 );
 
 Map<String, dynamic> _$FloodConfigToJson(FloodConfig instance) => <String, dynamic>{
+  'allowlist': instance.allowlist,
   'identical_': instance.identical_?.toJson(),
   'similar': instance.similar?.toJson(),
 };

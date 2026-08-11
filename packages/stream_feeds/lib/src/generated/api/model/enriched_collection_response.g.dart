@@ -11,7 +11,7 @@ EnrichedCollectionResponse _$EnrichedCollectionResponseFromJson(
 ) => EnrichedCollectionResponse(
   createdAt: _$JsonConverterFromJson<Object, DateTime>(
     json['created_at'],
-    const EpochDateTimeConverter().fromJson,
+    const StreamDateTimeConverter().fromJson,
   ),
   custom: json['custom'] as Map<String, dynamic>?,
   id: json['id'] as String,
@@ -23,7 +23,7 @@ EnrichedCollectionResponse _$EnrichedCollectionResponseFromJson(
   ),
   updatedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['updated_at'],
-    const EpochDateTimeConverter().fromJson,
+    const StreamDateTimeConverter().fromJson,
   ),
   userId: json['user_id'] as String?,
 );
@@ -33,7 +33,7 @@ Map<String, dynamic> _$EnrichedCollectionResponseToJson(
 ) => <String, dynamic>{
   'created_at': _$JsonConverterToJson<Object, DateTime>(
     instance.createdAt,
-    const EpochDateTimeConverter().toJson,
+    const StreamDateTimeConverter().toJson,
   ),
   'custom': instance.custom,
   'id': instance.id,
@@ -41,7 +41,7 @@ Map<String, dynamic> _$EnrichedCollectionResponseToJson(
   'status': _$EnrichedCollectionResponseStatusEnumMap[instance.status]!,
   'updated_at': _$JsonConverterToJson<Object, DateTime>(
     instance.updatedAt,
-    const EpochDateTimeConverter().toJson,
+    const StreamDateTimeConverter().toJson,
   ),
   'user_id': instance.userId,
 };

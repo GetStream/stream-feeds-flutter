@@ -37,7 +37,7 @@ class HealthCheckEvent extends WsEvent with _$HealthCheckEvent {
 
   /// The date and time when the health check event was created.
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   /// Custom data associated with the health check event.
@@ -50,7 +50,7 @@ class HealthCheckEvent extends WsEvent with _$HealthCheckEvent {
 
   /// The date and time when the health check event was received, if available.
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? receivedAt;
 
   /// The event type identifier.
@@ -91,7 +91,7 @@ class ConnectedEvent extends WsEvent with _$ConnectedEvent {
 
   /// The date and time when the connection was established.
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   /// The current user information for this connection.
@@ -136,7 +136,7 @@ class ConnectionErrorEvent extends WsEvent with _$ConnectionErrorEvent {
 
   /// The date and time when the error occurred.
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   /// The error information describing what went wrong.

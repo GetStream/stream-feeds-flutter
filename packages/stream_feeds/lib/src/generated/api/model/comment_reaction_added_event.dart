@@ -37,11 +37,10 @@ class CommentReactionAddedEvent extends core.WsEvent with _$CommentReactionAdded
   final CommentResponse comment;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override
@@ -54,7 +53,7 @@ class CommentReactionAddedEvent extends core.WsEvent with _$CommentReactionAdded
   final FeedsReactionResponse reaction;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? receivedAt;
 
   @override

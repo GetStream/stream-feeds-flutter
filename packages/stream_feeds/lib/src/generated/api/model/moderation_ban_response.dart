@@ -10,25 +10,21 @@ import 'package:stream_core/stream_core.dart' as core;
 
 import '../models.dart';
 
-part 'flag_response.g.dart';
-part 'flag_response.freezed.dart';
+part 'moderation_ban_response.g.dart';
+part 'moderation_ban_response.freezed.dart';
 
 @freezed
 @immutable
 @JsonSerializable()
-class FlagResponse with _$FlagResponse {
-  const FlagResponse({
+class ModerationBanResponse with _$ModerationBanResponse {
+  const ModerationBanResponse({
     required this.duration,
-    required this.itemId,
   });
 
   @override
   final String duration;
 
-  @override
-  final String itemId;
+  Map<String, dynamic> toJson() => _$ModerationBanResponseToJson(this);
 
-  Map<String, dynamic> toJson() => _$FlagResponseToJson(this);
-
-  static FlagResponse fromJson(Map<String, dynamic> json) => _$FlagResponseFromJson(json);
+  static ModerationBanResponse fromJson(Map<String, dynamic> json) => _$ModerationBanResponseFromJson(json);
 }

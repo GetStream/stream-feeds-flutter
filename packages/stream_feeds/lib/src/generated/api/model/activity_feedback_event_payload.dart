@@ -46,11 +46,11 @@ class ActivityFeedbackEventPayload with _$ActivityFeedbackEventPayload {
   final String activityId;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
   @override

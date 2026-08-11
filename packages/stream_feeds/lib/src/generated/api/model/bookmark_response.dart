@@ -40,7 +40,7 @@ class BookmarkResponse with _$BookmarkResponse {
   final CommentResponse? comment;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
@@ -56,7 +56,7 @@ class BookmarkResponse with _$BookmarkResponse {
   final String objectType;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
   @override

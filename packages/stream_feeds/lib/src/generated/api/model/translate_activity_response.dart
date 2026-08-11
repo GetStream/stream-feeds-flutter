@@ -10,21 +10,25 @@ import 'package:stream_core/stream_core.dart' as core;
 
 import '../models.dart';
 
-part 'ban_response.g.dart';
-part 'ban_response.freezed.dart';
+part 'translate_activity_response.g.dart';
+part 'translate_activity_response.freezed.dart';
 
 @freezed
 @immutable
 @JsonSerializable()
-class BanResponse with _$BanResponse {
-  const BanResponse({
+class TranslateActivityResponse with _$TranslateActivityResponse {
+  const TranslateActivityResponse({
+    required this.activity,
     required this.duration,
   });
 
   @override
+  final ActivityResponse activity;
+
+  @override
   final String duration;
 
-  Map<String, dynamic> toJson() => _$BanResponseToJson(this);
+  Map<String, dynamic> toJson() => _$TranslateActivityResponseToJson(this);
 
-  static BanResponse fromJson(Map<String, dynamic> json) => _$BanResponseFromJson(json);
+  static TranslateActivityResponse fromJson(Map<String, dynamic> json) => _$TranslateActivityResponseFromJson(json);
 }

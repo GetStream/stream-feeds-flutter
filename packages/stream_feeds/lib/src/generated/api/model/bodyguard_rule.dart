@@ -55,7 +55,6 @@ class BodyguardRule with _$BodyguardRule {
   final String label;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<BodyguardSeverityRule> severityRules;
 
   Map<String, dynamic> toJson() => _$BodyguardRuleToJson(this);

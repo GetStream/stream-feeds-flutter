@@ -26,7 +26,6 @@ class TrackActivityMetricsResponse with _$TrackActivityMetricsResponse {
   final String duration;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<TrackActivityMetricsEventResult> results;
 
   Map<String, dynamic> toJson() => _$TrackActivityMetricsResponseToJson(this);

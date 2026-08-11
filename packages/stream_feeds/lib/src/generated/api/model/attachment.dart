@@ -61,7 +61,6 @@ class Attachment with _$Attachment {
   final String? color;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override

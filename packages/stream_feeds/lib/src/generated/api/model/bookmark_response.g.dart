@@ -12,14 +12,14 @@ BookmarkResponse _$BookmarkResponseFromJson(
   activity: ActivityResponse.fromJson(json['activity'] as Map<String, dynamic>),
   activityId: json['activity_id'] as String?,
   comment: json['comment'] == null ? null : CommentResponse.fromJson(json['comment'] as Map<String, dynamic>),
-  createdAt: const EpochDateTimeConverter().fromJson(
+  createdAt: const StreamDateTimeConverter().fromJson(
     json['created_at'] as Object,
   ),
   custom: json['custom'] as Map<String, dynamic>?,
   folder: json['folder'] == null ? null : BookmarkFolderResponse.fromJson(json['folder'] as Map<String, dynamic>),
   objectId: json['object_id'] as String,
   objectType: json['object_type'] as String,
-  updatedAt: const EpochDateTimeConverter().fromJson(
+  updatedAt: const StreamDateTimeConverter().fromJson(
     json['updated_at'] as Object,
   ),
   user: UserResponse.fromJson(json['user'] as Map<String, dynamic>),
@@ -29,11 +29,11 @@ Map<String, dynamic> _$BookmarkResponseToJson(BookmarkResponse instance) => <Str
   'activity': instance.activity.toJson(),
   'activity_id': instance.activityId,
   'comment': instance.comment?.toJson(),
-  'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
+  'created_at': const StreamDateTimeConverter().toJson(instance.createdAt),
   'custom': instance.custom,
   'folder': instance.folder?.toJson(),
   'object_id': instance.objectId,
   'object_type': instance.objectType,
-  'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
+  'updated_at': const StreamDateTimeConverter().toJson(instance.updatedAt),
   'user': instance.user.toJson(),
 };

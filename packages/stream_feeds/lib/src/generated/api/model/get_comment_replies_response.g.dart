@@ -9,13 +9,9 @@ part of 'get_comment_replies_response.dart';
 GetCommentRepliesResponse _$GetCommentRepliesResponseFromJson(
   Map<String, dynamic> json,
 ) => GetCommentRepliesResponse(
-  comments:
-      (json['comments'] as List<dynamic>?)
-          ?.map(
-            (e) => ThreadedCommentResponse.fromJson(e as Map<String, dynamic>),
-          )
-          .toList() ??
-      [],
+  comments: (json['comments'] as List<dynamic>)
+      .map((e) => ThreadedCommentResponse.fromJson(e as Map<String, dynamic>))
+      .toList(),
   duration: json['duration'] as String,
   next: json['next'] as String?,
   prev: json['prev'] as String?,

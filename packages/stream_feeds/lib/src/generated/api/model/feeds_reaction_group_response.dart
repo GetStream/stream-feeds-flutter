@@ -27,11 +27,11 @@ class FeedsReactionGroupResponse with _$FeedsReactionGroupResponse {
   final int count;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime firstReactionAt;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime lastReactionAt;
 
   Map<String, dynamic> toJson() => _$FeedsReactionGroupResponseToJson(this);

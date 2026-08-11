@@ -52,6 +52,11 @@ SubmitActionRequest _$SubmitActionRequestFromJson(
       : DeleteUserRequestPayload.fromJson(
           json['delete_user'] as Map<String, dynamic>,
         ),
+  deleteUserMessages: json['delete_user_messages'] == null
+      ? null
+      : DeleteUserMessagesRequestPayload.fromJson(
+          json['delete_user_messages'] as Map<String, dynamic>,
+        ),
   escalate: json['escalate'] == null ? null : EscalatePayload.fromJson(json['escalate'] as Map<String, dynamic>),
   flag: json['flag'] == null ? null : FlagRequest.fromJson(json['flag'] as Map<String, dynamic>),
   itemId: json['item_id'] as String?,
@@ -101,6 +106,7 @@ Map<String, dynamic> _$SubmitActionRequestToJson(
   'delete_message': instance.deleteMessage?.toJson(),
   'delete_reaction': instance.deleteReaction?.toJson(),
   'delete_user': instance.deleteUser?.toJson(),
+  'delete_user_messages': instance.deleteUserMessages?.toJson(),
   'escalate': instance.escalate?.toJson(),
   'flag': instance.flag?.toJson(),
   'item_id': instance.itemId,
@@ -123,6 +129,7 @@ const _$SubmitActionRequestActionTypeEnumMap = {
   SubmitActionRequestActionType.deleteMessage: 'delete_message',
   SubmitActionRequestActionType.deleteReaction: 'delete_reaction',
   SubmitActionRequestActionType.deleteUser: 'delete_user',
+  SubmitActionRequestActionType.deleteUserMessages: 'delete_user_messages',
   SubmitActionRequestActionType.endCall: 'end_call',
   SubmitActionRequestActionType.escalate: 'escalate',
   SubmitActionRequestActionType.flag: 'flag',

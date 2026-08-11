@@ -28,15 +28,14 @@ class ReactionGroupResponse with _$ReactionGroupResponse {
   final int count;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime firstReactionAt;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime lastReactionAt;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<ReactionGroupUserResponse> latestReactionsBy;
 
   Map<String, dynamic> toJson() => _$ReactionGroupResponseToJson(this);

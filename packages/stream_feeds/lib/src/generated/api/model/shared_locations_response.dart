@@ -23,7 +23,6 @@ class SharedLocationsResponse with _$SharedLocationsResponse {
   });
 
   @override
-  @JsonKey(defaultValue: [])
   final List<SharedLocationResponseData> activeLiveLocations;
 
   @override

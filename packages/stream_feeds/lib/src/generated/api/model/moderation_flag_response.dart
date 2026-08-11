@@ -36,7 +36,7 @@ class ModerationFlagResponse with _$ModerationFlagResponse {
   });
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
@@ -61,7 +61,6 @@ class ModerationFlagResponse with _$ModerationFlagResponse {
   final String? reason;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<Map<String, Object?>> result;
 
   @override
@@ -74,7 +73,7 @@ class ModerationFlagResponse with _$ModerationFlagResponse {
   final String type;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
   @override

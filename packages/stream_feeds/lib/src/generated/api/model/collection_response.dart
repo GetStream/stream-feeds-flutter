@@ -27,7 +27,7 @@ class CollectionResponse with _$CollectionResponse {
   });
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? createdAt;
 
   @override
@@ -40,7 +40,7 @@ class CollectionResponse with _$CollectionResponse {
   final String name;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? updatedAt;
 
   @override

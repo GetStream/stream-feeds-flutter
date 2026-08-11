@@ -26,7 +26,6 @@ class SearchUserGroupsResponse with _$SearchUserGroupsResponse {
   final String duration;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<UserGroupResponse> userGroups;
 
   Map<String, dynamic> toJson() => _$SearchUserGroupsResponseToJson(this);

@@ -60,27 +60,24 @@ class OwnUserResponse with _$OwnUserResponse {
   final List<String>? blockedUserIds;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<ChannelMute> channelMutes;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? deactivatedAt;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? deletedAt;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<DeviceResponse> devices;
 
   @override
@@ -96,14 +93,13 @@ class OwnUserResponse with _$OwnUserResponse {
   final String language;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? lastActive;
 
   @override
   final List<String>? latestHiddenChannels;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<UserMuteResponse> mutes;
 
   @override
@@ -119,14 +115,13 @@ class OwnUserResponse with _$OwnUserResponse {
   final PushPreferencesResponse? pushPreferences;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? revokeTokensIssuedBefore;
 
   @override
   final String role;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<String> teams;
 
   @override
@@ -148,7 +143,7 @@ class OwnUserResponse with _$OwnUserResponse {
   final int unreadThreads;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
   Map<String, dynamic> toJson() => _$OwnUserResponseToJson(this);

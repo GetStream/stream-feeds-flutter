@@ -10,11 +10,9 @@ GetUserInterestsResponse _$GetUserInterestsResponseFromJson(
   Map<String, dynamic> json,
 ) => GetUserInterestsResponse(
   duration: json['duration'] as String,
-  interests:
-      (json['interests'] as List<dynamic>?)
-          ?.map((e) => InterestTagResponse.fromJson(e as Map<String, dynamic>))
-          .toList() ??
-      [],
+  interests: (json['interests'] as List<dynamic>)
+      .map((e) => InterestTagResponse.fromJson(e as Map<String, dynamic>))
+      .toList(),
 );
 
 Map<String, dynamic> _$GetUserInterestsResponseToJson(

@@ -21,6 +21,7 @@ class UnbanActionRequestPayload with _$UnbanActionRequestPayload {
     this.channelCid,
     this.decisionReason,
     this.removeFutureChannelsBan,
+    this.targetUserId,
   });
 
   @override
@@ -31,6 +32,9 @@ class UnbanActionRequestPayload with _$UnbanActionRequestPayload {
 
   @override
   final bool? removeFutureChannelsBan;
+
+  @override
+  final String? targetUserId;
 
   Map<String, dynamic> toJson() => _$UnbanActionRequestPayloadToJson(this);
 

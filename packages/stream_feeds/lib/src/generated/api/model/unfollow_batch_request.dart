@@ -30,7 +30,6 @@ class UnfollowBatchRequest with _$UnfollowBatchRequest {
   final bool? enrichOwnFields;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<UnfollowPair> follows;
 
   Map<String, dynamic> toJson() => _$UnfollowBatchRequestToJson(this);

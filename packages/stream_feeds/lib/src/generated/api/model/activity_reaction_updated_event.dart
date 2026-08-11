@@ -33,11 +33,10 @@ class ActivityReactionUpdatedEvent extends core.WsEvent with _$ActivityReactionU
   final ActivityResponse activity;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override
@@ -50,7 +49,7 @@ class ActivityReactionUpdatedEvent extends core.WsEvent with _$ActivityReactionU
   final FeedsReactionResponse reaction;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? receivedAt;
 
   @override

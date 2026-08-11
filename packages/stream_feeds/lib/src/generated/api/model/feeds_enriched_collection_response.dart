@@ -28,11 +28,10 @@ class FeedsEnrichedCollectionResponse with _$FeedsEnrichedCollectionResponse {
   });
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override
@@ -45,7 +44,7 @@ class FeedsEnrichedCollectionResponse with _$FeedsEnrichedCollectionResponse {
   final String status;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
   @override

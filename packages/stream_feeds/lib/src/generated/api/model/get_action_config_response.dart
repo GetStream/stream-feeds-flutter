@@ -23,7 +23,6 @@ class GetActionConfigResponse with _$GetActionConfigResponse {
   });
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, List<ModerationActionConfigResponse>> actionConfig;
 
   @override

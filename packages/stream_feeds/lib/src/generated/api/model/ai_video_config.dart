@@ -30,7 +30,6 @@ class AIVideoConfig with _$AIVideoConfig {
   final bool enabled;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<AWSRekognitionRule> rules;
 
   Map<String, dynamic> toJson() => _$AIVideoConfigToJson(this);

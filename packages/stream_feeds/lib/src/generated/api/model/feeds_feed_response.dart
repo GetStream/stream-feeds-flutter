@@ -42,7 +42,7 @@ class FeedsFeedResponse with _$FeedsFeedResponse {
   final int activityCount;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
@@ -52,7 +52,7 @@ class FeedsFeedResponse with _$FeedsFeedResponse {
   final Map<String, Object?>? custom;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? deletedAt;
 
   @override
@@ -89,7 +89,7 @@ class FeedsFeedResponse with _$FeedsFeedResponse {
   final int pinCount;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
   @override

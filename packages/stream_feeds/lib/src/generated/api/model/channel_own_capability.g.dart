@@ -11,6 +11,7 @@ const _$ChannelOwnCapabilityEnumMap = {
   ChannelOwnCapability.castPollVote: 'cast-poll-vote',
   ChannelOwnCapability.connectEvents: 'connect-events',
   ChannelOwnCapability.createAttachment: 'create-attachment',
+  ChannelOwnCapability.createMention: 'create-mention',
   ChannelOwnCapability.deleteAnyMessage: 'delete-any-message',
   ChannelOwnCapability.deleteChannel: 'delete-channel',
   ChannelOwnCapability.deleteOwnMessage: 'delete-own-message',

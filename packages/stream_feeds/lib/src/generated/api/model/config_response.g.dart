@@ -9,6 +9,11 @@ part of 'config_response.dart';
 ConfigResponse _$ConfigResponseFromJson(
   Map<String, dynamic> json,
 ) => ConfigResponse(
+  aiAudioConfig: json['ai_audio_config'] == null
+      ? null
+      : AIAudioConfigResponse.fromJson(
+          json['ai_audio_config'] as Map<String, dynamic>,
+        ),
   aiImageConfig: json['ai_image_config'] == null
       ? null
       : AIImageConfig.fromJson(json['ai_image_config'] as Map<String, dynamic>),
@@ -52,16 +57,17 @@ ConfigResponse _$ConfigResponseFromJson(
       : BlockListConfig.fromJson(
           json['block_list_config'] as Map<String, dynamic>,
         ),
-  createdAt: const EpochDateTimeConverter().fromJson(
+  createdAt: const StreamDateTimeConverter().fromJson(
     json['created_at'] as Object,
   ),
   floodConfig: json['flood_config'] == null ? null : FloodConfig.fromJson(json['flood_config'] as Map<String, dynamic>),
   key: json['key'] as String,
   llmConfig: json['llm_config'] == null ? null : LLMConfig.fromJson(json['llm_config'] as Map<String, dynamic>),
-  supportedVideoCallHarmTypes:
-      (json['supported_video_call_harm_types'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
+  supportedVideoCallHarmTypes: (json['supported_video_call_harm_types'] as List<dynamic>)
+      .map((e) => e as String)
+      .toList(),
   team: json['team'] as String,
-  updatedAt: const EpochDateTimeConverter().fromJson(
+  updatedAt: const StreamDateTimeConverter().fromJson(
     json['updated_at'] as Object,
   ),
   velocityFilterConfig: json['velocity_filter_config'] == null
@@ -77,6 +83,7 @@ ConfigResponse _$ConfigResponseFromJson(
 );
 
 Map<String, dynamic> _$ConfigResponseToJson(ConfigResponse instance) => <String, dynamic>{
+  'ai_audio_config': instance.aiAudioConfig?.toJson(),
   'ai_image_config': instance.aiImageConfig?.toJson(),
   'ai_image_label_definitions': instance.aiImageLabelDefinitions?.map((e) => e.toJson()).toList(),
   'ai_image_subclassifications': instance.aiImageSubclassifications,
@@ -88,13 +95,13 @@ Map<String, dynamic> _$ConfigResponseToJson(ConfigResponse instance) => <String,
   'automod_toxicity_config': instance.automodToxicityConfig?.toJson(),
   'available_bodyguard_profiles': instance.availableBodyguardProfiles?.map((e) => e.toJson()).toList(),
   'block_list_config': instance.blockListConfig?.toJson(),
-  'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
+  'created_at': const StreamDateTimeConverter().toJson(instance.createdAt),
   'flood_config': instance.floodConfig?.toJson(),
   'key': instance.key,
   'llm_config': instance.llmConfig?.toJson(),
   'supported_video_call_harm_types': instance.supportedVideoCallHarmTypes,
   'team': instance.team,
-  'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
+  'updated_at': const StreamDateTimeConverter().toJson(instance.updatedAt),
   'velocity_filter_config': instance.velocityFilterConfig?.toJson(),
   'video_call_rule_config': instance.videoCallRuleConfig?.toJson(),
 };

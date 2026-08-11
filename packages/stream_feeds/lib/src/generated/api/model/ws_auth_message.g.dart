@@ -7,6 +7,7 @@ part of 'ws_auth_message.dart';
 // **************************************************************************
 
 WSAuthMessage _$WSAuthMessageFromJson(Map<String, dynamic> json) => WSAuthMessage(
+  memberCustomInclude: (json['member_custom_include'] as List<dynamic>?)?.map((e) => e as String).toList(),
   products: (json['products'] as List<dynamic>?)
       ?.map(
         (e) => $enumDecode(
@@ -20,6 +21,7 @@ WSAuthMessage _$WSAuthMessageFromJson(Map<String, dynamic> json) => WSAuthMessag
 );
 
 Map<String, dynamic> _$WSAuthMessageToJson(WSAuthMessage instance) => <String, dynamic>{
+  'member_custom_include': instance.memberCustomInclude,
   'products': instance.products?.map((e) => _$WSAuthMessageProductsEnumMap[e]!).toList(),
   'token': instance.token,
 };

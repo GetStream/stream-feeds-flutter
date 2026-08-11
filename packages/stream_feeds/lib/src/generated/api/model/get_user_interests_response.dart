@@ -26,7 +26,6 @@ class GetUserInterestsResponse with _$GetUserInterestsResponse {
   final String duration;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<InterestTagResponse> interests;
 
   Map<String, dynamic> toJson() => _$GetUserInterestsResponseToJson(this);

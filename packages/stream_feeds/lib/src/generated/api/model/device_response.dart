@@ -30,7 +30,7 @@ class DeviceResponse with _$DeviceResponse {
   });
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override

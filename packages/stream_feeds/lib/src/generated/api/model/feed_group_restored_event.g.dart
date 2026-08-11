@@ -9,16 +9,16 @@ part of 'feed_group_restored_event.dart';
 FeedGroupRestoredEvent _$FeedGroupRestoredEventFromJson(
   Map<String, dynamic> json,
 ) => FeedGroupRestoredEvent(
-  createdAt: const EpochDateTimeConverter().fromJson(
+  createdAt: const StreamDateTimeConverter().fromJson(
     json['created_at'] as Object,
   ),
-  custom: json['custom'] as Map<String, dynamic>? ?? {},
+  custom: json['custom'] as Map<String, dynamic>,
   feedVisibility: json['feed_visibility'] as String?,
   fid: json['fid'] as String,
   groupId: json['group_id'] as String,
   receivedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['received_at'],
-    const EpochDateTimeConverter().fromJson,
+    const StreamDateTimeConverter().fromJson,
   ),
   type: json['type'] as String,
 );
@@ -26,14 +26,14 @@ FeedGroupRestoredEvent _$FeedGroupRestoredEventFromJson(
 Map<String, dynamic> _$FeedGroupRestoredEventToJson(
   FeedGroupRestoredEvent instance,
 ) => <String, dynamic>{
-  'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
+  'created_at': const StreamDateTimeConverter().toJson(instance.createdAt),
   'custom': instance.custom,
   'feed_visibility': instance.feedVisibility,
   'fid': instance.fid,
   'group_id': instance.groupId,
   'received_at': _$JsonConverterToJson<Object, DateTime>(
     instance.receivedAt,
-    const EpochDateTimeConverter().toJson,
+    const StreamDateTimeConverter().toJson,
   ),
   'type': instance.type,
 };

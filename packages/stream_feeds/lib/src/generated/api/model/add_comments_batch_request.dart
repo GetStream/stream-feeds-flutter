@@ -22,7 +22,6 @@ class AddCommentsBatchRequest with _$AddCommentsBatchRequest {
   });
 
   @override
-  @JsonKey(defaultValue: [])
   final List<AddCommentRequest> comments;
 
   Map<String, dynamic> toJson() => _$AddCommentsBatchRequestToJson(this);

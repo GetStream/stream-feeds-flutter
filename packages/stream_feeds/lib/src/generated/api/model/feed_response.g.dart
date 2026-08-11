@@ -8,14 +8,14 @@ part of 'feed_response.dart';
 
 FeedResponse _$FeedResponseFromJson(Map<String, dynamic> json) => FeedResponse(
   activityCount: (json['activity_count'] as num).toInt(),
-  createdAt: const EpochDateTimeConverter().fromJson(
+  createdAt: const StreamDateTimeConverter().fromJson(
     json['created_at'] as Object,
   ),
   createdBy: UserResponse.fromJson(json['created_by'] as Map<String, dynamic>),
   custom: json['custom'] as Map<String, dynamic>?,
   deletedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['deleted_at'],
-    const EpochDateTimeConverter().fromJson,
+    const StreamDateTimeConverter().fromJson,
   ),
   description: json['description'] as String,
   feed: json['feed'] as String,
@@ -48,7 +48,7 @@ FeedResponse _$FeedResponseFromJson(Map<String, dynamic> json) => FeedResponse(
           json['own_membership'] as Map<String, dynamic>,
         ),
   pinCount: (json['pin_count'] as num).toInt(),
-  updatedAt: const EpochDateTimeConverter().fromJson(
+  updatedAt: const StreamDateTimeConverter().fromJson(
     json['updated_at'] as Object,
   ),
   visibility: $enumDecodeNullable(
@@ -60,12 +60,12 @@ FeedResponse _$FeedResponseFromJson(Map<String, dynamic> json) => FeedResponse(
 
 Map<String, dynamic> _$FeedResponseToJson(FeedResponse instance) => <String, dynamic>{
   'activity_count': instance.activityCount,
-  'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
+  'created_at': const StreamDateTimeConverter().toJson(instance.createdAt),
   'created_by': instance.createdBy.toJson(),
   'custom': instance.custom,
   'deleted_at': _$JsonConverterToJson<Object, DateTime>(
     instance.deletedAt,
-    const EpochDateTimeConverter().toJson,
+    const StreamDateTimeConverter().toJson,
   ),
   'description': instance.description,
   'feed': instance.feed,
@@ -82,7 +82,7 @@ Map<String, dynamic> _$FeedResponseToJson(FeedResponse instance) => <String, dyn
   'own_follows': instance.ownFollows?.map((e) => e.toJson()).toList(),
   'own_membership': instance.ownMembership?.toJson(),
   'pin_count': instance.pinCount,
-  'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
+  'updated_at': const StreamDateTimeConverter().toJson(instance.updatedAt),
   'visibility': _$FeedResponseVisibilityEnumMap[instance.visibility],
 };
 

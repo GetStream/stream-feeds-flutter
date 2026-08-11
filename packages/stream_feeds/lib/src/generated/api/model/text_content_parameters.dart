@@ -24,6 +24,8 @@ class TextContentParameters with _$TextContentParameters {
     this.labelOperator,
     this.llmHarmLabels,
     this.severity,
+    this.textLength,
+    this.textLengthOperator,
   });
 
   @override
@@ -43,6 +45,12 @@ class TextContentParameters with _$TextContentParameters {
 
   @override
   final String? severity;
+
+  @override
+  final int? textLength;
+
+  @override
+  final String? textLengthOperator;
 
   Map<String, dynamic> toJson() => _$TextContentParametersToJson(this);
 

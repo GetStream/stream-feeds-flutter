@@ -9,32 +9,28 @@ part of 'get_or_create_feed_response.dart';
 GetOrCreateFeedResponse _$GetOrCreateFeedResponseFromJson(
   Map<String, dynamic> json,
 ) => GetOrCreateFeedResponse(
-  activities:
-      (json['activities'] as List<dynamic>?)
-          ?.map((e) => ActivityResponse.fromJson(e as Map<String, dynamic>))
-          .toList() ??
-      [],
-  aggregatedActivities:
-      (json['aggregated_activities'] as List<dynamic>?)
-          ?.map(
-            (e) => AggregatedActivityResponse.fromJson(e as Map<String, dynamic>),
-          )
-          .toList() ??
-      [],
+  activities: (json['activities'] as List<dynamic>)
+      .map((e) => ActivityResponse.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  aggregatedActivities: (json['aggregated_activities'] as List<dynamic>)
+      .map(
+        (e) => AggregatedActivityResponse.fromJson(e as Map<String, dynamic>),
+      )
+      .toList(),
   created: json['created'] as bool,
   duration: json['duration'] as String,
   feed: FeedResponse.fromJson(json['feed'] as Map<String, dynamic>),
-  followers:
-      (json['followers'] as List<dynamic>?)?.map((e) => FollowResponse.fromJson(e as Map<String, dynamic>)).toList() ??
-      [],
+  followers: (json['followers'] as List<dynamic>)
+      .map((e) => FollowResponse.fromJson(e as Map<String, dynamic>))
+      .toList(),
   followersPagination: json['followers_pagination'] == null
       ? null
       : PagerResponse.fromJson(
           json['followers_pagination'] as Map<String, dynamic>,
         ),
-  following:
-      (json['following'] as List<dynamic>?)?.map((e) => FollowResponse.fromJson(e as Map<String, dynamic>)).toList() ??
-      [],
+  following: (json['following'] as List<dynamic>)
+      .map((e) => FollowResponse.fromJson(e as Map<String, dynamic>))
+      .toList(),
   followingPagination: json['following_pagination'] == null
       ? null
       : PagerResponse.fromJson(
@@ -45,22 +41,18 @@ GetOrCreateFeedResponse _$GetOrCreateFeedResponseFromJson(
       : PagerResponse.fromJson(
           json['member_pagination'] as Map<String, dynamic>,
         ),
-  members:
-      (json['members'] as List<dynamic>?)
-          ?.map((e) => FeedMemberResponse.fromJson(e as Map<String, dynamic>))
-          .toList() ??
-      [],
+  members: (json['members'] as List<dynamic>)
+      .map((e) => FeedMemberResponse.fromJson(e as Map<String, dynamic>))
+      .toList(),
   next: json['next'] as String?,
   notificationStatus: json['notification_status'] == null
       ? null
       : NotificationStatusResponse.fromJson(
           json['notification_status'] as Map<String, dynamic>,
         ),
-  pinnedActivities:
-      (json['pinned_activities'] as List<dynamic>?)
-          ?.map((e) => ActivityPinResponse.fromJson(e as Map<String, dynamic>))
-          .toList() ??
-      [],
+  pinnedActivities: (json['pinned_activities'] as List<dynamic>)
+      .map((e) => ActivityPinResponse.fromJson(e as Map<String, dynamic>))
+      .toList(),
   prev: json['prev'] as String?,
 );
 

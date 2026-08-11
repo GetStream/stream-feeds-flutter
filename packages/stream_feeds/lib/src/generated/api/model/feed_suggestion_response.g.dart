@@ -13,14 +13,14 @@ FeedSuggestionResponse _$FeedSuggestionResponseFromJson(
   algorithmScores: (json['algorithm_scores'] as Map<String, dynamic>?)?.map(
     (k, e) => MapEntry(k, (e as num).toDouble()),
   ),
-  createdAt: const EpochDateTimeConverter().fromJson(
+  createdAt: const StreamDateTimeConverter().fromJson(
     json['created_at'] as Object,
   ),
   createdBy: UserResponse.fromJson(json['created_by'] as Map<String, dynamic>),
   custom: json['custom'] as Map<String, dynamic>?,
   deletedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['deleted_at'],
-    const EpochDateTimeConverter().fromJson,
+    const StreamDateTimeConverter().fromJson,
   ),
   description: json['description'] as String,
   feed: json['feed'] as String,
@@ -55,7 +55,7 @@ FeedSuggestionResponse _$FeedSuggestionResponseFromJson(
   pinCount: (json['pin_count'] as num).toInt(),
   reason: json['reason'] as String?,
   recommendationScore: (json['recommendation_score'] as num?)?.toDouble(),
-  updatedAt: const EpochDateTimeConverter().fromJson(
+  updatedAt: const StreamDateTimeConverter().fromJson(
     json['updated_at'] as Object,
   ),
   visibility: $enumDecodeNullable(
@@ -70,12 +70,12 @@ Map<String, dynamic> _$FeedSuggestionResponseToJson(
 ) => <String, dynamic>{
   'activity_count': instance.activityCount,
   'algorithm_scores': instance.algorithmScores,
-  'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
+  'created_at': const StreamDateTimeConverter().toJson(instance.createdAt),
   'created_by': instance.createdBy.toJson(),
   'custom': instance.custom,
   'deleted_at': _$JsonConverterToJson<Object, DateTime>(
     instance.deletedAt,
-    const EpochDateTimeConverter().toJson,
+    const StreamDateTimeConverter().toJson,
   ),
   'description': instance.description,
   'feed': instance.feed,
@@ -94,7 +94,7 @@ Map<String, dynamic> _$FeedSuggestionResponseToJson(
   'pin_count': instance.pinCount,
   'reason': instance.reason,
   'recommendation_score': instance.recommendationScore,
-  'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
+  'updated_at': const StreamDateTimeConverter().toJson(instance.updatedAt),
   'visibility': _$FeedSuggestionResponseVisibilityEnumMap[instance.visibility],
 };
 

@@ -18,17 +18,37 @@ part 'moderation_payload.freezed.dart';
 @JsonSerializable()
 class ModerationPayload with _$ModerationPayload {
   const ModerationPayload({
+    this.audios,
     this.custom,
+    this.imageIds,
+    this.imageOrderedKeys,
     this.images,
+    this.textIds,
+    this.textOrderedKeys,
     this.texts,
     this.videos,
   });
 
   @override
+  final List<String>? audios;
+
+  @override
   final Map<String, Object?>? custom;
 
   @override
+  final Map<String, String>? imageIds;
+
+  @override
+  final List<String>? imageOrderedKeys;
+
+  @override
   final List<String>? images;
+
+  @override
+  final Map<String, String>? textIds;
+
+  @override
+  final List<String>? textOrderedKeys;
 
   @override
   final List<String>? texts;

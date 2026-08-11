@@ -36,7 +36,7 @@ class ReminderResponseData with _$ReminderResponseData {
   final String channelCid;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
@@ -46,11 +46,11 @@ class ReminderResponseData with _$ReminderResponseData {
   final String messageId;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? remindAt;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
   @override

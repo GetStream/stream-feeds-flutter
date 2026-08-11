@@ -18,6 +18,7 @@ RuleBuilderAction _$RuleBuilderActionFromJson(Map<String, dynamic> json) => Rule
       : FlagUserOptions.fromJson(
           json['flag_user_options'] as Map<String, dynamic>,
         ),
+  reason: json['reason'] as String?,
   skipInbox: json['skip_inbox'] as bool?,
   type: $enumDecodeNullable(
     _$RuleBuilderActionTypeEnumMap,
@@ -30,6 +31,7 @@ Map<String, dynamic> _$RuleBuilderActionToJson(RuleBuilderAction instance) => <S
   'ban_options': instance.banOptions?.toJson(),
   'call_options': instance.callOptions?.toJson(),
   'flag_user_options': instance.flagUserOptions?.toJson(),
+  'reason': instance.reason,
   'skip_inbox': instance.skipInbox,
   'type': _$RuleBuilderActionTypeEnumMap[instance.type],
 };

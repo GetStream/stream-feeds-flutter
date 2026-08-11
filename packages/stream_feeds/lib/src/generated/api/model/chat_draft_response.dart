@@ -30,7 +30,7 @@ class ChatDraftResponse with _$ChatDraftResponse {
   final String channelCid;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override

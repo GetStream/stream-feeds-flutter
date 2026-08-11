@@ -11,11 +11,9 @@ QueryPinnedActivitiesResponse _$QueryPinnedActivitiesResponseFromJson(
 ) => QueryPinnedActivitiesResponse(
   duration: json['duration'] as String,
   next: json['next'] as String?,
-  pinnedActivities:
-      (json['pinned_activities'] as List<dynamic>?)
-          ?.map((e) => ActivityPinResponse.fromJson(e as Map<String, dynamic>))
-          .toList() ??
-      [],
+  pinnedActivities: (json['pinned_activities'] as List<dynamic>)
+      .map((e) => ActivityPinResponse.fromJson(e as Map<String, dynamic>))
+      .toList(),
   prev: json['prev'] as String?,
 );
 

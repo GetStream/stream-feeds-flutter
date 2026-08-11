@@ -35,18 +35,17 @@ class ModerationCustomActionEvent extends core.WsEvent with _$ModerationCustomAc
   final Map<String, Object?>? actionOptions;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override
   final MessageResponse? message;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? receivedAt;
 
   @override

@@ -20,12 +20,14 @@ class ChannelMemberResponse with _$ChannelMemberResponse {
   const ChannelMemberResponse({
     this.archivedAt,
     this.banExpires,
+    this.banFromFutureChannels,
     required this.banned,
     required this.channelRole,
     required this.createdAt,
     required this.custom,
     this.deletedAt,
     this.deletedMessages,
+    this.futureChannelBanExpires,
     this.inviteAcceptedAt,
     this.inviteRejectedAt,
     this.invited,
@@ -41,12 +43,15 @@ class ChannelMemberResponse with _$ChannelMemberResponse {
   });
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? archivedAt;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? banExpires;
+
+  @override
+  final bool? banFromFutureChannels;
 
   @override
   final bool banned;
@@ -55,26 +60,29 @@ class ChannelMemberResponse with _$ChannelMemberResponse {
   final String channelRole;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? deletedAt;
 
   @override
   final List<String>? deletedMessages;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
+  final DateTime? futureChannelBanExpires;
+
+  @override
+  @StreamDateTimeConverter()
   final DateTime? inviteAcceptedAt;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? inviteRejectedAt;
 
   @override
@@ -87,7 +95,7 @@ class ChannelMemberResponse with _$ChannelMemberResponse {
   final bool notificationsMuted;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? pinnedAt;
 
   @override
@@ -100,7 +108,7 @@ class ChannelMemberResponse with _$ChannelMemberResponse {
   final String? status;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
   @override

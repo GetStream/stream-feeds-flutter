@@ -28,11 +28,10 @@ class FollowDeletedEvent extends core.WsEvent with _$FollowDeletedEvent {
   });
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override
@@ -45,7 +44,7 @@ class FollowDeletedEvent extends core.WsEvent with _$FollowDeletedEvent {
   final FollowResponse follow;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? receivedAt;
 
   @override

@@ -23,7 +23,6 @@ class BulkUpsertActionConfigResponse with _$BulkUpsertActionConfigResponse {
   });
 
   @override
-  @JsonKey(defaultValue: [])
   final List<ModerationActionConfigResponse> actionConfigs;
 
   @override

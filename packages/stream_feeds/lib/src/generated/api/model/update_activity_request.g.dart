@@ -18,7 +18,7 @@ UpdateActivityRequest _$UpdateActivityRequestFromJson(
   enrichOwnFields: json['enrich_own_fields'] as bool?,
   expiresAt: _$JsonConverterFromJson<Object, DateTime>(
     json['expires_at'],
-    const EpochDateTimeConverter().fromJson,
+    const StreamDateTimeConverter().fromJson,
   ),
   feeds: (json['feeds'] as List<dynamic>?)?.map((e) => e as String).toList(),
   filterTags: (json['filter_tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
@@ -54,7 +54,7 @@ Map<String, dynamic> _$UpdateActivityRequestToJson(
   'enrich_own_fields': instance.enrichOwnFields,
   'expires_at': _$JsonConverterToJson<Object, DateTime>(
     instance.expiresAt,
-    const EpochDateTimeConverter().toJson,
+    const StreamDateTimeConverter().toJson,
   ),
   'feeds': instance.feeds,
   'filter_tags': instance.filterTags,

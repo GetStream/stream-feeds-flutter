@@ -53,18 +53,17 @@ class UserUnbannedEvent extends core.WsEvent with _$UserUnbannedEvent {
   final String? cid;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
   final UserResponseCommonFields? createdBy;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? receivedAt;
 
   @override

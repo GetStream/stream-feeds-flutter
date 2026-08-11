@@ -36,7 +36,7 @@ class PushPreferencesResponse with _$PushPreferencesResponse {
   final ChatPreferencesResponse? chatPreferences;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? disabledUntil;
 
   @override

@@ -7,11 +7,9 @@ part of 'own_batch_response.dart';
 // **************************************************************************
 
 OwnBatchResponse _$OwnBatchResponseFromJson(Map<String, dynamic> json) => OwnBatchResponse(
-  data:
-      (json['data'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, FeedOwnData.fromJson(e as Map<String, dynamic>)),
-      ) ??
-      {},
+  data: (json['data'] as Map<String, dynamic>).map(
+    (k, e) => MapEntry(k, FeedOwnData.fromJson(e as Map<String, dynamic>)),
+  ),
   duration: json['duration'] as String,
 );
 

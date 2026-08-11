@@ -41,11 +41,9 @@ class FeedGroup with _$FeedGroup {
   final ActivityFilterConfig? activityFilter;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<ActivityProcessorConfig> activityProcessors;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<ActivitySelectorConfig> activitySelectors;
 
   @override
@@ -58,25 +56,24 @@ class FeedGroup with _$FeedGroup {
   final int appPk;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override
   final String defaultVisibility;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? deletedAt;
 
   @override
   final String groupId;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? lastFeedGetAt;
 
   @override
@@ -92,7 +89,7 @@ class FeedGroup with _$FeedGroup {
   final StoriesConfig? stories;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
   Map<String, dynamic> toJson() => _$FeedGroupToJson(this);

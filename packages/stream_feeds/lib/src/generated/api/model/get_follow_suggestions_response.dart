@@ -30,7 +30,6 @@ class GetFollowSuggestionsResponse with _$GetFollowSuggestionsResponse {
   final String duration;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<FeedSuggestionResponse> suggestions;
 
   Map<String, dynamic> toJson() => _$GetFollowSuggestionsResponseToJson(this);

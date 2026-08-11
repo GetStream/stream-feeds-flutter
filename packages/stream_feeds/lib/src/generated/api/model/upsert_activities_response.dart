@@ -24,7 +24,6 @@ class UpsertActivitiesResponse with _$UpsertActivitiesResponse {
   });
 
   @override
-  @JsonKey(defaultValue: [])
   final List<ActivityResponse> activities;
 
   @override

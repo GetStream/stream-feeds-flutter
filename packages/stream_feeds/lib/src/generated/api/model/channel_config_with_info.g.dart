@@ -37,11 +37,10 @@ ChannelConfigWithInfo _$ChannelConfigWithInfoFromJson(
       : ChatPreferences.fromJson(
           json['chat_preferences'] as Map<String, dynamic>,
         ),
-  commands:
-      (json['commands'] as List<dynamic>?)?.map((e) => Command.fromJson(e as Map<String, dynamic>)).toList() ?? [],
+  commands: (json['commands'] as List<dynamic>).map((e) => Command.fromJson(e as Map<String, dynamic>)).toList(),
   connectEvents: json['connect_events'] as bool,
   countMessages: json['count_messages'] as bool,
-  createdAt: const EpochDateTimeConverter().fromJson(
+  createdAt: const StreamDateTimeConverter().fromJson(
     json['created_at'] as Object,
   ),
   customEvents: json['custom_events'] as bool,
@@ -71,7 +70,7 @@ ChannelConfigWithInfo _$ChannelConfigWithInfoFromJson(
   sharedLocations: json['shared_locations'] as bool,
   skipLastMsgUpdateForSystemMsgs: json['skip_last_msg_update_for_system_msgs'] as bool,
   typingEvents: json['typing_events'] as bool,
-  updatedAt: const EpochDateTimeConverter().fromJson(
+  updatedAt: const StreamDateTimeConverter().fromJson(
     json['updated_at'] as Object,
   ),
   uploads: json['uploads'] as bool,
@@ -93,7 +92,7 @@ Map<String, dynamic> _$ChannelConfigWithInfoToJson(
   'commands': instance.commands.map((e) => e.toJson()).toList(),
   'connect_events': instance.connectEvents,
   'count_messages': instance.countMessages,
-  'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
+  'created_at': const StreamDateTimeConverter().toJson(instance.createdAt),
   'custom_events': instance.customEvents,
   'delivery_events': instance.deliveryEvents,
   'grants': instance.grants,
@@ -115,7 +114,7 @@ Map<String, dynamic> _$ChannelConfigWithInfoToJson(
   'shared_locations': instance.sharedLocations,
   'skip_last_msg_update_for_system_msgs': instance.skipLastMsgUpdateForSystemMsgs,
   'typing_events': instance.typingEvents,
-  'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
+  'updated_at': const StreamDateTimeConverter().toJson(instance.updatedAt),
   'uploads': instance.uploads,
   'url_enrichment': instance.urlEnrichment,
   'user_message_reminders': instance.userMessageReminders,

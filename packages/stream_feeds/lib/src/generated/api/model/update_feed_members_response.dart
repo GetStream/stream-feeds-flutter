@@ -25,18 +25,15 @@ class UpdateFeedMembersResponse with _$UpdateFeedMembersResponse {
   });
 
   @override
-  @JsonKey(defaultValue: [])
   final List<FeedMemberResponse> added;
 
   @override
   final String duration;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<String> removedIds;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<FeedMemberResponse> updated;
 
   Map<String, dynamic> toJson() => _$UpdateFeedMembersResponseToJson(this);

@@ -27,7 +27,6 @@ class AddUserGroupMembersRequest with _$AddUserGroupMembersRequest {
   final bool? asAdmin;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<String> memberIds;
 
   @override

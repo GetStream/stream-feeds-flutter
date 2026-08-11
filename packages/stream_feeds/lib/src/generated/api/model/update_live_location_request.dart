@@ -25,7 +25,7 @@ class UpdateLiveLocationRequest with _$UpdateLiveLocationRequest {
   });
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? endAt;
 
   @override

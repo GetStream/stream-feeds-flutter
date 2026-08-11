@@ -22,13 +22,14 @@ class UserGroupResponse with _$UserGroupResponse {
     this.createdBy,
     this.description,
     required this.id,
+    this.members,
     required this.name,
     this.teamId,
     required this.updatedAt,
   });
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
@@ -41,13 +42,16 @@ class UserGroupResponse with _$UserGroupResponse {
   final String id;
 
   @override
+  final List<UserGroupMember>? members;
+
+  @override
   final String name;
 
   @override
   final String? teamId;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
   Map<String, dynamic> toJson() => _$UserGroupResponseToJson(this);

@@ -23,6 +23,7 @@ class AddReactionRequest with _$AddReactionRequest {
     this.custom,
     this.enforceUnique,
     this.skipPush,
+    this.targetFeeds,
     required this.type,
   });
 
@@ -41,6 +42,9 @@ class AddReactionRequest with _$AddReactionRequest {
 
   @override
   final bool? skipPush;
+
+  @override
+  final List<String>? targetFeeds;
 
   @override
   final String type;

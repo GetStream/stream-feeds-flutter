@@ -1,17 +1,17 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'flag_response.dart';
+part of 'flag_item_response.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-FlagResponse _$FlagResponseFromJson(Map<String, dynamic> json) => FlagResponse(
+FlagItemResponse _$FlagItemResponseFromJson(Map<String, dynamic> json) => FlagItemResponse(
   duration: json['duration'] as String,
   itemId: json['item_id'] as String,
 );
 
-Map<String, dynamic> _$FlagResponseToJson(FlagResponse instance) => <String, dynamic>{
+Map<String, dynamic> _$FlagItemResponseToJson(FlagItemResponse instance) => <String, dynamic>{
   'duration': instance.duration,
   'item_id': instance.itemId,
 };

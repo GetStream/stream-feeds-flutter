@@ -9,11 +9,9 @@ part of 'create_collections_request.dart';
 CreateCollectionsRequest _$CreateCollectionsRequestFromJson(
   Map<String, dynamic> json,
 ) => CreateCollectionsRequest(
-  collections:
-      (json['collections'] as List<dynamic>?)
-          ?.map((e) => CollectionRequest.fromJson(e as Map<String, dynamic>))
-          .toList() ??
-      [],
+  collections: (json['collections'] as List<dynamic>)
+      .map((e) => CollectionRequest.fromJson(e as Map<String, dynamic>))
+      .toList(),
 );
 
 Map<String, dynamic> _$CreateCollectionsRequestToJson(

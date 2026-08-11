@@ -23,7 +23,6 @@ class MuteRequest with _$MuteRequest {
   });
 
   @override
-  @JsonKey(defaultValue: [])
   final List<String> targetIds;
 
   @override

@@ -58,7 +58,6 @@ class ReviewQueueItemResponse with _$ReviewQueueItemResponse {
   });
 
   @override
-  @JsonKey(defaultValue: [])
   final List<ActionLogResponse> actions;
 
   @override
@@ -74,21 +73,20 @@ class ReviewQueueItemResponse with _$ReviewQueueItemResponse {
   final UserResponse? assignedTo;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<BanInfoResponse> bans;
 
   @override
-  final CallResponse? call;
+  final ModerationCallResponse? call;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? completedAt;
 
   @override
   final String? configKey;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
@@ -107,7 +105,7 @@ class ReviewQueueItemResponse with _$ReviewQueueItemResponse {
   final bool escalated;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? escalatedAt;
 
   @override
@@ -129,7 +127,6 @@ class ReviewQueueItemResponse with _$ReviewQueueItemResponse {
   final FeedsV3CommentResponse? feedsV3Comment;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<ModerationFlagResponse> flags;
 
   @override
@@ -139,7 +136,6 @@ class ReviewQueueItemResponse with _$ReviewQueueItemResponse {
   final String id;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<String> languages;
 
   @override
@@ -158,7 +154,7 @@ class ReviewQueueItemResponse with _$ReviewQueueItemResponse {
   final String recommendedAction;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? reviewedAt;
 
   @override
@@ -174,7 +170,7 @@ class ReviewQueueItemResponse with _$ReviewQueueItemResponse {
   final List<String>? teams;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime updatedAt;
 
   Map<String, dynamic> toJson() => _$ReviewQueueItemResponseToJson(this);

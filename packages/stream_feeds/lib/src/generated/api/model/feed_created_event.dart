@@ -30,11 +30,10 @@ class FeedCreatedEvent extends core.WsEvent with _$FeedCreatedEvent {
   });
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
-  @JsonKey(defaultValue: {})
   final Map<String, Object?> custom;
 
   @override
@@ -47,11 +46,10 @@ class FeedCreatedEvent extends core.WsEvent with _$FeedCreatedEvent {
   final String fid;
 
   @override
-  @JsonKey(defaultValue: [])
   final List<FeedMemberResponse> members;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? receivedAt;
 
   @override

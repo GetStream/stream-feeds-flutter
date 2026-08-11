@@ -18,6 +18,8 @@ part 'ban_info_response.freezed.dart';
 @JsonSerializable()
 class BanInfoResponse with _$BanInfoResponse {
   const BanInfoResponse({
+    this.channel,
+    this.channelCid,
     required this.createdAt,
     this.createdBy,
     this.expires,
@@ -27,14 +29,20 @@ class BanInfoResponse with _$BanInfoResponse {
   });
 
   @override
-  @EpochDateTimeConverter()
+  final ChannelMetadata? channel;
+
+  @override
+  final String? channelCid;
+
+  @override
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override
   final UserResponse? createdBy;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? expires;
 
   @override

@@ -26,11 +26,17 @@ class RuleBuilderCondition with _$RuleBuilderCondition {
     this.confidence,
     this.contentCountRuleParams,
     this.contentCustomPropertyCountParams,
+    this.contentCustomPropertyParams,
     this.contentFlagCountRuleParams,
+    this.floodIdenticalParams,
+    this.floodSimilarParams,
     this.imageContentParams,
     this.imageRuleParams,
+    this.ipContentCountRuleParams,
+    this.ipFlagCountRuleParams,
     this.keyframeOcrRuleParams,
     this.keyframeRuleParams,
+    this.ocrContentParams,
     this.textContentParams,
     this.textRuleParams,
     this.type,
@@ -69,7 +75,16 @@ class RuleBuilderCondition with _$RuleBuilderCondition {
   final ContentCustomPropertyCountParameters? contentCustomPropertyCountParams;
 
   @override
+  final ContentCustomPropertyParameters? contentCustomPropertyParams;
+
+  @override
   final FlagCountRuleParameters? contentFlagCountRuleParams;
+
+  @override
+  final FloodIdenticalRuleParameters? floodIdenticalParams;
+
+  @override
+  final FloodSimilarRuleParameters? floodSimilarParams;
 
   @override
   final ImageContentParameters? imageContentParams;
@@ -78,10 +93,19 @@ class RuleBuilderCondition with _$RuleBuilderCondition {
   final ImageRuleParameters? imageRuleParams;
 
   @override
+  final IPContentCountRuleParameters? ipContentCountRuleParams;
+
+  @override
+  final IPFlagCountRuleParameters? ipFlagCountRuleParams;
+
+  @override
   final KeyframeOCRRuleParameters? keyframeOcrRuleParams;
 
   @override
   final KeyframeRuleParameters? keyframeRuleParams;
+
+  @override
+  final OCRContentParameters? ocrContentParams;
 
   @override
   final TextContentParameters? textContentParams;

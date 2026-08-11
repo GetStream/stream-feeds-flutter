@@ -24,7 +24,7 @@ class ReactionGroupUserResponse with _$ReactionGroupUserResponse {
   });
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime createdAt;
 
   @override

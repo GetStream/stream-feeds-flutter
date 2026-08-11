@@ -27,11 +27,11 @@ class NotificationStatusResponse with _$NotificationStatusResponse {
   });
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? lastReadAt;
 
   @override
-  @EpochDateTimeConverter()
+  @StreamDateTimeConverter()
   final DateTime? lastSeenAt;
 
   @override
