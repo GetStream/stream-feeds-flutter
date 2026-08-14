@@ -17,6 +17,7 @@ mixin _$ReactionGroupResponse {
   DateTime get firstReactionAt;
   DateTime get lastReactionAt;
   List<ReactionGroupUserResponse> get latestReactionsBy;
+  int get sumScores;
 
   /// Create a copy of ReactionGroupResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -39,7 +40,8 @@ mixin _$ReactionGroupResponse {
             const DeepCollectionEquality().equals(
               other.latestReactionsBy,
               latestReactionsBy,
-            ));
+            ) &&
+            (identical(other.sumScores, sumScores) || other.sumScores == sumScores));
   }
 
   @override
@@ -49,11 +51,12 @@ mixin _$ReactionGroupResponse {
     firstReactionAt,
     lastReactionAt,
     const DeepCollectionEquality().hash(latestReactionsBy),
+    sumScores,
   );
 
   @override
   String toString() {
-    return 'ReactionGroupResponse(count: $count, firstReactionAt: $firstReactionAt, lastReactionAt: $lastReactionAt, latestReactionsBy: $latestReactionsBy)';
+    return 'ReactionGroupResponse(count: $count, firstReactionAt: $firstReactionAt, lastReactionAt: $lastReactionAt, latestReactionsBy: $latestReactionsBy, sumScores: $sumScores)';
   }
 }
 
@@ -69,6 +72,7 @@ abstract mixin class $ReactionGroupResponseCopyWith<$Res> {
     DateTime firstReactionAt,
     DateTime lastReactionAt,
     List<ReactionGroupUserResponse> latestReactionsBy,
+    int sumScores,
   });
 }
 
@@ -88,6 +92,7 @@ class _$ReactionGroupResponseCopyWithImpl<$Res> implements $ReactionGroupRespons
     Object? firstReactionAt = null,
     Object? lastReactionAt = null,
     Object? latestReactionsBy = null,
+    Object? sumScores = null,
   }) {
     return _then(
       ReactionGroupResponse(
@@ -107,6 +112,10 @@ class _$ReactionGroupResponseCopyWithImpl<$Res> implements $ReactionGroupRespons
             ? _self.latestReactionsBy
             : latestReactionsBy // ignore: cast_nullable_to_non_nullable
                   as List<ReactionGroupUserResponse>,
+        sumScores: null == sumScores
+            ? _self.sumScores
+            : sumScores // ignore: cast_nullable_to_non_nullable
+                  as int,
       ),
     );
   }

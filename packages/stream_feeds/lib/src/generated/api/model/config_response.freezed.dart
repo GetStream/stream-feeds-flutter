@@ -13,6 +13,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$ConfigResponse {
+  AIAudioConfigResponse? get aiAudioConfig;
   AIImageConfig? get aiImageConfig;
   List<AIImageLabelDefinition>? get aiImageLabelDefinitions;
   Map<String, List<String>>? get aiImageSubclassifications;
@@ -48,6 +49,7 @@ mixin _$ConfigResponse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ConfigResponse &&
+            (identical(other.aiAudioConfig, aiAudioConfig) || other.aiAudioConfig == aiAudioConfig) &&
             (identical(other.aiImageConfig, aiImageConfig) || other.aiImageConfig == aiImageConfig) &&
             const DeepCollectionEquality().equals(
               other.aiImageLabelDefinitions,
@@ -96,6 +98,7 @@ mixin _$ConfigResponse {
   @override
   int get hashCode => Object.hashAll([
     runtimeType,
+    aiAudioConfig,
     aiImageConfig,
     const DeepCollectionEquality().hash(aiImageLabelDefinitions),
     const DeepCollectionEquality().hash(aiImageSubclassifications),
@@ -120,7 +123,7 @@ mixin _$ConfigResponse {
 
   @override
   String toString() {
-    return 'ConfigResponse(aiImageConfig: $aiImageConfig, aiImageLabelDefinitions: $aiImageLabelDefinitions, aiImageSubclassifications: $aiImageSubclassifications, aiTextConfig: $aiTextConfig, aiVideoConfig: $aiVideoConfig, async: $async, automodPlatformCircumventionConfig: $automodPlatformCircumventionConfig, automodSemanticFiltersConfig: $automodSemanticFiltersConfig, automodToxicityConfig: $automodToxicityConfig, availableBodyguardProfiles: $availableBodyguardProfiles, blockListConfig: $blockListConfig, createdAt: $createdAt, floodConfig: $floodConfig, key: $key, llmConfig: $llmConfig, supportedVideoCallHarmTypes: $supportedVideoCallHarmTypes, team: $team, updatedAt: $updatedAt, velocityFilterConfig: $velocityFilterConfig, videoCallRuleConfig: $videoCallRuleConfig)';
+    return 'ConfigResponse(aiAudioConfig: $aiAudioConfig, aiImageConfig: $aiImageConfig, aiImageLabelDefinitions: $aiImageLabelDefinitions, aiImageSubclassifications: $aiImageSubclassifications, aiTextConfig: $aiTextConfig, aiVideoConfig: $aiVideoConfig, async: $async, automodPlatformCircumventionConfig: $automodPlatformCircumventionConfig, automodSemanticFiltersConfig: $automodSemanticFiltersConfig, automodToxicityConfig: $automodToxicityConfig, availableBodyguardProfiles: $availableBodyguardProfiles, blockListConfig: $blockListConfig, createdAt: $createdAt, floodConfig: $floodConfig, key: $key, llmConfig: $llmConfig, supportedVideoCallHarmTypes: $supportedVideoCallHarmTypes, team: $team, updatedAt: $updatedAt, velocityFilterConfig: $velocityFilterConfig, videoCallRuleConfig: $videoCallRuleConfig)';
   }
 }
 
@@ -132,6 +135,7 @@ abstract mixin class $ConfigResponseCopyWith<$Res> {
   ) = _$ConfigResponseCopyWithImpl;
   @useResult
   $Res call({
+    AIAudioConfigResponse? aiAudioConfig,
     AIImageConfig? aiImageConfig,
     List<AIImageLabelDefinition>? aiImageLabelDefinitions,
     Map<String, List<String>>? aiImageSubclassifications,
@@ -167,6 +171,7 @@ class _$ConfigResponseCopyWithImpl<$Res> implements $ConfigResponseCopyWith<$Res
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? aiAudioConfig = freezed,
     Object? aiImageConfig = freezed,
     Object? aiImageLabelDefinitions = freezed,
     Object? aiImageSubclassifications = freezed,
@@ -190,6 +195,10 @@ class _$ConfigResponseCopyWithImpl<$Res> implements $ConfigResponseCopyWith<$Res
   }) {
     return _then(
       ConfigResponse(
+        aiAudioConfig: freezed == aiAudioConfig
+            ? _self.aiAudioConfig
+            : aiAudioConfig // ignore: cast_nullable_to_non_nullable
+                  as AIAudioConfigResponse?,
         aiImageConfig: freezed == aiImageConfig
             ? _self.aiImageConfig
             : aiImageConfig // ignore: cast_nullable_to_non_nullable

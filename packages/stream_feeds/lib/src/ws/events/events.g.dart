@@ -9,14 +9,14 @@ part of 'events.dart';
 HealthCheckEvent _$HealthCheckEventFromJson(Map<String, dynamic> json) => HealthCheckEvent(
   cid: json['cid'] as String?,
   connectionId: json['connection_id'] as String,
-  createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+  createdAt: const StreamDateTimeConverter().fromJson(
+    json['created_at'] as Object,
   ),
   custom: json['custom'] as Map<String, dynamic>,
   me: json['me'] == null ? null : OwnUserResponse.fromJson(json['me'] as Map<String, dynamic>),
-  receivedAt: _$JsonConverterFromJson<int, DateTime>(
+  receivedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['received_at'],
-    const EpochDateTimeConverter().fromJson,
+    const StreamDateTimeConverter().fromJson,
   ),
   type: json['type'] as String? ?? 'health.check',
 );
@@ -24,12 +24,12 @@ HealthCheckEvent _$HealthCheckEventFromJson(Map<String, dynamic> json) => Health
 Map<String, dynamic> _$HealthCheckEventToJson(HealthCheckEvent instance) => <String, dynamic>{
   'cid': instance.cid,
   'connection_id': instance.connectionId,
-  'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
+  'created_at': const StreamDateTimeConverter().toJson(instance.createdAt),
   'custom': instance.custom,
   'me': instance.me?.toJson(),
-  'received_at': _$JsonConverterToJson<int, DateTime>(
+  'received_at': _$JsonConverterToJson<Object, DateTime>(
     instance.receivedAt,
-    const EpochDateTimeConverter().toJson,
+    const StreamDateTimeConverter().toJson,
   ),
   'type': instance.type,
 };
@@ -46,8 +46,8 @@ Json? _$JsonConverterToJson<Json, Value>(
 
 ConnectedEvent _$ConnectedEventFromJson(Map<String, dynamic> json) => ConnectedEvent(
   connectionId: json['connection_id'] as String,
-  createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+  createdAt: const StreamDateTimeConverter().fromJson(
+    json['created_at'] as Object,
   ),
   me: OwnUserResponse.fromJson(json['me'] as Map<String, dynamic>),
   type: json['type'] as String? ?? 'connection.ok',
@@ -57,8 +57,8 @@ ConnectionErrorEvent _$ConnectionErrorEventFromJson(
   Map<String, dynamic> json,
 ) => ConnectionErrorEvent(
   connectionId: json['connection_id'] as String,
-  createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+  createdAt: const StreamDateTimeConverter().fromJson(
+    json['created_at'] as Object,
   ),
   error: StreamApiError.fromJson(json['error'] as Map<String, dynamic>),
   type: json['type'] as String? ?? 'connection.error',
@@ -68,7 +68,7 @@ Map<String, dynamic> _$ConnectionErrorEventToJson(
   ConnectionErrorEvent instance,
 ) => <String, dynamic>{
   'connection_id': instance.connectionId,
-  'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
+  'created_at': const StreamDateTimeConverter().toJson(instance.createdAt),
   'error': instance.error.toJson(),
   'type': instance.type,
 };

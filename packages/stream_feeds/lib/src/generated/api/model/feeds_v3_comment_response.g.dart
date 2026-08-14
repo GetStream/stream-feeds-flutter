@@ -15,18 +15,21 @@ FeedsV3CommentResponse _$FeedsV3CommentResponseFromJson(
   bookmarkCount: (json['bookmark_count'] as num).toInt(),
   confidenceScore: (json['confidence_score'] as num).toDouble(),
   controversyScore: (json['controversy_score'] as num?)?.toDouble(),
-  createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+  createdAt: const StreamDateTimeConverter().fromJson(
+    json['created_at'] as Object,
   ),
   custom: json['custom'] as Map<String, dynamic>?,
-  deletedAt: _$JsonConverterFromJson<int, DateTime>(
+  deletedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['deleted_at'],
-    const EpochDateTimeConverter().fromJson,
+    const StreamDateTimeConverter().fromJson,
   ),
   downvoteCount: (json['downvote_count'] as num).toInt(),
-  editedAt: _$JsonConverterFromJson<int, DateTime>(
+  editedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['edited_at'],
-    const EpochDateTimeConverter().fromJson,
+    const StreamDateTimeConverter().fromJson,
+  ),
+  i18n: (json['i18n'] as Map<String, dynamic>?)?.map(
+    (k, e) => MapEntry(k, e as String),
   ),
   id: json['id'] as String,
   latestReactions: (json['latest_reactions'] as List<dynamic>?)
@@ -57,8 +60,8 @@ FeedsV3CommentResponse _$FeedsV3CommentResponseFromJson(
   score: (json['score'] as num).toInt(),
   status: json['status'] as String,
   text: json['text'] as String?,
-  updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+  updatedAt: const StreamDateTimeConverter().fromJson(
+    json['updated_at'] as Object,
   ),
   upvoteCount: (json['upvote_count'] as num).toInt(),
   user: UserResponse.fromJson(json['user'] as Map<String, dynamic>),
@@ -71,17 +74,18 @@ Map<String, dynamic> _$FeedsV3CommentResponseToJson(
   'bookmark_count': instance.bookmarkCount,
   'confidence_score': instance.confidenceScore,
   'controversy_score': instance.controversyScore,
-  'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
+  'created_at': const StreamDateTimeConverter().toJson(instance.createdAt),
   'custom': instance.custom,
-  'deleted_at': _$JsonConverterToJson<int, DateTime>(
+  'deleted_at': _$JsonConverterToJson<Object, DateTime>(
     instance.deletedAt,
-    const EpochDateTimeConverter().toJson,
+    const StreamDateTimeConverter().toJson,
   ),
   'downvote_count': instance.downvoteCount,
-  'edited_at': _$JsonConverterToJson<int, DateTime>(
+  'edited_at': _$JsonConverterToJson<Object, DateTime>(
     instance.editedAt,
-    const EpochDateTimeConverter().toJson,
+    const StreamDateTimeConverter().toJson,
   ),
+  'i18n': instance.i18n,
   'id': instance.id,
   'latest_reactions': instance.latestReactions?.map((e) => e.toJson()).toList(),
   'mentioned_users': instance.mentionedUsers.map((e) => e.toJson()).toList(),
@@ -98,7 +102,7 @@ Map<String, dynamic> _$FeedsV3CommentResponseToJson(
   'score': instance.score,
   'status': instance.status,
   'text': instance.text,
-  'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
+  'updated_at': const StreamDateTimeConverter().toJson(instance.updatedAt),
   'upvote_count': instance.upvoteCount,
   'user': instance.user.toJson(),
 };

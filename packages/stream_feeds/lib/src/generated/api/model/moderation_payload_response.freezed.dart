@@ -13,8 +13,13 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$ModerationPayloadResponse {
+  List<String>? get audios;
   Map<String, Object?>? get custom;
+  Map<String, String>? get imageIds;
+  List<String>? get imageOrderedKeys;
   List<String>? get images;
+  Map<String, String>? get textIds;
+  List<String>? get textOrderedKeys;
   List<String>? get texts;
   List<String>? get videos;
 
@@ -33,8 +38,19 @@ mixin _$ModerationPayloadResponse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ModerationPayloadResponse &&
+            const DeepCollectionEquality().equals(other.audios, audios) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
+            const DeepCollectionEquality().equals(other.imageIds, imageIds) &&
+            const DeepCollectionEquality().equals(
+              other.imageOrderedKeys,
+              imageOrderedKeys,
+            ) &&
             const DeepCollectionEquality().equals(other.images, images) &&
+            const DeepCollectionEquality().equals(other.textIds, textIds) &&
+            const DeepCollectionEquality().equals(
+              other.textOrderedKeys,
+              textOrderedKeys,
+            ) &&
             const DeepCollectionEquality().equals(other.texts, texts) &&
             const DeepCollectionEquality().equals(other.videos, videos));
   }
@@ -42,15 +58,20 @@ mixin _$ModerationPayloadResponse {
   @override
   int get hashCode => Object.hash(
     runtimeType,
+    const DeepCollectionEquality().hash(audios),
     const DeepCollectionEquality().hash(custom),
+    const DeepCollectionEquality().hash(imageIds),
+    const DeepCollectionEquality().hash(imageOrderedKeys),
     const DeepCollectionEquality().hash(images),
+    const DeepCollectionEquality().hash(textIds),
+    const DeepCollectionEquality().hash(textOrderedKeys),
     const DeepCollectionEquality().hash(texts),
     const DeepCollectionEquality().hash(videos),
   );
 
   @override
   String toString() {
-    return 'ModerationPayloadResponse(custom: $custom, images: $images, texts: $texts, videos: $videos)';
+    return 'ModerationPayloadResponse(audios: $audios, custom: $custom, imageIds: $imageIds, imageOrderedKeys: $imageOrderedKeys, images: $images, textIds: $textIds, textOrderedKeys: $textOrderedKeys, texts: $texts, videos: $videos)';
   }
 }
 
@@ -62,8 +83,13 @@ abstract mixin class $ModerationPayloadResponseCopyWith<$Res> {
   ) = _$ModerationPayloadResponseCopyWithImpl;
   @useResult
   $Res call({
+    List<String>? audios,
     Map<String, Object?>? custom,
+    Map<String, String>? imageIds,
+    List<String>? imageOrderedKeys,
     List<String>? images,
+    Map<String, String>? textIds,
+    List<String>? textOrderedKeys,
     List<String>? texts,
     List<String>? videos,
   });
@@ -81,20 +107,45 @@ class _$ModerationPayloadResponseCopyWithImpl<$Res> implements $ModerationPayloa
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? audios = freezed,
     Object? custom = freezed,
+    Object? imageIds = freezed,
+    Object? imageOrderedKeys = freezed,
     Object? images = freezed,
+    Object? textIds = freezed,
+    Object? textOrderedKeys = freezed,
     Object? texts = freezed,
     Object? videos = freezed,
   }) {
     return _then(
       ModerationPayloadResponse(
+        audios: freezed == audios
+            ? _self.audios
+            : audios // ignore: cast_nullable_to_non_nullable
+                  as List<String>?,
         custom: freezed == custom
             ? _self.custom
             : custom // ignore: cast_nullable_to_non_nullable
                   as Map<String, Object?>?,
+        imageIds: freezed == imageIds
+            ? _self.imageIds
+            : imageIds // ignore: cast_nullable_to_non_nullable
+                  as Map<String, String>?,
+        imageOrderedKeys: freezed == imageOrderedKeys
+            ? _self.imageOrderedKeys
+            : imageOrderedKeys // ignore: cast_nullable_to_non_nullable
+                  as List<String>?,
         images: freezed == images
             ? _self.images
             : images // ignore: cast_nullable_to_non_nullable
+                  as List<String>?,
+        textIds: freezed == textIds
+            ? _self.textIds
+            : textIds // ignore: cast_nullable_to_non_nullable
+                  as Map<String, String>?,
+        textOrderedKeys: freezed == textOrderedKeys
+            ? _self.textOrderedKeys
+            : textOrderedKeys // ignore: cast_nullable_to_non_nullable
                   as List<String>?,
         texts: freezed == texts
             ? _self.texts

@@ -15,8 +15,11 @@ T _$identity<T>(T value) => value;
 mixin _$AddReactionResponse {
   ActivityResponse get activity;
   String get duration;
+  bool? get notificationAccepted;
   bool? get notificationCreated;
+  String? get notificationTaskId;
   FeedsReactionResponse get reaction;
+  ActivityResponse? get referenceActivity;
 
   /// Create a copy of AddReactionResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -35,9 +38,14 @@ mixin _$AddReactionResponse {
             other is AddReactionResponse &&
             (identical(other.activity, activity) || other.activity == activity) &&
             (identical(other.duration, duration) || other.duration == duration) &&
+            (identical(other.notificationAccepted, notificationAccepted) ||
+                other.notificationAccepted == notificationAccepted) &&
             (identical(other.notificationCreated, notificationCreated) ||
                 other.notificationCreated == notificationCreated) &&
-            (identical(other.reaction, reaction) || other.reaction == reaction));
+            (identical(other.notificationTaskId, notificationTaskId) ||
+                other.notificationTaskId == notificationTaskId) &&
+            (identical(other.reaction, reaction) || other.reaction == reaction) &&
+            (identical(other.referenceActivity, referenceActivity) || other.referenceActivity == referenceActivity));
   }
 
   @override
@@ -45,13 +53,16 @@ mixin _$AddReactionResponse {
     runtimeType,
     activity,
     duration,
+    notificationAccepted,
     notificationCreated,
+    notificationTaskId,
     reaction,
+    referenceActivity,
   );
 
   @override
   String toString() {
-    return 'AddReactionResponse(activity: $activity, duration: $duration, notificationCreated: $notificationCreated, reaction: $reaction)';
+    return 'AddReactionResponse(activity: $activity, duration: $duration, notificationAccepted: $notificationAccepted, notificationCreated: $notificationCreated, notificationTaskId: $notificationTaskId, reaction: $reaction, referenceActivity: $referenceActivity)';
   }
 }
 
@@ -65,8 +76,11 @@ abstract mixin class $AddReactionResponseCopyWith<$Res> {
   $Res call({
     ActivityResponse activity,
     String duration,
+    bool? notificationAccepted,
     bool? notificationCreated,
+    String? notificationTaskId,
     FeedsReactionResponse reaction,
+    ActivityResponse? referenceActivity,
   });
 }
 
@@ -84,8 +98,11 @@ class _$AddReactionResponseCopyWithImpl<$Res> implements $AddReactionResponseCop
   $Res call({
     Object? activity = null,
     Object? duration = null,
+    Object? notificationAccepted = freezed,
     Object? notificationCreated = freezed,
+    Object? notificationTaskId = freezed,
     Object? reaction = null,
+    Object? referenceActivity = freezed,
   }) {
     return _then(
       AddReactionResponse(
@@ -97,14 +114,26 @@ class _$AddReactionResponseCopyWithImpl<$Res> implements $AddReactionResponseCop
             ? _self.duration
             : duration // ignore: cast_nullable_to_non_nullable
                   as String,
+        notificationAccepted: freezed == notificationAccepted
+            ? _self.notificationAccepted
+            : notificationAccepted // ignore: cast_nullable_to_non_nullable
+                  as bool?,
         notificationCreated: freezed == notificationCreated
             ? _self.notificationCreated
             : notificationCreated // ignore: cast_nullable_to_non_nullable
                   as bool?,
+        notificationTaskId: freezed == notificationTaskId
+            ? _self.notificationTaskId
+            : notificationTaskId // ignore: cast_nullable_to_non_nullable
+                  as String?,
         reaction: null == reaction
             ? _self.reaction
             : reaction // ignore: cast_nullable_to_non_nullable
                   as FeedsReactionResponse,
+        referenceActivity: freezed == referenceActivity
+            ? _self.referenceActivity
+            : referenceActivity // ignore: cast_nullable_to_non_nullable
+                  as ActivityResponse?,
       ),
     );
   }

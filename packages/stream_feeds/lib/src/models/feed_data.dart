@@ -158,39 +158,19 @@ extension FeedResponseMapper on FeedResponse {
       ),
       memberCount: memberCount,
       name: name,
-      ownCapabilities: ownCapabilities?.map((e) => e.toModel()).toList() ?? const [],
+      ownCapabilities: [...?ownCapabilities],
       ownMembership: ownMembership?.toModel(),
       ownFollowings: ownFollowings?.map((f) => f.toModel()).toList(),
       ownFollows: ownFollows?.map((f) => f.toModel()).toList(),
       pinCount: pinCount,
       updatedAt: updatedAt,
-      visibility: visibility?.toModel(),
+      visibility: visibility,
       custom: custom,
     );
   }
 }
 
 /// Extension functions for [FeedData] to handle common operations.
-/// Extension to map [FeedResponseOwnCapabilities] to the canonical [FeedOwnCapability].
-extension FeedResponseOwnCapabilitiesMapper on FeedResponseOwnCapabilities {
-  /// Converts this response-specific capability enum to the canonical [FeedOwnCapability].
-  FeedOwnCapability toModel() => FeedOwnCapability.values.byName(name);
-}
-
-/// Extension to map [FeedResponseVisibility] to its wire-value string.
-extension FeedResponseVisibilityMapper on FeedResponseVisibility {
-  /// Returns the API wire value string for this visibility.
-  String toModel() {
-    return switch (this) {
-      FeedResponseVisibility.followers => 'followers',
-      FeedResponseVisibility.members => 'members',
-      FeedResponseVisibility.private => 'private',
-      FeedResponseVisibility.public => 'public',
-      FeedResponseVisibility.visible => 'visible',
-      FeedResponseVisibility.unknown => 'unknown',
-    };
-  }
-}
 
 extension FeedDataMutations on FeedData {
   /// Updates this feed with new data while preserving own data.

@@ -13,14 +13,14 @@ FeedSuggestionResponse _$FeedSuggestionResponseFromJson(
   algorithmScores: (json['algorithm_scores'] as Map<String, dynamic>?)?.map(
     (k, e) => MapEntry(k, (e as num).toDouble()),
   ),
-  createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+  createdAt: const StreamDateTimeConverter().fromJson(
+    json['created_at'] as Object,
   ),
   createdBy: UserResponse.fromJson(json['created_by'] as Map<String, dynamic>),
   custom: json['custom'] as Map<String, dynamic>?,
-  deletedAt: _$JsonConverterFromJson<int, DateTime>(
+  deletedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['deleted_at'],
-    const EpochDateTimeConverter().fromJson,
+    const StreamDateTimeConverter().fromJson,
   ),
   description: json['description'] as String,
   feed: json['feed'] as String,
@@ -33,13 +33,7 @@ FeedSuggestionResponse _$FeedSuggestionResponseFromJson(
   memberCount: (json['member_count'] as num).toInt(),
   name: json['name'] as String,
   ownCapabilities: (json['own_capabilities'] as List<dynamic>?)
-      ?.map(
-        (e) => $enumDecode(
-          _$FeedSuggestionResponseOwnCapabilitiesEnumMap,
-          e,
-          unknownValue: FeedSuggestionResponseOwnCapabilities.unknown,
-        ),
-      )
+      ?.map((e) => FeedOwnCapability.fromJson(e as String))
       .toList(),
   ownFollowings: (json['own_followings'] as List<dynamic>?)
       ?.map((e) => FollowResponse.fromJson(e as Map<String, dynamic>))
@@ -55,14 +49,12 @@ FeedSuggestionResponse _$FeedSuggestionResponseFromJson(
   pinCount: (json['pin_count'] as num).toInt(),
   reason: json['reason'] as String?,
   recommendationScore: (json['recommendation_score'] as num?)?.toDouble(),
-  updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+  updatedAt: const StreamDateTimeConverter().fromJson(
+    json['updated_at'] as Object,
   ),
-  visibility: $enumDecodeNullable(
-    _$FeedSuggestionResponseVisibilityEnumMap,
-    json['visibility'],
-    unknownValue: FeedSuggestionResponseVisibility.unknown,
-  ),
+  visibility: json['visibility'] == null
+      ? null
+      : FeedSuggestionResponseVisibility.fromJson(json['visibility'] as String),
 );
 
 Map<String, dynamic> _$FeedSuggestionResponseToJson(
@@ -70,12 +62,12 @@ Map<String, dynamic> _$FeedSuggestionResponseToJson(
 ) => <String, dynamic>{
   'activity_count': instance.activityCount,
   'algorithm_scores': instance.algorithmScores,
-  'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
+  'created_at': const StreamDateTimeConverter().toJson(instance.createdAt),
   'created_by': instance.createdBy.toJson(),
   'custom': instance.custom,
-  'deleted_at': _$JsonConverterToJson<int, DateTime>(
+  'deleted_at': _$JsonConverterToJson<Object, DateTime>(
     instance.deletedAt,
-    const EpochDateTimeConverter().toJson,
+    const StreamDateTimeConverter().toJson,
   ),
   'description': instance.description,
   'feed': instance.feed,
@@ -87,63 +79,21 @@ Map<String, dynamic> _$FeedSuggestionResponseToJson(
   'location': instance.location?.toJson(),
   'member_count': instance.memberCount,
   'name': instance.name,
-  'own_capabilities': instance.ownCapabilities?.map((e) => _$FeedSuggestionResponseOwnCapabilitiesEnumMap[e]!).toList(),
+  'own_capabilities': instance.ownCapabilities?.map((e) => e.toJson()).toList(),
   'own_followings': instance.ownFollowings?.map((e) => e.toJson()).toList(),
   'own_follows': instance.ownFollows?.map((e) => e.toJson()).toList(),
   'own_membership': instance.ownMembership?.toJson(),
   'pin_count': instance.pinCount,
   'reason': instance.reason,
   'recommendation_score': instance.recommendationScore,
-  'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
-  'visibility': _$FeedSuggestionResponseVisibilityEnumMap[instance.visibility],
+  'updated_at': const StreamDateTimeConverter().toJson(instance.updatedAt),
+  'visibility': instance.visibility?.toJson(),
 };
 
 Value? _$JsonConverterFromJson<Json, Value>(
   Object? json,
   Value? Function(Json json) fromJson,
 ) => json == null ? null : fromJson(json as Json);
-
-const _$FeedSuggestionResponseOwnCapabilitiesEnumMap = {
-  FeedSuggestionResponseOwnCapabilities.addActivity: 'add-activity',
-  FeedSuggestionResponseOwnCapabilities.addActivityBookmark: 'add-activity-bookmark',
-  FeedSuggestionResponseOwnCapabilities.addActivityReaction: 'add-activity-reaction',
-  FeedSuggestionResponseOwnCapabilities.addComment: 'add-comment',
-  FeedSuggestionResponseOwnCapabilities.addCommentReaction: 'add-comment-reaction',
-  FeedSuggestionResponseOwnCapabilities.createFeed: 'create-feed',
-  FeedSuggestionResponseOwnCapabilities.deleteAnyActivity: 'delete-any-activity',
-  FeedSuggestionResponseOwnCapabilities.deleteAnyComment: 'delete-any-comment',
-  FeedSuggestionResponseOwnCapabilities.deleteFeed: 'delete-feed',
-  FeedSuggestionResponseOwnCapabilities.deleteOwnActivity: 'delete-own-activity',
-  FeedSuggestionResponseOwnCapabilities.deleteOwnActivityBookmark: 'delete-own-activity-bookmark',
-  FeedSuggestionResponseOwnCapabilities.deleteOwnActivityReaction: 'delete-own-activity-reaction',
-  FeedSuggestionResponseOwnCapabilities.deleteOwnComment: 'delete-own-comment',
-  FeedSuggestionResponseOwnCapabilities.deleteOwnCommentReaction: 'delete-own-comment-reaction',
-  FeedSuggestionResponseOwnCapabilities.follow: 'follow',
-  FeedSuggestionResponseOwnCapabilities.pinActivity: 'pin-activity',
-  FeedSuggestionResponseOwnCapabilities.queryFeedMembers: 'query-feed-members',
-  FeedSuggestionResponseOwnCapabilities.queryFollows: 'query-follows',
-  FeedSuggestionResponseOwnCapabilities.readActivities: 'read-activities',
-  FeedSuggestionResponseOwnCapabilities.readFeed: 'read-feed',
-  FeedSuggestionResponseOwnCapabilities.unfollow: 'unfollow',
-  FeedSuggestionResponseOwnCapabilities.updateAnyActivity: 'update-any-activity',
-  FeedSuggestionResponseOwnCapabilities.updateAnyComment: 'update-any-comment',
-  FeedSuggestionResponseOwnCapabilities.updateFeed: 'update-feed',
-  FeedSuggestionResponseOwnCapabilities.updateFeedFollowers: 'update-feed-followers',
-  FeedSuggestionResponseOwnCapabilities.updateFeedMembers: 'update-feed-members',
-  FeedSuggestionResponseOwnCapabilities.updateOwnActivity: 'update-own-activity',
-  FeedSuggestionResponseOwnCapabilities.updateOwnActivityBookmark: 'update-own-activity-bookmark',
-  FeedSuggestionResponseOwnCapabilities.updateOwnComment: 'update-own-comment',
-  FeedSuggestionResponseOwnCapabilities.unknown: '_unknown',
-};
-
-const _$FeedSuggestionResponseVisibilityEnumMap = {
-  FeedSuggestionResponseVisibility.followers: 'followers',
-  FeedSuggestionResponseVisibility.members: 'members',
-  FeedSuggestionResponseVisibility.private: 'private',
-  FeedSuggestionResponseVisibility.public: 'public',
-  FeedSuggestionResponseVisibility.visible: 'visible',
-  FeedSuggestionResponseVisibility.unknown: '_unknown',
-};
 
 Json? _$JsonConverterToJson<Json, Value>(
   Value? value,

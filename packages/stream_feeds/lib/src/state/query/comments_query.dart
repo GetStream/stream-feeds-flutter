@@ -258,16 +258,11 @@ extension type const CommentsSort(String sort) implements String {
 /// Extension for converting [CommentsSort] to a [api.QueryCommentsRequestSort].
 extension CommentsSortExtension on CommentsSort {
   /// Converts the [CommentsSort] to the corresponding [api.QueryCommentsRequestSort].
-  api.QueryCommentsRequestSort toRequest() {
-    return switch (this) {
-      CommentsSort.best => api.QueryCommentsRequestSort.best,
-      CommentsSort.controversial => api.QueryCommentsRequestSort.controversial,
-      CommentsSort.first => api.QueryCommentsRequestSort.first,
-      CommentsSort.last => api.QueryCommentsRequestSort.last,
-      CommentsSort.top => api.QueryCommentsRequestSort.top,
-      _ => api.QueryCommentsRequestSort.unknown,
-    };
-  }
+  ///
+  /// Both sides are `String`-backed, so the value is sent as-is — a caller can
+  /// pass a sort this client version doesn't declare and it still reaches the
+  /// API intact.
+  api.QueryCommentsRequestSort toRequest() => api.QueryCommentsRequestSort.fromJson(sort);
 
   /// Compares two [CommentsSortDataFields] instances based on the current sort criteria.
   ///

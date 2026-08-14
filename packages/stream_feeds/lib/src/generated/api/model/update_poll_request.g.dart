@@ -19,11 +19,11 @@ UpdatePollRequest _$UpdatePollRequestFromJson(Map<String, dynamic> json) => Upda
   options: (json['options'] as List<dynamic>?)
       ?.map((e) => PollOptionRequest.fromJson(e as Map<String, dynamic>))
       .toList(),
-  votingVisibility: $enumDecodeNullable(
-    _$UpdatePollRequestVotingVisibilityEnumMap,
-    json['voting_visibility'],
-    unknownValue: UpdatePollRequestVotingVisibility.unknown,
-  ),
+  votingVisibility: json['voting_visibility'] == null
+      ? null
+      : UpdatePollRequestVotingVisibility.fromJson(
+          json['voting_visibility'] as String,
+        ),
 );
 
 Map<String, dynamic> _$UpdatePollRequestToJson(UpdatePollRequest instance) => <String, dynamic>{
@@ -37,11 +37,5 @@ Map<String, dynamic> _$UpdatePollRequestToJson(UpdatePollRequest instance) => <S
   'max_votes_allowed': instance.maxVotesAllowed,
   'name': instance.name,
   'options': instance.options?.map((e) => e.toJson()).toList(),
-  'voting_visibility': _$UpdatePollRequestVotingVisibilityEnumMap[instance.votingVisibility],
-};
-
-const _$UpdatePollRequestVotingVisibilityEnumMap = {
-  UpdatePollRequestVotingVisibility.anonymous: 'anonymous',
-  UpdatePollRequestVotingVisibility.public: 'public',
-  UpdatePollRequestVotingVisibility.unknown: '_unknown',
+  'voting_visibility': instance.votingVisibility?.toJson(),
 };

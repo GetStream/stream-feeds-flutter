@@ -8,8 +8,8 @@ part of 'action_log_response.dart';
 
 ActionLogResponse _$ActionLogResponseFromJson(Map<String, dynamic> json) => ActionLogResponse(
   aiProviders: (json['ai_providers'] as List<dynamic>).map((e) => e as String).toList(),
-  createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+  createdAt: const StreamDateTimeConverter().fromJson(
+    json['created_at'] as Object,
   ),
   custom: json['custom'] as Map<String, dynamic>,
   id: json['id'] as String,
@@ -29,7 +29,7 @@ ActionLogResponse _$ActionLogResponseFromJson(Map<String, dynamic> json) => Acti
 
 Map<String, dynamic> _$ActionLogResponseToJson(ActionLogResponse instance) => <String, dynamic>{
   'ai_providers': instance.aiProviders,
-  'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
+  'created_at': const StreamDateTimeConverter().toJson(instance.createdAt),
   'custom': instance.custom,
   'id': instance.id,
   'reason': instance.reason,

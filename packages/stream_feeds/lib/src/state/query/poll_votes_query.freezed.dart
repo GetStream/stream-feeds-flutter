@@ -14,7 +14,6 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PollVotesQuery {
   String get pollId;
-  String? get userId;
   PollVotesFilter? get filter;
   List<PollVotesSort>? get sort;
   int? get limit;
@@ -36,7 +35,6 @@ mixin _$PollVotesQuery {
         (other.runtimeType == runtimeType &&
             other is PollVotesQuery &&
             (identical(other.pollId, pollId) || other.pollId == pollId) &&
-            (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.filter, filter) || other.filter == filter) &&
             const DeepCollectionEquality().equals(other.sort, sort) &&
             (identical(other.limit, limit) || other.limit == limit) &&
@@ -48,7 +46,6 @@ mixin _$PollVotesQuery {
   int get hashCode => Object.hash(
     runtimeType,
     pollId,
-    userId,
     filter,
     const DeepCollectionEquality().hash(sort),
     limit,
@@ -58,7 +55,7 @@ mixin _$PollVotesQuery {
 
   @override
   String toString() {
-    return 'PollVotesQuery(pollId: $pollId, userId: $userId, filter: $filter, sort: $sort, limit: $limit, next: $next, previous: $previous)';
+    return 'PollVotesQuery(pollId: $pollId, filter: $filter, sort: $sort, limit: $limit, next: $next, previous: $previous)';
   }
 }
 
@@ -71,7 +68,6 @@ abstract mixin class $PollVotesQueryCopyWith<$Res> {
   @useResult
   $Res call({
     String pollId,
-    String? userId,
     Filter<PollVoteData>? filter,
     List<PollVotesSort>? sort,
     int? limit,
@@ -93,7 +89,6 @@ class _$PollVotesQueryCopyWithImpl<$Res> implements $PollVotesQueryCopyWith<$Res
   @override
   $Res call({
     Object? pollId = null,
-    Object? userId = freezed,
     Object? filter = freezed,
     Object? sort = freezed,
     Object? limit = freezed,
@@ -106,10 +101,6 @@ class _$PollVotesQueryCopyWithImpl<$Res> implements $PollVotesQueryCopyWith<$Res
             ? _self.pollId
             : pollId // ignore: cast_nullable_to_non_nullable
                   as String,
-        userId: freezed == userId
-            ? _self.userId
-            : userId // ignore: cast_nullable_to_non_nullable
-                  as String?,
         filter: freezed == filter
             ? _self.filter
             : filter // ignore: cast_nullable_to_non_nullable

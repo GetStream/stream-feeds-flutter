@@ -104,13 +104,7 @@ extension FeedMemberResponseMapper on FeedMemberResponse {
 extension FeedMemberResponseStatusMapper on FeedMemberResponseStatus {
   /// Converts this API feed member status to a domain [FeedMemberStatus] extension type.
   ///
-  /// Uses explicit mapping for type safety and proper handling of unknown values.
-  FeedMemberStatus toModel() {
-    return switch (this) {
-      FeedMemberResponseStatus.member => FeedMemberStatus.member,
-      FeedMemberResponseStatus.pending => FeedMemberStatus.pending,
-      FeedMemberResponseStatus.rejected => FeedMemberStatus.rejected,
-      FeedMemberResponseStatus.unknown => FeedMemberStatus.unknown,
-    };
-  }
+  /// Both sides are `String`-backed, so any value the API sends is carried over
+  /// verbatim — including ones this client version doesn't know about yet.
+  FeedMemberStatus toModel() => FeedMemberStatus(this);
 }

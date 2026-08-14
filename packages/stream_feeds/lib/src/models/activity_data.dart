@@ -659,15 +659,9 @@ extension ActivityResponseRestrictRepliesMapper on ActivityResponseRestrictRepli
 
 /// Extension function to convert an [ActivityResponseVisibility] to an [ActivityDataVisibility].
 extension ActivityResponseVisibilityMapper on ActivityResponseVisibility {
-  /// Converts this API visibility enum to a domain [ActivityDataVisibility] extension type.
+  /// Converts this API visibility value to a domain [ActivityDataVisibility] extension type.
   ///
-  /// Uses explicit mapping for type safety and proper handling of unknown values.
-  ActivityDataVisibility toModel() {
-    return switch (this) {
-      ActivityResponseVisibility.private => ActivityDataVisibility.private,
-      ActivityResponseVisibility.public => ActivityDataVisibility.public,
-      ActivityResponseVisibility.tag => ActivityDataVisibility.tag,
-      ActivityResponseVisibility.unknown => ActivityDataVisibility.unknown,
-    };
-  }
+  /// Both sides are `String`-backed, so any value the API sends is carried over
+  /// verbatim — including ones this client version doesn't know about yet.
+  ActivityDataVisibility toModel() => ActivityDataVisibility(this);
 }

@@ -29,7 +29,7 @@ mixin _$FeedSuggestionResponse {
   Location? get location;
   int get memberCount;
   String get name;
-  List<FeedSuggestionResponseOwnCapabilities>? get ownCapabilities;
+  List<FeedOwnCapability>? get ownCapabilities;
   List<FollowResponse>? get ownFollowings;
   List<FollowResponse>? get ownFollows;
   FeedMemberResponse? get ownMembership;
@@ -157,7 +157,7 @@ abstract mixin class $FeedSuggestionResponseCopyWith<$Res> {
     Location? location,
     int memberCount,
     String name,
-    List<FeedSuggestionResponseOwnCapabilities>? ownCapabilities,
+    List<FeedOwnCapability>? ownCapabilities,
     List<FollowResponse>? ownFollowings,
     List<FollowResponse>? ownFollows,
     FeedMemberResponse? ownMembership,
@@ -276,7 +276,7 @@ class _$FeedSuggestionResponseCopyWithImpl<$Res> implements $FeedSuggestionRespo
         ownCapabilities: freezed == ownCapabilities
             ? _self.ownCapabilities
             : ownCapabilities // ignore: cast_nullable_to_non_nullable
-                  as List<FeedSuggestionResponseOwnCapabilities>?,
+                  as List<FeedOwnCapability>?,
         ownFollowings: freezed == ownFollowings
             ? _self.ownFollowings
             : ownFollowings // ignore: cast_nullable_to_non_nullable

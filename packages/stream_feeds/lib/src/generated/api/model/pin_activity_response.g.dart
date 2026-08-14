@@ -10,8 +10,8 @@ PinActivityResponse _$PinActivityResponseFromJson(Map<String, dynamic> json) => 
   activity: ActivityResponse.fromJson(
     json['activity'] as Map<String, dynamic>,
   ),
-  createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+  createdAt: const StreamDateTimeConverter().fromJson(
+    json['created_at'] as Object,
   ),
   duration: json['duration'] as String,
   feed: json['feed'] as String,
@@ -22,7 +22,7 @@ Map<String, dynamic> _$PinActivityResponseToJson(
   PinActivityResponse instance,
 ) => <String, dynamic>{
   'activity': instance.activity.toJson(),
-  'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
+  'created_at': const StreamDateTimeConverter().toJson(instance.createdAt),
   'duration': instance.duration,
   'feed': instance.feed,
   'user_id': instance.userId,

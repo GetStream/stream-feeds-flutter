@@ -13,26 +13,26 @@ OwnUserResponse _$OwnUserResponseFromJson(Map<String, dynamic> json) => OwnUserR
   channelMutes: (json['channel_mutes'] as List<dynamic>)
       .map((e) => ChannelMute.fromJson(e as Map<String, dynamic>))
       .toList(),
-  createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+  createdAt: const StreamDateTimeConverter().fromJson(
+    json['created_at'] as Object,
   ),
   custom: json['custom'] as Map<String, dynamic>,
-  deactivatedAt: _$JsonConverterFromJson<int, DateTime>(
+  deactivatedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['deactivated_at'],
-    const EpochDateTimeConverter().fromJson,
+    const StreamDateTimeConverter().fromJson,
   ),
-  deletedAt: _$JsonConverterFromJson<int, DateTime>(
+  deletedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['deleted_at'],
-    const EpochDateTimeConverter().fromJson,
+    const StreamDateTimeConverter().fromJson,
   ),
   devices: (json['devices'] as List<dynamic>).map((e) => DeviceResponse.fromJson(e as Map<String, dynamic>)).toList(),
   id: json['id'] as String,
   image: json['image'] as String?,
   invisible: json['invisible'] as bool,
   language: json['language'] as String,
-  lastActive: _$JsonConverterFromJson<int, DateTime>(
+  lastActive: _$JsonConverterFromJson<Object, DateTime>(
     json['last_active'],
-    const EpochDateTimeConverter().fromJson,
+    const StreamDateTimeConverter().fromJson,
   ),
   latestHiddenChannels: (json['latest_hidden_channels'] as List<dynamic>?)?.map((e) => e as String).toList(),
   mutes: (json['mutes'] as List<dynamic>).map((e) => UserMuteResponse.fromJson(e as Map<String, dynamic>)).toList(),
@@ -48,9 +48,9 @@ OwnUserResponse _$OwnUserResponseFromJson(Map<String, dynamic> json) => OwnUserR
       : PushPreferencesResponse.fromJson(
           json['push_preferences'] as Map<String, dynamic>,
         ),
-  revokeTokensIssuedBefore: _$JsonConverterFromJson<int, DateTime>(
+  revokeTokensIssuedBefore: _$JsonConverterFromJson<Object, DateTime>(
     json['revoke_tokens_issued_before'],
-    const EpochDateTimeConverter().fromJson,
+    const StreamDateTimeConverter().fromJson,
   ),
   role: json['role'] as String,
   teams: (json['teams'] as List<dynamic>).map((e) => e as String).toList(),
@@ -64,8 +64,8 @@ OwnUserResponse _$OwnUserResponseFromJson(Map<String, dynamic> json) => OwnUserR
   unreadChannels: (json['unread_channels'] as num).toInt(),
   unreadCount: (json['unread_count'] as num).toInt(),
   unreadThreads: (json['unread_threads'] as num).toInt(),
-  updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+  updatedAt: const StreamDateTimeConverter().fromJson(
+    json['updated_at'] as Object,
   ),
 );
 
@@ -74,24 +74,24 @@ Map<String, dynamic> _$OwnUserResponseToJson(OwnUserResponse instance) => <Strin
   'banned': instance.banned,
   'blocked_user_ids': instance.blockedUserIds,
   'channel_mutes': instance.channelMutes.map((e) => e.toJson()).toList(),
-  'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
+  'created_at': const StreamDateTimeConverter().toJson(instance.createdAt),
   'custom': instance.custom,
-  'deactivated_at': _$JsonConverterToJson<int, DateTime>(
+  'deactivated_at': _$JsonConverterToJson<Object, DateTime>(
     instance.deactivatedAt,
-    const EpochDateTimeConverter().toJson,
+    const StreamDateTimeConverter().toJson,
   ),
-  'deleted_at': _$JsonConverterToJson<int, DateTime>(
+  'deleted_at': _$JsonConverterToJson<Object, DateTime>(
     instance.deletedAt,
-    const EpochDateTimeConverter().toJson,
+    const StreamDateTimeConverter().toJson,
   ),
   'devices': instance.devices.map((e) => e.toJson()).toList(),
   'id': instance.id,
   'image': instance.image,
   'invisible': instance.invisible,
   'language': instance.language,
-  'last_active': _$JsonConverterToJson<int, DateTime>(
+  'last_active': _$JsonConverterToJson<Object, DateTime>(
     instance.lastActive,
-    const EpochDateTimeConverter().toJson,
+    const StreamDateTimeConverter().toJson,
   ),
   'latest_hidden_channels': instance.latestHiddenChannels,
   'mutes': instance.mutes.map((e) => e.toJson()).toList(),
@@ -99,9 +99,9 @@ Map<String, dynamic> _$OwnUserResponseToJson(OwnUserResponse instance) => <Strin
   'online': instance.online,
   'privacy_settings': instance.privacySettings?.toJson(),
   'push_preferences': instance.pushPreferences?.toJson(),
-  'revoke_tokens_issued_before': _$JsonConverterToJson<int, DateTime>(
+  'revoke_tokens_issued_before': _$JsonConverterToJson<Object, DateTime>(
     instance.revokeTokensIssuedBefore,
-    const EpochDateTimeConverter().toJson,
+    const StreamDateTimeConverter().toJson,
   ),
   'role': instance.role,
   'teams': instance.teams,
@@ -111,7 +111,7 @@ Map<String, dynamic> _$OwnUserResponseToJson(OwnUserResponse instance) => <Strin
   'unread_channels': instance.unreadChannels,
   'unread_count': instance.unreadCount,
   'unread_threads': instance.unreadThreads,
-  'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
+  'updated_at': const StreamDateTimeConverter().toJson(instance.updatedAt),
 };
 
 Value? _$JsonConverterFromJson<Json, Value>(

@@ -9,45 +9,50 @@ part of 'channel_member_response.dart';
 ChannelMemberResponse _$ChannelMemberResponseFromJson(
   Map<String, dynamic> json,
 ) => ChannelMemberResponse(
-  archivedAt: _$JsonConverterFromJson<int, DateTime>(
+  archivedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['archived_at'],
-    const EpochDateTimeConverter().fromJson,
+    const StreamDateTimeConverter().fromJson,
   ),
-  banExpires: _$JsonConverterFromJson<int, DateTime>(
+  banExpires: _$JsonConverterFromJson<Object, DateTime>(
     json['ban_expires'],
-    const EpochDateTimeConverter().fromJson,
+    const StreamDateTimeConverter().fromJson,
   ),
+  banFromFutureChannels: json['ban_from_future_channels'] as bool?,
   banned: json['banned'] as bool,
   channelRole: json['channel_role'] as String,
-  createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+  createdAt: const StreamDateTimeConverter().fromJson(
+    json['created_at'] as Object,
   ),
   custom: json['custom'] as Map<String, dynamic>,
-  deletedAt: _$JsonConverterFromJson<int, DateTime>(
+  deletedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['deleted_at'],
-    const EpochDateTimeConverter().fromJson,
+    const StreamDateTimeConverter().fromJson,
   ),
   deletedMessages: (json['deleted_messages'] as List<dynamic>?)?.map((e) => e as String).toList(),
-  inviteAcceptedAt: _$JsonConverterFromJson<int, DateTime>(
-    json['invite_accepted_at'],
-    const EpochDateTimeConverter().fromJson,
+  futureChannelBanExpires: _$JsonConverterFromJson<Object, DateTime>(
+    json['future_channel_ban_expires'],
+    const StreamDateTimeConverter().fromJson,
   ),
-  inviteRejectedAt: _$JsonConverterFromJson<int, DateTime>(
+  inviteAcceptedAt: _$JsonConverterFromJson<Object, DateTime>(
+    json['invite_accepted_at'],
+    const StreamDateTimeConverter().fromJson,
+  ),
+  inviteRejectedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['invite_rejected_at'],
-    const EpochDateTimeConverter().fromJson,
+    const StreamDateTimeConverter().fromJson,
   ),
   invited: json['invited'] as bool?,
   isModerator: json['is_moderator'] as bool?,
   notificationsMuted: json['notifications_muted'] as bool,
-  pinnedAt: _$JsonConverterFromJson<int, DateTime>(
+  pinnedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['pinned_at'],
-    const EpochDateTimeConverter().fromJson,
+    const StreamDateTimeConverter().fromJson,
   ),
   role: json['role'] as String?,
   shadowBanned: json['shadow_banned'] as bool,
   status: json['status'] as String?,
-  updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+  updatedAt: const StreamDateTimeConverter().fromJson(
+    json['updated_at'] as Object,
   ),
   user: json['user'] == null ? null : UserResponse.fromJson(json['user'] as Map<String, dynamic>),
   userId: json['user_id'] as String?,
@@ -56,42 +61,47 @@ ChannelMemberResponse _$ChannelMemberResponseFromJson(
 Map<String, dynamic> _$ChannelMemberResponseToJson(
   ChannelMemberResponse instance,
 ) => <String, dynamic>{
-  'archived_at': _$JsonConverterToJson<int, DateTime>(
+  'archived_at': _$JsonConverterToJson<Object, DateTime>(
     instance.archivedAt,
-    const EpochDateTimeConverter().toJson,
+    const StreamDateTimeConverter().toJson,
   ),
-  'ban_expires': _$JsonConverterToJson<int, DateTime>(
+  'ban_expires': _$JsonConverterToJson<Object, DateTime>(
     instance.banExpires,
-    const EpochDateTimeConverter().toJson,
+    const StreamDateTimeConverter().toJson,
   ),
+  'ban_from_future_channels': instance.banFromFutureChannels,
   'banned': instance.banned,
   'channel_role': instance.channelRole,
-  'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
+  'created_at': const StreamDateTimeConverter().toJson(instance.createdAt),
   'custom': instance.custom,
-  'deleted_at': _$JsonConverterToJson<int, DateTime>(
+  'deleted_at': _$JsonConverterToJson<Object, DateTime>(
     instance.deletedAt,
-    const EpochDateTimeConverter().toJson,
+    const StreamDateTimeConverter().toJson,
   ),
   'deleted_messages': instance.deletedMessages,
-  'invite_accepted_at': _$JsonConverterToJson<int, DateTime>(
-    instance.inviteAcceptedAt,
-    const EpochDateTimeConverter().toJson,
+  'future_channel_ban_expires': _$JsonConverterToJson<Object, DateTime>(
+    instance.futureChannelBanExpires,
+    const StreamDateTimeConverter().toJson,
   ),
-  'invite_rejected_at': _$JsonConverterToJson<int, DateTime>(
+  'invite_accepted_at': _$JsonConverterToJson<Object, DateTime>(
+    instance.inviteAcceptedAt,
+    const StreamDateTimeConverter().toJson,
+  ),
+  'invite_rejected_at': _$JsonConverterToJson<Object, DateTime>(
     instance.inviteRejectedAt,
-    const EpochDateTimeConverter().toJson,
+    const StreamDateTimeConverter().toJson,
   ),
   'invited': instance.invited,
   'is_moderator': instance.isModerator,
   'notifications_muted': instance.notificationsMuted,
-  'pinned_at': _$JsonConverterToJson<int, DateTime>(
+  'pinned_at': _$JsonConverterToJson<Object, DateTime>(
     instance.pinnedAt,
-    const EpochDateTimeConverter().toJson,
+    const StreamDateTimeConverter().toJson,
   ),
   'role': instance.role,
   'shadow_banned': instance.shadowBanned,
   'status': instance.status,
-  'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
+  'updated_at': const StreamDateTimeConverter().toJson(instance.updatedAt),
   'user': instance.user?.toJson(),
   'user_id': instance.userId,
 };

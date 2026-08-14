@@ -31,13 +31,12 @@ SPEC_PATH="${SPEC_DIR_REL}/${SPEC_BASENAME}.yaml"
 
 # ---------- helpers ----------
 section() { echo ""; echo "$*"; echo ""; }
-# cross-platform sed -i (GNU vs BSD)
-sed_inplace() { if sed --version >/dev/null 2>&1; then sed -i "$@"; else sed -i '' "$@"; fi; }
 
 # ---------- validation ----------
 [[ -d "$CHAT_DIR" ]] || { echo "❌ CHAT_DIR not found: $CHAT_DIR"; exit 1; }
 command -v go   >/dev/null || { echo "❌ 'go' is required in PATH"; exit 1; }
 command -v dart >/dev/null || { echo "❌ 'dart' is required in PATH"; exit 1; }
+command -v perl >/dev/null || { echo "❌ 'perl' is required in PATH (post-generation fixes)"; exit 1; }
 
 # Optional renamed-models flag
 RENAMED_MODELS_FLAG=()
@@ -85,21 +84,27 @@ section "✅ Finished generating client at: $OUTPUT_DIR_FEEDS"
 # ---------- [2/4] Post-generation fixes ----------
 section "➡️ [2/4] Applying post-generation fixes…"
 
-CALL_PARTICIPANT_FILE="$OUTPUT_DIR_FEEDS/model/call_participant.dart"
-if [[ -f "$CALL_PARTICIPANT_FILE" ]]; then
-  # Remove duplicate constructor arg 'role'
-  sed_inplace '/required this\.role,/{N;/required this\.role,.*\n.*required this\.role,/s/\n.*required this\.role,//;}' "$CALL_PARTICIPANT_FILE"
-  # Remove duplicate field/override block for 'role'
-  sed_inplace '/final String role;/{N;N;N;/final String role;.*\n.*\n.*@override.*\n.*final String role;/s/\n.*\n.*@override.*\n.*final String role;//;}' "$CALL_PARTICIPANT_FILE"
-  echo "• Fixed duplicate role in CallParticipant"
-fi
-
 REACTION_GROUP_RESPONSE_FILE="$OUTPUT_DIR_FEEDS/model/reaction_group_response.dart"
 if [[ -f "$REACTION_GROUP_RESPONSE_FILE" ]]; then
-  # Remove stray sumScores artifacts
-  sed_inplace '/required this\.sumScores,/d' "$REACTION_GROUP_RESPONSE_FILE"
-  sed_inplace '/@override/{N;/final int sumScores;/d;}' "$REACTION_GROUP_RESPONSE_FILE"
-  echo "• Fixed extra sumScores in ReactionGroupResponse"
+  # Upstream emits a `sumScores` field with no matching constructor parameter,
+  # which does not compile. Drop the field until that is fixed upstream.
+  #
+  # Self-disabling: once upstream emits the parameter (or drops the field), the
+  # guard below stops matching and this becomes a no-op — rather than silently
+  # mangling a file that was already correct.
+  if grep -q 'final int sumScores;' "$REACTION_GROUP_RESPONSE_FILE" \
+    && ! grep -q 'this\.sumScores' "$REACTION_GROUP_RESPONSE_FILE"; then
+    # The annotation lines between `@override` and the field vary by generator
+    # version, so accept any number of them.
+    perl -0777 -pi -e 's/\n[ \t]*\@override\n(?:[ \t]*\@[^\n]*\n)*[ \t]*final int sumScores;\n//' "$REACTION_GROUP_RESPONSE_FILE"
+    # Never leave a half-applied edit behind: fail loudly so the next spec
+    # change surfaces here instead of as a confusing build_runner error.
+    if grep -q 'sumScores' "$REACTION_GROUP_RESPONSE_FILE"; then
+      echo "❌ Could not strip sumScores from ReactionGroupResponse; update scripts/generate.sh"
+      exit 1
+    fi
+    echo "• Removed unconstructable sumScores field from ReactionGroupResponse"
+  fi
 fi
 
 section "✅ Post-generation fixes applied"

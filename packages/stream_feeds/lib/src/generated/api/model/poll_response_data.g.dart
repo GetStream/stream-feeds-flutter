@@ -12,8 +12,8 @@ PollResponseData _$PollResponseDataFromJson(
   allowAnswers: json['allow_answers'] as bool,
   allowUserSuggestedOptions: json['allow_user_suggested_options'] as bool,
   answersCount: (json['answers_count'] as num).toInt(),
-  createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+  createdAt: const StreamDateTimeConverter().fromJson(
+    json['created_at'] as Object,
   ),
   createdBy: json['created_by'] == null ? null : UserResponse.fromJson(json['created_by'] as Map<String, dynamic>),
   createdById: json['created_by_id'] as String,
@@ -43,8 +43,8 @@ PollResponseData _$PollResponseDataFromJson(
   ownVotes: (json['own_votes'] as List<dynamic>)
       .map((e) => PollVoteResponseData.fromJson(e as Map<String, dynamic>))
       .toList(),
-  updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+  updatedAt: const StreamDateTimeConverter().fromJson(
+    json['updated_at'] as Object,
   ),
   voteCount: (json['vote_count'] as num).toInt(),
   voteCountsByOption: Map<String, int>.from(
@@ -57,7 +57,7 @@ Map<String, dynamic> _$PollResponseDataToJson(PollResponseData instance) => <Str
   'allow_answers': instance.allowAnswers,
   'allow_user_suggested_options': instance.allowUserSuggestedOptions,
   'answers_count': instance.answersCount,
-  'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
+  'created_at': const StreamDateTimeConverter().toJson(instance.createdAt),
   'created_by': instance.createdBy?.toJson(),
   'created_by_id': instance.createdById,
   'custom': instance.custom,
@@ -73,7 +73,7 @@ Map<String, dynamic> _$PollResponseDataToJson(PollResponseData instance) => <Str
   'name': instance.name,
   'options': instance.options.map((e) => e.toJson()).toList(),
   'own_votes': instance.ownVotes.map((e) => e.toJson()).toList(),
-  'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
+  'updated_at': const StreamDateTimeConverter().toJson(instance.updatedAt),
   'vote_count': instance.voteCount,
   'vote_counts_by_option': instance.voteCountsByOption,
   'voting_visibility': instance.votingVisibility,

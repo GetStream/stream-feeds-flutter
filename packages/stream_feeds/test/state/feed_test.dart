@@ -2894,8 +2894,8 @@ void main() {
               createdAt: initialFollow.createdAt,
               custom: const {'updated': true},
               followerRole: initialFollow.followerRole,
-              pushPreference: FollowResponsePushPreference.values.firstWhere(
-                (e) => e.name == initialFollow.pushPreference,
+              pushPreference: FollowResponsePushPreference.fromJson(
+                initialFollow.pushPreference,
               ),
               requestAcceptedAt: initialFollow.requestAcceptedAt,
               requestRejectedAt: initialFollow.requestRejectedAt,

@@ -15,6 +15,7 @@ T _$identity<T>(T value) => value;
 mixin _$ActivityRequest {
   List<Attachment>? get attachments;
   List<String>? get collectionRefs;
+  List<CollectionRequest>? get collections;
   bool? get copyCustomToNotification;
   bool? get createNotificationActivity;
   Map<String, Object?>? get custom;
@@ -57,6 +58,10 @@ mixin _$ActivityRequest {
             const DeepCollectionEquality().equals(
               other.collectionRefs,
               collectionRefs,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other.collections,
+              collections,
             ) &&
             (identical(
                   other.copyCustomToNotification,
@@ -105,6 +110,7 @@ mixin _$ActivityRequest {
     runtimeType,
     const DeepCollectionEquality().hash(attachments),
     const DeepCollectionEquality().hash(collectionRefs),
+    const DeepCollectionEquality().hash(collections),
     copyCustomToNotification,
     createNotificationActivity,
     const DeepCollectionEquality().hash(custom),
@@ -129,7 +135,7 @@ mixin _$ActivityRequest {
 
   @override
   String toString() {
-    return 'ActivityRequest(attachments: $attachments, collectionRefs: $collectionRefs, copyCustomToNotification: $copyCustomToNotification, createNotificationActivity: $createNotificationActivity, custom: $custom, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, id: $id, interestTags: $interestTags, location: $location, mentionedUserIds: $mentionedUserIds, parentId: $parentId, pollId: $pollId, restrictReplies: $restrictReplies, searchData: $searchData, skipEnrichUrl: $skipEnrichUrl, skipPush: $skipPush, text: $text, type: $type, visibility: $visibility, visibilityTag: $visibilityTag)';
+    return 'ActivityRequest(attachments: $attachments, collectionRefs: $collectionRefs, collections: $collections, copyCustomToNotification: $copyCustomToNotification, createNotificationActivity: $createNotificationActivity, custom: $custom, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, id: $id, interestTags: $interestTags, location: $location, mentionedUserIds: $mentionedUserIds, parentId: $parentId, pollId: $pollId, restrictReplies: $restrictReplies, searchData: $searchData, skipEnrichUrl: $skipEnrichUrl, skipPush: $skipPush, text: $text, type: $type, visibility: $visibility, visibilityTag: $visibilityTag)';
   }
 }
 
@@ -143,6 +149,7 @@ abstract mixin class $ActivityRequestCopyWith<$Res> {
   $Res call({
     List<Attachment>? attachments,
     List<String>? collectionRefs,
+    List<CollectionRequest>? collections,
     bool? copyCustomToNotification,
     bool? createNotificationActivity,
     Map<String, Object?>? custom,
@@ -180,6 +187,7 @@ class _$ActivityRequestCopyWithImpl<$Res> implements $ActivityRequestCopyWith<$R
   $Res call({
     Object? attachments = freezed,
     Object? collectionRefs = freezed,
+    Object? collections = freezed,
     Object? copyCustomToNotification = freezed,
     Object? createNotificationActivity = freezed,
     Object? custom = freezed,
@@ -211,6 +219,10 @@ class _$ActivityRequestCopyWithImpl<$Res> implements $ActivityRequestCopyWith<$R
             ? _self.collectionRefs
             : collectionRefs // ignore: cast_nullable_to_non_nullable
                   as List<String>?,
+        collections: freezed == collections
+            ? _self.collections
+            : collections // ignore: cast_nullable_to_non_nullable
+                  as List<CollectionRequest>?,
         copyCustomToNotification: freezed == copyCustomToNotification
             ? _self.copyCustomToNotification
             : copyCustomToNotification // ignore: cast_nullable_to_non_nullable

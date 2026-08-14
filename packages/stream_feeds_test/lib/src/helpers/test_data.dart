@@ -264,7 +264,7 @@ FeedResponse createDefaultFeedResponse({
   int activityCount = 0,
   int followerCount = 0,
   int followingCount = 0,
-  List<FeedResponseOwnCapabilities>? ownCapabilities,
+  List<FeedOwnCapability>? ownCapabilities,
   FeedMemberResponse? ownMembership,
   List<FollowResponse>? ownFollowings,
   List<FollowResponse>? ownFollows,
@@ -857,7 +857,7 @@ FeedSuggestionResponse createDefaultFeedSuggestionResponse({
   List<FollowResponse>? ownFollowings,
   List<FollowResponse>? ownFollows,
   Location? location,
-  List<FeedSuggestionResponseOwnCapabilities>? ownCapabilities,
+  List<FeedOwnCapability>? ownCapabilities,
   FeedSuggestionResponseVisibility visibility = FeedSuggestionResponseVisibility.public,
 }) {
   return FeedSuggestionResponse(
@@ -954,8 +954,8 @@ ConfigResponse createDefaultConfigResponse({
   );
 }
 
-BanResponse createDefaultBanResponse() {
-  return const BanResponse(duration: '10ms');
+ModerationBanResponse createDefaultBanResponse() {
+  return const ModerationBanResponse(duration: '10ms');
 }
 
 MuteResponse createDefaultMuteResponse({List<UserMuteResponse>? mutes}) {
@@ -997,8 +997,8 @@ BlockedUserResponse createDefaultBlockedUserResponse({
   );
 }
 
-FlagResponse createDefaultFlagResponse({String itemId = 'activity-123'}) {
-  return FlagResponse(duration: '10ms', itemId: itemId);
+FlagItemResponse createDefaultFlagResponse({String itemId = 'activity-123'}) {
+  return FlagItemResponse(duration: '10ms', itemId: itemId);
 }
 
 SubmitActionResponse createDefaultSubmitActionResponse({
