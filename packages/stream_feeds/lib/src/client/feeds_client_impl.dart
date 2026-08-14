@@ -159,7 +159,10 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
             ApiKeyInterceptor(apiKey),
             HeadersInterceptor(_systemEnvironmentManager),
             if (user.type != UserType.anonymous) connectionIdInterceptor,
-            AuthInterceptor(client, () => _tokenManager),
+            AuthInterceptor.withProvider(
+              client,
+              tokenManagerProvider: () => _tokenManager,
+            ),
             const ApiErrorInterceptor(),
             LoggingInterceptor(requestHeader: true),
           ]),
