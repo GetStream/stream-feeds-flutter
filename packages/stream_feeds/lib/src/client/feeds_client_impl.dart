@@ -250,20 +250,20 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
   @override
   late final ModerationClient moderation;
 
-  /// Builds the [TokenProvider] used to obtain a guest JWT.
-  ///
-  /// Guest users have no pre-issued token, so one is minted lazily via
-  /// `POST /api/v2/guest`, called through a dedicated, unauthenticated HTTP
-  /// client. The backend may return a different id than the one requested, to
-  /// avoid colliding with an existing user, so [_user] is updated to the
-  /// server's response to keep the WS handshake and any `client.user` reads in
-  /// sync with the identity the token actually authenticates as.
-  ///
-  /// Once the id is known, [_tokenManager] is swapped for one pinned to that id
-  /// with a static provider: the guest identity is established once (like an
-  /// anonymous user) rather than re-minted on every token load, and
-  /// `AuthInterceptor` — which reads the manager through a getter — picks up
-  /// the resolved id for the `user_id` query parameter.
+  // Builds the [TokenProvider] used to obtain a guest JWT.
+  //
+  // Guest users have no pre-issued token, so one is minted lazily via
+  // `POST /api/v2/guest`, called through a dedicated, unauthenticated HTTP
+  // client. The backend may return a different id than the one requested, to
+  // avoid colliding with an existing user, so [_user] is updated to the
+  // server's response to keep the WS handshake and any `client.user` reads in
+  // sync with the identity the token actually authenticates as.
+  //
+  // Once the id is known, [_tokenManager] is swapped for one pinned to that id
+  // with a static provider: the guest identity is established once (like an
+  // anonymous user) rather than re-minted on every token load, and
+  // `AuthInterceptor` — which reads the manager through a getter — picks up
+  // the resolved id for the `user_id` query parameter.
   TokenProvider _guestTokenProvider({
     required User user,
     required String apiKey,

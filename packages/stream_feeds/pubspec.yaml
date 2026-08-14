@@ -35,7 +35,7 @@ dependencies:
     # pin stream_core_flutter to a git ref to iterate on it alongside this
     # SDK between its releases.
     #
-    # **Note:** Before publishing stream_chat_flutter, this MUST be swapped
+    # **Note:** Before publishing stream_feeds, this MUST be swapped
     # back to a pub version constraint — git deps are not allowed on pub.dev
     # and will block the release.
     # ignore: invalid_dependency
