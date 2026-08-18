@@ -410,7 +410,9 @@ melos run lint:all
 
 - `.cursorrules`: Primary development rules for AI assistants
 - `.cursor/rules/`: Supplementary documentation for specific patterns
-- `analysis_options.yaml`: Dart analyzer configuration
+- `analysis_options.yaml`: Dart analyzer configuration. The root file is the single source of truth — a
+  package only gets its own when it genuinely needs to override something, and then it must start with
+  `include: <relative path to root>` so the root rules still apply. Don't add one just to re-declare defaults.
 - `melos.yaml`: Monorepo configuration and dependencies
 - `scripts/generate.sh`: OpenAPI client generation script
 
@@ -425,7 +427,50 @@ melos run lint:all
 
 - SDK uses semantic versioning
 - Version managed in `packages/stream_feeds/pubspec.yaml`
-- Versioning mode: independent (per-package)
+- `stream_feeds` is the only published package; releases go out behind a single `vX.Y.Z` tag
+- Below `1.0.0` the Dart convention shifts every slot down one: a breaking release is a **minor** bump, a
+  feature release is a **patch** bump, and a change with no public API impact is a build (`+1`) bump. See
+  [Package versioning](https://dart.dev/tools/pub/versioning#semantic-versions).
+
+### Changelog
+
+`packages/stream_feeds/CHANGELOG.md` is **hand-curated**. New entries go under the top `## Upcoming` heading,
+never into a section for an already-published version. Releasing *promotes* that heading to `## X.Y.Z` — it
+never rewrites the bullets. Do not run `melos version`; it regenerates entries from commit messages and
+clobbers the curated ones.
+
+### Releasing
+
+Publishing to pub.dev is automated and authenticates over GitHub Actions OIDC — no pub.dev credentials are
+stored anywhere. `stream_feeds` is the only publishable package; everything else in the workspace is private
+(`publish_to: none`, or no `version:`) and is excluded by `--no-private`.
+
+Cut the release from a `release/` branch (e.g. `release/v0.5.2`):
+
+1. Bump `version:` in `packages/stream_feeds/pubspec.yaml` and the `stream_feeds:` entry in `melos.yaml`'s
+   `command.bootstrap.dependencies` block, then `melos bootstrap` to propagate.
+2. Promote `## Upcoming` → `## X.Y.Z` in the CHANGELOG. The section must be non-empty (pana fails otherwise).
+3. `melos run analyze`, commit, then `melos run lint:pub` — the dry run shells out to `pub publish`, which
+   fails on a dirty tree, so it can only pass once the release commit exists.
+4. Open a PR titled `chore(<scope>): release vX.Y.Z` (scope `llc`), body = GitHub's generated release notes.
+
+**Squash-merge the release PR.** [`release_tag.yml`](.github/workflows/release_tag.yml) gates on the *tip*
+commit of `main` and parses `vX.Y.Z` out of its message, so a squash lands the `chore(...): release vX.Y.Z`
+title as that commit. A merge commit would make the tip `Merge pull request #…` and the release would
+silently not run.
+
+After merge:
+
+1. [`release_tag.yml`](.github/workflows/release_tag.yml) extracts `vX.Y.Z` from the commit message and
+   pushes the tag with the bot PAT.
+2. [`release_publish.yml`](.github/workflows/release_publish.yml) fires on that tag push, runs the dry run,
+   publishes over OIDC, and creates a GitHub Release with generated notes.
+
+Re-running the publish workflow is a clean no-op: `release:pub` passes `--no-published`, so a version already
+live on pub.dev is skipped, and `workflow_dispatch` on the tag ref is a safe recovery path. Never tag, publish
+(`melos run release:pub`), or create a GitHub Release by hand — CI owns all three.
+
+Agents: `.claude/skills/release-pr/SKILL.md` walks through this end to end.
 
 ## Getting Help
 
