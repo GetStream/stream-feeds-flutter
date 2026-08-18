@@ -17,7 +17,6 @@ mixin _$UsersQuery {
   List<UsersSort>? get sort;
   int? get limit;
   int? get offset;
-  bool? get presence;
   bool? get includeDeactivatedUsers;
 
   /// Create a copy of UsersQuery
@@ -35,7 +34,6 @@ mixin _$UsersQuery {
             const DeepCollectionEquality().equals(other.sort, sort) &&
             (identical(other.limit, limit) || other.limit == limit) &&
             (identical(other.offset, offset) || other.offset == offset) &&
-            (identical(other.presence, presence) || other.presence == presence) &&
             (identical(
                   other.includeDeactivatedUsers,
                   includeDeactivatedUsers,
@@ -50,13 +48,12 @@ mixin _$UsersQuery {
     const DeepCollectionEquality().hash(sort),
     limit,
     offset,
-    presence,
     includeDeactivatedUsers,
   );
 
   @override
   String toString() {
-    return 'UsersQuery(filter: $filter, sort: $sort, limit: $limit, offset: $offset, presence: $presence, includeDeactivatedUsers: $includeDeactivatedUsers)';
+    return 'UsersQuery(filter: $filter, sort: $sort, limit: $limit, offset: $offset, includeDeactivatedUsers: $includeDeactivatedUsers)';
   }
 }
 
@@ -72,7 +69,6 @@ abstract mixin class $UsersQueryCopyWith<$Res> {
     List<UsersSort>? sort,
     int? limit,
     int? offset,
-    bool? presence,
     bool? includeDeactivatedUsers,
   });
 }
@@ -93,7 +89,6 @@ class _$UsersQueryCopyWithImpl<$Res> implements $UsersQueryCopyWith<$Res> {
     Object? sort = freezed,
     Object? limit = freezed,
     Object? offset = freezed,
-    Object? presence = freezed,
     Object? includeDeactivatedUsers = freezed,
   }) {
     return _then(
@@ -114,10 +109,6 @@ class _$UsersQueryCopyWithImpl<$Res> implements $UsersQueryCopyWith<$Res> {
             ? _self.offset
             : offset // ignore: cast_nullable_to_non_nullable
                   as int?,
-        presence: freezed == presence
-            ? _self.presence
-            : presence // ignore: cast_nullable_to_non_nullable
-                  as bool?,
         includeDeactivatedUsers: freezed == includeDeactivatedUsers
             ? _self.includeDeactivatedUsers
             : includeDeactivatedUsers // ignore: cast_nullable_to_non_nullable

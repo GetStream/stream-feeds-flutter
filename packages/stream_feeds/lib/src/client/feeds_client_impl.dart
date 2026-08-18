@@ -15,7 +15,6 @@ import '../models/feeds_config.dart';
 import '../models/follow_data.dart';
 import '../models/model_updates.dart';
 import '../models/push_notifications_config.dart';
-import '../models/user_data.dart';
 import '../repository/activities_repository.dart';
 import '../repository/app_repository.dart';
 import '../repository/bookmarks_repository.dart';
@@ -61,6 +60,7 @@ import '../state/query/moderation_configs_query.dart';
 import '../state/query/poll_votes_query.dart';
 import '../state/query/polls_query.dart';
 import '../state/query/users_query.dart';
+import '../state/user_list.dart';
 import '../ws/feeds_ws_event.dart';
 import 'endpoint_config.dart';
 
@@ -479,6 +479,14 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
   }
 
   @override
+  UserList userList(UsersQuery query) {
+    return UserList(
+      query: query,
+      usersRepository: _usersRepository,
+    );
+  }
+
+  @override
   Future<Result<AppData>> getApp() => _appRepository.getApp();
 
   @override
@@ -576,11 +584,6 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
     required List<String> refs,
   }) {
     return _collectionsRepository.deleteCollections(refs: refs);
-  }
-
-  @override
-  Future<Result<List<UserData>>> queryUsers(UsersQuery query) {
-    return _usersRepository.queryUsers(query.toRequest());
   }
 
   Stream<void> get onReconnectEmitter {

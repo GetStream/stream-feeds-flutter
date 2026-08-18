@@ -2,6 +2,7 @@ import 'package:stream_core/stream_core.dart';
 
 import '../generated/api/api.dart' as api;
 import '../models/user_data.dart';
+import '../state/query/users_query.dart';
 
 /// Repository for querying user data.
 ///
@@ -17,13 +18,12 @@ class UsersRepository {
   // The API client used for making requests to the Stream Feeds service.
   final api.DefaultApi _api;
 
-  /// Queries users matching the given [payload].
+  /// Queries users matching the given [query].
   ///
   /// Returns a [Result] containing a list of [UserData] or an error.
-  Future<Result<List<UserData>>> queryUsers(
-    api.QueryUsersPayload payload,
-  ) async {
-    final result = await _api.queryUsers(payload: payload);
+  Future<Result<List<UserData>>> queryUsers(UsersQuery query) async {
+    final request = query.toRequest();
+    final result = await _api.queryUsers(payload: request);
 
     return result.map(
       (response) => response.users.map((u) => u.toModel()).toList(),

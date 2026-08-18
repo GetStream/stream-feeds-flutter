@@ -19,11 +19,11 @@ part 'users_query.freezed.dart';
 ///
 /// ## Example
 /// ```dart
-/// final query = UsersQuery(
+/// final userList = client.userList(UsersQuery(
 ///   filter: Filter.autoComplete(UsersFilterField.name, 'Al'),
 ///   sort: [UsersSort.asc(UsersSortField.name)],
 ///   limit: 25,
-/// );
+/// ));
 /// ```
 @freezed
 class UsersQuery with _$UsersQuery {
@@ -32,9 +32,19 @@ class UsersQuery with _$UsersQuery {
     this.sort,
     this.limit,
     this.offset,
-    this.presence,
     this.includeDeactivatedUsers,
   });
+
+  /// The maximum number of users the API returns in a single page.
+  ///
+  /// Requests with a higher [limit] are rejected.
+  static const maxLimit = 100;
+
+  /// The highest [offset] the API accepts.
+  ///
+  /// Requests with a higher offset are rejected, which means offset pagination
+  /// cannot reach past this point.
+  static const maxOffset = 1000;
 
   /// Optional filter criteria for this query.
   ///
@@ -48,30 +58,25 @@ class UsersQuery with _$UsersQuery {
 
   /// Array of sorting criteria for this query.
   ///
-  /// Specifies how users should be ordered in the response.
-  /// If not provided, the API will use its default sorting.
-  /// Multiple sort fields can be specified.
+  /// Specifies how users should be ordered in the response. At most five sort
+  /// criteria can be provided. If not specified, the API sorts by creation time,
+  /// newest first, matching [UsersSort.defaultSort].
   @override
   final List<UsersSort>? sort;
 
   /// The maximum number of users to return.
-  /// If not specified, the API will use its default limit.
+  ///
+  /// Defaults to 30 when not specified. Values above [maxLimit] are rejected.
   @override
   final int? limit;
 
   /// The number of users to skip before returning results.
   ///
   /// Combine with [limit] to page through results, for example an [offset] of
-  /// 25 with a [limit] of 25 returns the second page.
+  /// 25 with a [limit] of 25 returns the second page. Values above [maxOffset]
+  /// are rejected.
   @override
   final int? offset;
-
-  /// Whether to include online presence information for the returned users.
-  ///
-  /// When enabled, the `online` and `lastActive` fields of [UserData] reflect
-  /// the current presence of each user.
-  @override
-  final bool? presence;
 
   /// Whether deactivated users should be included in the results.
   ///
@@ -105,7 +110,7 @@ class UsersFilterField extends FilterField<UserData> {
 
   /// Filter by the creation timestamp of the user.
   ///
-  /// **Supported operators:** `.equal`, `.greaterThan`, `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`
+  /// **Supported operators:** `.equal`, `.greater`, `.greaterOrEqual`, `.less`, `.lessOrEqual`, `.exists`
   static final createdAt = UsersFilterField(
     'created_at',
     (data) => data.createdAt,
@@ -113,7 +118,7 @@ class UsersFilterField extends FilterField<UserData> {
 
   /// Filter by the unique identifier of the user.
   ///
-  /// **Supported operators:** `.equal`, `.in`, `.autoComplete`
+  /// **Supported operators:** `.equal`, `.in_`, `.greater`, `.greaterOrEqual`, `.less`, `.lessOrEqual`, `.exists`, `.autoComplete`
   static final id = UsersFilterField(
     'id',
     (data) => data.id,
@@ -121,7 +126,7 @@ class UsersFilterField extends FilterField<UserData> {
 
   /// Filter by the timestamp the user was last active at.
   ///
-  /// **Supported operators:** `.equal`, `.greaterThan`, `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`
+  /// **Supported operators:** `.equal`, `.greater`, `.greaterOrEqual`, `.less`, `.lessOrEqual`, `.exists`
   static final lastActive = UsersFilterField(
     'last_active',
     (data) => data.lastActive,
@@ -129,7 +134,9 @@ class UsersFilterField extends FilterField<UserData> {
 
   /// Filter by the name of the user.
   ///
-  /// **Supported operators:** `.equal`, `.in`, `.autoComplete`, `.query`
+  /// **Supported operators:** `.equal`, `.in_`, `.autoComplete`
+  ///
+  /// Range comparisons and `.exists` are not supported on this field.
   static final name = UsersFilterField(
     'name',
     (data) => data.name,
@@ -137,7 +144,7 @@ class UsersFilterField extends FilterField<UserData> {
 
   /// Filter by the role of the user.
   ///
-  /// **Supported operators:** `.equal`, `.in`
+  /// **Supported operators:** `.equal`, `.in_`, `.exists`
   static final role = UsersFilterField(
     'role',
     (data) => data.role,
@@ -145,7 +152,10 @@ class UsersFilterField extends FilterField<UserData> {
 
   /// Filter by the teams the user belongs to.
   ///
-  /// **Supported operators:** `.equal`, `.in`, `.contains`
+  /// **Supported operators:** `.contains`, `.in_`
+  ///
+  /// `.equal` is only accepted with a `null` value, which matches users that
+  /// belong to no team.
   static final teams = UsersFilterField(
     'teams',
     (data) => data.teams,
@@ -153,7 +163,7 @@ class UsersFilterField extends FilterField<UserData> {
 
   /// Filter by the last update timestamp of the user.
   ///
-  /// **Supported operators:** `.equal`, `.greaterThan`, `.lessThan`, `.greaterThanOrEqual`, `.lessThanOrEqual`
+  /// **Supported operators:** `.equal`, `.greater`, `.greaterOrEqual`, `.less`, `.lessOrEqual`, `.exists`
   static final updatedAt = UsersFilterField(
     'updated_at',
     (data) => data.updatedAt,
@@ -177,6 +187,15 @@ class UsersSort extends Sort<UserData> {
     UsersSortField super.field, {
     super.nullOrdering = NullOrdering.nullsFirst,
   }) : super.desc();
+
+  /// Default sorting configuration for users.
+  ///
+  /// Matches the ordering the API applies when no sort is provided: the most
+  /// recently created users first, with the user id as a tie-breaker.
+  static final List<UsersSort> defaultSort = [
+    UsersSort.desc(UsersSortField.createdAt),
+    UsersSort.desc(UsersSortField.id),
+  ];
 }
 
 /// Defines the fields by which users can be sorted.
@@ -214,6 +233,15 @@ class UsersSortField extends SortField<UserData> {
     (data) => data.name,
   );
 
+  /// Sort by the role of the user.
+  ///
+  /// Unlike the other sort fields this one is not backed by a database index,
+  /// so sorting by it is slower and counts against the API budget of your app.
+  static final role = UsersSortField(
+    'role',
+    (data) => data.role,
+  );
+
   /// Sort by the last update timestamp of the user.
   /// This field allows sorting users by when they were last updated (newest/oldest first).
   static final updatedAt = UsersSortField(
@@ -235,7 +263,6 @@ extension UsersQueryRequest on UsersQuery {
       sort: sort?.map((s) => s.toRequest()).toList(),
       limit: limit,
       offset: offset,
-      presence: presence,
       includeDeactivatedUsers: includeDeactivatedUsers,
     );
   }

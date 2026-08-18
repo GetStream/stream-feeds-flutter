@@ -11,7 +11,6 @@ import 'models/feed_id.dart';
 import 'models/feeds_config.dart';
 import 'models/follow_data.dart';
 import 'models/push_notifications_config.dart';
-import 'models/user_data.dart';
 import 'state/activity.dart';
 import 'state/activity_comment_list.dart';
 import 'state/activity_list.dart';
@@ -46,6 +45,7 @@ import 'state/query/moderation_configs_query.dart';
 import 'state/query/poll_votes_query.dart';
 import 'state/query/polls_query.dart';
 import 'state/query/users_query.dart';
+import 'state/user_list.dart';
 
 export 'client/moderation_client.dart';
 
@@ -965,32 +965,28 @@ abstract interface class StreamFeedsClient {
     required List<String> refs,
   });
 
-  /// Queries users matching the provided [query].
-  ///
-  /// Use [UsersQuery] to configure the filter, sorting and pagination of the
-  /// search. Users are paginated with `limit`/`offset` because the users
-  /// endpoint does not return page cursors.
+  /// Creates a [UserList] object that represents a collection of users matching
+  /// the provided query.
   ///
   /// Example:
   /// ```dart
-  /// final result = await client.queryUsers(UsersQuery(
+  /// final userList = client.userList(UsersQuery(
   ///   filter: Filter.autoComplete(UsersFilterField.name, 'Al'),
   ///   sort: [UsersSort.asc(UsersSortField.name)],
   ///   limit: 25,
   /// ));
   ///
-  /// switch (result) {
-  ///   case Success(data: final users):
-  ///     for (final user in users) {
-  ///       print('${user.id}: ${user.name}');
-  ///     }
-  ///   case Failure(error: final error):
-  ///     print('Failed to query users: $error');
+  /// // Fetch the first page of users
+  /// final result = await userList.get();
+  ///
+  /// // Load more users if available
+  /// if (userList.state.canLoadMore) {
+  ///   await userList.queryMoreUsers();
   /// }
   /// ```
   ///
-  /// Returns a [Result] containing a list of [UserData] or an error.
-  Future<Result<List<UserData>>> queryUsers(UsersQuery query);
+  /// Returns a [UserList] instance that can be used to interact with the collection of users.
+  UserList userList(UsersQuery query);
 
   /// The moderation client for managing moderation-related operations.
   ///
