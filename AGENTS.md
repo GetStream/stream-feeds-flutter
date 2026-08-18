@@ -410,7 +410,9 @@ melos run lint:all
 
 - `.cursorrules`: Primary development rules for AI assistants
 - `.cursor/rules/`: Supplementary documentation for specific patterns
-- `analysis_options.yaml`: Dart analyzer configuration
+- `analysis_options.yaml`: Dart analyzer configuration. The root file is the single source of truth — a
+  package only gets its own when it genuinely needs to override something, and then it must start with
+  `include: <relative path to root>` so the root rules still apply. Don't add one just to re-declare defaults.
 - `melos.yaml`: Monorepo configuration and dependencies
 - `scripts/generate.sh`: OpenAPI client generation script
 

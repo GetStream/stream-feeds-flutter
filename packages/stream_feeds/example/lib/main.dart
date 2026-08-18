@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'Stream Feeds Example', home: const MyHomePage());
+    return const MaterialApp(title: 'Stream Feeds Example', home: MyHomePage());
   }
 }
 
@@ -39,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     client = StreamFeedsClient(
       apiKey: apiKey,
-      user: User(id: userId),
+      user: const User(id: userId),
       tokenProvider: TokenProvider.static(UserToken(userToken)),
     );
     connectionFuture = client.connect();
@@ -84,7 +84,7 @@ class _MyTimeLineState extends State<MyTimeLine> {
   @override
   void initState() {
     super.initState();
-    feed = widget.client.feedFromId(FeedId.timeline(userId));
+    feed = widget.client.feedFromId(const FeedId.timeline(userId));
     feed.getOrCreate();
   }
 
@@ -138,7 +138,7 @@ class ActivityItem extends StatelessWidget {
     );
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -149,7 +149,7 @@ class ActivityItem extends StatelessWidget {
               backgroundImage: userImage != null
                   ? NetworkImage(userImage)
                   : null,
-              child: Container(
+              child: DecoratedBox(
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.3),
                   shape: BoxShape.circle,
@@ -160,7 +160,7 @@ class ActivityItem extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(width: 16),
+          const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
