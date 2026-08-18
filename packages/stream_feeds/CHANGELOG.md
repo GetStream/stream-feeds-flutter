@@ -1,5 +1,8 @@
 ## Upcoming
 
+### New methods
+- Added `userList` to `StreamFeedsClient` for querying users.
+
 ### New fields
 - Added `restrictReplies` (`ActivityRestrictReplies`) to `ActivityData` to expose the comment-reply restriction on an activity (everyone / nobody / people_i_follow).
 - Added `restrictReplies` (`AddActivityRequestRestrictReplies?`) to `FeedAddActivityRequest` so comment restrictions can be set when creating an activity.
