@@ -60,6 +60,7 @@ import '../state/query/members_query.dart';
 import '../state/query/moderation_configs_query.dart';
 import '../state/query/poll_votes_query.dart';
 import '../state/query/polls_query.dart';
+import '../state/query/users_query.dart';
 import '../ws/feeds_ws_event.dart';
 import 'endpoint_config.dart';
 
@@ -578,22 +579,8 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
   }
 
   @override
-  Future<Result<List<UserData>>> queryUsers({
-    required Map<String, Object?> filterConditions,
-    List<api.SortParamRequest>? sort,
-    int? limit,
-    int? offset,
-    bool? presence,
-    bool? includeDeactivatedUsers,
-  }) {
-    return _usersRepository.queryUsers(
-      filterConditions: filterConditions,
-      sort: sort,
-      limit: limit,
-      offset: offset,
-      presence: presence,
-      includeDeactivatedUsers: includeDeactivatedUsers,
-    );
+  Future<Result<List<UserData>>> queryUsers(UsersQuery query) {
+    return _usersRepository.queryUsers(query.toRequest());
   }
 
   Stream<void> get onReconnectEmitter {

@@ -944,10 +944,19 @@ void main() {
     feedsClientTest(
       'should query users successfully',
       body: (tester) async {
-        final filterConditions = {
-          'name': {r'$autocomplete': 'Al'},
-        };
-        final payload = QueryUsersPayload(filterConditions: filterConditions);
+        final query = UsersQuery(
+          filter: Filter.autoComplete(UsersFilterField.name, 'Al'),
+          sort: [UsersSort.asc(UsersSortField.name)],
+          limit: 25,
+        );
+
+        const payload = QueryUsersPayload(
+          filterConditions: {
+            'name': {r'$autocomplete': 'Al'},
+          },
+          sort: [SortParamRequest(field: 'name', direction: 1)],
+          limit: 25,
+        );
 
         tester.mockApi(
           (api) => api.queryUsers(payload: payload),
@@ -959,9 +968,7 @@ void main() {
           ),
         );
 
-        final result = await tester.client.queryUsers(
-          filterConditions: filterConditions,
-        );
+        final result = await tester.client.queryUsers(query);
 
         expect(result.isSuccess, isTrue);
         final users = result.getOrThrow();
@@ -974,19 +981,83 @@ void main() {
     );
 
     feedsClientTest(
+      'should query users without a filter',
+      body: (tester) async {
+        const payload = QueryUsersPayload(filterConditions: {});
+
+        tester.mockApi(
+          (api) => api.queryUsers(payload: payload),
+          result: createDefaultQueryUsersResponse(
+            users: [createDefaultFullUserResponse()],
+          ),
+        );
+
+        final result = await tester.client.queryUsers(const UsersQuery());
+
+        expect(result.isSuccess, isTrue);
+        expect(result.getOrThrow().single.id, equals('user-1'));
+
+        tester.verifyApi((api) => api.queryUsers(payload: payload));
+      },
+    );
+
+    feedsClientTest(
+      'should forward pagination and presence options',
+      body: (tester) async {
+        final query = UsersQuery(
+          filter: Filter.in_(UsersFilterField.teams, const ['support']),
+          limit: 10,
+          offset: 20,
+          presence: true,
+          includeDeactivatedUsers: true,
+        );
+
+        const payload = QueryUsersPayload(
+          filterConditions: {
+            'teams': {
+              r'$in': ['support'],
+            },
+          },
+          limit: 10,
+          offset: 20,
+          presence: true,
+          includeDeactivatedUsers: true,
+        );
+
+        tester.mockApi(
+          (api) => api.queryUsers(payload: payload),
+          result: createDefaultQueryUsersResponse(
+            users: [createDefaultFullUserResponse()],
+          ),
+        );
+
+        final result = await tester.client.queryUsers(query);
+
+        expect(result.isSuccess, isTrue);
+
+        tester.verifyApi((api) => api.queryUsers(payload: payload));
+      },
+    );
+
+    feedsClientTest(
       'should handle queryUsers failure',
       body: (tester) async {
-        final filterConditions = {'id': 'bad'};
-        final payload = QueryUsersPayload(filterConditions: filterConditions);
+        final query = UsersQuery(
+          filter: Filter.equal(UsersFilterField.id, 'bad'),
+        );
+
+        const payload = QueryUsersPayload(
+          filterConditions: {
+            'id': {r'$eq': 'bad'},
+          },
+        );
 
         tester.mockApiFailure(
           (api) => api.queryUsers(payload: payload),
           error: Exception('Failed to query users'),
         );
 
-        final result = await tester.client.queryUsers(
-          filterConditions: filterConditions,
-        );
+        final result = await tester.client.queryUsers(query);
 
         expect(result.isFailure, isTrue);
 

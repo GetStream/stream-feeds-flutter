@@ -45,6 +45,7 @@ import 'state/query/members_query.dart';
 import 'state/query/moderation_configs_query.dart';
 import 'state/query/poll_votes_query.dart';
 import 'state/query/polls_query.dart';
+import 'state/query/users_query.dart';
 
 export 'client/moderation_client.dart';
 
@@ -964,18 +965,19 @@ abstract interface class StreamFeedsClient {
     required List<String> refs,
   });
 
-  /// Queries users matching the provided filter conditions.
+  /// Queries users matching the provided [query].
   ///
-  /// Searches for users using the specified [filterConditions] map and optional
-  /// [sort], [limit], [offset], [presence], and [includeDeactivatedUsers] parameters.
+  /// Use [UsersQuery] to configure the filter, sorting and pagination of the
+  /// search. Users are paginated with `limit`/`offset` because the users
+  /// endpoint does not return page cursors.
   ///
   /// Example:
   /// ```dart
-  /// final result = await client.queryUsers(
-  ///   filterConditions: {'name': {'$autocomplete': 'Al'}},
-  ///   sort: [SortParamRequest(field: 'name', direction: 1)],
+  /// final result = await client.queryUsers(UsersQuery(
+  ///   filter: Filter.autoComplete(UsersFilterField.name, 'Al'),
+  ///   sort: [UsersSort.asc(UsersSortField.name)],
   ///   limit: 25,
-  /// );
+  /// ));
   ///
   /// switch (result) {
   ///   case Success(data: final users):
@@ -988,14 +990,7 @@ abstract interface class StreamFeedsClient {
   /// ```
   ///
   /// Returns a [Result] containing a list of [UserData] or an error.
-  Future<Result<List<UserData>>> queryUsers({
-    required Map<String, Object?> filterConditions,
-    List<api.SortParamRequest>? sort,
-    int? limit,
-    int? offset,
-    bool? presence,
-    bool? includeDeactivatedUsers,
-  });
+  Future<Result<List<UserData>>> queryUsers(UsersQuery query);
 
   /// The moderation client for managing moderation-related operations.
   ///

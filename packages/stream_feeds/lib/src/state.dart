@@ -48,3 +48,4 @@ export 'state/query/members_query.dart';
 export 'state/query/moderation_configs_query.dart';
 export 'state/query/poll_votes_query.dart';
 export 'state/query/polls_query.dart';
+export 'state/query/users_query.dart';

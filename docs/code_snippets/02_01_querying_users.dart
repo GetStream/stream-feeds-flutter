@@ -5,11 +5,11 @@ late StreamFeedsClient client;
 Future<void> queryUsers() async {
   // Search users by name prefix
   final result = await client.queryUsers(
-    filterConditions: {
-      'name': {r'$autocomplete': 'Al'},
-    },
-    sort: [const SortParamRequest(field: 'name', direction: 1)],
-    limit: 25,
+    UsersQuery(
+      filter: Filter.autoComplete(UsersFilterField.name, 'Al'),
+      sort: [UsersSort.asc(UsersSortField.name)],
+      limit: 25,
+    ),
   );
 
   switch (result) {
@@ -25,11 +25,9 @@ Future<void> queryUsers() async {
 Future<void> queryUsersWithFilter() async {
   // Query users by exact ID match
   final result = await client.queryUsers(
-    filterConditions: {
-      'id': {
-        r'$in': ['alice', 'bob', 'carol'],
-      },
-    },
+    UsersQuery(
+      filter: Filter.in_(UsersFilterField.id, ['alice', 'bob', 'carol']),
+    ),
   );
 
   switch (result) {
@@ -43,12 +41,12 @@ Future<void> queryUsersWithFilter() async {
 Future<void> queryUsersWithPresence() async {
   // Query users and include online presence information
   final result = await client.queryUsers(
-    filterConditions: {
-      'teams': {r'$contains': 'support'},
-    },
-    sort: [const SortParamRequest(field: 'last_active', direction: -1)],
-    limit: 10,
-    presence: true,
+    UsersQuery(
+      filter: Filter.contains(UsersFilterField.teams, 'support'),
+      sort: [UsersSort.desc(UsersSortField.lastActive)],
+      limit: 10,
+      presence: true,
+    ),
   );
 
   switch (result) {
