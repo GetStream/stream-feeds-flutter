@@ -3,6 +3,7 @@ import 'package:stream_core/stream_core.dart';
 
 import '../../generated/api/models.dart';
 import '../../models/activity_data.dart';
+import '../../models/feed_data.dart';
 import '../../models/feed_id.dart';
 import '../../models/feed_input_data.dart';
 import '../../utils/filter.dart';
@@ -33,6 +34,7 @@ class FeedQuery with _$FeedQuery {
     this.activityNext,
     this.activityPrevious,
     this.data,
+    this.enrichmentOptions,
     this.externalRanking,
     this.followerLimit,
     this.followingLimit,
@@ -67,6 +69,25 @@ class FeedQuery with _$FeedQuery {
   /// Additional data to associate with the feed.
   @override
   final FeedInputData? data;
+
+  /// Controls which optional fields the server enriches the response with.
+  ///
+  /// Pass [EnrichmentOptions] to enable enrichment that is not included by
+  /// default. For example, set [EnrichmentOptions.enrichOwnFollowings] to
+  /// `true` to receive [FeedData.ownFollowings] on each activity's current
+  /// feed, which is required to determine whether the current user may comment
+  /// when an activity's `restrictReplies` is set to `people_i_follow`.
+  ///
+  /// ```dart
+  /// client.feedFromQuery(
+  ///   FeedQuery(
+  ///     fid: feedId,
+  ///     enrichmentOptions: const EnrichmentOptions(enrichOwnFollowings: true),
+  ///   ),
+  /// );
+  /// ```
+  @override
+  final EnrichmentOptions? enrichmentOptions;
 
   /// Additional data used for ranking activities in the feed.
   @override
@@ -107,6 +128,7 @@ extension FeedQueryRequest on FeedQuery {
       view: view,
       watch: watch,
       data: data?.toRequest(),
+      enrichmentOptions: enrichmentOptions,
       externalRanking: externalRanking,
       filter: activityFilter?.toRequest(),
       followersPagination: followerLimit?.let((it) => PagerRequest(limit: it)),

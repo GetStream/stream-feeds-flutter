@@ -27,6 +27,30 @@ void main() {
     );
 
     feedTest(
+      'getOrCreate() sends enrichmentOptions from FeedQuery to the API',
+      build: (client) => client.feedFromQuery(
+        const FeedQuery(
+          fid: feedId,
+          enrichmentOptions: EnrichmentOptions(enrichOwnFollowings: true),
+        ),
+      ),
+      body: (tester) async {
+        final result = await tester.getOrCreate();
+        expect(result.isSuccess, isTrue);
+      },
+      verify: (tester) => tester.verifyApi(
+        (api) => api.getOrCreateFeed(
+          feedId: feedId.id,
+          feedGroupId: feedId.group,
+          getOrCreateFeedRequest: const GetOrCreateFeedRequest(
+            watch: true,
+            enrichmentOptions: EnrichmentOptions(enrichOwnFollowings: true),
+          ),
+        ),
+      ),
+    );
+
+    feedTest(
       'stopWatching() - should stop watching feed',
       build: (client) => client.feed(group: 'user', id: 'john'),
       setUp: (tester) => tester.getOrCreate(),
@@ -4621,6 +4645,169 @@ void main() {
             type: 'post',
             feeds: [],
             location: Location(lat: 52, lng: 4),
+          ),
+        ),
+      ),
+    );
+
+    feedTest(
+      'addActivity() passes restrictReplies to API',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(),
+      body: (tester) async {
+        tester.mockApi(
+          (api) => api.addActivity(
+            addActivityRequest: const AddActivityRequest(
+              type: 'post',
+              feeds: [],
+              restrictReplies: AddActivityRequestRestrictReplies.peopleIFollow,
+            ),
+          ),
+          result: AddActivityResponse(
+            duration: '0ms',
+            activity: createDefaultActivityResponse(id: 'activity-1'),
+          ),
+        );
+
+        final result = await tester.feed.addActivity(
+          request: const FeedAddActivityRequest(
+            type: 'post',
+            restrictReplies: AddActivityRequestRestrictReplies.peopleIFollow,
+          ),
+        );
+
+        expect(result.isSuccess, isTrue);
+      },
+      verify: (tester) => tester.verifyApi(
+        (api) => api.addActivity(
+          addActivityRequest: const AddActivityRequest(
+            type: 'post',
+            feeds: [],
+            restrictReplies: AddActivityRequestRestrictReplies.peopleIFollow,
+          ),
+        ),
+      ),
+    );
+
+    feedTest(
+      'getOrCreate() exposes restrictReplies on activity state',
+      build: (client) => client.feedFromId(feedId),
+      body: (tester) async {
+        await tester.getOrCreate(
+          modifyResponse: (it) => it.copyWith(
+            activities: [
+              createDefaultActivityResponse(
+                id: 'activity-1',
+                feeds: [feedId.rawValue],
+                restrictReplies: ActivityResponseRestrictReplies.nobody,
+              ),
+            ],
+          ),
+        );
+
+        final activity = tester.feedState.activities.firstWhere(
+          (a) => a.id == 'activity-1',
+        );
+        expect(activity.restrictReplies, equals(ActivityRestrictReplies.nobody));
+      },
+    );
+
+    feedTest(
+      'getOrCreate() exposes peopleIFollow restrictReplies on activity state',
+      build: (client) => client.feedFromId(feedId),
+      body: (tester) async {
+        await tester.getOrCreate(
+          modifyResponse: (it) => it.copyWith(
+            activities: [
+              createDefaultActivityResponse(
+                id: 'activity-1',
+                feeds: [feedId.rawValue],
+                restrictReplies: ActivityResponseRestrictReplies.peopleIFollow,
+              ),
+            ],
+          ),
+        );
+
+        final activity = tester.feedState.activities.firstWhere(
+          (a) => a.id == 'activity-1',
+        );
+        expect(
+          activity.restrictReplies,
+          equals(ActivityRestrictReplies.peopleIFollow),
+        );
+      },
+    );
+
+    feedTest(
+      'getOrCreate() exposes unknown restrictReplies on activity state',
+      build: (client) => client.feedFromId(feedId),
+      body: (tester) async {
+        await tester.getOrCreate(
+          modifyResponse: (it) => it.copyWith(
+            activities: [
+              createDefaultActivityResponse(
+                id: 'activity-1',
+                feeds: [feedId.rawValue],
+                restrictReplies: ActivityResponseRestrictReplies.unknown,
+              ),
+            ],
+          ),
+        );
+
+        final activity = tester.feedState.activities.firstWhere(
+          (a) => a.id == 'activity-1',
+        );
+        expect(activity.restrictReplies, equals(ActivityRestrictReplies.unknown));
+      },
+    );
+
+    feedTest(
+      'updateActivity() passes restrictReplies to API',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: [
+            createDefaultActivityResponse(
+              id: 'activity-1',
+              feeds: [feedId.rawValue],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        tester.mockApi(
+          (api) => api.updateActivity(
+            id: 'activity-1',
+            updateActivityRequest: const UpdateActivityRequest(
+              restrictReplies: UpdateActivityRequestRestrictReplies.nobody,
+            ),
+          ),
+          result: UpdateActivityResponse(
+            duration: '0ms',
+            activity: createDefaultActivityResponse(
+              id: 'activity-1',
+              feeds: [feedId.rawValue],
+              restrictReplies: ActivityResponseRestrictReplies.nobody,
+            ),
+          ),
+        );
+
+        final result = await tester.feed.updateActivity(
+          id: 'activity-1',
+          request: const UpdateActivityRequest(
+            restrictReplies: UpdateActivityRequestRestrictReplies.nobody,
+          ),
+        );
+
+        expect(result.isSuccess, isTrue);
+        final activity = result.getOrThrow();
+        expect(activity.restrictReplies, equals(ActivityRestrictReplies.nobody));
+      },
+      verify: (tester) => tester.verifyApi(
+        (api) => api.updateActivity(
+          id: 'activity-1',
+          updateActivityRequest: const UpdateActivityRequest(
+            restrictReplies: UpdateActivityRequestRestrictReplies.nobody,
           ),
         ),
       ),
