@@ -142,3 +142,7 @@ env.g.dart
 **/test/**/goldens/**/*.*
 **/test/**/failures/**/*.*
 !**/test/**/goldens/ci/*.*
+
+# Claude Code local state. `.claude/skills/` is checked in and shared.
+/.claude/worktrees/
+/.claude/settings.local.json

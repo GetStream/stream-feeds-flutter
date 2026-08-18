@@ -426,6 +426,51 @@ melos run lint:all
 - SDK uses semantic versioning
 - Version managed in `packages/stream_feeds/pubspec.yaml`
 - Versioning mode: independent (per-package)
+- Below `1.0.0` the Dart convention shifts every slot down one: a breaking release is a **minor** bump, a
+  feature release is a **patch** bump, and a change with no public API impact is a build (`+1`) bump. See
+  [Package versioning](https://dart.dev/tools/pub/versioning#semantic-versions).
+
+### Changelog
+
+`packages/stream_feeds/CHANGELOG.md` is **hand-curated**. New entries go under the top `## Upcoming` heading,
+never into a section for an already-published version. Releasing *promotes* that heading to `## X.Y.Z` — it
+never rewrites the bullets. Do not run `melos version`; it regenerates entries from commit messages and
+clobbers the curated ones.
+
+### Releasing
+
+Publishing to pub.dev is automated and authenticates over GitHub Actions OIDC — no pub.dev credentials are
+stored anywhere. `stream_feeds` is the only publishable package; everything else in the workspace is private
+(`publish_to: none`, or no `version:`) and is excluded by `--no-private`.
+
+Cut the release from a `release/` branch (e.g. `release/stream_feeds-v0.5.2`):
+
+1. Bump `version:` in `packages/stream_feeds/pubspec.yaml`, and the `stream_feeds:` entry in `melos.yaml`'s
+   `command.bootstrap.dependencies` block if the existing caret no longer covers the new version.
+2. Promote `## Upcoming` → `## X.Y.Z` in the CHANGELOG. The section must be non-empty (pana fails otherwise).
+3. `melos bootstrap && melos run analyze && melos run lint:pub`.
+4. Open a PR titled `chore(<scope>): release stream_feeds vX.Y.Z` (scope `llc`).
+
+**Squash-merge the release PR.** [`release_tag.yml`](.github/workflows/release_tag.yml) gates on the *tip*
+commit's message, so a squash lands the `chore(...): release` title as that commit; a merge commit would make
+the tip `Merge pull request #…` and the release would silently not run. The tooling keys only on the
+`chore(...): release` prefix — tags are derived from package state, not parsed from the title, so a typo in
+the package name or version cannot mis-tag.
+
+After merge:
+
+1. [`release_tag.yml`](.github/workflows/release_tag.yml) tags every unpublished package as
+   `<package>-vX.Y.Z` (e.g. `stream_feeds-v0.5.2`) and pushes each with the bot PAT. Note the per-package
+   tag format — older plain `v0.x` tags are history and no longer match the publish trigger.
+2. [`release_publish.yml`](.github/workflows/release_publish.yml) fires on that tag push, verifies the tag
+   version matches the pubspec, publishes over OIDC, then creates a GitHub Release whose body is the
+   `## X.Y.Z` CHANGELOG section.
+
+Both workflows are idempotent: re-running against a version already live on pub.dev is a clean no-op, and
+`workflow_dispatch` on the tag ref is a safe recovery path. Never tag, publish (`melos run release:pub`), or
+create a GitHub Release by hand — CI owns all three.
+
+Agents: `.claude/skills/release-pr/SKILL.md` walks through this end to end.
 
 ## Getting Help
 
