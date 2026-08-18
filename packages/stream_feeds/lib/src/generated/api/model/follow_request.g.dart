@@ -12,11 +12,11 @@ FollowRequest _$FollowRequestFromJson(Map<String, dynamic> json) => FollowReques
   createNotificationActivity: json['create_notification_activity'] as bool?,
   custom: json['custom'] as Map<String, dynamic>?,
   enrichOwnFields: json['enrich_own_fields'] as bool?,
-  pushPreference: $enumDecodeNullable(
-    _$FollowRequestPushPreferenceEnumMap,
-    json['push_preference'],
-    unknownValue: FollowRequestPushPreference.unknown,
-  ),
+  pushPreference: json['push_preference'] == null
+      ? null
+      : FollowRequestPushPreference.fromJson(
+          json['push_preference'] as String,
+        ),
   skipPush: json['skip_push'] as bool?,
   source: json['source'] as String,
   target: json['target'] as String,
@@ -28,14 +28,8 @@ Map<String, dynamic> _$FollowRequestToJson(FollowRequest instance) => <String, d
   'create_notification_activity': instance.createNotificationActivity,
   'custom': instance.custom,
   'enrich_own_fields': instance.enrichOwnFields,
-  'push_preference': _$FollowRequestPushPreferenceEnumMap[instance.pushPreference],
+  'push_preference': instance.pushPreference?.toJson(),
   'skip_push': instance.skipPush,
   'source': instance.source,
   'target': instance.target,
-};
-
-const _$FollowRequestPushPreferenceEnumMap = {
-  FollowRequestPushPreference.all: 'all',
-  FollowRequestPushPreference.none: 'none',
-  FollowRequestPushPreference.unknown: '_unknown',
 };

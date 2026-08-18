@@ -13,6 +13,8 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$BanInfoResponse {
+  ChannelMetadata? get channel;
+  String? get channelCid;
   DateTime get createdAt;
   UserResponse? get createdBy;
   DateTime? get expires;
@@ -34,6 +36,8 @@ mixin _$BanInfoResponse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is BanInfoResponse &&
+            (identical(other.channel, channel) || other.channel == channel) &&
+            (identical(other.channelCid, channelCid) || other.channelCid == channelCid) &&
             (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
             (identical(other.createdBy, createdBy) || other.createdBy == createdBy) &&
             (identical(other.expires, expires) || other.expires == expires) &&
@@ -45,6 +49,8 @@ mixin _$BanInfoResponse {
   @override
   int get hashCode => Object.hash(
     runtimeType,
+    channel,
+    channelCid,
     createdAt,
     createdBy,
     expires,
@@ -55,7 +61,7 @@ mixin _$BanInfoResponse {
 
   @override
   String toString() {
-    return 'BanInfoResponse(createdAt: $createdAt, createdBy: $createdBy, expires: $expires, reason: $reason, shadow: $shadow, user: $user)';
+    return 'BanInfoResponse(channel: $channel, channelCid: $channelCid, createdAt: $createdAt, createdBy: $createdBy, expires: $expires, reason: $reason, shadow: $shadow, user: $user)';
   }
 }
 
@@ -67,6 +73,8 @@ abstract mixin class $BanInfoResponseCopyWith<$Res> {
   ) = _$BanInfoResponseCopyWithImpl;
   @useResult
   $Res call({
+    ChannelMetadata? channel,
+    String? channelCid,
     DateTime createdAt,
     UserResponse? createdBy,
     DateTime? expires,
@@ -88,6 +96,8 @@ class _$BanInfoResponseCopyWithImpl<$Res> implements $BanInfoResponseCopyWith<$R
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? channel = freezed,
+    Object? channelCid = freezed,
     Object? createdAt = null,
     Object? createdBy = freezed,
     Object? expires = freezed,
@@ -97,6 +107,14 @@ class _$BanInfoResponseCopyWithImpl<$Res> implements $BanInfoResponseCopyWith<$R
   }) {
     return _then(
       BanInfoResponse(
+        channel: freezed == channel
+            ? _self.channel
+            : channel // ignore: cast_nullable_to_non_nullable
+                  as ChannelMetadata?,
+        channelCid: freezed == channelCid
+            ? _self.channelCid
+            : channelCid // ignore: cast_nullable_to_non_nullable
+                  as String?,
         createdAt: null == createdAt
             ? _self.createdAt
             : createdAt // ignore: cast_nullable_to_non_nullable

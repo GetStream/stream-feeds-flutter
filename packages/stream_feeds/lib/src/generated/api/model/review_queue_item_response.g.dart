@@ -17,14 +17,14 @@ ReviewQueueItemResponse _$ReviewQueueItemResponseFromJson(
   appeal: json['appeal'] == null ? null : AppealItemResponse.fromJson(json['appeal'] as Map<String, dynamic>),
   assignedTo: json['assigned_to'] == null ? null : UserResponse.fromJson(json['assigned_to'] as Map<String, dynamic>),
   bans: (json['bans'] as List<dynamic>).map((e) => BanInfoResponse.fromJson(e as Map<String, dynamic>)).toList(),
-  call: json['call'] == null ? null : CallResponse.fromJson(json['call'] as Map<String, dynamic>),
-  completedAt: _$JsonConverterFromJson<int, DateTime>(
+  call: json['call'] == null ? null : ModerationCallResponse.fromJson(json['call'] as Map<String, dynamic>),
+  completedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['completed_at'],
-    const EpochDateTimeConverter().fromJson,
+    const StreamDateTimeConverter().fromJson,
   ),
   configKey: json['config_key'] as String?,
-  createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+  createdAt: const StreamDateTimeConverter().fromJson(
+    json['created_at'] as Object,
   ),
   entityCreator: json['entity_creator'] == null
       ? null
@@ -35,9 +35,9 @@ ReviewQueueItemResponse _$ReviewQueueItemResponseFromJson(
   entityId: json['entity_id'] as String,
   entityType: json['entity_type'] as String,
   escalated: json['escalated'] as bool,
-  escalatedAt: _$JsonConverterFromJson<int, DateTime>(
+  escalatedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['escalated_at'],
-    const EpochDateTimeConverter().fromJson,
+    const StreamDateTimeConverter().fromJson,
   ),
   escalatedBy: json['escalated_by'] as String?,
   escalationMetadata: json['escalation_metadata'] == null
@@ -78,16 +78,16 @@ ReviewQueueItemResponse _$ReviewQueueItemResponseFromJson(
         ),
   reaction: json['reaction'] == null ? null : Reaction.fromJson(json['reaction'] as Map<String, dynamic>),
   recommendedAction: json['recommended_action'] as String,
-  reviewedAt: _$JsonConverterFromJson<int, DateTime>(
+  reviewedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['reviewed_at'],
-    const EpochDateTimeConverter().fromJson,
+    const StreamDateTimeConverter().fromJson,
   ),
   reviewedBy: json['reviewed_by'] as String,
   severity: (json['severity'] as num).toInt(),
   status: json['status'] as String,
   teams: (json['teams'] as List<dynamic>?)?.map((e) => e as String).toList(),
-  updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+  updatedAt: const StreamDateTimeConverter().fromJson(
+    json['updated_at'] as Object,
   ),
 );
 
@@ -101,20 +101,20 @@ Map<String, dynamic> _$ReviewQueueItemResponseToJson(
   'assigned_to': instance.assignedTo?.toJson(),
   'bans': instance.bans.map((e) => e.toJson()).toList(),
   'call': instance.call?.toJson(),
-  'completed_at': _$JsonConverterToJson<int, DateTime>(
+  'completed_at': _$JsonConverterToJson<Object, DateTime>(
     instance.completedAt,
-    const EpochDateTimeConverter().toJson,
+    const StreamDateTimeConverter().toJson,
   ),
   'config_key': instance.configKey,
-  'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
+  'created_at': const StreamDateTimeConverter().toJson(instance.createdAt),
   'entity_creator': instance.entityCreator?.toJson(),
   'entity_creator_id': instance.entityCreatorId,
   'entity_id': instance.entityId,
   'entity_type': instance.entityType,
   'escalated': instance.escalated,
-  'escalated_at': _$JsonConverterToJson<int, DateTime>(
+  'escalated_at': _$JsonConverterToJson<Object, DateTime>(
     instance.escalatedAt,
-    const EpochDateTimeConverter().toJson,
+    const StreamDateTimeConverter().toJson,
   ),
   'escalated_by': instance.escalatedBy,
   'escalation_metadata': instance.escalationMetadata?.toJson(),
@@ -131,15 +131,15 @@ Map<String, dynamic> _$ReviewQueueItemResponseToJson(
   'moderation_payload': instance.moderationPayload?.toJson(),
   'reaction': instance.reaction?.toJson(),
   'recommended_action': instance.recommendedAction,
-  'reviewed_at': _$JsonConverterToJson<int, DateTime>(
+  'reviewed_at': _$JsonConverterToJson<Object, DateTime>(
     instance.reviewedAt,
-    const EpochDateTimeConverter().toJson,
+    const StreamDateTimeConverter().toJson,
   ),
   'reviewed_by': instance.reviewedBy,
   'severity': instance.severity,
   'status': instance.status,
   'teams': instance.teams,
-  'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
+  'updated_at': const StreamDateTimeConverter().toJson(instance.updatedAt),
 };
 
 Value? _$JsonConverterFromJson<Json, Value>(

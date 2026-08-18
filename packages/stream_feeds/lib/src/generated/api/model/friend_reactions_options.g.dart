@@ -11,11 +11,7 @@ FriendReactionsOptions _$FriendReactionsOptionsFromJson(
 ) => FriendReactionsOptions(
   enabled: json['enabled'] as bool?,
   limit: (json['limit'] as num?)?.toInt(),
-  type: $enumDecodeNullable(
-    _$FriendReactionsOptionsTypeEnumMap,
-    json['type'],
-    unknownValue: FriendReactionsOptionsType.unknown,
-  ),
+  type: json['type'] == null ? null : FriendReactionsOptionsType.fromJson(json['type'] as String),
 );
 
 Map<String, dynamic> _$FriendReactionsOptionsToJson(
@@ -23,11 +19,5 @@ Map<String, dynamic> _$FriendReactionsOptionsToJson(
 ) => <String, dynamic>{
   'enabled': instance.enabled,
   'limit': instance.limit,
-  'type': _$FriendReactionsOptionsTypeEnumMap[instance.type],
-};
-
-const _$FriendReactionsOptionsTypeEnumMap = {
-  FriendReactionsOptionsType.following: 'following',
-  FriendReactionsOptionsType.mutual: 'mutual',
-  FriendReactionsOptionsType.unknown: '_unknown',
+  'type': instance.type?.toJson(),
 };

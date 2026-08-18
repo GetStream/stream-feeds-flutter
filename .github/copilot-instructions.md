@@ -40,8 +40,8 @@ melos run generate:all
 melos run generate:dart    # Pure Dart packages only
 melos run generate:flutter # Flutter packages only
 
-# Generate OpenAPI client (rarely needed, requires OpenAPI spec)
-melos run gen:feeds
+# Generate OpenAPI client (rarely needed, requires CHAT_DIR to point at a chat checkout)
+CHAT_DIR=/path/to/chat melos run gen:feeds
 ```
 
 **Important**: NEVER manually edit generated files (`*.freezed.dart`, `*.g.dart`, `src/generated/`). Changes must be made in source files, then regenerate.

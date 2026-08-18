@@ -85,8 +85,18 @@ abstract interface class DefaultApi {
   });
 
   @POST('/api/v2/moderation/ban')
-  Future<Result<BanResponse>> ban({
+  Future<Result<ModerationBanResponse>> ban({
     @Body() required BanRequest banRequest,
+  });
+
+  @POST('/api/v2/feeds/activities/reactions/query')
+  Future<Result<BatchQueryActivityReactionsResponse>> batchQueryActivityReactions({
+    @Body() required BatchQueryActivityReactionsRequest batchQueryActivityReactionsRequest,
+  });
+
+  @POST('/api/v2/feeds/comments/reactions/query')
+  Future<Result<BatchQueryCommentReactionsResponse>> batchQueryCommentReactions({
+    @Body() required BatchQueryCommentReactionsRequest batchQueryCommentReactionsRequest,
   });
 
   @POST('/api/v2/users/block')
@@ -157,6 +167,11 @@ abstract interface class DefaultApi {
   Future<Result<PollOptionResponse>> createPollOption({
     @Path('poll_id') required String pollId,
     @Body() required CreatePollOptionRequest createPollOptionRequest,
+  });
+
+  @POST('/api/v2/moderation/queues')
+  Future<Result<QueueResponse>> createQueue({
+    @Body() required CreateQueueRequest createQueueRequest,
   });
 
   @POST('/api/v2/usergroups')
@@ -262,14 +277,12 @@ abstract interface class DefaultApi {
   @DELETE('/api/v2/polls/{poll_id}')
   Future<Result<DurationResponse>> deletePoll({
     @Path('poll_id') required String pollId,
-    @Query('user_id') String? userId,
   });
 
   @DELETE('/api/v2/polls/{poll_id}/options/{option_id}')
   Future<Result<DurationResponse>> deletePollOption({
     @Path('poll_id') required String pollId,
     @Path('option_id') required String optionId,
-    @Query('user_id') String? userId,
   });
 
   @DELETE('/api/v2/feeds/activities/{activity_id}/polls/{poll_id}/vote/{vote_id}')
@@ -277,7 +290,11 @@ abstract interface class DefaultApi {
     @Path('activity_id') required String activityId,
     @Path('poll_id') required String pollId,
     @Path('vote_id') required String voteId,
-    @Query('user_id') String? userId,
+  });
+
+  @POST('/api/v2/moderation/queues/{id}/delete')
+  Future<Result<QueueResponse>> deleteQueue({
+    @Path('id') required String id,
   });
 
   @DELETE('/api/v2/usergroups/{id}')
@@ -287,7 +304,7 @@ abstract interface class DefaultApi {
   });
 
   @POST('/api/v2/moderation/flag')
-  Future<Result<FlagResponse>> flag({
+  Future<Result<FlagItemResponse>> flag({
     @Body() required FlagRequest flagRequest,
   });
 
@@ -314,6 +331,8 @@ abstract interface class DefaultApi {
     @Path('id') required String id,
     @Query('comment_sort') String? commentSort,
     @Query('comment_limit') int? commentLimit,
+    @Query('language') String? language,
+    @Query('translate_text') bool? translateText,
   });
 
   @GET('/api/v2/app')
@@ -330,6 +349,8 @@ abstract interface class DefaultApi {
   @GET('/api/v2/feeds/comments/{id}')
   Future<Result<GetCommentResponse>> getComment({
     @Path('id') required String id,
+    @Query('language') String? language,
+    @Query('translate_text') bool? translateText,
   });
 
   @GET('/api/v2/feeds/comments/{id}/replies')
@@ -339,6 +360,8 @@ abstract interface class DefaultApi {
     @Query('sort') String? sort,
     @Query('replies_limit') int? repliesLimit,
     @Query('id_around') String? idAround,
+    @Query('language') String? language,
+    @Query('translate_text') bool? translateText,
     @Query('limit') int? limit,
     @Query('prev') String? prev,
     @Query('next') String? next,
@@ -352,6 +375,8 @@ abstract interface class DefaultApi {
     @Query('sort') String? sort,
     @Query('replies_limit') int? repliesLimit,
     @Query('id_around') String? idAround,
+    @Query('language') String? language,
+    @Query('translate_text') bool? translateText,
     @Query('limit') int? limit,
     @Query('prev') String? prev,
     @Query('next') String? next,
@@ -378,6 +403,8 @@ abstract interface class DefaultApi {
   Future<Result<GetOrCreateFeedResponse>> getOrCreateFeed({
     @Path('feed_group_id') required String feedGroupId,
     @Path('feed_id') required String feedId,
+    @Query('language') String? language,
+    @Query('translate_text') bool? translateText,
     @Body() GetOrCreateFeedRequest? getOrCreateFeedRequest,
   });
 
@@ -404,14 +431,17 @@ abstract interface class DefaultApi {
   @GET('/api/v2/polls/{poll_id}')
   Future<Result<PollResponse>> getPoll({
     @Path('poll_id') required String pollId,
-    @Query('user_id') String? userId,
   });
 
   @GET('/api/v2/polls/{poll_id}/options/{option_id}')
   Future<Result<PollOptionResponse>> getPollOption({
     @Path('poll_id') required String pollId,
     @Path('option_id') required String optionId,
-    @Query('user_id') String? userId,
+  });
+
+  @GET('/api/v2/moderation/queues/{id}')
+  Future<Result<QueueResponse>> getQueue({
+    @Path('id') required String id,
   });
 
   @GET('/api/v2/usergroups/{id}')
@@ -429,13 +459,24 @@ abstract interface class DefaultApi {
   @GET('/api/v2/users/live_locations')
   Future<Result<SharedLocationsResponse>> getUserLiveLocations();
 
+  @POST('/api/v2/blocklists/{id}/import')
+  Future<Result<ImportBlockListResponse>> importBlockList({
+    @Path('id') required String id,
+    @Body() required ImportBlockListRequest importBlockListRequest,
+  });
+
   @GET('/api/v2/blocklists')
   Future<Result<ListBlockListResponse>> listBlockLists({
     @Query('team') String? team,
+    @Query('cursor') String? cursor,
+    @Query('limit') int? limit,
   });
 
   @GET('/api/v2/devices')
   Future<Result<ListDevicesResponse>> listDevices();
+
+  @GET('/api/v2/moderation/queues')
+  Future<Result<ListQueuesResponse>> listQueues();
 
   @GET('/api/v2/usergroups')
   Future<Result<ListUserGroupsResponse>> listUserGroups({
@@ -477,6 +518,8 @@ abstract interface class DefaultApi {
 
   @POST('/api/v2/feeds/activities/query')
   Future<Result<QueryActivitiesResponse>> queryActivities({
+    @Query('language') String? language,
+    @Query('translate_text') bool? translateText,
     @Body() QueryActivitiesRequest? queryActivitiesRequest,
   });
 
@@ -484,6 +527,14 @@ abstract interface class DefaultApi {
   Future<Result<QueryActivityReactionsResponse>> queryActivityReactions({
     @Path('activity_id') required String activityId,
     @Body() QueryActivityReactionsRequest? queryActivityReactionsRequest,
+  });
+
+  @GET('/api/v2/feeds/activities/{activity_id}/shares')
+  Future<Result<QueryActivitySharesResponse>> queryActivityShares({
+    @Path('activity_id') required String activityId,
+    @Query('limit') int? limit,
+    @Query('prev') String? prev,
+    @Query('next') String? next,
   });
 
   @POST('/api/v2/moderation/appeals')
@@ -498,6 +549,8 @@ abstract interface class DefaultApi {
 
   @POST('/api/v2/feeds/bookmarks/query')
   Future<Result<QueryBookmarksResponse>> queryBookmarks({
+    @Query('language') String? language,
+    @Query('translate_text') bool? translateText,
     @Body() QueryBookmarksRequest? queryBookmarksRequest,
   });
 
@@ -514,6 +567,8 @@ abstract interface class DefaultApi {
 
   @POST('/api/v2/feeds/comments/query')
   Future<Result<QueryCommentsResponse>> queryComments({
+    @Query('language') String? language,
+    @Query('translate_text') bool? translateText,
     @Body() required QueryCommentsRequest queryCommentsRequest,
   });
 
@@ -543,19 +598,19 @@ abstract interface class DefaultApi {
   Future<Result<QueryPinnedActivitiesResponse>> queryPinnedActivities({
     @Path('feed_group_id') required String feedGroupId,
     @Path('feed_id') required String feedId,
+    @Query('language') String? language,
+    @Query('translate_text') bool? translateText,
     @Body() QueryPinnedActivitiesRequest? queryPinnedActivitiesRequest,
   });
 
   @POST('/api/v2/polls/{poll_id}/votes')
   Future<Result<PollVotesResponse>> queryPollVotes({
     @Path('poll_id') required String pollId,
-    @Query('user_id') String? userId,
     @Body() QueryPollVotesRequest? queryPollVotesRequest,
   });
 
   @POST('/api/v2/polls/query')
   Future<Result<QueryPollsResponse>> queryPolls({
-    @Query('user_id') String? userId,
     @Body() QueryPollsRequest? queryPollsRequest,
   });
 
@@ -636,6 +691,18 @@ abstract interface class DefaultApi {
     @Body() required TrackActivityMetricsRequest trackActivityMetricsRequest,
   });
 
+  @POST('/api/v2/feeds/activities/{id}/translate')
+  Future<Result<TranslateActivityResponse>> translateActivity({
+    @Path('id') required String id,
+    @Body() required TranslateActivityRequest translateActivityRequest,
+  });
+
+  @POST('/api/v2/feeds/comments/{id}/translate')
+  Future<Result<TranslateCommentResponse>> translateComment({
+    @Path('id') required String id,
+    @Body() required TranslateCommentRequest translateCommentRequest,
+  });
+
   @POST('/api/v2/users/unblock')
   Future<Result<UnblockUsersResponse>> unblockUsers({
     @Body() required UnblockUsersRequest unblockUsersRequest,
@@ -648,6 +715,11 @@ abstract interface class DefaultApi {
     @Query('delete_notification_activity') bool? deleteNotificationActivity,
     @Query('keep_history') bool? keepHistory,
     @Query('enrich_own_fields') bool? enrichOwnFields,
+  });
+
+  @POST('/api/v2/moderation/unmute')
+  Future<Result<UnmuteResponse>> unmute({
+    @Body() required UnmuteRequest unmuteRequest,
   });
 
   @DELETE('/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/activities/{activity_id}/pin')
@@ -755,6 +827,12 @@ abstract interface class DefaultApi {
   @POST('/api/v2/push_preferences')
   Future<Result<UpsertPushPreferencesResponse>> updatePushNotificationPreferences({
     @Body() required UpsertPushPreferencesRequest upsertPushPreferencesRequest,
+  });
+
+  @PATCH('/api/v2/moderation/queues/{id}')
+  Future<Result<QueueResponse>> updateQueue({
+    @Path('id') required String id,
+    @Body() UpdateQueueRequest? updateQueueRequest,
   });
 
   @PUT('/api/v2/usergroups/{id}')

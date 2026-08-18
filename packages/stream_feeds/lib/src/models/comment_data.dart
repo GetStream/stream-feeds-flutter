@@ -343,7 +343,7 @@ extension CommentResponseMapper on CommentResponse {
       replies: null, // Comments don't have replies loaded by default
       replyCount: replyCount,
       score: score,
-      status: status.toModel(),
+      status: status,
       text: text,
       updatedAt: updatedAt,
       upvoteCount: upvoteCount,
@@ -384,41 +384,11 @@ extension ThreadedCommentResponseMapper on ThreadedCommentResponse {
       replies: replies?.map((e) => e.toModel()).toList(),
       replyCount: replyCount,
       score: score,
-      status: status.toModel(),
+      status: status,
       text: text,
       updatedAt: updatedAt,
       upvoteCount: upvoteCount,
       user: user.toModel(),
     );
-  }
-}
-
-/// Extension to convert [CommentResponseStatus] to its wire-value string.
-extension CommentResponseStatusMapper on CommentResponseStatus {
-  /// Returns the API wire value string for this status.
-  String toModel() {
-    return switch (this) {
-      CommentResponseStatus.active => 'active',
-      CommentResponseStatus.deleted => 'deleted',
-      CommentResponseStatus.hidden => 'hidden',
-      CommentResponseStatus.removed => 'removed',
-      CommentResponseStatus.shadowBlocked => 'shadow_blocked',
-      CommentResponseStatus.unknown => 'unknown',
-    };
-  }
-}
-
-/// Extension to convert [ThreadedCommentResponseStatus] to its wire-value string.
-extension ThreadedCommentResponseStatusMapper on ThreadedCommentResponseStatus {
-  /// Returns the API wire value string for this status.
-  String toModel() {
-    return switch (this) {
-      ThreadedCommentResponseStatus.active => 'active',
-      ThreadedCommentResponseStatus.deleted => 'deleted',
-      ThreadedCommentResponseStatus.hidden => 'hidden',
-      ThreadedCommentResponseStatus.removed => 'removed',
-      ThreadedCommentResponseStatus.shadowBlocked => 'shadow_blocked',
-      ThreadedCommentResponseStatus.unknown => 'unknown',
-    };
   }
 }

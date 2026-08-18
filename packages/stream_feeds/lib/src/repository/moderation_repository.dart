@@ -48,8 +48,8 @@ class ModerationRepository {
   ///
   /// Prohibits the user specified in [banRequest] from accessing platform features.
   ///
-  /// Returns a [Result] containing a [api.BanResponse] or an error.
-  Future<Result<api.BanResponse>> ban(api.BanRequest banRequest) async {
+  /// Returns a [Result] containing a [api.ModerationBanResponse] or an error.
+  Future<Result<api.ModerationBanResponse>> ban(api.BanRequest banRequest) async {
     final result = await _api.ban(banRequest: banRequest);
 
     return result;
@@ -111,8 +111,8 @@ class ModerationRepository {
   ///
   /// Reports inappropriate content specified in [flagRequest] for review.
   ///
-  /// Returns a [Result] containing a [api.FlagResponse] or an error.
-  Future<Result<api.FlagResponse>> flag(api.FlagRequest flagRequest) async {
+  /// Returns a [Result] containing a [api.FlagItemResponse] or an error.
+  Future<Result<api.FlagItemResponse>> flag(api.FlagRequest flagRequest) async {
     final result = await _api.flag(flagRequest: flagRequest);
 
     return result;

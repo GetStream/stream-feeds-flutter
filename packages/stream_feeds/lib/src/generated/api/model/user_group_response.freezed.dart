@@ -17,6 +17,7 @@ mixin _$UserGroupResponse {
   String? get createdBy;
   String? get description;
   String get id;
+  List<UserGroupMember>? get members;
   String get name;
   String? get teamId;
   DateTime get updatedAt;
@@ -39,6 +40,7 @@ mixin _$UserGroupResponse {
             (identical(other.createdBy, createdBy) || other.createdBy == createdBy) &&
             (identical(other.description, description) || other.description == description) &&
             (identical(other.id, id) || other.id == id) &&
+            const DeepCollectionEquality().equals(other.members, members) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.teamId, teamId) || other.teamId == teamId) &&
             (identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
@@ -51,6 +53,7 @@ mixin _$UserGroupResponse {
     createdBy,
     description,
     id,
+    const DeepCollectionEquality().hash(members),
     name,
     teamId,
     updatedAt,
@@ -58,7 +61,7 @@ mixin _$UserGroupResponse {
 
   @override
   String toString() {
-    return 'UserGroupResponse(createdAt: $createdAt, createdBy: $createdBy, description: $description, id: $id, name: $name, teamId: $teamId, updatedAt: $updatedAt)';
+    return 'UserGroupResponse(createdAt: $createdAt, createdBy: $createdBy, description: $description, id: $id, members: $members, name: $name, teamId: $teamId, updatedAt: $updatedAt)';
   }
 }
 
@@ -74,6 +77,7 @@ abstract mixin class $UserGroupResponseCopyWith<$Res> {
     String? createdBy,
     String? description,
     String id,
+    List<UserGroupMember>? members,
     String name,
     String? teamId,
     DateTime updatedAt,
@@ -96,6 +100,7 @@ class _$UserGroupResponseCopyWithImpl<$Res> implements $UserGroupResponseCopyWit
     Object? createdBy = freezed,
     Object? description = freezed,
     Object? id = null,
+    Object? members = freezed,
     Object? name = null,
     Object? teamId = freezed,
     Object? updatedAt = null,
@@ -118,6 +123,10 @@ class _$UserGroupResponseCopyWithImpl<$Res> implements $UserGroupResponseCopyWit
             ? _self.id
             : id // ignore: cast_nullable_to_non_nullable
                   as String,
+        members: freezed == members
+            ? _self.members
+            : members // ignore: cast_nullable_to_non_nullable
+                  as List<UserGroupMember>?,
         name: null == name
             ? _self.name
             : name // ignore: cast_nullable_to_non_nullable

@@ -141,7 +141,7 @@ extension FollowResponseMapper on FollowResponse {
     return FollowData(
       createdAt: createdAt,
       followerRole: followerRole,
-      pushPreference: pushPreference.name,
+      pushPreference: pushPreference,
       requestAcceptedAt: requestAcceptedAt,
       requestRejectedAt: requestRejectedAt,
       sourceFeed: sourceFeed.toModel(),
@@ -157,13 +157,7 @@ extension FollowResponseMapper on FollowResponse {
 extension FollowResponseStatusMapper on FollowResponseStatus {
   /// Converts this API follow status to a domain [FollowStatus] extension type.
   ///
-  /// Uses explicit mapping for type safety and proper handling of unknown values.
-  FollowStatus toModel() {
-    return switch (this) {
-      FollowResponseStatus.accepted => FollowStatus.accepted,
-      FollowResponseStatus.pending => FollowStatus.pending,
-      FollowResponseStatus.rejected => FollowStatus.rejected,
-      FollowResponseStatus.unknown => FollowStatus.unknown,
-    };
-  }
+  /// Both sides are `String`-backed, so any value the API sends is carried over
+  /// verbatim — including ones this client version doesn't know about yet.
+  FollowStatus toModel() => FollowStatus(this);
 }

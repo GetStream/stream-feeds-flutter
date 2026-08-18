@@ -15,12 +15,14 @@ T _$identity<T>(T value) => value;
 mixin _$ChannelMemberResponse {
   DateTime? get archivedAt;
   DateTime? get banExpires;
+  bool? get banFromFutureChannels;
   bool get banned;
   String get channelRole;
   DateTime get createdAt;
   Map<String, Object?> get custom;
   DateTime? get deletedAt;
   List<String>? get deletedMessages;
+  DateTime? get futureChannelBanExpires;
   DateTime? get inviteAcceptedAt;
   DateTime? get inviteRejectedAt;
   bool? get invited;
@@ -51,6 +53,8 @@ mixin _$ChannelMemberResponse {
             other is ChannelMemberResponse &&
             (identical(other.archivedAt, archivedAt) || other.archivedAt == archivedAt) &&
             (identical(other.banExpires, banExpires) || other.banExpires == banExpires) &&
+            (identical(other.banFromFutureChannels, banFromFutureChannels) ||
+                other.banFromFutureChannels == banFromFutureChannels) &&
             (identical(other.banned, banned) || other.banned == banned) &&
             (identical(other.channelRole, channelRole) || other.channelRole == channelRole) &&
             (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
@@ -60,6 +64,11 @@ mixin _$ChannelMemberResponse {
               other.deletedMessages,
               deletedMessages,
             ) &&
+            (identical(
+                  other.futureChannelBanExpires,
+                  futureChannelBanExpires,
+                ) ||
+                other.futureChannelBanExpires == futureChannelBanExpires) &&
             (identical(other.inviteAcceptedAt, inviteAcceptedAt) || other.inviteAcceptedAt == inviteAcceptedAt) &&
             (identical(other.inviteRejectedAt, inviteRejectedAt) || other.inviteRejectedAt == inviteRejectedAt) &&
             (identical(other.invited, invited) || other.invited == invited) &&
@@ -80,12 +89,14 @@ mixin _$ChannelMemberResponse {
     runtimeType,
     archivedAt,
     banExpires,
+    banFromFutureChannels,
     banned,
     channelRole,
     createdAt,
     const DeepCollectionEquality().hash(custom),
     deletedAt,
     const DeepCollectionEquality().hash(deletedMessages),
+    futureChannelBanExpires,
     inviteAcceptedAt,
     inviteRejectedAt,
     invited,
@@ -102,7 +113,7 @@ mixin _$ChannelMemberResponse {
 
   @override
   String toString() {
-    return 'ChannelMemberResponse(archivedAt: $archivedAt, banExpires: $banExpires, banned: $banned, channelRole: $channelRole, createdAt: $createdAt, custom: $custom, deletedAt: $deletedAt, deletedMessages: $deletedMessages, inviteAcceptedAt: $inviteAcceptedAt, inviteRejectedAt: $inviteRejectedAt, invited: $invited, isModerator: $isModerator, notificationsMuted: $notificationsMuted, pinnedAt: $pinnedAt, role: $role, shadowBanned: $shadowBanned, status: $status, updatedAt: $updatedAt, user: $user, userId: $userId)';
+    return 'ChannelMemberResponse(archivedAt: $archivedAt, banExpires: $banExpires, banFromFutureChannels: $banFromFutureChannels, banned: $banned, channelRole: $channelRole, createdAt: $createdAt, custom: $custom, deletedAt: $deletedAt, deletedMessages: $deletedMessages, futureChannelBanExpires: $futureChannelBanExpires, inviteAcceptedAt: $inviteAcceptedAt, inviteRejectedAt: $inviteRejectedAt, invited: $invited, isModerator: $isModerator, notificationsMuted: $notificationsMuted, pinnedAt: $pinnedAt, role: $role, shadowBanned: $shadowBanned, status: $status, updatedAt: $updatedAt, user: $user, userId: $userId)';
   }
 }
 
@@ -116,12 +127,14 @@ abstract mixin class $ChannelMemberResponseCopyWith<$Res> {
   $Res call({
     DateTime? archivedAt,
     DateTime? banExpires,
+    bool? banFromFutureChannels,
     bool banned,
     String channelRole,
     DateTime createdAt,
     Map<String, Object?> custom,
     DateTime? deletedAt,
     List<String>? deletedMessages,
+    DateTime? futureChannelBanExpires,
     DateTime? inviteAcceptedAt,
     DateTime? inviteRejectedAt,
     bool? invited,
@@ -151,12 +164,14 @@ class _$ChannelMemberResponseCopyWithImpl<$Res> implements $ChannelMemberRespons
   $Res call({
     Object? archivedAt = freezed,
     Object? banExpires = freezed,
+    Object? banFromFutureChannels = freezed,
     Object? banned = null,
     Object? channelRole = null,
     Object? createdAt = null,
     Object? custom = null,
     Object? deletedAt = freezed,
     Object? deletedMessages = freezed,
+    Object? futureChannelBanExpires = freezed,
     Object? inviteAcceptedAt = freezed,
     Object? inviteRejectedAt = freezed,
     Object? invited = freezed,
@@ -180,6 +195,10 @@ class _$ChannelMemberResponseCopyWithImpl<$Res> implements $ChannelMemberRespons
             ? _self.banExpires
             : banExpires // ignore: cast_nullable_to_non_nullable
                   as DateTime?,
+        banFromFutureChannels: freezed == banFromFutureChannels
+            ? _self.banFromFutureChannels
+            : banFromFutureChannels // ignore: cast_nullable_to_non_nullable
+                  as bool?,
         banned: null == banned
             ? _self.banned
             : banned // ignore: cast_nullable_to_non_nullable
@@ -204,6 +223,10 @@ class _$ChannelMemberResponseCopyWithImpl<$Res> implements $ChannelMemberRespons
             ? _self.deletedMessages
             : deletedMessages // ignore: cast_nullable_to_non_nullable
                   as List<String>?,
+        futureChannelBanExpires: freezed == futureChannelBanExpires
+            ? _self.futureChannelBanExpires
+            : futureChannelBanExpires // ignore: cast_nullable_to_non_nullable
+                  as DateTime?,
         inviteAcceptedAt: freezed == inviteAcceptedAt
             ? _self.inviteAcceptedAt
             : inviteAcceptedAt // ignore: cast_nullable_to_non_nullable

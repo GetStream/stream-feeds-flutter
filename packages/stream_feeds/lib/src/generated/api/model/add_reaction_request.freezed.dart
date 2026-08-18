@@ -18,6 +18,7 @@ mixin _$AddReactionRequest {
   Map<String, Object?>? get custom;
   bool? get enforceUnique;
   bool? get skipPush;
+  List<String>? get targetFeeds;
   String get type;
 
   /// Create a copy of AddReactionRequest
@@ -47,6 +48,10 @@ mixin _$AddReactionRequest {
             const DeepCollectionEquality().equals(other.custom, custom) &&
             (identical(other.enforceUnique, enforceUnique) || other.enforceUnique == enforceUnique) &&
             (identical(other.skipPush, skipPush) || other.skipPush == skipPush) &&
+            const DeepCollectionEquality().equals(
+              other.targetFeeds,
+              targetFeeds,
+            ) &&
             (identical(other.type, type) || other.type == type));
   }
 
@@ -58,12 +63,13 @@ mixin _$AddReactionRequest {
     const DeepCollectionEquality().hash(custom),
     enforceUnique,
     skipPush,
+    const DeepCollectionEquality().hash(targetFeeds),
     type,
   );
 
   @override
   String toString() {
-    return 'AddReactionRequest(copyCustomToNotification: $copyCustomToNotification, createNotificationActivity: $createNotificationActivity, custom: $custom, enforceUnique: $enforceUnique, skipPush: $skipPush, type: $type)';
+    return 'AddReactionRequest(copyCustomToNotification: $copyCustomToNotification, createNotificationActivity: $createNotificationActivity, custom: $custom, enforceUnique: $enforceUnique, skipPush: $skipPush, targetFeeds: $targetFeeds, type: $type)';
   }
 }
 
@@ -80,6 +86,7 @@ abstract mixin class $AddReactionRequestCopyWith<$Res> {
     Map<String, Object?>? custom,
     bool? enforceUnique,
     bool? skipPush,
+    List<String>? targetFeeds,
     String type,
   });
 }
@@ -101,6 +108,7 @@ class _$AddReactionRequestCopyWithImpl<$Res> implements $AddReactionRequestCopyW
     Object? custom = freezed,
     Object? enforceUnique = freezed,
     Object? skipPush = freezed,
+    Object? targetFeeds = freezed,
     Object? type = null,
   }) {
     return _then(
@@ -125,6 +133,10 @@ class _$AddReactionRequestCopyWithImpl<$Res> implements $AddReactionRequestCopyW
             ? _self.skipPush
             : skipPush // ignore: cast_nullable_to_non_nullable
                   as bool?,
+        targetFeeds: freezed == targetFeeds
+            ? _self.targetFeeds
+            : targetFeeds // ignore: cast_nullable_to_non_nullable
+                  as List<String>?,
         type: null == type
             ? _self.type
             : type // ignore: cast_nullable_to_non_nullable

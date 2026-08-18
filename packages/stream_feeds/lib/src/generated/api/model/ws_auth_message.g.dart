@@ -7,26 +7,13 @@ part of 'ws_auth_message.dart';
 // **************************************************************************
 
 WSAuthMessage _$WSAuthMessageFromJson(Map<String, dynamic> json) => WSAuthMessage(
-  products: (json['products'] as List<dynamic>?)
-      ?.map(
-        (e) => $enumDecode(
-          _$WSAuthMessageProductsEnumMap,
-          e,
-          unknownValue: WSAuthMessageProducts.unknown,
-        ),
-      )
-      .toList(),
+  memberCustomInclude: (json['member_custom_include'] as List<dynamic>?)?.map((e) => e as String).toList(),
+  products: (json['products'] as List<dynamic>?)?.map((e) => WSAuthMessageProducts.fromJson(e as String)).toList(),
   token: json['token'] as String,
 );
 
 Map<String, dynamic> _$WSAuthMessageToJson(WSAuthMessage instance) => <String, dynamic>{
-  'products': instance.products?.map((e) => _$WSAuthMessageProductsEnumMap[e]!).toList(),
+  'member_custom_include': instance.memberCustomInclude,
+  'products': instance.products?.map((e) => e.toJson()).toList(),
   'token': instance.token,
-};
-
-const _$WSAuthMessageProductsEnumMap = {
-  WSAuthMessageProducts.chat: 'chat',
-  WSAuthMessageProducts.feeds: 'feeds',
-  WSAuthMessageProducts.video: 'video',
-  WSAuthMessageProducts.unknown: '_unknown',
 };

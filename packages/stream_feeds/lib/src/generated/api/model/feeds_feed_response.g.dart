@@ -8,16 +8,16 @@ part of 'feeds_feed_response.dart';
 
 FeedsFeedResponse _$FeedsFeedResponseFromJson(Map<String, dynamic> json) => FeedsFeedResponse(
   activityCount: (json['activity_count'] as num).toInt(),
-  createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+  createdAt: const StreamDateTimeConverter().fromJson(
+    json['created_at'] as Object,
   ),
   createdBy: UserResponse.fromJson(
     json['created_by'] as Map<String, dynamic>,
   ),
   custom: json['custom'] as Map<String, dynamic>?,
-  deletedAt: _$JsonConverterFromJson<int, DateTime>(
+  deletedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['deleted_at'],
-    const EpochDateTimeConverter().fromJson,
+    const StreamDateTimeConverter().fromJson,
   ),
   description: json['description'] as String,
   feed: json['feed'] as String,
@@ -34,20 +34,20 @@ FeedsFeedResponse _$FeedsFeedResponseFromJson(Map<String, dynamic> json) => Feed
   memberCount: (json['member_count'] as num).toInt(),
   name: json['name'] as String,
   pinCount: (json['pin_count'] as num).toInt(),
-  updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+  updatedAt: const StreamDateTimeConverter().fromJson(
+    json['updated_at'] as Object,
   ),
   visibility: json['visibility'] as String?,
 );
 
 Map<String, dynamic> _$FeedsFeedResponseToJson(FeedsFeedResponse instance) => <String, dynamic>{
   'activity_count': instance.activityCount,
-  'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
+  'created_at': const StreamDateTimeConverter().toJson(instance.createdAt),
   'created_by': instance.createdBy.toJson(),
   'custom': instance.custom,
-  'deleted_at': _$JsonConverterToJson<int, DateTime>(
+  'deleted_at': _$JsonConverterToJson<Object, DateTime>(
     instance.deletedAt,
-    const EpochDateTimeConverter().toJson,
+    const StreamDateTimeConverter().toJson,
   ),
   'description': instance.description,
   'feed': instance.feed,
@@ -60,7 +60,7 @@ Map<String, dynamic> _$FeedsFeedResponseToJson(FeedsFeedResponse instance) => <S
   'member_count': instance.memberCount,
   'name': instance.name,
   'pin_count': instance.pinCount,
-  'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
+  'updated_at': const StreamDateTimeConverter().toJson(instance.updatedAt),
   'visibility': instance.visibility,
 };
 

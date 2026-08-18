@@ -62,8 +62,9 @@ The project uses extensive code generation:
 
 ### Generated Code
 
-1. **OpenAPI Client** (`src/generated/api/`): Auto-generated from OpenAPI spec
+1. **OpenAPI Client** (`src/generated/api/`): Auto-generated from the OpenAPI spec
    - Generated via `scripts/generate.sh`
+   - The spec is fetched from [GetStream/protocol](https://github.com/GetStream/protocol) at its latest `openapi-v*` tag; `api.dart` records which tag the checked-in client came from
    - Includes API models, endpoints, and serialization
 
 2. **Freezed Models** (`*.freezed.dart`): Immutable data classes
@@ -85,8 +86,8 @@ melos run generate:dart
 # Generate only Flutter packages
 melos run generate:flutter
 
-# Generate OpenAPI client (requires OpenAPI spec)
-melos run gen:feeds
+# Generate OpenAPI client (requires CHAT_DIR to point at a chat checkout)
+CHAT_DIR=/path/to/chat melos run gen:feeds
 ```
 
 **Important**: Never manually edit generated files. All changes must be made in source files or OpenAPI specs.
@@ -381,8 +382,7 @@ melos run lint:all
    - Commit both source and generated files
 
 2. **Updating OpenAPI Client**:
-   - Update OpenAPI spec (if you have access)
-   - Run `melos run gen:feeds`
+   - Run `CHAT_DIR=/path/to/chat melos run gen:feeds` (pulls the latest tagged spec from GetStream/protocol)
    - Review generated changes in `src/generated/`
 
 3. **Adding New Features**:

@@ -9,13 +9,13 @@ part of 'notification_status_response.dart';
 NotificationStatusResponse _$NotificationStatusResponseFromJson(
   Map<String, dynamic> json,
 ) => NotificationStatusResponse(
-  lastReadAt: _$JsonConverterFromJson<int, DateTime>(
+  lastReadAt: _$JsonConverterFromJson<Object, DateTime>(
     json['last_read_at'],
-    const EpochDateTimeConverter().fromJson,
+    const StreamDateTimeConverter().fromJson,
   ),
-  lastSeenAt: _$JsonConverterFromJson<int, DateTime>(
+  lastSeenAt: _$JsonConverterFromJson<Object, DateTime>(
     json['last_seen_at'],
-    const EpochDateTimeConverter().fromJson,
+    const StreamDateTimeConverter().fromJson,
   ),
   readActivities: (json['read_activities'] as List<dynamic>?)?.map((e) => e as String).toList(),
   seenActivities: (json['seen_activities'] as List<dynamic>?)?.map((e) => e as String).toList(),
@@ -26,13 +26,13 @@ NotificationStatusResponse _$NotificationStatusResponseFromJson(
 Map<String, dynamic> _$NotificationStatusResponseToJson(
   NotificationStatusResponse instance,
 ) => <String, dynamic>{
-  'last_read_at': _$JsonConverterToJson<int, DateTime>(
+  'last_read_at': _$JsonConverterToJson<Object, DateTime>(
     instance.lastReadAt,
-    const EpochDateTimeConverter().toJson,
+    const StreamDateTimeConverter().toJson,
   ),
-  'last_seen_at': _$JsonConverterToJson<int, DateTime>(
+  'last_seen_at': _$JsonConverterToJson<Object, DateTime>(
     instance.lastSeenAt,
-    const EpochDateTimeConverter().toJson,
+    const StreamDateTimeConverter().toJson,
   ),
   'read_activities': instance.readActivities,
   'seen_activities': instance.seenActivities,
