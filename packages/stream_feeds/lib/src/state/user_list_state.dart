@@ -24,13 +24,15 @@ class UserListStateNotifier extends StateNotifier<UserListState> {
 
   /// Handles the result of a query for more users.
   ///
-  /// [offset] is the offset that was sent with the request which produced
-  /// [users]. The users endpoint returns no page cursors, so the offset of the
-  /// next page is derived from the number of users the server returned.
+  /// [offset] and [limit] are the pagination parameters that were sent with the
+  /// request which produced [users]. The users endpoint returns no page
+  /// cursors, so the offset of the next page is derived from the number of
+  /// users the server returned.
   void onQueryMoreUsers(
     List<UserData> users,
     QueryConfiguration<UserData> queryConfig, {
     required int offset,
+    int? limit,
   }) {
     _queryConfig = queryConfig;
 
@@ -43,7 +45,11 @@ class UserListStateNotifier extends StateNotifier<UserListState> {
 
     state = state.copyWith(
       users: updatedUsers,
-      nextOffset: _nextOffset(offset: offset, pageSize: users.length),
+      nextOffset: _nextOffset(
+        offset: offset,
+        pageSize: users.length,
+        limit: limit,
+      ),
     );
   }
 
@@ -53,9 +59,18 @@ class UserListStateNotifier extends StateNotifier<UserListState> {
   // The offset advances by the number of users the server returned rather than
   // by the length of the merged list, so that pages overlapping on a user id do
   // not shift the position in the result set.
-  static int? _nextOffset({required int offset, required int pageSize}) {
-    // An empty page is the only signal that the end was reached.
+  static int? _nextOffset({
+    required int offset,
+    required int pageSize,
+    int? limit,
+  }) {
+    // An empty page always means the end was reached.
     if (pageSize == 0) return null;
+
+    // So does a page shorter than the one that was requested, but only when the
+    // query specified a limit. Without one the server applies its own default,
+    // which the SDK does not know.
+    if (limit != null && pageSize < limit) return null;
 
     final nextOffset = offset + pageSize;
 
@@ -94,15 +109,16 @@ class UserListState with _$UserListState {
   /// `limit`/`offset` instead of cursors, because the users endpoint does not
   /// return page cursors.
   ///
-  /// This is `null` before the first query, once a page comes back empty, and
-  /// once the next page would exceed [UsersQuery.maxOffset].
+  /// This is `null` before the first query, once the last page has been
+  /// reached, and once the next page would exceed [UsersQuery.maxOffset].
   @override
   final int? nextOffset;
 
   /// Whether there are more users available to load.
   ///
-  /// Because the endpoint reports no total count, a full last page still counts
-  /// as loadable: the end is only known once a page comes back empty. Expect a
-  /// final request that returns no users.
+  /// Because the endpoint reports no total count, the end is only known once a
+  /// page comes back shorter than the requested [UsersQuery.limit], or empty
+  /// when the query specified no limit. A query without a limit therefore ends
+  /// with a final request that returns no users.
   bool get canLoadMore => nextOffset != null;
 }

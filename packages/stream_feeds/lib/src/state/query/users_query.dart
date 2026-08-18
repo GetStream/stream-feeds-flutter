@@ -33,7 +33,14 @@ class UsersQuery with _$UsersQuery {
     this.limit,
     this.offset,
     this.includeDeactivatedUsers,
-  });
+  }) : assert(
+         limit == null || (limit > 0 && limit <= maxLimit),
+         'limit must be between 1 and $maxLimit',
+       ),
+       assert(
+         offset == null || (offset >= 0 && offset <= maxOffset),
+         'offset must be between 0 and $maxOffset',
+       );
 
   /// The maximum number of users the API returns in a single page.
   ///
@@ -66,7 +73,8 @@ class UsersQuery with _$UsersQuery {
 
   /// The maximum number of users to return.
   ///
-  /// Defaults to 30 when not specified. Values above [maxLimit] are rejected.
+  /// Defaults to 30 when not specified. Values above [maxLimit] are rejected by
+  /// the API and trip an assertion in debug builds.
   @override
   final int? limit;
 
@@ -74,7 +82,7 @@ class UsersQuery with _$UsersQuery {
   ///
   /// Combine with [limit] to page through results, for example an [offset] of
   /// 25 with a [limit] of 25 returns the second page. Values above [maxOffset]
-  /// are rejected.
+  /// are rejected by the API and trip an assertion in debug builds.
   @override
   final int? offset;
 

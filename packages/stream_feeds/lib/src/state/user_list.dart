@@ -80,6 +80,7 @@ class UserList extends Disposable {
             sort: query.sort ?? UsersSort.defaultSort,
           ),
           offset: query.offset ?? 0,
+          limit: query.limit,
         );
       },
     );

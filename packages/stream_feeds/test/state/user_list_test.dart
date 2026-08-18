@@ -199,19 +199,25 @@ void main() {
       build: (client) => client.userList(const UsersQuery(limit: 2)),
       setUp: (tester) => tester.get(
         modifyResponse: (response) => response.copyWith(
-          users: [createDefaultFullUserResponse()],
+          users: [
+            createDefaultFullUserResponse(),
+            createDefaultFullUserResponse(id: 'user-2'),
+          ],
         ),
       ),
       body: (tester) async {
         final nextPageQuery = tester.userList.query.copyWith(
-          offset: 1,
+          offset: 2,
           limit: 5,
         );
 
         tester.mockApi(
           (api) => api.queryUsers(payload: nextPageQuery.toRequest()),
           result: createDefaultQueryUsersResponse(
-            users: [createDefaultFullUserResponse(id: 'user-2')],
+            users: List.generate(
+              5,
+              (index) => createDefaultFullUserResponse(id: 'user-$index'),
+            ),
           ),
         );
 
@@ -220,6 +226,30 @@ void main() {
         tester.verifyApi(
           (api) => api.queryUsers(payload: nextPageQuery.toRequest()),
         );
+
+        // The override is also what decides whether the page was the last one
+        expect(tester.userListState.nextOffset, 7);
+      },
+    );
+
+    userListTest(
+      'queryMoreUsers - should stop when a page is shorter than the limit',
+      build: (client) => client.userList(const UsersQuery(limit: 2)),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(
+          users: [createDefaultFullUserResponse()],
+        ),
+      ),
+      body: (tester) async {
+        // A single user for a limit of two means there is no next page, so no
+        // extra request is needed to discover the end.
+        expect(tester.userListState.users, hasLength(1));
+        expect(tester.userListState.nextOffset, isNull);
+        expect(tester.userListState.canLoadMore, isFalse);
+
+        final result = await tester.userList.queryMoreUsers();
+
+        expect(result.getOrThrow(), isEmpty);
       },
     );
 

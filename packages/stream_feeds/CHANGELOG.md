@@ -1,7 +1,7 @@
 ## Upcoming
 
 ### New methods
-- Added `userList` to `StreamFeedsClient`, returning a `UserList` state object for querying users. Takes a `UsersQuery` with type-safe `UsersFilterField`/`UsersSortField` filtering and sorting, plus an `includeDeactivatedUsers` option. Users are paginated with `limit`/`offset` (`UserListState.nextOffset` / `canLoadMore`) because the users endpoint returns no page cursors.
+- Added `userList` to `StreamFeedsClient` for querying users.
 
 ### New fields
 - Added `isRead` and `isSeen` fields to `ActivityData` and `AggregatedActivityData` for notification-feed read/seen state.
