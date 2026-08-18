@@ -373,6 +373,45 @@ void main() {
     );
 
     feedTest(
+      'deleteActivity() - should pass deleteNotificationActivity to API',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: [
+            createDefaultActivityResponse(
+              id: 'activity-1',
+              feeds: [feedId.rawValue],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        tester.mockApi(
+          (api) => api.deleteActivity(
+            id: 'activity-1',
+            hardDelete: false,
+            deleteNotificationActivity: true,
+          ),
+          result: const DeleteActivityResponse(duration: '0ms'),
+        );
+
+        final result = await tester.feed.deleteActivity(
+          id: 'activity-1',
+          deleteNotificationActivity: true,
+        );
+
+        expect(result.isSuccess, isTrue);
+      },
+      verify: (tester) => tester.verifyApi(
+        (api) => api.deleteActivity(
+          id: 'activity-1',
+          hardDelete: false,
+          deleteNotificationActivity: true,
+        ),
+      ),
+    );
+
+    feedTest(
       'activityFeedback() - should submit feedback via API',
       build: (client) => client.feedFromId(feedId),
       setUp: (tester) => tester.getOrCreate(),
@@ -1567,6 +1606,53 @@ void main() {
     );
 
     feedTest(
+      'deleteComment() - should pass deleteNotificationActivity to API',
+      user: currentUser,
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: [
+            createDefaultActivityResponse(
+              id: 'activity-1',
+              feeds: [feedId.rawValue],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        tester.mockApi(
+          (api) => api.deleteComment(
+            id: commentId,
+            hardDelete: null,
+            deleteNotificationActivity: true,
+          ),
+          result: DeleteCommentResponse(
+            activity: createDefaultActivityResponse(id: 'activity-1'),
+            comment: createDefaultCommentResponse(
+              id: commentId,
+              objectId: 'activity-1',
+            ),
+            duration: '0ms',
+          ),
+        );
+
+        final result = await tester.feed.deleteComment(
+          commentId: commentId,
+          deleteNotificationActivity: true,
+        );
+
+        expect(result.isSuccess, isTrue);
+      },
+      verify: (tester) => tester.verifyApi(
+        (api) => api.deleteComment(
+          id: commentId,
+          hardDelete: null,
+          deleteNotificationActivity: true,
+        ),
+      ),
+    );
+
+    feedTest(
       'addCommentReaction() - should add reaction to comment',
       user: currentUser,
       build: (client) => client.feedFromId(feedId),
@@ -1665,6 +1751,52 @@ void main() {
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.deleteCommentReaction(id: commentId, type: 'like'),
+      ),
+    );
+
+    feedTest(
+      'deleteCommentReaction() - should pass deleteNotificationActivity to API',
+      user: currentUser,
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: [
+            createDefaultActivityResponse(
+              id: 'activity-1',
+              feeds: [feedId.rawValue],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        tester.mockApi(
+          (api) => api.deleteCommentReaction(
+            id: commentId,
+            type: 'like',
+            deleteNotificationActivity: true,
+          ),
+          result: createDefaultDeleteCommentReactionResponse(
+            commentId: commentId,
+            objectId: 'activity-1',
+            userId: currentUser.id,
+            reactionType: 'like',
+          ),
+        );
+
+        final result = await tester.feed.deleteCommentReaction(
+          commentId: commentId,
+          type: 'like',
+          deleteNotificationActivity: true,
+        );
+
+        expect(result.isSuccess, isTrue);
+      },
+      verify: (tester) => tester.verifyApi(
+        (api) => api.deleteCommentReaction(
+          id: commentId,
+          type: 'like',
+          deleteNotificationActivity: true,
+        ),
       ),
     );
 
@@ -2998,6 +3130,57 @@ void main() {
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.deleteActivityReaction(activityId: 'activity-1', type: 'heart'),
+      ),
+    );
+
+    feedTest(
+      'deleteActivityReaction() - should pass deleteNotificationActivity to API',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: [
+            createDefaultActivityResponse(
+              id: 'activity-1',
+              feeds: [feedId.rawValue],
+              ownReactions: [
+                createDefaultReactionResponse(
+                  reactionType: 'heart',
+                  userId: userId,
+                  activityId: 'activity-1',
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        tester.mockApi(
+          (api) => api.deleteActivityReaction(
+            activityId: 'activity-1',
+            type: 'heart',
+            deleteNotificationActivity: true,
+          ),
+          result: createDefaultDeleteReactionResponse(
+            activityId: 'activity-1',
+            userId: userId,
+            reactionType: 'heart',
+          ),
+        );
+
+        final result = await tester.feed.deleteActivityReaction(
+          activityId: 'activity-1',
+          type: 'heart',
+          deleteNotificationActivity: true,
+        );
+
+        expect(result.isSuccess, isTrue);
+      },
+      verify: (tester) => tester.verifyApi(
+        (api) => api.deleteActivityReaction(
+          activityId: 'activity-1',
+          type: 'heart',
+          deleteNotificationActivity: true,
+        ),
       ),
     );
 
