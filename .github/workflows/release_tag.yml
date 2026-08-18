@@ -11,8 +11,7 @@ concurrency:
 jobs:
   release:
     # Only run this job for commits that indicate a release. Scope-agnostic:
-    # release commits here are `chore(llc): release vX.Y.Z` as often as
-    # `chore(repo): …`, and GH expressions have no regex.
+    # releases land as `chore(llc): release …` as often as `chore(repo): …`.
     if: "${{ startsWith(github.event.head_commit.message, 'chore(') && contains(github.event.head_commit.message, '): release') }}"
     runs-on: ubuntu-latest
     permissions:
@@ -20,7 +19,6 @@ jobs:
 
     steps:
       - name: 📚 Checkout branch
-        # Bot PAT: GITHUB_TOKEN tag pushes don't trigger the publish workflow.
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
@@ -29,8 +27,7 @@ jobs:
       - name: 🏷️ Extract Version Tag
         id: extract_tag
         shell: bash
-        # Via env, not inline `${{ }}`: a commit message is untrusted input and
-        # would otherwise be interpolated straight into the script.
+        # Via env, not inline `${{ }}` — a commit message is untrusted input.
         env:
           COMMIT_MSG: ${{ github.event.head_commit.message }}
         run: |

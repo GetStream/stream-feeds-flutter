@@ -59,9 +59,6 @@ jobs:
           echo "tag=$tag_name" >> "$GITHUB_OUTPUT"
           echo "prerelease=$is_prerelease" >> "$GITHUB_OUTPUT"
 
-      # `make_latest` is left at its default (true): the repo releases in
-      # lockstep behind a single version, so every release is the latest one.
-      # (Pre-releases are never marked latest by GitHub regardless.)
       - name: 🚀 Create GitHub Release
         uses: softprops/action-gh-release@v3
         with:

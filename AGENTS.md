@@ -425,7 +425,7 @@ melos run lint:all
 
 - SDK uses semantic versioning
 - Version managed in `packages/stream_feeds/pubspec.yaml`
-- Versioning mode: independent (per-package)
+- `stream_feeds` is the only published package; releases go out behind a single `vX.Y.Z` tag
 - Below `1.0.0` the Dart convention shifts every slot down one: a breaking release is a **minor** bump, a
   feature release is a **patch** bump, and a change with no public API impact is a build (`+1`) bump. See
   [Package versioning](https://dart.dev/tools/pub/versioning#semantic-versions).
