@@ -1,5 +1,8 @@
 ## Upcoming
 
+### Improvements
+- Guest users (`User.guest(id)`) now obtain a real JWT by calling `POST /api/v2/guest` during `connect()`, giving them a full authenticated session with WebSocket support. Previously guest users fell back to the anonymous token which prevented WS connectivity. If the backend assigns a different id to the guest user, `client.user` is updated to match it.
+
 ### New fields
 - Added `restrictReplies` (`ActivityRestrictReplies`) to `ActivityData` to expose the comment-reply restriction on an activity (everyone / nobody / people_i_follow).
 - Added `restrictReplies` (`AddActivityRequestRestrictReplies?`) to `FeedAddActivityRequest` so comment restrictions can be set when creating an activity.

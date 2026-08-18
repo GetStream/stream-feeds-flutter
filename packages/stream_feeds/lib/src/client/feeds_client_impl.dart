@@ -61,10 +61,17 @@ import '../state/query/polls_query.dart';
 import '../ws/feeds_ws_event.dart';
 import 'endpoint_config.dart';
 
+// Shared REST client options for both the main and guest-token HTTP clients.
+BaseOptions _restApiOptions(EndpointConfig endpointConfig) => BaseOptions(
+  baseUrl: endpointConfig.baseFeedsUrl,
+  connectTimeout: const Duration(seconds: 6),
+  receiveTimeout: const Duration(seconds: 6),
+);
+
 class StreamFeedsClientImpl implements StreamFeedsClient {
   StreamFeedsClientImpl({
     required this.apiKey,
-    required this.user,
+    required User user,
     this.config = const FeedsConfig(),
     TokenProvider? tokenProvider,
     RetryStrategy? retryStrategy,
@@ -73,7 +80,8 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
     List<AutomaticReconnectionPolicy>? reconnectionPolicies,
     WebSocketProvider? wsProvider,
     api.DefaultApi? feedsRestApi,
-  }) {
+    api.DefaultApi? guestRestApi,
+  }) : _user = user {
     // TODO: Make this configurable
     const endpointConfig = EndpointConfig.production;
 
@@ -84,11 +92,21 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
       (UserType.regular, null) => throw ArgumentError(
         'TokenProvider must be provided for regular users.',
       ),
-      (UserType.anonymous || UserType.guest, _) => TokenProvider.static(
+      (UserType.anonymous, _) => TokenProvider.static(
         UserToken.anonymous(userId: user.id),
+      ),
+      (UserType.guest, _) => _guestTokenProvider(
+        user: user,
+        apiKey: apiKey,
+        endpointConfig: endpointConfig,
+        guestRestApi: guestRestApi,
       ),
     };
 
+    // For guest users this starts with the originally-requested id and is
+    // swapped for a manager carrying the server-resolved id once the token
+    // exchange completes (see `_guestTokenProvider`). `AuthInterceptor` reads
+    // the manager through a getter, so it always sees the current instance.
     _tokenManager = TokenManager(
       userId: user.id,
       tokenProvider: userTokenProvider,
@@ -135,17 +153,16 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
 
     final httpClient =
         StreamCoreHttpClient(
-          options: BaseOptions(
-            baseUrl: endpointConfig.baseFeedsUrl,
-            connectTimeout: const Duration(seconds: 6),
-            receiveTimeout: const Duration(seconds: 6),
-          ),
+          options: _restApiOptions(endpointConfig),
         ).apply(
           (client) => client.interceptors.addAll([
             ApiKeyInterceptor(apiKey),
             HeadersInterceptor(_systemEnvironmentManager),
             if (user.type != UserType.anonymous) connectionIdInterceptor,
-            AuthInterceptor(client, _tokenManager),
+            AuthInterceptor.withProvider(
+              client,
+              tokenManagerProvider: () => _tokenManager,
+            ),
             const ApiErrorInterceptor(),
             LoggingInterceptor(requestHeader: true),
           ]),
@@ -184,12 +201,19 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
 
   final String apiKey;
 
+  // The current user identity. Mutable because a guest user's id/profile may
+  // be reassigned by the server once the guest token exchange completes; see
+  // [_guestTokenProvider].
   @override
-  final User user;
+  User get user => _user;
+  User _user;
 
   final FeedsConfig config;
 
-  late final TokenManager _tokenManager;
+  // Not `final`: for guest users this is swapped for a manager carrying the
+  // server-resolved user id once the token exchange completes (see
+  // `_guestTokenProvider`).
+  late TokenManager _tokenManager;
   late final StreamWebSocketClient _ws;
   late final ConnectionRecoveryHandler _connectionRecoveryHandler;
 
@@ -226,21 +250,102 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
   @override
   late final ModerationClient moderation;
 
+  // Builds the [TokenProvider] used to obtain a guest JWT.
+  //
+  // Guest users have no pre-issued token, so one is minted lazily via
+  // `POST /api/v2/guest`, called through a dedicated, unauthenticated HTTP
+  // client. The backend may return a different id than the one requested, to
+  // avoid colliding with an existing user, so [_user] is updated to the
+  // server's response to keep the WS handshake and any `client.user` reads in
+  // sync with the identity the token actually authenticates as.
+  //
+  // Once the id is known, [_tokenManager] is swapped for one pinned to that id
+  // with a static provider: the guest identity is established once (like an
+  // anonymous user) rather than re-minted on every token load, and
+  // `AuthInterceptor` — which reads the manager through a getter — picks up
+  // the resolved id for the `user_id` query parameter.
+  TokenProvider _guestTokenProvider({
+    required User user,
+    required String apiKey,
+    required EndpointConfig endpointConfig,
+    api.DefaultApi? guestRestApi,
+  }) {
+    var guestApi = guestRestApi;
+
+    return TokenProvider.dynamic((_) async {
+      final guestApiClient = guestApi ??= api.DefaultApi(
+        StreamCoreHttpClient(options: _restApiOptions(endpointConfig)).apply(
+          (client) => client.interceptors.addAll([
+            ApiKeyInterceptor(apiKey),
+            HeadersInterceptor(_systemEnvironmentManager),
+            const ApiErrorInterceptor(),
+          ]),
+        ),
+      );
+
+      final result = await guestApiClient.createGuest(
+        createGuestRequest: api.CreateGuestRequest(
+          user: api.UserRequest(
+            id: user.id,
+            name: user.originalName,
+            image: user.image,
+            custom: user.custom.isEmpty ? null : user.custom,
+          ),
+        ),
+      );
+      final response = result.getOrThrow();
+
+      _user = User(
+        id: response.user.id,
+        name: response.user.name,
+        image: response.user.image,
+        role: response.user.role,
+        type: UserType.guest,
+        custom: response.user.custom,
+      );
+
+      final token = UserToken(response.accessToken);
+
+      // Pin the manager to the resolved id so subsequent REST/WS calls use it
+      // without re-running the guest exchange.
+      _tokenManager = TokenManager(
+        userId: response.user.id,
+        tokenProvider: TokenProvider.static(token),
+      );
+
+      return token;
+    });
+  }
+
   Future<void> _authenticateUser() async {
-    final userToken = await _tokenManager.getToken();
+    try {
+      final userToken = await _tokenManager.getToken();
 
-    final connectUserRequest = WsAuthMessageRequest(
-      products: const ['feeds'],
-      token: userToken.rawValue,
-      userDetails: ConnectUserDetailsRequest(
-        id: user.id,
-        name: user.originalName,
-        image: user.image,
-        custom: user.custom,
-      ),
-    );
+      final connectUserRequest = WsAuthMessageRequest(
+        products: const ['feeds'],
+        token: userToken.rawValue,
+        userDetails: ConnectUserDetailsRequest(
+          id: user.id,
+          name: user.originalName,
+          image: user.image,
+          custom: user.custom,
+        ),
+      );
 
-    _ws.send(connectUserRequest);
+      _ws.send(connectUserRequest);
+    } catch (error) {
+      // Without this, a token-loading failure (e.g. the guest exchange
+      // failing) would leave the connection stuck in `Authenticating`
+      // forever, since nothing else observes this callback's Future and
+      // `connect()` only resolves on a `Connected`/`Disconnected` state.
+      //
+      // The default `userInitiated` source (rather than `serverInitiated`) is
+      // used deliberately: this is a client-side failure to obtain a token
+      // at all, not a retryable server condition, and `serverInitiated` is
+      // eligible for automatic reconnection, which would otherwise retry
+      // the failing token load indefinitely.
+      await _ws.disconnect();
+    }
   }
 
   @override

@@ -169,6 +169,7 @@ abstract interface class StreamFeedsClient {
     List<AutomaticReconnectionPolicy>? reconnectionPolicies,
     @visibleForTesting WebSocketProvider? wsProvider,
     @visibleForTesting api.DefaultApi? feedsRestApi,
+    @visibleForTesting api.DefaultApi? guestRestApi,
   }) = StreamFeedsClientImpl;
 
   User get user;

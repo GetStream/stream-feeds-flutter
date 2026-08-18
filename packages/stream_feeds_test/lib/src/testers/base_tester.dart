@@ -270,6 +270,7 @@ void testWithTester<S, T extends BaseTester<S>>(
             generateTestUserToken(user.id),
           ),
           feedsRestApi: feedsApi,
+          guestRestApi: feedsApi,
           wsProvider: (options) => webSocketChannel,
           config: FeedsConfig(
             cdnClient: FeedsCdnClient(cdnApi),

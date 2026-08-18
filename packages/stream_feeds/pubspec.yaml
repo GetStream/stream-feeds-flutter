@@ -30,7 +30,19 @@ dependencies:
   retrofit: ^4.9.2
   rxdart: ^0.28.0
   state_notifier: ^1.0.0
-  stream_core: ^0.4.0
+  stream_core:
+    # The ignore below silences `invalid_dependency` because we occasionally
+    # pin stream_core_flutter to a git ref to iterate on it alongside this
+    # SDK between its releases.
+    #
+    # **Note:** Before publishing stream_feeds, this MUST be swapped
+    # back to a pub version constraint — git deps are not allowed on pub.dev
+    # and will block the release.
+    # ignore: invalid_dependency
+    git:
+      url: https://github.com/GetStream/stream-core-flutter.git
+      ref: 718e2730d2380db9a61575e006fe1a89dc3e5e2a
+      path: packages/stream_core
   uuid: ^4.5.1
 
 dev_dependencies:

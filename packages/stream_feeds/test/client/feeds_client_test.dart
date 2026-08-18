@@ -935,4 +935,87 @@ void main() {
       },
     );
   });
+
+  // ============================================================
+  // FEATURE: Guest User Authentication
+  // ============================================================
+
+  group('connect as guest user', () {
+    feedsClientTest(
+      'should connect a guest user using the createGuest token flow',
+      user: const User.guest('guest-123'),
+      connect: (tester) async {
+        tester.mockApi(
+          (api) => api.createGuest(
+            createGuestRequest: const CreateGuestRequest(
+              user: UserRequest(id: 'guest-123'),
+            ),
+          ),
+          // The backend may reassign the id to avoid colliding with an
+          // existing user, so the mocked response intentionally differs
+          // from the requested id.
+          result: CreateGuestResponse(
+            accessToken: generateTestUserToken('guest-123-xyz').rawValue,
+            duration: '10ms',
+            user: createDefaultUserResponse(
+              id: 'guest-123-xyz',
+              role: 'guest',
+            ),
+          ),
+        );
+        tester.mockSuccessfulAuth('guest-123-xyz');
+        await tester.client.connect();
+        addTearDown(tester.client.disconnect);
+      },
+      body: (tester) {
+        expect(
+          tester.client.connectionState.value,
+          isA<Connected>(),
+        );
+
+        // The client's exposed identity should be reconciled with the
+        // server-assigned guest user, not the originally-requested id.
+        expect(tester.client.user.id, 'guest-123-xyz');
+        expect(tester.client.user.type, UserType.guest);
+      },
+    );
+
+    feedsClientTest(
+      'should fail to connect a guest user when the createGuest call fails',
+      user: const User.guest('guest-123'),
+      connect: (tester) {
+        // Wires up the WebSocket mock so the connection can open; the auth
+        // handshake it configures is never reached since createGuest fails
+        // before a WsAuthMessageRequest is ever sent.
+        tester.mockSuccessfulAuth('guest-123');
+        tester.mockApiFailure(
+          (api) => api.createGuest(
+            createGuestRequest: const CreateGuestRequest(
+              user: UserRequest(id: 'guest-123'),
+            ),
+          ),
+          error: Exception('Failed to create guest'),
+        );
+      },
+      body: (tester) async {
+        final connectionStateExpectation = expectLater(
+          tester.client.connectionState,
+          emitsInOrder([
+            isA<Initialized>(),
+            isA<Connecting>(),
+            isA<Authenticating>(),
+            isA<Disconnecting>(),
+            isA<Disconnected>(),
+          ]),
+        );
+
+        await expectLater(
+          tester.client.connect(),
+          throwsA(isA<ClientException>()),
+        );
+
+        await connectionStateExpectation;
+      },
+    );
+  });
 }
