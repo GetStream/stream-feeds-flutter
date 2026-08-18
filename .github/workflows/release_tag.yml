@@ -3,43 +3,65 @@ name: release_tag
 on:
   push:
     branches: [main]
-  workflow_dispatch: # manual recovery, e.g. if a release commit's title was edited past the gate
 
 concurrency:
-  # false: never cancel a run mid tag-push (would drop a release).
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   release:
-    # Manual dispatch, or a commit whose message starts `chore(<scope>): release`
-    # (no regex in GH expressions). A manual run tags whatever is unpublished.
-    if: "${{ github.event_name == 'workflow_dispatch' || (startsWith(github.event.head_commit.message, 'chore(') && contains(github.event.head_commit.message, '): release')) }}"
+    # Only run this job for commits that indicate a release. Scope-agnostic:
+    # release commits here are `chore(llc): release vX.Y.Z` as often as
+    # `chore(repo): …`, and GH expressions have no regex.
+    if: "${{ startsWith(github.event.head_commit.message, 'chore(') && contains(github.event.head_commit.message, '): release') }}"
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: write  # Required to create and push tags
+
     steps:
       - name: 📚 Checkout branch
         # Bot PAT: GITHUB_TOKEN tag pushes don't trigger the publish workflow.
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
           token: ${{ secrets.BOT_GITHUB_API_TOKEN }}
 
-      - name: 🐦 Install Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-
-      - name: 📦 Install Tools
-        run: flutter pub global activate melos
-
-      - name: 🏷️ Tag unpublished packages
-        # Tag every unpublished package (state-derived, not from the commit msg)
-        # and push each in dependency order, one per event. An existing tag (e.g.
-        # a stale one on an old commit) fails `git tag` and is skipped with a warning.
+      - name: 🏷️ Extract Version Tag
+        id: extract_tag
         shell: bash
+        # Via env, not inline `${{ }}`: a commit message is untrusted input and
+        # would otherwise be interpolated straight into the script.
+        env:
+          COMMIT_MSG: ${{ github.event.head_commit.message }}
         run: |
           set -euo pipefail
-          melos exec -c 1 --no-published --no-private --order-dependents -- \
-            "if git tag \$MELOS_PACKAGE_NAME-v\$MELOS_PACKAGE_VERSION 2>/dev/null; then git push origin \$MELOS_PACKAGE_NAME-v\$MELOS_PACKAGE_VERSION; else echo \"::warning ::Skipped \$MELOS_PACKAGE_NAME-v\$MELOS_PACKAGE_VERSION: tag already exists (stale tag on an old commit?), not pushed.\"; fi"
+
+          commit_msg="$COMMIT_MSG"
+          echo "📦 Commit message: $commit_msg"
+
+          # Match vX.Y.Z or vX.Y.Z-suffix (case-insensitive)
+          version_regex='[vV][0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.\-]+)?'
+
+          if [[ "$commit_msg" =~ $version_regex ]]; then
+            version="${BASH_REMATCH[0]}"
+            echo "✅ Found version tag: $version"
+            echo "tag=$version" >> "$GITHUB_OUTPUT"
+          else
+            echo "::error ::❌ No SemVer tag found in commit message."
+            echo "::error ::Expected something like: 'chore(llc): release v1.2.3[-beta]'"
+            exit 1
+          fi
+
+      - name: 🚀 Create and Push Tag
+        shell: bash
+        env:
+          TAG: ${{ steps.extract_tag.outputs.tag }}
+        run: |
+          set -euo pipefail
+
+          git config user.name "Stream SDK Bot"
+          git config user.email "60655709+Stream-SDK-Bot@users.noreply.github.com"
+
+          echo "Creating and pushing tag: $TAG"
+          git tag "$TAG"
+          git push origin "$TAG"

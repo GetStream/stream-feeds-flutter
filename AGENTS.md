@@ -443,32 +443,30 @@ Publishing to pub.dev is automated and authenticates over GitHub Actions OIDC �
 stored anywhere. `stream_feeds` is the only publishable package; everything else in the workspace is private
 (`publish_to: none`, or no `version:`) and is excluded by `--no-private`.
 
-Cut the release from a `release/` branch (e.g. `release/stream_feeds-v0.5.2`):
+Cut the release from a `release/` branch (e.g. `release/v0.5.2`):
 
-1. Bump `version:` in `packages/stream_feeds/pubspec.yaml`, and the `stream_feeds:` entry in `melos.yaml`'s
-   `command.bootstrap.dependencies` block if the existing caret no longer covers the new version.
+1. Bump `version:` in `packages/stream_feeds/pubspec.yaml` and the `stream_feeds:` entry in `melos.yaml`'s
+   `command.bootstrap.dependencies` block, then `melos bootstrap` to propagate.
 2. Promote `## Upcoming` → `## X.Y.Z` in the CHANGELOG. The section must be non-empty (pana fails otherwise).
-3. `melos bootstrap && melos run analyze && melos run lint:pub`.
-4. Open a PR titled `chore(<scope>): release stream_feeds vX.Y.Z` (scope `llc`).
+3. `melos run analyze`, commit, then `melos run lint:pub` — the dry run shells out to `pub publish`, which
+   fails on a dirty tree, so it can only pass once the release commit exists.
+4. Open a PR titled `chore(<scope>): release vX.Y.Z` (scope `llc`), body = GitHub's generated release notes.
 
 **Squash-merge the release PR.** [`release_tag.yml`](.github/workflows/release_tag.yml) gates on the *tip*
-commit's message, so a squash lands the `chore(...): release` title as that commit; a merge commit would make
-the tip `Merge pull request #…` and the release would silently not run. The tooling keys only on the
-`chore(...): release` prefix — tags are derived from package state, not parsed from the title, so a typo in
-the package name or version cannot mis-tag.
+commit of `main` and parses `vX.Y.Z` out of its message, so a squash lands the `chore(...): release vX.Y.Z`
+title as that commit. A merge commit would make the tip `Merge pull request #…` and the release would
+silently not run.
 
 After merge:
 
-1. [`release_tag.yml`](.github/workflows/release_tag.yml) tags every unpublished package as
-   `<package>-vX.Y.Z` (e.g. `stream_feeds-v0.5.2`) and pushes each with the bot PAT. Note the per-package
-   tag format — older plain `v0.x` tags are history and no longer match the publish trigger.
-2. [`release_publish.yml`](.github/workflows/release_publish.yml) fires on that tag push, verifies the tag
-   version matches the pubspec, publishes over OIDC, then creates a GitHub Release whose body is the
-   `## X.Y.Z` CHANGELOG section.
+1. [`release_tag.yml`](.github/workflows/release_tag.yml) extracts `vX.Y.Z` from the commit message and
+   pushes the tag with the bot PAT.
+2. [`release_publish.yml`](.github/workflows/release_publish.yml) fires on that tag push, runs the dry run,
+   publishes over OIDC, and creates a GitHub Release with generated notes.
 
-Both workflows are idempotent: re-running against a version already live on pub.dev is a clean no-op, and
-`workflow_dispatch` on the tag ref is a safe recovery path. Never tag, publish (`melos run release:pub`), or
-create a GitHub Release by hand — CI owns all three.
+Re-running the publish workflow is a clean no-op: `release:pub` passes `--no-published`, so a version already
+live on pub.dev is skipped, and `workflow_dispatch` on the tag ref is a safe recovery path. Never tag, publish
+(`melos run release:pub`), or create a GitHub Release by hand — CI owns all three.
 
 Agents: `.claude/skills/release-pr/SKILL.md` walks through this end to end.
 

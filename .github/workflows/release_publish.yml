@@ -3,80 +3,33 @@ name: release_publish
 on:
   push:
     tags:
-      # <pkg>-vX.Y.Z plus any pre-release (-…) or build (+…) suffix — matches
-      # pub.dev's suggested OIDC tag pattern; the parse step validates the rest.
-      - '*-v[0-9]+.[0-9]+.[0-9]+*'
-  workflow_dispatch: # manual re-runs against a tag ref
+      - 'v[0-9]+.[0-9]+.[0-9]+' # tag-pattern for regular releases
+      - 'v[0-9]+.[0-9]+.[0-9]+-*' # tag-pattern for pre-releases
+  workflow_dispatch: # Allow manual triggering of the workflow
 
 concurrency:
-  # false: don't let a re-run cancel an in-flight publish of the same tag.
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   release:
     permissions:
-      contents: write # create the GitHub Release
-      id-token: write # OIDC auth to pub.dev
+      contents: write  # Required to creating release
+      id-token: write # Required for authentication using OIDC
     runs-on: ubuntu-latest
     steps:
       - name: 📚 Checkout branch
-        # Default GITHUB_TOKEN: this job never pushes to git (the release step
-        # passes its own token), so no bot PAT sits in git config during setup.
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
+          token: ${{ secrets.BOT_GITHUB_API_TOKEN }}
 
-      - name: 🏷️ Parse package and version from tag
-        id: parse
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          ref="${GITHUB_REF#refs/tags/}"
-          echo "📦 Tag: $ref"
-
-          # <package>-v<semver>, with optional pre-release (-…) and build (+…) suffixes.
-          if [[ ! "$ref" =~ ^([a-z0-9_]+)-v([0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?)$ ]]; then
-            echo "::error ::Tag '$ref' does not match '<package>-v<semver>'."
-            exit 1
-          fi
-
-          pkg="${BASH_REMATCH[1]}"
-          version="${BASH_REMATCH[2]}"
-
-          # Find the package's pubspec by name — melos isn't installed yet, and a
-          # package's directory may differ from its name.
-          pubspec="$(grep -rlE "^name:[[:space:]]+$pkg\$" --include=pubspec.yaml packages/ 2>/dev/null | head -n1)"
-          if [[ -z "$pubspec" ]]; then
-            echo "::error ::No package named '$pkg' found under packages/."
-            exit 1
-          fi
-
-          # Guard a stray tag: pubspec version must equal the tag version.
-          pubspec_version="$(grep -E '^version:' "$pubspec" | head -n1 | sed -E 's/^version:[[:space:]]*//')"
-          if [[ "$pubspec_version" != "$version" ]]; then
-            echo "::error ::Tag version ($version) does not match $pubspec version ($pubspec_version)."
-            exit 1
-          fi
-
-          # Pre-release = a hyphen suffix, ignoring any build-metadata (+…) part.
-          is_prerelease=$([[ "${version%%+*}" == *-* ]] && echo true || echo false)
-
-          {
-            echo "package=$pkg"
-            echo "version=$version"
-            echo "prerelease=$is_prerelease"
-          } >> "$GITHUB_OUTPUT"
-
+      # Set up the Dart SDK and provision the OIDC token used for publishing.
       - name: 🎯 Setup Dart
-        # Before Flutter: provides the pub.dev OIDC token.
         uses: dart-lang/setup-dart@v1
 
       - name: 🐦 Install Flutter
         uses: subosito/flutter-action@v2
-        with:
-          channel: stable
 
       - name: 📦 Install Tools
         run: flutter pub global activate melos
@@ -85,122 +38,34 @@ jobs:
         run: melos bootstrap --verbose
 
       - name: 🌵 Dry Run
-        # MELOS_PACKAGES scopes lint:pub to the tagged package.
         run: melos run lint:pub
-        env:
-          MELOS_PACKAGES: ${{ steps.parse.outputs.package }}
 
-      - name: ⏳ Wait for in-workspace dependencies
-        # A dependent can reach pub.dev before its dependency is indexed (each
-        # runs separately), which the server rejects. Wait via the per-version
-        # endpoint — fresh in CI, unlike the listing `melos --published` reads.
+      - name: 📢 Release to pub.dev
+        run: melos run release:pub
+
+      - name: 🏷️ Extract Version Info
+        id: extract_version
         shell: bash
-        env:
-          PKG: ${{ steps.parse.outputs.package }}
         run: |
           set -euo pipefail
 
-          # Deps from the graph, versions from list --json. Skip private deps —
-          # they never publish, so waiting on one would hang until timeout.
-          info="$(melos list --json 2>/dev/null)"
-          raw="$(melos list --graph 2>/dev/null | awk '/^\{/{f=1} f{print} /^\}$/{f=0}' \
-            | jq -r --arg p "$PKG" '.[$p] // [] | .[]')"
+          tag_name="${{ github.ref_name }}"
+          echo "📦 Tag: $tag_name"
 
-          deps=""
-          for dep in $raw; do
-            priv="$(printf '%s' "$info" | jq -r --arg n "$dep" '.[] | select(.name==$n) | .private')"
-            if [ "$priv" != "true" ]; then deps="$deps $dep"; fi
-          done
+          # Check if this is a pre-release (contains hyphen after version)
+          is_prerelease=$([[ $tag_name == *-* ]] && echo true || echo false)
+          echo "ℹ️ Pre-release: $is_prerelease"
 
-          [[ -z "${deps// /}" ]] && { echo "✅ $PKG has no publishable in-workspace dependencies."; exit 0; }
+          echo "tag=$tag_name" >> "$GITHUB_OUTPUT"
+          echo "prerelease=$is_prerelease" >> "$GITHUB_OUTPUT"
 
-          for dep in $deps; do
-            want="$(printf '%s' "$info" | jq -r --arg n "$dep" '.[] | select(.name==$n) | .version')"
-            enc="${want//+/%2B}" # url-encode a build-metadata '+'
-            echo "⏳ Waiting for $dep v$want on pub.dev…"
-            deadline=$((SECONDS + 900)) # 15 minutes
-            until curl -sfL --connect-timeout 10 --max-time 30 -o /dev/null "https://pub.dev/api/packages/$dep/versions/$enc"; do
-              (( SECONDS < deadline )) || { echo "::error ::Timed out after 15m waiting for $dep v$want on pub.dev. If $dep is a new package, publish it (enable automated publishing) before releasing packages that depend on it; otherwise re-run this once $dep v$want is live."; exit 1; }
-              echo "  …not live yet; retrying in 15s"
-              sleep 15
-            done
-            echo "✅ $dep v$want is live."
-          done
-
-      - name: 📢 Publish to pub.dev
-        # Idempotent by pub.dev state, not `melos --no-published` (which lags in
-        # CI): skip if the version is already live, else publish and confirm it
-        # landed before the release is cut.
-        shell: bash
-        env:
-          PKG: ${{ steps.parse.outputs.package }}
-          VERSION: ${{ steps.parse.outputs.version }}
-          MELOS_PACKAGES: ${{ steps.parse.outputs.package }}
-        run: |
-          set -euo pipefail
-          enc="${VERSION//+/%2B}" # url-encode a build-metadata '+'
-          url="https://pub.dev/api/packages/$PKG/versions/$enc"
-
-          # Already live? Nothing to do — a genuinely idempotent re-run.
-          if curl -sfL --connect-timeout 10 --max-time 30 -o /dev/null "$url"; then
-            echo "✅ $PKG v$VERSION is already on pub.dev; nothing to publish."
-            exit 0
-          fi
-
-          echo "📦 Publishing $PKG v$VERSION…"
-          melos run release:pub
-
-          # Confirm it actually landed before the release is cut (guards a no-op
-          # publish from producing a Release for a version that isn't on pub.dev).
-          echo "⏳ Confirming $PKG v$VERSION is live…"
-          deadline=$((SECONDS + 300)) # 5 minutes
-          until curl -sfL --connect-timeout 10 --max-time 30 -o /dev/null "$url"; do
-            (( SECONDS < deadline )) || { echo "::error ::$PKG v$VERSION did not appear on pub.dev after publishing."; exit 1; }
-            echo "  …not live yet; retrying in 10s"
-            sleep 10
-          done
-          echo "✅ $PKG v$VERSION is live on pub.dev."
-
-      - name: 📝 Extract CHANGELOG section
-        id: notes
-        shell: bash
-        env:
-          PKG: ${{ steps.parse.outputs.package }}
-          VERSION: ${{ steps.parse.outputs.version }}
-        run: |
-          set -euo pipefail
-
-          # Resolve location from melos (dir name may differ from package name).
-          pkg_path="$(melos list --json 2>/dev/null | jq -r --arg n "$PKG" '.[] | select(.name==$n) | .location')"
-          rel_path="${pkg_path#"$GITHUB_WORKSPACE"/}"
-          changelog="$pkg_path/CHANGELOG.md"
-          notes_file="$RUNNER_TEMP/release_notes.md"
-
-          # Match the version *token* ($2) so a dated heading still matches and
-          # "0.4.0" never matches "0.4.00".
-          if [[ -f "$changelog" ]]; then
-            awk -v ver="$VERSION" '/^## /{flag=($2==ver); next} flag' "$changelog" > "$notes_file"
-          fi
-
-          # Publish is irreversible; never fail the release on a missing heading.
-          if [[ ! -s "$notes_file" ]]; then
-            echo "See [CHANGELOG](https://github.com/${GITHUB_REPOSITORY}/blob/${GITHUB_REF_NAME}/$rel_path/CHANGELOG.md)." > "$notes_file"
-          fi
-
-          {
-            echo ""
-            echo "---"
-            echo "Published to pub.dev: https://pub.dev/packages/$PKG/versions/$VERSION"
-          } >> "$notes_file"
-
-          echo "path=$notes_file" >> "$GITHUB_OUTPUT"
-
+      # `make_latest` is left at its default (true): the repo releases in
+      # lockstep behind a single version, so every release is the latest one.
+      # (Pre-releases are never marked latest by GitHub regardless.)
       - name: 🚀 Create GitHub Release
         uses: softprops/action-gh-release@v3
         with:
-          tag_name: ${{ github.ref_name }}
-          name: ${{ steps.parse.outputs.package }} v${{ steps.parse.outputs.version }}
-          body_path: ${{ steps.notes.outputs.path }}
-          prerelease: ${{ steps.parse.outputs.prerelease }}
-          make_latest: false # independent versioning: no single "latest" release
+          generate_release_notes: true
+          tag_name: ${{ steps.extract_version.outputs.tag }}
+          prerelease: ${{ steps.extract_version.outputs.prerelease }}
           token: ${{ secrets.BOT_GITHUB_API_TOKEN }}
