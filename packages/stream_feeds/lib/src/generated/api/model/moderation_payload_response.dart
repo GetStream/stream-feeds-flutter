@@ -23,6 +23,7 @@ class ModerationPayloadResponse with _$ModerationPayloadResponse {
     this.imageIds,
     this.imageOrderedKeys,
     this.images,
+    this.otherMedia,
     this.textIds,
     this.textOrderedKeys,
     this.texts,
@@ -48,6 +49,10 @@ class ModerationPayloadResponse with _$ModerationPayloadResponse {
   @override
   @JsonKey(name: 'images')
   final List<String>? images;
+
+  @override
+  @JsonKey(name: 'other_media')
+  final List<String>? otherMedia;
 
   @override
   @JsonKey(name: 'text_ids')

@@ -18,6 +18,7 @@ mixin _$ModerationPayload {
   Map<String, String>? get imageIds;
   List<String>? get imageOrderedKeys;
   List<String>? get images;
+  List<String>? get otherMedia;
   Map<String, String>? get textIds;
   List<String>? get textOrderedKeys;
   List<String>? get texts;
@@ -45,6 +46,10 @@ mixin _$ModerationPayload {
               imageOrderedKeys,
             ) &&
             const DeepCollectionEquality().equals(other.images, images) &&
+            const DeepCollectionEquality().equals(
+              other.otherMedia,
+              otherMedia,
+            ) &&
             const DeepCollectionEquality().equals(other.textIds, textIds) &&
             const DeepCollectionEquality().equals(
               other.textOrderedKeys,
@@ -62,6 +67,7 @@ mixin _$ModerationPayload {
     const DeepCollectionEquality().hash(imageIds),
     const DeepCollectionEquality().hash(imageOrderedKeys),
     const DeepCollectionEquality().hash(images),
+    const DeepCollectionEquality().hash(otherMedia),
     const DeepCollectionEquality().hash(textIds),
     const DeepCollectionEquality().hash(textOrderedKeys),
     const DeepCollectionEquality().hash(texts),
@@ -70,7 +76,7 @@ mixin _$ModerationPayload {
 
   @override
   String toString() {
-    return 'ModerationPayload(audios: $audios, custom: $custom, imageIds: $imageIds, imageOrderedKeys: $imageOrderedKeys, images: $images, textIds: $textIds, textOrderedKeys: $textOrderedKeys, texts: $texts, videos: $videos)';
+    return 'ModerationPayload(audios: $audios, custom: $custom, imageIds: $imageIds, imageOrderedKeys: $imageOrderedKeys, images: $images, otherMedia: $otherMedia, textIds: $textIds, textOrderedKeys: $textOrderedKeys, texts: $texts, videos: $videos)';
   }
 }
 
@@ -87,6 +93,7 @@ abstract mixin class $ModerationPayloadCopyWith<$Res> {
     Map<String, String>? imageIds,
     List<String>? imageOrderedKeys,
     List<String>? images,
+    List<String>? otherMedia,
     Map<String, String>? textIds,
     List<String>? textOrderedKeys,
     List<String>? texts,
@@ -111,6 +118,7 @@ class _$ModerationPayloadCopyWithImpl<$Res> implements $ModerationPayloadCopyWit
     Object? imageIds = freezed,
     Object? imageOrderedKeys = freezed,
     Object? images = freezed,
+    Object? otherMedia = freezed,
     Object? textIds = freezed,
     Object? textOrderedKeys = freezed,
     Object? texts = freezed,
@@ -137,6 +145,10 @@ class _$ModerationPayloadCopyWithImpl<$Res> implements $ModerationPayloadCopyWit
         images: freezed == images
             ? _self.images
             : images // ignore: cast_nullable_to_non_nullable
+                  as List<String>?,
+        otherMedia: freezed == otherMedia
+            ? _self.otherMedia
+            : otherMedia // ignore: cast_nullable_to_non_nullable
                   as List<String>?,
         textIds: freezed == textIds
             ? _self.textIds

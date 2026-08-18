@@ -16,6 +16,7 @@ ModerationPayload _$ModerationPayloadFromJson(
   ),
   imageOrderedKeys: (json['image_ordered_keys'] as List<dynamic>?)?.map((e) => e as String).toList(),
   images: (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
+  otherMedia: (json['other_media'] as List<dynamic>?)?.map((e) => e as String).toList(),
   textIds: (json['text_ids'] as Map<String, dynamic>?)?.map(
     (k, e) => MapEntry(k, e as String),
   ),
@@ -30,6 +31,7 @@ Map<String, dynamic> _$ModerationPayloadToJson(ModerationPayload instance) => <S
   'image_ids': instance.imageIds,
   'image_ordered_keys': instance.imageOrderedKeys,
   'images': instance.images,
+  'other_media': instance.otherMedia,
   'text_ids': instance.textIds,
   'text_ordered_keys': instance.textOrderedKeys,
   'texts': instance.texts,
