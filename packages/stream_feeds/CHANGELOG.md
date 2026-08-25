@@ -1,5 +1,9 @@
 ## Upcoming
 
+### Requirements
+
+- Raised the minimum Dart SDK to `^3.12.0`, which ships with Flutter 3.44. Existing code keeps compiling; apps on an older SDK stop resolving new versions of this package.
+
 ### New fields
 - Added `restrictReplies` (`ActivityRestrictReplies`) to `ActivityData` to expose the comment-reply restriction on an activity (everyone / nobody / people_i_follow).
 - Added `restrictReplies` (`AddActivityRequestRestrictReplies?`) to `FeedAddActivityRequest` so comment restrictions can be set when creating an activity.

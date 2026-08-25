@@ -26,8 +26,8 @@ class CommentList extends Disposable {
     required this.query,
     required this.commentsRepository,
     required this.currentUserId,
-    required MutableSharedEmitter<StateUpdateEvent> eventsEmitter,
-  }) : _eventsEmitter = eventsEmitter {
+    required this._eventsEmitter,
+  }) {
     _stateNotifier = CommentListStateNotifier(
       currentUserId: currentUserId,
       initialState: const CommentListState(),

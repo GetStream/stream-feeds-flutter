@@ -32,10 +32,9 @@ abstract base class BaseTester<S> with ApiMockerMixin, CdnMockerMixin {
     required this.subject,
     required this.cdnApi,
     required this.feedsApi,
-    required WebSocketTester wsTester,
-    required StreamFeedsClient client,
-  }) : _client = client,
-       _wsTester = wsTester;
+    required this._wsTester,
+    required this._client,
+  });
 
   /// The subject being tested.
   final S subject;
