@@ -33,6 +33,7 @@ class FeedAddActivityRequest with _$FeedAddActivityRequest implements HasAttachm
     this.pollId,
     this.restrictReplies,
     this.searchData,
+    this.skipEnrichUrl,
     this.skipPush,
     this.text,
     this.visibility,
@@ -121,6 +122,13 @@ class FeedAddActivityRequest with _$FeedAddActivityRequest implements HasAttachm
   @override
   final Map<String, Object>? searchData;
 
+  /// Whether to skip URL enrichment for this activity.
+  ///
+  /// When `true`, the backend will not scrape links found in [text] to build
+  /// an Open Graph preview attachment.
+  @override
+  final bool? skipEnrichUrl;
+
   /// Whether to skip push notifications for this activity.
   ///
   /// When `true`, no push notifications are sent to followers.
@@ -181,6 +189,7 @@ extension FeedAddActivityRequestMapper on FeedAddActivityRequest {
       pollId: pollId,
       restrictReplies: restrictReplies,
       searchData: searchData,
+      skipEnrichUrl: skipEnrichUrl,
       skipPush: skipPush,
       text: text,
       visibility: visibility,
