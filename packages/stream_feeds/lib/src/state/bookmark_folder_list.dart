@@ -26,8 +26,8 @@ class BookmarkFolderList extends Disposable {
   BookmarkFolderList({
     required this.query,
     required this.bookmarksRepository,
-    required MutableSharedEmitter<StateUpdateEvent> eventsEmitter,
-  }) : _eventsEmitter = eventsEmitter {
+    required this._eventsEmitter,
+  }) {
     _stateNotifier = BookmarkFolderListStateNotifier(
       initialState: BookmarkFolderListState(query: query),
     );

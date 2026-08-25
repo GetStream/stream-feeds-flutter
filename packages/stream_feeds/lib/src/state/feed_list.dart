@@ -26,8 +26,8 @@ class FeedList with Disposable {
   FeedList({
     required this.query,
     required this.feedsRepository,
-    required MutableSharedEmitter<StateUpdateEvent> eventsEmitter,
-  }) : _eventsEmitter = eventsEmitter {
+    required this._eventsEmitter,
+  }) {
     _stateNotifier = FeedListStateNotifier(
       initialState: const FeedListState(),
     );

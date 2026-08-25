@@ -55,9 +55,9 @@ class Feed with Disposable {
     required this.feedsRepository,
     required this.pollsRepository,
     required this.capabilitiesRepository,
-    required MutableSharedEmitter<StateUpdateEvent> eventsEmitter,
+    required this._eventsEmitter,
     required Stream<void> onReconnectEmitter,
-  }) : _eventsEmitter = eventsEmitter {
+  }) {
     final fid = query.fid;
 
     _memberList = MemberList(

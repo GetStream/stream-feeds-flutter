@@ -26,8 +26,8 @@ class CommentReactionList with Disposable {
   CommentReactionList({
     required this.query,
     required this.commentsRepository,
-    required MutableSharedEmitter<StateUpdateEvent> eventsEmitter,
-  }) : _eventsEmitter = eventsEmitter {
+    required this._eventsEmitter,
+  }) {
     _stateNotifier = CommentReactionListStateNotifier(
       initialState: const CommentReactionListState(),
     );
