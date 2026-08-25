@@ -144,7 +144,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
             // the SDK's own headers on every request — always win. Dio keys
             // request headers case-insensitively, so a differently-cased
             // reserved header cannot slip through either.
-            headers: {...?config.customHeaders},
+            headers: config.customHeaders,
           ),
         ).apply(
           (client) => client.interceptors.addAll([
