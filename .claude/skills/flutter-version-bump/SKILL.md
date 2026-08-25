@@ -167,7 +167,10 @@ On a floor raise you want all **three**. Melos is not on `PATH` per-toolchain �
 measuring under, and re-activate if `which melos` comes back empty:
 
 ```bash
-export PATH="$FLOOR/bin:$PATH" && (which melos || dart pub global activate melos)
+# `dart pub global activate` installs into the pub cache, which is not on PATH by default —
+# add it up front or the melos you just activated still will not resolve.
+export PATH="$FLOOR/bin:$HOME/.pub-cache/bin:$PATH"
+which melos || dart pub global activate melos
 ```
 
 ## Step 3 — Measure before you fix
@@ -218,13 +221,16 @@ Mirror the repo's own analyze script — including its ignore filters, so you do
 and **filter local build artifacts**:
 
 ```bash
-set -o pipefail   # otherwise a matching grep masks an analyzer that crashed
 for V in $OLD $NEW; do
   echo "##### $V"
   for p in <the packages the analyze script actually covers>; do
     echo "### $p"
-    (cd "$p" && $V/bin/cache/dart-sdk/bin/dart analyze --fatal-infos . 2>&1 \
-      | { grep -E "^\s+(info|warning|error)" | grep -v " build/" || true; })
+    out=$(cd "$p" && $V/bin/cache/dart-sdk/bin/dart analyze --fatal-infos . 2>&1); st=$?
+    # dart analyze exits 0 clean, 1/2/3 for error/warning/info. Anything else is the
+    # analyzer itself failing — which prints nothing the grep matches and so reads as
+    # "clean". Surface it instead of banking a false negative.
+    [ "$st" -gt 3 ] && { echo "!! analyzer failed (exit $st)"; printf '%s\n' "$out" | tail -5; }
+    printf '%s\n' "$out" | grep -E "^\s+(info|warning|error)" | grep -v " build/" || true
   done
 done
 ```
@@ -245,14 +251,28 @@ committed, failing tests that have nothing to do with the new SDK:
 grep -rn 'Platform.environment' $(git ls-files '*flutter_test_config.dart')
 ```
 
-Then compare failure **sets**, not counts — the compact reporter uses `\r`:
+Then compare failure **sets**, not counts — the compact reporter uses `\r`. Run this for **every** package with a
+`test/` directory, not just the headline one — the repo's `test:all` covers them all, so a single-package loop
+reports a clean upgrade while a sibling still fails:
+
+> Use `while read`, not `for pkg in $PKGS`. **zsh does not word-split unquoted scalar expansions**, so a `for`
+> loop over a captured multi-line list runs *once*, with every path glued into one argument — it looks like it
+> worked and silently tests nothing. (Unquoted *command substitution* does split in both shells; scalars do not.)
 
 ```bash
 for V in $OLD $NEW; do
-  (cd <pkg> && <ENVVAR>=true $V/bin/flutter test --reporter=compact > /tmp/t-$(basename $V).log 2>&1)
-  tr '\r' '\n' < /tmp/t-$(basename $V).log | grep -E '\[E\]$' | sed 's|.*/test/|test/|' | sort -u \
-    > /tmp/fail-$(basename $V).txt
+  v=$(basename $V); : > /tmp/fail-$v.txt
+  # every package that has tests at all — not just the headline one
+  git ls-files '*pubspec.yaml' | xargs -n1 dirname | sort -u | while read -r pkg; do
+    [ -d "$pkg/test" ] || continue
+    (cd "$pkg" && <ENVVAR>=true $V/bin/flutter test --reporter=compact) > /tmp/t-$v-$(basename $pkg).log 2>&1
+    # prefix each failure with its package, so two packages cannot collide in the set
+    tr '\r' '\n' < /tmp/t-$v-$(basename $pkg).log | grep -E '\[E\]$' \
+      | sed "s|.*/test/|$pkg/test/|" >> /tmp/fail-$v.txt
+  done
+  sort -u -o /tmp/fail-$v.txt /tmp/fail-$v.txt
 done
+
 comm -13 /tmp/fail-$(basename $OLD).txt /tmp/fail-$(basename $NEW).txt   # caused by the new SDK
 comm -12 /tmp/fail-$(basename $OLD).txt /tmp/fail-$(basename $NEW).txt   # pre-existing, out of scope
 ```
@@ -407,10 +427,24 @@ Two things will look wrong locally and are not: analyze surfaces `build/` noise 
 `build/**/SourcePackages/**` checkouts — a local artifact CI never has. Remove the build dir rather than
 concluding the repo is unformatted.
 
-Also re-check the floor, since the N-1 job gates the PR — and extend it by hand to the packages it misses:
+Also re-check the floor, since the N-1 job gates the PR — and extend it by hand to the packages it misses.
+**Cover every package whose constraint you moved, not just `packages/*`:** apps and docs packages sit outside
+that glob, and a `packages/*/`-only loop reports a clean upgrade while a changed package still fails. Derive the
+list from the diff so it cannot drift from what you actually edited:
 
 ```bash
-for p in packages/*/; do (cd "$p/lib" && $FLOOR/bin/cache/dart-sdk/bin/dart analyze --fatal-infos .); done
+# every package whose pubspec this PR touched
+for f in $(git diff --name-only origin/<default branch>... -- '*pubspec.yaml'); do
+  p=$(dirname "$f")
+  [ "$p" = "." ] && continue                # workspace root carries no source of its own
+  # prefer lib/ (what the N-1 job analyses), but fall back to the package root —
+  # not every package keeps its Dart in lib/, and skipping on a missing lib/ quietly
+  # drops a package whose constraint you just moved.
+  t="$p/lib"; [ -d "$t" ] || t="$p"
+  ls "$t"/**/*.dart >/dev/null 2>&1 || ls "$t"/*.dart >/dev/null 2>&1 || continue
+  echo "### $t"
+  (cd "$t" && $FLOOR/bin/cache/dart-sdk/bin/dart analyze --fatal-infos .) || true
+done
 ```
 
 A fix relying on syntax newer than the floor passes on `$NEW` and fails that job. Finally, run the N-1 job's
