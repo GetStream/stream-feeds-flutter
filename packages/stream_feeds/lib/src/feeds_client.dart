@@ -253,9 +253,31 @@ abstract interface class StreamFeedsClient {
   /// Throws a [ClientException] if the connection fails, or if one is already established or in
   /// progress, and a [StateError] once [dispose] has been called.
   ///
-  /// Pass [connectWebSocket] as `false` for a client that only makes requests: no events arrive
-  /// and watching is rejected. An anonymous user always connects this way, having no token for a
-  /// socket.
+  /// ## Connecting without a WebSocket
+  ///
+  /// Pass [connectWebSocket] as `false` for a client that only makes requests. No socket is
+  /// opened, so [connectionState] stays [Initialized], nothing is emitted on [events] or
+  /// [connectionState], and a query with `watch: true` is rejected — watching is delivered over
+  /// the connection this skips.
+  ///
+  /// Requests themselves are unaffected: each one is signed as it is sent, from the
+  /// [TokenProvider] the client was given. So for a regular user this opens nothing and verifies
+  /// nothing — a token the server will refuse is not discovered here, but on the first request.
+  /// A guest still exchanges for its identity, since its id and token are what the requests need.
+  ///
+  /// An anonymous user always connects this way, having no token to authenticate a socket with,
+  /// and passing `true` does not change that.
+  ///
+  /// Calling [connect] again afterwards opens the socket, keeping the identity already
+  /// established.
+  ///
+  /// ## Guest sessions
+  ///
+  /// A guest's token is issued once, during the first [connect], and cannot be reissued: asking
+  /// for another would create another guest, under an id that is not [user]'s. So when the server
+  /// refuses a guest token as expired, the connection fails and stays down. Handle it by calling
+  /// [dispose] and building a new client, which starts a new guest session — and expect
+  /// `client.user.id` to differ, so anything holding the old id has to be refreshed with it.
   Future<void> connect({
     bool connectWebSocket = true,
   });

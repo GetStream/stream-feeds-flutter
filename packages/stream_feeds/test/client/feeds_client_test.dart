@@ -1454,6 +1454,40 @@ void main() {
     );
 
     feedsClientTest(
+      'should exchange once when two connects overlap',
+      user: const User.guest('guest-123'),
+      connect: (tester) {
+        tester.mockApi(
+          (api) => api.createGuest(
+            createGuestRequest: const CreateGuestRequest(user: UserRequest(id: 'guest-123')),
+          ),
+          result: CreateGuestResponse(
+            accessToken: generateTestUserToken('guest-123-xyz').rawValue,
+            duration: '10ms',
+            user: createDefaultUserResponse(id: 'guest-123-xyz', role: 'guest'),
+          ),
+        );
+        addTearDown(tester.client.dispose);
+      },
+      body: (tester) async {
+        // No socket is opened while the exchange runs, so the connection state the second call
+        // reads still looks idle — and nothing else would stop it starting an exchange of its own.
+        await Future.wait([
+          tester.client.connect(connectWebSocket: false),
+          tester.client.connect(connectWebSocket: false),
+        ]);
+
+        // One guest, not one per caller: the second joined the exchange already running.
+        tester.verifyApi(
+          (api) => api.createGuest(
+            createGuestRequest: const CreateGuestRequest(user: UserRequest(id: 'guest-123')),
+          ),
+        );
+        expect(tester.client.user.id, 'guest-123-xyz');
+      },
+    );
+
+    feedsClientTest(
       'should connect a guest user on a retry after a failed createGuest call',
       user: const User.guest('guest-123'),
       connect: (tester) async {

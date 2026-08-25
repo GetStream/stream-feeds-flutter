@@ -251,6 +251,9 @@ class StreamFeedsClientImpl with Disposable implements StreamFeedsClient {
     if (previousError?.isTokenExpiredError ?? false) {
       _tokenManager.expireToken();
 
+      // A guest's provider is static by necessity, not oversight: a second exchange would answer
+      // with another guest, under an id that is not `user`'s. So its session ends here, and the
+      // app starts a new one by disposing this client and building another.
       if (_tokenManager.usesStaticProvider) {
         throw ClientException(message: 'The token was refused and the provider has no other to give');
       }
@@ -308,6 +311,20 @@ class StreamFeedsClientImpl with Disposable implements StreamFeedsClient {
 
     // Every exchange creates another guest, so one already established is kept.
     if (_tokenManager.userId != user.id) {
+      // No socket is opened while the exchange runs, so the connection state the guards in
+      // `connect` read still reads as idle. Joining the one in flight is what keeps a second
+      // caller arriving in that window from minting a guest of its own.
+      await (_guestExchange ??= _exchangeForGuestIdentity());
+    }
+
+    return _connectUser(connectWebSocket: connectWebSocket);
+  }
+
+  // The exchange currently running, or `null` when none is.
+  Future<void>? _guestExchange;
+
+  Future<void> _exchangeForGuestIdentity() async {
+    try {
       final result = await _guestRepository.createGuest(user);
 
       // Reported like every other connect failure, with the cause attached.
@@ -328,9 +345,11 @@ class StreamFeedsClientImpl with Disposable implements StreamFeedsClient {
         response.user.id,
         tokenProvider: tokenProvider,
       );
+    } finally {
+      // Released either way: a success is held by the token manager's id from here on, and a
+      // failure has to leave the next `connect` free to try again.
+      _guestExchange = null;
     }
-
-    return _connectUser(connectWebSocket: connectWebSocket);
   }
 
   Future<void> _connectUser({
@@ -371,6 +390,10 @@ class StreamFeedsClientImpl with Disposable implements StreamFeedsClient {
     await _ws.dispose();
 
     _capabilitiesRepository.dispose();
+
+    // Closes the connections Dio is holding open for reuse, which outlive the requests that
+    // opened them and so would outlive this client too.
+    httpClient.close();
 
     return super.dispose();
   }

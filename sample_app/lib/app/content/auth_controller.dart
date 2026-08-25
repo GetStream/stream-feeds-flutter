@@ -80,6 +80,12 @@ class AuthController extends ValueNotifier<AuthState> {
           error: error,
           stackTrace: stackTrace,
         );
+
+        // Nothing reaches this client again, and a connect that failed still left it holding a
+        // recovery handler and its subscriptions, so releasing it is what keeps a run of failed
+        // sign-in attempts from leaving one behind each time.
+        client.dispose().ignore();
+
         return const Unauthenticated();
       },
     );

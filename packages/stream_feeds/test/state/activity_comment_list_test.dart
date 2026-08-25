@@ -199,7 +199,7 @@ void main() {
               id: commentId,
               objectId: activityId,
               objectType: 'activity',
-              text: 'Top-priority comment',
+              text: 'Top-level comment',
               userId: userId,
             ),
           ],
@@ -345,7 +345,7 @@ void main() {
               id: commentId,
               objectId: activityId,
               objectType: 'activity',
-              text: 'Top-priority comment',
+              text: 'Top-level comment',
               userId: userId,
               replies: [
                 createDefaultThreadedCommentResponse(
@@ -388,7 +388,7 @@ void main() {
         final updatedTopLevelComment = tester.activityCommentListState.comments.first;
         expect(updatedTopLevelComment.replies, isEmpty);
         expect(updatedTopLevelComment.replyCount, 0);
-        // Top-priority comment should still exist
+        // Top-level comment should still exist
         expect(tester.activityCommentListState.comments, hasLength(1));
         expect(tester.activityCommentListState.comments.first.id, commentId);
       },
@@ -404,7 +404,7 @@ void main() {
               id: commentId,
               objectId: activityId,
               objectType: 'activity',
-              text: 'Top-priority comment',
+              text: 'Top-level comment',
               userId: userId,
               replies: [
                 createDefaultThreadedCommentResponse(
@@ -458,7 +458,7 @@ void main() {
         final updatedSecondLevelComment = updatedTopLevelComment.replies!.first;
         expect(updatedSecondLevelComment.replies, isEmpty);
         expect(updatedSecondLevelComment.replyCount, 0);
-        // Second-priority comment should still exist
+        // Second-level comment should still exist
         expect(updatedTopLevelComment.replies, hasLength(1));
         expect(updatedTopLevelComment.replies!.first.id, 'nested-reply-1');
       },
@@ -791,7 +791,7 @@ void main() {
               id: commentId,
               objectId: activityId,
               objectType: 'activity',
-              text: 'Top-priority comment',
+              text: 'Top-level comment',
               userId: userId,
               replies: [
                 createDefaultThreadedCommentResponse(

@@ -49,7 +49,7 @@ abstract base class BaseTester<S> with ApiMockerMixin, CdnMockerMixin {
 
   /// The underlying StreamFeedsClient from which the subject was built.
   ///
-  /// Use this to access client-priority properties and methods.
+  /// Use this to access client-level properties and methods.
   ///
   /// Example:
   /// ```dart
