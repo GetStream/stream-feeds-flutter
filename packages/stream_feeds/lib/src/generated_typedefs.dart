@@ -44,10 +44,7 @@ typedef PollVote = PollVoteResponseData;
 typedef BanActionRequest = BanActionRequestPayload;
 
 /// Use [BanActionRequestPayloadDeleteMessages] instead.
-@Deprecated(
-  'Renamed to BanActionRequestPayloadDeleteMessages. '
-  'Migrate to BanActionRequestPayloadDeleteMessages.',
-)
+@Deprecated('Renamed to BanActionRequestPayloadDeleteMessages. Migrate to BanActionRequestPayloadDeleteMessages.')
 typedef BanActionRequestDeleteMessages = BanActionRequestPayloadDeleteMessages;
 
 /// Use [BlockActionRequestPayload] instead.
@@ -55,10 +52,7 @@ typedef BanActionRequestDeleteMessages = BanActionRequestPayloadDeleteMessages;
 typedef BlockActionRequest = BlockActionRequestPayload;
 
 /// Use [ShadowBlockActionRequestPayload] instead.
-@Deprecated(
-  'Renamed to ShadowBlockActionRequestPayload. '
-  'Migrate to ShadowBlockActionRequestPayload.',
-)
+@Deprecated('Renamed to ShadowBlockActionRequestPayload. Migrate to ShadowBlockActionRequestPayload.')
 typedef ShadowBlockActionRequest = ShadowBlockActionRequestPayload;
 
 /// Use [CustomActionRequestPayload] instead.
@@ -70,45 +64,31 @@ typedef CustomActionRequest = CustomActionRequestPayload;
 typedef DeleteUserRequest = DeleteUserRequestPayload;
 
 /// Use [DeleteActivityRequestPayload] instead.
-@Deprecated(
-  'Renamed to DeleteActivityRequestPayload. Migrate to DeleteActivityRequestPayload.',
-)
+@Deprecated('Renamed to DeleteActivityRequestPayload. Migrate to DeleteActivityRequestPayload.')
 typedef DeleteActivityRequest = DeleteActivityRequestPayload;
 
 /// Use [DeleteCommentRequestPayload] instead.
-@Deprecated(
-  'Renamed to DeleteCommentRequestPayload. Migrate to DeleteCommentRequestPayload.',
-)
+@Deprecated('Renamed to DeleteCommentRequestPayload. Migrate to DeleteCommentRequestPayload.')
 typedef DeleteCommentRequest = DeleteCommentRequestPayload;
 
 /// Use [DeleteReactionRequestPayload] instead.
-@Deprecated(
-  'Renamed to DeleteReactionRequestPayload. Migrate to DeleteReactionRequestPayload.',
-)
+@Deprecated('Renamed to DeleteReactionRequestPayload. Migrate to DeleteReactionRequestPayload.')
 typedef DeleteReactionRequest = DeleteReactionRequestPayload;
 
 /// Use [DeleteMessageRequestPayload] instead.
-@Deprecated(
-  'Renamed to DeleteMessageRequestPayload. Migrate to DeleteMessageRequestPayload.',
-)
+@Deprecated('Renamed to DeleteMessageRequestPayload. Migrate to DeleteMessageRequestPayload.')
 typedef DeleteMessageRequest = DeleteMessageRequestPayload;
 
 /// Use [MarkReviewedRequestPayload] instead.
-@Deprecated(
-  'Renamed to MarkReviewedRequestPayload. Migrate to MarkReviewedRequestPayload.',
-)
+@Deprecated('Renamed to MarkReviewedRequestPayload. Migrate to MarkReviewedRequestPayload.')
 typedef MarkReviewedRequest = MarkReviewedRequestPayload;
 
 /// Use [RejectAppealRequestPayload] instead.
-@Deprecated(
-  'Renamed to RejectAppealRequestPayload. Migrate to RejectAppealRequestPayload.',
-)
+@Deprecated('Renamed to RejectAppealRequestPayload. Migrate to RejectAppealRequestPayload.')
 typedef RejectAppealRequest = RejectAppealRequestPayload;
 
 /// Use [RestoreActionRequestPayload] instead.
-@Deprecated(
-  'Renamed to RestoreActionRequestPayload. Migrate to RestoreActionRequestPayload.',
-)
+@Deprecated('Renamed to RestoreActionRequestPayload. Migrate to RestoreActionRequestPayload.')
 typedef RestoreActionRequest = RestoreActionRequestPayload;
 
 /// Use [UnbanActionRequestPayload] instead.
@@ -116,7 +96,5 @@ typedef RestoreActionRequest = RestoreActionRequestPayload;
 typedef UnbanActionRequest = UnbanActionRequestPayload;
 
 /// Use [UnblockActionRequestPayload] instead.
-@Deprecated(
-  'Renamed to UnblockActionRequestPayload. Migrate to UnblockActionRequestPayload.',
-)
+@Deprecated('Renamed to UnblockActionRequestPayload. Migrate to UnblockActionRequestPayload.')
 typedef UnblockActionRequest = UnblockActionRequestPayload;

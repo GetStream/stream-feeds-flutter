@@ -23,6 +23,7 @@ import '../repository/collections_repository.dart';
 import '../repository/comments_repository.dart';
 import '../repository/devices_repository.dart';
 import '../repository/feeds_repository.dart';
+import '../repository/guest_repository.dart';
 import '../repository/moderation_repository.dart';
 import '../repository/polls_repository.dart';
 import '../state/activity.dart';
@@ -61,14 +62,7 @@ import '../state/query/polls_query.dart';
 import '../ws/feeds_ws_event.dart';
 import 'endpoint_config.dart';
 
-// Shared REST client options for both the main and guest-token HTTP clients.
-BaseOptions _restApiOptions(EndpointConfig endpointConfig) => BaseOptions(
-  baseUrl: endpointConfig.baseFeedsUrl,
-  connectTimeout: const Duration(seconds: 6),
-  receiveTimeout: const Duration(seconds: 6),
-);
-
-class StreamFeedsClientImpl implements StreamFeedsClient {
+class StreamFeedsClientImpl with Disposable implements StreamFeedsClient {
   StreamFeedsClientImpl({
     required this.apiKey,
     required User user,
@@ -80,35 +74,22 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
     List<AutomaticReconnectionPolicy>? reconnectionPolicies,
     WebSocketProvider? wsProvider,
     api.DefaultApi? feedsRestApi,
-    api.DefaultApi? guestRestApi,
   }) : _user = user {
+    StreamLogger.configure(config.logConfig);
+
     // TODO: Make this configurable
     const endpointConfig = EndpointConfig.production;
 
     // region Token manager setup
 
-    final userTokenProvider = switch ((user.type, tokenProvider)) {
-      (UserType.regular, final provider?) => provider,
-      (UserType.regular, null) => throw ArgumentError(
-        'TokenProvider must be provided for regular users.',
-      ),
-      (UserType.anonymous, _) => TokenProvider.static(
-        UserToken.anonymous(userId: user.id),
-      ),
-      (UserType.guest, _) => _guestTokenProvider(
-        user: user,
-        apiKey: apiKey,
-        endpointConfig: endpointConfig,
-        guestRestApi: guestRestApi,
-      ),
+    final (userId, userTokenProvider) = switch ((user.type, tokenProvider)) {
+      (.regular, final provider?) => (user.id, provider),
+      (.regular, null) => throw ArgumentError('TokenProvider must be provided for regular users.'),
+      (.anonymous || .guest, _) => (User.anonymousUserId, TokenProvider.static(.anonymous())),
     };
 
-    // For guest users this starts with the originally-requested id and is
-    // swapped for a manager carrying the server-resolved id once the token
-    // exchange completes (see `_guestTokenProvider`). `AuthInterceptor` reads
-    // the manager through a getter, so it always sees the current instance.
     _tokenManager = TokenManager(
-      userId: user.id,
+      userId: userId,
       tokenProvider: userTokenProvider,
     );
 
@@ -117,21 +98,24 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
     // region WebSocket client setup
 
     _ws = StreamWebSocketClient(
-      options: WebSocketOptions(
+      tag: 'SF:Ws',
+      messageCodec: const FeedsWsCodec(),
+      onAuthenticate: _authenticateUser,
+      wsProvider: wsProvider,
+      optionsBuilder: () => WebSocketOptions(
         url: endpointConfig.wsEndpoint,
         queryParameters: {
           'api_key': apiKey,
-          'stream-auth-type': 'jwt',
+          // Feeds only support ws conn for jwt auth
+          'stream-auth-type': AuthType.jwt.headerValue,
           'X-Stream-Client': _systemEnvironmentManager.userAgent,
         },
       ),
-      messageCodec: const FeedsWsCodec(),
-      onConnectionEstablished: _authenticateUser,
-      wsProvider: wsProvider,
     );
 
     _connectionRecoveryHandler = ConnectionRecoveryHandler(
       client: _ws,
+      tag: 'SF:WsRecovery',
       retryStrategy: retryStrategy,
       networkStateProvider: networkStateProvider,
       lifecycleStateProvider: lifecycleStateProvider,
@@ -153,18 +137,19 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
 
     final httpClient =
         StreamCoreHttpClient(
-          options: _restApiOptions(endpointConfig),
+          options: BaseOptions(
+            baseUrl: endpointConfig.baseFeedsUrl,
+            connectTimeout: const Duration(seconds: 6),
+            receiveTimeout: const Duration(seconds: 6),
+          ),
         ).apply(
           (client) => client.interceptors.addAll([
             ApiKeyInterceptor(apiKey),
             HeadersInterceptor(_systemEnvironmentManager),
-            if (user.type != UserType.anonymous) connectionIdInterceptor,
-            AuthInterceptor.withProvider(
-              client,
-              tokenManagerProvider: () => _tokenManager,
-            ),
+            if (user.type != .anonymous) connectionIdInterceptor,
+            AuthInterceptor(tag: 'SF:HttpAuth', client, _tokenManager),
             const ApiErrorInterceptor(),
-            LoggingInterceptor(requestHeader: true),
+            LoggingInterceptor(tag: 'SF:Http'),
           ]),
         );
 
@@ -187,6 +172,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
     _moderationRepository = ModerationRepository(feedsApi);
     _pollsRepository = PollsRepository(feedsApi);
     _capabilitiesRepository = CapabilitiesRepository(feedsApi);
+    _guestRepository = GuestRepository(feedsApi);
 
     moderation = ModerationClient(_moderationRepository);
 
@@ -201,19 +187,15 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
 
   final String apiKey;
 
-  // The current user identity. Mutable because a guest user's id/profile may
-  // be reassigned by the server once the guest token exchange completes; see
-  // [_guestTokenProvider].
   @override
   User get user => _user;
   User _user;
 
   final FeedsConfig config;
 
-  // Not `final`: for guest users this is swapped for a manager carrying the
-  // server-resolved user id once the token exchange completes (see
-  // `_guestTokenProvider`).
-  late TokenManager _tokenManager;
+  final _logger = const StreamLogger('SF:Client');
+
+  late final TokenManager _tokenManager;
   late final StreamWebSocketClient _ws;
   late final ConnectionRecoveryHandler _connectionRecoveryHandler;
 
@@ -232,6 +214,7 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
   late final ModerationRepository _moderationRepository;
   late final PollsRepository _pollsRepository;
   late final CapabilitiesRepository _capabilitiesRepository;
+  late final GuestRepository _guestRepository;
 
   // TODO: Fill this with correct values
   late final _systemEnvironmentManager = SystemEnvironmentManager(
@@ -250,102 +233,26 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
   @override
   late final ModerationClient moderation;
 
-  // Builds the [TokenProvider] used to obtain a guest JWT.
-  //
-  // Guest users have no pre-issued token, so one is minted lazily via
-  // `POST /api/v2/guest`, called through a dedicated, unauthenticated HTTP
-  // client. The backend may return a different id than the one requested, to
-  // avoid colliding with an existing user, so [_user] is updated to the
-  // server's response to keep the WS handshake and any `client.user` reads in
-  // sync with the identity the token actually authenticates as.
-  //
-  // Once the id is known, [_tokenManager] is swapped for one pinned to that id
-  // with a static provider: the guest identity is established once (like an
-  // anonymous user) rather than re-minted on every token load, and
-  // `AuthInterceptor` — which reads the manager through a getter — picks up
-  // the resolved id for the `user_id` query parameter.
-  TokenProvider _guestTokenProvider({
-    required User user,
-    required String apiKey,
-    required EndpointConfig endpointConfig,
-    api.DefaultApi? guestRestApi,
-  }) {
-    var guestApi = guestRestApi;
+  Future<void> _authenticateUser(
+    WsRequestSender send,
+    StreamApiError? previousError,
+  ) async {
+    if (previousError?.isTokenExpiredError ?? false) {
+      _tokenManager.expireToken();
 
-    return TokenProvider.dynamic((_) async {
-      final guestApiClient = guestApi ??= api.DefaultApi(
-        StreamCoreHttpClient(options: _restApiOptions(endpointConfig)).apply(
-          (client) => client.interceptors.addAll([
-            ApiKeyInterceptor(apiKey),
-            HeadersInterceptor(_systemEnvironmentManager),
-            const ApiErrorInterceptor(),
-          ]),
-        ),
-      );
-
-      final result = await guestApiClient.createGuest(
-        createGuestRequest: api.CreateGuestRequest(
-          user: api.UserRequest(
-            id: user.id,
-            name: user.originalName,
-            image: user.image,
-            custom: user.custom.isEmpty ? null : user.custom,
-          ),
-        ),
-      );
-      final response = result.getOrThrow();
-
-      _user = User(
-        id: response.user.id,
-        name: response.user.name,
-        image: response.user.image,
-        role: response.user.role,
-        type: UserType.guest,
-        custom: response.user.custom,
-      );
-
-      final token = UserToken(response.accessToken);
-
-      // Pin the manager to the resolved id so subsequent REST/WS calls use it
-      // without re-running the guest exchange.
-      _tokenManager = TokenManager(
-        userId: response.user.id,
-        tokenProvider: TokenProvider.static(token),
-      );
-
-      return token;
-    });
-  }
-
-  Future<void> _authenticateUser() async {
-    try {
-      final userToken = await _tokenManager.getToken();
-
-      final connectUserRequest = WsAuthMessageRequest(
-        products: const ['feeds'],
-        token: userToken.rawValue,
-        userDetails: ConnectUserDetailsRequest(
-          id: user.id,
-          name: user.originalName,
-          image: user.image,
-          custom: user.custom,
-        ),
-      );
-
-      _ws.send(connectUserRequest);
-    } catch (error) {
-      // Without this, a token-loading failure (e.g. the guest exchange
-      // failing) would leave the connection stuck in `Authenticating`
-      // forever, since nothing else observes this callback's Future and
-      // `connect()` only resolves on a `Connected`/`Disconnected` state.
-      //
-      // The default `userInitiated` source (rather than `serverInitiated`) is
-      // used deliberately: this is a client-side failure to obtain a token
-      // at all, not a retryable server condition, and `serverInitiated` is
-      // eligible for automatic reconnection, which would otherwise retry
-      // the failing token load indefinitely.
-      await _ws.disconnect();
+      if (_tokenManager.usesStaticProvider) {
+        throw ClientException(message: 'The token was refused and the provider has no other to give');
+      }
     }
+
+    final userToken = await _tokenManager.getToken();
+    final connectUserRequest = WsAuthMessageRequest(
+      products: const ['feeds'],
+      token: userToken.rawValue,
+      userDetails: .fromUser(user),
+    );
+
+    return send(connectUserRequest).getOrThrow();
   }
 
   @override
@@ -354,18 +261,76 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
   @override
   EventEmitter<StateUpdateEvent> get stateUpdateEvents => _stateUpdateEmitter;
   late final _stateUpdateEmitter = MutableEventEmitter<StateUpdateEvent>();
-  StreamSubscription<WsEvent>? _wsEventToStateMapperSubscription;
+  late final StreamSubscription<WsEvent> _wsEventToStateMapperSubscription;
 
   @override
   ConnectionStateEmitter get connectionState => _ws.connectionState;
 
   @override
-  Future<void> connect() async {
-    if (user.type == UserType.anonymous) {
-      throw ClientException(message: 'Cannot connect as an anonymous user.');
+  Future<void> connect({
+    bool connectWebSocket = true,
+  }) {
+    if (isDisposed) {
+      throw StateError('Client for ${user.id} has been disposed');
     }
 
-    // Connect to the WebSocket
+    if (connectionState.value case Connecting() || Authenticating()) {
+      throw ClientException(message: 'Connection already in progress for ${user.id}');
+    }
+
+    if (connectionState.value case Connected()) {
+      throw ClientException(message: 'Connection already available for ${user.id}');
+    }
+
+    _logger.d(() => 'connect ${user.id} (${user.type.name}), webSocket: $connectWebSocket');
+
+    return switch (user.type) {
+      .guest => _connectGuestUser(connectWebSocket: connectWebSocket),
+      .regular || .anonymous => _connectUser(connectWebSocket: connectWebSocket),
+    };
+  }
+
+  Future<void> _connectGuestUser({
+    required bool connectWebSocket,
+  }) async {
+    assert(user.type == .guest, 'Can only connect as a guest user');
+
+    // Every exchange creates another guest, so one already established is kept.
+    if (_tokenManager.userId != user.id) {
+      final result = await _guestRepository.createGuest(user);
+
+      // Reported like every other connect failure, with the cause attached.
+      final response = result.getOrElse(
+        (error, stackTrace) => throw ClientException(
+          message: 'Failed to create a guest user',
+          error: error,
+          stackTrace: stackTrace,
+        ),
+      );
+
+      final tokenProvider = TokenProvider.static(response.token);
+
+      // The server assigns the id, so adopt it and authenticate as it.
+      _logger.d(() => 'guest created, server assigned ${response.user.id}');
+      _user = response.user;
+      _tokenManager.setTokenProvider(
+        response.user.id,
+        tokenProvider: tokenProvider,
+      );
+    }
+
+    return _connectUser(connectWebSocket: connectWebSocket);
+  }
+
+  Future<void> _connectUser({
+    required bool connectWebSocket,
+  }) async {
+    // An anonymous user has no token to authenticate a socket with.
+    if (!connectWebSocket || user.type == .anonymous) {
+      _logger.d(() => 'connected ${user.id} without a socket');
+      return;
+    }
+
     _ws.connect().ignore();
 
     final state = await Future.any([
@@ -373,19 +338,30 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
       connectionState.waitFor<Disconnected>(),
     ]);
 
-    if (state is Disconnected) {
-      final message = state.source.closeReason;
-      throw ClientException(message: message);
+    if (state case Disconnected(:final source)) {
+      _logger.w(() => 'connect ${user.id} failed: ${source.closeReason}', error: source.cause);
+      throw ClientException(message: source.closeReason, error: source.cause);
     }
+
+    _logger.d(() => 'connected ${user.id}');
   }
 
   @override
-  Future<void> disconnect() async {
-    await _wsEventToStateMapperSubscription?.cancel();
+  Future<void> disconnect() => _ws.disconnect();
+
+  @override
+  Future<void> dispose() async {
+    if (isDisposed) return;
+
+    await _wsEventToStateMapperSubscription.cancel();
     await _stateUpdateEmitter.close();
 
     await _connectionRecoveryHandler.dispose();
-    await _ws.disconnect();
+    await _ws.dispose();
+
+    _capabilitiesRepository.dispose();
+
+    return super.dispose();
   }
 
   @override
