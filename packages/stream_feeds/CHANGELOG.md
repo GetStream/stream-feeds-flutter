@@ -11,6 +11,7 @@
 - Added `location` (`LocationCoordinate?`) field to `FeedData`.
 - Added `createNotificationActivity`, `skipPush`, and `enrichOwnFields` optional flags to `FeedAddActivityRequest`.
 - Added optional `deleteNotificationActivity` parameter to `Feed.deleteActivity`, `Feed.deleteComment`, `Feed.deleteActivityReaction`, `Feed.deleteCommentReaction`, `Activity.deleteComment`, and `Activity.deleteCommentReaction` — when `true`, the corresponding notification activity is also deleted.
+- Added `ModerationClient.queryModerationConfigs`, which queries moderation configurations with filters and pagination and returns a `PaginationResult<ModerationConfigData>`.
 
 ### WebSocket events
 - `ActivityRestoredEvent` and `CommentRestoredEvent` are now handled: restored items are upserted back into feed/list state.
@@ -51,11 +52,12 @@ the new names at your earliest convenience.
 - [BREAKING] `PollResponseData.votingVisibility` is now a required field (was optional in the old `Poll` class). Code constructing `Poll`/`PollResponseData` directly (e.g. in tests) must supply `votingVisibility`.
 - [BREAKING] The following types were removed from the public API. They belonged to video/call/chat functionality not relevant to the Feeds SDK and should not have been exported: `AudioSettingsResponse`, `BackstageSettingsResponse`, `BroadcastSettingsResponse`, `CallIngressResponse`, `CallParticipantResponse`, `CallSessionResponse`, `CallSettingsResponse`, `Channel`, `ChannelConfig`, `ChannelMember`, `ChannelMemberLookup`, `ChannelPushPreferences`, `CompositeRecordingResponse`, `ConfigOverrides`, `DeliveryReceipts`, `DenormalizedChannelFields`, `Device`, `EgressHlsResponse`, `EgressResponse`, `EgressRtmpResponse`, `FrameRecordingResponse`, `FrameRecordingSettingsResponse`, `GeofenceSettingsResponse`, `HlsSettingsResponse`, `IndividualRecordingResponse`, `IndividualRecordingSettingsResponse`, `IngressAudioEncodingResponse`, `IngressSettingsResponse`, `IngressSourceResponse`, `IngressVideoEncodingResponse`, `IngressVideoLayerResponse`, `LimitsSettingsResponse`, `Message`, `MessageReminder`, `ModerationActionConfig`, `NoiseCancellationSettings`, `PrivacySettings`, `RawRecordingResponse`, `RawRecordingSettingsResponse`, `ReadReceipts`, `RecordSettingsResponse`, `RingSettingsResponse`, `RtmpIngress`, `RtmpSettingsResponse`, `ScreensharingSettingsResponse`, `SessionSettingsResponse`, `SharedLocation`, `SpeechSegmentConfig`, `SrtIngress`, `TargetResolution`, `ThumbnailResponse`, `ThumbnailsSettingsResponse`, `TranscriptionSettingsResponse`, `TranslationSettings`, `TypingIndicators`, `UserMutedEvent`, `VideoSettingsResponse`, `WhipIngress`.
 - [BREAKING] Changed `ActivityCommentList.state` getter return type from `StateNotifier<ActivityCommentListState>` to `ActivityCommentListState` to be consistent with all other state classes.
+- [BREAKING] All generated enums are now `extension type`s over `String` instead of Dart `enum`s. Existing usages such as `ActivityResponseVisibility.public` still compile, but `.values`, `.name`, `.index` and exhaustive `switch` no longer work, and the `unknown` sentinel member is gone. In exchange the types are now forward compatible: a value the SDK does not know is passed through as-is rather than collapsing to `unknown`, and they can be compared to and used as plain `String`s.
+- [BREAKING] `EpochDateTimeConverter` removed, replaced by `StreamDateTimeConverter` (from `stream_core`). Besides accepting both RFC3339 strings and epoch nanoseconds, it differs in two observable ways: deserialized `DateTime`s are now in UTC rather than local time (so `isUtc` is `true`, calendar getters like `hour` report UTC, and `==` against a local `DateTime` for the same instant is now `false` — use `isAtSameMomentAs` to compare across zones), and serialization emits an RFC3339 string instead of an epoch-nanosecond integer.
 
 ### 🔄 Changed
 
 - Raised the minimum Dart SDK to `^3.12.0`.
-- `StreamDateTimeConverter` now comes from `stream_core` instead of being declared in the generated code. The name, behaviour and import path (`package:stream_feeds/stream_feeds.dart`) are unchanged, so no migration is needed.
 
 ## 0.5.1
 - Added missing state updates for the websocket events.
