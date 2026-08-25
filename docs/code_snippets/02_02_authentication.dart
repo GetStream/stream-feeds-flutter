@@ -29,30 +29,56 @@ Future<void> dynamicTokenProvider() async {
 Future<String> fetchTokenFromYourServer(String userId) async => '<jwt>';
 
 Future<void> guestUserLogin() async {
-  // Guest user: the SDK automatically calls POST /api/v2/guest to obtain
-  // a temporary JWT — no tokenProvider is needed.
-  // Guest users have full read/write access and a real WebSocket connection,
-  // but their session is temporary and not tied to a persistent account.
+  // Guest user: the SDK obtains a temporary token during connect, so no
+  // tokenProvider is needed. The session is temporary and is not tied to a
+  // persistent account.
   final client = StreamFeedsClient(
     apiKey: '<your_api_key>',
     user: User.guest('guest-${DateTime.now().millisecondsSinceEpoch}'),
   );
-  await client.connect(); // Guest JWT is fetched automatically on connect.
+  await client.connect();
 
+  // The server assigns the guest its own id, so read it from `client.user`
+  // rather than reusing the id you asked for.
   final feed = client.feed(group: 'user', id: client.user.id);
   await feed.getOrCreate();
 }
 
 Future<void> anonymousUserLogin() async {
-  // Anonymous user: read-only access with no JWT or WebSocket connection.
-  // Use this for public feeds that don't require authentication.
-  // Note: calling connect() throws for anonymous users.
+  // Anonymous user: no token of its own and no WebSocket connection. Use it to
+  // read public feeds. Calling connect() is not required, and opens no
+  // connection for an anonymous user.
   final client = StreamFeedsClient(
     apiKey: '<your_api_key>',
     user: const User.anonymous(),
   );
 
-  // Read public feed data without connecting.
-  final feed = client.feed(group: 'user', id: 'alice');
+  // Watching requires a connection, so ask for a feed that is not watched.
+  final feed = client.feedFromQuery(
+    const FeedQuery(
+      fid: FeedId(group: 'user', id: 'alice'),
+      watch: false,
+    ),
+  );
+  await feed.getOrCreate();
+}
+
+Future<void> requestOnlyLogin() async {
+  // Authenticate without opening a WebSocket, for a client that only makes
+  // requests. No events are emitted, and a watched query is rejected because
+  // watching requires a connection.
+  final client = StreamFeedsClient(
+    apiKey: '<your_api_key>',
+    user: const User(id: 'alice'),
+    tokenProvider: TokenProvider.static(UserToken('<your_jwt_token>')),
+  );
+  await client.connect(connectWebSocket: false);
+
+  final feed = client.feedFromQuery(
+    const FeedQuery(
+      fid: FeedId(group: 'user', id: 'alice'),
+      watch: false,
+    ),
+  );
   await feed.getOrCreate();
 }

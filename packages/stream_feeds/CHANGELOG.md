@@ -1,7 +1,19 @@
 ## Upcoming
 
 ### Improvements
-- Guest users (`User.guest(id)`) now obtain a real JWT by calling `POST /api/v2/guest` during `connect()`, giving them a full authenticated session with WebSocket support. Previously guest users fell back to the anonymous token which prevented WS connectivity. If the backend assigns a different id to the guest user, `client.user` is updated to match it.
+- Guest users (`User.guest(id)`) now obtain a real JWT by calling `POST /api/v2/guest` during `connect()`, giving them a full authenticated session with WebSocket support. Previously guest users fell back to the anonymous token which prevented WS connectivity. The server assigns the id, so `client.user` is updated to match it, and the identity is established once — reconnecting resumes it rather than creating another guest.
+- `disconnect()` now only closes the connection, leaving the client reusable: subscriptions to `events`, `stateUpdateEvents` and `connectionState` keep working across any number of `connect()`/`disconnect()` cycles. It previously closed them too, so a reconnected client emitted no further state updates and never reconnected automatically again.
+- Added `dispose()`, which releases what `disconnect()` used to, along with the WebSocket client and the capabilities batcher. It is terminal: `connect()` throws a `StateError` afterwards, and calling it twice does nothing. An injected `feedsRestApi` or `wsProvider` is left alone, since the client does not own it.
+- `connect()` takes a `connectWebSocket` flag. Pass `false` to authenticate without opening a WebSocket, for a client that only makes requests: no events are emitted, and a watched query is rejected, since watching requires a connection. An anonymous user always connects this way.
+- A token the server refuses as expired now recovers on its own, reconnecting with one the `TokenProvider` issued afterwards, so a token expiring mid-session no longer leaves the client offline until the app calls `connect()` again. A static token has none to replace it, so the connection is left closed with an authentication failure rather than presenting the refused token again.
+- `connect()` now throws a `ClientException` when a connection is already established or in progress, rather than returning without connecting, and the one it throws on failure now carries the underlying cause instead of only a close reason.
+
+- Added `FeedsConfig.logConfig`, which says how much the client reports and where those records go. Left out, the client installs nothing, so it stays silent and leaves the logger to whichever Stream SDK beside it configured one. Records carry an `SF:` tag, so a handler shared with another SDK can still tell them apart.
+
+### Bug fixes
+- Fixed the HTTP logs carrying the `Authorization` header the request was signed with, which put the user's token in the console of every app that had logging on.
+- Fixed `connect()` failing when called straight after `disconnect()`. `disconnect()` returned before the socket had closed, so the next `connect()` observed the pending closure and reported it as a failed connection.
+- Fixed a failure to send the WebSocket authentication frame being ignored. The connection sat in `Authenticating` until it timed out; it now closes immediately with the real cause.
 
 ### New fields
 - Added `isRead` and `isSeen` fields to `ActivityData` and `AggregatedActivityData` for notification-feed read/seen state.
