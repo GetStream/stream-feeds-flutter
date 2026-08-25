@@ -30,23 +30,3 @@ class AppSplash extends StatelessWidget {
     );
   }
 }
-
-/// [AppSplash] with an app shell of its own.
-///
-/// For the two moments the splash is shown above the app's own [MaterialApp] — before
-/// initialisation finishes, and while an identity is being connected — where it would otherwise
-/// find no theme and fall back.
-class AppSplashScreen extends StatelessWidget {
-  /// Creates an [AppSplashScreen].
-  const AppSplashScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeConfig.lightTheme,
-      darkTheme: ThemeConfig.darkTheme,
-      home: const AppSplash(),
-    );
-  }
-}
