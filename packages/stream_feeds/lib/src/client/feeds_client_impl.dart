@@ -147,9 +147,9 @@ class StreamFeedsClientImpl with Disposable implements StreamFeedsClient {
             ApiKeyInterceptor(apiKey),
             HeadersInterceptor(_systemEnvironmentManager),
             if (user.type != .anonymous) connectionIdInterceptor,
-            AuthInterceptor(tag: 'SF:HttpAuth', client, _tokenManager),
+            AuthInterceptor(client, _tokenManager, tag: 'SF:HttpAuth'),
             const ApiErrorInterceptor(),
-            LoggingInterceptor(tag: 'SF:Http', requestHeader: true),
+            LoggingInterceptor(requestHeader: true, tag: 'SF:Http'),
           ]),
         );
 
