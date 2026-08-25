@@ -10,6 +10,7 @@ class ActivityUpdateCommentRequest with _$ActivityUpdateCommentRequest {
   const ActivityUpdateCommentRequest({
     this.comment,
     this.custom,
+    this.skipEnrichUrl,
     this.skipPush,
   });
 
@@ -19,6 +20,13 @@ class ActivityUpdateCommentRequest with _$ActivityUpdateCommentRequest {
   @override
   final Map<String, Object?>? custom;
 
+  /// Whether to skip URL enrichment for this comment.
+  ///
+  /// When `true`, the backend will not scrape links found in [comment] to
+  /// build an Open Graph preview attachment.
+  @override
+  final bool? skipEnrichUrl;
+
   @override
   final bool? skipPush;
 }
@@ -27,6 +35,7 @@ extension ActivityUpdateCommentRequestMapper on ActivityUpdateCommentRequest {
   api.UpdateCommentRequest toRequest() => api.UpdateCommentRequest(
     comment: comment,
     custom: custom,
+    skipEnrichUrl: skipEnrichUrl,
     skipPush: skipPush,
   );
 }

@@ -762,6 +762,60 @@ void main() {
     );
 
     activityTest(
+      'updateComment - should pass skipEnrichUrl to API',
+      build: (client) => client.activity(activityId: activityId, fid: fid),
+      setUp: (tester) => tester.get(
+        modifyCommentsResponse: (response) => response.copyWith(
+          comments: [
+            createDefaultThreadedCommentResponse(
+              id: commentId,
+              objectId: activityId,
+              objectType: 'activity',
+              text: 'Original comment',
+              userId: userId,
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        tester.mockApi(
+          (api) => api.updateComment(
+            id: commentId,
+            updateCommentRequest: const UpdateCommentRequest(
+              comment: 'https://getstream.io',
+              skipEnrichUrl: true,
+            ),
+          ),
+          result: createDefaultUpdateCommentResponse(
+            commentId: commentId,
+            objectId: activityId,
+            text: 'https://getstream.io',
+            userId: userId,
+          ),
+        );
+
+        final result = await tester.activity.updateComment(
+          commentId,
+          const ActivityUpdateCommentRequest(
+            comment: 'https://getstream.io',
+            skipEnrichUrl: true,
+          ),
+        );
+
+        expect(result.isSuccess, isTrue);
+      },
+      verify: (tester) => tester.verifyApi(
+        (api) => api.updateComment(
+          id: commentId,
+          updateCommentRequest: const UpdateCommentRequest(
+            comment: 'https://getstream.io',
+            skipEnrichUrl: true,
+          ),
+        ),
+      ),
+    );
+
+    activityTest(
       'addCommentsBatch - should add multiple comments via API',
       build: (client) => client.activity(activityId: activityId, fid: fid),
       setUp: (tester) => tester.get(),
