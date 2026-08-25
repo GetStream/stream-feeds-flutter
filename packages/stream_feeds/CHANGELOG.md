@@ -6,7 +6,7 @@
 - `Ban` removed, replaced by `BanInfoResponse`: `target` is now `user`, `shadow` is optional rather than required, and `channel` is gone
 - `PollResponseData.votingVisibility` is now required, so anything constructing one directly must supply it
 - `ActivityCommentList.state` returns `ActivityCommentListState` rather than `StateNotifier<ActivityCommentListState>`, matching the other state classes
-- Removed types that were never part of the Feeds API: `AudioSettingsResponse`, `BackstageSettingsResponse`, `BroadcastSettingsResponse`, `CallIngressResponse`, `CallParticipantResponse`, `CallSessionResponse`, `CallSettingsResponse`, `Channel`, `ChannelConfig`, `ChannelMember`, `ChannelMemberLookup`, `ChannelPushPreferences`, `CompositeRecordingResponse`, `ConfigOverrides`, `DeliveryReceipts`, `DenormalizedChannelFields`, `Device`, `EgressHlsResponse`, `EgressResponse`, `EgressRtmpResponse`, `FrameRecordingResponse`, `FrameRecordingSettingsResponse`, `GeofenceSettingsResponse`, `HlsSettingsResponse`, `IndividualRecordingResponse`, `IndividualRecordingSettingsResponse`, `IngressAudioEncodingResponse`, `IngressSettingsResponse`, `IngressSourceResponse`, `IngressVideoEncodingResponse`, `IngressVideoLayerResponse`, `LimitsSettingsResponse`, `Message`, `MessageReminder`, `ModerationActionConfig`, `NoiseCancellationSettings`, `PrivacySettings`, `RawRecordingResponse`, `RawRecordingSettingsResponse`, `ReadReceipts`, `RecordSettingsResponse`, `RingSettingsResponse`, `RtmpIngress`, `RtmpSettingsResponse`, `ScreensharingSettingsResponse`, `SessionSettingsResponse`, `SharedLocation`, `SpeechSegmentConfig`, `SrtIngress`, `TargetResolution`, `ThumbnailResponse`, `ThumbnailsSettingsResponse`, `TranscriptionSettingsResponse`, `TranslationSettings`, `TypingIndicators`, `UserMutedEvent`, `VideoSettingsResponse`, `WhipIngress`
+- Removed the call, recording, streaming and chat types that were never part of the Feeds API
 
 ### ✨ Features
 
@@ -32,31 +32,7 @@
 - `disconnect` now only closes the connection, leaving the client reusable with its existing subscriptions intact; releasing it is `dispose`
 - An expired token now recovers on its own: the connection comes back with one the `TokenProvider` issued afterwards, without the app doing anything
 - `connect` throws a `ClientException` when a connection is already established or in progress, and the one it throws on failure carries the underlying cause
-- Renamed the types below. The old names still compile, with a deprecation warning:
-
-| Old name | New name |
-| `FollowPair` | `UnfollowPair` |
-| `ActivityLocation` | `Location` |
-| `OwnUser` | `OwnUserResponse` |
-| `UserMute` | `UserMuteResponse` |
-| `Poll` | `PollResponseData` |
-| `PollOption` | `PollOptionResponseData` |
-| `PollVote` | `PollVoteResponseData` |
-| `BanActionRequest` | `BanActionRequestPayload` |
-| `BanActionRequestDeleteMessages` | `BanActionRequestPayloadDeleteMessages` |
-| `BlockActionRequest` | `BlockActionRequestPayload` |
-| `ShadowBlockActionRequest` | `ShadowBlockActionRequestPayload` |
-| `CustomActionRequest` | `CustomActionRequestPayload` |
-| `DeleteUserRequest` | `DeleteUserRequestPayload` |
-| `DeleteActivityRequest` | `DeleteActivityRequestPayload` |
-| `DeleteCommentRequest` | `DeleteCommentRequestPayload` |
-| `DeleteReactionRequest` | `DeleteReactionRequestPayload` |
-| `DeleteMessageRequest` | `DeleteMessageRequestPayload` |
-| `MarkReviewedRequest` | `MarkReviewedRequestPayload` |
-| `RejectAppealRequest` | `RejectAppealRequestPayload` |
-| `RestoreActionRequest` | `RestoreActionRequestPayload` |
-| `UnbanActionRequest` | `UnbanActionRequestPayload` |
-| `UnblockActionRequest` | `UnblockActionRequestPayload` |
+- Renamed several generated types. The old names still compile, with a deprecation warning naming the replacement, and `dart fix --apply` migrates them
 
 ## 0.5.1
 - Added missing state updates for the websocket events.
