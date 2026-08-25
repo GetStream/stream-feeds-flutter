@@ -5,3 +5,6 @@ environment:
 
 dev_dependencies:
   melos: ^6.2.0
+  # Used by tools/generate_version.dart.
+  path: ^1.9.0
+  yaml: ^3.1.3

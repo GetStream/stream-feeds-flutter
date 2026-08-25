@@ -60,6 +60,10 @@ the new names at your earliest convenience.
 
 - Raised the minimum Dart SDK to `^3.12.0`.
 
+### 🐞 Fixed
+
+- Fixed the `X-Stream-Client` header values: the SDK identifier was duplicated, the version was hardcoded, and the OS was never reported.
+
 ## 0.5.1
 - Added missing state updates for the websocket events.
 - Add appeal-related methods to moderation client: `appeal`, `getAppeal`, and `queryAppeals`.
