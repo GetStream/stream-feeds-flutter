@@ -13,7 +13,7 @@
 - Guest users (`User.guest(id)`) can now connect, with the same read and write access and the same real-time updates as a regular user; their id is assigned on connect, so read it from `client.user` afterwards
 - Added `StreamFeedsClient.dispose`, which releases the client for good; `connect` throws a `StateError` afterwards
 - Added a `connectWebSocket` flag to `connect`. Pass `false` for a client that only makes requests: no real-time updates arrive, and a watched query is rejected
-- Added `FeedsConfig.logConfig`, which says how much the client reports and where those records go; left out, the client stays silent
+- Added `FeedsConfig.logConfig`, which says how much the client reports and where those records go; left out, the client stays silent. Records include the `Authorization` header, so weigh what reads them
 - Added `isRead` and `isSeen` to `ActivityData` and `AggregatedActivityData`, for notification-feed read/seen state
 - Added `friendReactionCount` and `friendReactions` to `ActivityData`, exposing reactions from friends
 - Added `metrics` to `ActivityData`, carrying impressions, clicks and similar
@@ -26,7 +26,6 @@
 
 ### 🐛 Bug Fixes
 
-- Fixed the client logging the user's token, which put it in the console of every app that had logging on
 - Fixed `connect` failing when called straight after `disconnect`
 - Fixed a connection that could not authenticate hanging until it timed out, rather than failing with the reason
 
