@@ -27,8 +27,8 @@ class PollList with Disposable {
     required this.query,
     required this.currentUserId,
     required this.pollsRepository,
-    required MutableSharedEmitter<StateUpdateEvent> eventsEmitter,
-  }) : _eventsEmitter = eventsEmitter {
+    required this._eventsEmitter,
+  }) {
     _stateNotifier = PollListStateNotifier(
       currentUserId: currentUserId,
       initialState: const PollListState(),

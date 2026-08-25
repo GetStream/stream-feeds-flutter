@@ -26,8 +26,8 @@ class ActivityReactionList extends Disposable {
   ActivityReactionList({
     required this.query,
     required this.activitiesRepository,
-    required MutableSharedEmitter<StateUpdateEvent> eventsEmitter,
-  }) : _eventsEmitter = eventsEmitter {
+    required this._eventsEmitter,
+  }) {
     _stateNotifier = ActivityReactionListStateNotifier(
       initialState: ActivityReactionListState(query: query),
     );

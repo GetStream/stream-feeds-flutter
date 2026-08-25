@@ -26,8 +26,8 @@ class CommentReplyList with Disposable {
     required this.query,
     required this.currentUserId,
     required this.commentsRepository,
-    required MutableSharedEmitter<StateUpdateEvent> eventsEmitter,
-  }) : _eventsEmitter = eventsEmitter {
+    required this._eventsEmitter,
+  }) {
     _stateNotifier = CommentReplyListStateNotifier(
       currentUserId: currentUserId,
       parentCommentId: query.commentId,

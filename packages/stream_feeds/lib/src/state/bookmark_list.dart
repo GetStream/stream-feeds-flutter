@@ -26,8 +26,8 @@ class BookmarkList with Disposable {
   BookmarkList({
     required this.query,
     required this.bookmarksRepository,
-    required MutableSharedEmitter<StateUpdateEvent> eventsEmitter,
-  }) : _eventsEmitter = eventsEmitter {
+    required this._eventsEmitter,
+  }) {
     _stateNotifier = BookmarkListStateNotifier(
       initialState: const BookmarkListState(),
     );
