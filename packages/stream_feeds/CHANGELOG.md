@@ -2,37 +2,37 @@
 
 ### 💥 BREAKING CHANGES
 
-- Raised the minimum Dart SDK to `^3.12.0`, which `stream_core` now requires
+- Raised the minimum Dart SDK to `^3.12.0`
 - `Ban` removed, replaced by `BanInfoResponse`: `target` is now `user`, `shadow` is optional rather than required, and `channel` is gone
 - `PollResponseData.votingVisibility` is now required, so anything constructing one directly must supply it
 - `ActivityCommentList.state` returns `ActivityCommentListState` rather than `StateNotifier<ActivityCommentListState>`, matching the other state classes
-- Removed the video, call and chat types that were never relevant to Feeds and should not have been exported: `AudioSettingsResponse`, `BackstageSettingsResponse`, `BroadcastSettingsResponse`, `CallIngressResponse`, `CallParticipantResponse`, `CallSessionResponse`, `CallSettingsResponse`, `Channel`, `ChannelConfig`, `ChannelMember`, `ChannelMemberLookup`, `ChannelPushPreferences`, `CompositeRecordingResponse`, `ConfigOverrides`, `DeliveryReceipts`, `DenormalizedChannelFields`, `Device`, `EgressHlsResponse`, `EgressResponse`, `EgressRtmpResponse`, `FrameRecordingResponse`, `FrameRecordingSettingsResponse`, `GeofenceSettingsResponse`, `HlsSettingsResponse`, `IndividualRecordingResponse`, `IndividualRecordingSettingsResponse`, `IngressAudioEncodingResponse`, `IngressSettingsResponse`, `IngressSourceResponse`, `IngressVideoEncodingResponse`, `IngressVideoLayerResponse`, `LimitsSettingsResponse`, `Message`, `MessageReminder`, `ModerationActionConfig`, `NoiseCancellationSettings`, `PrivacySettings`, `RawRecordingResponse`, `RawRecordingSettingsResponse`, `ReadReceipts`, `RecordSettingsResponse`, `RingSettingsResponse`, `RtmpIngress`, `RtmpSettingsResponse`, `ScreensharingSettingsResponse`, `SessionSettingsResponse`, `SharedLocation`, `SpeechSegmentConfig`, `SrtIngress`, `TargetResolution`, `ThumbnailResponse`, `ThumbnailsSettingsResponse`, `TranscriptionSettingsResponse`, `TranslationSettings`, `TypingIndicators`, `UserMutedEvent`, `VideoSettingsResponse`, `WhipIngress`
+- Removed types that were never part of the Feeds API: `AudioSettingsResponse`, `BackstageSettingsResponse`, `BroadcastSettingsResponse`, `CallIngressResponse`, `CallParticipantResponse`, `CallSessionResponse`, `CallSettingsResponse`, `Channel`, `ChannelConfig`, `ChannelMember`, `ChannelMemberLookup`, `ChannelPushPreferences`, `CompositeRecordingResponse`, `ConfigOverrides`, `DeliveryReceipts`, `DenormalizedChannelFields`, `Device`, `EgressHlsResponse`, `EgressResponse`, `EgressRtmpResponse`, `FrameRecordingResponse`, `FrameRecordingSettingsResponse`, `GeofenceSettingsResponse`, `HlsSettingsResponse`, `IndividualRecordingResponse`, `IndividualRecordingSettingsResponse`, `IngressAudioEncodingResponse`, `IngressSettingsResponse`, `IngressSourceResponse`, `IngressVideoEncodingResponse`, `IngressVideoLayerResponse`, `LimitsSettingsResponse`, `Message`, `MessageReminder`, `ModerationActionConfig`, `NoiseCancellationSettings`, `PrivacySettings`, `RawRecordingResponse`, `RawRecordingSettingsResponse`, `ReadReceipts`, `RecordSettingsResponse`, `RingSettingsResponse`, `RtmpIngress`, `RtmpSettingsResponse`, `ScreensharingSettingsResponse`, `SessionSettingsResponse`, `SharedLocation`, `SpeechSegmentConfig`, `SrtIngress`, `TargetResolution`, `ThumbnailResponse`, `ThumbnailsSettingsResponse`, `TranscriptionSettingsResponse`, `TranslationSettings`, `TypingIndicators`, `UserMutedEvent`, `VideoSettingsResponse`, `WhipIngress`
 
 ### ✨ Features
 
-- Guest users (`User.guest(id)`) now obtain a real JWT during `connect()` instead of falling back to the anonymous token, so they get a full session with WebSocket support; the server assigns the id, so read it from `client.user` afterwards
+- Guest users (`User.guest(id)`) can now connect, with the same read and write access and the same real-time updates as a regular user; their id is assigned on connect, so read it from `client.user` afterwards
 - Added `StreamFeedsClient.dispose`, which releases the client for good; `connect` throws a `StateError` afterwards
-- Added a `connectWebSocket` flag to `connect`, for a client that only makes requests: it authenticates without opening a WebSocket
+- Added a `connectWebSocket` flag to `connect`. Pass `false` for a client that only makes requests: no real-time updates arrive, and a watched query is rejected
 - Added `FeedsConfig.logConfig`, which says how much the client reports and where those records go; left out, the client stays silent
 - Added `isRead` and `isSeen` to `ActivityData` and `AggregatedActivityData`, for notification-feed read/seen state
 - Added `friendReactionCount` and `friendReactions` to `ActivityData`, exposing reactions from friends
-- Added `metrics` to `ActivityData`, for server-side activity metrics
+- Added `metrics` to `ActivityData`, carrying impressions, clicks and similar
 - Added `bookmarkCount` and `editedAt` to `CommentData`, and `location` to `FeedData`
 - Added `createNotificationActivity`, `skipPush` and `enrichOwnFields` flags to `FeedAddActivityRequest`
-- `ActivityRestoredEvent` and `CommentRestoredEvent` are now handled, upserting the restored item back into feed and list state
+- A restored activity or comment now reappears in feed and list state, through `ActivityRestoredEvent` and `CommentRestoredEvent`
 
 ### 🐛 Bug Fixes
 
-- Fixed the HTTP logs carrying the `Authorization` header, which put the user's token in the console of every app that had logging on
-- Fixed `connect` failing when called straight after `disconnect`, which reported the pending closure as a failed connection
-- Fixed a failure to send the WebSocket authentication frame being ignored, which left the connection stuck until it timed out
+- Fixed the client logging the user's token, which put it in the console of every app that had logging on
+- Fixed `connect` failing when called straight after `disconnect`
+- Fixed a connection that could not authenticate hanging until it timed out, rather than failing with the reason
 
 ### 🔄 Changed
 
 - `disconnect` now only closes the connection, leaving the client reusable with its existing subscriptions intact; releasing it is `dispose`
-- A token the server refuses as expired now recovers on its own, reconnecting with one the `TokenProvider` issued afterwards
+- An expired token now recovers on its own: the connection comes back with one the `TokenProvider` issued afterwards, without the app doing anything
 - `connect` throws a `ClientException` when a connection is already established or in progress, and the one it throws on failure carries the underlying cause
-- Deprecated the generated types renamed in the underlying API; aliases keep existing code compiling with a deprecation warning:
+- Renamed the types below. The old names still compile, with a deprecation warning:
 
 | Old name | New name |
 | `FollowPair` | `UnfollowPair` |
