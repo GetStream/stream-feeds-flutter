@@ -32,7 +32,7 @@ dependencies:
   state_notifier: ^1.0.0
   stream_core:
     # The ignore below silences `invalid_dependency` because we occasionally
-    # pin stream_core_flutter to a git ref to iterate on it alongside this
+    # pin stream_core to a git ref to iterate on it alongside this
     # SDK between its releases.
     #
     # **Note:** Before publishing stream_feeds, this MUST be swapped

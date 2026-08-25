@@ -8,6 +8,10 @@ Future<void> regularUserLogin() async {
     tokenProvider: TokenProvider.static(UserToken('<your_jwt_token>')),
   );
   await client.connect();
+
+  // Terminal, and what a real app calls when it is done with the client for good —
+  // on sign-out, say. Use `disconnect` to close the connection and keep the client.
+  await client.dispose();
 }
 
 Future<void> dynamicTokenProvider() async {
@@ -23,6 +27,7 @@ Future<void> dynamicTokenProvider() async {
     }),
   );
   await client.connect();
+  await client.dispose();
 }
 
 // Placeholder for your server token fetch
@@ -42,6 +47,8 @@ Future<void> guestUserLogin() async {
   // rather than reusing the id you asked for.
   final feed = client.feed(group: 'user', id: client.user.id);
   await feed.getOrCreate();
+
+  await client.dispose();
 }
 
 Future<void> anonymousUserLogin() async {
@@ -61,6 +68,8 @@ Future<void> anonymousUserLogin() async {
     ),
   );
   await feed.getOrCreate();
+
+  await client.dispose();
 }
 
 Future<void> requestOnlyLogin() async {
@@ -81,4 +90,6 @@ Future<void> requestOnlyLogin() async {
     ),
   );
   await feed.getOrCreate();
+
+  await client.dispose();
 }
