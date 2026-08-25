@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:stream_core/stream_core.dart';
 
@@ -133,12 +134,17 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
       return null; // No connection ID available
     });
 
-    final httpClient =
+    httpClient =
         StreamCoreHttpClient(
           options: BaseOptions(
             baseUrl: endpointConfig.baseFeedsUrl,
             connectTimeout: const Duration(seconds: 6),
             receiveTimeout: const Duration(seconds: 6),
+            // Applied as Dio defaults so the interceptors below — which set
+            // the SDK's own headers on every request — always win. Dio keys
+            // request headers case-insensitively, so a differently-cased
+            // reserved header cannot slip through either.
+            headers: config.customHeaders,
           ),
         ).apply(
           (client) => client.interceptors.addAll([
@@ -188,6 +194,11 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
   final User user;
 
   final FeedsConfig config;
+
+  /// The underlying HTTP client, exposed so tests can assert on the request
+  /// pipeline (interceptors, headers) without going through a mocked API.
+  @visibleForTesting
+  late final StreamCoreHttpClient httpClient;
 
   late final TokenManager _tokenManager;
   late final StreamWebSocketClient _ws;

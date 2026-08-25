@@ -1,5 +1,8 @@
 ## Upcoming
 
+### New features
+- Added `customHeaders` to `FeedsConfig` to send custom headers with every API request.
+
 ### New fields
 - Added `restrictReplies` (`ActivityRestrictReplies`) to `ActivityData` to expose the comment-reply restriction on an activity (everyone / nobody / people_i_follow).
 - Added `restrictReplies` (`AddActivityRequestRestrictReplies?`) to `FeedAddActivityRequest` so comment restrictions can be set when creating an activity.
