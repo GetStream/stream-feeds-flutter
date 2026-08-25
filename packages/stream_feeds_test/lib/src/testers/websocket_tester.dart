@@ -30,15 +30,14 @@ import '../helpers/mocks.dart';
 /// This class is used internally by testers and should not be instantiated directly
 /// in test code.
 final class WebSocketTester {
-  /// Creates a [WebSocketTester] with the given [channel] and [streamController].
+  /// Creates a [WebSocketTester] with the given `channel` and `streamController`.
   ///
-  /// The [channel] is the mock WebSocket channel to configure, and [streamController]
+  /// The `channel` is the mock WebSocket channel to configure, and `streamController`
   /// is used to emit events that simulate server responses.
   WebSocketTester({
-    required MockWebSocketChannel channel,
-    required StreamController<Object> streamController,
-  }) : _channel = channel,
-       _streamController = streamController;
+    required this._channel,
+    required this._streamController,
+  });
 
   // The mock WebSocket channel being configured.
   final MockWebSocketChannel _channel;
