@@ -55,6 +55,7 @@ the new names at your earliest convenience.
 ### 🔄 Changed
 
 - Raised the minimum Dart SDK to `^3.12.0`.
+- `StreamDateTimeConverter` now comes from `stream_core` instead of being declared in the generated code. The name, behaviour and import path (`package:stream_feeds/stream_feeds.dart`) are unchanged, so no migration is needed.
 
 ## 0.5.1
 - Added missing state updates for the websocket events.
