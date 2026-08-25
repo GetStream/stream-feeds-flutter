@@ -19,7 +19,8 @@ part 'activity_processor_config.freezed.dart';
 class ActivityProcessorConfig with _$ActivityProcessorConfig {
   const ActivityProcessorConfig({
     this.config,
-    this.openaiKey,
+    this.minTextLength,
+    this.minWordCount,
     required this.type,
   });
 
@@ -28,8 +29,12 @@ class ActivityProcessorConfig with _$ActivityProcessorConfig {
   final Map<String, Object?>? config;
 
   @override
-  @JsonKey(name: 'openai_key')
-  final String? openaiKey;
+  @JsonKey(name: 'min_text_length')
+  final int? minTextLength;
+
+  @override
+  @JsonKey(name: 'min_word_count')
+  final int? minWordCount;
 
   @override
   @JsonKey(name: 'type')

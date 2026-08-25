@@ -646,15 +646,11 @@ extension type const ActivityRestrictReplies(String value) implements String {
 
 /// Extension function to convert an [ActivityResponseRestrictReplies] to an [ActivityRestrictReplies].
 extension ActivityResponseRestrictRepliesMapper on ActivityResponseRestrictReplies {
-  /// Converts this API restrict-replies enum to the domain [ActivityRestrictReplies].
-  ActivityRestrictReplies toModel() {
-    return switch (this) {
-      ActivityResponseRestrictReplies.everyone => ActivityRestrictReplies.everyone,
-      ActivityResponseRestrictReplies.nobody => ActivityRestrictReplies.nobody,
-      ActivityResponseRestrictReplies.peopleIFollow => ActivityRestrictReplies.peopleIFollow,
-      ActivityResponseRestrictReplies.unknown => ActivityRestrictReplies.unknown,
-    };
-  }
+  /// Converts this API restrict-replies value to a domain [ActivityRestrictReplies].
+  ///
+  /// Both sides are `String`-backed, so any value the API sends is carried over
+  /// verbatim — including ones this client version doesn't know about yet.
+  ActivityRestrictReplies toModel() => ActivityRestrictReplies(this);
 }
 
 /// Extension function to convert an [ActivityResponseVisibility] to an [ActivityDataVisibility].

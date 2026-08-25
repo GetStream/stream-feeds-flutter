@@ -388,6 +388,12 @@ abstract interface class DefaultApi {
     @Query('team') String? team,
   });
 
+  @GET('/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/counts')
+  Future<Result<GetFeedCountsResponse>> getFeedCounts({
+    @Path('feed_group_id') required String feedGroupId,
+    @Path('feed_id') required String feedId,
+  });
+
   @GET('/api/v2/feeds/feed_groups/{feed_group_id}/follow_suggestions')
   Future<Result<GetFollowSuggestionsResponse>> getFollowSuggestions({
     @Path('feed_group_id') required String feedGroupId,

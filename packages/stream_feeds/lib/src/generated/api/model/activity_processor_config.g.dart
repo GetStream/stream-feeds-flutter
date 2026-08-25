@@ -10,7 +10,8 @@ ActivityProcessorConfig _$ActivityProcessorConfigFromJson(
   Map<String, dynamic> json,
 ) => ActivityProcessorConfig(
   config: json['config'] as Map<String, dynamic>?,
-  openaiKey: json['openai_key'] as String?,
+  minTextLength: (json['min_text_length'] as num?)?.toInt(),
+  minWordCount: (json['min_word_count'] as num?)?.toInt(),
   type: json['type'] as String,
 );
 
@@ -18,6 +19,7 @@ Map<String, dynamic> _$ActivityProcessorConfigToJson(
   ActivityProcessorConfig instance,
 ) => <String, dynamic>{
   'config': instance.config,
-  'openai_key': instance.openaiKey,
+  'min_text_length': instance.minTextLength,
+  'min_word_count': instance.minWordCount,
   'type': instance.type,
 };

@@ -78,6 +78,7 @@ class ChannelConfigWithInfo with _$ChannelConfigWithInfo {
     this.grants,
     required this.markMessagesPending,
     required this.maxMessageLength,
+    required this.messageRetention,
     required this.mutes,
     required this.name,
     this.partitionSize,
@@ -168,6 +169,10 @@ class ChannelConfigWithInfo with _$ChannelConfigWithInfo {
   @override
   @JsonKey(name: 'max_message_length')
   final int maxMessageLength;
+
+  @override
+  @JsonKey(name: 'message_retention')
+  final String messageRetention;
 
   @override
   @JsonKey(name: 'mutes')

@@ -2642,6 +2642,45 @@ class _DefaultApi implements DefaultApi {
     );
   }
 
+  Future<GetFeedCountsResponse> _getFeedCounts({
+    required String feedGroupId,
+    required String feedId,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<Result<GetFeedCountsResponse>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/feeds/feed_groups/${feedGroupId}/feeds/${feedId}/counts',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late GetFeedCountsResponse _value;
+    try {
+      _value = GetFeedCountsResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<GetFeedCountsResponse>> getFeedCounts({
+    required String feedGroupId,
+    required String feedId,
+  }) {
+    return _ResultCallAdapter<GetFeedCountsResponse>().adapt(
+      () => _getFeedCounts(feedGroupId: feedGroupId, feedId: feedId),
+    );
+  }
+
   Future<GetFollowSuggestionsResponse> _getFollowSuggestions({
     required String feedGroupId,
     int? limit,

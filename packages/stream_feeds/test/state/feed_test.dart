@@ -4748,7 +4748,7 @@ void main() {
               createDefaultActivityResponse(
                 id: 'activity-1',
                 feeds: [feedId.rawValue],
-                restrictReplies: ActivityResponseRestrictReplies.unknown,
+                restrictReplies: ActivityResponseRestrictReplies.fromJson('unknown'),
               ),
             ],
           ),

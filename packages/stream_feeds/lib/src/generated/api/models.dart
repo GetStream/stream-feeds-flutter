@@ -263,6 +263,7 @@ export 'model/get_comment_replies_response.dart';
 export 'model/get_comment_response.dart';
 export 'model/get_comments_response.dart';
 export 'model/get_config_response.dart';
+export 'model/get_feed_counts_response.dart';
 export 'model/get_follow_suggestions_response.dart';
 export 'model/get_og_response.dart';
 export 'model/get_or_create_feed_request.dart';

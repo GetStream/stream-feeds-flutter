@@ -30,6 +30,7 @@ mixin _$ChannelConfigWithInfo {
   Map<String, List<String>>? get grants;
   bool get markMessagesPending;
   int get maxMessageLength;
+  String get messageRetention;
   bool get mutes;
   String get name;
   int? get partitionSize;
@@ -90,6 +91,7 @@ mixin _$ChannelConfigWithInfo {
             (identical(other.markMessagesPending, markMessagesPending) ||
                 other.markMessagesPending == markMessagesPending) &&
             (identical(other.maxMessageLength, maxMessageLength) || other.maxMessageLength == maxMessageLength) &&
+            (identical(other.messageRetention, messageRetention) || other.messageRetention == messageRetention) &&
             (identical(other.mutes, mutes) || other.mutes == mutes) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.partitionSize, partitionSize) || other.partitionSize == partitionSize) &&
@@ -137,6 +139,7 @@ mixin _$ChannelConfigWithInfo {
     const DeepCollectionEquality().hash(grants),
     markMessagesPending,
     maxMessageLength,
+    messageRetention,
     mutes,
     name,
     partitionSize,
@@ -161,7 +164,7 @@ mixin _$ChannelConfigWithInfo {
 
   @override
   String toString() {
-    return 'ChannelConfigWithInfo(allowedFlagReasons: $allowedFlagReasons, automod: $automod, automodBehavior: $automodBehavior, automodThresholds: $automodThresholds, blocklist: $blocklist, blocklistBehavior: $blocklistBehavior, blocklists: $blocklists, chatPreferences: $chatPreferences, commands: $commands, connectEvents: $connectEvents, countMessages: $countMessages, createdAt: $createdAt, customEvents: $customEvents, deliveryEvents: $deliveryEvents, grants: $grants, markMessagesPending: $markMessagesPending, maxMessageLength: $maxMessageLength, mutes: $mutes, name: $name, partitionSize: $partitionSize, partitionTtl: $partitionTtl, polls: $polls, pushLevel: $pushLevel, pushNotifications: $pushNotifications, quotes: $quotes, reactions: $reactions, readEvents: $readEvents, reminders: $reminders, replies: $replies, search: $search, sharedLocations: $sharedLocations, skipLastMsgUpdateForSystemMsgs: $skipLastMsgUpdateForSystemMsgs, typingEvents: $typingEvents, updatedAt: $updatedAt, uploads: $uploads, urlEnrichment: $urlEnrichment, userMessageReminders: $userMessageReminders)';
+    return 'ChannelConfigWithInfo(allowedFlagReasons: $allowedFlagReasons, automod: $automod, automodBehavior: $automodBehavior, automodThresholds: $automodThresholds, blocklist: $blocklist, blocklistBehavior: $blocklistBehavior, blocklists: $blocklists, chatPreferences: $chatPreferences, commands: $commands, connectEvents: $connectEvents, countMessages: $countMessages, createdAt: $createdAt, customEvents: $customEvents, deliveryEvents: $deliveryEvents, grants: $grants, markMessagesPending: $markMessagesPending, maxMessageLength: $maxMessageLength, messageRetention: $messageRetention, mutes: $mutes, name: $name, partitionSize: $partitionSize, partitionTtl: $partitionTtl, polls: $polls, pushLevel: $pushLevel, pushNotifications: $pushNotifications, quotes: $quotes, reactions: $reactions, readEvents: $readEvents, reminders: $reminders, replies: $replies, search: $search, sharedLocations: $sharedLocations, skipLastMsgUpdateForSystemMsgs: $skipLastMsgUpdateForSystemMsgs, typingEvents: $typingEvents, updatedAt: $updatedAt, uploads: $uploads, urlEnrichment: $urlEnrichment, userMessageReminders: $userMessageReminders)';
   }
 }
 
@@ -190,6 +193,7 @@ abstract mixin class $ChannelConfigWithInfoCopyWith<$Res> {
     Map<String, List<String>>? grants,
     bool markMessagesPending,
     int maxMessageLength,
+    String messageRetention,
     bool mutes,
     String name,
     int? partitionSize,
@@ -242,6 +246,7 @@ class _$ChannelConfigWithInfoCopyWithImpl<$Res> implements $ChannelConfigWithInf
     Object? grants = freezed,
     Object? markMessagesPending = null,
     Object? maxMessageLength = null,
+    Object? messageRetention = null,
     Object? mutes = null,
     Object? name = null,
     Object? partitionSize = freezed,
@@ -333,6 +338,10 @@ class _$ChannelConfigWithInfoCopyWithImpl<$Res> implements $ChannelConfigWithInf
             ? _self.maxMessageLength
             : maxMessageLength // ignore: cast_nullable_to_non_nullable
                   as int,
+        messageRetention: null == messageRetention
+            ? _self.messageRetention
+            : messageRetention // ignore: cast_nullable_to_non_nullable
+                  as String,
         mutes: null == mutes
             ? _self.mutes
             : mutes // ignore: cast_nullable_to_non_nullable
