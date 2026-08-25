@@ -26,8 +26,8 @@ class FollowList with Disposable {
   FollowList({
     required this.query,
     required this.feedsRepository,
-    required MutableSharedEmitter<StateUpdateEvent> eventsEmitter,
-  }) : _eventsEmitter = eventsEmitter {
+    required this._eventsEmitter,
+  }) {
     _stateNotifier = FollowListStateNotifier(
       initialState: const FollowListState(),
     );
