@@ -12,6 +12,10 @@ Future<void> seeWhatTheClientIsDoing() async {
     ),
   );
   await client.connect();
+
+  // Terminal, and what a real app calls when it is done with the client for good. Use `disconnect`
+  // to close the connection and keep the client.
+  await client.dispose();
 }
 
 Future<void> sendRecordsSomewhereElse() async {
@@ -28,6 +32,7 @@ Future<void> sendRecordsSomewhereElse() async {
     ),
   );
   await client.connect();
+  await client.dispose();
 }
 
 Future<void> keepTheConsoleAsWell() async {
@@ -49,6 +54,7 @@ Future<void> keepTheConsoleAsWell() async {
     ),
   );
   await client.connect();
+  await client.dispose();
 }
 
 Future<void> onlyWhileDeveloping() async {
@@ -65,6 +71,7 @@ Future<void> onlyWhileDeveloping() async {
     ),
   );
   await client.connect();
+  await client.dispose();
 }
 
 Future<void> turnUpOneSubsystem() async {
@@ -85,6 +92,7 @@ Future<void> turnUpOneSubsystem() async {
     ),
   );
   await client.connect();
+  await client.dispose();
 }
 
 // Placeholder for wherever your app sends its diagnostics.

@@ -80,19 +80,21 @@ export 'client/moderation_client.dart';
 ///
 /// ## Logging
 ///
-/// Pass `logPriority` to see what the client is doing, and `logHandler` to say where those
-/// records go. Left alone, the client writes nothing:
+/// Pass a [StreamLogConfig] to say how much the client reports and where those records go. Left
+/// out, the client writes nothing:
 ///
 /// ```dart
 /// final client = StreamFeedsClient(
 ///   apiKey: 'your-api-key',
 ///   user: user,
-///   logPriority: StreamLogPriority.debug,
+///   config: const FeedsConfig(
+///     logConfig: StreamLogConfig(priority: StreamLogPriority.debug),
+///   ),
 /// );
 /// ```
 ///
-/// Both settings are shared with every other Stream SDK in the process, so passing them decides
-/// for those too. Every record this client writes is tagged `SF:`, which is what tells them apart
+/// The logger is shared with every other Stream SDK in the process, so passing one decides for
+/// those too. Every record this client writes is tagged `SF:`, which is what tells them apart
 /// from another SDK's in the same log.
 ///
 /// Some of those records carry the `Authorization` header, so weigh what reads them.

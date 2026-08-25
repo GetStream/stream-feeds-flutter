@@ -1,4 +1,5 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:stream_feeds/stream_feeds.dart';
 
 import '../core/di/di_initializer.dart';
@@ -29,7 +30,9 @@ Future<void> onBackgroundMessageHandler(RemoteMessage message) async {
 
   // A background message runs in an isolate of its own, which shares no statics with the app, so
   // the logger is set up again here rather than by whatever configured it there.
-  StreamLogger.configure(const StreamLogConfig(priority: StreamLogPriority.debug));
+  StreamLogger.configure(
+    const StreamLogConfig(priority: kDebugMode ? StreamLogPriority.debug : StreamLogPriority.none),
+  );
   _logger.d(() => '📨 Background message received: ${notification.type}');
   _logger.d(() => '📨 Title: ${notification.title}');
   _logger.d(() => '📨 Body: ${notification.body}');
