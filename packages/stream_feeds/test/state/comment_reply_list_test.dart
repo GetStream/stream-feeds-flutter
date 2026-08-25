@@ -341,7 +341,7 @@ void main() {
     );
 
     commentReplyListTest(
-      'should skip top-level comments (only handles replies)',
+      'should skip top-priority comments (only handles replies)',
       build: (client) => client.commentReplyList(query),
       setUp: (tester) => tester.get(
         modifyResponse: (response) => response.copyWith(comments: const []),
@@ -368,13 +368,13 @@ void main() {
           ),
         );
 
-        // Verify state was not updated (only replies are added, not top-level comments)
+        // Verify state was not updated (only replies are added, not top-priority comments)
         expect(tester.commentReplyListState.replies, isEmpty);
       },
     );
 
     commentReplyListTest(
-      'should skip top-level comment updates (only handles replies)',
+      'should skip top-priority comment updates (only handles replies)',
       build: (client) => client.commentReplyList(query),
       setUp: (tester) => tester.get(
         modifyResponse: (response) => response.copyWith(
@@ -414,7 +414,7 @@ void main() {
           ),
         );
 
-        // Verify state was not updated (only replies are updated, not top-level comments)
+        // Verify state was not updated (only replies are updated, not top-priority comments)
         expect(tester.commentReplyListState.replies, hasLength(1));
         expect(
           tester.commentReplyListState.replies.first.text,
@@ -424,7 +424,7 @@ void main() {
     );
 
     commentReplyListTest(
-      'should skip top-level comment deletions (only handles replies)',
+      'should skip top-priority comment deletions (only handles replies)',
       build: (client) => client.commentReplyList(query),
       setUp: (tester) => tester.get(
         modifyResponse: (response) => response.copyWith(
@@ -459,7 +459,7 @@ void main() {
           ),
         );
 
-        // Verify state was not updated (only replies are deleted, not top-level comments)
+        // Verify state was not updated (only replies are deleted, not top-priority comments)
         expect(tester.commentReplyListState.replies, hasLength(1));
       },
     );
@@ -474,14 +474,14 @@ void main() {
               id: replyId,
               objectId: commentId,
               objectType: 'activity',
-              text: 'Top-level reply',
+              text: 'Top-priority reply',
               userId: userId,
             ),
           ],
         ),
       ),
       body: (tester) async {
-        // Initial state - has top-level reply
+        // Initial state - has top-priority reply
         expect(tester.commentReplyListState.replies, hasLength(1));
         final initialReply = tester.commentReplyListState.replies.first;
         expect(initialReply.id, replyId);
@@ -528,7 +528,7 @@ void main() {
               id: replyId,
               objectId: commentId,
               objectType: 'activity',
-              text: 'Top-level reply',
+              text: 'Top-priority reply',
               userId: userId,
               replies: [
                 createDefaultThreadedCommentResponse(
@@ -587,7 +587,7 @@ void main() {
               id: replyId,
               objectId: commentId,
               objectType: 'activity',
-              text: 'Top-level reply',
+              text: 'Top-priority reply',
               userId: userId,
               replies: [
                 createDefaultThreadedCommentResponse(
@@ -630,7 +630,7 @@ void main() {
         final updatedTopLevelReply = tester.commentReplyListState.replies.first;
         expect(updatedTopLevelReply.replies, isEmpty);
         expect(updatedTopLevelReply.replyCount, 0);
-        // Top-level reply should still exist
+        // Top-priority reply should still exist
         expect(tester.commentReplyListState.replies, hasLength(1));
         expect(tester.commentReplyListState.replies.first.id, replyId);
       },
@@ -646,14 +646,14 @@ void main() {
               id: replyId,
               objectId: commentId,
               objectType: 'activity',
-              text: 'Top-level reply',
+              text: 'Top-priority reply',
               userId: userId,
             ),
           ],
         ),
       ),
       body: (tester) async {
-        // Initial state - has top-level reply
+        // Initial state - has top-priority reply
         expect(tester.commentReplyListState.replies, hasLength(1));
         final topLevelReply = tester.commentReplyListState.replies.first;
         expect(topLevelReply.replies, isNull);
@@ -693,14 +693,14 @@ void main() {
               id: replyId,
               objectId: commentId,
               objectType: 'activity',
-              text: 'Top-level reply',
+              text: 'Top-priority reply',
               userId: userId,
               replies: [
                 createDefaultThreadedCommentResponse(
                   id: 'nested-reply-1',
                   objectId: commentId,
                   objectType: 'activity',
-                  text: 'Second-level reply',
+                  text: 'Second-priority reply',
                   userId: userId,
                 ),
               ],
@@ -766,14 +766,14 @@ void main() {
               id: replyId,
               objectId: commentId,
               objectType: 'activity',
-              text: 'Top-level reply',
+              text: 'Top-priority reply',
               userId: userId,
               replies: [
                 createDefaultThreadedCommentResponse(
                   id: 'nested-reply-1',
                   objectId: commentId,
                   objectType: 'activity',
-                  text: 'Second-level reply',
+                  text: 'Second-priority reply',
                   userId: userId,
                   replies: [
                     createDefaultThreadedCommentResponse(
@@ -839,14 +839,14 @@ void main() {
               id: replyId,
               objectId: commentId,
               objectType: 'activity',
-              text: 'Top-level reply',
+              text: 'Top-priority reply',
               userId: userId,
               replies: [
                 createDefaultThreadedCommentResponse(
                   id: 'nested-reply-1',
                   objectId: commentId,
                   objectType: 'activity',
-                  text: 'Second-level reply',
+                  text: 'Second-priority reply',
                   userId: userId,
                   replies: [
                     createDefaultThreadedCommentResponse(
@@ -893,7 +893,7 @@ void main() {
         final updatedSecondLevelReply = updatedTopLevelReply.replies!.first;
         expect(updatedSecondLevelReply.replies, isEmpty);
         expect(updatedSecondLevelReply.replyCount, 0);
-        // Second-level reply should still exist
+        // Second-priority reply should still exist
         expect(updatedTopLevelReply.replies, hasLength(1));
         expect(updatedTopLevelReply.replies!.first.id, 'nested-reply-1');
       },
@@ -1088,7 +1088,7 @@ void main() {
               id: replyId,
               objectId: commentId,
               objectType: 'activity',
-              text: 'Top-level reply',
+              text: 'Top-priority reply',
               userId: userId,
               replies: [
                 createDefaultThreadedCommentResponse(
@@ -1153,14 +1153,14 @@ void main() {
               id: replyId,
               objectId: commentId,
               objectType: 'activity',
-              text: 'Top-level reply',
+              text: 'Top-priority reply',
               userId: userId,
               replies: [
                 createDefaultThreadedCommentResponse(
                   id: 'nested-reply-1',
                   objectId: commentId,
                   objectType: 'activity',
-                  text: 'Second-level reply',
+                  text: 'Second-priority reply',
                   userId: userId,
                   replies: [
                     createDefaultThreadedCommentResponse(
@@ -1232,14 +1232,14 @@ void main() {
               id: replyId,
               objectId: commentId,
               objectType: 'activity',
-              text: 'Top-level reply',
+              text: 'Top-priority reply',
               userId: userId,
               replies: [
                 createDefaultThreadedCommentResponse(
                   id: 'nested-reply-1',
                   objectId: commentId,
                   objectType: 'activity',
-                  text: 'Second-level reply',
+                  text: 'Second-priority reply',
                   userId: userId,
                   replies: [
                     createDefaultThreadedCommentResponse(
@@ -1301,7 +1301,7 @@ void main() {
     );
 
     commentReplyListTest(
-      'should skip reaction additions for top-level comments (only handles replies)',
+      'should skip reaction additions for top-priority comments (only handles replies)',
       build: (client) => client.commentReplyList(query),
       setUp: (tester) => tester.get(
         modifyResponse: (response) => response.copyWith(
@@ -1343,14 +1343,14 @@ void main() {
           ),
         );
 
-        // Verify state was not updated (only replies get reactions, not top-level comments)
+        // Verify state was not updated (only replies get reactions, not top-priority comments)
         final updatedReply = tester.commentReplyListState.replies.first;
         expect(updatedReply.ownReactions, isEmpty);
       },
     );
 
     commentReplyListTest(
-      'should skip reaction updates for top-level comments (only handles replies)',
+      'should skip reaction updates for top-priority comments (only handles replies)',
       build: (client) => client.commentReplyList(query),
       setUp: (tester) => tester.get(
         modifyResponse: (response) => response.copyWith(
@@ -1400,7 +1400,7 @@ void main() {
           ),
         );
 
-        // Verify state was not updated (only replies get reactions updated, not top-level comments)
+        // Verify state was not updated (only replies get reactions updated, not top-priority comments)
         final updatedReply = tester.commentReplyListState.replies.first;
         expect(updatedReply.ownReactions, hasLength(1));
         expect(updatedReply.ownReactions.first.type, reactionType);
@@ -1408,7 +1408,7 @@ void main() {
     );
 
     commentReplyListTest(
-      'should skip reaction deletions for top-level comments (only handles replies)',
+      'should skip reaction deletions for top-priority comments (only handles replies)',
       build: (client) => client.commentReplyList(query),
       setUp: (tester) => tester.get(
         modifyResponse: (response) => response.copyWith(
@@ -1456,7 +1456,7 @@ void main() {
           ),
         );
 
-        // Verify state was not updated (only replies get reactions deleted, not top-level comments)
+        // Verify state was not updated (only replies get reactions deleted, not top-priority comments)
         final updatedReply = tester.commentReplyListState.replies.first;
         expect(updatedReply.ownReactions, hasLength(1));
       },

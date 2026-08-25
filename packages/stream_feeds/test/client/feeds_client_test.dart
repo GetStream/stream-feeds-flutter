@@ -48,18 +48,317 @@ void main() {
         );
 
         // Attempt connection - should fail
-        await expectLater(
-          tester.client.connect(),
-          throwsA(isA<ClientException>()),
-        );
+        await expectLater(tester.client.connect(), throwsA(isA<ClientException>()));
 
         // Verify state transitions expectation
         await connectionStateExpectation;
       },
     );
+
+    feedsClientTest(
+      'should not open a WebSocket when asked not to',
+      connect: (tester) => addTearDown(tester.client.dispose),
+      body: (tester) async {
+        await tester.client.connect(connectWebSocket: false);
+
+        // Verify no socket was opened
+        expect(tester.client.connectionState.value, isA<Initialized>());
+      },
+    );
+  });
+
+  group('token rejected by the server', () {
+    var tokenLoads = 0;
+
+    Object connectionError() => {
+      'type': 'connection.error',
+      'connection_id': 'test-connection-id',
+      'created_at': DateTime.timestamp().millisecondsSinceEpoch,
+      'error': {
+        // 40 = the token expired, the one refusal another token repairs.
+        'code': 40,
+        'message': 'token expired',
+        'StatusCode': 401,
+        'details': <int>[],
+        'duration': '0ms',
+        'more_info': '',
+      },
+    };
+
+    feedsClientTest(
+      'stays closed when the provider has no other token to give',
+      connect: (tester) async {
+        // The default provider is static, as a guest's is.
+        tester.mockSuccessfulAuth(tester.user.id);
+        await tester.client.connect();
+        addTearDown(tester.client.dispose);
+      },
+      body: (tester) async {
+        final states = <WebSocketConnectionState>[];
+        final subscription = tester.client.connectionState.listen(states.add);
+        addTearDown(subscription.cancel);
+
+        await tester.emitEvent(connectionError());
+        await tester.pumpEventQueue();
+
+        // Reconnecting presents the token again, so the attempt is declined rather than made — and
+        // an authentication failure is not retried, which is what stops the backoff from offering
+        // the refused token for the life of the client.
+        expect(
+          tester.client.connectionState.value,
+          isA<Disconnected>().having((it) => it.source, 'source', isA<AuthenticationFailed>()),
+        );
+        expect(states.whereType<Connecting>(), hasLength(1));
+      },
+    );
+
+    feedsClientTest(
+      'fails the connection with the error the server sent',
+      connect: (tester) {
+        tester.mockFailedAuth();
+        addTearDown(tester.client.dispose);
+      },
+      body: (tester) async {
+        await expectLater(
+          tester.client.connect(),
+          throwsA(isA<ClientException>().having((it) => it.apiError?.code, 'apiError.code', 40)),
+        );
+      },
+    );
+
+    feedsClientTest(
+      'is kept when the server closed for a reason other than the token',
+      tokenProvider: TokenProvider.dynamic((userId) async {
+        tokenLoads++;
+        return generateTestUserToken(userId);
+      }),
+      connect: (tester) async {
+        tester.mockSuccessfulAuth(tester.user.id);
+        await tester.client.connect();
+        addTearDown(tester.client.dispose);
+      },
+      body: (tester) async {
+        tokenLoads = 0;
+
+        // A server error that says nothing about the token, and is retried like
+        // any other. Dropping the token here would send the reconnect to the
+        // provider for one that was never refused.
+        await tester.emitEvent({
+          'type': 'connection.error',
+          'connection_id': 'test-connection-id',
+          'created_at': DateTime.timestamp().millisecondsSinceEpoch,
+          'error': {
+            'code': 5, // internal error
+            'message': 'something went wrong',
+            'StatusCode': 500,
+            'details': <int>[],
+            'duration': '0ms',
+            'more_info': '',
+          },
+        });
+        await tester.pumpEventQueue();
+
+        expect(tester.client.connectionState.value, isA<Connected>());
+        expect(tokenLoads, 0);
+      },
+    );
+
+    feedsClientTest(
+      'is kept when a disconnect was not about it',
+      tokenProvider: TokenProvider.dynamic((userId) async {
+        tokenLoads++;
+        return generateTestUserToken(userId);
+      }),
+      connect: (tester) async {
+        tester.mockSuccessfulAuth(tester.user.id);
+        await tester.client.connect();
+        addTearDown(tester.client.dispose);
+      },
+      body: (tester) async {
+        tokenLoads = 0;
+
+        // A deliberate disconnect says nothing about the token, and neither does
+        // a network drop. Dropping it here would send every reconnect to the
+        // provider for a token that was never refused.
+        await tester.client.disconnect();
+        await tester.client.connect();
+
+        expect(tester.client.connectionState.value, isA<Connected>());
+        expect(tokenLoads, 0);
+      },
+    );
+
+    feedsClientTest(
+      'is dropped on a live connection, which comes back with a fresh one',
+      tokenProvider: TokenProvider.dynamic((userId) async {
+        tokenLoads++;
+        return generateTestUserToken(userId);
+      }),
+      connect: (tester) async {
+        tester.mockSuccessfulAuth(tester.user.id);
+        await tester.client.connect();
+        addTearDown(tester.client.dispose);
+      },
+      body: (tester) async {
+        tokenLoads = 0;
+        final states = <WebSocketConnectionState>[];
+        final subscription = tester.client.connectionState.listen(states.add);
+        addTearDown(subscription.cancel);
+
+        // The server refuses the token of a connection that was working. These
+        // test tokens name no expiry, so nothing could have seen it coming —
+        // which is the case the client drops the cached token for.
+        await tester.emitEvent(connectionError());
+        await tester.pumpEventQueue();
+
+        // Reconnecting is the recovery handler's, and the token it presents was
+        // issued after the refusal. The app is told nothing and does nothing.
+        expect(states.whereType<Connecting>(), hasLength(1));
+        expect(tester.client.connectionState.value, isA<Connected>());
+        expect(tokenLoads, 1);
+      },
+    );
+  });
+
+  group('credentials that never reached the server', () {
+    feedsClientTest(
+      'fails the connection when the frame carrying them could not be sent',
+      connect: (tester) {
+        tester.mockFailedSend();
+        addTearDown(tester.client.dispose);
+      },
+      body: (tester) async {
+        // Ignored, this would sit in `Authenticating` until the connect timeout swept it up.
+        await expectLater(
+          tester.client.connect(),
+          throwsA(isA<ClientException>()),
+        );
+
+        expect(
+          tester.client.connectionState.value,
+          isA<Disconnected>().having((it) => it.source, 'source', isA<AuthenticationFailed>()),
+        );
+      },
+    );
+  });
+
+  group('token the provider could not issue', () {
+    feedsClientTest(
+      'fails the connection with the reason it could not be loaded',
+      tokenProvider: TokenProvider.dynamic((_) async => throw Exception('token endpoint is down')),
+      connect: (tester) {
+        // Stubbed so the socket itself works: the only thing failing here is the token.
+        tester.mockSuccessfulAuth(tester.user.id);
+        addTearDown(tester.client.dispose);
+      },
+      body: (tester) async {
+        // Nothing was refused: the token was never made, so the frame never went out.
+        await expectLater(
+          tester.client.connect(),
+          throwsA(
+            isA<ClientException>().having(
+              (it) => it.underlyingError,
+              'cause',
+              isA<Exception>().having((it) => '$it', 'message', contains('token endpoint is down')),
+            ),
+          ),
+        );
+
+        expect(
+          tester.client.connectionState.value,
+          isA<Disconnected>().having((it) => it.source, 'source', isA<AuthenticationFailed>()),
+        );
+      },
+    );
   });
 
   group('disconnect', () {
+    feedsClientTest(
+      'should connect again, still emitting to a subscription taken before',
+      connect: (tester) => addTearDown(tester.client.dispose),
+      body: (tester) async {
+        // Subscribed before the first connect, and never renewed: a reconnect
+        // that rebuilds the event pipeline would leave this listener silent.
+        final events = <StateUpdateEvent>[];
+        final subscription = tester.client.stateUpdateEvents.listen(events.add);
+        addTearDown(subscription.cancel);
+
+        tester.mockSuccessfulAuth(tester.user.id);
+        await tester.client.connect();
+        await tester.client.disconnect();
+        await tester.client.connect();
+
+        expect(tester.client.connectionState.value, isA<Connected>());
+
+        await tester.emitEvent(
+          FeedDeletedEvent(
+            type: EventTypes.feedDeleted,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: 'user:john',
+          ),
+        );
+
+        expect(events, isNotEmpty);
+      },
+    );
+
+    feedsClientTest(
+      'should refuse to connect once disposed',
+      connect: (tester) async {
+        tester.mockSuccessfulAuth(tester.user.id);
+        await tester.client.connect();
+      },
+      body: (tester) async {
+        await tester.client.dispose();
+
+        // Matched on the message because a closed emitter raises a `StateError` of its own
+        // further in, which would satisfy the type alone.
+        expect(
+          () => tester.client.connect(),
+          throwsA(isA<StateError>().having((it) => it.message, 'message', contains('has been disposed'))),
+        );
+
+        // Disposing twice is a no-op rather than an error.
+        await expectLater(tester.client.dispose(), completes);
+      },
+    );
+
+    feedsClientTest(
+      'should refuse to connect when a connection is already established',
+      body: (tester) {
+        // Told they asked for something they already have, rather than silently doing nothing.
+        expect(
+          () => tester.client.connect(),
+          throwsA(isA<ClientException>().having((it) => it.message, 'message', contains('already available'))),
+        );
+
+        // The connection it already had is left alone.
+        expect(tester.client.connectionState.value, isA<Connected>());
+      },
+    );
+
+    feedsClientTest(
+      'should refuse to connect while a connection is still being established',
+      connect: (tester) {
+        tester.mockSuccessfulAuth(tester.user.id);
+        addTearDown(tester.client.dispose);
+      },
+      body: (tester) async {
+        final connecting = tester.client.connect();
+        expect(tester.client.connectionState.value, isA<Connecting>());
+
+        expect(
+          () => tester.client.connect(),
+          throwsA(isA<ClientException>().having((it) => it.message, 'message', contains('already in progress'))),
+        );
+
+        // The attempt already under way is the one that completes.
+        await connecting;
+        expect(tester.client.connectionState.value, isA<Connected>());
+      },
+    );
+
     feedsClientTest(
       'should disconnect successfully',
       body: (tester) async {
@@ -78,6 +377,82 @@ void main() {
 
         // Verify state transitions expectation
         await connectionStateExpectation;
+      },
+    );
+
+    feedsClientTest(
+      'leaves the emitters open where disposing closes them',
+      body: (tester) async {
+        await tester.client.disconnect();
+
+        // A disconnected client is meant to be used again, so what a caller subscribed to
+        // has to outlive the connection.
+        expect(tester.client.events.isClosed, isFalse);
+        expect(tester.client.stateUpdateEvents.isClosed, isFalse);
+
+        await tester.client.dispose();
+
+        expect(tester.client.events.isClosed, isTrue);
+        expect(tester.client.stateUpdateEvents.isClosed, isTrue);
+      },
+    );
+
+    feedsClientTest(
+      'closes the connection it is holding when disposed',
+      body: (tester) async {
+        expect(tester.client.connectionState.value, isA<Connected>());
+
+        await tester.client.dispose();
+
+        // Nothing is left holding the socket open once its client is gone.
+        expect(tester.client.connectionState.value, isA<Disconnected>());
+      },
+    );
+
+    feedsClientTest(
+      'is a no-op on a client that never connected',
+      connect: (tester) => addTearDown(tester.client.dispose),
+      body: (tester) async {
+        await expectLater(tester.client.disconnect(), completes);
+
+        // Nothing was ever opened, so there is no closure to report.
+        expect(tester.client.connectionState.value, isA<Initialized>());
+      },
+    );
+
+    feedsClientTest(
+      'closes again when asked to on a connection already down',
+      body: (tester) async {
+        await tester.client.disconnect();
+
+        final states = <WebSocketConnectionState>[];
+        final subscription = tester.client.connectionState.listen(states.add);
+        addTearDown(subscription.cancel);
+
+        await tester.client.disconnect();
+
+        // A close the caller asked for calls off a reconnection waiting to be made, so it
+        // has to land even on a connection already down.
+        expect(states.whereType<Disconnecting>(), hasLength(1));
+        expect(tester.client.connectionState.value, isA<Disconnected>());
+      },
+    );
+
+    feedsClientTest(
+      'fails a connection that was still being established',
+      connect: (tester) {
+        tester.mockSuccessfulAuth(tester.user.id);
+        addTearDown(tester.client.dispose);
+      },
+      body: (tester) async {
+        final connecting = tester.client.connect();
+        expect(tester.client.connectionState.value, isA<Connecting>());
+
+        await tester.client.disconnect();
+
+        // Reported, rather than left waiting on a connection no longer coming.
+        await expectLater(connecting, throwsA(isA<ClientException>()));
+        expect(tester.client.connectionState.value, isA<Disconnected>());
       },
     );
   });
@@ -940,6 +1315,34 @@ void main() {
   // FEATURE: Guest User Authentication
   // ============================================================
 
+  group('connect as anonymous user', () {
+    feedsClientTest(
+      'opens no WebSocket, even when one is asked for',
+      user: const User.anonymous(),
+      connect: (tester) => addTearDown(tester.client.dispose),
+      body: (tester) async {
+        // An anonymous user has no token to authenticate a socket with, so asking for
+        // one cannot produce it. Requests carry their own credentials regardless.
+        //
+        // ignore: avoid_redundant_argument_values, asking explicitly is what is tested
+        await tester.client.connect(connectWebSocket: true);
+
+        expect(tester.client.connectionState.value, isA<Initialized>());
+        expect(tester.client.user.id, User.anonymousUserId);
+      },
+    );
+
+    feedsClientTest(
+      'can be disposed without ever having connected',
+      user: const User.anonymous(),
+      connect: (_) {},
+      body: (tester) async {
+        // Nothing was ever subscribed or opened, so there is nothing to release.
+        await expectLater(tester.client.dispose(), completes);
+      },
+    );
+  });
+
   group('connect as guest user', () {
     feedsClientTest(
       'should connect a guest user using the createGuest token flow',
@@ -951,9 +1354,7 @@ void main() {
               user: UserRequest(id: 'guest-123'),
             ),
           ),
-          // The backend may reassign the id to avoid colliding with an
-          // existing user, so the mocked response intentionally differs
-          // from the requested id.
+          // The server may assign another id, so the mock differs from the request
           result: CreateGuestResponse(
             accessToken: generateTestUserToken('guest-123-xyz').rawValue,
             duration: '10ms',
@@ -965,7 +1366,7 @@ void main() {
         );
         tester.mockSuccessfulAuth('guest-123-xyz');
         await tester.client.connect();
-        addTearDown(tester.client.disconnect);
+        addTearDown(tester.client.dispose);
       },
       body: (tester) {
         expect(
@@ -973,8 +1374,7 @@ void main() {
           isA<Connected>(),
         );
 
-        // The client's exposed identity should be reconciled with the
-        // server-assigned guest user, not the originally-requested id.
+        // Verify the server-assigned identity is adopted
         expect(tester.client.user.id, 'guest-123-xyz');
         expect(tester.client.user.type, UserType.guest);
       },
@@ -984,10 +1384,6 @@ void main() {
       'should fail to connect a guest user when the createGuest call fails',
       user: const User.guest('guest-123'),
       connect: (tester) {
-        // Wires up the WebSocket mock so the connection can open; the auth
-        // handshake it configures is never reached since createGuest fails
-        // before a WsAuthMessageRequest is ever sent.
-        tester.mockSuccessfulAuth('guest-123');
         tester.mockApiFailure(
           (api) => api.createGuest(
             createGuestRequest: const CreateGuestRequest(
@@ -996,25 +1392,100 @@ void main() {
           ),
           error: Exception('Failed to create guest'),
         );
+        addTearDown(tester.client.dispose);
       },
       body: (tester) async {
-        final connectionStateExpectation = expectLater(
-          tester.client.connectionState,
-          emitsInOrder([
-            isA<Initialized>(),
-            isA<Connecting>(),
-            isA<Authenticating>(),
-            isA<Disconnecting>(),
-            isA<Disconnected>(),
-          ]),
-        );
-
         await expectLater(
           tester.client.connect(),
-          throwsA(isA<ClientException>()),
+          throwsA(
+            isA<ClientException>()
+                .having((it) => it.message, 'message', 'Failed to create a guest user')
+                .having((it) => it.underlyingError, 'cause', isException),
+          ),
         );
 
-        await connectionStateExpectation;
+        // Verify no socket was opened
+        expect(tester.client.connectionState.value, isA<Initialized>());
+
+        // Verify the requested identity is kept
+        expect(tester.client.user.id, 'guest-123');
+      },
+    );
+
+    feedsClientTest(
+      'should create a guest user without opening a WebSocket when asked not to',
+      user: const User.guest('guest-123'),
+      connect: (tester) {
+        tester.mockApi(
+          (api) => api.createGuest(
+            createGuestRequest: const CreateGuestRequest(user: UserRequest(id: 'guest-123')),
+          ),
+          result: CreateGuestResponse(
+            accessToken: generateTestUserToken('guest-123-xyz').rawValue,
+            duration: '10ms',
+            user: createDefaultUserResponse(id: 'guest-123-xyz', role: 'guest'),
+          ),
+        );
+        addTearDown(tester.client.dispose);
+      },
+      body: (tester) async {
+        await tester.client.connect(connectWebSocket: false);
+
+        // Verify the guest identity is adopted without a socket
+        expect(tester.client.user.id, 'guest-123-xyz');
+        expect(tester.client.connectionState.value, isA<Initialized>());
+
+        tester.verifyApi(
+          (api) => api.createGuest(
+            createGuestRequest: const CreateGuestRequest(user: UserRequest(id: 'guest-123')),
+          ),
+        );
+
+        // Opening a socket afterwards keeps that identity: the exchange runs once, even though this
+        // client never authenticated one.
+        tester.mockSuccessfulAuth('guest-123-xyz');
+        await tester.client.connect();
+
+        expect(tester.client.connectionState.value, isA<Connected>());
+        // A second exchange would ask with the adopted profile, which nothing here answers, so this
+        // connect would fail rather than quietly mint another guest.
+        expect(tester.client.user.id, 'guest-123-xyz');
+      },
+    );
+
+    feedsClientTest(
+      'should connect a guest user on a retry after a failed createGuest call',
+      user: const User.guest('guest-123'),
+      connect: (tester) async {
+        tester.mockApiFailure(
+          (api) => api.createGuest(
+            createGuestRequest: const CreateGuestRequest(user: UserRequest(id: 'guest-123')),
+          ),
+          error: Exception('Failed to create guest'),
+        );
+
+        await expectLater(tester.client.connect(), throwsA(isA<ClientException>()));
+
+        addTearDown(tester.client.dispose);
+      },
+      body: (tester) async {
+        tester.mockApi(
+          (api) => api.createGuest(
+            createGuestRequest: const CreateGuestRequest(user: UserRequest(id: 'guest-123')),
+          ),
+          result: CreateGuestResponse(
+            accessToken: generateTestUserToken('guest-123-xyz').rawValue,
+            duration: '10ms',
+            user: createDefaultUserResponse(id: 'guest-123-xyz', role: 'guest'),
+          ),
+        );
+        tester.mockSuccessfulAuth('guest-123-xyz');
+
+        // The failed attempt left nothing behind, so the exchange runs again
+        await tester.client.connect();
+
+        expect(tester.client.connectionState.value, isA<Connected>());
+        expect(tester.client.user.id, 'guest-123-xyz');
       },
     );
   });
