@@ -10,6 +10,7 @@
 - Added `bookmarkCount` and `editedAt` fields to `CommentData`.
 - Added `location` (`LocationCoordinate?`) field to `FeedData`.
 - Added `createNotificationActivity`, `skipPush`, and `enrichOwnFields` optional flags to `FeedAddActivityRequest`.
+- Added `skipEnrichUrl` to `FeedAddActivityRequest`, `ActivityAddCommentRequest`, and `ActivityUpdateCommentRequest` to skip URL enrichment.
 - Added optional `deleteNotificationActivity` parameter to `Feed.deleteActivity`, `Feed.deleteComment`, `Feed.deleteActivityReaction`, `Feed.deleteCommentReaction`, `Activity.deleteComment`, and `Activity.deleteCommentReaction` — when `true`, the corresponding notification activity is also deleted.
 
 ### WebSocket events

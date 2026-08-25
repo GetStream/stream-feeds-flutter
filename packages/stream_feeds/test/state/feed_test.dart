@@ -4565,6 +4565,69 @@ void main() {
     );
   });
 
+  group('Feed - comment request field mapping', () {
+    const feedId = FeedId(group: 'user', id: 'john');
+    const currentUser = User(id: 'user-1');
+    const commentId = 'comment-1';
+
+    feedTest(
+      'addComment() passes skipEnrichUrl to API',
+      user: currentUser,
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(
+        modifyResponse: (it) => it.copyWith(
+          activities: [
+            createDefaultActivityResponse(
+              id: 'activity-1',
+              feeds: [feedId.rawValue],
+            ),
+          ],
+        ),
+      ),
+      body: (tester) async {
+        tester.mockApi(
+          (api) => api.addComment(
+            addCommentRequest: const AddCommentRequest(
+              comment: 'https://getstream.io',
+              objectId: 'activity-1',
+              objectType: 'activity',
+              skipEnrichUrl: true,
+            ),
+          ),
+          result: AddCommentResponse(
+            comment: createDefaultCommentResponse(
+              id: commentId,
+              objectId: 'activity-1',
+              userId: currentUser.id,
+            ),
+            duration: '0ms',
+          ),
+        );
+
+        final result = await tester.feed.addComment(
+          request: const ActivityAddCommentRequest(
+            activityId: 'activity-1',
+            activityType: 'activity',
+            comment: 'https://getstream.io',
+            skipEnrichUrl: true,
+          ),
+        );
+
+        expect(result.isSuccess, isTrue);
+      },
+      verify: (tester) => tester.verifyApi(
+        (api) => api.addComment(
+          addCommentRequest: const AddCommentRequest(
+            comment: 'https://getstream.io',
+            objectId: 'activity-1',
+            objectType: 'activity',
+            skipEnrichUrl: true,
+          ),
+        ),
+      ),
+    );
+  });
+
   group('Feed - FeedAddActivityRequest field mapping', () {
     const feedId = FeedId(group: 'user', id: 'john');
 
@@ -4608,6 +4671,48 @@ void main() {
             createNotificationActivity: true,
             skipPush: true,
             enrichOwnFields: false,
+          ),
+        ),
+      ),
+    );
+
+    feedTest(
+      'addActivity() passes skipEnrichUrl to API',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(),
+      body: (tester) async {
+        tester.mockApi(
+          (api) => api.addActivity(
+            addActivityRequest: const AddActivityRequest(
+              type: 'post',
+              feeds: [],
+              text: 'check out https://getstream.io',
+              skipEnrichUrl: true,
+            ),
+          ),
+          result: AddActivityResponse(
+            duration: '0ms',
+            activity: createDefaultActivityResponse(id: 'activity-1'),
+          ),
+        );
+
+        final result = await tester.feed.addActivity(
+          request: const FeedAddActivityRequest(
+            type: 'post',
+            text: 'check out https://getstream.io',
+            skipEnrichUrl: true,
+          ),
+        );
+
+        expect(result.isSuccess, isTrue);
+      },
+      verify: (tester) => tester.verifyApi(
+        (api) => api.addActivity(
+          addActivityRequest: const AddActivityRequest(
+            type: 'post',
+            feeds: [],
+            text: 'check out https://getstream.io',
+            skipEnrichUrl: true,
           ),
         ),
       ),

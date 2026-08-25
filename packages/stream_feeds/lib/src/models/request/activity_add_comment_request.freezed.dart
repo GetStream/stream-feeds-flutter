@@ -22,6 +22,7 @@ mixin _$ActivityAddCommentRequest {
   List<String>? get mentionedUserIds;
   String? get parentId;
   Map<String, Object?>? get custom;
+  bool? get skipEnrichUrl;
 
   /// Create a copy of ActivityAddCommentRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -59,7 +60,8 @@ mixin _$ActivityAddCommentRequest {
               mentionedUserIds,
             ) &&
             (identical(other.parentId, parentId) || other.parentId == parentId) &&
-            const DeepCollectionEquality().equals(other.custom, custom));
+            const DeepCollectionEquality().equals(other.custom, custom) &&
+            (identical(other.skipEnrichUrl, skipEnrichUrl) || other.skipEnrichUrl == skipEnrichUrl));
   }
 
   @override
@@ -74,11 +76,12 @@ mixin _$ActivityAddCommentRequest {
     const DeepCollectionEquality().hash(mentionedUserIds),
     parentId,
     const DeepCollectionEquality().hash(custom),
+    skipEnrichUrl,
   );
 
   @override
   String toString() {
-    return 'ActivityAddCommentRequest(activityId: $activityId, activityType: $activityType, attachments: $attachments, attachmentUploads: $attachmentUploads, comment: $comment, createNotificationActivity: $createNotificationActivity, mentionedUserIds: $mentionedUserIds, parentId: $parentId, custom: $custom)';
+    return 'ActivityAddCommentRequest(activityId: $activityId, activityType: $activityType, attachments: $attachments, attachmentUploads: $attachmentUploads, comment: $comment, createNotificationActivity: $createNotificationActivity, mentionedUserIds: $mentionedUserIds, parentId: $parentId, custom: $custom, skipEnrichUrl: $skipEnrichUrl)';
   }
 }
 
@@ -99,6 +102,7 @@ abstract mixin class $ActivityAddCommentRequestCopyWith<$Res> {
     List<String>? mentionedUserIds,
     String? parentId,
     Map<String, Object?>? custom,
+    bool? skipEnrichUrl,
   });
 }
 
@@ -123,6 +127,7 @@ class _$ActivityAddCommentRequestCopyWithImpl<$Res> implements $ActivityAddComme
     Object? mentionedUserIds = freezed,
     Object? parentId = freezed,
     Object? custom = freezed,
+    Object? skipEnrichUrl = freezed,
   }) {
     return _then(
       ActivityAddCommentRequest(
@@ -162,6 +167,10 @@ class _$ActivityAddCommentRequestCopyWithImpl<$Res> implements $ActivityAddComme
             ? _self.custom
             : custom // ignore: cast_nullable_to_non_nullable
                   as Map<String, Object?>?,
+        skipEnrichUrl: freezed == skipEnrichUrl
+            ? _self.skipEnrichUrl
+            : skipEnrichUrl // ignore: cast_nullable_to_non_nullable
+                  as bool?,
       ),
     );
   }
