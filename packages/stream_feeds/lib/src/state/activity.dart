@@ -230,10 +230,12 @@ class Activity with Disposable {
   Future<Result<void>> deleteComment(
     String commentId, {
     bool? hardDelete,
+    bool? deleteNotificationActivity,
   }) async {
     final result = await commentsRepository.deleteComment(
       commentId,
       hardDelete: hardDelete,
+      deleteNotificationActivity: deleteNotificationActivity,
     );
 
     result.onSuccess(
@@ -303,11 +305,13 @@ class Activity with Disposable {
   /// Returns a [Result] containing the removed [FeedsReactionData] or an error.
   Future<Result<FeedsReactionData>> deleteCommentReaction(
     String commentId,
-    String type,
-  ) async {
+    String type, {
+    bool? deleteNotificationActivity,
+  }) async {
     final result = await commentsRepository.deleteCommentReaction(
       commentId,
       type,
+      deleteNotificationActivity: deleteNotificationActivity,
     );
 
     result.onSuccess(

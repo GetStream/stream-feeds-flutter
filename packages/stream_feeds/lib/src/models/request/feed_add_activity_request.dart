@@ -31,6 +31,7 @@ class FeedAddActivityRequest with _$FeedAddActivityRequest implements HasAttachm
     this.mentionedUserIds,
     this.parentId,
     this.pollId,
+    this.restrictReplies,
     this.searchData,
     this.skipPush,
     this.text,
@@ -107,6 +108,15 @@ class FeedAddActivityRequest with _$FeedAddActivityRequest implements HasAttachm
   @override
   final String? pollId;
 
+  /// Controls who can add comments/replies to this activity.
+  ///
+  /// Defaults to [AddActivityRequestRestrictReplies.everyone] (no restriction).
+  /// Use [AddActivityRequestRestrictReplies.nobody] to disable comments, or
+  /// [AddActivityRequestRestrictReplies.peopleIFollow] to restrict to users
+  /// followed by the activity author.
+  @override
+  final AddActivityRequestRestrictReplies? restrictReplies;
+
   /// Optional search metadata for enhanced discoverability.
   @override
   final Map<String, Object>? searchData;
@@ -169,6 +179,7 @@ extension FeedAddActivityRequestMapper on FeedAddActivityRequest {
       mentionedUserIds: mentionedUserIds,
       parentId: parentId,
       pollId: pollId,
+      restrictReplies: restrictReplies,
       searchData: searchData,
       skipPush: skipPush,
       text: text,

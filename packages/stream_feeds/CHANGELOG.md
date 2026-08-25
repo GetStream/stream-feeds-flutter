@@ -19,6 +19,9 @@
 - Added `metrics` to `ActivityData`, carrying impressions, clicks and similar
 - Added `bookmarkCount` and `editedAt` to `CommentData`, and `location` to `FeedData`
 - Added `createNotificationActivity`, `skipPush` and `enrichOwnFields` flags to `FeedAddActivityRequest`
+- Added `restrictReplies` to `ActivityData` and `FeedAddActivityRequest`, saying who may comment on an activity: everyone, nobody, or people the author follows
+- Added `enrichmentOptions` to `FeedQuery`. Pass `EnrichmentOptions(enrichOwnFollowings: true)` for `ownFollowings` on each activity, which is what tells you whether the current user may comment when `restrictReplies` is `people_i_follow`
+- Added a `deleteNotificationActivity` flag to the `deleteActivity`, `deleteComment`, `deleteActivityReaction` and `deleteCommentReaction` methods on `Feed` and `Activity`, which deletes the matching notification activity too
 - A restored activity or comment now reappears in feed and list state, through `ActivityRestoredEvent` and `CommentRestoredEvent`
 
 ### 🐛 Bug Fixes

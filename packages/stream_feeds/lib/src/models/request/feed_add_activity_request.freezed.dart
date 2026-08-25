@@ -28,6 +28,7 @@ mixin _$FeedAddActivityRequest {
   List<String>? get mentionedUserIds;
   String? get parentId;
   String? get pollId;
+  AddActivityRequestRestrictReplies? get restrictReplies;
   Map<String, Object>? get searchData;
   bool? get skipPush;
   String? get text;
@@ -87,6 +88,7 @@ mixin _$FeedAddActivityRequest {
             ) &&
             (identical(other.parentId, parentId) || other.parentId == parentId) &&
             (identical(other.pollId, pollId) || other.pollId == pollId) &&
+            (identical(other.restrictReplies, restrictReplies) || other.restrictReplies == restrictReplies) &&
             const DeepCollectionEquality().equals(
               other.searchData,
               searchData,
@@ -116,6 +118,7 @@ mixin _$FeedAddActivityRequest {
     const DeepCollectionEquality().hash(mentionedUserIds),
     parentId,
     pollId,
+    restrictReplies,
     const DeepCollectionEquality().hash(searchData),
     skipPush,
     text,
@@ -126,7 +129,7 @@ mixin _$FeedAddActivityRequest {
 
   @override
   String toString() {
-    return 'FeedAddActivityRequest(attachments: $attachments, attachmentUploads: $attachmentUploads, collectionRefs: $collectionRefs, createNotificationActivity: $createNotificationActivity, custom: $custom, enrichOwnFields: $enrichOwnFields, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, id: $id, interestTags: $interestTags, location: $location, mentionedUserIds: $mentionedUserIds, parentId: $parentId, pollId: $pollId, searchData: $searchData, skipPush: $skipPush, text: $text, type: $type, visibility: $visibility, visibilityTag: $visibilityTag)';
+    return 'FeedAddActivityRequest(attachments: $attachments, attachmentUploads: $attachmentUploads, collectionRefs: $collectionRefs, createNotificationActivity: $createNotificationActivity, custom: $custom, enrichOwnFields: $enrichOwnFields, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, id: $id, interestTags: $interestTags, location: $location, mentionedUserIds: $mentionedUserIds, parentId: $parentId, pollId: $pollId, restrictReplies: $restrictReplies, searchData: $searchData, skipPush: $skipPush, text: $text, type: $type, visibility: $visibility, visibilityTag: $visibilityTag)';
   }
 }
 
@@ -154,6 +157,7 @@ abstract mixin class $FeedAddActivityRequestCopyWith<$Res> {
     List<String>? mentionedUserIds,
     String? parentId,
     String? pollId,
+    AddActivityRequestRestrictReplies? restrictReplies,
     Map<String, Object>? searchData,
     bool? skipPush,
     String? text,
@@ -190,6 +194,7 @@ class _$FeedAddActivityRequestCopyWithImpl<$Res> implements $FeedAddActivityRequ
     Object? mentionedUserIds = freezed,
     Object? parentId = freezed,
     Object? pollId = freezed,
+    Object? restrictReplies = freezed,
     Object? searchData = freezed,
     Object? skipPush = freezed,
     Object? text = freezed,
@@ -262,6 +267,10 @@ class _$FeedAddActivityRequestCopyWithImpl<$Res> implements $FeedAddActivityRequ
             ? _self.pollId
             : pollId // ignore: cast_nullable_to_non_nullable
                   as String?,
+        restrictReplies: freezed == restrictReplies
+            ? _self.restrictReplies
+            : restrictReplies // ignore: cast_nullable_to_non_nullable
+                  as AddActivityRequestRestrictReplies?,
         searchData: freezed == searchData
             ? _self.searchData
             : searchData // ignore: cast_nullable_to_non_nullable
