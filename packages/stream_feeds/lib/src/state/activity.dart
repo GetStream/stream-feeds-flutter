@@ -44,8 +44,8 @@ class Activity with Disposable {
     required this.pollsRepository,
     required this.capabilitiesRepository,
     ActivityData? initialActivityData,
-    required MutableSharedEmitter<StateUpdateEvent> eventsEmitter,
-  }) : _eventsEmitter = eventsEmitter {
+    required this._eventsEmitter,
+  }) {
     _commentsList = ActivityCommentList(
       query: ActivityCommentsQuery(
         objectId: activityId,
