@@ -32,7 +32,32 @@
 - `disconnect` now only closes the connection, leaving the client reusable with its existing subscriptions intact; releasing it is `dispose`
 - An expired token now recovers on its own: the connection comes back with one the `TokenProvider` issued afterwards, without the app doing anything
 - `connect` throws a `ClientException` when a connection is already established or in progress, and the one it throws on failure carries the underlying cause
-- Renamed several generated types. The old names still compile, with a deprecation warning naming the replacement, and `dart fix --apply` migrates them
+- Renamed the types below. The old names still compile, with a deprecation warning, and `dart fix --apply` migrates them:
+
+| Old name | New name |
+|---|---|
+| `FollowPair` | `UnfollowPair` |
+| `ActivityLocation` | `Location` |
+| `OwnUser` | `OwnUserResponse` |
+| `UserMute` | `UserMuteResponse` |
+| `Poll` | `PollResponseData` |
+| `PollOption` | `PollOptionResponseData` |
+| `PollVote` | `PollVoteResponseData` |
+| `BanActionRequest` | `BanActionRequestPayload` |
+| `BanActionRequestDeleteMessages` | `BanActionRequestPayloadDeleteMessages` |
+| `BlockActionRequest` | `BlockActionRequestPayload` |
+| `ShadowBlockActionRequest` | `ShadowBlockActionRequestPayload` |
+| `CustomActionRequest` | `CustomActionRequestPayload` |
+| `DeleteUserRequest` | `DeleteUserRequestPayload` |
+| `DeleteActivityRequest` | `DeleteActivityRequestPayload` |
+| `DeleteCommentRequest` | `DeleteCommentRequestPayload` |
+| `DeleteReactionRequest` | `DeleteReactionRequestPayload` |
+| `DeleteMessageRequest` | `DeleteMessageRequestPayload` |
+| `MarkReviewedRequest` | `MarkReviewedRequestPayload` |
+| `RejectAppealRequest` | `RejectAppealRequestPayload` |
+| `RestoreActionRequest` | `RestoreActionRequestPayload` |
+| `UnbanActionRequest` | `UnbanActionRequestPayload` |
+| `UnblockActionRequest` | `UnblockActionRequestPayload` |
 
 ## 0.5.1
 - Added missing state updates for the websocket events.
