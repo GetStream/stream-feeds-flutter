@@ -209,21 +209,29 @@ abstract interface class StreamFeedsClient {
 
   /// Updates the system environment information used by the client.
   ///
-  /// It allows you to set environment-specific information that will be
-  /// included in API requests, such as the application name, platform details,
-  /// and version information.
+  /// Sets the environment-specific information reported in the
+  /// `X-Stream-Client` header of API requests, such as the application name
+  /// and version, and the operating system and device details.
+  ///
+  /// [SystemEnvironment.sdkName], [SystemEnvironment.sdkIdentifier] and
+  /// [SystemEnvironment.sdkVersion] identify the SDK itself and are owned by
+  /// it, so pass through the values the SDK already reports rather than custom
+  /// ones.
   ///
   /// Example:
   /// ```dart
   /// client.updateSystemEnvironment(
-  ///   SystemEnvironment(
-  ///     name: 'my_app',
-  ///     version: '1.0.0',
+  ///   const SystemEnvironment(
+  ///     sdkName: 'stream-feeds',
+  ///     sdkIdentifier: 'dart',
+  ///     sdkVersion: '0.5.1',
+  ///     appName: 'my_app',
+  ///     appVersion: '1.0.0',
   ///   ),
   /// );
   /// ```
   ///
-  /// See [SystemEnvironment] for more information on the available fields.
+  /// See [SystemEnvironment] for the available fields.
   void updateSystemEnvironment(SystemEnvironment environment);
 
   /// Establishes a connection to the Stream service.

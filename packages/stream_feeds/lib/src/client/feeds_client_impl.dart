@@ -59,6 +59,7 @@ import '../state/query/members_query.dart';
 import '../state/query/moderation_configs_query.dart';
 import '../state/query/poll_votes_query.dart';
 import '../state/query/polls_query.dart';
+import '../version.dart';
 import '../ws/feeds_ws_event.dart';
 import 'endpoint_config.dart';
 
@@ -220,12 +221,15 @@ class StreamFeedsClientImpl implements StreamFeedsClient {
   late final PollsRepository _pollsRepository;
   late final CapabilitiesRepository _capabilitiesRepository;
 
-  // TODO: Fill this with correct values
+  static const _sdkName = 'stream-feeds';
+  static const _sdkIdentifier = 'dart';
+
   late final _systemEnvironmentManager = SystemEnvironmentManager(
-    environment: const SystemEnvironment(
-      sdkName: 'stream-feeds-dart',
-      sdkIdentifier: 'dart',
-      sdkVersion: '0.3.0',
+    environment: SystemEnvironment(
+      sdkName: _sdkName,
+      sdkIdentifier: _sdkIdentifier,
+      sdkVersion: packageVersion,
+      osName: CurrentPlatform.operatingSystem,
     ),
   );
 
