@@ -30,6 +30,7 @@
 
 - Fixed `connect` failing when called straight after `disconnect`
 - Fixed a connection that could not authenticate hanging until it timed out, rather than failing with the reason
+- Fixed the `X-Stream-Client` header: the SDK identifier was sent twice, the version was hardcoded, and the OS was left out
 
 ### 🔄 Changed
 

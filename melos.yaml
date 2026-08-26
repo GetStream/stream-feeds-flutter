@@ -71,7 +71,15 @@ command:
       retrofit_generator: ^10.2.6
       test: ^1.26.3
 
+    hooks:
+      # Syncs lib/src/version.dart with the version in stream_feeds' pubspec.
+      post: melos run version:update
+
 scripts:
+  version:update:
+    run: dart tools/generate_version.dart
+    description: Updates packages/stream_feeds/lib/src/version.dart from its pubspec.yaml version.
+
   postclean:
     run: melos run clean:flutter --no-select
     description: Runs "flutter clean" in all Flutter packages
