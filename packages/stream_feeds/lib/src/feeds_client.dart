@@ -65,10 +65,10 @@ export 'client/moderation_client.dart';
 ///   user: User(
 ///     id: 'user-123',
 ///     name: 'John Doe',
-///     imageUrl: 'https://example.com/avatar.jpg',
-///     customData: {'email': 'john@example.com'},
+///     image: 'https://example.com/avatar.jpg',
+///     custom: {'email': 'john@example.com'},
 ///   ),
-///   userTokenProvider: UserTokenProvider.static('user-jwt-token-here'),
+///   tokenProvider: TokenProvider.static(UserToken('user-jwt-token-here')),
 ///   config: FeedsConfig(
 ///     // Optional configuration
 ///   ),
@@ -77,6 +77,27 @@ export 'client/moderation_client.dart';
 /// // Connect to start receiving real-time updates
 /// await client.connect();
 /// ```
+///
+/// ## Logging
+///
+/// Pass a [StreamLogConfig] to say how much the client reports and where those records go. Left
+/// out, the client writes nothing:
+///
+/// ```dart
+/// final client = StreamFeedsClient(
+///   apiKey: 'your-api-key',
+///   user: user,
+///   config: const FeedsConfig(
+///     logConfig: StreamLogConfig(priority: StreamLogPriority.debug),
+///   ),
+/// );
+/// ```
+///
+/// The logger is shared with every other Stream SDK in the process, so passing one decides for
+/// those too. Every record this client writes is tagged `SF:`, which is what tells them apart
+/// from another SDK's in the same log.
+///
+/// Some of those records carry the `Authorization` header, so weigh what reads them.
 ///
 /// ### Different User Types
 ///
@@ -87,9 +108,8 @@ export 'client/moderation_client.dart';
 /// final regularUser = User(
 ///   id: 'user-123',
 ///   name: 'John Doe',
-///   imageUrl: 'https://example.com/avatar.jpg',
-///   role: 'admin',
-///   customData: {'department': 'Engineering'},
+///   image: 'https://example.com/avatar.jpg',
+///   custom: {'department': 'Engineering'},
 /// );
 ///
 /// // Guest user (temporary access)
@@ -105,16 +125,16 @@ export 'client/moderation_client.dart';
 ///
 /// ```dart
 /// // Static token (for development or long-lived tokens)
-/// final staticProvider = UserTokenProvider.static('your-jwt-token');
+/// final staticProvider = TokenProvider.static(UserToken('your-jwt-token'));
 ///
 /// // Dynamic token (for refreshable tokens or secure storage)
-/// final dynamicProvider = UserTokenProvider.dynamic(() async {
-///   // Fetch from secure storage, API, etc.
-///   final token = await secureStorage.read(key: 'user_token');
+/// final dynamicProvider = TokenProvider.dynamic((userId) async {
+///   // Fetch from secure storage, an endpoint of your own, etc.
+///   final token = await secureStorage.read(key: 'token_for_\$userId');
 ///   if (token == null) {
 ///     throw Exception('No token available');
 ///   }
-///   return token;
+///   return UserToken(token);
 /// });
 /// ```
 ///
@@ -133,17 +153,17 @@ export 'client/moderation_client.dart';
 abstract interface class StreamFeedsClient {
   /// Creates a new Stream Feeds client instance.
   ///
-  /// The [apiKey] should be obtained from your Stream dashboard and the [user] contains
-  /// authentication and profile information. The [config] parameter allows for
-  /// customizing client behavior such as timeouts, logging, and network settings.
+  /// The [apiKey] comes from your Stream dashboard. A [tokenProvider] is required for a
+  /// regular user, and must be omitted for a guest or anonymous one, whose token the client
+  /// obtains itself. See [FeedsConfig] for what [config] carries.
   ///
   /// Example:
   /// ```dart
   /// final user = User(
   ///   id: 'user-123',
   ///   name: 'John Doe',
-  ///   imageUrl: 'https://example.com/avatar.jpg',
-  ///   customData: {'email': 'john@example.com'},
+  ///   image: 'https://example.com/avatar.jpg',
+  ///   custom: {'email': 'john@example.com'},
   /// );
   ///
   /// final token = UserToken('jwt-token-here');
@@ -151,11 +171,7 @@ abstract interface class StreamFeedsClient {
   /// final client = StreamFeedsClient(
   ///   apiKey: 'your-api-key-here',
   ///   user: user,
-  ///   userTokenProvider: UserTokenProvider.static(token),
-  ///   config: FeedsConfig(
-  ///     timeout: Duration(seconds: 30),
-  ///     enableLogging: true,
-  ///   ),
+  ///   tokenProvider: TokenProvider.static(token),
   /// );
   /// ```
   factory StreamFeedsClient({
@@ -171,6 +187,10 @@ abstract interface class StreamFeedsClient {
     @visibleForTesting api.DefaultApi? feedsRestApi,
   }) = StreamFeedsClientImpl;
 
+  /// The user this client is authenticated as.
+  ///
+  /// A guest user is given its id by the server, so once connected this is the user the server
+  /// returned rather than the one the client was created with.
   User get user;
 
   /// The event emitter for listening to client events.
@@ -236,24 +256,77 @@ abstract interface class StreamFeedsClient {
 
   /// Establishes a connection to the Stream service.
   ///
-  /// Sets up authentication and initializes the WebSocket connection for real-time
-  /// updates. This method should be called before using any other client functionality.
+  /// Call this before anything else on the client. Throws a [ClientException] if the connection
+  /// fails, or if one is already established or in progress, and a [StateError] after [dispose].
+  ///
+  /// Pass [connectWebSocket] as `false` if the client only needs to make requests. In that case:
+  ///
+  ///  * no socket is opened, and [connectionState] stays [Initialized]
+  ///  * nothing is emitted on [connectionState] or [events]
+  ///  * anything asking for `watch: true` fails, because updates arrive over the socket
+  ///
+  /// Requests work either way. A token the server rejects is reported on the first request, not by
+  /// this call. Calling [connect] again opens the socket and keeps the same identity.
+  ///
+  /// An anonymous user has no token for a socket, so it never opens one.
+  ///
+  /// A guest gets its identity from the server on the first [connect], so [user] changes. That
+  /// identity cannot be renewed, because a new one would be a different guest. If the server
+  /// rejects a guest token, the connection stays down. Call [dispose], build a new client, and
+  /// expect a different [user] id.
   ///
   /// Example:
   /// ```dart
-  /// try {
-  ///   await client.connect();
-  ///   print('Connected successfully');
-  /// } catch (e) {
-  ///   print('Connection failed: $e');
-  /// }
+  /// // A client that only makes requests: no socket, and no watching.
+  /// await client.connect(connectWebSocket: false);
+  ///
+  /// // Opening the socket later keeps the identity already established.
+  /// await client.connect();
   /// ```
-  Future<void> connect();
+  ///
+  /// A guest needs no token provider, and reads back the id the server gave it:
+  ///
+  /// ```dart
+  /// final client = StreamFeedsClient(
+  ///   apiKey: 'your-api-key',
+  ///   user: const User.guest('guest-123'),
+  /// );
+  ///
+  /// await client.connect();
+  /// print(client.user.id); // assigned by the server, not 'guest-123'
+  /// ```
+  Future<void> connect({
+    bool connectWebSocket = true,
+  });
 
   /// Disconnects the current client.
   ///
-  /// Closes the WebSocket connection and cleans up all resources.
+  /// Closes the WebSocket connection and leaves the client ready to be used again.
+  /// Subscriptions to [events], [stateUpdateEvents] and [connectionState] keep
+  /// working, so they do not have to be set up again after reconnecting.
+  ///
+  /// Example:
+  /// ```dart
+  /// await client.disconnect();
+  ///
+  /// // The same client, and the same subscriptions, can be reconnected later.
+  /// await client.connect();
+  /// ```
+  ///
+  /// See [dispose] for when the client is no longer needed at all.
   Future<void> disconnect();
+
+  /// Releases every resource held by the client.
+  ///
+  /// Unlike [disconnect], this cannot be undone: [connect] throws afterwards and
+  /// [stateUpdateEvents] stops emitting. Call it once the client is no longer
+  /// needed, such as when the user signs out. Calling it again does nothing.
+  ///
+  /// Example:
+  /// ```dart
+  /// await client.dispose();
+  /// ```
+  Future<void> dispose();
 
   /// Creates a feed instance from the provided [query].
   ///
@@ -664,7 +737,7 @@ abstract interface class StreamFeedsClient {
   /// ```dart
   /// final result = await client.getApp();
   /// switch (result) {
-  ///   case Success(value: final appData):
+  ///   case Success(data: final appData):
   ///     print('App name: ${appData.name}');
   ///     print('File upload size limit: ${appData.fileUploadConfig.sizeLimit}');
   ///   case Failure(error: final error):
@@ -686,7 +759,7 @@ abstract interface class StreamFeedsClient {
   /// final result = await client.queryDevices();
   ///
   /// switch (result) {
-  ///   case Success(value: final devicesResponse):
+  ///   case Success(data: final devicesResponse):
   ///     print('Found ${devicesResponse.devices.length} devices');
   ///   case Failure(error: final error):
   ///     print('Failed to query devices: $error');
@@ -812,7 +885,7 @@ abstract interface class StreamFeedsClient {
   /// );
   ///
   /// switch (result) {
-  ///   case Success(value: final batchFollowData):
+  ///   case Success(data: final batchFollowData):
   ///     print('Created ${batchFollowData.created.length} new follows');
   ///     print('Total follows: ${batchFollowData.follows.length}');
   ///   case Failure(error: final error):
@@ -848,7 +921,7 @@ abstract interface class StreamFeedsClient {
   /// );
   ///
   /// switch (result) {
-  ///   case Success(value: final unfollowedFollows):
+  ///   case Success(data: final unfollowedFollows):
   ///     print('Unfollowed ${unfollowedFollows.length} feeds');
   ///   case Failure(error: final error):
   ///     print('Failed to unfollow feeds: $error');
@@ -871,7 +944,7 @@ abstract interface class StreamFeedsClient {
   /// );
   ///
   /// switch (result) {
-  ///   case Success(value: final response):
+  ///   case Success(data: final response):
   ///     print('Found ${response.collections.length} collections');
   ///   case Failure(error: final error):
   ///     print('Failed to read collections: $error');
@@ -903,7 +976,7 @@ abstract interface class StreamFeedsClient {
   /// );
   ///
   /// switch (result) {
-  ///   case Success(value: final response):
+  ///   case Success(data: final response):
   ///     print('Created ${response.collections.length} collections');
   ///   case Failure(error: final error):
   ///     print('Failed to create collections: $error');
@@ -934,7 +1007,7 @@ abstract interface class StreamFeedsClient {
   /// );
   ///
   /// switch (result) {
-  ///   case Success(value: final response):
+  ///   case Success(data: final response):
   ///     print('Updated ${response.collections.length} collections');
   ///   case Failure(error: final error):
   ///     print('Failed to update collections: $error');
@@ -957,7 +1030,7 @@ abstract interface class StreamFeedsClient {
   /// );
   ///
   /// switch (result) {
-  ///   case Success(value: final response):
+  ///   case Success(data: final response):
   ///     print('Deleted collections successfully');
   ///   case Failure(error: final error):
   ///     print('Failed to delete collections: $error');

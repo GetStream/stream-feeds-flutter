@@ -5,11 +5,14 @@ import '../../config/demo_app_config.dart';
 class UserCredentials {
   const UserCredentials({
     required this.user,
-    required this.token,
+    this.token,
   });
 
   final User user;
-  final String token;
+
+  /// The JWT to authenticate [user] with, or `null` for a guest or anonymous
+  /// user, whose credentials the client obtains for itself.
+  final String? token;
 
   // Helper method to get feed ID
   String get fid => 'user:${user.id}';
@@ -103,7 +106,23 @@ class UserCredentials {
 
   // endregion
 
-  // Built-in list sorted by name
+  // region Session modes
+
+  /// A guest, which the server issues a temporary identity and JWT for during
+  /// `connect()`. The id below is only what is asked for: the server assigns its
+  /// own, so `client.user.id` is the one to read afterwards.
+  static const guest = UserCredentials(
+    user: User.guest(
+      'guest',
+      name: 'Guest User',
+      image: 'https://getstream.io/random_png/?id=guest&name=Guest+User',
+    ),
+  );
+
+  // endregion
+
+  // Built-in list sorted by name, with the token-less identity last so the test
+  // accounts stay the obvious choice.
   static List<UserCredentials> get builtIn {
     final users = [
       sahil,
@@ -115,6 +134,7 @@ class UserCredentials {
       marcelo,
       kanat,
       toomas,
+      guest,
     ];
 
     return users;

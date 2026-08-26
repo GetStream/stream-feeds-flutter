@@ -79,6 +79,28 @@ final class WebSocketTester {
     );
   }
 
+  /// Configures the WebSocket so that sending fails.
+  ///
+  /// The socket opens, but the authentication frame never leaves it — a send that
+  /// throws rather than a server that refuses. Nothing answers, so a connection that
+  /// ignored the failure would sit in [Authenticating] until it timed out.
+  ///
+  /// Call this before connecting the client.
+  ///
+  /// Example:
+  /// ```dart
+  /// wsTester.mockFailedSend();
+  /// await expectLater(client.connect(), throwsA(isA<ClientException>()));
+  /// ```
+  void mockFailedSend({Object? error}) {
+    _resetFunction?.call(); // Reset previous mocks if any
+    _resetFunction = _whenListenWebSocket(
+      _channel,
+      _streamController,
+      sendError: error ?? Exception('the socket went away mid-handshake'),
+    );
+  }
+
   /// Configures WebSocket mocks to simulate authentication failure.
   ///
   /// Sets up the WebSocket channel to always respond with an error event
@@ -87,30 +109,31 @@ final class WebSocketTester {
   /// simulate the server closing the connection.
   ///
   /// The [errorCode] parameter allows customizing the error code returned.
-  /// Default is 40 (expiredToken), which prevents automatic reconnection.
-  /// All errors use HTTP status code 401.
+  /// Default is 40 (expiredToken). All errors use HTTP status code 401.
   ///
   /// **Backend Error Codes (401 Status):**
   ///
-  /// **No Reconnection (Token expired errors 40-42):**
+  /// **Reconnected**, because the next attempt loads another token — unless the
+  /// provider is static and has none to give, which closes the connection:
   /// - `40`: expiredToken - Token has expired
+  ///
+  /// **Reported, never retried**, because no other token repairs it:
   /// - `41`: tokenNotValidYet - Token not yet valid
   /// - `42`: tokenUsedBeforeIAT - Token used before issued
-  ///
-  /// **Triggers Reconnection:**
-  /// - `2`: accessKeyError - Invalid API key
+  /// - `43`: invalidTokenSignature - Signed with the wrong secret
+  /// - `2`: accessKeyError - Wrong API key
   /// - `5`: authFailed - Authentication failed
-  /// - `43`: invalidTokenSignature - Invalid signature
   ///
   /// Call this before connecting the client when testing error scenarios.
   ///
   /// Example:
   /// ```dart
-  /// // Test with token expired error (no reconnection)
+  /// // An expired token: reconnected, with a token loaded afresh — unless the
+  /// // provider is static, which has no other token to offer.
   /// wsTester.mockFailedAuth();
   ///
-  /// // Test with auth failed error (triggers reconnection)
-  /// wsTester.mockFailedAuth(errorCode: 5);
+  /// // A signature no other token repairs: reported, never retried.
+  /// wsTester.mockFailedAuth(errorCode: 43);
   ///
   /// await expectLater(
   ///   client.connect(),
@@ -169,9 +192,10 @@ WebSocketResetFunction _whenListenWebSocket(
   MockWebSocketChannel webSocketChannel,
   StreamController<Object> wsStreamController, {
   void Function(UserToken token)? onConnectionAttempt,
+  Object? sendError,
 }) {
   final webSocketSink = MockWebSocketSink();
-  final webSocketStream = wsStreamController.stream.asBroadcastStream();
+  final webSocketStream = wsStreamController.stream;
 
   // Mock sink close operation
   when(
@@ -194,6 +218,11 @@ WebSocketResetFunction _whenListenWebSocket(
   ).thenAnswer((_) => webSocketSink);
 
   // Handle authentication: when a token is sent, invoke the callback
+  if (sendError case final error?) {
+    when(() => webSocketSink.add(any<Object>())).thenThrow(error);
+    return () => reset(webSocketSink);
+  }
+
   when(
     () => webSocketSink.add(any<Object>()),
   ).thenAnswer((invocation) {
@@ -255,8 +284,9 @@ Map<String, Object?> _createConnectedEvent(String userId) {
 //
 // The [errorCode] parameter determines the specific error code returned,
 // which controls the automatic reconnection behavior:
-// - Error codes 40-42 prevent automatic reconnection (token expired errors)
-// - Other error codes (2, 5, 43) trigger automatic reconnection
+// - 40 (expired) is reconnected, since the next attempt loads another token
+// - 41, 42, 43 and 2 are not: no other token repairs them
+// - any other client error is not either
 //
 // See [mockFailedAuth] for the complete list of backend error codes and
 // their reconnection behavior.

@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:stream_feeds/stream_feeds.dart';
 
 import '../../app/content/auth_controller.dart';
 import '../../core/di/di_initializer.dart';
@@ -66,14 +67,16 @@ class UserSelectionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final credentials = UserCredentials.builtIn;
+
     return ListView.separated(
-      itemCount: UserCredentials.builtIn.length,
+      itemCount: credentials.length,
       separatorBuilder: (context, index) => Divider(
         height: 1,
         color: context.appColors.borders,
       ),
       itemBuilder: (context, index) {
-        final credential = UserCredentials.builtIn[index];
+        final credential = credentials[index];
 
         return ListTile(
           key: Key(credential.user.id),
@@ -85,7 +88,7 @@ class UserSelectionList extends StatelessWidget {
             style: context.appTextStyles.bodyBold,
           ),
           subtitle: Text(
-            'Stream test account',
+            _subtitleFor(credential),
             style: context.appTextStyles.footnote.copyWith(
               color: context.appColors.textLowEmphasis,
             ),
@@ -97,5 +100,13 @@ class UserSelectionList extends StatelessWidget {
         );
       },
     );
+  }
+
+  String _subtitleFor(UserCredentials credential) {
+    return switch (credential.user.type) {
+      UserType.regular => 'Stream test account',
+      UserType.guest => 'Temporary account, issued on connect',
+      UserType.anonymous => 'Public feeds only, no connection',
+    };
   }
 }

@@ -113,6 +113,21 @@ abstract base class BaseTester<S> with ApiMockerMixin, CdnMockerMixin {
     return _wsTester.mockFailedAuth(errorCode: errorCode);
   }
 
+  /// Configures the WebSocket so that sending fails.
+  ///
+  /// The socket opens, but nothing put on it leaves — a send that throws rather than a
+  /// server that refuses, so nothing answers the authentication frame.
+  ///
+  /// Example:
+  /// ```dart
+  /// tester.mockFailedSend();
+  ///
+  /// await expectLater(client.connect(), throwsA(isA<ClientException>()));
+  /// ```
+  void mockFailedSend({Object? error}) {
+    return _wsTester.mockFailedSend(error: error);
+  }
+
   /// Emits a WebSocket event and pumps the event loop.
   ///
   /// This method emits the given [event] through the WebSocket stream and
@@ -201,8 +216,9 @@ Future<T> createTester<T extends BaseTester<Object?>>({
   required MockWebSocketChannel webSocketChannel,
   required T Function(WebSocketTester ws) create,
 }) async {
-  // Create WebSocket stream controller
-  final wsStreamController = StreamController<Object>();
+  // Create WebSocket stream controller. Broadcast so the engine can listen
+  // again after a disconnect, the way a real socket can be reopened.
+  final wsStreamController = StreamController<Object>.broadcast();
   test.addTearDown(wsStreamController.close); // Close controller after test
 
   // Create WebSocket tester
@@ -240,6 +256,7 @@ Future<T> createTester<T extends BaseTester<Object?>>({
 void testWithTester<S, T extends BaseTester<S>>(
   String description, {
   User user = const User(id: 'luke_skywalker'),
+  TokenProvider? tokenProvider,
   required S Function(StreamFeedsClient client) build,
   required TesterFactory<S, T> createTesterFn,
   FutureOr<void> Function(T tester)? connect,
@@ -265,9 +282,7 @@ void testWithTester<S, T extends BaseTester<S>>(
         final client = StreamFeedsClient(
           apiKey: 'apiKey',
           user: user,
-          tokenProvider: TokenProvider.static(
-            generateTestUserToken(user.id),
-          ),
+          tokenProvider: tokenProvider ?? TokenProvider.static(generateTestUserToken(user.id)),
           feedsRestApi: feedsApi,
           wsProvider: (options) => webSocketChannel,
           config: FeedsConfig(
@@ -302,7 +317,7 @@ Future<void> _defaultConnect(BaseTester<Object?> tester) async {
 
   // Connect client
   await tester.client.connect();
-  test.addTearDown(tester.client.disconnect); // Disconnect client after test
+  test.addTearDown(tester.client.dispose); // Dispose client after test
 
   // Verify client is connected
   test.expect(tester.client.connectionState.value, test.isA<Connected>());

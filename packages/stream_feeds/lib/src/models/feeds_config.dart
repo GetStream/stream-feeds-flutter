@@ -10,12 +10,19 @@ class FeedsConfig {
   const FeedsConfig({
     this.cdnClient,
     this.pushNotificationsConfig,
+    this.logConfig,
     this.customHeaders,
   });
 
   final CdnClient? cdnClient;
 
   final PushNotificationsConfig? pushNotificationsConfig;
+
+  /// How much the client reports, and where those records go.
+  ///
+  /// Left out, the client touches no logger at all — the one every Stream SDK in the process
+  /// shares stays as whatever configured it, or silent if nothing did.
+  final StreamLogConfig? logConfig;
 
   /// Custom headers sent along with every API request.
   ///
