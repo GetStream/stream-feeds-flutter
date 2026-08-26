@@ -251,9 +251,8 @@ class StreamFeedsClientImpl with Disposable implements StreamFeedsClient {
     if (previousError?.isTokenExpiredError ?? false) {
       _tokenManager.expireToken();
 
-      // A guest's provider is static by necessity, not oversight: a second exchange would answer
-      // with another guest, under an id that is not `user`'s. So its session ends here, and the
-      // app starts a new one by disposing this client and building another.
+      // A guest cannot refresh: another exchange answers with a different guest. The session ends
+      // here, and the app starts another by building a new client.
       if (_tokenManager.usesStaticProvider) {
         throw ClientException(message: 'The token was refused and the provider has no other to give');
       }
@@ -311,45 +310,37 @@ class StreamFeedsClientImpl with Disposable implements StreamFeedsClient {
 
     // Every exchange creates another guest, so one already established is kept.
     if (_tokenManager.userId != user.id) {
-      // No socket is opened while the exchange runs, so the connection state the guards in
-      // `connect` read still reads as idle. Joining the one in flight is what keeps a second
-      // caller arriving in that window from minting a guest of its own.
-      await (_guestExchange ??= _exchangeForGuestIdentity());
+      // No socket is open yet, so the guards in `connect` do not stop a second caller arriving.
+      await _guestExchanges.run(user.id, _exchangeForGuestIdentity);
     }
 
     return _connectUser(connectWebSocket: connectWebSocket);
   }
 
-  // The exchange currently running, or `null` when none is.
-  Future<void>? _guestExchange;
+  // Keyed by the id the guest was requested under, so callers overlapping on one exchange share it.
+  final _guestExchanges = InFlightCache<String, void>();
 
   Future<void> _exchangeForGuestIdentity() async {
-    try {
-      final result = await _guestRepository.createGuest(user);
+    final result = await _guestRepository.createGuest(user);
 
-      // Reported like every other connect failure, with the cause attached.
-      final response = result.getOrElse(
-        (error, stackTrace) => throw ClientException(
-          message: 'Failed to create a guest user',
-          error: error,
-          stackTrace: stackTrace,
-        ),
-      );
+    // Reported like every other connect failure, with the cause attached.
+    final response = result.getOrElse(
+      (error, stackTrace) => throw ClientException(
+        message: 'Failed to create a guest user',
+        error: error,
+        stackTrace: stackTrace,
+      ),
+    );
 
-      final tokenProvider = TokenProvider.static(response.token);
+    final tokenProvider = TokenProvider.static(response.token);
+    _logger.d(() => 'guest created, server assigned ${response.user.id}');
 
-      // The server assigns the id, so adopt it and authenticate as it.
-      _logger.d(() => 'guest created, server assigned ${response.user.id}');
-      _user = response.user;
-      _tokenManager.setTokenProvider(
-        response.user.id,
-        tokenProvider: tokenProvider,
-      );
-    } finally {
-      // Released either way: a success is held by the token manager's id from here on, and a
-      // failure has to leave the next `connect` free to try again.
-      _guestExchange = null;
-    }
+    // The server assigns the id, so adopt it and authenticate as it.
+    _user = response.user;
+    _tokenManager.setTokenProvider(
+      response.user.id,
+      tokenProvider: tokenProvider,
+    );
   }
 
   Future<void> _connectUser({

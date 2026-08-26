@@ -248,36 +248,45 @@ abstract interface class StreamFeedsClient {
 
   /// Establishes a connection to the Stream service.
   ///
-  /// Call this before anything else on the client.
+  /// Call this before anything else on the client. Throws a [ClientException] if the connection
+  /// fails, or if one is already established or in progress, and a [StateError] after [dispose].
   ///
-  /// Throws a [ClientException] if the connection fails, or if one is already established or in
-  /// progress, and a [StateError] once [dispose] has been called.
+  /// Pass [connectWebSocket] as `false` if the client only needs to make requests. In that case:
   ///
-  /// ## Connecting without a WebSocket
+  ///  * no socket is opened, and [connectionState] stays [Initialized]
+  ///  * nothing is emitted on [connectionState] or [events]
+  ///  * anything asking for `watch: true` fails, because updates arrive over the socket
   ///
-  /// Pass [connectWebSocket] as `false` for a client that only makes requests. No socket is
-  /// opened, so [connectionState] stays [Initialized], nothing is emitted on [events] or
-  /// [connectionState], and a query with `watch: true` is rejected — watching is delivered over
-  /// the connection this skips.
+  /// Requests work either way. A token the server rejects is reported on the first request, not by
+  /// this call. Calling [connect] again opens the socket and keeps the same identity.
   ///
-  /// Requests themselves are unaffected: each one is signed as it is sent, from the
-  /// [TokenProvider] the client was given. So for a regular user this opens nothing and verifies
-  /// nothing — a token the server will refuse is not discovered here, but on the first request.
-  /// A guest still exchanges for its identity, since its id and token are what the requests need.
+  /// An anonymous user has no token for a socket, so it never opens one.
   ///
-  /// An anonymous user always connects this way, having no token to authenticate a socket with,
-  /// and passing `true` does not change that.
+  /// A guest gets its identity from the server on the first [connect], so [user] changes. That
+  /// identity cannot be renewed, because a new one would be a different guest. If the server
+  /// rejects a guest token, the connection stays down. Call [dispose], build a new client, and
+  /// expect a different [user] id.
   ///
-  /// Calling [connect] again afterwards opens the socket, keeping the identity already
-  /// established.
+  /// Example:
+  /// ```dart
+  /// // A client that only makes requests: no socket, and no watching.
+  /// await client.connect(connectWebSocket: false);
   ///
-  /// ## Guest sessions
+  /// // Opening the socket later keeps the identity already established.
+  /// await client.connect();
+  /// ```
   ///
-  /// A guest's token is issued once, during the first [connect], and cannot be reissued: asking
-  /// for another would create another guest, under an id that is not [user]'s. So when the server
-  /// refuses a guest token as expired, the connection fails and stays down. Handle it by calling
-  /// [dispose] and building a new client, which starts a new guest session — and expect
-  /// `client.user.id` to differ, so anything holding the old id has to be refreshed with it.
+  /// A guest needs no token provider, and reads back the id the server gave it:
+  ///
+  /// ```dart
+  /// final client = StreamFeedsClient(
+  ///   apiKey: 'your-api-key',
+  ///   user: const User.guest('guest-123'),
+  /// );
+  ///
+  /// await client.connect();
+  /// print(client.user.id); // assigned by the server, not 'guest-123'
+  /// ```
   Future<void> connect({
     bool connectWebSocket = true,
   });
