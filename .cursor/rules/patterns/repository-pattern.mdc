@@ -383,7 +383,7 @@ void main() {
       final result = await client.feed(FeedId(group: 'user', id: 'test'));
       
       switch (result) {
-        case Success(value: final feed):
+        case Success(data: final feed):
           expect(feed.id, equals('feed-1'));
         case Failure(error: final error):
           fail('Expected success, got error: $error');

@@ -14,6 +14,7 @@
 - Added `StreamFeedsClient.dispose`, which releases the client for good; `connect` throws a `StateError` afterwards
 - Added a `connectWebSocket` flag to `connect`. Pass `false` for a client that only makes requests: no real-time updates arrive, and a watched query is rejected
 - Added `FeedsConfig.logConfig`, which says how much the client reports and where those records go; left out, the client stays silent. Records include the `Authorization` header, so weigh what reads them
+- Added `StreamFeedsClient.userList`, a paginated, filterable and sortable query over users, in the same shape as the other list APIs
 - Added `isRead` and `isSeen` to `ActivityData` and `AggregatedActivityData`, for notification-feed read/seen state
 - Added `friendReactionCount` and `friendReactions` to `ActivityData`, exposing reactions from friends
 - Added `metrics` to `ActivityData`, carrying impressions, clicks and similar

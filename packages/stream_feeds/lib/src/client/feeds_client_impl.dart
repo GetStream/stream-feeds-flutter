@@ -27,6 +27,7 @@ import '../repository/feeds_repository.dart';
 import '../repository/guest_repository.dart';
 import '../repository/moderation_repository.dart';
 import '../repository/polls_repository.dart';
+import '../repository/users_repository.dart';
 import '../state/activity.dart';
 import '../state/activity_comment_list.dart';
 import '../state/activity_list.dart';
@@ -60,6 +61,8 @@ import '../state/query/members_query.dart';
 import '../state/query/moderation_configs_query.dart';
 import '../state/query/poll_votes_query.dart';
 import '../state/query/polls_query.dart';
+import '../state/query/users_query.dart';
+import '../state/user_list.dart';
 import '../version.dart';
 import '../ws/feeds_ws_event.dart';
 import 'endpoint_config.dart';
@@ -179,6 +182,7 @@ class StreamFeedsClientImpl with Disposable implements StreamFeedsClient {
     _moderationRepository = ModerationRepository(feedsApi);
     _pollsRepository = PollsRepository(feedsApi);
     _capabilitiesRepository = CapabilitiesRepository(feedsApi);
+    _usersRepository = UsersRepository(feedsApi);
     _guestRepository = GuestRepository(feedsApi);
 
     moderation = ModerationClient(_moderationRepository);
@@ -226,6 +230,7 @@ class StreamFeedsClientImpl with Disposable implements StreamFeedsClient {
   late final ModerationRepository _moderationRepository;
   late final PollsRepository _pollsRepository;
   late final CapabilitiesRepository _capabilitiesRepository;
+  late final UsersRepository _usersRepository;
   late final GuestRepository _guestRepository;
 
   static const _sdkName = 'stream-feeds';
@@ -580,6 +585,14 @@ class StreamFeedsClientImpl with Disposable implements StreamFeedsClient {
     return ModerationConfigList(
       query: query,
       moderationRepository: _moderationRepository,
+    );
+  }
+
+  @override
+  UserList userList(UsersQuery query) {
+    return UserList(
+      query: query,
+      usersRepository: _usersRepository,
     );
   }
 

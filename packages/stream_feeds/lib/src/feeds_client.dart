@@ -44,6 +44,8 @@ import 'state/query/members_query.dart';
 import 'state/query/moderation_configs_query.dart';
 import 'state/query/poll_votes_query.dart';
 import 'state/query/polls_query.dart';
+import 'state/query/users_query.dart';
+import 'state/user_list.dart';
 
 export 'client/moderation_client.dart';
 
@@ -475,7 +477,7 @@ abstract interface class StreamFeedsClient {
   ///     ),
   ///   ],
   /// );
-  ///```
+  /// ```
   ///
   /// Returns a [Result] containing the list of upserted [ActivityData] or an error.
   Future<Result<List<ActivityData>>> upsertActivities({
@@ -486,11 +488,13 @@ abstract interface class StreamFeedsClient {
   ///
   /// Deletes the provided [ids] in a single batch operation.
   ///
-  ///```dart
-  ///await client.deleteActivities(
-  ///  ids: ['123', '456'],
-  ///  hardDelete: false,
-  ///);
+  /// Example:
+  /// ```dart
+  /// await client.deleteActivities(
+  ///   ids: ['123', '456'],
+  ///   hardDelete: false,
+  /// );
+  /// ```
   ///
   /// Returns a [Result] containing the list of deleted activity ids or an error.
   Future<Result<api.DeleteActivitiesResponse>> deleteActivities({
@@ -870,13 +874,13 @@ abstract interface class StreamFeedsClient {
   /// Example:
   /// ```dart
   /// final result = await client.getOrCreateFollows(
-  ///   api.FollowBatchRequest(
+  ///   FollowBatchRequest(
   ///     follows: [
-  ///       api.FollowRequest(
+  ///       FollowRequest(
   ///         source: FeedId.user('john').rawValue,
   ///         target: FeedId.user('jane').rawValue,
   ///       ),
-  ///       api.FollowRequest(
+  ///       FollowRequest(
   ///         source: FeedId.user('john').rawValue,
   ///         target: FeedId.user('bob').rawValue,
   ///       ),
@@ -906,13 +910,13 @@ abstract interface class StreamFeedsClient {
   /// Example:
   /// ```dart
   /// final result = await client.getOrCreateUnfollows(
-  ///   api.UnfollowBatchRequest(
+  ///   UnfollowBatchRequest(
   ///     follows: [
-  ///       api.UnfollowPair(
+  ///       UnfollowPair(
   ///         source: FeedId.user('john').rawValue,
   ///         target: FeedId.user('jane').rawValue,
   ///       ),
-  ///       api.UnfollowPair(
+  ///       UnfollowPair(
   ///         source: FeedId.user('john').rawValue,
   ///         target: FeedId.user('bob').rawValue,
   ///       ),
@@ -964,9 +968,9 @@ abstract interface class StreamFeedsClient {
   /// Example:
   /// ```dart
   /// final result = await client.createCollections(
-  ///   request: api.CreateCollectionsRequest(
+  ///   request: CreateCollectionsRequest(
   ///     collections: [
-  ///       api.CollectionRequest(
+  ///       CollectionRequest(
   ///         id: '123',
   ///         name: 'my_collection',
   ///         custom: const {'key': 'value'},
@@ -995,9 +999,9 @@ abstract interface class StreamFeedsClient {
   /// Example:
   /// ```dart
   /// final result = await client.updateCollections(
-  ///   request: api.UpdateCollectionsRequest(
+  ///   request: UpdateCollectionsRequest(
   ///     collections: [
-  ///       api.UpdateCollectionRequest(
+  ///       UpdateCollectionRequest(
   ///         id: '123',
   ///         name: 'my_collection',
   ///         custom: const {'updated_key': 'updated_value'},
@@ -1041,6 +1045,29 @@ abstract interface class StreamFeedsClient {
   Future<Result<api.DeleteCollectionsResponse>> deleteCollections({
     required List<String> refs,
   });
+
+  /// Creates a [UserList] object that represents a collection of users matching
+  /// the provided query.
+  ///
+  /// Example:
+  /// ```dart
+  /// final userList = client.userList(UsersQuery(
+  ///   filter: Filter.autoComplete(UsersFilterField.name, 'Al'),
+  ///   sort: [UsersSort.asc(UsersSortField.name)],
+  ///   limit: 25,
+  /// ));
+  ///
+  /// // Fetch the first page of users
+  /// final result = await userList.get();
+  ///
+  /// // Load more users if available
+  /// if (userList.state.canLoadMore) {
+  ///   await userList.queryMoreUsers();
+  /// }
+  /// ```
+  ///
+  /// Returns a [UserList] instance that can be used to interact with the collection of users.
+  UserList userList(UsersQuery query);
 
   /// The moderation client for managing moderation-related operations.
   ///
