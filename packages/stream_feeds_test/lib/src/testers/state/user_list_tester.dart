@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:meta/meta.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:stream_feeds/stream_feeds.dart';
 import 'package:test/test.dart' as test;
 
@@ -87,6 +88,18 @@ final class UserListTester extends BaseTester<UserList> {
 
   /// Stream of user list state updates.
   Stream<UserListState> get userListStateStream => userList.stream;
+
+  /// The payload of the single `queryUsers` request made so far.
+  ///
+  /// Read this to assert on what the SDK actually sent, rather than on a
+  /// payload the test built itself from the same query.
+  QueryUsersPayload get capturedQueryUsersPayload {
+    final captured = captureApi(
+      (api) => api.queryUsers(payload: captureAny(named: 'payload')),
+    );
+
+    return captured.single! as QueryUsersPayload;
+  }
 
   /// Gets the user list by fetching it from the API.
   ///

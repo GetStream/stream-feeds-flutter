@@ -1216,6 +1216,11 @@ FullUserResponse createDefaultFullUserResponse({
   String id = 'user-1',
   String? name,
   String? image,
+  DateTime? createdAt,
+  DateTime? updatedAt,
+  DateTime? lastActive,
+  String role = 'user',
+  List<String> teams = const [],
 }) {
   final now = DateTime(2021, 1, 1);
   return FullUserResponse(
@@ -1223,23 +1228,24 @@ FullUserResponse createDefaultFullUserResponse({
     banned: false,
     blockedUserIds: const [],
     channelMutes: const [],
-    createdAt: now,
+    createdAt: createdAt ?? now,
     custom: const {},
     devices: const [],
     invisible: false,
     language: 'en',
+    lastActive: lastActive,
     mutes: const [],
     name: name,
     image: image,
     online: false,
-    role: 'user',
+    role: role,
     shadowBanned: false,
-    teams: const [],
+    teams: teams,
     totalUnreadCount: 0,
     unreadChannels: 0,
     unreadCount: 0,
     unreadThreads: 0,
-    updatedAt: now,
+    updatedAt: updatedAt ?? now,
   );
 }
 

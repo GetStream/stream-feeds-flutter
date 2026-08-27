@@ -349,4 +349,394 @@ void main() {
       },
     );
   });
+
+  // ============================================================
+  // FEATURE: Filter Fields
+  // ============================================================
+
+  group('User List - Filter Fields', () {
+    // Distinct values for every filterable property, so a field wired to the
+    // wrong property cannot accidentally still match.
+    final user = UserData(
+      banned: true,
+      createdAt: DateTime.utc(2024),
+      id: 'user-1',
+      lastActive: DateTime.utc(2024, 3, 3),
+      name: 'Luke',
+      online: false,
+      role: 'admin',
+      teams: const ['red'],
+      updatedAt: DateTime.utc(2024, 2, 2),
+    );
+
+    // Each case pairs a filter that should match [user] with one that should
+    // not, which pins down both the remote field name sent to the API and the
+    // local property the field reads.
+    final cases =
+        <
+          ({
+            String remote,
+            UsersFilter matching,
+            UsersFilter notMatching,
+          })
+        >[
+          (
+            remote: 'banned',
+            matching: Filter.equal(UsersFilterField.banned, true),
+            notMatching: Filter.equal(UsersFilterField.banned, false),
+          ),
+          (
+            remote: 'created_at',
+            matching: Filter.equal(UsersFilterField.createdAt, user.createdAt),
+            notMatching: Filter.equal(UsersFilterField.createdAt, user.updatedAt),
+          ),
+          (
+            remote: 'id',
+            matching: Filter.in_(UsersFilterField.id, const ['user-1', 'user-2']),
+            notMatching: Filter.equal(UsersFilterField.id, 'Luke'),
+          ),
+          (
+            remote: 'last_active',
+            matching: Filter.greater(UsersFilterField.lastActive, user.updatedAt),
+            notMatching: Filter.less(UsersFilterField.lastActive, user.updatedAt),
+          ),
+          (
+            remote: 'name',
+            matching: Filter.autoComplete(UsersFilterField.name, 'Lu'),
+            notMatching: Filter.equal(UsersFilterField.name, 'user-1'),
+          ),
+          (
+            remote: 'role',
+            matching: Filter.equal(UsersFilterField.role, 'admin'),
+            notMatching: Filter.equal(UsersFilterField.role, 'user'),
+          ),
+          (
+            remote: 'teams',
+            matching: Filter.contains(UsersFilterField.teams, 'red'),
+            notMatching: Filter.contains(UsersFilterField.teams, 'blue'),
+          ),
+          (
+            remote: 'updated_at',
+            matching: Filter.equal(UsersFilterField.updatedAt, user.updatedAt),
+            notMatching: Filter.equal(UsersFilterField.updatedAt, user.createdAt),
+          ),
+        ];
+
+    for (final testCase in cases) {
+      // The SDK never evaluates a users filter itself, because a user list
+      // takes no WebSocket events. `matches` is public API though, so an app
+      // can filter a list of users it already holds.
+      test('${testCase.remote} - should read the matching user property', () {
+        expect(user.matches(testCase.matching), isTrue);
+        expect(user.matches(testCase.notMatching), isFalse);
+      });
+
+      userListTest(
+        '${testCase.remote} - should send the API field name',
+        build: (client) => client.userList(UsersQuery(filter: testCase.matching)),
+        setUp: (tester) => tester.get(),
+        body: (tester) {
+          final payload = tester.capturedQueryUsersPayload;
+          expect(payload.filterConditions.keys, [testCase.remote]);
+        },
+      );
+    }
+
+    test('should match a user against a combination of filters', () {
+      final filter = Filter.and([
+        Filter.equal(UsersFilterField.role, 'admin'),
+        Filter.contains(UsersFilterField.teams, 'red'),
+      ]);
+
+      expect(user.matches(filter), isTrue);
+      expect(user.copyWith(role: 'user').matches(filter), isFalse);
+    });
+  });
+
+  // ============================================================
+  // FEATURE: Sort Fields
+  // ============================================================
+
+  group('User List - Sort Fields', () {
+    // A user list merges pages by id, so the pair in each case cannot be made
+    // to differ in the sorted property alone. Instead the id and the name run
+    // *opposite* to the property under test, so a field wired to either of
+    // those produces the reverse order and fails the assertion.
+    //
+    // Ascending, the user holding the lower value therefore comes first:
+    // 'Zoe' (id `user-z`) ahead of 'Amy' (id `user-a`).
+    const ascending = ['Zoe', 'Amy'];
+
+    final cases =
+        <
+          ({
+            String remote,
+            UsersSortField field,
+            List<String> ascending,
+            FullUserResponse lower,
+            FullUserResponse higher,
+          })
+        >[
+          (
+            remote: 'created_at',
+            field: UsersSortField.createdAt,
+            ascending: ascending,
+            lower: createDefaultFullUserResponse(
+              id: 'user-z',
+              name: 'Zoe',
+              createdAt: DateTime.utc(2024),
+            ),
+            higher: createDefaultFullUserResponse(
+              id: 'user-a',
+              name: 'Amy',
+              createdAt: DateTime.utc(2025),
+            ),
+          ),
+          (
+            remote: 'id',
+            field: UsersSortField.id,
+            ascending: ascending,
+            // The field under test is the id, so only the name runs opposite.
+            lower: createDefaultFullUserResponse(id: 'user-a', name: 'Zoe'),
+            higher: createDefaultFullUserResponse(id: 'user-z', name: 'Amy'),
+          ),
+          (
+            remote: 'last_active',
+            field: UsersSortField.lastActive,
+            ascending: ascending,
+            lower: createDefaultFullUserResponse(
+              id: 'user-z',
+              name: 'Zoe',
+              lastActive: DateTime.utc(2024, 3, 3),
+            ),
+            higher: createDefaultFullUserResponse(
+              id: 'user-a',
+              name: 'Amy',
+              lastActive: DateTime.utc(2025, 3, 3),
+            ),
+          ),
+          (
+            remote: 'name',
+            field: UsersSortField.name,
+            // The field under test is the name, so only the id runs opposite.
+            ascending: ['Amy', 'Zoe'],
+            lower: createDefaultFullUserResponse(id: 'user-z', name: 'Amy'),
+            higher: createDefaultFullUserResponse(id: 'user-a', name: 'Zoe'),
+          ),
+          (
+            remote: 'role',
+            field: UsersSortField.role,
+            ascending: ascending,
+            lower: createDefaultFullUserResponse(
+              id: 'user-z',
+              name: 'Zoe',
+              role: 'admin',
+            ),
+            higher: createDefaultFullUserResponse(
+              id: 'user-a',
+              name: 'Amy',
+              role: 'moderator',
+            ),
+          ),
+          (
+            remote: 'updated_at',
+            field: UsersSortField.updatedAt,
+            ascending: ascending,
+            lower: createDefaultFullUserResponse(
+              id: 'user-z',
+              name: 'Zoe',
+              updatedAt: DateTime.utc(2024, 2, 2),
+            ),
+            higher: createDefaultFullUserResponse(
+              id: 'user-a',
+              name: 'Amy',
+              updatedAt: DateTime.utc(2025, 2, 2),
+            ),
+          ),
+        ];
+
+    for (final testCase in cases) {
+      userListTest(
+        '${testCase.remote} - should order the list by the matching property',
+        build: (client) => client.userList(
+          UsersQuery(sort: [UsersSort.asc(testCase.field)]),
+        ),
+        // Served highest-first, so the resulting order is the sort's doing and
+        // not the order the server happened to send.
+        setUp: (tester) => tester.get(
+          modifyResponse: (response) => response.copyWith(
+            users: [testCase.higher, testCase.lower],
+          ),
+        ),
+        body: (tester) {
+          expect(
+            tester.userListState.users.map((it) => it.name),
+            testCase.ascending,
+          );
+        },
+      );
+
+      userListTest(
+        '${testCase.remote} - should order the list in reverse when descending',
+        build: (client) => client.userList(
+          UsersQuery(sort: [UsersSort.desc(testCase.field)]),
+        ),
+        setUp: (tester) => tester.get(
+          modifyResponse: (response) => response.copyWith(
+            users: [testCase.lower, testCase.higher],
+          ),
+        ),
+        body: (tester) {
+          expect(
+            tester.userListState.users.map((it) => it.name),
+            testCase.ascending.reversed,
+          );
+        },
+      );
+
+      userListTest(
+        '${testCase.remote} - should send the API field name',
+        build: (client) => client.userList(
+          UsersQuery(sort: [UsersSort.asc(testCase.field)]),
+        ),
+        setUp: (tester) => tester.get(),
+        body: (tester) {
+          final payload = tester.capturedQueryUsersPayload;
+          expect(payload.sort?.map((it) => (it.field, it.direction)), [
+            (testCase.remote, SortDirection.asc.value),
+          ]);
+        },
+      );
+    }
+
+    userListTest(
+      'defaultSort - should order newest first, tie-breaking on id descending',
+      build: (client) => client.userList(const UsersQuery()),
+      setUp: (tester) => tester.get(
+        modifyResponse: (response) => response.copyWith(
+          users: [
+            // `user-2` and `user-3` share a createdAt and are older than
+            // `user-4`, so they land after it and settle on id descending.
+            createDefaultFullUserResponse(
+              id: 'user-2',
+              createdAt: DateTime.utc(2020),
+            ),
+            createDefaultFullUserResponse(
+              id: 'user-4',
+              createdAt: DateTime.utc(2021),
+            ),
+            createDefaultFullUserResponse(
+              id: 'user-3',
+              createdAt: DateTime.utc(2020),
+            ),
+          ],
+        ),
+      ),
+      body: (tester) {
+        expect(
+          tester.userListState.users.map((it) => it.id),
+          ['user-4', 'user-3', 'user-2'],
+        );
+      },
+    );
+  });
+
+  // ============================================================
+  // FEATURE: Query Validation
+  // ============================================================
+
+  group('User List - Query Validation', () {
+    // A `const` query with an invalid limit or offset fails to compile, so the
+    // queries here are built through a function to assert at runtime instead.
+    UsersQuery buildQuery({int? limit, int? offset}) {
+      return UsersQuery(limit: limit, offset: offset);
+    }
+
+    test('should reject a limit outside the range the API accepts', () {
+      expect(
+        () => buildQuery(limit: UsersQuery.maxLimit + 1),
+        throwsA(isA<AssertionError>()),
+      );
+      expect(() => buildQuery(limit: 0), throwsA(isA<AssertionError>()));
+
+      expect(buildQuery(limit: UsersQuery.maxLimit).limit, UsersQuery.maxLimit);
+    });
+
+    test('should reject an offset outside the range the API accepts', () {
+      expect(
+        () => buildQuery(offset: UsersQuery.maxOffset + 1),
+        throwsA(isA<AssertionError>()),
+      );
+      expect(() => buildQuery(offset: -1), throwsA(isA<AssertionError>()));
+
+      // The last page still starts at the maximum offset itself.
+      expect(
+        buildQuery(offset: UsersQuery.maxOffset).offset,
+        UsersQuery.maxOffset,
+      );
+    });
+
+    userListTest(
+      'queryMoreUsers - should reject a limit override outside the range',
+      build: (client) => client.userList(const UsersQuery(limit: 2)),
+      setUp: (tester) => tester.get(),
+      body: (tester) {
+        // The override goes through `copyWith`, so the same bounds apply.
+        expect(
+          () => tester.userList.queryMoreUsers(limit: UsersQuery.maxLimit + 1),
+          throwsA(isA<AssertionError>()),
+        );
+      },
+    );
+  });
+
+  // ============================================================
+  // FEATURE: Request Payload
+  // ============================================================
+
+  group('User List - Request Payload', () {
+    userListTest(
+      'should send every option the query sets',
+      build: (client) => client.userList(
+        UsersQuery(
+          filter: Filter.equal(UsersFilterField.role, 'admin'),
+          sort: [UsersSort.asc(UsersSortField.name)],
+          limit: 10,
+          offset: 20,
+          includeDeactivatedUsers: true,
+        ),
+      ),
+      setUp: (tester) => tester.get(),
+      body: (tester) {
+        final payload = tester.capturedQueryUsersPayload;
+
+        expect(payload.filterConditions, {
+          'role': {r'$eq': 'admin'},
+        });
+        expect(payload.sort?.map((it) => (it.field, it.direction)), [
+          ('name', SortDirection.asc.value),
+        ]);
+        expect(payload.limit, 10);
+        expect(payload.offset, 20);
+        expect(payload.includeDeactivatedUsers, isTrue);
+      },
+    );
+
+    userListTest(
+      'should leave unset options out of the payload',
+      build: (client) => client.userList(const UsersQuery()),
+      setUp: (tester) => tester.get(),
+      body: (tester) {
+        final payload = tester.capturedQueryUsersPayload;
+
+        // The API applies its own defaults for everything the query omits, so
+        // nothing but an empty filter is sent.
+        expect(payload.filterConditions, isEmpty);
+        expect(payload.sort, isNull);
+        expect(payload.limit, isNull);
+        expect(payload.offset, isNull);
+        expect(payload.includeDeactivatedUsers, isNull);
+      },
+    );
+  });
 }
