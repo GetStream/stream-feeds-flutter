@@ -12,10 +12,13 @@ packages:
 
 command:
   bootstrap:
+    # Run `pub get` sequentially to avoid races on the shared git-dep cache.
+    runPubGetInParallel: false
+
     # Dart and Flutter environment used in the project.
     environment:
-      sdk: ^3.10.0
-      flutter: ">=3.38.0"
+      sdk: ^3.12.0
+      flutter: ">=3.44.0"
 
     # List of all the dependencies used in the project.
     dependencies:
@@ -47,7 +50,11 @@ command:
       shared_preferences: ^2.5.3
       state_notifier: ^1.0.0
       stream_feeds: ^0.5.1
-      stream_core: ^0.4.0
+      stream_core: 
+        git:
+          url: https://github.com/GetStream/stream-core-flutter.git
+          ref: f83b5d4d706a79fc429de2d27aead4394b83c1fb
+          path: packages/stream_core
       video_player: ^2.10.0
       uuid: ^4.5.1
       web_socket_channel: ^3.0.0
@@ -57,7 +64,6 @@ command:
       auto_route_generator: ^10.0.0
       build_runner: ^2.4.15
       flutter_launcher_icons: ^0.14.4
-      flutter_lints: ^6.0.0
       freezed: ^3.0.0
       injectable_generator: ^3.0.0
       json_serializable: ^6.9.5
@@ -65,7 +71,15 @@ command:
       retrofit_generator: ^10.2.6
       test: ^1.26.3
 
+    hooks:
+      # Syncs lib/src/version.dart with the version in stream_feeds' pubspec.
+      post: melos run version:update
+
 scripts:
+  version:update:
+    run: dart tools/generate_version.dart
+    description: Updates packages/stream_feeds/lib/src/version.dart from its pubspec.yaml version.
+
   postclean:
     run: melos run clean:flutter --no-select
     description: Runs "flutter clean" in all Flutter packages
@@ -133,6 +147,10 @@ scripts:
     description: |
       Run `pub publish --dry-run` in all packages.
        - Note: you can also rely on your IDEs Dart Analysis / Issues window.
+
+  release:pub:
+    run: melos exec -c 1 --no-published --no-private --order-dependents -- "flutter pub publish -f"
+    description: Publish all packages to pub.dev.
 
   generate:all:
     run: melos run generate:dart && melos run generate:flutter

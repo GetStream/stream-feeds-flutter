@@ -7,8 +7,8 @@ import 'package:stream_feeds/stream_feeds.dart';
 @LazySingleton(as: NetworkStateProvider)
 final class InternetStateProvider with Disposable implements NetworkStateProvider {
   InternetStateProvider({
-    required InternetConnection checker,
-  }) : _checker = checker {
+    required this._checker,
+  }) {
     // Subscribe to the status changes.
     _connectionSubscription = _checker.onStatusChange.listen(_onStatusChange);
   }

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:stream_feeds/stream_feeds.dart' show StreamLogger;
 
 import '../../core/di/di_initializer.dart';
 import '../../core/models/user_credentials.dart';
@@ -9,6 +10,8 @@ import '../../navigation/app_router.dart';
 import '../../notification/notification_service.dart';
 import '../../theme/theme.dart';
 import 'auth_controller.dart';
+
+const _logger = StreamLogger('App:Push');
 
 class StreamFeedsSampleAppContent extends StatefulWidget {
   const StreamFeedsSampleAppContent({super.key, this.credentials});
@@ -29,10 +32,10 @@ class _StreamFeedsSampleAppContentState extends State<StreamFeedsSampleAppConten
     // Handle only notifications from Stream Feeds.
     if (notification.sender != 'stream.feeds') return;
 
-    debugPrint('📱 Notification tapped: ${notification.type}');
-    debugPrint('📱 Device state: ${info.deviceState}');
-    debugPrint('📱 Title: ${notification.title}');
-    debugPrint('📱 Body: ${notification.body}');
+    _logger.d(() => '📱 Notification tapped: ${notification.type}');
+    _logger.d(() => '📱 Device state: ${info.deviceState}');
+    _logger.d(() => '📱 Title: ${notification.title}');
+    _logger.d(() => '📱 Body: ${notification.body}');
 
     // Navigate to the relevant screen based on notification type.
   }

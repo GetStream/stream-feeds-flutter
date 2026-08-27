@@ -25,8 +25,8 @@ class MemberList extends Disposable {
   MemberList({
     required this.query,
     required this.feedsRepository,
-    required MutableSharedEmitter<StateUpdateEvent> eventsEmitter,
-  }) : _eventsEmitter = eventsEmitter {
+    required this._eventsEmitter,
+  }) {
     _stateNotifier = MemberListStateNotifier(
       initialState: const MemberListState(),
     );

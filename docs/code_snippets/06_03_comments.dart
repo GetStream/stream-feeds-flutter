@@ -119,3 +119,58 @@ Future<void> commentThreading() async {
   );
   final replies = await replyList.get();
 }
+
+Future<void> restrictReplies() async {
+  // Post an activity that restricts who can reply/comment.
+  // Options: everyone (default), nobody, peopleIFollow.
+  // Note: the activity author can always comment regardless of this setting.
+  await feed.addActivity(
+    request: const FeedAddActivityRequest(
+      type: 'post',
+      text: 'Only my followers can reply to this.',
+      restrictReplies: AddActivityRequestRestrictReplies.peopleIFollow,
+    ),
+  );
+
+  // To check whether the current user may comment on an activity whose
+  // restrictReplies is peopleIFollow, the server must enrich the response with
+  // the author's own_followings. Enable this via enrichmentOptions on the feed
+  // query — it is not included in the default getOrCreate() response.
+  final enrichedFeed = client.feedFromQuery(
+    const FeedQuery(
+      fid: FeedId(group: 'user', id: 'john'),
+      enrichmentOptions: EnrichmentOptions(enrichOwnFollowings: true),
+    ),
+  );
+  await enrichedFeed.getOrCreate();
+  final activity = enrichedFeed.state.activities.firstOrNull;
+  if (activity == null) return;
+
+  switch (activity.restrictReplies) {
+    case ActivityRestrictReplies.everyone:
+      print('Anyone can comment');
+    case ActivityRestrictReplies.nobody:
+      print('Comments are disabled');
+    case ActivityRestrictReplies.peopleIFollow:
+      // own_followings lists follow relationships where the source feed is the
+      // activity author's and the target is the current user's feed. A non-empty
+      // list means the activity author follows the current user, so they may
+      // comment.
+      final ownFollowings = activity.currentFeed?.ownFollowings ?? [];
+      final canComment = ownFollowings.isNotEmpty;
+      print('Can current user comment? $canComment');
+    default: // future/unknown values from the server
+      print('Unknown restriction: ${activity.restrictReplies}');
+  }
+}
+
+Future<void> updateRestrictReplies() async {
+  // Update an existing activity's reply restriction after it was created.
+  // restrictReplies is passed directly on the generated UpdateActivityRequest.
+  await feed.updateActivity(
+    id: 'activity-id',
+    request: const UpdateActivityRequest(
+      restrictReplies: UpdateActivityRequestRestrictReplies.nobody,
+    ),
+  );
+}

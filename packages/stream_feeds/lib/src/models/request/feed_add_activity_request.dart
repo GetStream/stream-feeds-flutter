@@ -31,7 +31,9 @@ class FeedAddActivityRequest with _$FeedAddActivityRequest implements HasAttachm
     this.mentionedUserIds,
     this.parentId,
     this.pollId,
+    this.restrictReplies,
     this.searchData,
+    this.skipEnrichUrl,
     this.skipPush,
     this.text,
     this.visibility,
@@ -107,9 +109,25 @@ class FeedAddActivityRequest with _$FeedAddActivityRequest implements HasAttachm
   @override
   final String? pollId;
 
+  /// Controls who can add comments/replies to this activity.
+  ///
+  /// Defaults to [AddActivityRequestRestrictReplies.everyone] (no restriction).
+  /// Use [AddActivityRequestRestrictReplies.nobody] to disable comments, or
+  /// [AddActivityRequestRestrictReplies.peopleIFollow] to restrict to users
+  /// followed by the activity author.
+  @override
+  final AddActivityRequestRestrictReplies? restrictReplies;
+
   /// Optional search metadata for enhanced discoverability.
   @override
   final Map<String, Object>? searchData;
+
+  /// Whether to skip URL enrichment for this activity.
+  ///
+  /// When `true`, the backend will not scrape links found in [text] to build
+  /// an Open Graph preview attachment.
+  @override
+  final bool? skipEnrichUrl;
 
   /// Whether to skip push notifications for this activity.
   ///
@@ -169,7 +187,9 @@ extension FeedAddActivityRequestMapper on FeedAddActivityRequest {
       mentionedUserIds: mentionedUserIds,
       parentId: parentId,
       pollId: pollId,
+      restrictReplies: restrictReplies,
       searchData: searchData,
+      skipEnrichUrl: skipEnrichUrl,
       skipPush: skipPush,
       text: text,
       visibility: visibility,

@@ -102,6 +102,7 @@ ActivityResponse createDefaultActivityResponse({
   List<FeedsReactionResponse>? friendReactions,
   int? friendReactionCount,
   Map<String, int>? metrics,
+  ActivityResponseRestrictReplies? restrictReplies,
 }) {
   latestReactions = latestReactions.isEmpty ? ownReactions : latestReactions;
   reactionGroups = switch (reactionGroups.isNotEmpty) {
@@ -155,7 +156,7 @@ ActivityResponse createDefaultActivityResponse({
     preview: false,
     reactionCount: reactionGroups.values.sumOf((group) => group.count),
     reactionGroups: reactionGroups,
-    restrictReplies: ActivityResponseRestrictReplies.everyone,
+    restrictReplies: restrictReplies ?? ActivityResponseRestrictReplies.everyone,
     score: 0,
     searchData: const {},
     shareCount: 0,

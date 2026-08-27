@@ -1,23 +1,44 @@
 ## Upcoming
 
-### New methods
-- Added `userList` to `StreamFeedsClient` for querying users.
+### 💥 BREAKING CHANGES
 
-### New fields
-- Added `isRead` and `isSeen` fields to `ActivityData` and `AggregatedActivityData` for notification-feed read/seen state.
-- Added `friendReactionCount` and `friendReactions` fields to `ActivityData` to expose reactions from friends.
-- Added `metrics` field to `ActivityData` for server-side activity metrics (impressions, clicks, etc.).
-- Added `bookmarkCount` and `editedAt` fields to `CommentData`.
-- Added `location` (`LocationCoordinate?`) field to `FeedData`.
-- Added `createNotificationActivity`, `skipPush`, and `enrichOwnFields` optional flags to `FeedAddActivityRequest`.
+- Raised the minimum Dart SDK to `^3.12.0`
+- `Ban` removed, replaced by `BanInfoResponse`: `target` is now `user`, `shadow` is optional rather than required, and `channel` is gone
+- `PollResponseData.votingVisibility` is now required, so anything constructing one directly must supply it
+- `ActivityCommentList.state` returns `ActivityCommentListState` rather than `StateNotifier<ActivityCommentListState>`, matching the other state classes
+- Removed the call, recording, streaming and chat types that were never part of the Feeds API
 
-### WebSocket events
-- `ActivityRestoredEvent` and `CommentRestoredEvent` are now handled: restored items are upserted back into feed/list state.
+### ✨ Features
 
-### Deprecated — renamed types (backwards-compatible aliases added)
-The following generated types were renamed in the underlying API. Deprecated `typedef` aliases
-have been added so existing code continues to compile with a deprecation warning. Migrate to
-the new names at your earliest convenience.
+- Guest users (`User.guest(id)`) can now connect, with the same read and write access and the same real-time updates as a regular user; their id is assigned on connect, so read it from `client.user` afterwards
+- Added `StreamFeedsClient.dispose`, which releases the client for good; `connect` throws a `StateError` afterwards
+- Added a `connectWebSocket` flag to `connect`. Pass `false` for a client that only makes requests: no real-time updates arrive, and a watched query is rejected
+- Added `FeedsConfig.logConfig`, which says how much the client reports and where those records go; left out, the client stays silent. Records include the `Authorization` header, so weigh what reads them
+- Added `StreamFeedsClient.userList`, a paginated, filterable and sortable query over users, in the same shape as the other list APIs
+- Added `isRead` and `isSeen` to `ActivityData` and `AggregatedActivityData`, for notification-feed read/seen state
+- Added `friendReactionCount` and `friendReactions` to `ActivityData`, exposing reactions from friends
+- Added `metrics` to `ActivityData`, carrying impressions, clicks and similar
+- Added `bookmarkCount` and `editedAt` to `CommentData`, and `location` to `FeedData`
+- Added `createNotificationActivity`, `skipPush` and `enrichOwnFields` flags to `FeedAddActivityRequest`
+- Added `customHeaders` to `FeedsConfig`, sent with every API request. The SDK's own headers win where they overlap, and none of this reaches the WebSocket
+- Added `skipEnrichUrl` to `FeedAddActivityRequest`, `ActivityAddCommentRequest` and `ActivityUpdateCommentRequest`, which leaves URLs in the text unenriched
+- Added `restrictReplies` to `ActivityData` and `FeedAddActivityRequest`, saying who may comment on an activity: everyone, nobody, or people the author follows
+- Added `enrichmentOptions` to `FeedQuery`. Pass `EnrichmentOptions(enrichOwnFollowings: true)` for `ownFollowings` on each activity, which is what tells you whether the current user may comment when `restrictReplies` is `people_i_follow`
+- Added a `deleteNotificationActivity` flag to the `deleteActivity`, `deleteComment`, `deleteActivityReaction` and `deleteCommentReaction` methods on `Feed` and `Activity`, which deletes the matching notification activity too
+- A restored activity or comment now reappears in feed and list state, through `ActivityRestoredEvent` and `CommentRestoredEvent`
+
+### 🐛 Bug Fixes
+
+- Fixed `connect` failing when called straight after `disconnect`
+- Fixed a connection that could not authenticate hanging until it timed out, rather than failing with the reason
+- Fixed the `X-Stream-Client` header: the SDK identifier was sent twice, the version was hardcoded, and the OS was left out
+
+### 🔄 Changed
+
+- `disconnect` now only closes the connection, leaving the client reusable with its existing subscriptions intact; releasing it is `dispose`
+- An expired token now recovers on its own: the connection comes back with one the `TokenProvider` issued afterwards, without the app doing anything
+- `connect` throws a `ClientException` when a connection is already established or in progress, and the one it throws on failure carries the underlying cause
+- Renamed the types below. The old names still compile, with a deprecation warning, and `dart fix --apply` migrates them:
 
 | Old name | New name |
 |---|---|
@@ -43,13 +64,6 @@ the new names at your earliest convenience.
 | `RestoreActionRequest` | `RestoreActionRequestPayload` |
 | `UnbanActionRequest` | `UnbanActionRequestPayload` |
 | `UnblockActionRequest` | `UnblockActionRequestPayload` |
-
-### [BREAKING]
-
-- [BREAKING] `Ban` class removed. Replaced by `BanInfoResponse` which has a different field structure: `target` → `user`, `shadow: bool` (required) → `shadow: bool?` (optional), `channel` field removed.
-- [BREAKING] `PollResponseData.votingVisibility` is now a required field (was optional in the old `Poll` class). Code constructing `Poll`/`PollResponseData` directly (e.g. in tests) must supply `votingVisibility`.
-- [BREAKING] The following types were removed from the public API. They belonged to video/call/chat functionality not relevant to the Feeds SDK and should not have been exported: `AudioSettingsResponse`, `BackstageSettingsResponse`, `BroadcastSettingsResponse`, `CallIngressResponse`, `CallParticipantResponse`, `CallSessionResponse`, `CallSettingsResponse`, `Channel`, `ChannelConfig`, `ChannelMember`, `ChannelMemberLookup`, `ChannelPushPreferences`, `CompositeRecordingResponse`, `ConfigOverrides`, `DeliveryReceipts`, `DenormalizedChannelFields`, `Device`, `EgressHlsResponse`, `EgressResponse`, `EgressRtmpResponse`, `FrameRecordingResponse`, `FrameRecordingSettingsResponse`, `GeofenceSettingsResponse`, `HlsSettingsResponse`, `IndividualRecordingResponse`, `IndividualRecordingSettingsResponse`, `IngressAudioEncodingResponse`, `IngressSettingsResponse`, `IngressSourceResponse`, `IngressVideoEncodingResponse`, `IngressVideoLayerResponse`, `LimitsSettingsResponse`, `Message`, `MessageReminder`, `ModerationActionConfig`, `NoiseCancellationSettings`, `PrivacySettings`, `RawRecordingResponse`, `RawRecordingSettingsResponse`, `ReadReceipts`, `RecordSettingsResponse`, `RingSettingsResponse`, `RtmpIngress`, `RtmpSettingsResponse`, `ScreensharingSettingsResponse`, `SessionSettingsResponse`, `SharedLocation`, `SpeechSegmentConfig`, `SrtIngress`, `TargetResolution`, `ThumbnailResponse`, `ThumbnailsSettingsResponse`, `TranscriptionSettingsResponse`, `TranslationSettings`, `TypingIndicators`, `UserMutedEvent`, `VideoSettingsResponse`, `WhipIngress`.
-- [BREAKING] Changed `ActivityCommentList.state` getter return type from `StateNotifier<ActivityCommentListState>` to `ActivityCommentListState` to be consistent with all other state classes.
 
 ## 0.5.1
 - Added missing state updates for the websocket events.

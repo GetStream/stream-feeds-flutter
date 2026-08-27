@@ -135,10 +135,12 @@ class CommentsRepository {
   Future<Result<({ActivityData activity, CommentData comment})>> deleteComment(
     String commentId, {
     bool? hardDelete,
+    bool? deleteNotificationActivity,
   }) async {
     final result = await _api.deleteComment(
       id: commentId,
       hardDelete: hardDelete,
+      deleteNotificationActivity: deleteNotificationActivity,
     );
 
     return result.map(
@@ -208,9 +210,14 @@ class CommentsRepository {
   /// [FeedsReactionData] or an error.
   Future<Result<({CommentData comment, FeedsReactionData reaction})>> deleteCommentReaction(
     String commentId,
-    String type,
-  ) async {
-    final result = await _api.deleteCommentReaction(id: commentId, type: type);
+    String type, {
+    bool? deleteNotificationActivity,
+  }) async {
+    final result = await _api.deleteCommentReaction(
+      id: commentId,
+      type: type,
+      deleteNotificationActivity: deleteNotificationActivity,
+    );
 
     return result.map(
       (response) => (

@@ -123,3 +123,7 @@ Built-in support for reactions, comments, bookmarks, and polls makes it easy to 
 ## 👩‍💻 Free for Makers 👨‍💻
 
 Stream is free for most side and hobby projects. To qualify, your project/company needs to have < 5 team members and < $10k in monthly revenue. Makers get $100 in monthly credit for video for free.
+
+## License
+
+This repository and the `stream_feeds` package are licensed under the [Stream Source Code License](./LICENSE).

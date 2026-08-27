@@ -23,6 +23,7 @@ class ActivityAddCommentRequest with _$ActivityAddCommentRequest implements HasA
     this.mentionedUserIds,
     this.parentId,
     this.custom,
+    this.skipEnrichUrl,
   });
 
   /// The unique identifier of the activity to comment on.
@@ -62,6 +63,13 @@ class ActivityAddCommentRequest with _$ActivityAddCommentRequest implements HasA
   @override
   final Map<String, Object?>? custom;
 
+  /// Whether to skip URL enrichment for this comment.
+  ///
+  /// When `true`, the backend will not scrape links found in [comment] to
+  /// build an Open Graph preview attachment.
+  @override
+  final bool? skipEnrichUrl;
+
   /// Creates a copy of this request with updated attachments and uploads.
   @override
   ActivityAddCommentRequest withAttachments({
@@ -91,6 +99,7 @@ extension ActivityAddCommentRequestMapper on ActivityAddCommentRequest {
       objectId: activityId,
       objectType: activityType,
       parentId: parentId,
+      skipEnrichUrl: skipEnrichUrl,
     );
   }
 }

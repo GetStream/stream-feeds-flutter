@@ -96,6 +96,11 @@
 **/macos/Flutter/ephemeral
 **/xcuserdata/
 
+# Swift Package Manager
+# Package.resolved is tracked at the .xcworkspace level (what `flutter build` uses).
+# The .xcodeproj-level copy is a duplicate Xcode regenerates on its own.
+**/*.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/
+
 # Windows
 **/windows/flutter/generated_plugin_registrant.cc
 **/windows/flutter/generated_plugin_registrant.h
