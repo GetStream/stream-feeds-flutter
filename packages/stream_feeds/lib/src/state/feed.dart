@@ -192,6 +192,10 @@ class Feed with Disposable {
   /// `StreamFeedsClient.attachmentUploader` instead and pass the results as
   /// [FeedAddActivityRequest.attachments].
   ///
+  /// Throws an [ArgumentError] if two of those attachments share an id. Ids
+  /// default to a fresh UUID, so this only happens when one is given
+  /// explicitly, or the same attachment is listed twice.
+  ///
   /// Returns a [Result] containing the added [ActivityData] if successful, or an error if the
   /// operation fails.
   Future<Result<ActivityData>> addActivity({

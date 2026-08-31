@@ -192,6 +192,10 @@ class Activity with Disposable {
   /// `StreamFeedsClient.attachmentUploader` instead and pass the results as
   /// [ActivityAddCommentRequest.attachments].
   ///
+  /// Throws an [ArgumentError] if two of those attachments share an id. Ids
+  /// default to a fresh UUID, so this only happens when one is given
+  /// explicitly, or the same attachment is listed twice.
+  ///
   /// Returns a [Result] containing the created [CommentData] or an error.
   Future<Result<CommentData>> addComment({
     required ActivityAddCommentRequest request,
@@ -213,6 +217,11 @@ class Activity with Disposable {
   /// can call off the uploads of the others. To follow those uploads or call
   /// them off, upload through `StreamFeedsClient.attachmentUploader` instead
   /// and pass the results as [ActivityAddCommentRequest.attachments].
+  ///
+  /// Throws an [ArgumentError] if two attachments share an id, across the whole
+  /// batch rather than within one request — one batch cannot tell them apart.
+  /// Ids default to a fresh UUID, so this only happens when one is given
+  /// explicitly, or the same attachment is listed twice.
   ///
   /// Returns a [Result] containing a list of created [CommentData] or an error.
   Future<Result<List<CommentData>>> addCommentsBatch(
