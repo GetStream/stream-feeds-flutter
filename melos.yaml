@@ -53,7 +53,7 @@ command:
       stream_core: 
         git:
           url: https://github.com/GetStream/stream-core-flutter.git
-          ref: 6c52495a7a670ee6746d1ca09df72b4f10f8a57f
+          ref: 09345039ad65c0bb014909aafe9cda3ec7b65c61
           path: packages/stream_core
       video_player: ^2.10.0
       uuid: ^4.5.1
