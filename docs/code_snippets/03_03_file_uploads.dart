@@ -20,14 +20,21 @@ Future<void> howToUploadAFileOrImageStep1() async {
     custom: {'width': 600, 'height': 400},
   );
 
-  // Upload the attachment
-  final result = await attachmentUploader.upload(
-    streamAttachment,
-    // Optionally track upload progress
-    onProgress: (progress) {
-      // Handle progress updates
-    },
-  );
+  // Start the upload. The task comes back straight away, already running.
+  final task = attachmentUploader.upload(streamAttachment);
+
+  // Optionally track upload progress. `fraction` is null while the file's
+  // length is unknown, which is when an indeterminate bar is the right thing
+  // to show.
+  task.state.listen((state) {
+    if (state case UploadInProgress(progress: UploadProgress(:final fraction?))) {
+      print('${(fraction * 100).round()}% sent');
+    }
+  });
+
+  // Await the outcome. It never throws — a failed upload carries its error.
+  // Call `task.cancel()` to call the upload off.
+  final result = await task.result;
 
   // Map the result to an Attachment model to send with an activity
   final uploadedAttachment = result.getOrThrow();
