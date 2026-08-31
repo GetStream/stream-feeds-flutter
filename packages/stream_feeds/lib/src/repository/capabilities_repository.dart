@@ -77,18 +77,15 @@ class CapabilitiesRepository {
 }
 
 extension on Result<Map<String, List<FeedOwnCapability>>> {
-  bool shouldRetry() {
-    switch (this) {
-      case api.Success():
-        return false;
-
-      case final api.Failure failure:
-        final exception = failure.error;
-        if (exception is! StreamApiException) {
-          return false;
-        }
-        final statusCode = exception.statusCode;
-        return statusCode < 100 || statusCode >= 500;
-    }
-  }
+  bool shouldRetry() => switch (this) {
+    api.Success() => false,
+    api.Failure(:final error) => switch (error) {
+      StreamNetworkException(isCancelled: true) => false,
+      StreamNetworkException() => true,
+      // A rate limit is not retried here: this waits a fixed moment, which is
+      // not the wait a rate limit asks for.
+      StreamApiException(:final statusCode) => statusCode < 100 || statusCode >= 500,
+      _ => false,
+    },
+  };
 }

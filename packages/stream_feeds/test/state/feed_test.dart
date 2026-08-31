@@ -667,6 +667,44 @@ void main() {
     );
 
     feedTest(
+      'ActivityAddedEvent - retries a capabilities fetch that failed on the network',
+      user: const User(id: 'user-1'),
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(),
+      body: (tester) async {
+        registerFallbackValue(const OwnBatchRequest(feeds: []));
+
+        // The activity names a feed this client has not cached, which is what
+        // sends the handler to fetch its capabilities.
+        tester.mockApiFailure(
+          (api) => api.ownBatch(ownBatchRequest: any(named: 'ownBatchRequest')),
+          error: const StreamNetworkException(message: 'Connection failed'),
+        );
+
+        await tester.emitEvent(
+          ActivityAddedEvent(
+            type: EventTypes.activityAdded,
+            createdAt: DateTime.timestamp(),
+            custom: const {},
+            fid: feedId.rawValue,
+            activity: createDefaultActivityResponse(
+              id: 'new-activity',
+              userId: 'user-1',
+              currentFeed: createDefaultFeedResponse(id: 'other', groupId: 'user'),
+            ),
+          ),
+        );
+
+        // A blip is worth asking again for; the loop allows exactly one retry.
+        await Future<void>.delayed(const Duration(milliseconds: 700));
+        tester.verifyApiCalled(
+          (api) => api.ownBatch(ownBatchRequest: any(named: 'ownBatchRequest')),
+          times: 2,
+        );
+      },
+    );
+
+    feedTest(
       'ActivityAddedEvent - should add activity to feed',
       user: const User(id: 'user-1'),
       build: (client) => client.feedFromId(feedId),
