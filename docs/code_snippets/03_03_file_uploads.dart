@@ -20,7 +20,8 @@ Future<void> howToUploadAFileOrImageStep1() async {
     custom: {'width': 600, 'height': 400},
   );
 
-  // Start the upload. The task comes back straight away, already running.
+  // Start the upload. The task comes back straight away, already running, and
+  // `task.cancel()` calls it off.
   final task = attachmentUploader.upload(streamAttachment);
 
   // Optionally track upload progress. `fraction` is null while the file's
@@ -32,12 +33,10 @@ Future<void> howToUploadAFileOrImageStep1() async {
     }
   });
 
-  // Await the outcome. It never throws — a failed upload carries its error.
-  // Call `task.cancel()` to call the upload off.
-  final result = await task.result;
-
-  // Map the result to an Attachment model to send with an activity
-  final uploadedAttachment = result.getOrThrow();
+  // Map the result to an Attachment model to send with an activity. A failed
+  // upload carries its error, so `getOrThrow` opts into throwing it; `fold`
+  // handles it instead.
+  final uploadedAttachment = (await task.result).getOrThrow();
   final attachmentReadyToBeSent = Attachment(
     imageUrl: uploadedAttachment.remoteUrl,
     assetUrl: uploadedAttachment.remoteUrl,
