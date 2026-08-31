@@ -263,8 +263,10 @@ class StreamFeedsClientImpl with Disposable implements StreamFeedsClient {
       // A guest cannot refresh: another exchange answers with a different guest. The session ends
       // here, and the app starts another by building a new client.
       if (_tokenManager.usesStaticProvider) {
-        throw const StreamAuthenticationException(
+        throw StreamAuthenticationException(
           message: 'The token was refused and the provider has no other to give',
+          cause: previousError,
+          stackTrace: previousError?.stackTrace,
         );
       }
     }

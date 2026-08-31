@@ -4990,10 +4990,12 @@ void main() {
 
     StreamAttachment uploadAttachment(String id, {AttachmentType type = AttachmentType.file}) {
       // A real file: the CDN client reads the upload's bytes from its path.
-      final file = File('${Directory.systemTemp.createTempSync('feeds_upload_test').path}/$id.bin')
-        ..writeAsBytesSync(const [1, 2, 3]);
+      final directory = Directory.systemTemp.createTempSync('feeds_upload_test');
+      addTearDown(() => directory.deleteSync(recursive: true));
 
-      return StreamAttachment(id: id, type: type, file: AttachmentFile(file.path));
+      File('${directory.path}/$id.bin').writeAsBytesSync(const [1, 2, 3]);
+
+      return StreamAttachment(id: id, type: type, file: AttachmentFile('${directory.path}/$id.bin'));
     }
 
     FeedAddActivityRequest requestWithUpload() {

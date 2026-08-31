@@ -7,7 +7,7 @@
 - `PollResponseData.votingVisibility` is now required, so anything constructing one directly must supply it
 - `ActivityCommentList.state` returns `ActivityCommentListState` rather than `StateNotifier<ActivityCommentListState>`, matching the other state classes
 - Removed the call, recording, streaming and chat types that were never part of the Feeds API
-- Every failure now arrives as a `StreamException` subclass — `StreamApiException`, `StreamNetworkException`, `StreamAuthenticationException` or `StreamClientException` — in place of `ClientException`, `HttpClientException` and `StreamApiError`, which are gone. `StreamFeedsException` aliases the base type, so catching it catches all four, and each carries the `cause` it was built from
+- Every failure the SDK reports for work it attempted now arrives as a `StreamException` subclass — `StreamApiException`, `StreamNetworkException`, `StreamAuthenticationException` or `StreamClientException` — in place of `ClientException`, `HttpClientException` and `StreamApiError`, which are gone. `StreamFeedsException` aliases the base type, so catching it catches all four, and each carries the `cause` it was built from
 
 ### ✨ Features
 
