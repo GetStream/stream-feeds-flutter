@@ -186,6 +186,12 @@ class Activity with Disposable {
 
   /// Adds a comment to this activity.
   ///
+  /// Attachments in [ActivityAddCommentRequest.attachmentUploads] are uploaded
+  /// first, and the comment is added once they are all in. To follow those
+  /// uploads or call them off, upload through
+  /// `StreamFeedsClient.attachmentUploader` instead and pass the results as
+  /// [ActivityAddCommentRequest.attachments].
+  ///
   /// Returns a [Result] containing the created [CommentData] or an error.
   Future<Result<CommentData>> addComment({
     required ActivityAddCommentRequest request,
@@ -202,6 +208,11 @@ class Activity with Disposable {
   }
 
   /// Adds multiple comments to this activity in a batch.
+  ///
+  /// Every request's attachments are uploaded as one batch, so a failure in one
+  /// can call off the uploads of the others. To follow those uploads or call
+  /// them off, upload through `StreamFeedsClient.attachmentUploader` instead
+  /// and pass the results as [ActivityAddCommentRequest.attachments].
   ///
   /// Returns a [Result] containing a list of created [CommentData] or an error.
   Future<Result<List<CommentData>>> addCommentsBatch(

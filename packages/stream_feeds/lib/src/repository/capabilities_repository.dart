@@ -83,18 +83,11 @@ extension on Result<Map<String, List<FeedOwnCapability>>> {
         return false;
 
       case final api.Failure failure:
-        final error = failure.error;
-        if (error is! StreamDioException) {
-          return false;
-        }
-        final exception = error.exception;
-        if (exception is! HttpClientException) {
+        final exception = failure.error;
+        if (exception is! StreamApiException) {
           return false;
         }
         final statusCode = exception.statusCode;
-        if (statusCode == null) {
-          return false;
-        }
         return statusCode < 100 || statusCode >= 500;
     }
   }

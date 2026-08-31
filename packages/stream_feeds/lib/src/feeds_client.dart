@@ -49,6 +49,12 @@ import 'state/user_list.dart';
 
 export 'client/moderation_client.dart';
 
+/// The root of every failure this SDK reports.
+///
+/// An alias of [StreamException], so code written against either name catches
+/// the same failures.
+typedef StreamFeedsException = StreamException;
+
 /// {@template stream_feeds_client}
 /// Stream Feeds client for building scalable newsfeeds and activity streams.
 ///
@@ -258,8 +264,9 @@ abstract interface class StreamFeedsClient {
 
   /// Establishes a connection to the Stream service.
   ///
-  /// Call this before anything else on the client. Throws a [ClientException] if the connection
-  /// fails, or if one is already established or in progress, and a [StateError] after [dispose].
+  /// Call this before anything else on the client. Throws a [StreamFeedsException] if the
+  /// connection fails, and a [StateError] when one is already established or in progress, or
+  /// after [dispose].
   ///
   /// Pass [connectWebSocket] as `false` if the client only needs to make requests. In that case:
   ///

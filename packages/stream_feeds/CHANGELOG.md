@@ -7,6 +7,7 @@
 - `PollResponseData.votingVisibility` is now required, so anything constructing one directly must supply it
 - `ActivityCommentList.state` returns `ActivityCommentListState` rather than `StateNotifier<ActivityCommentListState>`, matching the other state classes
 - Removed the call, recording, streaming and chat types that were never part of the Feeds API
+- Every failure now arrives as a `StreamException` subclass — `StreamApiException`, `StreamNetworkException`, `StreamAuthenticationException` or `StreamClientException` — in place of `ClientException`, `HttpClientException` and `StreamApiError`, which are gone. `StreamFeedsException` aliases the base type, so catching it catches all four, and each carries the `cause` it was built from
 
 ### ✨ Features
 
@@ -35,9 +36,10 @@
 
 ### 🔄 Changed
 
+- Attachment uploads for a batch of requests now share one concurrency limit instead of one each, so `Activity.addCommentsBatch` no longer starts several uploads per comment at once; a failure also calls off the uploads still in flight rather than letting them finish work that is about to be discarded
 - `disconnect` now only closes the connection, leaving the client reusable with its existing subscriptions intact; releasing it is `dispose`
 - An expired token now recovers on its own: the connection comes back with one the `TokenProvider` issued afterwards, without the app doing anything
-- `connect` throws a `ClientException` when a connection is already established or in progress, and the one it throws on failure carries the underlying cause
+- `connect` throws a `StateError` when a connection is already established or in progress, and a `StreamFeedsException` carrying the cause when it fails
 - Renamed the types below. The old names still compile, with a deprecation warning, and `dart fix --apply` migrates them:
 
 | Old name | New name |

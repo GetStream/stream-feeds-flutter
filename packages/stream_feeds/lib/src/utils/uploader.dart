@@ -26,118 +26,108 @@ extension HasAttachmentsExtension on StreamAttachmentUploader {
   /// Returns a [Result] containing the updated request or an error.
   Future<Result<T>> processRequest<T extends HasAttachments<T>>(
     T request, {
-    OnBatchUploadProgress? onProgress,
     int maxConcurrent = 5,
     bool eagerError = true,
   }) async {
-    final attachmentsToUpload = request.attachmentUploads;
-    // If there are no attachments to upload, return the original request.
-    if (attachmentsToUpload == null || attachmentsToUpload.isEmpty) {
-      return Result.success(request);
-    }
-
-    final uploadResult = await _uploadAll(
-      attachmentsToUpload,
-      onProgress: onProgress,
+    final processed = await processRequestsBatch(
+      [request],
       maxConcurrent: maxConcurrent,
       eagerError: eagerError,
     );
 
-    return uploadResult.map((attachments) {
-      final uploadedAttachments = <String, api.Attachment>{
-        for (final uploaded in attachments)
-          uploaded.id: api.Attachment(
-            type: uploaded.type,
-            custom: {...?uploaded.custom},
-            assetUrl: uploaded.remoteUrl,
-            imageUrl: uploaded.remoteUrl,
-            thumbUrl: uploaded.thumbnailUrl,
-          ),
-      };
-
-      // Merge uploaded attachments with existing ones, avoiding duplicates
-      final current = request.attachments ?? [];
-      final updatedAttachments = current.merge(
-        uploadedAttachments.values,
-        key: (it) => (it.type, it.assetUrl, it.imageUrl),
-      );
-
-      // Remove processed uploads from the upload queue using ID-based filtering
-      final uploadedIds = uploadedAttachments.keys.toSet();
-      final updatedAttachmentUploads = attachmentsToUpload.where(
-        (upload) => !uploadedIds.contains(upload.id),
-      );
-
-      return request.withAttachments(
-        attachments: updatedAttachments.takeIf((it) => it.isNotEmpty),
-        attachmentUploads: updatedAttachmentUploads.toList(),
-      );
-    });
+    return processed.map((requests) => requests.single);
   }
 
   /// Processes multiple requests with attachment uploads in parallel.
   ///
-  /// Processes each request individually using [processRequest] and returns
-  /// a list of updated requests with all attachments ready for API submission.
+  /// Uploads every request's attachments as one batch, so [maxConcurrent]
+  /// bounds the uploads across all of them rather than within each one, and
+  /// merges each request's own attachments back into it.
   ///
-  /// Returns a [Result] containing the list of updated requests or an error.
+  /// When [eagerError] is true the first upload to fail becomes the result's
+  /// and the rest are called off; when false every attachment is attempted and
+  /// the ones that did not make it stay queued on their own request.
+  ///
+  /// Throws an [ArgumentError] if two requests share an attachment id, which
+  /// one batch could not tell apart.
   Future<Result<List<T>>> processRequestsBatch<T extends HasAttachments<T>>(
     List<T> requests, {
-    OnBatchUploadProgress? onProgress,
     int maxConcurrent = 5,
     bool eagerError = true,
-  }) {
-    return runSafely(() async {
-      final batch = requests.map(
-        (request) => processRequest(
-          request,
-          onProgress: onProgress,
-          maxConcurrent: maxConcurrent,
-          eagerError: eagerError,
-        ),
-      );
+  }) async {
+    final attachmentsToUpload = [
+      for (final request in requests) ...?request.attachmentUploads,
+    ];
 
-      final processed = await batch.wait;
+    if (attachmentsToUpload.isEmpty) return Result.success(requests);
 
-      final successfulRequests = <T?>[];
-      for (final result in processed) {
-        // If eagerError is enabled, throw on first failure
-        if (result.exceptionOrNull() case final error? when eagerError) {
-          final stackTrace = result.stackTraceOrNull();
-          Error.throwWithStackTrace(error, stackTrace ?? StackTrace.current);
-        }
+    final batch = uploadBatch(
+      attachmentsToUpload,
+      maxConcurrent: maxConcurrent,
+      eagerError: eagerError,
+    );
 
-        successfulRequests.add(result.getOrNull());
-      }
-
-      return successfulRequests.nonNulls.toList();
-    });
+    return switch (await batch.result) {
+      BatchUploadCompleted(:final items) => Result.success(_distribute(requests, items)),
+      BatchUploadStoppedOnError(:final error) => Result.failure(error, error.stackTrace),
+      BatchUploadCancelled() => const Result.failure(
+        StreamNetworkException(message: 'The attachment uploads were cancelled', isCancelled: true),
+      ),
+    };
   }
+}
 
-  // Uploads multiple attachments in parallel with progress tracking.
-  //
-  // Processes [attachments] in batches with configurable concurrency and progress
-  // reporting. Returns a [Result] containing the list of uploaded attachments.
-  //
-  // Returns a [Result] containing a list of [UploadedAttachment] or an error.
-  Future<Result<List<UploadedAttachment>>> _uploadAll(
-    Iterable<StreamAttachment> attachments, {
-    OnBatchUploadProgress? onProgress,
-    int maxConcurrent = 5,
-    bool eagerError = true,
-  }) {
-    return runSafely(() async {
-      final batch = uploadBatch(
-        attachments,
-        onProgress: onProgress,
-        maxConcurrent: maxConcurrent,
-        eagerError: eagerError,
-      );
+// Each request with its share of the batch folded in.
+//
+// The map is built once and looked up per request, so this stays linear in the
+// number of attachments however many requests share the batch.
+List<T> _distribute<T extends HasAttachments<T>>(
+  List<T> requests,
+  List<BatchUploadItemResult> items,
+) {
+  final succeeded = items.map((it) => it.result.getOrNull()).nonNulls;
+  final uploaded = {for (final it in succeeded) it.id: _toApiAttachment(it)};
 
-      final batchResult = await batch.toList();
-      final uploadedAttachments = batchResult.map((it) => it.getOrNull());
+  return [for (final request in requests) _withUploaded(request, uploaded)];
+}
 
-      return uploadedAttachments.nonNulls.toList();
-    });
-  }
+// An uploaded attachment as the api model a request carries.
+//
+// Both urls get the same one whatever the attachment is, and `type` is what
+// tells them apart. The Swift SDK maps it the same way; Android instead fills
+// `imageUrl` for images only.
+api.Attachment _toApiAttachment(
+  UploadedAttachment attachment,
+) => api.Attachment(
+  type: attachment.type,
+  custom: {...?attachment.custom},
+  assetUrl: attachment.remoteUrl,
+  imageUrl: attachment.remoteUrl,
+  thumbUrl: attachment.thumbnailUrl,
+);
+
+// One request's share of [uploaded] merged in beside the attachments it already
+// had and taken off its upload queue. Whatever did not make it stays queued for
+// a later attempt.
+T _withUploaded<T extends HasAttachments<T>>(
+  T request,
+  Map<String, api.Attachment> uploaded,
+) {
+  final queued = request.attachmentUploads;
+  if (queued == null || queued.isEmpty) return request;
+
+  final merged = queued.map((it) => uploaded[it.id]).nonNulls;
+  final stillQueued = queued.where((it) => !uploaded.containsKey(it.id));
+
+  // Merge uploaded attachments with existing ones, avoiding duplicates
+  final current = request.attachments ?? [];
+  final updated = current.merge(
+    merged,
+    key: (it) => (it.type, it.assetUrl, it.imageUrl),
+  );
+
+  return request.withAttachments(
+    attachments: updated.takeIf((it) => it.isNotEmpty),
+    attachmentUploads: stillQueued.toList(),
+  );
 }
