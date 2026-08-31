@@ -49,13 +49,10 @@ import 'state/user_list.dart';
 
 export 'client/moderation_client.dart';
 
-/// The root of the failures this SDK reports for work it attempted.
+/// The root of the failures this SDK reports.
 ///
 /// An alias of [StreamException], so code written against either name catches
-/// the same failures. Asking the client for something it cannot be asked —
-/// connecting twice, or using it after [StreamFeedsClient.dispose] — is a
-/// programming error and throws a [StateError] instead, which is not meant to
-/// be caught.
+/// the same failures.
 typedef StreamFeedsException = StreamException;
 
 /// {@template stream_feeds_client}
