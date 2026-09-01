@@ -33,6 +33,7 @@
 
 ### 🐛 Bug Fixes
 
+- Fixed a batch never running again after its first: an add that arrived once a batch had run joined that settled one instead of starting its own, so feed capabilities were fetched once per client and every feed discovered afterwards was answered with the first batch's result
 - Fixed `connect` failing when called straight after `disconnect`
 - Fixed a connection that could not authenticate hanging until it timed out, rather than failing with the reason
 - Fixed the `X-Stream-Client` header: the SDK identifier was sent twice, the version was hardcoded, and the OS was left out

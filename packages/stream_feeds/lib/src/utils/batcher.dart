@@ -26,8 +26,9 @@ class Batcher<T, R> {
 
     _itemsToProcess.add(item);
 
-    _nextActionCompleter ??= _planBatchFetch();
-    return _nextActionCompleter!.future;
+    // `_planBatchFetch` owns this field, and clears it when it runs on the spot.
+    final completer = _nextActionCompleter ?? _planBatchFetch();
+    return completer.future;
   }
 
   void dispose() {
