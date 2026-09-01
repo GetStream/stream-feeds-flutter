@@ -376,13 +376,13 @@ class StreamFeedsClientImpl with Disposable implements StreamFeedsClient {
     if (state case Disconnected(:final source)) {
       _logger.w(() => 'connect ${user.id} failed: ${source.closeReason}', error: source.cause);
 
+      var exception = StreamException.tryFrom(source.cause);
+      exception ??= StreamNetworkException(message: source.closeReason, cause: source.cause);
+
       final stackTrace = switch (source) {
         ServerInitiated(:final stackTrace) || AuthenticationFailed(:final stackTrace) => stackTrace,
         UserInitiated() || SystemInitiated() || UnHealthyConnection() || ConnectTimeout() => null,
       };
-
-      var exception = StreamException.tryFrom(source.cause);
-      exception ??= StreamNetworkException(message: source.closeReason, cause: source.cause);
 
       Error.throwWithStackTrace(exception, stackTrace ?? StackTrace.current);
     }
