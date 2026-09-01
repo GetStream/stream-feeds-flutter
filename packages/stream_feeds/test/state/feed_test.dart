@@ -666,6 +666,25 @@ void main() {
       },
     );
 
+    // The activity below names a feed this client has not cached, which is what
+    // sends the handler to fetch its capabilities.
+    OwnBatchRequest capabilitiesFor(String feed) => OwnBatchRequest(feeds: [feed]);
+
+    // The wait `CapabilitiesRepository` allows itself before its one retry.
+    const retryBackoff = Duration(milliseconds: 500);
+
+    ActivityAddedEvent activityInUncachedFeed() => ActivityAddedEvent(
+      type: EventTypes.activityAdded,
+      createdAt: DateTime.timestamp(),
+      custom: const {},
+      fid: feedId.rawValue,
+      activity: createDefaultActivityResponse(
+        id: 'new-activity',
+        userId: 'user-1',
+        currentFeed: createDefaultFeedResponse(id: 'other', groupId: 'user'),
+      ),
+    );
+
     feedTest(
       'ActivityAddedEvent - retries a capabilities fetch that failed on the network',
       user: const User(id: 'user-1'),
@@ -674,31 +693,17 @@ void main() {
       body: (tester) async {
         registerFallbackValue(const OwnBatchRequest(feeds: []));
 
-        // The activity names a feed this client has not cached, which is what
-        // sends the handler to fetch its capabilities.
         tester.mockApiFailure(
-          (api) => api.ownBatch(ownBatchRequest: any(named: 'ownBatchRequest')),
+          (api) => api.ownBatch(ownBatchRequest: capabilitiesFor('other')),
           error: const StreamNetworkException(message: 'Connection failed'),
         );
 
-        await tester.emitEvent(
-          ActivityAddedEvent(
-            type: EventTypes.activityAdded,
-            createdAt: DateTime.timestamp(),
-            custom: const {},
-            fid: feedId.rawValue,
-            activity: createDefaultActivityResponse(
-              id: 'new-activity',
-              userId: 'user-1',
-              currentFeed: createDefaultFeedResponse(id: 'other', groupId: 'user'),
-            ),
-          ),
-        );
+        await tester.emitEvent(activityInUncachedFeed());
 
         // A blip is worth asking again for; the loop allows exactly one retry.
-        await Future<void>.delayed(const Duration(milliseconds: 700));
+        await Future<void>.delayed(retryBackoff + const Duration(milliseconds: 200));
         tester.verifyApiCalled(
-          (api) => api.ownBatch(ownBatchRequest: any(named: 'ownBatchRequest')),
+          (api) => api.ownBatch(ownBatchRequest: capabilitiesFor('other')),
           times: 2,
         );
       },
