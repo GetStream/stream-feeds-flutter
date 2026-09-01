@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_redundant_argument_values
 
+import 'dart:async';
 import 'dart:io';
 
 import 'package:stream_feeds/stream_feeds.dart';
@@ -672,6 +673,7 @@ void main() {
 
     // The wait `CapabilitiesRepository` allows itself before its one retry.
     const retryBackoff = Duration(milliseconds: 500);
+
 
     ActivityAddedEvent activityInUncachedFeed() => ActivityAddedEvent(
       type: EventTypes.activityAdded,
@@ -5174,6 +5176,29 @@ void main() {
       verify: (tester) => tester.verifyApi(
         (api) => api.addComment(addCommentRequest: mergedCommentRequest),
       ),
+    );
+
+    feedTest(
+      'addActivity() - refuses two attachments that share an id, before uploading anything',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(),
+      body: (tester) async {
+        // A misuse rather than a failure, so it escapes the `Result` the method
+        // otherwise reports through — a caller that only folds cannot see it.
+        await expectLater(
+          tester.feed.addActivity(
+            request: FeedAddActivityRequest(
+              type: 'post',
+              attachmentUploads: [uploadAttachment('same'), uploadAttachment('same')],
+            ),
+          ),
+          throwsArgumentError,
+        );
+
+        tester.verifyNeverCalled(
+          (api) => api.addActivity(addActivityRequest: any(named: 'addActivityRequest')),
+        );
+      },
     );
 
     feedTest(
