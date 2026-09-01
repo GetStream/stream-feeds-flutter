@@ -69,7 +69,7 @@ extension HasAttachmentsExtension on StreamAttachmentUploader {
 
     return switch (await batch.result) {
       BatchUploadCompleted(:final items) => Result.success(_distribute(requests, items)),
-      BatchUploadStoppedOnError(:final error) => Result.failure(error, error.stackTrace),
+      BatchUploadStoppedOnError(:final error, :final stackTrace) => Result.failure(error, stackTrace),
       BatchUploadCancelled() => const Result.failure(
         StreamNetworkException(message: 'The attachment uploads were cancelled', isCancelled: true),
       ),

@@ -266,7 +266,6 @@ class StreamFeedsClientImpl with Disposable implements StreamFeedsClient {
         throw StreamAuthenticationException(
           message: 'The token was refused and the provider has no other to give',
           cause: previousError,
-          stackTrace: previousError?.stackTrace,
         );
       }
     }
@@ -342,7 +341,6 @@ class StreamFeedsClientImpl with Disposable implements StreamFeedsClient {
       exception ??= StreamClientException(
         message: 'Failed to create a guest user',
         cause: error,
-        stackTrace: stackTrace,
       );
 
       Error.throwWithStackTrace(exception, stackTrace ?? StackTrace.current);
@@ -378,10 +376,15 @@ class StreamFeedsClientImpl with Disposable implements StreamFeedsClient {
     if (state case Disconnected(:final source)) {
       _logger.w(() => 'connect ${user.id} failed: ${source.closeReason}', error: source.cause);
 
+      final stackTrace = switch (source) {
+        ServerInitiated(:final stackTrace) || AuthenticationFailed(:final stackTrace) => stackTrace,
+        UserInitiated() || SystemInitiated() || UnHealthyConnection() || ConnectTimeout() => null,
+      };
+
       var exception = StreamException.tryFrom(source.cause);
       exception ??= StreamNetworkException(message: source.closeReason, cause: source.cause);
 
-      Error.throwWithStackTrace(exception, exception.stackTrace ?? StackTrace.current);
+      Error.throwWithStackTrace(exception, stackTrace ?? StackTrace.current);
     }
 
     _logger.d(() => 'connected ${user.id}');

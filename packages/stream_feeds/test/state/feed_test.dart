@@ -674,7 +674,6 @@ void main() {
     // The wait `CapabilitiesRepository` allows itself before its one retry.
     const retryBackoff = Duration(milliseconds: 500);
 
-
     ActivityAddedEvent activityInUncachedFeed() => ActivityAddedEvent(
       type: EventTypes.activityAdded,
       createdAt: DateTime.timestamp(),
