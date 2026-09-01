@@ -1,8 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:injectable/injectable.dart';
+import 'package:stream_feeds/stream_feeds.dart' show StreamLogger;
 
 import '../../app/content/auth_controller.dart';
 import '../app_router.dart';
+
+const _logger = StreamLogger('App:Nav');
 
 @injectable
 class AuthGuard extends AutoRouteGuard {
@@ -12,6 +15,7 @@ class AuthGuard extends AutoRouteGuard {
 
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) {
+    _logger.d(() => 'auth guard: ${resolver.routeName} while ${_authController.value.runtimeType}');
     final isAuthenticated = _authController.value is Authenticated;
     // If the user is authenticated, allow navigation to the requested route.
     if (isAuthenticated) return resolver.next();

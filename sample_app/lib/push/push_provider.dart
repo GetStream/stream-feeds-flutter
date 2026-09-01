@@ -7,15 +7,13 @@ typedef TokenStreamProvider = Stream<String> Function();
 class PushProvider {
   const PushProvider.firebase({
     required this.name,
-    TokenStreamProvider tokenStreamProvider = _firebaseTokenProvider,
-  }) : _tokenStreamProvider = tokenStreamProvider,
-       type = PushNotificationsProvider.firebase;
+    this._tokenStreamProvider = _firebaseTokenProvider,
+  }) : type = PushNotificationsProvider.firebase;
 
   const PushProvider.apn({
     required this.name,
-    TokenStreamProvider tokenStreamProvider = _apnTokenProvider,
-  }) : _tokenStreamProvider = tokenStreamProvider,
-       type = PushNotificationsProvider.apn;
+    this._tokenStreamProvider = _apnTokenProvider,
+  }) : type = PushNotificationsProvider.apn;
 
   static Stream<String> _firebaseTokenProvider() async* {
     final initialToken = await FirebaseMessaging.instance.getToken();

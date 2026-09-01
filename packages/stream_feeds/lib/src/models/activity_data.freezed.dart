@@ -47,6 +47,7 @@ mixin _$ActivityData {
   bool get preview;
   int get reactionCount;
   Map<String, ReactionGroupData> get reactionGroups;
+  ActivityRestrictReplies get restrictReplies;
   double get score;
   Map<String, Object?> get searchData;
   int get shareCount;
@@ -138,6 +139,7 @@ mixin _$ActivityData {
               other.reactionGroups,
               reactionGroups,
             ) &&
+            (identical(other.restrictReplies, restrictReplies) || other.restrictReplies == restrictReplies) &&
             (identical(other.score, score) || other.score == score) &&
             const DeepCollectionEquality().equals(
               other.searchData,
@@ -190,6 +192,7 @@ mixin _$ActivityData {
     preview,
     reactionCount,
     const DeepCollectionEquality().hash(reactionGroups),
+    restrictReplies,
     score,
     const DeepCollectionEquality().hash(searchData),
     shareCount,
@@ -204,7 +207,7 @@ mixin _$ActivityData {
 
   @override
   String toString() {
-    return 'ActivityData(attachments: $attachments, bookmarkCount: $bookmarkCount, collections: $collections, commentCount: $commentCount, comments: $comments, createdAt: $createdAt, currentFeed: $currentFeed, deletedAt: $deletedAt, editedAt: $editedAt, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, friendReactionCount: $friendReactionCount, friendReactions: $friendReactions, id: $id, interestTags: $interestTags, isRead: $isRead, isSeen: $isSeen, isWatched: $isWatched, latestReactions: $latestReactions, location: $location, mentionedUsers: $mentionedUsers, metrics: $metrics, moderation: $moderation, notificationContext: $notificationContext, ownBookmarks: $ownBookmarks, ownReactions: $ownReactions, parent: $parent, poll: $poll, popularity: $popularity, hidden: $hidden, preview: $preview, reactionCount: $reactionCount, reactionGroups: $reactionGroups, score: $score, searchData: $searchData, shareCount: $shareCount, text: $text, type: $type, updatedAt: $updatedAt, user: $user, visibility: $visibility, visibilityTag: $visibilityTag, custom: $custom)';
+    return 'ActivityData(attachments: $attachments, bookmarkCount: $bookmarkCount, collections: $collections, commentCount: $commentCount, comments: $comments, createdAt: $createdAt, currentFeed: $currentFeed, deletedAt: $deletedAt, editedAt: $editedAt, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, friendReactionCount: $friendReactionCount, friendReactions: $friendReactions, id: $id, interestTags: $interestTags, isRead: $isRead, isSeen: $isSeen, isWatched: $isWatched, latestReactions: $latestReactions, location: $location, mentionedUsers: $mentionedUsers, metrics: $metrics, moderation: $moderation, notificationContext: $notificationContext, ownBookmarks: $ownBookmarks, ownReactions: $ownReactions, parent: $parent, poll: $poll, popularity: $popularity, hidden: $hidden, preview: $preview, reactionCount: $reactionCount, reactionGroups: $reactionGroups, restrictReplies: $restrictReplies, score: $score, searchData: $searchData, shareCount: $shareCount, text: $text, type: $type, updatedAt: $updatedAt, user: $user, visibility: $visibility, visibilityTag: $visibilityTag, custom: $custom)';
   }
 }
 
@@ -250,6 +253,7 @@ abstract mixin class $ActivityDataCopyWith<$Res> {
     bool preview,
     int reactionCount,
     Map<String, ReactionGroupData> reactionGroups,
+    ActivityRestrictReplies restrictReplies,
     double score,
     Map<String, Object?> searchData,
     int shareCount,
@@ -309,6 +313,7 @@ class _$ActivityDataCopyWithImpl<$Res> implements $ActivityDataCopyWith<$Res> {
     Object? preview = null,
     Object? reactionCount = null,
     Object? reactionGroups = null,
+    Object? restrictReplies = null,
     Object? score = null,
     Object? searchData = null,
     Object? shareCount = null,
@@ -458,6 +463,10 @@ class _$ActivityDataCopyWithImpl<$Res> implements $ActivityDataCopyWith<$Res> {
             ? _self.reactionGroups
             : reactionGroups // ignore: cast_nullable_to_non_nullable
                   as Map<String, ReactionGroupData>,
+        restrictReplies: null == restrictReplies
+            ? _self.restrictReplies
+            : restrictReplies // ignore: cast_nullable_to_non_nullable
+                  as ActivityRestrictReplies,
         score: null == score
             ? _self.score
             : score // ignore: cast_nullable_to_non_nullable

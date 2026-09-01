@@ -5,7 +5,6 @@ import 'dart:convert';
 
 import 'package:collection/collection.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart' show debugPrint;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stream_feeds/stream_feeds.dart';
@@ -13,6 +12,8 @@ import 'package:stream_feeds/stream_feeds.dart';
 import '../core/di/app_module.dart';
 import 'notification.dart';
 import 'notification_background_handler.dart';
+
+const _logger = StreamLogger('App:Push');
 
 const notificationChannelId = 'stream_feeds_channel';
 const notificationChannelName = 'Stream Feeds Notifications';
@@ -192,9 +193,9 @@ class NotificationService extends Disposable {
     // Only handle notifications sent from Stream Feeds
     if (notification.sender != 'stream.feeds') return;
 
-    debugPrint('📱 Foreground message received: ${notification.type}');
-    debugPrint('📱 Title: ${notification.title}');
-    debugPrint('📱 Body: ${notification.body}');
+    _logger.d(() => '📱 Foreground message received: ${notification.type}');
+    _logger.d(() => '📱 Title: ${notification.title}');
+    _logger.d(() => '📱 Body: ${notification.body}');
 
     // Show local notification for foreground messages if needed
   }

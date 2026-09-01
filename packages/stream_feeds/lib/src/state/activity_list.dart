@@ -29,8 +29,8 @@ class ActivityList with Disposable {
     required this.currentUserId,
     required this.activitiesRepository,
     required this.capabilitiesRepository,
-    required MutableSharedEmitter<StateUpdateEvent> eventsEmitter,
-  }) : _eventsEmitter = eventsEmitter {
+    required this._eventsEmitter,
+  }) {
     _stateNotifier = ActivityListStateNotifier(
       currentUserId: currentUserId,
       initialState: const ActivityListState(),

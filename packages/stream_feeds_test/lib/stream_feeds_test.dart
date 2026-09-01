@@ -42,4 +42,5 @@ export 'src/testers/state/member_list_tester.dart';
 export 'src/testers/state/moderation_config_list_tester.dart';
 export 'src/testers/state/poll_list_tester.dart';
 export 'src/testers/state/poll_vote_list_tester.dart';
+export 'src/testers/state/user_list_tester.dart';
 export 'src/testers/websocket_tester.dart';

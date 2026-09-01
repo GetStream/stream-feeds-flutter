@@ -21,8 +21,9 @@ class AppPreferences {
     final userId = _prefs.getString(_loggedUserId);
     if (userId == null) return null;
 
-    final builtInUsers = UserCredentials.builtIn;
-    return builtInUsers.firstWhereOrNull((it) => it.user.id == userId);
+    // A guest is stored under the id it asks for, not the one the server assigned
+    // it, so relaunching asks again and comes back as a new guest.
+    return UserCredentials.builtIn.firstWhereOrNull((it) => it.user.id == userId);
   }
 
   Future<bool> storeUserCredentials(UserCredentials credentials) {

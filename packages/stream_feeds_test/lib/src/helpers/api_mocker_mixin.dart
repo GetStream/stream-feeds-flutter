@@ -113,6 +113,24 @@ mixin ApiMockerMixin {
     return verify(() => apiCall(feedsApi)).called(times);
   }
 
+  /// Captures the arguments an API call was made with.
+  ///
+  /// Mark the arguments to capture with `captureAny`, then read them off the
+  /// returned list in the order they were marked. Use this to assert on what
+  /// the SDK actually sent, rather than on a payload the test built itself:
+  /// ```dart
+  /// final payload = tester.captureApi(
+  ///   (api) => api.queryUsers(payload: captureAny(named: 'payload')),
+  /// ).single as QueryUsersRequest;
+  ///
+  /// expect(payload.filterConditions, {'role': {r'$eq': 'admin'}});
+  /// ```
+  List<Object?> captureApi<T>(
+    Future<Result<T>> Function(MockDefaultApi api) apiCall,
+  ) {
+    return verify(() => apiCall(feedsApi)).captured;
+  }
+
   /// Verifies that an API call was never made.
   ///
   /// Use this to ensure an API wasn't called:

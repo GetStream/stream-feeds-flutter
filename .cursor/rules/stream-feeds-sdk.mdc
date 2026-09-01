@@ -132,7 +132,7 @@ class FeedStateNotifier extends StateNotifier<FeedState> {
     final result = await repository.getOrCreateFeed(state.feedQuery);
     
     switch (result) {
-      case Success(value: final feedData):
+      case Success(data: final feedData):
         state = state.copyWith(activities: feedData.activities.items);
       case Failure(error: final error):
         state = state.copyWith(error: error.toString());

@@ -3,6 +3,14 @@ include: ../analysis_options.yaml
 analyzer:
   errors:
     unused_local_variable: ignore
+  exclude:
+    - build/**
+    - android/**
+    - ios/**
+    - web/**
+    - windows/**
+    - macos/**
+    - linux/**
 
 linter:
   rules:

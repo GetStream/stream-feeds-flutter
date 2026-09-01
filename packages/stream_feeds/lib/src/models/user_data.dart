@@ -123,3 +123,28 @@ extension UserResponseMapper on UserResponse {
     );
   }
 }
+
+/// Extension function to convert a [FullUserResponse] to a [UserData] model.
+extension FullUserResponseMapper on FullUserResponse {
+  /// Converts this API full user response to a domain [UserData] instance.
+  UserData toModel() {
+    return UserData(
+      banned: banned,
+      blockedUserIds: blockedUserIds,
+      createdAt: createdAt,
+      custom: custom,
+      deactivatedAt: deactivatedAt,
+      deletedAt: deletedAt,
+      id: id,
+      image: image,
+      language: language,
+      lastActive: lastActive,
+      name: name,
+      online: online,
+      revokeTokensIssuedBefore: revokeTokensIssuedBefore,
+      role: role,
+      teams: teams,
+      updatedAt: updatedAt,
+    );
+  }
+}
