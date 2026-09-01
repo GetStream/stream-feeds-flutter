@@ -345,7 +345,7 @@ class StreamFeedsClientImpl with Disposable implements StreamFeedsClient {
         stackTrace: stackTrace,
       );
 
-      throw exception;
+      Error.throwWithStackTrace(exception, stackTrace ?? StackTrace.current);
     });
 
     final tokenProvider = TokenProvider.static(response.token);
@@ -381,7 +381,7 @@ class StreamFeedsClientImpl with Disposable implements StreamFeedsClient {
       var exception = StreamException.tryFrom(source.cause);
       exception ??= StreamNetworkException(message: source.closeReason, cause: source.cause);
 
-      throw exception;
+      Error.throwWithStackTrace(exception, exception.stackTrace ?? StackTrace.current);
     }
 
     _logger.d(() => 'connected ${user.id}');
