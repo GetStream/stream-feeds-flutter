@@ -7,8 +7,10 @@
 - `PollResponseData.votingVisibility` is now required, so anything constructing one directly must supply it
 - `ActivityCommentList.state` returns `ActivityCommentListState` rather than `StateNotifier<ActivityCommentListState>`, matching the other state classes
 - Removed the call, recording, streaming and chat types that were never part of the Feeds API
-- Every failure the SDK reports for work it attempted now arrives as a `StreamException` subclass — `StreamApiException`, `StreamNetworkException`, `StreamAuthenticationException` or `StreamClientException` — replacing `ClientException`, `HttpClientException` and `StreamApiError`. `StreamFeedsException` aliases the base type, so one `on` clause catches all four
+- Every failure the SDK reports for work it attempted now arrives as a `StreamException` subclass — `StreamApiException`, `StreamNetworkException`, `StreamAuthenticationException` or `StreamClientException` — replacing `ClientException` and `HttpClientException`, which are removed. `StreamApiError` remains, as the server's error payload and the type of `ConnectionErrorEvent.error`, but is no longer what the SDK throws or returns. `StreamFeedsException` aliases the base type, so one `on` clause catches all four
 - `connect` throws a `StateError` when a connection is already established or in progress, and a `StreamFeedsException` carrying the cause when it fails
+- `StreamAttachmentUploader.upload`, reached through `StreamFeedsClient.attachmentUploader`, returns an `AttachmentUploadTask` rather than a `Future<Result<UploadedAttachment>>`, and takes no `onProgress`: progress arrives on the task's `state`. `uploadBatch` returns an `AttachmentUploadBatch` rather than a `Stream<Result<UploadedAttachment>>`
+- `Feed.addActivity`, `Feed.addComment` and `Activity.addCommentsBatch` throw an `ArgumentError` when two attachments in one request share an id, rather than reporting it through the returned `Result`
 
 ### ✨ Features
 
