@@ -255,15 +255,18 @@ class StreamFeedsClientImpl with Disposable implements StreamFeedsClient {
 
   Future<void> _authenticateUser(
     WsRequestSender send,
-    StreamApiError? previousError,
+    StreamApiException? previousError,
   ) async {
-    if (previousError?.isTokenExpiredError ?? false) {
+    if (previousError?.isTokenExpired ?? false) {
       _tokenManager.expireToken();
 
       // A guest cannot refresh: another exchange answers with a different guest. The session ends
       // here, and the app starts another by building a new client.
       if (_tokenManager.usesStaticProvider) {
-        throw ClientException(message: 'The token was refused and the provider has no other to give');
+        throw StreamAuthenticationException(
+          message: 'The token was refused and the provider has no other to give',
+          cause: previousError,
+        );
       }
     }
 
@@ -297,11 +300,11 @@ class StreamFeedsClientImpl with Disposable implements StreamFeedsClient {
     }
 
     if (connectionState.value case Connecting() || Authenticating()) {
-      throw ClientException(message: 'Connection already in progress for ${user.id}');
+      throw StateError('Connection already in progress for ${user.id}');
     }
 
     if (connectionState.value case Connected()) {
-      throw ClientException(message: 'Connection already available for ${user.id}');
+      throw StateError('Connection already available for ${user.id}');
     }
 
     _logger.d(() => 'connect ${user.id} (${user.type.name}), webSocket: $connectWebSocket');
@@ -332,14 +335,16 @@ class StreamFeedsClientImpl with Disposable implements StreamFeedsClient {
   Future<void> _exchangeForGuestIdentity() async {
     final result = await _guestRepository.createGuest(user);
 
-    // Reported like every other connect failure, with the cause attached.
-    final response = result.getOrElse(
-      (error, stackTrace) => throw ClientException(
+    // Reported like every other connect failure, already classified by the API call seam.
+    final response = result.getOrElse((error, stackTrace) {
+      var exception = StreamException.tryFrom(error);
+      exception ??= StreamClientException(
         message: 'Failed to create a guest user',
-        error: error,
-        stackTrace: stackTrace,
-      ),
-    );
+        cause: error,
+      );
+
+      Error.throwWithStackTrace(exception, stackTrace ?? StackTrace.current);
+    });
 
     final tokenProvider = TokenProvider.static(response.token);
     _logger.d(() => 'guest created, server assigned ${response.user.id}');
@@ -370,7 +375,16 @@ class StreamFeedsClientImpl with Disposable implements StreamFeedsClient {
 
     if (state case Disconnected(:final source)) {
       _logger.w(() => 'connect ${user.id} failed: ${source.closeReason}', error: source.cause);
-      throw ClientException(message: source.closeReason, error: source.cause);
+
+      var exception = StreamException.tryFrom(source.cause);
+      exception ??= StreamNetworkException(message: source.closeReason, cause: source.cause);
+
+      final stackTrace = switch (source) {
+        ServerInitiated(:final stackTrace) || AuthenticationFailed(:final stackTrace) => stackTrace,
+        UserInitiated() || SystemInitiated() || UnHealthyConnection() || ConnectTimeout() => null,
+      };
+
+      Error.throwWithStackTrace(exception, stackTrace ?? StackTrace.current);
     }
 
     _logger.d(() => 'connected ${user.id}');

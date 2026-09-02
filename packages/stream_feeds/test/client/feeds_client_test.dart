@@ -48,7 +48,7 @@ void main() {
         );
 
         // Attempt connection - should fail
-        await expectLater(tester.client.connect(), throwsA(isA<ClientException>()));
+        await expectLater(tester.client.connect(), throwsA(isA<StreamException>()));
 
         // Verify state transitions expectation
         await connectionStateExpectation;
@@ -121,7 +121,7 @@ void main() {
       body: (tester) async {
         await expectLater(
           tester.client.connect(),
-          throwsA(isA<ClientException>().having((it) => it.apiError?.code, 'apiError.code', 40)),
+          throwsA(isA<StreamApiException>().having((it) => it.code, 'code', 40)),
         );
       },
     );
@@ -229,9 +229,17 @@ void main() {
       },
       body: (tester) async {
         // Ignored, this would sit in `Authenticating` until the connect timeout swept it up.
+        // Nothing authenticated the credentials and nothing refused them, so the failure
+        // reported is the send's own rather than a verdict on the token.
         await expectLater(
           tester.client.connect(),
-          throwsA(isA<ClientException>()),
+          throwsA(
+            isA<StreamClientException>().having(
+              (it) => it.cause,
+              'cause',
+              isA<Exception>().having((it) => '$it', 'message', contains('mid-handshake')),
+            ),
+          ),
         );
 
         expect(
@@ -256,8 +264,8 @@ void main() {
         await expectLater(
           tester.client.connect(),
           throwsA(
-            isA<ClientException>().having(
-              (it) => it.underlyingError,
+            isA<StreamAuthenticationException>().having(
+              (it) => it.cause,
               'cause',
               isA<Exception>().having((it) => '$it', 'message', contains('token endpoint is down')),
             ),
@@ -330,7 +338,7 @@ void main() {
         // Told they asked for something they already have, rather than silently doing nothing.
         expect(
           () => tester.client.connect(),
-          throwsA(isA<ClientException>().having((it) => it.message, 'message', contains('already available'))),
+          throwsA(isA<StateError>().having((it) => it.message, 'message', contains('already available'))),
         );
 
         // The connection it already had is left alone.
@@ -350,7 +358,7 @@ void main() {
 
         expect(
           () => tester.client.connect(),
-          throwsA(isA<ClientException>().having((it) => it.message, 'message', contains('already in progress'))),
+          throwsA(isA<StateError>().having((it) => it.message, 'message', contains('already in progress'))),
         );
 
         // The attempt already under way is the one that completes.
@@ -451,7 +459,7 @@ void main() {
         await tester.client.disconnect();
 
         // Reported, rather than left waiting on a connection no longer coming.
-        await expectLater(connecting, throwsA(isA<ClientException>()));
+        await expectLater(connecting, throwsA(isA<StreamNetworkException>()));
         expect(tester.client.connectionState.value, isA<Disconnected>());
       },
     );
@@ -1398,9 +1406,9 @@ void main() {
         await expectLater(
           tester.client.connect(),
           throwsA(
-            isA<ClientException>()
+            isA<StreamClientException>()
                 .having((it) => it.message, 'message', 'Failed to create a guest user')
-                .having((it) => it.underlyingError, 'cause', isException),
+                .having((it) => it.cause, 'cause', isException),
           ),
         );
 
@@ -1498,7 +1506,7 @@ void main() {
           error: Exception('Failed to create guest'),
         );
 
-        await expectLater(tester.client.connect(), throwsA(isA<ClientException>()));
+        await expectLater(tester.client.connect(), throwsA(isA<StreamClientException>()));
 
         addTearDown(tester.client.dispose);
       },
