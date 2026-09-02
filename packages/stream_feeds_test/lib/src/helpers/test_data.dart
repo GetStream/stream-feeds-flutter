@@ -103,6 +103,7 @@ ActivityResponse createDefaultActivityResponse({
   int? friendReactionCount,
   Map<String, int>? metrics,
   ActivityResponseRestrictReplies? restrictReplies,
+  FeedResponse? currentFeed,
 }) {
   latestReactions = latestReactions.isEmpty ? ownReactions : latestReactions;
   reactionGroups = switch (reactionGroups.isNotEmpty) {
@@ -157,6 +158,7 @@ ActivityResponse createDefaultActivityResponse({
     reactionCount: reactionGroups.values.sumOf((group) => group.count),
     reactionGroups: reactionGroups,
     restrictReplies: restrictReplies ?? ActivityResponseRestrictReplies.everyone,
+    currentFeed: currentFeed,
     score: 0,
     searchData: const {},
     shareCount: 0,
@@ -1210,4 +1212,50 @@ DurationResponse createDefaultCreateDeviceResponse() {
 
 DurationResponse createDefaultDeleteDeviceResponse() {
   return const DurationResponse(duration: '10ms');
+}
+
+FullUserResponse createDefaultFullUserResponse({
+  String id = 'user-1',
+  String? name,
+  String? image,
+  DateTime? createdAt,
+  DateTime? updatedAt,
+  DateTime? lastActive,
+  String role = 'user',
+  List<String> teams = const [],
+}) {
+  final now = DateTime(2021, 1, 1);
+  return FullUserResponse(
+    id: id,
+    banned: false,
+    blockedUserIds: const [],
+    channelMutes: const [],
+    createdAt: createdAt ?? now,
+    custom: const {},
+    devices: const [],
+    invisible: false,
+    language: 'en',
+    lastActive: lastActive,
+    mutes: const [],
+    name: name,
+    image: image,
+    online: false,
+    role: role,
+    shadowBanned: false,
+    teams: teams,
+    totalUnreadCount: 0,
+    unreadChannels: 0,
+    unreadCount: 0,
+    unreadThreads: 0,
+    updatedAt: updatedAt ?? now,
+  );
+}
+
+QueryUsersResponse createDefaultQueryUsersResponse({
+  List<FullUserResponse>? users,
+}) {
+  return QueryUsersResponse(
+    duration: '10ms',
+    users: users ?? [createDefaultFullUserResponse()],
+  );
 }

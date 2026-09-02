@@ -42,6 +42,7 @@ import 'base_tester.dart';
 void feedsClientTest(
   String description, {
   User user = const User(id: 'luke_skywalker'),
+  TokenProvider? tokenProvider,
   FutureOr<void> Function(FeedsClientTester tester)? connect,
   FutureOr<void> Function(FeedsClientTester tester)? setUp,
   required FutureOr<void> Function(FeedsClientTester tester) body,
@@ -54,6 +55,7 @@ void feedsClientTest(
   return testWithTester<StreamFeedsClient, FeedsClientTester>(
     description,
     user: user,
+    tokenProvider: tokenProvider,
     build: (client) => client,
     createTesterFn: _createFeedsClientTester,
     connect: connect,

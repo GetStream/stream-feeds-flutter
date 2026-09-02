@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:clock/clock.dart';
+
 class Batcher<T, R> {
   Batcher({
     required this.action,
@@ -23,8 +25,10 @@ class Batcher<T, R> {
     }
 
     _itemsToProcess.add(item);
-    _nextActionCompleter ??= _planBatchFetch();
-    return _nextActionCompleter!.future;
+
+    // `_planBatchFetch` owns this field, and clears it when it runs on the spot.
+    final completer = _nextActionCompleter ?? _planBatchFetch();
+    return completer.future;
   }
 
   void dispose() {
@@ -32,11 +36,11 @@ class Batcher<T, R> {
   }
 
   Completer<R> _planBatchFetch() {
-    final timeSinceLastRun = DateTime.now().difference(_lastRun);
+    final timeSinceLastRun = clock.now().difference(_lastRun);
 
     final newActionCompleter = Completer<R>();
     _nextActionCompleter = newActionCompleter;
-    _lastRun = DateTime.now();
+    _lastRun = clock.now();
 
     if (timeSinceLastRun >= interval) {
       _runBatch();

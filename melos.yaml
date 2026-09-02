@@ -12,6 +12,9 @@ packages:
 
 command:
   bootstrap:
+    # Run `pub get` sequentially to avoid races on the shared git-dep cache.
+    runPubGetInParallel: false
+
     # Dart and Flutter environment used in the project.
     environment:
       sdk: ^3.12.0
@@ -22,6 +25,7 @@ command:
       auto_route: ^11.0.0
       collection: ^1.18.0
       chewie: ^1.11.3
+      clock: ^1.1.2
       dio: ^5.9.0
       equatable: ^2.0.5
       flutter_state_notifier: ^1.0.0
@@ -50,7 +54,7 @@ command:
       stream_core: 
         git:
           url: https://github.com/GetStream/stream-core-flutter.git
-          ref: 813026f2712b9a82065b1f50e007c049cb63eaed
+          ref: 505432f213af8911d54ab3c855d6ad6fbe492fc9
           path: packages/stream_core
       video_player: ^2.10.0
       uuid: ^4.5.1
@@ -60,6 +64,7 @@ command:
     dev_dependencies:
       auto_route_generator: ^10.0.0
       build_runner: ^2.4.15
+      fake_async: ^1.3.3
       flutter_launcher_icons: ^0.14.4
       freezed: ^3.0.0
       injectable_generator: ^3.0.0
@@ -68,7 +73,15 @@ command:
       retrofit_generator: ^10.2.6
       test: ^1.26.3
 
+    hooks:
+      # Syncs lib/src/version.dart with the version in stream_feeds' pubspec.
+      post: melos run version:update
+
 scripts:
+  version:update:
+    run: dart tools/generate_version.dart
+    description: Updates packages/stream_feeds/lib/src/version.dart from its pubspec.yaml version.
+
   postclean:
     run: melos run clean:flutter --no-select
     description: Runs "flutter clean" in all Flutter packages

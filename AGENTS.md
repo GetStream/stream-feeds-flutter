@@ -427,6 +427,9 @@ melos run lint:all
 
 - SDK uses semantic versioning
 - Version managed in `packages/stream_feeds/pubspec.yaml`
+- `packages/stream_feeds/lib/src/version.dart` is **generated** from that version by `tools/generate_version.dart`,
+  which runs automatically on every `melos bootstrap` (`command.bootstrap.hooks.post`). Never edit it by hand — it is
+  the SDK version reported in the `X-Stream-Client` header, and bootstrapping will overwrite any manual change.
 - `stream_feeds` is the only published package; releases go out behind a single `vX.Y.Z` tag
 - Below `1.0.0` the Dart convention shifts every slot down one: a breaking release is a **minor** bump, a
   feature release is a **patch** bump, and a change with no public API impact is a build (`+1`) bump. See

@@ -1,25 +1,52 @@
 ## Upcoming
 
-### New fields
-- Added `restrictReplies` (`ActivityRestrictReplies`) to `ActivityData` to expose the comment-reply restriction on an activity (everyone / nobody / people_i_follow).
-- Added `restrictReplies` (`AddActivityRequestRestrictReplies?`) to `FeedAddActivityRequest` so comment restrictions can be set when creating an activity.
-- Added `enrichmentOptions` (`EnrichmentOptions?`) to `FeedQuery` so optional server enrichment can be enabled per feed. Use `EnrichmentOptions(enrichOwnFollowings: true)` to receive `ownFollowings` on each activity's feed — required to determine whether the current user may comment when an activity's `restrictReplies` is `people_i_follow`.
-- Added `isRead` and `isSeen` fields to `ActivityData` and `AggregatedActivityData` for notification-feed read/seen state.
-- Added `friendReactionCount` and `friendReactions` fields to `ActivityData` to expose reactions from friends.
-- Added `metrics` field to `ActivityData` for server-side activity metrics (impressions, clicks, etc.).
-- Added `bookmarkCount` and `editedAt` fields to `CommentData`.
-- Added `location` (`LocationCoordinate?`) field to `FeedData`.
-- Added `createNotificationActivity`, `skipPush`, and `enrichOwnFields` optional flags to `FeedAddActivityRequest`.
-- Added optional `deleteNotificationActivity` parameter to `Feed.deleteActivity`, `Feed.deleteComment`, `Feed.deleteActivityReaction`, `Feed.deleteCommentReaction`, `Activity.deleteComment`, and `Activity.deleteCommentReaction` — when `true`, the corresponding notification activity is also deleted.
-- Added `ModerationClient.queryModerationConfigs`, which queries moderation configurations with filters and pagination and returns a `PaginationResult<ModerationConfigData>`.
+### 💥 BREAKING CHANGES
 
-### WebSocket events
-- `ActivityRestoredEvent` and `CommentRestoredEvent` are now handled: restored items are upserted back into feed/list state.
+- Raised the minimum Dart SDK to `^3.12.0`
+- `Ban` removed, replaced by `BanInfoResponse`: `target` is now `user`, `shadow` is optional rather than required, and `channel` is gone
+- `PollResponseData.votingVisibility` is now required, so anything constructing one directly must supply it
+- `ActivityCommentList.state` returns `ActivityCommentListState` rather than `StateNotifier<ActivityCommentListState>`, matching the other state classes
+- Removed the call, recording, streaming and chat types that were never part of the Feeds API
+- Every failure the SDK reports for work it attempted now arrives as a `StreamException` subclass — `StreamApiException`, `StreamNetworkException`, `StreamAuthenticationException` or `StreamClientException` — replacing `ClientException` and `HttpClientException`, which are removed. `StreamApiError` remains, as the server's error payload and the type of `ConnectionErrorEvent.error`, but is no longer what the SDK throws or returns. `StreamFeedsException` aliases the base type, so one `on` clause catches all four
+- `connect` throws a `StateError` when a connection is already established or in progress, and a `StreamFeedsException` carrying the cause when it fails
+- `StreamAttachmentUploader.upload`, reached through `StreamFeedsClient.attachmentUploader`, returns an `AttachmentUploadTask` rather than a `Future<Result<UploadedAttachment>>`, and takes no `onProgress`: progress arrives on the task's `state`. `uploadBatch` returns an `AttachmentUploadBatch` rather than a `Stream<Result<UploadedAttachment>>`
+- `Feed.addActivity`, `Feed.addComment` and `Activity.addCommentsBatch` throw an `ArgumentError` when two attachments in one request share an id, rather than reporting it through the returned `Result`
+- Every generated enum is now an `extension type` over `String` rather than a Dart `enum`. A value such as `ActivityResponseVisibility.public` still compiles, but `.values`, `.name`, `.index` and exhaustive `switch` are gone, as is the `unknown` member. What you get back is forward compatibility: a value this SDK version has never heard of arrives as-is instead of collapsing to `unknown`, and these types compare to and pass as plain `String`s
+- `EpochDateTimeConverter` is gone, replaced by `stream_core`'s `StreamDateTimeConverter`. It reads both RFC3339 strings and epoch nanoseconds, and differs in two ways you can observe: a deserialized `DateTime` is UTC rather than local — `isUtc` is `true`, `hour` and the other calendar getters report UTC, and `==` against a local `DateTime` for the same instant is now `false`, so reach for `isAtSameMomentAs` — and serialization writes an RFC3339 string instead of an epoch-nanosecond integer
+- `BanResponse` is now `ModerationBanResponse`, following the spec
 
-### Deprecated — renamed types (backwards-compatible aliases added)
-The following generated types were renamed in the underlying API. Deprecated `typedef` aliases
-have been added so existing code continues to compile with a deprecation warning. Migrate to
-the new names at your earliest convenience.
+### ✨ Features
+
+- Guest users (`User.guest(id)`) can now connect, with the same read and write access and the same real-time updates as a regular user; their id is assigned on connect, so read it from `client.user` afterwards
+- Added `StreamFeedsClient.dispose`, which releases the client for good; `connect` throws a `StateError` afterwards
+- Added a `connectWebSocket` flag to `connect`. Pass `false` for a client that only makes requests: no real-time updates arrive, and a watched query is rejected
+- Added `FeedsConfig.logConfig`, which says how much the client reports and where those records go; left out, the client stays silent. Records include the `Authorization` header, so weigh what reads them
+- Added `StreamFeedsClient.userList`, a paginated, filterable and sortable query over users, in the same shape as the other list APIs
+- Added `isRead` and `isSeen` to `ActivityData` and `AggregatedActivityData`, for notification-feed read/seen state
+- Added `friendReactionCount` and `friendReactions` to `ActivityData`, exposing reactions from friends
+- Added `metrics` to `ActivityData`, carrying impressions, clicks and similar
+- Added `bookmarkCount` and `editedAt` to `CommentData`, and `location` to `FeedData`
+- Added `createNotificationActivity`, `skipPush` and `enrichOwnFields` flags to `FeedAddActivityRequest`
+- Added `customHeaders` to `FeedsConfig`, sent with every API request. The SDK's own headers win where they overlap, and none of this reaches the WebSocket
+- Added `skipEnrichUrl` to `FeedAddActivityRequest`, `ActivityAddCommentRequest` and `ActivityUpdateCommentRequest`, which leaves URLs in the text unenriched
+- Added `restrictReplies` to `ActivityData` and `FeedAddActivityRequest`, saying who may comment on an activity: everyone, nobody, or people the author follows
+- Added `enrichmentOptions` to `FeedQuery`. Pass `EnrichmentOptions(enrichOwnFollowings: true)` for `ownFollowings` on each activity, which is what tells you whether the current user may comment when `restrictReplies` is `people_i_follow`
+- Added a `deleteNotificationActivity` flag to the `deleteActivity`, `deleteComment`, `deleteActivityReaction` and `deleteCommentReaction` methods on `Feed` and `Activity`, which deletes the matching notification activity too
+- A restored activity or comment now reappears in feed and list state, through `ActivityRestoredEvent` and `CommentRestoredEvent`
+
+### 🐛 Bug Fixes
+
+- Fixed a batch never running again after its first: an add that arrived once a batch had run joined that settled one instead of starting its own, so feed capabilities were fetched once per client and every feed discovered afterwards was answered with the first batch's result
+- Fixed `connect` failing when called straight after `disconnect`
+- Fixed a connection that could not authenticate hanging until it timed out, rather than failing with the reason
+- Fixed the `X-Stream-Client` header: the SDK identifier was sent twice, the version was hardcoded, and the OS was left out
+
+### 🔄 Changed
+
+- Attachment uploads for a batch of requests now share one concurrency limit instead of one each, so `Activity.addCommentsBatch` no longer starts several uploads per comment at once; a failure also calls off the uploads still in flight rather than letting them finish work that is about to be discarded
+- `disconnect` now only closes the connection, leaving the client reusable with its existing subscriptions intact; releasing it is `dispose`
+- An expired token now recovers on its own: the connection comes back with one the `TokenProvider` issued afterwards, without the app doing anything
+- Renamed the types below. The old names still compile, with a deprecation warning, and `dart fix --apply` migrates them:
 
 | Old name | New name |
 |---|---|
@@ -45,19 +72,6 @@ the new names at your earliest convenience.
 | `RestoreActionRequest` | `RestoreActionRequestPayload` |
 | `UnbanActionRequest` | `UnbanActionRequestPayload` |
 | `UnblockActionRequest` | `UnblockActionRequestPayload` |
-
-### [BREAKING]
-
-- [BREAKING] `Ban` class removed. Replaced by `BanInfoResponse` which has a different field structure: `target` → `user`, `shadow: bool` (required) → `shadow: bool?` (optional), `channel` field removed.
-- [BREAKING] `PollResponseData.votingVisibility` is now a required field (was optional in the old `Poll` class). Code constructing `Poll`/`PollResponseData` directly (e.g. in tests) must supply `votingVisibility`.
-- [BREAKING] The following types were removed from the public API. They belonged to video/call/chat functionality not relevant to the Feeds SDK and should not have been exported: `AudioSettingsResponse`, `BackstageSettingsResponse`, `BroadcastSettingsResponse`, `CallIngressResponse`, `CallParticipantResponse`, `CallSessionResponse`, `CallSettingsResponse`, `Channel`, `ChannelConfig`, `ChannelMember`, `ChannelMemberLookup`, `ChannelPushPreferences`, `CompositeRecordingResponse`, `ConfigOverrides`, `DeliveryReceipts`, `DenormalizedChannelFields`, `Device`, `EgressHlsResponse`, `EgressResponse`, `EgressRtmpResponse`, `FrameRecordingResponse`, `FrameRecordingSettingsResponse`, `GeofenceSettingsResponse`, `HlsSettingsResponse`, `IndividualRecordingResponse`, `IndividualRecordingSettingsResponse`, `IngressAudioEncodingResponse`, `IngressSettingsResponse`, `IngressSourceResponse`, `IngressVideoEncodingResponse`, `IngressVideoLayerResponse`, `LimitsSettingsResponse`, `Message`, `MessageReminder`, `ModerationActionConfig`, `NoiseCancellationSettings`, `PrivacySettings`, `RawRecordingResponse`, `RawRecordingSettingsResponse`, `ReadReceipts`, `RecordSettingsResponse`, `RingSettingsResponse`, `RtmpIngress`, `RtmpSettingsResponse`, `ScreensharingSettingsResponse`, `SessionSettingsResponse`, `SharedLocation`, `SpeechSegmentConfig`, `SrtIngress`, `TargetResolution`, `ThumbnailResponse`, `ThumbnailsSettingsResponse`, `TranscriptionSettingsResponse`, `TranslationSettings`, `TypingIndicators`, `UserMutedEvent`, `VideoSettingsResponse`, `WhipIngress`.
-- [BREAKING] Changed `ActivityCommentList.state` getter return type from `StateNotifier<ActivityCommentListState>` to `ActivityCommentListState` to be consistent with all other state classes.
-- [BREAKING] All generated enums are now `extension type`s over `String` instead of Dart `enum`s. Existing usages such as `ActivityResponseVisibility.public` still compile, but `.values`, `.name`, `.index` and exhaustive `switch` no longer work, and the `unknown` sentinel member is gone. In exchange the types are now forward compatible: a value the SDK does not know is passed through as-is rather than collapsing to `unknown`, and they can be compared to and used as plain `String`s.
-- [BREAKING] `EpochDateTimeConverter` removed, replaced by `StreamDateTimeConverter` (from `stream_core`). Besides accepting both RFC3339 strings and epoch nanoseconds, it differs in two observable ways: deserialized `DateTime`s are now in UTC rather than local time (so `isUtc` is `true`, calendar getters like `hour` report UTC, and `==` against a local `DateTime` for the same instant is now `false` — use `isAtSameMomentAs` to compare across zones), and serialization emits an RFC3339 string instead of an epoch-nanosecond integer.
-
-### 🔄 Changed
-
-- Raised the minimum Dart SDK to `^3.12.0`.
 
 ## 0.5.1
 - Added missing state updates for the websocket events.

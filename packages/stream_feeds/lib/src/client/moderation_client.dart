@@ -17,7 +17,7 @@ import '../state.dart' show ModerationConfigsQuery;
 ///
 /// // Ban a user
 /// final banResult = await client.moderation.ban(
-///   api.BanRequest(
+///   BanRequest(
 ///     targetUserId: 'user-123',
 ///     reason: 'Violation of community guidelines',
 ///   ),
@@ -25,7 +25,7 @@ import '../state.dart' show ModerationConfigsQuery;
 ///
 /// // Flag content for review
 /// final flagResult = await client.moderation.flag(
-///   api.FlagRequest(
+///   FlagRequest(
 ///     targetId: 'activity-456',
 ///     reason: 'inappropriate content',
 ///   ),
