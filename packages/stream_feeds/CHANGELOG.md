@@ -12,13 +12,12 @@
 - `StreamAttachmentUploader.upload`, reached through `StreamFeedsClient.attachmentUploader`, returns an `AttachmentUploadTask` rather than a `Future<Result<UploadedAttachment>>`, and takes no `onProgress`: progress arrives on the task's `state`. `uploadBatch` returns an `AttachmentUploadBatch` rather than a `Stream<Result<UploadedAttachment>>`
 - `Feed.addActivity`, `Feed.addComment` and `Activity.addCommentsBatch` throw an `ArgumentError` when two attachments in one request share an id, rather than reporting it through the returned `Result`
 - Generated enums are `extension type`s over `String` instead of Dart `enum`s. `.values`, `.name`, `.index`, exhaustive `switch` and the `unknown` member are gone; an unrecognized value now passes through as-is instead of collapsing to `unknown`
-- The domain types lost their `unknown` constants: `ActivityDataVisibility`, `CollectionStatus`, `FeedVisibility`, `FeedMemberStatus`, `FollowStatus`. Unrecognized values arrive verbatim, so a comparison against `unknown` no longer matches anything
+- `ActivityDataVisibility`, `CollectionStatus`, `FeedVisibility`, `FeedMemberStatus` and `FollowStatus` lost their `unknown` constants. Unrecognized values arrive verbatim, so a comparison against `unknown` no longer matches anything
 - Removed the `toModel()` extensions on the generated enums: `ActivityResponseVisibilityMapper`, `EnrichedCollectionResponseStatusMapper`, `FeedInputVisibilityEnumMapper`, `FeedMemberResponseStatusMapper`, `FollowResponseStatusMapper`. Use `ActivityDataVisibility(visibility)` in place of `visibility.toModel()`
 - `FeedData.visibility`, `CommentData.status` and `FollowData.pushPreference` are now `FeedVisibility?`, `CommentStatus` and `FollowPushPreference`. All three implement `String`, so only code that constructs these models has to wrap the value
+- `FeedAddActivityRequest.visibility` is now an `ActivityDataVisibility?` and `Feed.follow`'s `pushPreference` a `FollowPushPreference?`, in place of the generated request types. Swap the name at the call site — `AddActivityRequestVisibility.tag` becomes `ActivityDataVisibility.tag`; the constants are named identically, so it is a type-name change only
 - `EpochDateTimeConverter` is replaced by `stream_core`'s `StreamDateTimeConverter`. Deserialized `DateTime`s are UTC rather than local, so use `isAtSameMomentAs` to compare across zones; serialization writes RFC3339 instead of epoch nanoseconds
-- `BanResponse` is renamed to `ModerationBanResponse`
 - `AIVideoConfig` is split into `AIVideoConfigRequest` and `AIVideoConfigResponse`, which are not interchangeable: `enabled` and `rules` are required on the response, optional on the request
-- `ModerationClient.flag` returns a `Result<FlagItemResponse>` instead of a `Result<FlagResponse>`
 - `BanRequest` lost `bannedBy` and `bannedById`
 - `FeedGroup.defaultFollowerRole` is a new required field
 
@@ -40,6 +39,8 @@
 - Added `enrichmentOptions` to `FeedQuery`. Pass `EnrichmentOptions(enrichOwnFollowings: true)` for `ownFollowings` on each activity, which is what tells you whether the current user may comment when `restrictReplies` is `people_i_follow`
 - Added a `deleteNotificationActivity` flag to the `deleteActivity`, `deleteComment`, `deleteActivityReaction` and `deleteCommentReaction` methods on `Feed` and `Activity`, which deletes the matching notification activity too
 - A restored activity or comment now reappears in feed and list state, through `ActivityRestoredEvent` and `CommentRestoredEvent`
+- Added `i18n` to `ActivityData` and `CommentData`, holding the translations of the text keyed by language code — this is where the result of the new translation endpoints is read back
+- Added `latestShares` to `ActivityData`, the most recent shares behind the existing `shareCount`, as a list of the new `ShareData`
 - `DefaultApi` goes from 107 endpoints to 150, none removed. The new ones cover user groups, moderation queues, bulk appeals and action configs, comment bookmarks, activity and comment translation, activity metrics, pinned activities, collection queries, batched reaction queries, feed visibility changes, block list import, roles search, user interests, feed counts, partial comment updates, push preferences, `unban` and `unmute`
 
 ### 🐛 Bug Fixes
@@ -80,6 +81,9 @@
 | `RestoreActionRequest` | `RestoreActionRequestPayload` |
 | `UnbanActionRequest` | `UnbanActionRequestPayload` |
 | `UnblockActionRequest` | `UnblockActionRequestPayload` |
+| `BanResponse` | `ModerationBanResponse` |
+| `CallResponse` | `ModerationCallResponse` |
+| `FlagResponse` | `FlagItemResponse` |
 
 ## 0.5.1
 - Added missing state updates for the websocket events.

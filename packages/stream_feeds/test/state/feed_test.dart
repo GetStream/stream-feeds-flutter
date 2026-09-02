@@ -4823,7 +4823,7 @@ void main() {
         final result = await tester.feed.addActivity(
           request: const FeedAddActivityRequest(
             type: 'post',
-            restrictReplies: AddActivityRequestRestrictReplies.peopleIFollow,
+            restrictReplies: ActivityRestrictReplies.peopleIFollow,
           ),
         );
 
@@ -4860,6 +4860,60 @@ void main() {
           (a) => a.id == 'activity-1',
         );
         expect(activity.restrictReplies, equals(ActivityRestrictReplies.nobody));
+      },
+    );
+
+    feedTest(
+      'getOrCreate() exposes i18n translations on activity state',
+      build: (client) => client.feedFromId(feedId),
+      body: (tester) async {
+        await tester.getOrCreate(
+          modifyResponse: (it) => it.copyWith(
+            activities: [
+              createDefaultActivityResponse(
+                id: 'activity-1',
+                feeds: [feedId.rawValue],
+                i18n: const {'en': 'Hello', 'nl': 'Hallo'},
+              ),
+            ],
+          ),
+        );
+
+        final activity = tester.feedState.activities.firstWhere(
+          (a) => a.id == 'activity-1',
+        );
+        expect(activity.i18n, equals({'en': 'Hello', 'nl': 'Hallo'}));
+      },
+    );
+
+    feedTest(
+      'getOrCreate() exposes latestShares on activity state',
+      build: (client) => client.feedFromId(feedId),
+      body: (tester) async {
+        await tester.getOrCreate(
+          modifyResponse: (it) => it.copyWith(
+            activities: [
+              createDefaultActivityResponse(
+                id: 'activity-1',
+                feeds: [feedId.rawValue],
+                latestShares: [
+                  createDefaultShareResponse(
+                    activityId: 'activity-1',
+                    userId: 'sharer-1',
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+
+        final activity = tester.feedState.activities.firstWhere(
+          (a) => a.id == 'activity-1',
+        );
+        expect(activity.shareCount, equals(1));
+        expect(activity.latestShares, hasLength(1));
+        expect(activity.latestShares.single.activityId, equals('activity-1'));
+        expect(activity.latestShares.single.user.id, equals('sharer-1'));
       },
     );
 

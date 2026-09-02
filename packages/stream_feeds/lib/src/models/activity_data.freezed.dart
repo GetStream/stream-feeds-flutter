@@ -27,6 +27,7 @@ mixin _$ActivityData {
   List<String> get filterTags;
   int? get friendReactionCount;
   List<FeedsReactionData> get friendReactions;
+  Map<String, String>? get i18n;
   String get id;
   List<String> get interestTags;
   bool? get isRead;
@@ -50,6 +51,7 @@ mixin _$ActivityData {
   ActivityRestrictReplies get restrictReplies;
   double get score;
   Map<String, Object?> get searchData;
+  List<ShareData> get latestShares;
   int get shareCount;
   String? get text;
   String get type;
@@ -100,6 +102,7 @@ mixin _$ActivityData {
               other.friendReactions,
               friendReactions,
             ) &&
+            const DeepCollectionEquality().equals(other.i18n, i18n) &&
             (identical(other.id, id) || other.id == id) &&
             const DeepCollectionEquality().equals(
               other.interestTags,
@@ -145,6 +148,10 @@ mixin _$ActivityData {
               other.searchData,
               searchData,
             ) &&
+            const DeepCollectionEquality().equals(
+              other.latestShares,
+              latestShares,
+            ) &&
             (identical(other.shareCount, shareCount) || other.shareCount == shareCount) &&
             (identical(other.text, text) || other.text == text) &&
             (identical(other.type, type) || other.type == type) &&
@@ -172,6 +179,7 @@ mixin _$ActivityData {
     const DeepCollectionEquality().hash(filterTags),
     friendReactionCount,
     const DeepCollectionEquality().hash(friendReactions),
+    const DeepCollectionEquality().hash(i18n),
     id,
     const DeepCollectionEquality().hash(interestTags),
     isRead,
@@ -195,6 +203,7 @@ mixin _$ActivityData {
     restrictReplies,
     score,
     const DeepCollectionEquality().hash(searchData),
+    const DeepCollectionEquality().hash(latestShares),
     shareCount,
     text,
     type,
@@ -207,7 +216,7 @@ mixin _$ActivityData {
 
   @override
   String toString() {
-    return 'ActivityData(attachments: $attachments, bookmarkCount: $bookmarkCount, collections: $collections, commentCount: $commentCount, comments: $comments, createdAt: $createdAt, currentFeed: $currentFeed, deletedAt: $deletedAt, editedAt: $editedAt, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, friendReactionCount: $friendReactionCount, friendReactions: $friendReactions, id: $id, interestTags: $interestTags, isRead: $isRead, isSeen: $isSeen, isWatched: $isWatched, latestReactions: $latestReactions, location: $location, mentionedUsers: $mentionedUsers, metrics: $metrics, moderation: $moderation, notificationContext: $notificationContext, ownBookmarks: $ownBookmarks, ownReactions: $ownReactions, parent: $parent, poll: $poll, popularity: $popularity, hidden: $hidden, preview: $preview, reactionCount: $reactionCount, reactionGroups: $reactionGroups, restrictReplies: $restrictReplies, score: $score, searchData: $searchData, shareCount: $shareCount, text: $text, type: $type, updatedAt: $updatedAt, user: $user, visibility: $visibility, visibilityTag: $visibilityTag, custom: $custom)';
+    return 'ActivityData(attachments: $attachments, bookmarkCount: $bookmarkCount, collections: $collections, commentCount: $commentCount, comments: $comments, createdAt: $createdAt, currentFeed: $currentFeed, deletedAt: $deletedAt, editedAt: $editedAt, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, friendReactionCount: $friendReactionCount, friendReactions: $friendReactions, i18n: $i18n, id: $id, interestTags: $interestTags, isRead: $isRead, isSeen: $isSeen, isWatched: $isWatched, latestReactions: $latestReactions, location: $location, mentionedUsers: $mentionedUsers, metrics: $metrics, moderation: $moderation, notificationContext: $notificationContext, ownBookmarks: $ownBookmarks, ownReactions: $ownReactions, parent: $parent, poll: $poll, popularity: $popularity, hidden: $hidden, preview: $preview, reactionCount: $reactionCount, reactionGroups: $reactionGroups, restrictReplies: $restrictReplies, score: $score, searchData: $searchData, latestShares: $latestShares, shareCount: $shareCount, text: $text, type: $type, updatedAt: $updatedAt, user: $user, visibility: $visibility, visibilityTag: $visibilityTag, custom: $custom)';
   }
 }
 
@@ -233,6 +242,7 @@ abstract mixin class $ActivityDataCopyWith<$Res> {
     List<String> filterTags,
     int? friendReactionCount,
     List<FeedsReactionData> friendReactions,
+    Map<String, String>? i18n,
     String id,
     List<String> interestTags,
     bool? isRead,
@@ -256,6 +266,7 @@ abstract mixin class $ActivityDataCopyWith<$Res> {
     ActivityRestrictReplies restrictReplies,
     double score,
     Map<String, Object?> searchData,
+    List<ShareData> latestShares,
     int shareCount,
     String? text,
     String type,
@@ -293,6 +304,7 @@ class _$ActivityDataCopyWithImpl<$Res> implements $ActivityDataCopyWith<$Res> {
     Object? filterTags = null,
     Object? friendReactionCount = freezed,
     Object? friendReactions = null,
+    Object? i18n = freezed,
     Object? id = null,
     Object? interestTags = null,
     Object? isRead = freezed,
@@ -316,6 +328,7 @@ class _$ActivityDataCopyWithImpl<$Res> implements $ActivityDataCopyWith<$Res> {
     Object? restrictReplies = null,
     Object? score = null,
     Object? searchData = null,
+    Object? latestShares = null,
     Object? shareCount = null,
     Object? text = freezed,
     Object? type = null,
@@ -383,6 +396,10 @@ class _$ActivityDataCopyWithImpl<$Res> implements $ActivityDataCopyWith<$Res> {
             ? _self.friendReactions
             : friendReactions // ignore: cast_nullable_to_non_nullable
                   as List<FeedsReactionData>,
+        i18n: freezed == i18n
+            ? _self.i18n
+            : i18n // ignore: cast_nullable_to_non_nullable
+                  as Map<String, String>?,
         id: null == id
             ? _self.id
             : id // ignore: cast_nullable_to_non_nullable
@@ -475,6 +492,10 @@ class _$ActivityDataCopyWithImpl<$Res> implements $ActivityDataCopyWith<$Res> {
             ? _self.searchData
             : searchData // ignore: cast_nullable_to_non_nullable
                   as Map<String, Object?>,
+        latestShares: null == latestShares
+            ? _self.latestShares
+            : latestShares // ignore: cast_nullable_to_non_nullable
+                  as List<ShareData>,
         shareCount: null == shareCount
             ? _self.shareCount
             : shareCount // ignore: cast_nullable_to_non_nullable

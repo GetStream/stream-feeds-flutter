@@ -103,6 +103,8 @@ ActivityResponse createDefaultActivityResponse({
   int? friendReactionCount,
   Map<String, int>? metrics,
   ActivityResponseRestrictReplies? restrictReplies,
+  Map<String, String>? i18n,
+  List<ShareResponse>? latestShares,
   FeedResponse? currentFeed,
 }) {
   latestReactions = latestReactions.isEmpty ? ownReactions : latestReactions;
@@ -141,6 +143,7 @@ ActivityResponse createDefaultActivityResponse({
     friendReactionCount: friendReactionCount,
     friendReactions: friendReactions,
     hidden: hidden,
+    i18n: i18n,
     interestTags: const [],
     isRead: isRead,
     isSeen: isSeen,
@@ -160,8 +163,9 @@ ActivityResponse createDefaultActivityResponse({
     restrictReplies: restrictReplies ?? ActivityResponseRestrictReplies.everyone,
     currentFeed: currentFeed,
     score: 0,
+    latestShares: latestShares,
     searchData: const {},
-    shareCount: 0,
+    shareCount: latestShares?.length ?? 0,
     text: null,
     type: type,
     isWatched: isWatched,
@@ -305,6 +309,7 @@ CommentResponse createDefaultCommentResponse({
   String? parentId,
   int bookmarkCount = 0,
   DateTime? editedAt,
+  Map<String, String>? i18n,
   CommentResponseStatus status = CommentResponseStatus.active,
   List<FeedsReactionResponse> ownReactions = const [],
   List<FeedsReactionResponse> latestReactions = const [],
@@ -340,6 +345,7 @@ CommentResponse createDefaultCommentResponse({
     custom: const {},
     downvoteCount: 0,
     editedAt: editedAt,
+    i18n: i18n,
     latestReactions: latestReactions,
     mentionedUsers: const [],
     objectId: objectId,
@@ -366,6 +372,7 @@ ThreadedCommentResponse createDefaultThreadedCommentResponse({
   String? userId,
   int bookmarkCount = 0,
   DateTime? editedAt,
+  Map<String, String>? i18n,
   ThreadedCommentResponseStatus status = ThreadedCommentResponseStatus.active,
   List<FeedsReactionResponse>? ownReactions,
   List<ThreadedCommentResponse> replies = const [],
@@ -378,6 +385,7 @@ ThreadedCommentResponse createDefaultThreadedCommentResponse({
     custom: const {},
     downvoteCount: 0,
     editedAt: editedAt,
+    i18n: i18n,
     mentionedUsers: const [],
     objectId: objectId,
     objectType: objectType,
@@ -641,6 +649,17 @@ FeedsReactionResponse createDefaultReactionResponse({
     type: reactionType,
     createdAt: DateTime.timestamp(),
     updatedAt: DateTime.timestamp(),
+    user: createDefaultUserResponse(id: userId),
+  );
+}
+
+ShareResponse createDefaultShareResponse({
+  String activityId = 'activity-id',
+  String userId = 'user-id',
+}) {
+  return ShareResponse(
+    activityId: activityId,
+    createdAt: DateTime(2021, 1, 1),
     user: createDefaultUserResponse(id: userId),
   );
 }

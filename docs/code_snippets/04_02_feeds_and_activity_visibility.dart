@@ -21,7 +21,7 @@ Future<void> activityVisibilityLevels() async {
     request: const FeedAddActivityRequest(
       text: 'Premium content',
       type: 'post',
-      visibility: AddActivityRequestVisibility.tag,
+      visibility: ActivityDataVisibility.tag,
       visibilityTag: 'premium',
     ),
   );

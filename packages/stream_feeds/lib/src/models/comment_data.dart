@@ -45,6 +45,7 @@ class CommentData with _$CommentData implements CommentsSortDataFields {
     this.controversyScore,
     this.deletedAt,
     this.editedAt,
+    this.i18n,
     this.meta,
     this.moderation,
     this.parentId,
@@ -80,6 +81,10 @@ class CommentData with _$CommentData implements CommentsSortDataFields {
   /// The date and time when the comment was last edited, if applicable.
   @override
   final DateTime? editedAt;
+
+  /// Translations of the comment's text, keyed by language code.
+  @override
+  final Map<String, String>? i18n;
 
   /// The number of downvotes received by the comment.
   @override
@@ -367,6 +372,7 @@ extension CommentResponseMapper on CommentResponse {
       },
       replies: null, // Comments don't have replies loaded by default
       replyCount: replyCount,
+      i18n: i18n,
       score: score,
       status: CommentStatus(status),
       text: text,
@@ -408,6 +414,7 @@ extension ThreadedCommentResponseMapper on ThreadedCommentResponse {
       },
       replies: replies?.map((e) => e.toModel()).toList(),
       replyCount: replyCount,
+      i18n: i18n,
       score: score,
       status: CommentStatus(status),
       text: text,

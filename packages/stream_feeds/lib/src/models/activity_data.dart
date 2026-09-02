@@ -12,6 +12,7 @@ import 'feeds_reaction_data.dart';
 import 'moderation.dart';
 import 'poll_data.dart';
 import 'reaction_group_data.dart';
+import 'share_data.dart';
 import 'user_data.dart';
 
 part 'activity_data.freezed.dart';
@@ -40,6 +41,7 @@ class ActivityData with _$ActivityData {
     this.filterTags = const [],
     this.friendReactionCount,
     this.friendReactions = const [],
+    this.i18n,
     required this.id,
     this.interestTags = const [],
     this.isRead,
@@ -63,6 +65,7 @@ class ActivityData with _$ActivityData {
     this.restrictReplies = ActivityRestrictReplies.everyone,
     this.score = 0.0,
     this.searchData = const {},
+    this.latestShares = const [],
     this.shareCount = 0,
     this.text,
     required this.type,
@@ -131,6 +134,10 @@ class ActivityData with _$ActivityData {
   /// The reactions from friends on this activity.
   @override
   final List<FeedsReactionData> friendReactions;
+
+  /// Translations of the activity's text, keyed by language code.
+  @override
+  final Map<String, String>? i18n;
 
   /// The unique identifier of the activity.
   @override
@@ -246,6 +253,10 @@ class ActivityData with _$ActivityData {
   @override
   final Map<String, Object?> searchData;
 
+  /// The most recent shares of this activity.
+  @override
+  final List<ShareData> latestShares;
+
   /// The number of times this activity has been shared.
   @override
   final int shareCount;
@@ -330,6 +341,7 @@ extension ActivityResponseMapper on ActivityResponse {
       filterTags: filterTags,
       friendReactionCount: friendReactionCount,
       friendReactions: [...?friendReactions?.map((r) => r.toModel())],
+      i18n: i18n,
       id: id,
       interestTags: interestTags,
       isRead: isRead,
@@ -360,6 +372,7 @@ extension ActivityResponseMapper on ActivityResponse {
       restrictReplies: ActivityRestrictReplies(restrictReplies),
       score: score,
       searchData: searchData,
+      latestShares: [...?latestShares?.map((s) => s.toModel())],
       shareCount: shareCount,
       text: text,
       type: type,

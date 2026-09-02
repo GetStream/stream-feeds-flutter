@@ -128,7 +128,7 @@ Future<void> restrictReplies() async {
     request: const FeedAddActivityRequest(
       type: 'post',
       text: 'Only my followers can reply to this.',
-      restrictReplies: AddActivityRequestRestrictReplies.peopleIFollow,
+      restrictReplies: ActivityRestrictReplies.peopleIFollow,
     ),
   );
 
