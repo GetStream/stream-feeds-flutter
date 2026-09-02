@@ -39,9 +39,9 @@
 - Added `enrichmentOptions` to `FeedQuery`. Pass `EnrichmentOptions(enrichOwnFollowings: true)` for `ownFollowings` on each activity, which is what tells you whether the current user may comment when `restrictReplies` is `people_i_follow`
 - Added a `deleteNotificationActivity` flag to the `deleteActivity`, `deleteComment`, `deleteActivityReaction` and `deleteCommentReaction` methods on `Feed` and `Activity`, which deletes the matching notification activity too
 - A restored activity or comment now reappears in feed and list state, through `ActivityRestoredEvent` and `CommentRestoredEvent`
-- Added `i18n` to `ActivityData` and `CommentData`, holding the translations of the text keyed by language code — this is where the result of the new translation endpoints is read back
+- Added `i18n` to `ActivityData` and `CommentData`, holding the translations of the text keyed by language code, for activities and comments that have been translated
 - Added `latestShares` to `ActivityData`, the most recent shares behind the existing `shareCount`, as a list of the new `ShareData`
-- `DefaultApi` goes from 107 endpoints to 150, none removed. The new ones cover user groups, moderation queues, bulk appeals and action configs, comment bookmarks, activity and comment translation, activity metrics, pinned activities, collection queries, batched reaction queries, feed visibility changes, block list import, roles search, user interests, feed counts, partial comment updates, push preferences, `unban` and `unmute`
+- `DefaultApi` goes from 107 endpoints to 150, none removed, covering user groups, moderation queues, bulk appeals and action configs, comment bookmarks, activity and comment translation, activity metrics, pinned activity and collection queries, batched reaction queries, feed visibility changes, block list import, roles search, user interests, feed counts, partial comment updates, push preferences, `unban` and `unmute`. These are available on `DefaultApi` only — `Feed`, `Activity` and `StreamFeedsClient` do not wrap them yet, so reach for them through the generated client until they do
 
 ### 🐛 Bug Fixes
 
