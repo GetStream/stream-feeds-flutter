@@ -25,6 +25,7 @@ mixin _$GetOrCreateFeedRequest {
   int? get limit;
   PagerRequest? get memberPagination;
   String? get next;
+  bool? get overwriteInterestWeights;
   String? get prev;
   String? get view;
   bool? get watch;
@@ -65,6 +66,11 @@ mixin _$GetOrCreateFeedRequest {
             (identical(other.limit, limit) || other.limit == limit) &&
             (identical(other.memberPagination, memberPagination) || other.memberPagination == memberPagination) &&
             (identical(other.next, next) || other.next == next) &&
+            (identical(
+                  other.overwriteInterestWeights,
+                  overwriteInterestWeights,
+                ) ||
+                other.overwriteInterestWeights == overwriteInterestWeights) &&
             (identical(other.prev, prev) || other.prev == prev) &&
             (identical(other.view, view) || other.view == view) &&
             (identical(other.watch, watch) || other.watch == watch));
@@ -85,6 +91,7 @@ mixin _$GetOrCreateFeedRequest {
     limit,
     memberPagination,
     next,
+    overwriteInterestWeights,
     prev,
     view,
     watch,
@@ -92,7 +99,7 @@ mixin _$GetOrCreateFeedRequest {
 
   @override
   String toString() {
-    return 'GetOrCreateFeedRequest(data: $data, enrichmentOptions: $enrichmentOptions, externalRanking: $externalRanking, filter: $filter, followersPagination: $followersPagination, followingPagination: $followingPagination, friendReactionsOptions: $friendReactionsOptions, idAround: $idAround, interestWeights: $interestWeights, limit: $limit, memberPagination: $memberPagination, next: $next, prev: $prev, view: $view, watch: $watch)';
+    return 'GetOrCreateFeedRequest(data: $data, enrichmentOptions: $enrichmentOptions, externalRanking: $externalRanking, filter: $filter, followersPagination: $followersPagination, followingPagination: $followingPagination, friendReactionsOptions: $friendReactionsOptions, idAround: $idAround, interestWeights: $interestWeights, limit: $limit, memberPagination: $memberPagination, next: $next, overwriteInterestWeights: $overwriteInterestWeights, prev: $prev, view: $view, watch: $watch)';
   }
 }
 
@@ -116,6 +123,7 @@ abstract mixin class $GetOrCreateFeedRequestCopyWith<$Res> {
     int? limit,
     PagerRequest? memberPagination,
     String? next,
+    bool? overwriteInterestWeights,
     String? prev,
     String? view,
     bool? watch,
@@ -146,6 +154,7 @@ class _$GetOrCreateFeedRequestCopyWithImpl<$Res> implements $GetOrCreateFeedRequ
     Object? limit = freezed,
     Object? memberPagination = freezed,
     Object? next = freezed,
+    Object? overwriteInterestWeights = freezed,
     Object? prev = freezed,
     Object? view = freezed,
     Object? watch = freezed,
@@ -200,6 +209,10 @@ class _$GetOrCreateFeedRequestCopyWithImpl<$Res> implements $GetOrCreateFeedRequ
             ? _self.next
             : next // ignore: cast_nullable_to_non_nullable
                   as String?,
+        overwriteInterestWeights: freezed == overwriteInterestWeights
+            ? _self.overwriteInterestWeights
+            : overwriteInterestWeights // ignore: cast_nullable_to_non_nullable
+                  as bool?,
         prev: freezed == prev
             ? _self.prev
             : prev // ignore: cast_nullable_to_non_nullable

@@ -26,7 +26,6 @@ part 'poll_votes_query.freezed.dart';
 class PollVotesQuery with _$PollVotesQuery {
   const PollVotesQuery({
     required this.pollId,
-    this.userId,
     this.filter,
     this.sort,
     this.limit,
@@ -37,10 +36,6 @@ class PollVotesQuery with _$PollVotesQuery {
   /// The unique identifier of the poll to fetch votes for.
   @override
   final String pollId;
-
-  /// Optional user ID used for authentication.
-  @override
-  final String? userId;
 
   /// Optional filter criteria for this query.
   ///

@@ -75,9 +75,6 @@ extension type const FeedMemberStatus(String value) implements String {
 
   /// Represents a feed member whose invite has been rejected.
   static const rejected = FeedMemberStatus('rejected');
-
-  /// Represents a feed member with an unknown status.
-  static const unknown = FeedMemberStatus('unknown');
 }
 
 /// Extension function to convert a [FeedMemberResponse] to a [FeedMemberData] model.
@@ -92,25 +89,10 @@ extension FeedMemberResponseMapper on FeedMemberResponse {
       inviteAcceptedAt: inviteAcceptedAt,
       inviteRejectedAt: inviteRejectedAt,
       role: role,
-      status: status.toModel(),
+      status: FeedMemberStatus(status),
       updatedAt: updatedAt,
       user: user.toModel(),
       custom: custom,
     );
-  }
-}
-
-/// Extension function to convert a [FeedMemberResponseStatus] to a [FeedMemberStatus] model.
-extension FeedMemberResponseStatusMapper on FeedMemberResponseStatus {
-  /// Converts this API feed member status to a domain [FeedMemberStatus] extension type.
-  ///
-  /// Uses explicit mapping for type safety and proper handling of unknown values.
-  FeedMemberStatus toModel() {
-    return switch (this) {
-      FeedMemberResponseStatus.member => FeedMemberStatus.member,
-      FeedMemberResponseStatus.pending => FeedMemberStatus.pending,
-      FeedMemberResponseStatus.rejected => FeedMemberStatus.rejected,
-      FeedMemberResponseStatus.unknown => FeedMemberStatus.unknown,
-    };
   }
 }

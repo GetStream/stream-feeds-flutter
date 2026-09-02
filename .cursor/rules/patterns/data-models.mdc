@@ -159,9 +159,6 @@ extension type const FeedMemberStatus(String value) implements String {
 
   /// Represents a feed member whose invite has been rejected.
   static const rejected = FeedMemberStatus('rejected');
-
-  /// Represents a feed member with an unknown status.
-  static const unknown = FeedMemberStatus('unknown');
 }
 ```
 
@@ -290,7 +287,8 @@ String getMemberStatusLabel(FeedMemberStatus status) {
     FeedMemberStatus.member => 'Active Member',
     FeedMemberStatus.pending => 'Pending Approval',
     FeedMemberStatus.rejected => 'Invite Rejected',
-    FeedMemberStatus.unknown => 'Unknown Status',
+    // Extension types are not exhaustive, so the fallback is required — and it
+    // is what carries a status this SDK version has never heard of.
     _ => 'Custom Status: ${status.value}',
   };
 }

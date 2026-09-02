@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 mixin _$FollowData {
   DateTime get createdAt;
   String get followerRole;
-  String get pushPreference;
+  FollowPushPreference get pushPreference;
   DateTime? get requestAcceptedAt;
   DateTime? get requestRejectedAt;
   FeedData get sourceFeed;
@@ -78,7 +78,7 @@ abstract mixin class $FollowDataCopyWith<$Res> {
   $Res call({
     DateTime createdAt,
     String followerRole,
-    String pushPreference,
+    FollowPushPreference pushPreference,
     DateTime? requestAcceptedAt,
     DateTime? requestRejectedAt,
     FeedData sourceFeed,
@@ -125,7 +125,7 @@ class _$FollowDataCopyWithImpl<$Res> implements $FollowDataCopyWith<$Res> {
         pushPreference: null == pushPreference
             ? _self.pushPreference
             : pushPreference // ignore: cast_nullable_to_non_nullable
-                  as String,
+                  as FollowPushPreference,
         requestAcceptedAt: freezed == requestAcceptedAt
             ? _self.requestAcceptedAt
             : requestAcceptedAt // ignore: cast_nullable_to_non_nullable

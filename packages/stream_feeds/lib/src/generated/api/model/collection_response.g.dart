@@ -7,31 +7,31 @@ part of 'collection_response.dart';
 // **************************************************************************
 
 CollectionResponse _$CollectionResponseFromJson(Map<String, dynamic> json) => CollectionResponse(
-  createdAt: _$JsonConverterFromJson<int, DateTime>(
+  createdAt: _$JsonConverterFromJson<Object, DateTime>(
     json['created_at'],
-    const EpochDateTimeConverter().fromJson,
+    const StreamDateTimeConverter().fromJson,
   ),
   custom: json['custom'] as Map<String, dynamic>?,
   id: json['id'] as String,
   name: json['name'] as String,
-  updatedAt: _$JsonConverterFromJson<int, DateTime>(
+  updatedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['updated_at'],
-    const EpochDateTimeConverter().fromJson,
+    const StreamDateTimeConverter().fromJson,
   ),
   userId: json['user_id'] as String?,
 );
 
 Map<String, dynamic> _$CollectionResponseToJson(CollectionResponse instance) => <String, dynamic>{
-  'created_at': _$JsonConverterToJson<int, DateTime>(
+  'created_at': _$JsonConverterToJson<Object, DateTime>(
     instance.createdAt,
-    const EpochDateTimeConverter().toJson,
+    const StreamDateTimeConverter().toJson,
   ),
   'custom': instance.custom,
   'id': instance.id,
   'name': instance.name,
-  'updated_at': _$JsonConverterToJson<int, DateTime>(
+  'updated_at': _$JsonConverterToJson<Object, DateTime>(
     instance.updatedAt,
-    const EpochDateTimeConverter().toJson,
+    const StreamDateTimeConverter().toJson,
   ),
   'user_id': instance.userId,
 };

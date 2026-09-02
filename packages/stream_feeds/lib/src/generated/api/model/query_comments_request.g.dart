@@ -14,11 +14,7 @@ QueryCommentsRequest _$QueryCommentsRequestFromJson(
   limit: (json['limit'] as num?)?.toInt(),
   next: json['next'] as String?,
   prev: json['prev'] as String?,
-  sort: $enumDecodeNullable(
-    _$QueryCommentsRequestSortEnumMap,
-    json['sort'],
-    unknownValue: QueryCommentsRequestSort.unknown,
-  ),
+  sort: json['sort'] == null ? null : QueryCommentsRequestSort.fromJson(json['sort'] as String),
 );
 
 Map<String, dynamic> _$QueryCommentsRequestToJson(
@@ -29,14 +25,5 @@ Map<String, dynamic> _$QueryCommentsRequestToJson(
   'limit': instance.limit,
   'next': instance.next,
   'prev': instance.prev,
-  'sort': _$QueryCommentsRequestSortEnumMap[instance.sort],
-};
-
-const _$QueryCommentsRequestSortEnumMap = {
-  QueryCommentsRequestSort.best: 'best',
-  QueryCommentsRequestSort.controversial: 'controversial',
-  QueryCommentsRequestSort.first: 'first',
-  QueryCommentsRequestSort.last: 'last',
-  QueryCommentsRequestSort.top: 'top',
-  QueryCommentsRequestSort.unknown: '_unknown',
+  'sort': instance.sort?.toJson(),
 };

@@ -11,14 +11,14 @@ ModerationCustomActionEvent _$ModerationCustomActionEventFromJson(
 ) => ModerationCustomActionEvent(
   actionId: json['action_id'] as String,
   actionOptions: json['action_options'] as Map<String, dynamic>?,
-  createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+  createdAt: const StreamDateTimeConverter().fromJson(
+    json['created_at'] as Object,
   ),
   custom: json['custom'] as Map<String, dynamic>,
   message: json['message'] == null ? null : MessageResponse.fromJson(json['message'] as Map<String, dynamic>),
-  receivedAt: _$JsonConverterFromJson<int, DateTime>(
+  receivedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['received_at'],
-    const EpochDateTimeConverter().fromJson,
+    const StreamDateTimeConverter().fromJson,
   ),
   reviewQueueItem: ReviewQueueItemResponse.fromJson(
     json['review_queue_item'] as Map<String, dynamic>,
@@ -31,12 +31,12 @@ Map<String, dynamic> _$ModerationCustomActionEventToJson(
 ) => <String, dynamic>{
   'action_id': instance.actionId,
   'action_options': instance.actionOptions,
-  'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
+  'created_at': const StreamDateTimeConverter().toJson(instance.createdAt),
   'custom': instance.custom,
   'message': instance.message?.toJson(),
-  'received_at': _$JsonConverterToJson<int, DateTime>(
+  'received_at': _$JsonConverterToJson<Object, DateTime>(
     instance.receivedAt,
-    const EpochDateTimeConverter().toJson,
+    const StreamDateTimeConverter().toJson,
   ),
   'review_queue_item': instance.reviewQueueItem.toJson(),
   'type': instance.type,

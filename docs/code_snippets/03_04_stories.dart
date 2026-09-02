@@ -25,7 +25,7 @@ Future<void> postStory() async {
     request: FeedAddActivityRequest(
       type: 'story',
       text: 'My story',
-      expiresAt: expiresAt.toIso8601String(),
+      expiresAt: expiresAt,
       attachments: const [
         Attachment(
           imageUrl: 'https://example.com/photo.jpg',
@@ -119,7 +119,7 @@ Future<void> followStoryFeed(String otherUserId) async {
 /// Useful for showing an archive of past stories.
 Future<void> readExpiredStories() async {
   final userId = client.user.id;
-  final now = DateTime.now();
+  final now = DateTime.timestamp();
 
   final expiredFeed = client.feedFromQuery(
     FeedQuery(

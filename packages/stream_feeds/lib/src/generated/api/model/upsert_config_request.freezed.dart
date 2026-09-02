@@ -13,9 +13,10 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$UpsertConfigRequest {
+  AIAudioConfigRequest? get aiAudioConfig;
   AIImageConfig? get aiImageConfig;
   AITextConfig? get aiTextConfig;
-  AIVideoConfig? get aiVideoConfig;
+  AIVideoConfigRequest? get aiVideoConfig;
   bool? get async;
   AutomodPlatformCircumventionConfig? get automodPlatformCircumventionConfig;
   AutomodSemanticFiltersConfig? get automodSemanticFiltersConfig;
@@ -47,6 +48,7 @@ mixin _$UpsertConfigRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is UpsertConfigRequest &&
+            (identical(other.aiAudioConfig, aiAudioConfig) || other.aiAudioConfig == aiAudioConfig) &&
             (identical(other.aiImageConfig, aiImageConfig) || other.aiImageConfig == aiImageConfig) &&
             (identical(other.aiTextConfig, aiTextConfig) || other.aiTextConfig == aiTextConfig) &&
             (identical(other.aiVideoConfig, aiVideoConfig) || other.aiVideoConfig == aiVideoConfig) &&
@@ -81,8 +83,9 @@ mixin _$UpsertConfigRequest {
   }
 
   @override
-  int get hashCode => Object.hash(
+  int get hashCode => Object.hashAll([
     runtimeType,
+    aiAudioConfig,
     aiImageConfig,
     aiTextConfig,
     aiVideoConfig,
@@ -101,11 +104,11 @@ mixin _$UpsertConfigRequest {
     team,
     velocityFilterConfig,
     videoCallRuleConfig,
-  );
+  ]);
 
   @override
   String toString() {
-    return 'UpsertConfigRequest(aiImageConfig: $aiImageConfig, aiTextConfig: $aiTextConfig, aiVideoConfig: $aiVideoConfig, async: $async, automodPlatformCircumventionConfig: $automodPlatformCircumventionConfig, automodSemanticFiltersConfig: $automodSemanticFiltersConfig, automodToxicityConfig: $automodToxicityConfig, awsRekognitionConfig: $awsRekognitionConfig, blockListConfig: $blockListConfig, bodyguardConfig: $bodyguardConfig, floodConfig: $floodConfig, googleVisionConfig: $googleVisionConfig, key: $key, llmConfig: $llmConfig, ruleBuilderConfig: $ruleBuilderConfig, team: $team, velocityFilterConfig: $velocityFilterConfig, videoCallRuleConfig: $videoCallRuleConfig)';
+    return 'UpsertConfigRequest(aiAudioConfig: $aiAudioConfig, aiImageConfig: $aiImageConfig, aiTextConfig: $aiTextConfig, aiVideoConfig: $aiVideoConfig, async: $async, automodPlatformCircumventionConfig: $automodPlatformCircumventionConfig, automodSemanticFiltersConfig: $automodSemanticFiltersConfig, automodToxicityConfig: $automodToxicityConfig, awsRekognitionConfig: $awsRekognitionConfig, blockListConfig: $blockListConfig, bodyguardConfig: $bodyguardConfig, floodConfig: $floodConfig, googleVisionConfig: $googleVisionConfig, key: $key, llmConfig: $llmConfig, ruleBuilderConfig: $ruleBuilderConfig, team: $team, velocityFilterConfig: $velocityFilterConfig, videoCallRuleConfig: $videoCallRuleConfig)';
   }
 }
 
@@ -117,9 +120,10 @@ abstract mixin class $UpsertConfigRequestCopyWith<$Res> {
   ) = _$UpsertConfigRequestCopyWithImpl;
   @useResult
   $Res call({
+    AIAudioConfigRequest? aiAudioConfig,
     AIImageConfig? aiImageConfig,
     AITextConfig? aiTextConfig,
-    AIVideoConfig? aiVideoConfig,
+    AIVideoConfigRequest? aiVideoConfig,
     bool? async,
     AutomodPlatformCircumventionConfig? automodPlatformCircumventionConfig,
     AutomodSemanticFiltersConfig? automodSemanticFiltersConfig,
@@ -150,6 +154,7 @@ class _$UpsertConfigRequestCopyWithImpl<$Res> implements $UpsertConfigRequestCop
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? aiAudioConfig = freezed,
     Object? aiImageConfig = freezed,
     Object? aiTextConfig = freezed,
     Object? aiVideoConfig = freezed,
@@ -171,6 +176,10 @@ class _$UpsertConfigRequestCopyWithImpl<$Res> implements $UpsertConfigRequestCop
   }) {
     return _then(
       UpsertConfigRequest(
+        aiAudioConfig: freezed == aiAudioConfig
+            ? _self.aiAudioConfig
+            : aiAudioConfig // ignore: cast_nullable_to_non_nullable
+                  as AIAudioConfigRequest?,
         aiImageConfig: freezed == aiImageConfig
             ? _self.aiImageConfig
             : aiImageConfig // ignore: cast_nullable_to_non_nullable
@@ -182,7 +191,7 @@ class _$UpsertConfigRequestCopyWithImpl<$Res> implements $UpsertConfigRequestCop
         aiVideoConfig: freezed == aiVideoConfig
             ? _self.aiVideoConfig
             : aiVideoConfig // ignore: cast_nullable_to_non_nullable
-                  as AIVideoConfig?,
+                  as AIVideoConfigRequest?,
         async: freezed == async
             ? _self.async
             : async // ignore: cast_nullable_to_non_nullable

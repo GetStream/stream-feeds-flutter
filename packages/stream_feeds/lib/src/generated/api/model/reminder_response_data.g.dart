@@ -11,17 +11,17 @@ ReminderResponseData _$ReminderResponseDataFromJson(
 ) => ReminderResponseData(
   channel: json['channel'] == null ? null : ChannelResponse.fromJson(json['channel'] as Map<String, dynamic>),
   channelCid: json['channel_cid'] as String,
-  createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+  createdAt: const StreamDateTimeConverter().fromJson(
+    json['created_at'] as Object,
   ),
   message: json['message'] == null ? null : MessageResponse.fromJson(json['message'] as Map<String, dynamic>),
   messageId: json['message_id'] as String,
-  remindAt: _$JsonConverterFromJson<int, DateTime>(
+  remindAt: _$JsonConverterFromJson<Object, DateTime>(
     json['remind_at'],
-    const EpochDateTimeConverter().fromJson,
+    const StreamDateTimeConverter().fromJson,
   ),
-  updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+  updatedAt: const StreamDateTimeConverter().fromJson(
+    json['updated_at'] as Object,
   ),
   user: json['user'] == null ? null : UserResponse.fromJson(json['user'] as Map<String, dynamic>),
   userId: json['user_id'] as String,
@@ -32,14 +32,14 @@ Map<String, dynamic> _$ReminderResponseDataToJson(
 ) => <String, dynamic>{
   'channel': instance.channel?.toJson(),
   'channel_cid': instance.channelCid,
-  'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
+  'created_at': const StreamDateTimeConverter().toJson(instance.createdAt),
   'message': instance.message?.toJson(),
   'message_id': instance.messageId,
-  'remind_at': _$JsonConverterToJson<int, DateTime>(
+  'remind_at': _$JsonConverterToJson<Object, DateTime>(
     instance.remindAt,
-    const EpochDateTimeConverter().toJson,
+    const StreamDateTimeConverter().toJson,
   ),
-  'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
+  'updated_at': const StreamDateTimeConverter().toJson(instance.updatedAt),
   'user': instance.user?.toJson(),
   'user_id': instance.userId,
 };

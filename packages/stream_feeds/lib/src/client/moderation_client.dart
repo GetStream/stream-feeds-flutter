@@ -42,8 +42,8 @@ class ModerationClient {
   ///
   /// Prohibits the user specified in [banRequest] from accessing platform features.
   ///
-  /// Returns a [Result] containing a [api.BanResponse] or an error.
-  Future<Result<api.BanResponse>> ban({required api.BanRequest banRequest}) {
+  /// Returns a [Result] containing a [api.ModerationBanResponse] or an error.
+  Future<Result<api.ModerationBanResponse>> ban({required api.BanRequest banRequest}) {
     return _moderationRepository.ban(banRequest);
   }
 
@@ -93,8 +93,8 @@ class ModerationClient {
   ///
   /// Reports inappropriate content specified in [flagRequest] for review.
   ///
-  /// Returns a [Result] containing a [api.FlagResponse] or an error.
-  Future<Result<api.FlagResponse>> flag({
+  /// Returns a [Result] containing a [api.FlagItemResponse] or an error.
+  Future<Result<api.FlagItemResponse>> flag({
     required api.FlagRequest flagRequest,
   }) {
     return _moderationRepository.flag(flagRequest);

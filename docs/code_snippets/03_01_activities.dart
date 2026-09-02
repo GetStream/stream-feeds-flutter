@@ -51,7 +51,7 @@ Future<void> stories() async {
           custom: {'width': 1920, 'height': 1080, 'duration': 12},
         ),
       ],
-      expiresAt: tomorrow.toIso8601String(),
+      expiresAt: tomorrow,
       text: 'My story',
       type: 'story',
     ),

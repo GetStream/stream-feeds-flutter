@@ -14,7 +14,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ActivityProcessorConfig {
   Map<String, Object?>? get config;
-  String? get openaiKey;
+  int? get minTextLength;
+  int? get minWordCount;
   String get type;
 
   /// Create a copy of ActivityProcessorConfig
@@ -33,7 +34,8 @@ mixin _$ActivityProcessorConfig {
         (other.runtimeType == runtimeType &&
             other is ActivityProcessorConfig &&
             const DeepCollectionEquality().equals(other.config, config) &&
-            (identical(other.openaiKey, openaiKey) || other.openaiKey == openaiKey) &&
+            (identical(other.minTextLength, minTextLength) || other.minTextLength == minTextLength) &&
+            (identical(other.minWordCount, minWordCount) || other.minWordCount == minWordCount) &&
             (identical(other.type, type) || other.type == type));
   }
 
@@ -41,13 +43,14 @@ mixin _$ActivityProcessorConfig {
   int get hashCode => Object.hash(
     runtimeType,
     const DeepCollectionEquality().hash(config),
-    openaiKey,
+    minTextLength,
+    minWordCount,
     type,
   );
 
   @override
   String toString() {
-    return 'ActivityProcessorConfig(config: $config, openaiKey: $openaiKey, type: $type)';
+    return 'ActivityProcessorConfig(config: $config, minTextLength: $minTextLength, minWordCount: $minWordCount, type: $type)';
   }
 }
 
@@ -58,7 +61,12 @@ abstract mixin class $ActivityProcessorConfigCopyWith<$Res> {
     $Res Function(ActivityProcessorConfig) _then,
   ) = _$ActivityProcessorConfigCopyWithImpl;
   @useResult
-  $Res call({Map<String, Object?>? config, String? openaiKey, String type});
+  $Res call({
+    Map<String, Object?>? config,
+    int? minTextLength,
+    int? minWordCount,
+    String type,
+  });
 }
 
 /// @nodoc
@@ -74,7 +82,8 @@ class _$ActivityProcessorConfigCopyWithImpl<$Res> implements $ActivityProcessorC
   @override
   $Res call({
     Object? config = freezed,
-    Object? openaiKey = freezed,
+    Object? minTextLength = freezed,
+    Object? minWordCount = freezed,
     Object? type = null,
   }) {
     return _then(
@@ -83,10 +92,14 @@ class _$ActivityProcessorConfigCopyWithImpl<$Res> implements $ActivityProcessorC
             ? _self.config
             : config // ignore: cast_nullable_to_non_nullable
                   as Map<String, Object?>?,
-        openaiKey: freezed == openaiKey
-            ? _self.openaiKey
-            : openaiKey // ignore: cast_nullable_to_non_nullable
-                  as String?,
+        minTextLength: freezed == minTextLength
+            ? _self.minTextLength
+            : minTextLength // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        minWordCount: freezed == minWordCount
+            ? _self.minWordCount
+            : minWordCount // ignore: cast_nullable_to_non_nullable
+                  as int?,
         type: null == type
             ? _self.type
             : type // ignore: cast_nullable_to_non_nullable

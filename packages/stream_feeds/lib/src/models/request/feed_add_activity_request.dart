@@ -3,6 +3,7 @@ import 'package:stream_core/stream_core.dart';
 
 import '../../generated/api/models.dart';
 import '../../utils/uploader.dart';
+import '../activity_data.dart';
 
 part 'feed_add_activity_request.freezed.dart';
 
@@ -75,7 +76,7 @@ class FeedAddActivityRequest with _$FeedAddActivityRequest implements HasAttachm
 
   /// Optional expiration date for the activity.
   @override
-  final String? expiresAt;
+  final DateTime? expiresAt;
 
   /// List of feed IDs where this activity should be posted.
   @override
@@ -116,7 +117,7 @@ class FeedAddActivityRequest with _$FeedAddActivityRequest implements HasAttachm
   /// [AddActivityRequestRestrictReplies.peopleIFollow] to restrict to users
   /// followed by the activity author.
   @override
-  final AddActivityRequestRestrictReplies? restrictReplies;
+  final ActivityRestrictReplies? restrictReplies;
 
   /// Optional search metadata for enhanced discoverability.
   @override
@@ -145,7 +146,7 @@ class FeedAddActivityRequest with _$FeedAddActivityRequest implements HasAttachm
 
   /// Optional visibility setting for the activity.
   @override
-  final AddActivityRequestVisibility? visibility;
+  final ActivityDataVisibility? visibility;
 
   /// Optional visibility tag for custom visibility rules.
   @override
@@ -179,7 +180,7 @@ extension FeedAddActivityRequestMapper on FeedAddActivityRequest {
       createNotificationActivity: createNotificationActivity,
       custom: custom,
       enrichOwnFields: enrichOwnFields,
-      expiresAt: expiresAt,
+      expiresAt: expiresAt?.toUtc().toIso8601String(),
       filterTags: filterTags,
       id: id,
       interestTags: interestTags,
@@ -187,12 +188,12 @@ extension FeedAddActivityRequestMapper on FeedAddActivityRequest {
       mentionedUserIds: mentionedUserIds,
       parentId: parentId,
       pollId: pollId,
-      restrictReplies: restrictReplies,
+      restrictReplies: restrictReplies?.let(AddActivityRequestRestrictReplies.fromJson),
       searchData: searchData,
       skipEnrichUrl: skipEnrichUrl,
       skipPush: skipPush,
       text: text,
-      visibility: visibility,
+      visibility: visibility?.let(AddActivityRequestVisibility.fromJson),
       visibilityTag: visibilityTag,
     );
   }

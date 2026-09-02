@@ -15,9 +15,12 @@ T _$identity<T>(T value) => value;
 mixin _$BlockListResponse {
   DateTime? get createdAt;
   String? get id;
+  bool get isConfusableFoldingEnabled;
   bool get isLeetCheckEnabled;
   bool get isPluralCheckEnabled;
+  bool get isSubstringMatchingEnabled;
   String get name;
+  String? get ownerUserId;
   String? get team;
   String get type;
   DateTime? get updatedAt;
@@ -39,11 +42,22 @@ mixin _$BlockListResponse {
             other is BlockListResponse &&
             (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(
+                  other.isConfusableFoldingEnabled,
+                  isConfusableFoldingEnabled,
+                ) ||
+                other.isConfusableFoldingEnabled == isConfusableFoldingEnabled) &&
             (identical(other.isLeetCheckEnabled, isLeetCheckEnabled) ||
                 other.isLeetCheckEnabled == isLeetCheckEnabled) &&
             (identical(other.isPluralCheckEnabled, isPluralCheckEnabled) ||
                 other.isPluralCheckEnabled == isPluralCheckEnabled) &&
+            (identical(
+                  other.isSubstringMatchingEnabled,
+                  isSubstringMatchingEnabled,
+                ) ||
+                other.isSubstringMatchingEnabled == isSubstringMatchingEnabled) &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.ownerUserId, ownerUserId) || other.ownerUserId == ownerUserId) &&
             (identical(other.team, team) || other.team == team) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt) &&
@@ -55,9 +69,12 @@ mixin _$BlockListResponse {
     runtimeType,
     createdAt,
     id,
+    isConfusableFoldingEnabled,
     isLeetCheckEnabled,
     isPluralCheckEnabled,
+    isSubstringMatchingEnabled,
     name,
+    ownerUserId,
     team,
     type,
     updatedAt,
@@ -66,7 +83,7 @@ mixin _$BlockListResponse {
 
   @override
   String toString() {
-    return 'BlockListResponse(createdAt: $createdAt, id: $id, isLeetCheckEnabled: $isLeetCheckEnabled, isPluralCheckEnabled: $isPluralCheckEnabled, name: $name, team: $team, type: $type, updatedAt: $updatedAt, words: $words)';
+    return 'BlockListResponse(createdAt: $createdAt, id: $id, isConfusableFoldingEnabled: $isConfusableFoldingEnabled, isLeetCheckEnabled: $isLeetCheckEnabled, isPluralCheckEnabled: $isPluralCheckEnabled, isSubstringMatchingEnabled: $isSubstringMatchingEnabled, name: $name, ownerUserId: $ownerUserId, team: $team, type: $type, updatedAt: $updatedAt, words: $words)';
   }
 }
 
@@ -80,9 +97,12 @@ abstract mixin class $BlockListResponseCopyWith<$Res> {
   $Res call({
     DateTime? createdAt,
     String? id,
+    bool isConfusableFoldingEnabled,
     bool isLeetCheckEnabled,
     bool isPluralCheckEnabled,
+    bool isSubstringMatchingEnabled,
     String name,
+    String? ownerUserId,
     String? team,
     String type,
     DateTime? updatedAt,
@@ -104,9 +124,12 @@ class _$BlockListResponseCopyWithImpl<$Res> implements $BlockListResponseCopyWit
   $Res call({
     Object? createdAt = freezed,
     Object? id = freezed,
+    Object? isConfusableFoldingEnabled = null,
     Object? isLeetCheckEnabled = null,
     Object? isPluralCheckEnabled = null,
+    Object? isSubstringMatchingEnabled = null,
     Object? name = null,
+    Object? ownerUserId = freezed,
     Object? team = freezed,
     Object? type = null,
     Object? updatedAt = freezed,
@@ -122,6 +145,10 @@ class _$BlockListResponseCopyWithImpl<$Res> implements $BlockListResponseCopyWit
             ? _self.id
             : id // ignore: cast_nullable_to_non_nullable
                   as String?,
+        isConfusableFoldingEnabled: null == isConfusableFoldingEnabled
+            ? _self.isConfusableFoldingEnabled
+            : isConfusableFoldingEnabled // ignore: cast_nullable_to_non_nullable
+                  as bool,
         isLeetCheckEnabled: null == isLeetCheckEnabled
             ? _self.isLeetCheckEnabled
             : isLeetCheckEnabled // ignore: cast_nullable_to_non_nullable
@@ -130,10 +157,18 @@ class _$BlockListResponseCopyWithImpl<$Res> implements $BlockListResponseCopyWit
             ? _self.isPluralCheckEnabled
             : isPluralCheckEnabled // ignore: cast_nullable_to_non_nullable
                   as bool,
+        isSubstringMatchingEnabled: null == isSubstringMatchingEnabled
+            ? _self.isSubstringMatchingEnabled
+            : isSubstringMatchingEnabled // ignore: cast_nullable_to_non_nullable
+                  as bool,
         name: null == name
             ? _self.name
             : name // ignore: cast_nullable_to_non_nullable
                   as String,
+        ownerUserId: freezed == ownerUserId
+            ? _self.ownerUserId
+            : ownerUserId // ignore: cast_nullable_to_non_nullable
+                  as String?,
         team: freezed == team
             ? _self.team
             : team // ignore: cast_nullable_to_non_nullable

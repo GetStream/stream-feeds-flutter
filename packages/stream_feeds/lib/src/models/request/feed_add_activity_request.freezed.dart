@@ -19,7 +19,7 @@ mixin _$FeedAddActivityRequest {
   bool? get createNotificationActivity;
   Map<String, Object>? get custom;
   bool? get enrichOwnFields;
-  String? get expiresAt;
+  DateTime? get expiresAt;
   List<String> get feeds;
   List<String>? get filterTags;
   String? get id;
@@ -28,13 +28,13 @@ mixin _$FeedAddActivityRequest {
   List<String>? get mentionedUserIds;
   String? get parentId;
   String? get pollId;
-  AddActivityRequestRestrictReplies? get restrictReplies;
+  ActivityRestrictReplies? get restrictReplies;
   Map<String, Object>? get searchData;
   bool? get skipEnrichUrl;
   bool? get skipPush;
   String? get text;
   String get type;
-  AddActivityRequestVisibility? get visibility;
+  ActivityDataVisibility? get visibility;
   String? get visibilityTag;
 
   /// Create a copy of FeedAddActivityRequest
@@ -152,7 +152,7 @@ abstract mixin class $FeedAddActivityRequestCopyWith<$Res> {
     bool? createNotificationActivity,
     Map<String, Object>? custom,
     bool? enrichOwnFields,
-    String? expiresAt,
+    DateTime? expiresAt,
     List<String>? filterTags,
     String? id,
     List<String>? interestTags,
@@ -160,12 +160,12 @@ abstract mixin class $FeedAddActivityRequestCopyWith<$Res> {
     List<String>? mentionedUserIds,
     String? parentId,
     String? pollId,
-    AddActivityRequestRestrictReplies? restrictReplies,
+    ActivityRestrictReplies? restrictReplies,
     Map<String, Object>? searchData,
     bool? skipEnrichUrl,
     bool? skipPush,
     String? text,
-    AddActivityRequestVisibility? visibility,
+    ActivityDataVisibility? visibility,
     String? visibilityTag,
   });
 }
@@ -243,7 +243,7 @@ class _$FeedAddActivityRequestCopyWithImpl<$Res> implements $FeedAddActivityRequ
         expiresAt: freezed == expiresAt
             ? _self.expiresAt
             : expiresAt // ignore: cast_nullable_to_non_nullable
-                  as String?,
+                  as DateTime?,
         filterTags: freezed == filterTags
             ? _self.filterTags
             : filterTags // ignore: cast_nullable_to_non_nullable
@@ -275,7 +275,7 @@ class _$FeedAddActivityRequestCopyWithImpl<$Res> implements $FeedAddActivityRequ
         restrictReplies: freezed == restrictReplies
             ? _self.restrictReplies
             : restrictReplies // ignore: cast_nullable_to_non_nullable
-                  as AddActivityRequestRestrictReplies?,
+                  as ActivityRestrictReplies?,
         searchData: freezed == searchData
             ? _self.searchData
             : searchData // ignore: cast_nullable_to_non_nullable
@@ -295,7 +295,7 @@ class _$FeedAddActivityRequestCopyWithImpl<$Res> implements $FeedAddActivityRequ
         visibility: freezed == visibility
             ? _self.visibility
             : visibility // ignore: cast_nullable_to_non_nullable
-                  as AddActivityRequestVisibility?,
+                  as ActivityDataVisibility?,
         visibilityTag: freezed == visibilityTag
             ? _self.visibilityTag
             : visibilityTag // ignore: cast_nullable_to_non_nullable

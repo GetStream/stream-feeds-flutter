@@ -12,6 +12,7 @@ import 'feeds_reaction_data.dart';
 import 'moderation.dart';
 import 'poll_data.dart';
 import 'reaction_group_data.dart';
+import 'share_data.dart';
 import 'user_data.dart';
 
 part 'activity_data.freezed.dart';
@@ -40,6 +41,7 @@ class ActivityData with _$ActivityData {
     this.filterTags = const [],
     this.friendReactionCount,
     this.friendReactions = const [],
+    this.i18n,
     required this.id,
     this.interestTags = const [],
     this.isRead,
@@ -63,6 +65,7 @@ class ActivityData with _$ActivityData {
     this.restrictReplies = ActivityRestrictReplies.everyone,
     this.score = 0.0,
     this.searchData = const {},
+    this.latestShares = const [],
     this.shareCount = 0,
     this.text,
     required this.type,
@@ -131,6 +134,10 @@ class ActivityData with _$ActivityData {
   /// The reactions from friends on this activity.
   @override
   final List<FeedsReactionData> friendReactions;
+
+  /// Translations of the activity's text, keyed by language code.
+  @override
+  final Map<String, String>? i18n;
 
   /// The unique identifier of the activity.
   @override
@@ -246,6 +253,10 @@ class ActivityData with _$ActivityData {
   @override
   final Map<String, Object?> searchData;
 
+  /// The most recent shares of this activity.
+  @override
+  final List<ShareData> latestShares;
+
   /// The number of times this activity has been shared.
   @override
   final int shareCount;
@@ -304,9 +315,6 @@ extension type const ActivityDataVisibility(String value) implements String {
 
   /// Tag visibility - visible based on tag rules
   static const tag = ActivityDataVisibility('tag');
-
-  /// Unknown visibility state
-  static const unknown = ActivityDataVisibility('unknown');
 }
 
 /// Extension function to convert an [ActivityResponse] to an [ActivityData] model.
@@ -333,6 +341,7 @@ extension ActivityResponseMapper on ActivityResponse {
       filterTags: filterTags,
       friendReactionCount: friendReactionCount,
       friendReactions: [...?friendReactions?.map((r) => r.toModel())],
+      i18n: i18n,
       id: id,
       interestTags: interestTags,
       isRead: isRead,
@@ -360,15 +369,16 @@ extension ActivityResponseMapper on ActivityResponse {
       reactionGroups: {
         for (final entry in reactionGroups.entries) entry.key: entry.value.toModel(),
       },
-      restrictReplies: restrictReplies.toModel(),
+      restrictReplies: ActivityRestrictReplies(restrictReplies),
       score: score,
       searchData: searchData,
+      latestShares: [...?latestShares?.map((s) => s.toModel())],
       shareCount: shareCount,
       text: text,
       type: type,
       updatedAt: updatedAt,
       user: user.toModel(),
-      visibility: visibility.toModel(),
+      visibility: ActivityDataVisibility(visibility),
       visibilityTag: visibilityTag,
       custom: custom,
     );
@@ -644,35 +654,4 @@ extension type const ActivityRestrictReplies(String value) implements String {
 
   /// Only users followed by the activity author can comment.
   static const peopleIFollow = ActivityRestrictReplies('people_i_follow');
-
-  /// Unknown value received from the API.
-  static const unknown = ActivityRestrictReplies('unknown');
-}
-
-/// Extension function to convert an [ActivityResponseRestrictReplies] to an [ActivityRestrictReplies].
-extension ActivityResponseRestrictRepliesMapper on ActivityResponseRestrictReplies {
-  /// Converts this API restrict-replies enum to the domain [ActivityRestrictReplies].
-  ActivityRestrictReplies toModel() {
-    return switch (this) {
-      ActivityResponseRestrictReplies.everyone => ActivityRestrictReplies.everyone,
-      ActivityResponseRestrictReplies.nobody => ActivityRestrictReplies.nobody,
-      ActivityResponseRestrictReplies.peopleIFollow => ActivityRestrictReplies.peopleIFollow,
-      ActivityResponseRestrictReplies.unknown => ActivityRestrictReplies.unknown,
-    };
-  }
-}
-
-/// Extension function to convert an [ActivityResponseVisibility] to an [ActivityDataVisibility].
-extension ActivityResponseVisibilityMapper on ActivityResponseVisibility {
-  /// Converts this API visibility enum to a domain [ActivityDataVisibility] extension type.
-  ///
-  /// Uses explicit mapping for type safety and proper handling of unknown values.
-  ActivityDataVisibility toModel() {
-    return switch (this) {
-      ActivityResponseVisibility.private => ActivityDataVisibility.private,
-      ActivityResponseVisibility.public => ActivityDataVisibility.public,
-      ActivityResponseVisibility.tag => ActivityDataVisibility.tag,
-      ActivityResponseVisibility.unknown => ActivityDataVisibility.unknown,
-    };
-  }
 }

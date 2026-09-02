@@ -224,7 +224,6 @@ class PollsRepository {
     final result = await _api.queryPollVotes(
       pollId: query.pollId,
       queryPollVotesRequest: request,
-      userId: query.userId,
     );
 
     return result.map((response) {

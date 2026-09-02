@@ -9,8 +9,8 @@ part of 'membership_level_response.dart';
 MembershipLevelResponse _$MembershipLevelResponseFromJson(
   Map<String, dynamic> json,
 ) => MembershipLevelResponse(
-  createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+  createdAt: const StreamDateTimeConverter().fromJson(
+    json['created_at'] as Object,
   ),
   custom: json['custom'] as Map<String, dynamic>?,
   description: json['description'] as String?,
@@ -18,20 +18,20 @@ MembershipLevelResponse _$MembershipLevelResponseFromJson(
   name: json['name'] as String,
   priority: (json['priority'] as num).toInt(),
   tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
-  updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+  updatedAt: const StreamDateTimeConverter().fromJson(
+    json['updated_at'] as Object,
   ),
 );
 
 Map<String, dynamic> _$MembershipLevelResponseToJson(
   MembershipLevelResponse instance,
 ) => <String, dynamic>{
-  'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
+  'created_at': const StreamDateTimeConverter().toJson(instance.createdAt),
   'custom': instance.custom,
   'description': instance.description,
   'id': instance.id,
   'name': instance.name,
   'priority': instance.priority,
   'tags': instance.tags,
-  'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
+  'updated_at': const StreamDateTimeConverter().toJson(instance.updatedAt),
 };

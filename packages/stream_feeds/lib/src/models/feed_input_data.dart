@@ -80,9 +80,6 @@ extension type const FeedVisibility(String value) implements String {
 
   /// Feed is visible (general visibility setting).
   static const visible = FeedVisibility('visible');
-
-  /// Represents an unknown visibility setting.
-  static const unknown = FeedVisibility('unknown');
 }
 
 /// Converts a [FeedInput] to a [FeedInputData] model.
@@ -91,29 +88,11 @@ extension FeedInputMapper on FeedInput {
     return FeedInputData(
       description: description,
       name: name,
-      visibility: visibility?.toModel(),
+      visibility: visibility?.let(FeedVisibility.new),
       filterTags: [...?filterTags],
       members: [...?members?.map((e) => e.toModel())],
       custom: custom,
     );
-  }
-}
-
-/// Converts a [FeedInputVisibility] to a [FeedVisibility] model.
-extension FeedInputVisibilityEnumMapper on FeedInputVisibility {
-  /// Converts this API visibility enum to a domain [FeedVisibility] extension type.
-  ///
-  /// This now works automatically since FeedVisibility implements String,
-  /// and any API string value is handled seamlessly.
-  FeedVisibility toModel() {
-    return switch (this) {
-      FeedInputVisibility.followers => FeedVisibility.followers,
-      FeedInputVisibility.members => FeedVisibility.members,
-      FeedInputVisibility.private => FeedVisibility.private,
-      FeedInputVisibility.public => FeedVisibility.public,
-      FeedInputVisibility.visible => FeedVisibility.visible,
-      FeedInputVisibility.unknown => FeedVisibility.unknown,
-    };
   }
 }
 
@@ -133,18 +112,10 @@ extension FeedInputDataMapper on FeedInputData {
 
 /// Converts a [FeedVisibility] to a [FeedInputVisibility] request model.
 extension FeedVisibilityMapper on FeedVisibility {
-  /// Converts this visibility extension type to an API enum.
+  /// Converts this visibility extension type to its API counterpart.
   ///
-  /// For known values, maps to the corresponding enum value.
-  /// For unknown values, defaults to FeedInputVisibility.unknown.
-  FeedInputVisibility toRequest() {
-    return switch (value) {
-      FeedVisibility.followers => FeedInputVisibility.followers,
-      FeedVisibility.members => FeedInputVisibility.members,
-      FeedVisibility.private => FeedInputVisibility.private,
-      FeedVisibility.public => FeedInputVisibility.public,
-      FeedVisibility.visible => FeedInputVisibility.visible,
-      _ => FeedInputVisibility.unknown,
-    };
-  }
+  /// Both sides are `String`-backed, so the value is sent as-is — a caller can
+  /// pass a visibility this client version doesn't declare and it still reaches
+  /// the API intact.
+  FeedInputVisibility toRequest() => FeedInputVisibility.fromJson(value);
 }

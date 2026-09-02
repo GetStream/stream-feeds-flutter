@@ -200,5 +200,29 @@ transforms:
     changes:
       - kind: 'rename'
         newName: 'UnblockActionRequestPayload'
+  - title: "rename BanResponse to ModerationBanResponse"
+    date: "2026-09-02"
+    element:
+      uris: ['package:stream_feeds/stream_feeds.dart']
+      typedef: 'BanResponse'
+    changes:
+      - kind: 'rename'
+        newName: 'ModerationBanResponse'
+  - title: "rename CallResponse to ModerationCallResponse"
+    date: "2026-09-02"
+    element:
+      uris: ['package:stream_feeds/stream_feeds.dart']
+      typedef: 'CallResponse'
+    changes:
+      - kind: 'rename'
+        newName: 'ModerationCallResponse'
+  - title: "rename FlagResponse to FlagItemResponse"
+    date: "2026-09-02"
+    element:
+      uris: ['package:stream_feeds/stream_feeds.dart']
+      typedef: 'FlagResponse'
+    changes:
+      - kind: 'rename'
+        newName: 'FlagItemResponse'
   #endregion Version 0.6.0
 #endregion

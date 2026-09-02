@@ -9,10 +9,8 @@ part of 'submit_action_request.dart';
 SubmitActionRequest _$SubmitActionRequestFromJson(
   Map<String, dynamic> json,
 ) => SubmitActionRequest(
-  actionType: $enumDecode(
-    _$SubmitActionRequestActionTypeEnumMap,
-    json['action_type'],
-    unknownValue: SubmitActionRequestActionType.unknown,
+  actionType: SubmitActionRequestActionType.fromJson(
+    json['action_type'] as String,
   ),
   appealId: json['appeal_id'] as String?,
   ban: json['ban'] == null ? null : BanActionRequestPayload.fromJson(json['ban'] as Map<String, dynamic>),
@@ -52,6 +50,11 @@ SubmitActionRequest _$SubmitActionRequestFromJson(
       : DeleteUserRequestPayload.fromJson(
           json['delete_user'] as Map<String, dynamic>,
         ),
+  deleteUserMessages: json['delete_user_messages'] == null
+      ? null
+      : DeleteUserMessagesRequestPayload.fromJson(
+          json['delete_user_messages'] as Map<String, dynamic>,
+        ),
   escalate: json['escalate'] == null ? null : EscalatePayload.fromJson(json['escalate'] as Map<String, dynamic>),
   flag: json['flag'] == null ? null : FlagRequest.fromJson(json['flag'] as Map<String, dynamic>),
   itemId: json['item_id'] as String?,
@@ -90,7 +93,7 @@ SubmitActionRequest _$SubmitActionRequestFromJson(
 Map<String, dynamic> _$SubmitActionRequestToJson(
   SubmitActionRequest instance,
 ) => <String, dynamic>{
-  'action_type': _$SubmitActionRequestActionTypeEnumMap[instance.actionType]!,
+  'action_type': instance.actionType.toJson(),
   'appeal_id': instance.appealId,
   'ban': instance.ban?.toJson(),
   'block': instance.block?.toJson(),
@@ -101,6 +104,7 @@ Map<String, dynamic> _$SubmitActionRequestToJson(
   'delete_message': instance.deleteMessage?.toJson(),
   'delete_reaction': instance.deleteReaction?.toJson(),
   'delete_user': instance.deleteUser?.toJson(),
+  'delete_user_messages': instance.deleteUserMessages?.toJson(),
   'escalate': instance.escalate?.toJson(),
   'flag': instance.flag?.toJson(),
   'item_id': instance.itemId,
@@ -110,29 +114,4 @@ Map<String, dynamic> _$SubmitActionRequestToJson(
   'shadow_block': instance.shadowBlock?.toJson(),
   'unban': instance.unban?.toJson(),
   'unblock': instance.unblock?.toJson(),
-};
-
-const _$SubmitActionRequestActionTypeEnumMap = {
-  SubmitActionRequestActionType.ban: 'ban',
-  SubmitActionRequestActionType.block: 'block',
-  SubmitActionRequestActionType.bypass: 'bypass',
-  SubmitActionRequestActionType.custom: 'custom',
-  SubmitActionRequestActionType.deEscalate: 'de_escalate',
-  SubmitActionRequestActionType.deleteActivity: 'delete_activity',
-  SubmitActionRequestActionType.deleteComment: 'delete_comment',
-  SubmitActionRequestActionType.deleteMessage: 'delete_message',
-  SubmitActionRequestActionType.deleteReaction: 'delete_reaction',
-  SubmitActionRequestActionType.deleteUser: 'delete_user',
-  SubmitActionRequestActionType.endCall: 'end_call',
-  SubmitActionRequestActionType.escalate: 'escalate',
-  SubmitActionRequestActionType.flag: 'flag',
-  SubmitActionRequestActionType.kickUser: 'kick_user',
-  SubmitActionRequestActionType.markReviewed: 'mark_reviewed',
-  SubmitActionRequestActionType.rejectAppeal: 'reject_appeal',
-  SubmitActionRequestActionType.restore: 'restore',
-  SubmitActionRequestActionType.shadowBlock: 'shadow_block',
-  SubmitActionRequestActionType.unban: 'unban',
-  SubmitActionRequestActionType.unblock: 'unblock',
-  SubmitActionRequestActionType.unmask: 'unmask',
-  SubmitActionRequestActionType.unknown: '_unknown',
 };

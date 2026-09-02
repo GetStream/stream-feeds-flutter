@@ -11,21 +11,21 @@ SharedLocationResponse _$SharedLocationResponseFromJson(
 ) => SharedLocationResponse(
   channel: json['channel'] == null ? null : ChannelResponse.fromJson(json['channel'] as Map<String, dynamic>),
   channelCid: json['channel_cid'] as String,
-  createdAt: const EpochDateTimeConverter().fromJson(
-    (json['created_at'] as num).toInt(),
+  createdAt: const StreamDateTimeConverter().fromJson(
+    json['created_at'] as Object,
   ),
   createdByDeviceId: json['created_by_device_id'] as String,
   duration: json['duration'] as String,
-  endAt: _$JsonConverterFromJson<int, DateTime>(
+  endAt: _$JsonConverterFromJson<Object, DateTime>(
     json['end_at'],
-    const EpochDateTimeConverter().fromJson,
+    const StreamDateTimeConverter().fromJson,
   ),
   latitude: (json['latitude'] as num).toDouble(),
   longitude: (json['longitude'] as num).toDouble(),
   message: json['message'] == null ? null : MessageResponse.fromJson(json['message'] as Map<String, dynamic>),
   messageId: json['message_id'] as String,
-  updatedAt: const EpochDateTimeConverter().fromJson(
-    (json['updated_at'] as num).toInt(),
+  updatedAt: const StreamDateTimeConverter().fromJson(
+    json['updated_at'] as Object,
   ),
   userId: json['user_id'] as String,
 );
@@ -35,18 +35,18 @@ Map<String, dynamic> _$SharedLocationResponseToJson(
 ) => <String, dynamic>{
   'channel': instance.channel?.toJson(),
   'channel_cid': instance.channelCid,
-  'created_at': const EpochDateTimeConverter().toJson(instance.createdAt),
+  'created_at': const StreamDateTimeConverter().toJson(instance.createdAt),
   'created_by_device_id': instance.createdByDeviceId,
   'duration': instance.duration,
-  'end_at': _$JsonConverterToJson<int, DateTime>(
+  'end_at': _$JsonConverterToJson<Object, DateTime>(
     instance.endAt,
-    const EpochDateTimeConverter().toJson,
+    const StreamDateTimeConverter().toJson,
   ),
   'latitude': instance.latitude,
   'longitude': instance.longitude,
   'message': instance.message?.toJson(),
   'message_id': instance.messageId,
-  'updated_at': const EpochDateTimeConverter().toJson(instance.updatedAt),
+  'updated_at': const StreamDateTimeConverter().toJson(instance.updatedAt),
   'user_id': instance.userId,
 };
 

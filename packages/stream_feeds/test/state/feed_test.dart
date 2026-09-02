@@ -3367,8 +3367,8 @@ void main() {
               createdAt: initialFollow.createdAt,
               custom: const {'updated': true},
               followerRole: initialFollow.followerRole,
-              pushPreference: FollowResponsePushPreference.values.firstWhere(
-                (e) => e.name == initialFollow.pushPreference,
+              pushPreference: FollowResponsePushPreference.fromJson(
+                initialFollow.pushPreference,
               ),
               requestAcceptedAt: initialFollow.requestAcceptedAt,
               requestRejectedAt: initialFollow.requestRejectedAt,
@@ -5375,7 +5375,7 @@ void main() {
         final result = await tester.feed.addActivity(
           request: const FeedAddActivityRequest(
             type: 'post',
-            restrictReplies: AddActivityRequestRestrictReplies.peopleIFollow,
+            restrictReplies: ActivityRestrictReplies.peopleIFollow,
           ),
         );
 
@@ -5416,6 +5416,60 @@ void main() {
     );
 
     feedTest(
+      'getOrCreate() exposes i18n translations on activity state',
+      build: (client) => client.feedFromId(feedId),
+      body: (tester) async {
+        await tester.getOrCreate(
+          modifyResponse: (it) => it.copyWith(
+            activities: [
+              createDefaultActivityResponse(
+                id: 'activity-1',
+                feeds: [feedId.rawValue],
+                i18n: const {'en': 'Hello', 'nl': 'Hallo'},
+              ),
+            ],
+          ),
+        );
+
+        final activity = tester.feedState.activities.firstWhere(
+          (a) => a.id == 'activity-1',
+        );
+        expect(activity.i18n, equals({'en': 'Hello', 'nl': 'Hallo'}));
+      },
+    );
+
+    feedTest(
+      'getOrCreate() exposes latestShares on activity state',
+      build: (client) => client.feedFromId(feedId),
+      body: (tester) async {
+        await tester.getOrCreate(
+          modifyResponse: (it) => it.copyWith(
+            activities: [
+              createDefaultActivityResponse(
+                id: 'activity-1',
+                feeds: [feedId.rawValue],
+                latestShares: [
+                  createDefaultShareResponse(
+                    activityId: 'activity-1',
+                    userId: 'sharer-1',
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+
+        final activity = tester.feedState.activities.firstWhere(
+          (a) => a.id == 'activity-1',
+        );
+        expect(activity.shareCount, equals(1));
+        expect(activity.latestShares, hasLength(1));
+        expect(activity.latestShares.single.activityId, equals('activity-1'));
+        expect(activity.latestShares.single.user.id, equals('sharer-1'));
+      },
+    );
+
+    feedTest(
       'getOrCreate() exposes peopleIFollow restrictReplies on activity state',
       build: (client) => client.feedFromId(feedId),
       body: (tester) async {
@@ -5442,7 +5496,7 @@ void main() {
     );
 
     feedTest(
-      'getOrCreate() exposes unknown restrictReplies on activity state',
+      'getOrCreate() passes an unrecognized restrictReplies through to activity state',
       build: (client) => client.feedFromId(feedId),
       body: (tester) async {
         await tester.getOrCreate(
@@ -5451,7 +5505,9 @@ void main() {
               createDefaultActivityResponse(
                 id: 'activity-1',
                 feeds: [feedId.rawValue],
-                restrictReplies: ActivityResponseRestrictReplies.unknown,
+                restrictReplies: ActivityResponseRestrictReplies.fromJson(
+                  'some_future_value',
+                ),
               ),
             ],
           ),
@@ -5460,7 +5516,10 @@ void main() {
         final activity = tester.feedState.activities.firstWhere(
           (a) => a.id == 'activity-1',
         );
-        expect(activity.restrictReplies, equals(ActivityRestrictReplies.unknown));
+        expect(
+          activity.restrictReplies,
+          equals(const ActivityRestrictReplies('some_future_value')),
+        );
       },
     );
 

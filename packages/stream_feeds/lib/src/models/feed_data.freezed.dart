@@ -33,7 +33,7 @@ mixin _$FeedData {
   List<FollowData>? get ownFollows;
   int get pinCount;
   DateTime get updatedAt;
-  String? get visibility;
+  FeedVisibility? get visibility;
   Map<String, Object?>? get custom;
 
   /// Create a copy of FeedData
@@ -141,7 +141,7 @@ abstract mixin class $FeedDataCopyWith<$Res> {
     List<FollowData>? ownFollows,
     int pinCount,
     DateTime updatedAt,
-    String? visibility,
+    FeedVisibility? visibility,
     Map<String, Object?>? custom,
   });
 }
@@ -266,7 +266,7 @@ class _$FeedDataCopyWithImpl<$Res> implements $FeedDataCopyWith<$Res> {
         visibility: freezed == visibility
             ? _self.visibility
             : visibility // ignore: cast_nullable_to_non_nullable
-                  as String?,
+                  as FeedVisibility?,
         custom: freezed == custom
             ? _self.custom
             : custom // ignore: cast_nullable_to_non_nullable

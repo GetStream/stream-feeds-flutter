@@ -29,4 +29,5 @@ export 'models/reaction_group_data.dart';
 export 'models/request/activity_add_comment_request.dart' show ActivityAddCommentRequest;
 export 'models/request/activity_update_comment_request.dart' show ActivityUpdateCommentRequest;
 export 'models/request/feed_add_activity_request.dart' show FeedAddActivityRequest;
+export 'models/share_data.dart';
 export 'models/user_data.dart';

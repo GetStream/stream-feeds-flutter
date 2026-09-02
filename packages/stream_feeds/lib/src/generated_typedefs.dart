@@ -35,6 +35,18 @@ typedef PollOption = PollOptionResponseData;
 @Deprecated('Renamed to PollVoteResponseData. Migrate to PollVoteResponseData.')
 typedef PollVote = PollVoteResponseData;
 
+/// Use [ModerationBanResponse] instead.
+@Deprecated('Renamed to ModerationBanResponse. Migrate to ModerationBanResponse.')
+typedef BanResponse = ModerationBanResponse;
+
+/// Use [ModerationCallResponse] instead.
+@Deprecated('Renamed to ModerationCallResponse. Migrate to ModerationCallResponse.')
+typedef CallResponse = ModerationCallResponse;
+
+/// Use [FlagItemResponse] instead.
+@Deprecated('Renamed to FlagItemResponse. Migrate to FlagItemResponse.')
+typedef FlagResponse = FlagItemResponse;
+
 // ---------------------------------------------------------------------------
 // Moderation action request types
 // ---------------------------------------------------------------------------

@@ -4,13 +4,22 @@
 
 - Raised the minimum Dart SDK to `^3.12.0`
 - `Ban` removed, replaced by `BanInfoResponse`: `target` is now `user`, `shadow` is optional rather than required, and `channel` is gone
-- `PollResponseData.votingVisibility` is now required, so anything constructing one directly must supply it
+- `PollResponseData.votingVisibility` is now required, and typed `PollResponseDataVotingVisibility` rather than `String`, so anything constructing one directly must supply it and wrap the value
 - `ActivityCommentList.state` returns `ActivityCommentListState` rather than `StateNotifier<ActivityCommentListState>`, matching the other state classes
 - Removed the call, recording, streaming and chat types that were never part of the Feeds API
 - Every failure the SDK reports for work it attempted now arrives as a `StreamException` subclass — `StreamApiException`, `StreamNetworkException`, `StreamAuthenticationException` or `StreamClientException` — replacing `ClientException` and `HttpClientException`, which are removed. `StreamApiError` remains, as the server's error payload and the type of `ConnectionErrorEvent.error`, but is no longer what the SDK throws or returns. `StreamFeedsException` aliases the base type, so one `on` clause catches all four
 - `connect` throws a `StateError` when a connection is already established or in progress, and a `StreamFeedsException` carrying the cause when it fails
 - `StreamAttachmentUploader.upload`, reached through `StreamFeedsClient.attachmentUploader`, returns an `AttachmentUploadTask` rather than a `Future<Result<UploadedAttachment>>`, and takes no `onProgress`: progress arrives on the task's `state`. `uploadBatch` returns an `AttachmentUploadBatch` rather than a `Stream<Result<UploadedAttachment>>`
 - `Feed.addActivity`, `Feed.addComment` and `Activity.addCommentsBatch` throw an `ArgumentError` when two attachments in one request share an id, rather than reporting it through the returned `Result`
+- Generated enums are `extension type`s over `String` instead of Dart `enum`s. `.values`, `.name`, `.index`, exhaustive `switch` and the `unknown` member are gone; an unrecognized value now passes through as-is instead of collapsing to `unknown`
+- `ActivityDataVisibility`, `CollectionStatus`, `FeedVisibility`, `FeedMemberStatus` and `FollowStatus` lost their `unknown` constants. Unrecognized values arrive verbatim, so a comparison against `unknown` no longer matches anything
+- Removed the `toModel()` extensions on the generated enums: `ActivityResponseVisibilityMapper`, `EnrichedCollectionResponseStatusMapper`, `FeedInputVisibilityEnumMapper`, `FeedMemberResponseStatusMapper`, `FollowResponseStatusMapper`. Use `ActivityDataVisibility(visibility)` in place of `visibility.toModel()`
+- `FeedData.visibility`, `CommentData.status` and `FollowData.pushPreference` are now `FeedVisibility?`, `CommentStatus` and `FollowPushPreference`. All three implement `String`, so only code that constructs these models has to wrap the value
+- `FeedAddActivityRequest.visibility` is now an `ActivityDataVisibility?` and `Feed.follow`'s `pushPreference` a `FollowPushPreference?`. Swap the name at the call site — `AddActivityRequestVisibility.tag` becomes `ActivityDataVisibility.tag`; the constants are named identically, so it is a type-name change only
+- `FeedAddActivityRequest.expiresAt` takes a `DateTime?` rather than a `String?`
+- `EpochDateTimeConverter` is replaced by `stream_core`'s `StreamDateTimeConverter`. Deserialized `DateTime`s are UTC rather than local, so use `isAtSameMomentAs` to compare across zones; serialization writes RFC3339 instead of epoch nanoseconds
+- `AIVideoConfig` is split into `AIVideoConfigRequest` and `AIVideoConfigResponse`, which are not interchangeable: `enabled` and `rules` are required on the response, optional on the request
+- `BanRequest` lost `bannedBy` and `bannedById`
 
 ### ✨ Features
 
@@ -30,6 +39,8 @@
 - Added `enrichmentOptions` to `FeedQuery`. Pass `EnrichmentOptions(enrichOwnFollowings: true)` for `ownFollowings` on each activity, which is what tells you whether the current user may comment when `restrictReplies` is `people_i_follow`
 - Added a `deleteNotificationActivity` flag to the `deleteActivity`, `deleteComment`, `deleteActivityReaction` and `deleteCommentReaction` methods on `Feed` and `Activity`, which deletes the matching notification activity too
 - A restored activity or comment now reappears in feed and list state, through `ActivityRestoredEvent` and `CommentRestoredEvent`
+- Added `i18n` to `ActivityData` and `CommentData`, holding the translations of the text keyed by language code, for activities and comments that have been translated
+- Added `latestShares` to `ActivityData`, the most recent shares behind the existing `shareCount`, as a list of the new `ShareData`
 
 ### 🐛 Bug Fixes
 
@@ -71,6 +82,9 @@
 | `RestoreActionRequest` | `RestoreActionRequestPayload` |
 | `UnbanActionRequest` | `UnbanActionRequestPayload` |
 | `UnblockActionRequest` | `UnblockActionRequestPayload` |
+| `BanResponse` | `ModerationBanResponse` |
+| `CallResponse` | `ModerationCallResponse` |
+| `FlagResponse` | `FlagItemResponse` |
 
 ## 0.5.1
 - Added missing state updates for the websocket events.
