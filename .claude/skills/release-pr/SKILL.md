@@ -152,8 +152,12 @@ git checkout -b release/v<version>
   `grep -n '^\s\+stream_feeds:' melos.yaml`. This block is what `docs`, `sample_app`, and the example app
   resolve against.
 
-Do **not** touch the `version:` field in `packages/*/example/pubspec.yaml` or `sample_app/pubspec.yaml` —
-those are app versions, and their `stream_feeds` dependency is synced by bootstrap.
+Leave the `version:` field in `packages/*/example/pubspec.yaml` alone — the example carries its own app
+version and does not track the SDK.
+
+Don't hand-edit `sample_app/pubspec.yaml`'s `version:` either, but for the opposite reason: the sample app
+*does* track the SDK release, and `tools/generate_version.dart` sets it for you. Every workspace pubspec's
+`stream_feeds` dependency is synced by bootstrap regardless.
 
 **Then run:**
 
@@ -161,7 +165,9 @@ those are app versions, and their `stream_feeds` dependency is synced by bootstr
 melos bootstrap
 ```
 
-This propagates the `melos.yaml` deps block into every workspace pubspec. Do **not** run `melos version`.
+This propagates the `melos.yaml` deps block into every workspace pubspec, then runs the `version:update`
+hook, which writes the version into `packages/stream_feeds/lib/src/version.dart` and
+`sample_app/pubspec.yaml`. Do **not** run `melos version`.
 
 Verify the diff shape against the previous release PR:
 
@@ -170,6 +176,12 @@ gh pr list --search "release in:title" --state merged --limit 5 --json number,ti
 git diff --stat
 gh pr diff <prev-release-pr-number> --name-only   # for comparison
 ```
+
+Expect eight files: the two you edited, `packages/stream_feeds/CHANGELOG.md`, the bootstrapped
+`stream_feeds` constraint in `docs/`, `sample_app/`, `packages/stream_feeds_test/` and
+`packages/stream_feeds/example/`, and `packages/stream_feeds/lib/src/version.dart` from the hook
+(`sample_app/pubspec.yaml` changes twice over — constraint and app version — but is one file). Release PRs
+before v0.6.0 show only seven, since `version.dart` did not exist yet; compare against v0.6.0 or later.
 
 ### 3. Finalise the CHANGELOG
 
