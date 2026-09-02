@@ -133,6 +133,11 @@ stashing uncommitted work, no force-pulling, no killing processes).
   In particular check `stream_core`: if it is pinned to a git ref for development, it must be back on a
   published version constraint before release. Surface it and stop — don't pick the constraint yourself.
 
+  Once the user gives you the constraint, set it in **`melos.yaml` only**, as part of step 2. Bootstrap
+  rewrites `packages/stream_feeds/pubspec.yaml` from that block — replacing the whole `git:` entry and the
+  comments above it — so editing the manifest as well just does bootstrap's job by hand, and drifts from it
+  if the two disagree.
+
 ## Steps
 
 ### 1. Branch off main
@@ -147,10 +152,13 @@ git checkout -b release/v<version>
 
 **Edit two files by hand:**
 
-- `packages/stream_feeds/pubspec.yaml` — set `version: <version>`.
+- `packages/stream_feeds/pubspec.yaml` — set `version: <version>`. This field is the package's own version,
+  not a dependency, so it is the one thing in this manifest bootstrap does not manage. Change nothing else
+  here.
 - `melos.yaml` — in the `command.bootstrap.dependencies` block, set `stream_feeds: ^<version>`. Locate with
-  `grep -n '^\s\+stream_feeds:' melos.yaml`. This block is what `docs`, `sample_app`, and the example app
-  resolve against.
+  `grep -n '^\s\+stream_feeds:' melos.yaml`. This block is what every workspace pubspec resolves against,
+  `packages/stream_feeds/pubspec.yaml` included, so any dependency constraint the release needs — a
+  `stream_core` git pin going back to a published version, say — is set here and only here.
 
 Leave the `version:` field in `packages/*/example/pubspec.yaml` alone — the example carries its own app
 version and does not track the SDK.
@@ -177,11 +185,9 @@ git diff --stat
 gh pr diff <prev-release-pr-number> --name-only   # for comparison
 ```
 
-Expect eight files: the two you edited, `packages/stream_feeds/CHANGELOG.md`, the bootstrapped
-`stream_feeds` constraint in `docs/`, `sample_app/`, `packages/stream_feeds_test/` and
-`packages/stream_feeds/example/`, and `packages/stream_feeds/lib/src/version.dart` from the hook
-(`sample_app/pubspec.yaml` changes twice over — constraint and app version — but is one file). Release PRs
-before v0.6.0 show only seven, since `version.dart` did not exist yet; compare against v0.6.0 or later.
+Nothing but pubspecs, `melos.yaml`, the CHANGELOG and `version.dart` should appear. Two caveats when
+picking what to compare against: PRs before v0.6.0 have no `version.dart` and no `sample_app` version bump,
+and v0.6.0 itself also carries a fix to `tools/generate_version.dart`.
 
 ### 3. Finalise the CHANGELOG
 
