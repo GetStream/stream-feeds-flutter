@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:clock/clock.dart';
 import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:state_notifier/state_notifier.dart';
@@ -689,7 +690,7 @@ extension on FeedState {
     final updatedNotificationStatus = notificationStatus?.copyWith(
       unread: 0,
       readActivities: readActivities,
-      lastReadAt: DateTime.timestamp(),
+      lastReadAt: clock.now().toUtc(),
     );
 
     return copyWith(
@@ -710,7 +711,7 @@ extension on FeedState {
     final updatedNotificationStatus = notificationStatus?.copyWith(
       unseen: 0,
       seenActivities: seenActivities,
-      lastSeenAt: DateTime.timestamp(),
+      lastSeenAt: clock.now().toUtc(),
     );
 
     return copyWith(

@@ -90,7 +90,7 @@ final class WebSocketTester {
   /// Example:
   /// ```dart
   /// wsTester.mockFailedSend();
-  /// await expectLater(client.connect(), throwsA(isA<ClientException>()));
+  /// await expectLater(client.connect(), throwsA(isA<StreamClientException>()));
   /// ```
   void mockFailedSend({Object? error}) {
     _resetFunction?.call(); // Reset previous mocks if any
@@ -137,7 +137,7 @@ final class WebSocketTester {
   ///
   /// await expectLater(
   ///   client.connect(),
-  ///   throwsA(isA<ClientException>()),
+  ///   throwsA(isA<StreamApiException>()),
   /// );
   /// ```
   void mockFailedAuth({int errorCode = 40}) {

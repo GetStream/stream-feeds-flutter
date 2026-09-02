@@ -1,5 +1,8 @@
 // ignore_for_file: avoid_redundant_argument_values
 
+import 'dart:async';
+import 'dart:io';
+
 import 'package:stream_feeds/stream_feeds.dart';
 import 'package:stream_feeds_test/stream_feeds_test.dart';
 
@@ -1088,6 +1091,49 @@ void main() {
 
         expect(tester.feedState.activities, hasLength(1));
         expect(tester.feedState.activities.first.hidden, false);
+      },
+    );
+
+    // The activity below names a feed this client has not cached, which is what
+    // sends the handler to fetch its capabilities.
+    OwnBatchRequest capabilitiesFor(String feed) => OwnBatchRequest(feeds: [feed]);
+
+    // The wait `CapabilitiesRepository` allows itself before its one retry.
+    const retryBackoff = Duration(milliseconds: 500);
+
+    ActivityAddedEvent activityInUncachedFeed() => ActivityAddedEvent(
+      type: EventTypes.activityAdded,
+      createdAt: DateTime.timestamp(),
+      custom: const {},
+      fid: feedId.rawValue,
+      activity: createDefaultActivityResponse(
+        id: 'new-activity',
+        userId: 'user-1',
+        currentFeed: createDefaultFeedResponse(id: 'other', groupId: 'user'),
+      ),
+    );
+
+    feedTest(
+      'ActivityAddedEvent - retries a capabilities fetch that failed on the network',
+      user: const User(id: 'user-1'),
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(),
+      body: (tester) async {
+        registerFallbackValue(const OwnBatchRequest(feeds: []));
+
+        tester.mockApiFailure(
+          (api) => api.ownBatch(ownBatchRequest: capabilitiesFor('other')),
+          error: const StreamNetworkException(message: 'Connection failed'),
+        );
+
+        await tester.emitEvent(activityInUncachedFeed());
+
+        // A blip is worth asking again for; the loop allows exactly one retry.
+        await Future<void>.delayed(retryBackoff + const Duration(milliseconds: 200));
+        tester.verifyApiCalled(
+          (api) => api.ownBatch(ownBatchRequest: capabilitiesFor('other')),
+          times: 2,
+        );
       },
     );
 
@@ -5467,6 +5513,298 @@ void main() {
             restrictReplies: UpdateActivityRequestRestrictReplies.nobody,
           ),
         ),
+      ),
+    );
+  });
+
+  group('Attachment uploads', () {
+    const feedId = FeedId(group: 'user', id: 'john');
+
+    const uploadResponse = FileUploadResponse(
+      duration: '0ms',
+      file: 'https://cdn/a',
+      thumbUrl: 'https://cdn/a-thumb',
+    );
+
+    const refused = StreamApiException(
+      message: 'too large',
+      statusCode: 413,
+      code: StreamErrorCode.payloadTooBig,
+    );
+
+    // What the file upload above merges into, once posted.
+    const uploadedAttachment = Attachment(
+      custom: {},
+      type: 'file',
+      assetUrl: 'https://cdn/a',
+      imageUrl: 'https://cdn/a',
+      thumbUrl: 'https://cdn/a-thumb',
+    );
+
+    const mergedRequest = AddActivityRequest(
+      type: 'post',
+      feeds: [],
+      attachments: [uploadedAttachment],
+    );
+
+    const mergedMixedRequest = AddActivityRequest(
+      type: 'post',
+      feeds: [],
+      attachments: [
+        uploadedAttachment,
+        Attachment(
+          custom: {},
+          type: 'image',
+          assetUrl: 'https://cdn/img',
+          imageUrl: 'https://cdn/img',
+        ),
+      ],
+    );
+
+    const mergedCommentRequest = AddCommentRequest(
+      comment: 'Look at this',
+      objectId: 'activity-1',
+      objectType: 'activity',
+      attachments: [uploadedAttachment],
+    );
+
+    const mergedCommentsBatchRequest = AddCommentsBatchRequest(
+      comments: [
+        AddCommentRequest(
+          comment: 'with attachment',
+          objectId: 'activity-1',
+          objectType: 'activity',
+          attachments: [uploadedAttachment],
+        ),
+        AddCommentRequest(
+          comment: 'plain',
+          objectId: 'activity-1',
+          objectType: 'activity',
+        ),
+      ],
+    );
+
+    StreamAttachment uploadAttachment(String id, {AttachmentType type = AttachmentType.file}) {
+      // A real file: the CDN client reads the upload's bytes from its path.
+      final directory = Directory.systemTemp.createTempSync('feeds_upload_test');
+      addTearDown(() => directory.deleteSync(recursive: true));
+
+      File('${directory.path}/$id.bin').writeAsBytesSync(const [1, 2, 3]);
+
+      return StreamAttachment(id: id, type: type, file: AttachmentFile('${directory.path}/$id.bin'));
+    }
+
+    FeedAddActivityRequest requestWithUpload() {
+      return FeedAddActivityRequest(
+        type: 'post',
+        attachmentUploads: [uploadAttachment('a')],
+      );
+    }
+
+    setUpAll(() {
+      registerFallbackValue(<MultipartFile>[]);
+      registerFallbackValue(const AddActivityRequest(type: 'post', feeds: []));
+      registerFallbackValue(const AddCommentRequest(comment: 'fallback', objectId: 'x', objectType: 'activity'));
+    });
+
+    Future<Result<FileUploadResponse>> uploadCall(CdnApi cdn) => cdn.uploadFile(
+      file: any(named: 'file'),
+      onUploadProgress: any(named: 'onUploadProgress'),
+      cancelToken: any(named: 'cancelToken'),
+    );
+
+    Future<Result<ImageUploadResponse>> imageUploadCall(CdnApi cdn) => cdn.uploadImage(
+      file: any(named: 'file'),
+      onUploadProgress: any(named: 'onUploadProgress'),
+      cancelToken: any(named: 'cancelToken'),
+    );
+
+    feedTest(
+      'addActivity() - uploads the attachments and posts the merged request',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(),
+      body: (tester) async {
+        tester.mockCdn(uploadCall, result: uploadResponse);
+        tester.mockApi(
+          (api) => api.addActivity(addActivityRequest: mergedRequest),
+          result: AddActivityResponse(
+            duration: '0ms',
+            activity: createDefaultActivityResponse(
+              id: 'activity-1',
+              feeds: [feedId.rawValue],
+            ),
+          ),
+        );
+
+        final result = await tester.feed.addActivity(request: requestWithUpload());
+
+        expect(result.isSuccess, isTrue);
+      },
+      // The uploaded file arrived merged into the posted request, its upload
+      // queue spent.
+      verify: (tester) => tester.verifyApi(
+        (api) => api.addActivity(addActivityRequest: mergedRequest),
+      ),
+    );
+
+    feedTest(
+      "addActivity() - fails with the upload's own error, posting nothing",
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(),
+      body: (tester) async {
+        tester.mockCdnFailure(uploadCall, error: refused);
+
+        final result = await tester.feed.addActivity(request: requestWithUpload());
+
+        // The upload's failure surfaces classified, and nothing was posted
+        // for an activity whose attachments never made it.
+        expect(result.exceptionOrNull(), same(refused));
+        tester.verifyNeverCalled(
+          (api) => api.addActivity(addActivityRequest: any(named: 'addActivityRequest')),
+        );
+      },
+    );
+
+    feedTest(
+      'addActivity() - routes each attachment through its own endpoint and merges them all',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(),
+      body: (tester) async {
+        tester.mockCdn(uploadCall, result: uploadResponse);
+        tester.mockCdn(
+          imageUploadCall,
+          result: const ImageUploadResponse(duration: '0ms', file: 'https://cdn/img'),
+        );
+        tester.mockApi(
+          (api) => api.addActivity(addActivityRequest: mergedMixedRequest),
+          result: AddActivityResponse(
+            duration: '0ms',
+            activity: createDefaultActivityResponse(id: 'activity-1', feeds: [feedId.rawValue]),
+          ),
+        );
+
+        final result = await tester.feed.addActivity(
+          request: FeedAddActivityRequest(
+            type: 'post',
+            attachmentUploads: [
+              uploadAttachment('a'),
+              uploadAttachment('b', type: AttachmentType.image),
+            ],
+          ),
+        );
+
+        expect(result.isSuccess, isTrue);
+      },
+      // The file went through the file endpoint, the image through the image
+      // one, and both arrived merged into the posted request.
+      verify: (tester) => tester.verifyApi(
+        (api) => api.addActivity(addActivityRequest: mergedMixedRequest),
+      ),
+    );
+
+    feedTest(
+      'addComment() - uploads the attachments and posts the merged comment',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(),
+      body: (tester) async {
+        tester.mockCdn(uploadCall, result: uploadResponse);
+        tester.mockApi(
+          (api) => api.addComment(addCommentRequest: mergedCommentRequest),
+          result: createDefaultAddCommentResponse(objectId: 'activity-1', text: 'Look at this'),
+        );
+
+        final result = await tester.feed.addComment(
+          request: ActivityAddCommentRequest(
+            activityId: 'activity-1',
+            comment: 'Look at this',
+            attachmentUploads: [uploadAttachment('a')],
+          ),
+        );
+
+        expect(result.isSuccess, isTrue);
+      },
+      // The comment went out with the uploaded attachment merged in.
+      verify: (tester) => tester.verifyApi(
+        (api) => api.addComment(addCommentRequest: mergedCommentRequest),
+      ),
+    );
+
+    feedTest(
+      'addActivity() - refuses two attachments that share an id, before uploading anything',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(),
+      body: (tester) async {
+        // A misuse rather than a failure, so it escapes the `Result` the method
+        // otherwise reports through — a caller that only folds cannot see it.
+        await expectLater(
+          tester.feed.addActivity(
+            request: FeedAddActivityRequest(
+              type: 'post',
+              attachmentUploads: [uploadAttachment('same'), uploadAttachment('same')],
+            ),
+          ),
+          throwsArgumentError,
+        );
+
+        tester.verifyNeverCalled(
+          (api) => api.addActivity(addActivityRequest: any(named: 'addActivityRequest')),
+        );
+      },
+    );
+
+    feedTest(
+      "addComment() - fails with the upload's own error, posting nothing",
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(),
+      body: (tester) async {
+        tester.mockCdnFailure(uploadCall, error: refused);
+
+        final result = await tester.feed.addComment(
+          request: ActivityAddCommentRequest(
+            activityId: 'activity-1',
+            comment: 'Look at this',
+            attachmentUploads: [uploadAttachment('a')],
+          ),
+        );
+
+        expect(result.exceptionOrNull(), same(refused));
+        tester.verifyNeverCalled(
+          (api) => api.addComment(addCommentRequest: any(named: 'addCommentRequest')),
+        );
+      },
+    );
+
+    activityTest(
+      "addCommentsBatch() - uploads each request's attachments before posting the batch",
+      build: (client) => client.activity(activityId: 'activity-1', fid: feedId),
+      body: (tester) async {
+        tester.mockCdn(uploadCall, result: uploadResponse);
+        tester.mockApi(
+          (api) => api.addCommentsBatch(addCommentsBatchRequest: mergedCommentsBatchRequest),
+          result: AddCommentsBatchResponse(
+            duration: '0ms',
+            comments: [
+              createDefaultCommentResponse(id: 'comment-1', objectId: 'activity-1', text: 'with attachment'),
+              createDefaultCommentResponse(id: 'comment-2', objectId: 'activity-1', text: 'plain'),
+            ],
+          ),
+        );
+
+        final result = await tester.activity.addCommentsBatch([
+          ActivityAddCommentRequest(
+            activityId: 'activity-1',
+            comment: 'with attachment',
+            attachmentUploads: [uploadAttachment('a')],
+          ),
+          const ActivityAddCommentRequest(activityId: 'activity-1', comment: 'plain'),
+        ]);
+
+        expect(result.isSuccess, isTrue);
+      },
+      // Each comment keeps its own attachments: the upload landed on the
+      // request that carried it, and only on that one.
+      verify: (tester) => tester.verifyApi(
+        (api) => api.addCommentsBatch(addCommentsBatchRequest: mergedCommentsBatchRequest),
       ),
     );
   });

@@ -107,7 +107,7 @@ abstract base class BaseTester<S> with ApiMockerMixin, CdnMockerMixin {
   /// // Custom error code (triggers reconnection)
   /// tester.mockFailedAuth(errorCode: 5);
   ///
-  /// await expectLater(client.connect(), throwsA(isA<ClientException>()));
+  /// await expectLater(client.connect(), throwsA(isA<StreamApiException>()));
   /// ```
   void mockFailedAuth({int errorCode = 40}) {
     return _wsTester.mockFailedAuth(errorCode: errorCode);
@@ -122,7 +122,7 @@ abstract base class BaseTester<S> with ApiMockerMixin, CdnMockerMixin {
   /// ```dart
   /// tester.mockFailedSend();
   ///
-  /// await expectLater(client.connect(), throwsA(isA<ClientException>()));
+  /// await expectLater(client.connect(), throwsA(isA<StreamClientException>()));
   /// ```
   void mockFailedSend({Object? error}) {
     return _wsTester.mockFailedSend(error: error);
