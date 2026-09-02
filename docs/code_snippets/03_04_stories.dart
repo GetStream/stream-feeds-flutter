@@ -19,7 +19,9 @@ Future<void> postStory() async {
   final storyFeed = client.feedFromId(FeedId.story(userId));
   await storyFeed.getOrCreate();
 
-  final expiresAt = DateTime.now().add(const Duration(hours: 24));
+  // DateTime.timestamp() is UTC, so toIso8601String() carries a timezone.
+  // A local DateTime would serialize without one and be read as UTC.
+  final expiresAt = DateTime.timestamp().add(const Duration(hours: 24));
 
   await storyFeed.addActivity(
     request: FeedAddActivityRequest(
@@ -119,7 +121,7 @@ Future<void> followStoryFeed(String otherUserId) async {
 /// Useful for showing an archive of past stories.
 Future<void> readExpiredStories() async {
   final userId = client.user.id;
-  final now = DateTime.now();
+  final now = DateTime.timestamp();
 
   final expiredFeed = client.feedFromQuery(
     FeedQuery(

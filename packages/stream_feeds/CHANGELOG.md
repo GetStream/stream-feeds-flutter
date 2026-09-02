@@ -19,7 +19,6 @@
 - `EpochDateTimeConverter` is replaced by `stream_core`'s `StreamDateTimeConverter`. Deserialized `DateTime`s are UTC rather than local, so use `isAtSameMomentAs` to compare across zones; serialization writes RFC3339 instead of epoch nanoseconds
 - `AIVideoConfig` is split into `AIVideoConfigRequest` and `AIVideoConfigResponse`, which are not interchangeable: `enabled` and `rules` are required on the response, optional on the request
 - `BanRequest` lost `bannedBy` and `bannedById`
-- `FeedGroup.defaultFollowerRole` is a new required field
 
 ### ✨ Features
 
@@ -41,7 +40,6 @@
 - A restored activity or comment now reappears in feed and list state, through `ActivityRestoredEvent` and `CommentRestoredEvent`
 - Added `i18n` to `ActivityData` and `CommentData`, holding the translations of the text keyed by language code, for activities and comments that have been translated
 - Added `latestShares` to `ActivityData`, the most recent shares behind the existing `shareCount`, as a list of the new `ShareData`
-- `DefaultApi` goes from 107 endpoints to 150, none removed, covering user groups, moderation queues, bulk appeals and action configs, comment bookmarks, activity and comment translation, activity metrics, pinned activity and collection queries, batched reaction queries, feed visibility changes, block list import, roles search, user interests, feed counts, partial comment updates, push preferences, `unban` and `unmute`. These are available on `DefaultApi` only — `Feed`, `Activity` and `StreamFeedsClient` do not wrap them yet, so reach for them through the generated client until they do
 
 ### 🐛 Bug Fixes
 

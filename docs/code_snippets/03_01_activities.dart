@@ -36,7 +36,9 @@ Future<void> imageAndVideo() async {
 }
 
 Future<void> stories() async {
-  final tomorrow = DateTime.now().add(const Duration(days: 1));
+  // DateTime.timestamp() is UTC, so toIso8601String() carries a timezone.
+  // A local DateTime would serialize without one and be read as UTC.
+  final tomorrow = DateTime.timestamp().add(const Duration(days: 1));
   final storyActivity = await feed.addActivity(
     request: FeedAddActivityRequest(
       attachments: [
