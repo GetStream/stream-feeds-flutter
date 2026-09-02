@@ -19,7 +19,7 @@ Future<void> postStory() async {
   final storyFeed = client.feedFromId(FeedId.story(userId));
   await storyFeed.getOrCreate();
 
-  final expiresAt = DateTime.timestamp().add(const Duration(hours: 24));
+  final expiresAt = DateTime.now().add(const Duration(hours: 24));
 
   await storyFeed.addActivity(
     request: FeedAddActivityRequest(

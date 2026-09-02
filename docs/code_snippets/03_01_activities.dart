@@ -36,7 +36,7 @@ Future<void> imageAndVideo() async {
 }
 
 Future<void> stories() async {
-  final tomorrow = DateTime.timestamp().add(const Duration(days: 1));
+  final tomorrow = DateTime.now().add(const Duration(days: 1));
   final storyActivity = await feed.addActivity(
     request: FeedAddActivityRequest(
       attachments: [
