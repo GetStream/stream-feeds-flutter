@@ -35,7 +35,7 @@ mixin _$CommentData {
   List<CommentData>? get replies;
   int get replyCount;
   int get score;
-  String get status;
+  CommentStatus get status;
   String? get text;
   DateTime get updatedAt;
   int get upvoteCount;
@@ -159,7 +159,7 @@ abstract mixin class $CommentDataCopyWith<$Res> {
     Map<String, ReactionGroupData> reactionGroups,
     int replyCount,
     int score,
-    String status,
+    CommentStatus status,
     DateTime updatedAt,
     int upvoteCount,
     UserData user,
@@ -275,7 +275,7 @@ class _$CommentDataCopyWithImpl<$Res> implements $CommentDataCopyWith<$Res> {
         status: null == status
             ? _self.status
             : status // ignore: cast_nullable_to_non_nullable
-                  as String,
+                  as CommentStatus,
         updatedAt: null == updatedAt
             ? _self.updatedAt
             : updatedAt // ignore: cast_nullable_to_non_nullable

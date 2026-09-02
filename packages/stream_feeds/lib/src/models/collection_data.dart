@@ -64,9 +64,6 @@ extension type const CollectionStatus(String value) implements String {
 
   /// The collection was not found during enrichment.
   static const notfound = CollectionStatus('notfound');
-
-  /// Unknown status.
-  static const unknown = CollectionStatus('unknown');
 }
 
 /// Extension function to convert an [EnrichedCollectionResponse] to a [CollectionData] model.
@@ -76,20 +73,11 @@ extension EnrichedCollectionResponseMapper on EnrichedCollectionResponse {
     return CollectionData(
       id: id,
       name: name,
-      status: status.toModel(),
+      status: CollectionStatus(status),
       createdAt: createdAt,
       updatedAt: updatedAt,
       userId: userId,
       custom: custom,
     );
   }
-}
-
-/// Extension function to convert an [EnrichedCollectionResponseStatus] to a [CollectionStatus].
-extension EnrichedCollectionResponseStatusMapper on EnrichedCollectionResponseStatus {
-  /// Converts this API status value to a domain [CollectionStatus] extension type.
-  ///
-  /// Both sides are `String`-backed, so any value the API sends is carried over
-  /// verbatim — including ones this client version doesn't know about yet.
-  CollectionStatus toModel() => CollectionStatus(this);
 }

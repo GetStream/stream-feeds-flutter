@@ -29,6 +29,7 @@ mixin _$MessageResponse {
   List<ReactionResponse> get latestReactions;
   ChannelMemberPartialResponse? get member;
   bool get mentionedChannel;
+  Map<String, ChannelMemberPartialResponse>? get mentionedChannelMembers;
   List<String>? get mentionedGroupIds;
   List<UserGroupResponse>? get mentionedGroups;
   bool get mentionedHere;
@@ -102,6 +103,10 @@ mixin _$MessageResponse {
             ) &&
             (identical(other.member, member) || other.member == member) &&
             (identical(other.mentionedChannel, mentionedChannel) || other.mentionedChannel == mentionedChannel) &&
+            const DeepCollectionEquality().equals(
+              other.mentionedChannelMembers,
+              mentionedChannelMembers,
+            ) &&
             const DeepCollectionEquality().equals(
               other.mentionedGroupIds,
               mentionedGroupIds,
@@ -187,6 +192,7 @@ mixin _$MessageResponse {
     const DeepCollectionEquality().hash(latestReactions),
     member,
     mentionedChannel,
+    const DeepCollectionEquality().hash(mentionedChannelMembers),
     const DeepCollectionEquality().hash(mentionedGroupIds),
     const DeepCollectionEquality().hash(mentionedGroups),
     mentionedHere,
@@ -224,7 +230,7 @@ mixin _$MessageResponse {
 
   @override
   String toString() {
-    return 'MessageResponse(attachments: $attachments, cid: $cid, command: $command, createdAt: $createdAt, custom: $custom, deletedAt: $deletedAt, deletedForMe: $deletedForMe, deletedReplyCount: $deletedReplyCount, draft: $draft, html: $html, i18n: $i18n, id: $id, imageLabels: $imageLabels, latestReactions: $latestReactions, member: $member, mentionedChannel: $mentionedChannel, mentionedGroupIds: $mentionedGroupIds, mentionedGroups: $mentionedGroups, mentionedHere: $mentionedHere, mentionedRoles: $mentionedRoles, mentionedUsers: $mentionedUsers, messageTextUpdatedAt: $messageTextUpdatedAt, mml: $mml, moderation: $moderation, ownReactions: $ownReactions, parentId: $parentId, pinExpires: $pinExpires, pinned: $pinned, pinnedAt: $pinnedAt, pinnedBy: $pinnedBy, poll: $poll, pollId: $pollId, quotedMessage: $quotedMessage, quotedMessageId: $quotedMessageId, reactionCounts: $reactionCounts, reactionGroups: $reactionGroups, reactionScores: $reactionScores, reminder: $reminder, replyCount: $replyCount, restrictedVisibility: $restrictedVisibility, shadowed: $shadowed, sharedLocation: $sharedLocation, showInChannel: $showInChannel, silent: $silent, text: $text, threadParticipants: $threadParticipants, type: $type, updatedAt: $updatedAt, user: $user)';
+    return 'MessageResponse(attachments: $attachments, cid: $cid, command: $command, createdAt: $createdAt, custom: $custom, deletedAt: $deletedAt, deletedForMe: $deletedForMe, deletedReplyCount: $deletedReplyCount, draft: $draft, html: $html, i18n: $i18n, id: $id, imageLabels: $imageLabels, latestReactions: $latestReactions, member: $member, mentionedChannel: $mentionedChannel, mentionedChannelMembers: $mentionedChannelMembers, mentionedGroupIds: $mentionedGroupIds, mentionedGroups: $mentionedGroups, mentionedHere: $mentionedHere, mentionedRoles: $mentionedRoles, mentionedUsers: $mentionedUsers, messageTextUpdatedAt: $messageTextUpdatedAt, mml: $mml, moderation: $moderation, ownReactions: $ownReactions, parentId: $parentId, pinExpires: $pinExpires, pinned: $pinned, pinnedAt: $pinnedAt, pinnedBy: $pinnedBy, poll: $poll, pollId: $pollId, quotedMessage: $quotedMessage, quotedMessageId: $quotedMessageId, reactionCounts: $reactionCounts, reactionGroups: $reactionGroups, reactionScores: $reactionScores, reminder: $reminder, replyCount: $replyCount, restrictedVisibility: $restrictedVisibility, shadowed: $shadowed, sharedLocation: $sharedLocation, showInChannel: $showInChannel, silent: $silent, text: $text, threadParticipants: $threadParticipants, type: $type, updatedAt: $updatedAt, user: $user)';
   }
 }
 
@@ -252,6 +258,7 @@ abstract mixin class $MessageResponseCopyWith<$Res> {
     List<ReactionResponse> latestReactions,
     ChannelMemberPartialResponse? member,
     bool mentionedChannel,
+    Map<String, ChannelMemberPartialResponse>? mentionedChannelMembers,
     List<String>? mentionedGroupIds,
     List<UserGroupResponse>? mentionedGroups,
     bool mentionedHere,
@@ -316,6 +323,7 @@ class _$MessageResponseCopyWithImpl<$Res> implements $MessageResponseCopyWith<$R
     Object? latestReactions = null,
     Object? member = freezed,
     Object? mentionedChannel = null,
+    Object? mentionedChannelMembers = freezed,
     Object? mentionedGroupIds = freezed,
     Object? mentionedGroups = freezed,
     Object? mentionedHere = null,
@@ -416,6 +424,10 @@ class _$MessageResponseCopyWithImpl<$Res> implements $MessageResponseCopyWith<$R
             ? _self.mentionedChannel
             : mentionedChannel // ignore: cast_nullable_to_non_nullable
                   as bool,
+        mentionedChannelMembers: freezed == mentionedChannelMembers
+            ? _self.mentionedChannelMembers
+            : mentionedChannelMembers // ignore: cast_nullable_to_non_nullable
+                  as Map<String, ChannelMemberPartialResponse>?,
         mentionedGroupIds: freezed == mentionedGroupIds
             ? _self.mentionedGroupIds
             : mentionedGroupIds // ignore: cast_nullable_to_non_nullable

@@ -80,9 +80,6 @@ extension type const FeedVisibility(String value) implements String {
 
   /// Feed is visible (general visibility setting).
   static const visible = FeedVisibility('visible');
-
-  /// Represents an unknown visibility setting.
-  static const unknown = FeedVisibility('unknown');
 }
 
 /// Converts a [FeedInput] to a [FeedInputData] model.
@@ -91,21 +88,12 @@ extension FeedInputMapper on FeedInput {
     return FeedInputData(
       description: description,
       name: name,
-      visibility: visibility?.toModel(),
+      visibility: visibility?.let(FeedVisibility.new),
       filterTags: [...?filterTags],
       members: [...?members?.map((e) => e.toModel())],
       custom: custom,
     );
   }
-}
-
-/// Converts a [FeedInputVisibility] to a [FeedVisibility] model.
-extension FeedInputVisibilityEnumMapper on FeedInputVisibility {
-  /// Converts this API visibility value to a domain [FeedVisibility] extension type.
-  ///
-  /// Both sides are `String`-backed, so any value the API sends is carried over
-  /// verbatim — including ones this client version doesn't know about yet.
-  FeedVisibility toModel() => FeedVisibility(this);
 }
 
 /// Converts a [FeedInputData] to a [FeedInput] request model.

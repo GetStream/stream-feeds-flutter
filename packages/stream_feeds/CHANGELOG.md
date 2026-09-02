@@ -4,16 +4,23 @@
 
 - Raised the minimum Dart SDK to `^3.12.0`
 - `Ban` removed, replaced by `BanInfoResponse`: `target` is now `user`, `shadow` is optional rather than required, and `channel` is gone
-- `PollResponseData.votingVisibility` is now required, so anything constructing one directly must supply it
+- `PollResponseData.votingVisibility` is now required, and typed `PollResponseDataVotingVisibility` rather than `String`, so anything constructing one directly must supply it and wrap the value
 - `ActivityCommentList.state` returns `ActivityCommentListState` rather than `StateNotifier<ActivityCommentListState>`, matching the other state classes
 - Removed the call, recording, streaming and chat types that were never part of the Feeds API
 - Every failure the SDK reports for work it attempted now arrives as a `StreamException` subclass — `StreamApiException`, `StreamNetworkException`, `StreamAuthenticationException` or `StreamClientException` — replacing `ClientException` and `HttpClientException`, which are removed. `StreamApiError` remains, as the server's error payload and the type of `ConnectionErrorEvent.error`, but is no longer what the SDK throws or returns. `StreamFeedsException` aliases the base type, so one `on` clause catches all four
 - `connect` throws a `StateError` when a connection is already established or in progress, and a `StreamFeedsException` carrying the cause when it fails
 - `StreamAttachmentUploader.upload`, reached through `StreamFeedsClient.attachmentUploader`, returns an `AttachmentUploadTask` rather than a `Future<Result<UploadedAttachment>>`, and takes no `onProgress`: progress arrives on the task's `state`. `uploadBatch` returns an `AttachmentUploadBatch` rather than a `Stream<Result<UploadedAttachment>>`
 - `Feed.addActivity`, `Feed.addComment` and `Activity.addCommentsBatch` throw an `ArgumentError` when two attachments in one request share an id, rather than reporting it through the returned `Result`
-- Every generated enum is now an `extension type` over `String` rather than a Dart `enum`. A value such as `ActivityResponseVisibility.public` still compiles, but `.values`, `.name`, `.index` and exhaustive `switch` are gone, as is the `unknown` member. What you get back is forward compatibility: a value this SDK version has never heard of arrives as-is instead of collapsing to `unknown`, and these types compare to and pass as plain `String`s
-- `EpochDateTimeConverter` is gone, replaced by `stream_core`'s `StreamDateTimeConverter`. It reads both RFC3339 strings and epoch nanoseconds, and differs in two ways you can observe: a deserialized `DateTime` is UTC rather than local — `isUtc` is `true`, `hour` and the other calendar getters report UTC, and `==` against a local `DateTime` for the same instant is now `false`, so reach for `isAtSameMomentAs` — and serialization writes an RFC3339 string instead of an epoch-nanosecond integer
-- `BanResponse` is now `ModerationBanResponse`, following the spec
+- Generated enums are `extension type`s over `String` instead of Dart `enum`s. `.values`, `.name`, `.index`, exhaustive `switch` and the `unknown` member are gone; an unrecognized value now passes through as-is instead of collapsing to `unknown`
+- The domain types lost their `unknown` constants: `ActivityDataVisibility`, `CollectionStatus`, `FeedVisibility`, `FeedMemberStatus`, `FollowStatus`. Unrecognized values arrive verbatim, so a comparison against `unknown` no longer matches anything
+- Removed the `toModel()` extensions on the generated enums: `ActivityResponseVisibilityMapper`, `EnrichedCollectionResponseStatusMapper`, `FeedInputVisibilityEnumMapper`, `FeedMemberResponseStatusMapper`, `FollowResponseStatusMapper`. Use `ActivityDataVisibility(visibility)` in place of `visibility.toModel()`
+- `FeedData.visibility`, `CommentData.status` and `FollowData.pushPreference` are now `FeedVisibility?`, `CommentStatus` and `FollowPushPreference`. All three implement `String`, so only code that constructs these models has to wrap the value
+- `EpochDateTimeConverter` is replaced by `stream_core`'s `StreamDateTimeConverter`. Deserialized `DateTime`s are UTC rather than local, so use `isAtSameMomentAs` to compare across zones; serialization writes RFC3339 instead of epoch nanoseconds
+- `BanResponse` is renamed to `ModerationBanResponse`
+- `AIVideoConfig` is split into `AIVideoConfigRequest` and `AIVideoConfigResponse`, which are not interchangeable: `enabled` and `rules` are required on the response, optional on the request
+- `ModerationClient.flag` returns a `Result<FlagItemResponse>` instead of a `Result<FlagResponse>`
+- `BanRequest` lost `bannedBy` and `bannedById`
+- `FeedGroup.defaultFollowerRole` is a new required field
 
 ### ✨ Features
 
@@ -33,6 +40,7 @@
 - Added `enrichmentOptions` to `FeedQuery`. Pass `EnrichmentOptions(enrichOwnFollowings: true)` for `ownFollowings` on each activity, which is what tells you whether the current user may comment when `restrictReplies` is `people_i_follow`
 - Added a `deleteNotificationActivity` flag to the `deleteActivity`, `deleteComment`, `deleteActivityReaction` and `deleteCommentReaction` methods on `Feed` and `Activity`, which deletes the matching notification activity too
 - A restored activity or comment now reappears in feed and list state, through `ActivityRestoredEvent` and `CommentRestoredEvent`
+- `DefaultApi` goes from 107 endpoints to 150, none removed. The new ones cover user groups, moderation queues, bulk appeals and action configs, comment bookmarks, activity and comment translation, activity metrics, pinned activities, collection queries, batched reaction queries, feed visibility changes, block list import, roles search, user interests, feed counts, partial comment updates, push preferences, `unban` and `unmute`
 
 ### 🐛 Bug Fixes
 

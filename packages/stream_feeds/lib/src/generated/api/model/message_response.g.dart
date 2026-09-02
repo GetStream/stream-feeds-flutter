@@ -42,6 +42,12 @@ MessageResponse _$MessageResponseFromJson(
           json['member'] as Map<String, dynamic>,
         ),
   mentionedChannel: json['mentioned_channel'] as bool,
+  mentionedChannelMembers: (json['mentioned_channel_members'] as Map<String, dynamic>?)?.map(
+    (k, e) => MapEntry(
+      k,
+      ChannelMemberPartialResponse.fromJson(e as Map<String, dynamic>),
+    ),
+  ),
   mentionedGroupIds: (json['mentioned_group_ids'] as List<dynamic>?)?.map((e) => e as String).toList(),
   mentionedGroups: (json['mentioned_groups'] as List<dynamic>?)
       ?.map((e) => UserGroupResponse.fromJson(e as Map<String, dynamic>))
@@ -132,6 +138,9 @@ Map<String, dynamic> _$MessageResponseToJson(
   'latest_reactions': instance.latestReactions.map((e) => e.toJson()).toList(),
   'member': instance.member?.toJson(),
   'mentioned_channel': instance.mentionedChannel,
+  'mentioned_channel_members': instance.mentionedChannelMembers?.map(
+    (k, e) => MapEntry(k, e.toJson()),
+  ),
   'mentioned_group_ids': instance.mentionedGroupIds,
   'mentioned_groups': instance.mentionedGroups?.map((e) => e.toJson()).toList(),
   'mentioned_here': instance.mentionedHere,

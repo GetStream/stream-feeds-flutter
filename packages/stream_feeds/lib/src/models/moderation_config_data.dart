@@ -38,7 +38,7 @@ class ModerationConfigData with _$ModerationConfigData {
 
   /// Configuration for AI-based video moderation analysis.
   @override
-  final AIVideoConfig? aiVideoConfig;
+  final AIVideoConfigResponse? aiVideoConfig;
 
   /// Whether moderation operations are performed asynchronously.
   @override

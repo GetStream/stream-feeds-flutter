@@ -27,6 +27,7 @@ FeedGroup _$FeedGroupFromJson(Map<String, dynamic> json) => FeedGroup(
     json['created_at'] as Object,
   ),
   custom: json['custom'] as Map<String, dynamic>,
+  defaultFollowerRole: json['default_follower_role'] as String,
   defaultVisibility: json['default_visibility'] as String,
   deletedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['deleted_at'],
@@ -63,6 +64,7 @@ Map<String, dynamic> _$FeedGroupToJson(FeedGroup instance) => <String, dynamic>{
   'app_pk': instance.appPk,
   'created_at': const StreamDateTimeConverter().toJson(instance.createdAt),
   'custom': instance.custom,
+  'default_follower_role': instance.defaultFollowerRole,
   'default_visibility': instance.defaultVisibility,
   'deleted_at': _$JsonConverterToJson<Object, DateTime>(
     instance.deletedAt,

@@ -709,6 +709,12 @@ abstract interface class DefaultApi {
     @Body() required TranslateCommentRequest translateCommentRequest,
   });
 
+  @POST('/api/v2/moderation/unban')
+  Future<Result<UnbanResponse>> unban({
+    @Query('target_user_id') required String targetUserId,
+    @Query('channel_cid') String? channelCid,
+  });
+
   @POST('/api/v2/users/unblock')
   Future<Result<UnblockUsersResponse>> unblockUsers({
     @Body() required UnblockUsersRequest unblockUsersRequest,

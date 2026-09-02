@@ -38,7 +38,7 @@ class FollowData with _$FollowData {
 
   /// The push notification preference for the follow.
   @override
-  final String pushPreference;
+  final FollowPushPreference pushPreference;
 
   /// The date and time when the follow request was accepted, if applicable.
   @override
@@ -125,9 +125,24 @@ extension type const FollowStatus(String value) implements String {
 
   /// Represents a follow relationship that has been rejected.
   static const rejected = FollowStatus('rejected');
+}
 
-  /// Represents an unknown follow status.
-  static const unknown = FollowStatus('unknown');
+/// Extension type representing the push notification preference for a follow.
+///
+/// This collapses the three per-message-shape preference types the API
+/// generator emits — [FollowRequestPushPreference],
+/// [FollowResponsePushPreference] and [UpdateFollowRequestPushPreference] —
+/// into one domain name, so the public API doesn't move when the generator
+/// reshapes them.
+///
+/// By implementing String, it seamlessly supports both known and unknown
+/// preference values.
+extension type const FollowPushPreference(String value) implements String {
+  /// Every activity on the followed feed sends a push notification.
+  static const all = FollowPushPreference('all');
+
+  /// The followed feed sends no push notifications.
+  static const none = FollowPushPreference('none');
 }
 
 /// Extension function to convert a [FollowResponse] to a [FollowData] model.
@@ -141,23 +156,14 @@ extension FollowResponseMapper on FollowResponse {
     return FollowData(
       createdAt: createdAt,
       followerRole: followerRole,
-      pushPreference: pushPreference,
+      pushPreference: FollowPushPreference(pushPreference),
       requestAcceptedAt: requestAcceptedAt,
       requestRejectedAt: requestRejectedAt,
       sourceFeed: sourceFeed.toModel(),
-      status: status.toModel(),
+      status: FollowStatus(status),
       targetFeed: targetFeed.toModel(),
       updatedAt: updatedAt,
       custom: custom,
     );
   }
-}
-
-/// Extension function to convert a [FollowResponseStatus] to a [FollowStatus] model.
-extension FollowResponseStatusMapper on FollowResponseStatus {
-  /// Converts this API follow status to a domain [FollowStatus] extension type.
-  ///
-  /// Both sides are `String`-backed, so any value the API sends is carried over
-  /// verbatim — including ones this client version doesn't know about yet.
-  FollowStatus toModel() => FollowStatus(this);
 }

@@ -34,6 +34,7 @@ class MessageResponse with _$MessageResponse {
     required this.latestReactions,
     this.member,
     required this.mentionedChannel,
+    this.mentionedChannelMembers,
     this.mentionedGroupIds,
     this.mentionedGroups,
     required this.mentionedHere,
@@ -134,6 +135,10 @@ class MessageResponse with _$MessageResponse {
   @override
   @JsonKey(name: 'mentioned_channel')
   final bool mentionedChannel;
+
+  @override
+  @JsonKey(name: 'mentioned_channel_members')
+  final Map<String, ChannelMemberPartialResponse>? mentionedChannelMembers;
 
   @override
   @JsonKey(name: 'mentioned_group_ids')

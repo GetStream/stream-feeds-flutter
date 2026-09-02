@@ -26,6 +26,7 @@ class FeedGroup with _$FeedGroup {
     required this.appPk,
     required this.createdAt,
     required this.custom,
+    required this.defaultFollowerRole,
     required this.defaultVisibility,
     this.deletedAt,
     required this.groupId,
@@ -69,6 +70,10 @@ class FeedGroup with _$FeedGroup {
   @override
   @JsonKey(name: 'custom')
   final Map<String, Object?> custom;
+
+  @override
+  @JsonKey(name: 'default_follower_role')
+  final String defaultFollowerRole;
 
   @override
   @JsonKey(name: 'default_visibility')

@@ -10,22 +10,22 @@ import 'package:stream_core/stream_core.dart' as core;
 
 import '../models.dart';
 
-part 'read_receipts_response.g.dart';
-part 'read_receipts_response.freezed.dart';
+part 'unban_response.g.dart';
+part 'unban_response.freezed.dart';
 
 @freezed
 @immutable
 @JsonSerializable()
-class ReadReceiptsResponse with _$ReadReceiptsResponse {
-  const ReadReceiptsResponse({
-    required this.enabled,
+class UnbanResponse with _$UnbanResponse {
+  const UnbanResponse({
+    required this.duration,
   });
 
   @override
-  @JsonKey(name: 'enabled')
-  final bool enabled;
+  @JsonKey(name: 'duration')
+  final String duration;
 
-  Map<String, dynamic> toJson() => _$ReadReceiptsResponseToJson(this);
+  Map<String, dynamic> toJson() => _$UnbanResponseToJson(this);
 
-  static ReadReceiptsResponse fromJson(Map<String, dynamic> json) => _$ReadReceiptsResponseFromJson(json);
+  static UnbanResponse fromJson(Map<String, dynamic> json) => _$UnbanResponseFromJson(json);
 }

@@ -18,12 +18,12 @@ part 'typing_indicators_response.freezed.dart';
 @JsonSerializable()
 class TypingIndicatorsResponse with _$TypingIndicatorsResponse {
   const TypingIndicatorsResponse({
-    this.enabled,
+    required this.enabled,
   });
 
   @override
   @JsonKey(name: 'enabled')
-  final bool? enabled;
+  final bool enabled;
 
   Map<String, dynamic> toJson() => _$TypingIndicatorsResponseToJson(this);
 

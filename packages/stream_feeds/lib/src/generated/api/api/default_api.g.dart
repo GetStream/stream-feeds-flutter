@@ -4924,6 +4924,49 @@ class _DefaultApi implements DefaultApi {
     );
   }
 
+  Future<UnbanResponse> _unban({
+    required String targetUserId,
+    String? channelCid,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'target_user_id': targetUserId,
+      r'channel_cid': channelCid,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<Result<UnbanResponse>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/moderation/unban',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late UnbanResponse _value;
+    try {
+      _value = UnbanResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<UnbanResponse>> unban({
+    required String targetUserId,
+    String? channelCid,
+  }) {
+    return _ResultCallAdapter<UnbanResponse>().adapt(
+      () => _unban(targetUserId: targetUserId, channelCid: channelCid),
+    );
+  }
+
   Future<UnblockUsersResponse> _unblockUsers({
     required UnblockUsersRequest unblockUsersRequest,
   }) async {

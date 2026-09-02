@@ -10,22 +10,32 @@ import 'package:stream_core/stream_core.dart' as core;
 
 import '../models.dart';
 
-part 'read_receipts_response.g.dart';
-part 'read_receipts_response.freezed.dart';
+part 'ai_video_config_response.g.dart';
+part 'ai_video_config_response.freezed.dart';
 
 @freezed
 @immutable
 @JsonSerializable()
-class ReadReceiptsResponse with _$ReadReceiptsResponse {
-  const ReadReceiptsResponse({
+class AIVideoConfigResponse with _$AIVideoConfigResponse {
+  const AIVideoConfigResponse({
+    this.async,
     required this.enabled,
+    required this.rules,
   });
+
+  @override
+  @JsonKey(name: 'async')
+  final bool? async;
 
   @override
   @JsonKey(name: 'enabled')
   final bool enabled;
 
-  Map<String, dynamic> toJson() => _$ReadReceiptsResponseToJson(this);
+  @override
+  @JsonKey(name: 'rules')
+  final List<AWSRekognitionRule> rules;
 
-  static ReadReceiptsResponse fromJson(Map<String, dynamic> json) => _$ReadReceiptsResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$AIVideoConfigResponseToJson(this);
+
+  static AIVideoConfigResponse fromJson(Map<String, dynamic> json) => _$AIVideoConfigResponseFromJson(json);
 }

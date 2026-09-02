@@ -21,6 +21,7 @@ mixin _$FeedGroup {
   int get appPk;
   DateTime get createdAt;
   Map<String, Object?> get custom;
+  String get defaultFollowerRole;
   String get defaultVisibility;
   DateTime? get deletedAt;
   String get groupId;
@@ -57,6 +58,8 @@ mixin _$FeedGroup {
             (identical(other.appPk, appPk) || other.appPk == appPk) &&
             (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
             const DeepCollectionEquality().equals(other.custom, custom) &&
+            (identical(other.defaultFollowerRole, defaultFollowerRole) ||
+                other.defaultFollowerRole == defaultFollowerRole) &&
             (identical(other.defaultVisibility, defaultVisibility) || other.defaultVisibility == defaultVisibility) &&
             (identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt) &&
             (identical(other.groupId, groupId) || other.groupId == groupId) &&
@@ -79,6 +82,7 @@ mixin _$FeedGroup {
     appPk,
     createdAt,
     const DeepCollectionEquality().hash(custom),
+    defaultFollowerRole,
     defaultVisibility,
     deletedAt,
     groupId,
@@ -92,7 +96,7 @@ mixin _$FeedGroup {
 
   @override
   String toString() {
-    return 'FeedGroup(activityFilter: $activityFilter, activityProcessors: $activityProcessors, activitySelectors: $activitySelectors, aggregation: $aggregation, aggregationVersion: $aggregationVersion, appPk: $appPk, createdAt: $createdAt, custom: $custom, defaultVisibility: $defaultVisibility, deletedAt: $deletedAt, groupId: $groupId, lastFeedGetAt: $lastFeedGetAt, notification: $notification, pushNotification: $pushNotification, ranking: $ranking, stories: $stories, updatedAt: $updatedAt)';
+    return 'FeedGroup(activityFilter: $activityFilter, activityProcessors: $activityProcessors, activitySelectors: $activitySelectors, aggregation: $aggregation, aggregationVersion: $aggregationVersion, appPk: $appPk, createdAt: $createdAt, custom: $custom, defaultFollowerRole: $defaultFollowerRole, defaultVisibility: $defaultVisibility, deletedAt: $deletedAt, groupId: $groupId, lastFeedGetAt: $lastFeedGetAt, notification: $notification, pushNotification: $pushNotification, ranking: $ranking, stories: $stories, updatedAt: $updatedAt)';
   }
 }
 
@@ -109,6 +113,7 @@ abstract mixin class $FeedGroupCopyWith<$Res> {
     int appPk,
     DateTime createdAt,
     Map<String, Object?> custom,
+    String defaultFollowerRole,
     String defaultVisibility,
     DateTime? deletedAt,
     String groupId,
@@ -141,6 +146,7 @@ class _$FeedGroupCopyWithImpl<$Res> implements $FeedGroupCopyWith<$Res> {
     Object? appPk = null,
     Object? createdAt = null,
     Object? custom = null,
+    Object? defaultFollowerRole = null,
     Object? defaultVisibility = null,
     Object? deletedAt = freezed,
     Object? groupId = null,
@@ -185,6 +191,10 @@ class _$FeedGroupCopyWithImpl<$Res> implements $FeedGroupCopyWith<$Res> {
             ? _self.custom
             : custom // ignore: cast_nullable_to_non_nullable
                   as Map<String, Object?>,
+        defaultFollowerRole: null == defaultFollowerRole
+            ? _self.defaultFollowerRole
+            : defaultFollowerRole // ignore: cast_nullable_to_non_nullable
+                  as String,
         defaultVisibility: null == defaultVisibility
             ? _self.defaultVisibility
             : defaultVisibility // ignore: cast_nullable_to_non_nullable

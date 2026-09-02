@@ -43,6 +43,24 @@ TAG_GLOB="openapi-v*"
 # ---------- helpers ----------
 section() { echo ""; echo "$*"; echo ""; }
 
+# The API version the spec was generated from.
+spec_version() {
+  awk '/^info:/ { in_info = 1; next }
+       in_info && /^  version:/ { print $2; exit }
+       in_info && /^[^ ]/ { exit }' "$1"
+}
+
+# A stable identifier for a checkout: its nearest tag when it has one, else a
+# short sha, suffixed with -dirty when the tree carries uncommitted changes.
+git_stamp() {
+  local dir="$1" rev
+  git -C "$dir" rev-parse --git-dir >/dev/null 2>&1 || { echo "unknown"; return; }
+  rev="$(git -C "$dir" describe --tags --always 2>/dev/null)"
+  [[ -n "$rev" ]] || rev="$(git -C "$dir" rev-parse --short=9 HEAD)"
+  [[ -n "$(git -C "$dir" status --porcelain 2>/dev/null)" ]] && rev="${rev}-dirty"
+  echo "$rev"
+}
+
 # ---------- validation ----------
 [[ -d "$CHAT_DIR" ]] || { echo "❌ CHAT_DIR not found: $CHAT_DIR"; exit 1; }
 command -v go   >/dev/null || { echo "❌ 'go' is required in PATH"; exit 1; }
@@ -80,8 +98,16 @@ fi
 
 # Every spec release is tagged, so the newest reachable tag is the version the
 # spec on the default branch belongs to.
-SPEC_VERSION="${PROTOCOL_VERSION:-$(git -C "$PROTOCOL_GIT_DIR" describe --tags --abbrev=0 --match "$TAG_GLOB")}"
-[[ -n "$SPEC_VERSION" ]] || { echo "❌ Could not resolve a '$TAG_GLOB' tag in the protocol repo"; exit 1; }
+if [[ -n "${PROTOCOL_VERSION:-}" ]]; then
+  SPEC_VERSION="$PROTOCOL_VERSION"
+else
+  # Kept off the assignment line: under `set -e` a failing command
+  # substitution there aborts the script before any check of the result runs.
+  SPEC_VERSION="$(git -C "$PROTOCOL_GIT_DIR" describe --tags --abbrev=0 --match "$TAG_GLOB" 2>/dev/null)" \
+    || { echo "❌ Could not resolve a '$TAG_GLOB' tag in the protocol repo"; exit 1; }
+  [[ -n "$SPEC_VERSION" ]] \
+    || { echo "❌ Resolved an empty '$TAG_GLOB' tag in the protocol repo"; exit 1; }
+fi
 
 echo "• Spec version: $SPEC_VERSION"
 
@@ -92,6 +118,41 @@ git -C "$PROTOCOL_GIT_DIR" show "${SPEC_VERSION}:${SPEC_REPO_PATH}" > "$SPEC_PAT
 
 echo "• Spec: $SPEC_REPO_PATH ($(wc -c < "$SPEC_PATH" | tr -d ' ') bytes)"
 
+# Protocol publishes a sha256 beside each spec. Check the fetched bytes against
+# it before anything touches them: verifying rather than trusting, so an edited
+# or truncated spec can't reach the generator and then be stamped with a
+# checksum that describes different bytes.
+#
+# Read now, while $SPEC_PATH is still pristine — [2/5] rewrites it in place, so
+# the stamped checksum identifies the spec as protocol published it, not our
+# renamed copy.
+SPEC_CHECKSUM=""
+if SIDECAR="$(git -C "$PROTOCOL_GIT_DIR" show "${SPEC_VERSION}:${SPEC_REPO_PATH}.sha256" 2>/dev/null)"; then
+  SPEC_CHECKSUM="$(awk '{ print $1; exit }' <<< "$SIDECAR")"
+  if command -v shasum >/dev/null; then
+    SPEC_ACTUAL="$(shasum -a 256 "$SPEC_PATH" | awk '{ print $1 }')"
+  elif command -v sha256sum >/dev/null; then
+    SPEC_ACTUAL="$(sha256sum "$SPEC_PATH" | awk '{ print $1 }')"
+  else
+    echo "⚠️ Neither shasum nor sha256sum found — skipping spec verification"
+    SPEC_ACTUAL="$SPEC_CHECKSUM"
+  fi
+  [[ "$SPEC_ACTUAL" == "$SPEC_CHECKSUM" ]] || {
+    echo "❌ Spec checksum mismatch for $SPEC_REPO_PATH"
+    echo "   expected $SPEC_CHECKSUM (from the .sha256 sidecar)"
+    echo "   actual   $SPEC_ACTUAL"
+    exit 1
+  }
+  echo "• Checksum verified against the published .sha256"
+else
+  echo "• No .sha256 sidecar at $SPEC_VERSION — nothing to verify against"
+fi
+
+# What the provenance stamp records, resolved here while the inputs are in hand.
+SPEC_API_VERSION="$(spec_version "$SPEC_PATH")"
+[[ -n "$SPEC_API_VERSION" ]] || SPEC_API_VERSION="unknown"
+SPEC_SOURCE_STAMP="protocol @ ${SPEC_VERSION}"
+
 # ---------- [2/5] Apply model renames to the spec ----------
 section "➡️ [2/5] Applying model renames to the spec…"
 
@@ -99,11 +160,34 @@ section "➡️ [2/5] Applying model renames to the spec…"
 # rename flag, so the renames have to be applied to the spec itself. Schema
 # names live at exactly four spaces of indent (components > schemas > name).
 if [[ -f "$RENAMED_MODELS" ]]; then
+  # Parsed as JSON rather than scanned for string pairs, so nesting or a
+  # non-string value is an error instead of silently becoming another rename.
+  #
+  # Read into a variable first: a `die` inside a process substitution does not
+  # fail the script under `set -e`, so the loop would read nothing and the run
+  # would go on to report success against an unrenamed spec.
+  RENAMES="$(perl -MJSON::PP -0777 -ne '
+    my $m = decode_json($_);
+    ref $m eq "HASH" or die "renamed-models.json: top level is not an object\n";
+    for my $k (sort keys %$m) {
+      die "renamed-models.json: value for \"$k\" is not a string\n" if ref $m->{$k};
+      print "$k\t$m->{$k}\n";
+    }
+  ' "$RENAMED_MODELS")" \
+    || { echo "❌ Could not read $RENAMED_MODELS (see the error above)"; exit 1; }
+
   while IFS=$'\t' read -r old new; do
     [[ -n "$old" && -n "$new" ]] || continue
     if ! grep -q "^    ${old}:\$" "$SPEC_PATH"; then
       echo "• Skipping ${old} -> ${new}: no such schema in the spec"
       continue
+    fi
+    # Renaming onto a name the spec already uses would leave two identical
+    # schema keys and let the YAML parser pick whichever it resolves last, so
+    # refuse rather than generate against a silently wrong spec.
+    if grep -q "^    ${new}:\$" "$SPEC_PATH"; then
+      echo "❌ Rename ${old} -> ${new} collides with an existing ${new} schema; update scripts/renamed-models.json"
+      exit 1
     fi
     old="$old" new="$new" perl -0777 -pi -e '
       my ($o, $n) = ($ENV{old}, $ENV{new});
@@ -117,7 +201,7 @@ if [[ -f "$RENAMED_MODELS" ]]; then
       exit 1
     fi
     echo "• Renamed ${old} -> ${new}"
-  done < <(perl -0777 -ne 'while (/"([^"]+)"\s*:\s*"([^"]+)"/g) { print "$1\t$2\n" }' "$RENAMED_MODELS")
+  done <<< "$RENAMES"
 else
   echo "• No renamed-models.json — nothing to rename"
 fi
@@ -139,48 +223,59 @@ mkdir -p "$OUTPUT_DIR_FEEDS"
 
 section "✅ Finished generating client at: $OUTPUT_DIR_FEEDS"
 
-# ---------- [4/5] Post-generation fixes ----------
-section "➡️ [4/5] Applying post-generation fixes…"
+# ---------- [4/5] Stamp provenance ----------
+section "➡️ [4/5] Stamping provenance into api.dart…"
 
-# Record which spec release the checked-in client was generated from, so a diff
-# in `lib/src/generated/api` can always be traced back to a protocol tag.
-if [[ -f "$API_BARREL_FILE" ]]; then
-  SPEC_VERSION="$SPEC_VERSION" SPEC_REPO_PATH="$SPEC_REPO_PATH" perl -0777 -pi -e '
-    my $stamp = "// Source: GetStream/protocol $ENV{SPEC_REPO_PATH} @ $ENV{SPEC_VERSION}\n";
-    s{^// Source: GetStream/protocol .*\n}{}m;
-    s{^(.*\n)}{$1$stamp};
-  ' "$API_BARREL_FILE"
-  grep -q "^// Source: GetStream/protocol .* @ ${SPEC_VERSION}\$" "$API_BARREL_FILE" \
-    || { echo "❌ Could not stamp the spec version into api.dart; update scripts/generate.sh"; exit 1; }
-  echo "• Stamped spec version $SPEC_VERSION into api.dart"
-fi
+# `generate-client` was just pointed at $OUTPUT_DIR_FEEDS, so a missing barrel
+# means generation produced nothing — fail rather than carry on and still
+# report success at the end.
+[[ -f "$API_BARREL_FILE" ]] \
+  || { echo "❌ Generation produced no api.dart at $API_BARREL_FILE"; exit 1; }
 
-REACTION_GROUP_RESPONSE_FILE="$OUTPUT_DIR_FEEDS/model/reaction_group_response.dart"
-if [[ -f "$REACTION_GROUP_RESPONSE_FILE" ]]; then
-  # Upstream emits a `sumScores` field with no matching constructor parameter,
-  # which does not compile. Drop the field until that is fixed upstream.
-  #
-  # Self-disabling: once upstream emits the parameter (or drops the field), the
-  # guard below stops matching and this becomes a no-op — rather than silently
-  # mangling a file that was already correct.
-  if grep -q 'final int sumScores;' "$REACTION_GROUP_RESPONSE_FILE" \
-    && ! grep -q 'this\.sumScores' "$REACTION_GROUP_RESPONSE_FILE"; then
-    # The annotation lines between `@override` and the field vary by generator
-    # version, so accept any number of them.
-    perl -0777 -pi -e 's/\n[ \t]*\@override\n(?:[ \t]*\@[^\n]*\n)*[ \t]*final int sumScores;\n//' "$REACTION_GROUP_RESPONSE_FILE"
-    # Never leave a half-applied edit behind: fail loudly so the next spec
-    # change surfaces here instead of as a confusing build_runner error.
-    if grep -q 'sumScores' "$REACTION_GROUP_RESPONSE_FILE"; then
-      echo "❌ Could not strip sumScores from ReactionGroupResponse; update scripts/generate.sh"
-      exit 1
-    fi
-    echo "• Removed unconstructable sumScores field from ReactionGroupResponse"
-  fi
-fi
+# Record what produced this tree, in the barrel a reader opens first. Same block
+# and same field widths as the chat SDK writes, so the two clients read alike.
+#
+# The generator stamps no version of its own, so the closest thing to a template
+# version is the commit of the monolith that holds the templates. The spec
+# carries two of its own: `info.version` is the backend build it was cut from,
+# and protocol publishes a sha256 beside each spec that identifies the exact
+# bytes even when a checkout sits between tags.
+#
+# Deliberately free of timestamps — regenerating from unchanged inputs must
+# produce no diff.
+stamp_provenance() {
+  local marker='// Code generated by GetStream internal OpenAPI code generator. DO NOT EDIT.'
 
-section "✅ Post-generation fixes applied"
+  grep -qF -- "$marker" "$API_BARREL_FILE" || {
+    echo "❌ Generator header not found in $API_BARREL_FILE — has the template changed?"
+    exit 1
+  }
 
-# ---------- [5/5] build_runner + formatting (package only) ----------
+  local checksum_line=""
+  [[ -n "$SPEC_CHECKSUM" ]] && checksum_line="// Checksum:  ${SPEC_CHECKSUM}"
+
+  awk -v marker="$marker" \
+      -v spec="// Spec:      ${SPEC_BASENAME} (API ${SPEC_API_VERSION})" \
+      -v source="// Source:    ${SPEC_SOURCE_STAMP}" \
+      -v checksum="$checksum_line" \
+      -v generator="// Generator: GetStream/chat @ $(git_stamp "$CHAT_DIR")" '
+    { print }
+    $0 == marker {
+      print "//"
+      print spec
+      print source
+      if (checksum != "") print checksum
+      print generator
+    }
+  ' "$API_BARREL_FILE" > "${API_BARREL_FILE}.tmp" && mv "${API_BARREL_FILE}.tmp" "$API_BARREL_FILE"
+
+  echo "• Stamped ${SPEC_BASENAME} (API ${SPEC_API_VERSION}) from ${SPEC_SOURCE_STAMP}"
+}
+stamp_provenance
+
+section "✅ Provenance stamped"
+
+# ---------- [5/5] build_runner + formatting ----------
 section "➡️ [5/5] Running build_runner in stream_feeds…"
 
 (
@@ -194,13 +289,29 @@ section "➡️ [5/5] Running build_runner in stream_feeds…"
 
 section "✅ build_runner completed"
 
-section "➡️ Formatting generated API files…"
+section "➡️ Formatting…"
 
+# build_runner formats every output it writes — including pre-existing ones
+# outside the generated directory — at the dart_style default width, so a pass
+# at the width this repo configures is needed afterwards. Formatting only
+# $OUTPUT_DIR_FEEDS leaves the `.freezed.dart` files under lib/src/models
+# rewrapped at 80, which shows up as phantom diff.
+#
+# Delegated to `melos run format` rather than calling `dart format` here, so
+# there is one definition of how this repo formats and this script cannot drift
+# from it. Keep logs, ignore exit code.
 (
-  cd "$PKG_DIR"
-  # Format only the generated directory; keep logs, ignore exit code
-  dart format "$OUTPUT_DIR_FEEDS" || true
+  cd "$REPO_ROOT"
+  melos run format || true
 )
+
+# The stamp goes in before build_runner and the format pass rewrite the tree; a
+# formatter that dropped it would leave a run looking successful but
+# unprovenanced.
+grep -q 'Generator: GetStream/chat @' "$API_BARREL_FILE" || {
+  echo "❌ The provenance stamp did not survive formatting — see stamp_provenance"
+  exit 1
+}
 
 section "✅ Formatting completed"
 

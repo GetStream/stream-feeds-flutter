@@ -3,6 +3,7 @@ import 'package:stream_core/stream_core.dart';
 
 import '../generated/api/models.dart';
 import 'feed_id.dart';
+import 'feed_input_data.dart';
 import 'feed_member_data.dart';
 import 'follow_data.dart';
 import 'user_data.dart';
@@ -124,7 +125,7 @@ class FeedData with _$FeedData {
 
   /// The visibility status of the feed.
   @override
-  final String? visibility;
+  final FeedVisibility? visibility;
 
   /// A map of custom attributes associated with the feed.
   @override
@@ -158,13 +159,13 @@ extension FeedResponseMapper on FeedResponse {
       ),
       memberCount: memberCount,
       name: name,
-      ownCapabilities: [...?ownCapabilities],
+      ownCapabilities: ownCapabilities ?? const [],
       ownMembership: ownMembership?.toModel(),
       ownFollowings: ownFollowings?.map((f) => f.toModel()).toList(),
       ownFollows: ownFollows?.map((f) => f.toModel()).toList(),
       pinCount: pinCount,
       updatedAt: updatedAt,
-      visibility: visibility,
+      visibility: visibility?.let(FeedVisibility.new),
       custom: custom,
     );
   }

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 mixin _$ModerationConfigData {
   AIImageConfig? get aiImageConfig;
   AITextConfig? get aiTextConfig;
-  AIVideoConfig? get aiVideoConfig;
+  AIVideoConfigResponse? get aiVideoConfig;
   bool get async;
   AutomodPlatformCircumventionConfig? get automodPlatformCircumventionConfig;
   AutomodSemanticFiltersConfig? get automodSemanticFiltersConfig;
@@ -101,7 +101,7 @@ abstract mixin class $ModerationConfigDataCopyWith<$Res> {
   $Res call({
     AIImageConfig? aiImageConfig,
     AITextConfig? aiTextConfig,
-    AIVideoConfig? aiVideoConfig,
+    AIVideoConfigResponse? aiVideoConfig,
     bool async,
     AutomodPlatformCircumventionConfig? automodPlatformCircumventionConfig,
     AutomodSemanticFiltersConfig? automodSemanticFiltersConfig,
@@ -154,7 +154,7 @@ class _$ModerationConfigDataCopyWithImpl<$Res> implements $ModerationConfigDataC
         aiVideoConfig: freezed == aiVideoConfig
             ? _self.aiVideoConfig
             : aiVideoConfig // ignore: cast_nullable_to_non_nullable
-                  as AIVideoConfig?,
+                  as AIVideoConfigResponse?,
         async: null == async
             ? _self.async
             : async // ignore: cast_nullable_to_non_nullable

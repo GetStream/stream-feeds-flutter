@@ -4890,7 +4890,7 @@ void main() {
     );
 
     feedTest(
-      'getOrCreate() exposes unknown restrictReplies on activity state',
+      'getOrCreate() passes an unrecognized restrictReplies through to activity state',
       build: (client) => client.feedFromId(feedId),
       body: (tester) async {
         await tester.getOrCreate(
@@ -4899,7 +4899,9 @@ void main() {
               createDefaultActivityResponse(
                 id: 'activity-1',
                 feeds: [feedId.rawValue],
-                restrictReplies: ActivityResponseRestrictReplies.fromJson('unknown'),
+                restrictReplies: ActivityResponseRestrictReplies.fromJson(
+                  'some_future_value',
+                ),
               ),
             ],
           ),
@@ -4908,7 +4910,10 @@ void main() {
         final activity = tester.feedState.activities.firstWhere(
           (a) => a.id == 'activity-1',
         );
-        expect(activity.restrictReplies, equals(ActivityRestrictReplies.unknown));
+        expect(
+          activity.restrictReplies,
+          equals(const ActivityRestrictReplies('some_future_value')),
+        );
       },
     );
 

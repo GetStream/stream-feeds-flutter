@@ -304,9 +304,6 @@ extension type const ActivityDataVisibility(String value) implements String {
 
   /// Tag visibility - visible based on tag rules
   static const tag = ActivityDataVisibility('tag');
-
-  /// Unknown visibility state
-  static const unknown = ActivityDataVisibility('unknown');
 }
 
 /// Extension function to convert an [ActivityResponse] to an [ActivityData] model.
@@ -360,7 +357,7 @@ extension ActivityResponseMapper on ActivityResponse {
       reactionGroups: {
         for (final entry in reactionGroups.entries) entry.key: entry.value.toModel(),
       },
-      restrictReplies: restrictReplies.toModel(),
+      restrictReplies: ActivityRestrictReplies(restrictReplies),
       score: score,
       searchData: searchData,
       shareCount: shareCount,
@@ -368,7 +365,7 @@ extension ActivityResponseMapper on ActivityResponse {
       type: type,
       updatedAt: updatedAt,
       user: user.toModel(),
-      visibility: visibility.toModel(),
+      visibility: ActivityDataVisibility(visibility),
       visibilityTag: visibilityTag,
       custom: custom,
     );
@@ -639,25 +636,4 @@ extension type const ActivityRestrictReplies(String value) implements String {
 
   /// Only users followed by the activity author can comment.
   static const peopleIFollow = ActivityRestrictReplies('people_i_follow');
-
-  /// Unknown value received from the API.
-  static const unknown = ActivityRestrictReplies('unknown');
-}
-
-/// Extension function to convert an [ActivityResponseRestrictReplies] to an [ActivityRestrictReplies].
-extension ActivityResponseRestrictRepliesMapper on ActivityResponseRestrictReplies {
-  /// Converts this API restrict-replies value to a domain [ActivityRestrictReplies].
-  ///
-  /// Both sides are `String`-backed, so any value the API sends is carried over
-  /// verbatim — including ones this client version doesn't know about yet.
-  ActivityRestrictReplies toModel() => ActivityRestrictReplies(this);
-}
-
-/// Extension function to convert an [ActivityResponseVisibility] to an [ActivityDataVisibility].
-extension ActivityResponseVisibilityMapper on ActivityResponseVisibility {
-  /// Converts this API visibility value to a domain [ActivityDataVisibility] extension type.
-  ///
-  /// Both sides are `String`-backed, so any value the API sends is carried over
-  /// verbatim — including ones this client version doesn't know about yet.
-  ActivityDataVisibility toModel() => ActivityDataVisibility(this);
 }

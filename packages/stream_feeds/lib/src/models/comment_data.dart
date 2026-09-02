@@ -143,7 +143,7 @@ class CommentData with _$CommentData implements CommentsSortDataFields {
 
   /// The current status of the comment.
   @override
-  final String status;
+  final CommentStatus status;
 
   /// The text content of the comment.
   @override
@@ -310,6 +310,31 @@ extension CommentDataMutations on CommentData {
   }
 }
 
+/// Extension type representing the status of a comment.
+///
+/// This collapses the per-message-shape status types the API generator emits
+/// ([CommentResponseStatus], [ThreadedCommentResponseStatus]) into one domain
+/// name, so the public API doesn't move when the generator reshapes them.
+///
+/// By implementing String, it seamlessly supports both known and unknown
+/// status values.
+extension type const CommentStatus(String value) implements String {
+  /// The comment is visible.
+  static const active = CommentStatus('active');
+
+  /// The comment was deleted.
+  static const deleted = CommentStatus('deleted');
+
+  /// The comment was hidden by moderation.
+  static const hidden = CommentStatus('hidden');
+
+  /// The comment was removed by moderation.
+  static const removed = CommentStatus('removed');
+
+  /// The comment is visible to its author only, having been shadow blocked.
+  static const shadowBlocked = CommentStatus('shadow_blocked');
+}
+
 /// Extension function to convert a [CommentResponse] to a [CommentData] model.
 extension CommentResponseMapper on CommentResponse {
   /// Converts this API comment response to a domain [CommentData] instance.
@@ -343,7 +368,7 @@ extension CommentResponseMapper on CommentResponse {
       replies: null, // Comments don't have replies loaded by default
       replyCount: replyCount,
       score: score,
-      status: status,
+      status: CommentStatus(status),
       text: text,
       updatedAt: updatedAt,
       upvoteCount: upvoteCount,
@@ -384,7 +409,7 @@ extension ThreadedCommentResponseMapper on ThreadedCommentResponse {
       replies: replies?.map((e) => e.toModel()).toList(),
       replyCount: replyCount,
       score: score,
-      status: status,
+      status: CommentStatus(status),
       text: text,
       updatedAt: updatedAt,
       upvoteCount: upvoteCount,

@@ -220,7 +220,7 @@ PollResponseData createDefaultPollResponse({
     voteCountsByOption: latestVotesByOption.map(
       (k, e) => MapEntry(k, e.length),
     ),
-    votingVisibility: 'visibility',
+    votingVisibility: PollResponseDataVotingVisibility.public,
     options: options,
   );
 }

@@ -10,17 +10,17 @@ import 'package:stream_core/stream_core.dart' as core;
 
 import '../models.dart';
 
-part 'ai_video_config.g.dart';
-part 'ai_video_config.freezed.dart';
+part 'ai_video_config_request.g.dart';
+part 'ai_video_config_request.freezed.dart';
 
 @freezed
 @immutable
 @JsonSerializable()
-class AIVideoConfig with _$AIVideoConfig {
-  const AIVideoConfig({
+class AIVideoConfigRequest with _$AIVideoConfigRequest {
+  const AIVideoConfigRequest({
     this.async,
-    required this.enabled,
-    required this.rules,
+    this.enabled,
+    this.rules,
   });
 
   @override
@@ -29,13 +29,13 @@ class AIVideoConfig with _$AIVideoConfig {
 
   @override
   @JsonKey(name: 'enabled')
-  final bool enabled;
+  final bool? enabled;
 
   @override
   @JsonKey(name: 'rules')
-  final List<AWSRekognitionRule> rules;
+  final List<AWSRekognitionRule>? rules;
 
-  Map<String, dynamic> toJson() => _$AIVideoConfigToJson(this);
+  Map<String, dynamic> toJson() => _$AIVideoConfigRequestToJson(this);
 
-  static AIVideoConfig fromJson(Map<String, dynamic> json) => _$AIVideoConfigFromJson(json);
+  static AIVideoConfigRequest fromJson(Map<String, dynamic> json) => _$AIVideoConfigRequestFromJson(json);
 }

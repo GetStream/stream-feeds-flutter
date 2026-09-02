@@ -290,7 +290,8 @@ String getMemberStatusLabel(FeedMemberStatus status) {
     FeedMemberStatus.member => 'Active Member',
     FeedMemberStatus.pending => 'Pending Approval',
     FeedMemberStatus.rejected => 'Invite Rejected',
-    FeedMemberStatus.unknown => 'Unknown Status',
+    // Extension types are not exhaustive, so the fallback is required — and it
+    // is what carries a status this SDK version has never heard of.
     _ => 'Custom Status: ${status.value}',
   };
 }
