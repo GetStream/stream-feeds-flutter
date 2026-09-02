@@ -67,6 +67,11 @@ command -v go   >/dev/null || { echo "❌ 'go' is required in PATH"; exit 1; }
 command -v dart >/dev/null || { echo "❌ 'dart' is required in PATH"; exit 1; }
 command -v git  >/dev/null || { echo "❌ 'git' is required in PATH (fetching the spec)"; exit 1; }
 command -v perl >/dev/null || { echo "❌ 'perl' is required in PATH (post-generation fixes)"; exit 1; }
+# Required up front rather than skipped later: without a hasher the spec cannot
+# be checked against the sha256 protocol publishes beside it, and a run that
+# silently skips that check is worse than one that refuses to start.
+command -v shasum >/dev/null || command -v sha256sum >/dev/null \
+  || { echo "❌ 'shasum' or 'sha256sum' is required in PATH (verifying the spec)"; exit 1; }
 
 WORK_DIR="$(mktemp -d)"
 cleanup() { rm -rf "$WORK_DIR"; }
@@ -131,11 +136,8 @@ if SIDECAR="$(git -C "$PROTOCOL_GIT_DIR" show "${SPEC_VERSION}:${SPEC_REPO_PATH}
   SPEC_CHECKSUM="$(awk '{ print $1; exit }' <<< "$SIDECAR")"
   if command -v shasum >/dev/null; then
     SPEC_ACTUAL="$(shasum -a 256 "$SPEC_PATH" | awk '{ print $1 }')"
-  elif command -v sha256sum >/dev/null; then
-    SPEC_ACTUAL="$(sha256sum "$SPEC_PATH" | awk '{ print $1 }')"
   else
-    echo "⚠️ Neither shasum nor sha256sum found — skipping spec verification"
-    SPEC_ACTUAL="$SPEC_CHECKSUM"
+    SPEC_ACTUAL="$(sha256sum "$SPEC_PATH" | awk '{ print $1 }')"
   fi
   [[ "$SPEC_ACTUAL" == "$SPEC_CHECKSUM" ]] || {
     echo "❌ Spec checksum mismatch for $SPEC_REPO_PATH"
@@ -299,10 +301,11 @@ section "➡️ Formatting…"
 #
 # Delegated to `melos run format` rather than calling `dart format` here, so
 # there is one definition of how this repo formats and this script cannot drift
-# from it. Keep logs, ignore exit code.
+# from it. A failure propagates: an unformatted tree would otherwise reach the
+# repo's formatting check with this run already reporting success.
 (
   cd "$REPO_ROOT"
-  melos run format || true
+  melos run format
 )
 
 # The stamp goes in before build_runner and the format pass rewrite the tree; a

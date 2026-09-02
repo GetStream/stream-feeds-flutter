@@ -159,9 +159,6 @@ extension type const FeedMemberStatus(String value) implements String {
 
   /// Represents a feed member whose invite has been rejected.
   static const rejected = FeedMemberStatus('rejected');
-
-  /// Represents a feed member with an unknown status.
-  static const unknown = FeedMemberStatus('unknown');
 }
 ```
 
