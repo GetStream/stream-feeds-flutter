@@ -212,7 +212,7 @@ class _CreateActivityBottomSheetState extends State<CreateActivityBottomSheet> {
       ],
       text: text.takeIf((it) => it.isNotEmpty),
       attachmentUploads: _attachments.isNotEmpty ? _attachments : null,
-      expiresAt: _isStory ? DateTime.now().add(const Duration(days: 1)).toUtc().toIso8601String() : null,
+      expiresAt: _isStory ? DateTime.timestamp().add(const Duration(days: 1)) : null,
     );
 
     // Return the request to the parent for handling

@@ -76,7 +76,7 @@ class FeedAddActivityRequest with _$FeedAddActivityRequest implements HasAttachm
 
   /// Optional expiration date for the activity.
   @override
-  final String? expiresAt;
+  final DateTime? expiresAt;
 
   /// List of feed IDs where this activity should be posted.
   @override
@@ -180,7 +180,7 @@ extension FeedAddActivityRequestMapper on FeedAddActivityRequest {
       createNotificationActivity: createNotificationActivity,
       custom: custom,
       enrichOwnFields: enrichOwnFields,
-      expiresAt: expiresAt,
+      expiresAt: expiresAt?.toUtc().toIso8601String(),
       filterTags: filterTags,
       id: id,
       interestTags: interestTags,

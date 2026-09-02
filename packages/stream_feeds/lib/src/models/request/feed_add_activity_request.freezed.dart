@@ -19,7 +19,7 @@ mixin _$FeedAddActivityRequest {
   bool? get createNotificationActivity;
   Map<String, Object>? get custom;
   bool? get enrichOwnFields;
-  String? get expiresAt;
+  DateTime? get expiresAt;
   List<String> get feeds;
   List<String>? get filterTags;
   String? get id;
@@ -152,7 +152,7 @@ abstract mixin class $FeedAddActivityRequestCopyWith<$Res> {
     bool? createNotificationActivity,
     Map<String, Object>? custom,
     bool? enrichOwnFields,
-    String? expiresAt,
+    DateTime? expiresAt,
     List<String>? filterTags,
     String? id,
     List<String>? interestTags,
@@ -243,7 +243,7 @@ class _$FeedAddActivityRequestCopyWithImpl<$Res> implements $FeedAddActivityRequ
         expiresAt: freezed == expiresAt
             ? _self.expiresAt
             : expiresAt // ignore: cast_nullable_to_non_nullable
-                  as String?,
+                  as DateTime?,
         filterTags: freezed == filterTags
             ? _self.filterTags
             : filterTags // ignore: cast_nullable_to_non_nullable

@@ -19,15 +19,13 @@ Future<void> postStory() async {
   final storyFeed = client.feedFromId(FeedId.story(userId));
   await storyFeed.getOrCreate();
 
-  // DateTime.timestamp() is UTC, so toIso8601String() carries a timezone.
-  // A local DateTime would serialize without one and be read as UTC.
   final expiresAt = DateTime.timestamp().add(const Duration(hours: 24));
 
   await storyFeed.addActivity(
     request: FeedAddActivityRequest(
       type: 'story',
       text: 'My story',
-      expiresAt: expiresAt.toIso8601String(),
+      expiresAt: expiresAt,
       attachments: const [
         Attachment(
           imageUrl: 'https://example.com/photo.jpg',
