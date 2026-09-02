@@ -385,6 +385,7 @@ class ActivityUpdated extends StateUpdateEvent {
   const ActivityUpdated({
     required this.scope,
     required this.activity,
+    this.hasOwnFields = false,
   });
 
   /// The feed scope this event applies to.
@@ -392,6 +393,11 @@ class ActivityUpdated extends StateUpdateEvent {
 
   /// The updated activity data.
   final ActivityData activity;
+
+  /// Whether [activity] was fetched with `enrichOwnFields: true`, meaning its `own_*` fields
+  /// (and its `currentFeed`'s) are authoritative and should overwrite existing state rather than
+  /// be preserved from it. Always `false` for WS-originated events.
+  final bool hasOwnFields;
 }
 
 /// An activity was pinned to a feed.
@@ -654,10 +660,15 @@ class FeedDeleted extends StateUpdateEvent {
 
 /// A feed was updated.
 class FeedUpdated extends StateUpdateEvent {
-  const FeedUpdated({required this.feed});
+  const FeedUpdated({required this.feed, this.hasOwnFields = false});
 
   /// The updated feed data.
   final FeedData feed;
+
+  /// Whether [feed] was fetched with `enrichOwnFields: true`, meaning its `own_*` fields are
+  /// authoritative and should overwrite existing state rather than be preserved from it. Always
+  /// `false` for WS-originated events.
+  final bool hasOwnFields;
 }
 
 // endregion

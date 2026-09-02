@@ -155,7 +155,9 @@ class Feed with Disposable {
     );
 
     result.onSuccess(
-      (feedData) => _eventsEmitter.tryEmit(FeedUpdated(feed: feedData)),
+      (feedData) => _eventsEmitter.tryEmit(
+        FeedUpdated(feed: feedData, hasOwnFields: request.enrichOwnFields ?? false),
+      ),
     );
 
     return result;
@@ -229,7 +231,11 @@ class Feed with Disposable {
 
     result.onSuccess(
       (activity) => _eventsEmitter.tryEmit(
-        ActivityUpdated(scope: FidScope.unknown, activity: activity),
+        ActivityUpdated(
+          scope: FidScope.unknown,
+          activity: activity,
+          hasOwnFields: request.enrichOwnFields ?? false,
+        ),
       ),
     );
 
@@ -259,7 +265,11 @@ class Feed with Disposable {
 
     result.onSuccess(
       (activity) => _eventsEmitter.tryEmit(
-        ActivityUpdated(scope: FidScope.unknown, activity: activity),
+        ActivityUpdated(
+          scope: FidScope.unknown,
+          activity: activity,
+          hasOwnFields: request.enrichOwnFields ?? false,
+        ),
       ),
     );
 

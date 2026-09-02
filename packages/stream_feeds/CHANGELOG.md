@@ -40,6 +40,8 @@
 
 ### 🔄 Changed
 
+- `markRead`, `markSeen`, `markAllRead` and `markAllSeen` now update the per-activity and per-group `isRead`/`isSeen` flags on the feed state, next to the aggregate notification counts. The flags stay in sync when the `activity.marked` event arrives, and are re-derived whenever `feeds.notification_feed.updated` reports a new notification status, so a mark performed on another device shows up here too
+- `ActivityData.currentFeed` and `FeedData`'s `own_*` fields (`ownMembership`, `ownFollowings`, `ownFollows`, `ownBookmarks`, `ownReactions`) are now taken from `updateActivity`, `updateActivityPartial` and `updateFeed` responses when the request set `enrichOwnFields: true`. Without it, existing state is preserved, since an omitted `own_*` field means "not fetched", not "empty"
 - Attachment uploads for a batch of requests now share one concurrency limit instead of one each, so `Activity.addCommentsBatch` no longer starts several uploads per comment at once; a failure also calls off the uploads still in flight rather than letting them finish work that is about to be discarded
 - `disconnect` now only closes the connection, leaving the client reusable with its existing subscriptions intact; releasing it is `dispose`
 - An expired token now recovers on its own: the connection comes back with one the `TokenProvider` issued afterwards, without the app doing anything

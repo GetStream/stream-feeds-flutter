@@ -49,7 +49,10 @@ class FeedEventHandler with FeedCapabilitiesMixin implements StateEventHandler {
       }
 
       final updatedActivity = await withUpdatedFeedCapabilities(event.activity);
-      return state.onActivityUpdated(updatedActivity ?? event.activity);
+      return state.onActivityUpdated(
+        updatedActivity ?? event.activity,
+        hasOwnFields: event.hasOwnFields,
+      );
     }
 
     if (event is ActivityDeleted) {
@@ -149,7 +152,7 @@ class FeedEventHandler with FeedCapabilitiesMixin implements StateEventHandler {
 
     if (event is FeedUpdated) {
       if (event.feed.fid.rawValue != query.fid.rawValue) return;
-      return state.onFeedUpdated(event.feed);
+      return state.onFeedUpdated(event.feed, hasOwnFields: event.hasOwnFields);
     }
 
     if (event is FollowAdded) {
