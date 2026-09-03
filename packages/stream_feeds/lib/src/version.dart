@@ -10,4 +10,4 @@
 /// Reported as the SDK version in the `X-Stream-Client` header. Kept in sync
 /// with `pubspec.yaml` by `tools/generate_version.dart`, which runs on every
 /// `melos bootstrap`.
-const String packageVersion = '0.5.1';
+const String packageVersion = '0.6.0';

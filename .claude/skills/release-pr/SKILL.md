@@ -1,8 +1,8 @@
 ---
 name: release-pr
 description: >
-  Open a release PR for stream-feeds-flutter: bump the version in melos.yaml and the package pubspec, finalise
-  the CHANGELOG, and open a PR against main with auto-generated release notes.
+  Open a release PR for stream-feeds-flutter: bump the version in melos.yaml and every publishable package's
+  pubspec, finalise their CHANGELOGs, and open a PR against main with auto-generated release notes.
 disable-model-invocation: true
 argument-hint: "[version]"
 arguments: [version]
@@ -33,11 +33,16 @@ confirm per [Choosing the version](#choosing-the-version).
 
 ## Key facts for this repo
 
-- **One publishable package: `stream_feeds`.** `stream_feeds_test`, `docs`, `sample_app`, and
-  `packages/*/example` are private (`publish_to: none`, or no `version:`); `--no-private` is what keeps them
-  out of publishing. Confirm the publishable set with `melos list --no-private`.
-- **Tags are plain `vX.Y.Z`**, continuing the repo's existing tag history — not per-package tags.
-- **CHANGELOG is hand-curated.** Never run `melos version` — it regenerates entries from commit messages and
+- **Derive the publishable set; don't assume it.** `melos list --no-private -p` prints one absolute path per
+  publishable package, and the steps below are written to loop over it. Everything else — `docs`,
+  `sample_app`, `packages/*/example`, `stream_feeds_test` — is private through `publish_to: none` or a
+  missing `version:`, and `--no-private` is what keeps it out of both `lint:pub` and `release:pub`. Today the
+  set is exactly `stream_feeds`, so every loop runs once; run the command anyway rather than trusting that.
+- **The whole set releases together, at one version.** `release_tag.yml` pushes a single plain `vX.Y.Z` —
+  never per-package tags — and `release_publish.yml` titles the GitHub Release from it, so independent
+  per-package versions have nowhere to live. Lockstep costs nothing when only one package actually changed:
+  `release:pub` passes `--no-published`, so a package already live at that version is a clean no-op.
+- **CHANGELOGs are hand-curated.** Never run `melos version` — it regenerates entries from commit messages and
   clobbers the curated `## Upcoming` bullets. Releasing means *promoting* `## Upcoming` to `## X.Y.Z`.
 - **`release/` branch is a convention** here, not an enforced check. Use it anyway so release PRs are
   recognisable.
@@ -49,25 +54,33 @@ confirm per [Choosing the version](#choosing-the-version).
 2. **Previous tag** for the release-notes diff: `gh release list --limit 10` — the most recent tag of the same
    train (stable = no hyphen in the tag; pre-release = matches the same suffix prefix).
 
-A release is warranted when `packages/stream_feeds/CHANGELOG.md` has a non-empty `## Upcoming` section. If it
-doesn't, say so and stop — there is nothing to release.
+A release is warranted when at least one publishable package has a non-empty `## Upcoming` section in its
+`CHANGELOG.md`. If none does, say so and stop — there is nothing to release.
 
 ## Choosing the version
 
-Two steps: classify the release from its CHANGELOG, then map that onto the current version.
+Two steps: classify the release from the CHANGELOGs, then map that onto the current version.
 
-**1. Classify.** Read the curated `## Upcoming` section — the same bullets that become the release notes, so
-they are the authority on what the release contains:
+**1. Classify.** Read every publishable package's curated `## Upcoming` section — the same bullets that become
+the release notes, so they are the authority on what the release contains:
 
 ```bash
-sed -n '/^## Upcoming/,/^## [0-9]/p' packages/stream_feeds/CHANGELOG.md
+melos list --no-private -p | while read -r dir; do
+  echo "── $dir"
+  sed -n '/^## Upcoming/,/^## [0-9]/p' "$dir/CHANGELOG.md"
+done
 ```
+
+One version covers the whole set, so the **strongest** classification across those sections is the release's
+classification: one breaking bullet in one package makes the whole release breaking.
 
 This repo's sub-headings are free-form and descriptive (`### New fields`, `### WebSocket events`,
 `### Deprecated — renamed types`, …), so a keyword grep is a **signal, not a verdict**:
 
 ```bash
-sed -n '/^## Upcoming/,/^## [0-9]/p' packages/stream_feeds/CHANGELOG.md | grep -in 'breaking\|removed\|renamed'
+melos list --no-private -p | while read -r dir; do
+  sed -n '/^## Upcoming/,/^## [0-9]/p' "$dir/CHANGELOG.md" | grep -in 'breaking\|removed\|renamed'
+done
 ```
 
 **Actually read the section** and classify it yourself:
@@ -90,8 +103,11 @@ per the Dart community convention in
 > just shifted down one slot: going from `0.1.2` to `0.2.0` indicates a breaking change, going to `0.1.3`
 > indicates a new feature, and going to `0.1.2+1` indicates a change that doesn't affect the public API.
 
-Read the current version first — `grep '^version:' packages/stream_feeds/pubspec.yaml` — and pick the column
-from it rather than assuming either regime:
+Read the current version first and pick the column from it, rather than assuming either regime:
+
+```bash
+melos list --no-private -p | while read -r dir; do grep -H '^version:' "$dir/pubspec.yaml"; done
+```
 
 | Release | at/above `1.0.0` | below `1.0.0` |
 | --- | --- | --- |
@@ -99,8 +115,10 @@ from it rather than assuming either regime:
 | compatible, adds API | minor | patch |
 | no public API change | patch | build (`+1`) |
 
-`stream_feeds` is currently below `1.0.0`, so the right-hand column applies: a breaking release is a **minor**
-bump and a feature release is a **patch** bump.
+As of v0.6.0 the set is `stream_feeds` alone, below `1.0.0`, so the right-hand column applies: a breaking
+release is a **minor** bump and a feature release is a **patch** bump. Lockstep means one column for the whole
+set, so if packages ever straddle `1.0.0`, pick the column from the lowest-versioned one — that is the package
+whose consumers a wrong slot would strand.
 
 The shift matters because a caret constraint stops at the leading significant digit: `^1.4.1` means
 `>=1.4.1 <2.0.0`, while `^0.5.1` means `>=0.5.1 <0.6.0`. Bumping that slot strands every consumer on the old
@@ -121,17 +139,28 @@ stashing uncommitted work, no force-pulling, no killing processes).
 - `which melos` and `gh auth status` succeed.
 - `gh pr list --head release/v<version> --state all --json number` returns `[]`.
 - Latest CI on `main` is green: `gh run list --branch main --limit 5` — no failures on the most recent runs.
-- **No `git:` or `path:` entry under `stream_feeds`'s `dependencies`.** pub.dev rejects both, so
-  `release_publish.yml` would fail at publish time after the tag is already pushed:
+- **No `git:` or `path:` entry under any publishable package's `dependencies`.** pub.dev rejects both, and
+  `release:pub` publishes in dependency order, so the packages ahead of the offender go live and only it
+  fails — leaving the version half-published, after the tag is already pushed:
 
   ```bash
-  grep -n -B2 -A4 -E '^\s+(git|path):' packages/stream_feeds/pubspec.yaml melos.yaml
+  melos list --no-private -p | while read -r dir; do
+    grep -n -B2 -A4 -E '^\s+(git|path):' "$dir/pubspec.yaml"
+  done
+  grep -n -B2 -A4 -E '^\s+(git|path):' melos.yaml
   ```
 
   A `path:`/`git:` entry under **`dev_dependencies`** is fine — pub ignores those when publishing, and
   `stream_feeds` legitimately dev-depends on `../stream_feeds_test`. Only a real `dependencies` entry blocks.
-  In particular check `stream_core`: if it is pinned to a git ref for development, it must be back on a
-  published version constraint before release. Surface it and stop — don't pick the constraint yourself.
+  Match on the dependency key and its source rather than a URL spelling: `git:` takes a scalar URL as well as
+  a map, and the URL need not end in `.git`. In particular check `stream_core`: if it is pinned to a git ref
+  for development, it must be back on a published version constraint before release. Surface it and stop —
+  don't pick the constraint yourself.
+
+  Once the user gives you the constraint, set it in **`melos.yaml` only**, as part of step 2. Bootstrap
+  rewrites each package's manifest from that block — replacing the whole `git:` entry and the comments above
+  it — so editing a manifest as well just does bootstrap's job by hand, and drifts from it if the two
+  disagree.
 
 ## Steps
 
@@ -145,15 +174,23 @@ git checkout -b release/v<version>
 
 ### 2. Bump the version
 
-**Edit two files by hand:**
+**Edit two sets of files by hand, then let bootstrap propagate the rest:**
 
-- `packages/stream_feeds/pubspec.yaml` — set `version: <version>`.
-- `melos.yaml` — in the `command.bootstrap.dependencies` block, set `stream_feeds: ^<version>`. Locate with
-  `grep -n '^\s\+stream_feeds:' melos.yaml`. This block is what `docs`, `sample_app`, and the example app
-  resolve against.
+- **Each publishable package's `pubspec.yaml`** — set `version: <version>`, the same version in all of them.
+  This field is the package's own version, not a dependency, so it is the one thing in these manifests
+  bootstrap does not manage. Change nothing else in them.
+- **`melos.yaml`** — in the `command.bootstrap.dependencies` block, set `<pkg>: ^<version>` for every
+  publishable package. Locate the entries with `grep -n '^\s\+stream_' melos.yaml` — which also turns up
+  external `stream_*` constraints like `stream_core`, so match them against the derived set. This block is
+  what every workspace pubspec resolves against, the publishable packages' own manifests included, so two
+  things belong here and only here: the intra-monorepo constraints between publishable packages, and any
+  external constraint the release needs — a `stream_core` git pin going back to a published version, say.
 
-Do **not** touch the `version:` field in `packages/*/example/pubspec.yaml` or `sample_app/pubspec.yaml` —
-those are app versions, and their `stream_feeds` dependency is synced by bootstrap.
+Leave the `version:` field in `packages/*/example/pubspec.yaml` alone — an example carries its own app
+version and does not track the SDK.
+
+Don't hand-edit `sample_app/pubspec.yaml`'s `version:` either, but for the opposite reason: the sample app
+*does* track the SDK release, and `tools/generate_version.dart` sets it for you.
 
 **Then run:**
 
@@ -161,7 +198,14 @@ those are app versions, and their `stream_feeds` dependency is synced by bootstr
 melos bootstrap
 ```
 
-This propagates the `melos.yaml` deps block into every workspace pubspec. Do **not** run `melos version`.
+This propagates the `melos.yaml` deps block into every workspace pubspec, then runs the `version:update`
+hook, which writes the version into `packages/stream_feeds/lib/src/version.dart` and
+`sample_app/pubspec.yaml`. Do **not** run `melos version`.
+
+That hook is the one piece not yet generalised: `tools/generate_version.dart` hardcodes `stream_feeds` as the
+package it reads the version from and `sample_app` as the app it writes to. Adding a second publishable
+package that ships its own `version.dart` means teaching the script about it — the skill will not do it for
+you.
 
 Verify the diff shape against the previous release PR:
 
@@ -171,12 +215,32 @@ git diff --stat
 gh pr diff <prev-release-pr-number> --name-only   # for comparison
 ```
 
-### 3. Finalise the CHANGELOG
+Nothing but pubspecs, `melos.yaml`, the CHANGELOGs and `version.dart` should appear. Two caveats when
+picking what to compare against: PRs before v0.6.0 have no `version.dart` and no `sample_app` version bump,
+and v0.6.0 itself also carries a fix to `tools/generate_version.dart`.
 
-In `packages/stream_feeds/CHANGELOG.md`, rename the top `## Upcoming` heading to `## <version>`. Keep the
-curated bullets exactly as they are — do not add, rewrite, or regenerate them. Sub-headings stay untouched.
+### 3. Finalise the CHANGELOGs
 
-The `## <version>` section must be non-empty — pana fails on an empty or missing one.
+Every publishable package needs a `## <version>` section, and it must be non-empty — pana fails on an empty
+or a missing one. A package released in lockstep with no changes of its own still needs one, which is why
+this is a decision tree rather than a single rule. For each package, **apply the first matching rule**:
+
+1. **Top section is `## Upcoming`** → rename it to `## <version>`. Keep the curated bullets exactly as they
+   are, sub-headings included — do not add, rewrite, or regenerate them.
+2. **No `## Upcoming`, but the package depends on another publishable package** → add just the dep-bump line:
+
+   ```
+   ## <version>
+
+   - Updated `<dep>` dependency to [`<version>`](https://pub.dev/packages/<dep>/changelog).
+   ```
+
+3. **No `## Upcoming` and nothing else to say** (internal-only changes, test fixes, refactors, or genuinely
+   nothing) → add `## <version>` followed by `- Minor bug fixes and improvements`.
+
+Note what is *not* here: writing fresh bullets from `git log`. The CHANGELOGs are hand-curated, so an
+unreleased user-facing change that never got an `## Upcoming` bullet is a gap to raise with the user, not one
+for this step to fill in.
 
 ### 4. Analyze, then commit
 
@@ -215,10 +279,9 @@ This is the real publish gate. Read failures carefully — pub reports two sever
   and `-f` does **not** bypass errors. Must be fixed before merge.
 - **"potential issue" / "Package has N warnings"** — `-f` publishes through these. Worth fixing, not blocking.
 
-A common error is a `lib/` or `test/` file importing a package absent from `stream_feeds`'s own
-`dependencies` / `dev_dependencies`; it resolves locally through a transitive dep and only `pub publish`
-catches it. Fix at the import or by declaring the dep, and tell the user the release PR now carries a source
-change.
+A common error is a `lib/` or `test/` file importing a package absent from its own package's `dependencies` /
+`dev_dependencies`; it resolves locally through a transitive dep and only `pub publish` catches it. Fix at the
+import or by declaring the dep, and tell the user the release PR now carries a source change.
 
 If it fails, surface to the user and stop — don't push.
 

@@ -5,8 +5,8 @@ import 'dart:io' show Directory, File;
 import 'package:path/path.dart' as p;
 import 'package:yaml/yaml.dart';
 
-/// Updates the version constant in stream_feeds/lib/src/version.dart based on
-/// the version in its pubspec.yaml file.
+/// Updates the version constant in stream_feeds/lib/src/version.dart and the
+/// sample app's version, based on the version in stream_feeds' pubspec.yaml.
 Future<void> main() async {
   // Target the stream_feeds package
   const packageName = 'stream_feeds';
@@ -42,4 +42,19 @@ Future<void> main() async {
   await versionFile.writeAsString(updatedContent);
 
   print('✓ Successfully updated version to $version in $versionFilePath');
+
+  // Android and iOS reject a pre-release tag in an app version, so the sample
+  // app tracks the SDK's release without one: 0.6.0-beta.1 becomes 0.6.0.
+  final appVersion = version.split('-').first;
+
+  final sampleAppPubspecPath = p.join(rootDir, 'sample_app', 'pubspec.yaml');
+  final sampleAppPubspec = File(sampleAppPubspecPath);
+  final updatedSampleAppPubspec = sampleAppPubspec.readAsStringSync().replaceFirst(
+    RegExp(r'^version: .+$', multiLine: true),
+    'version: $appVersion',
+  );
+
+  await sampleAppPubspec.writeAsString(updatedSampleAppPubspec);
+
+  print('✓ Successfully updated version to $appVersion in $sampleAppPubspecPath');
 }
