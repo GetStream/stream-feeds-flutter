@@ -21,7 +21,7 @@ import '../base_tester.dart';
 /// [body] is the test callback that receives a [FollowListTester] for interactions.
 /// [verify] is optional and runs after [body] for verifying API calls and interactions.
 /// [tearDown] is optional and runs after [verify] for cleanup operations.
-/// [skip] is optional, skip this test.
+/// [skip] is optional, the reason to skip this test; omit it to run the test.
 /// [tags] is optional, tags for test filtering. Defaults to ['follow-list'].
 /// [timeout] is optional, custom timeout for this test.
 ///
@@ -50,7 +50,7 @@ void followListTest(
   required FutureOr<void> Function(FollowListTester tester) body,
   FutureOr<void> Function(FollowListTester tester)? verify,
   FutureOr<void> Function(FollowListTester tester)? tearDown,
-  bool skip = false,
+  String? skip,
   Iterable<String> tags = const ['follow-list'],
   test.Timeout? timeout,
 }) {

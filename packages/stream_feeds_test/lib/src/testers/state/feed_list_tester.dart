@@ -21,7 +21,7 @@ import '../base_tester.dart';
 /// [body] is the test callback that receives a [FeedListTester] for interactions.
 /// [verify] is optional and runs after [body] for verifying API calls and interactions.
 /// [tearDown] is optional and runs after [verify] for cleanup operations.
-/// [skip] is optional, skip this test.
+/// [skip] is optional, the reason to skip this test; omit it to run the test.
 /// [tags] is optional, tags for test filtering. Defaults to ['feed-list'].
 /// [timeout] is optional, custom timeout for this test.
 ///
@@ -50,7 +50,7 @@ void feedListTest(
   required FutureOr<void> Function(FeedListTester tester) body,
   FutureOr<void> Function(FeedListTester tester)? verify,
   FutureOr<void> Function(FeedListTester tester)? tearDown,
-  bool skip = false,
+  String? skip,
   Iterable<String> tags = const ['feed-list'],
   test.Timeout? timeout,
 }) {
