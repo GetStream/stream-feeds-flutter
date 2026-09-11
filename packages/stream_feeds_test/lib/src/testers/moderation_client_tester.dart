@@ -17,7 +17,7 @@ import 'base_tester.dart';
 /// [body] is the test callback that receives a [ModerationClientTester] for interactions.
 /// [verify] is optional and runs after [body] for verifying API calls and interactions.
 /// [tearDown] is optional and runs after [verify] for custom cleanup.
-/// [skip] is optional, skip this test.
+/// [skip] is optional, the reason to skip this test; omit it to run the test.
 /// [tags] is optional, tags for test filtering. Defaults to ['moderation-client'].
 /// [timeout] is optional, custom timeout for this test.
 ///
@@ -50,7 +50,7 @@ void moderationClientTest(
   required FutureOr<void> Function(ModerationClientTester tester) body,
   FutureOr<void> Function(ModerationClientTester tester)? verify,
   FutureOr<void> Function(ModerationClientTester tester)? tearDown,
-  bool skip = false,
+  String? skip,
   Iterable<String> tags = const ['moderation-client'],
   test.Timeout? timeout,
 }) {

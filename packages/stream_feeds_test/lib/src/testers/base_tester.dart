@@ -248,7 +248,7 @@ Future<T> createTester<T extends BaseTester<Object?>>({
 /// - [body]: the test callback that receives a tester for interactions
 /// - [verify]: optional, runs after body for verifying API calls
 /// - [tearDown]: optional, runs after verify for custom cleanup
-/// - [skip]: optional, skip this test
+/// - [skip]: optional, the reason to skip this test; omit it to run the test
 /// - [tags]: optional, tags for test filtering
 /// - [timeout]: optional, custom timeout for this test
 ///
@@ -264,7 +264,7 @@ void testWithTester<S, T extends BaseTester<S>>(
   required FutureOr<void> Function(T tester) body,
   FutureOr<void> Function(T tester)? verify,
   FutureOr<void> Function(T tester)? tearDown,
-  bool skip = false,
+  String? skip,
   Iterable<String> tags = const [],
   test.Timeout? timeout,
 }) {
