@@ -111,6 +111,12 @@ class Feed with Disposable {
   final MutableSharedEmitter<StateUpdateEvent> _eventsEmitter;
   final CompositeSubscription _feedSubscriptions = CompositeSubscription();
 
+  // Whether the feed wants to be watched, rather than whether the server has it watched:
+  // raised when a watching [getOrCreate] is attempted, so one that failed while offline still
+  // recovers on reconnect, and lowered by [stopWatching] before its request goes out, so a
+  // response arriving afterwards cannot start watching again.
+  bool _isWatching = false;
+
   @override
   void dispose() {
     _feedSubscriptions.cancel();
@@ -123,6 +129,8 @@ class Feed with Disposable {
   ///
   /// Returns a [Result] containing the [FeedData] or an error.
   Future<Result<FeedData>> getOrCreate() async {
+    _isWatching = query.watch;
+
     final result = await feedsRepository.getOrCreateFeed(query);
     result.onSuccess((feedData) {
       _stateNotifier.onQueryFeed(feedData);
@@ -138,8 +146,20 @@ class Feed with Disposable {
 
   /// Stops watching the feed.
   ///
+  /// The feed also stops refetching itself when the connection comes back;
+  /// [getOrCreate] starts both again.
+  ///
+  /// Watching is scoped to the connection rather than to this object: another
+  /// [Feed] on the same [fid] stops receiving events too, and if it is still
+  /// watching it starts them again for both when the connection comes back.
+  ///
   /// Returns a [Result] indicating success or failure of the stop operation.
   Future<Result<void>> stopWatching() {
+    // Lowered before the request goes out, so a reconnect arriving while it is in flight does
+    // not start watching again. The server drops the watch on disconnect anyway, so this holds
+    // even when the request itself fails.
+    _isWatching = false;
+
     return feedsRepository.stopWatching(query.fid);
   }
 
@@ -941,6 +961,10 @@ class Feed with Disposable {
   }) {
     _feedSubscriptions.add(
       onReconnectEmitter.listen((_) {
+        // The server drops every watch on disconnect, so a watched feed fetches itself again to
+        // watch again. A feed that was stopped, or was never fetched, stays as it is.
+        if (!_isWatching) return;
+
         getOrCreate();
       }),
     );

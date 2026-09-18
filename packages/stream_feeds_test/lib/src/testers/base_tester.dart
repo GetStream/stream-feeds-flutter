@@ -145,6 +145,22 @@ abstract base class BaseTester<S> with ApiMockerMixin, CdnMockerMixin {
     await pumpEventQueue();
   }
 
+  /// Drops the connection and brings it back, the way a reconnect does.
+  ///
+  /// Pumps the event queue afterwards, since anything listening for a reconnect
+  /// reacts on a stream rather than inline.
+  ///
+  /// Example:
+  /// ```dart
+  /// await tester.reconnect();
+  /// tester.verifyApiCalled((api) => api.getOrCreateFeed(...), times: 2);
+  /// ```
+  Future<void> reconnect() async {
+    await _client.disconnect();
+    await _client.connect();
+    await pumpEventQueue();
+  }
+
   /// Waits for events to be processed.
   ///
   /// Returns a [Future] that completes after the [event loop][] has run the given

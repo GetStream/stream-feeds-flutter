@@ -1,3 +1,9 @@
+## Upcoming
+
+### 🐛 Bug Fixes
+
+- `Feed.stopWatching()` now also stops the feed fetching and watching itself again when the connection comes back; `getOrCreate()` starts both again. A feed that was never fetched no longer fetches itself on the first reconnect either
+
 ## 0.6.0
 
 ### 💥 BREAKING CHANGES
