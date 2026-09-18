@@ -648,7 +648,6 @@ class Feed with Disposable {
     // Create a new query with the next page token. It asks to watch only while the feed
     // does, so a page fetched after stopWatching leaves it stopped.
     final nextQuery = query.copyWith(
-      fid: query.fid,
       activityNext: next,
       activityLimit: limit ?? query.activityLimit,
       watch: _isWatching,
