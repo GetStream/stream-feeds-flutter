@@ -111,6 +111,9 @@ class Feed with Disposable {
   final MutableSharedEmitter<StateUpdateEvent> _eventsEmitter;
   final CompositeSubscription _feedSubscriptions = CompositeSubscription();
 
+  // Whether the feed wants to be watched, rather than whether the server has it watched.
+  bool _isWatching = false;
+
   @override
   void dispose() {
     _feedSubscriptions.cancel();
@@ -123,6 +126,8 @@ class Feed with Disposable {
   ///
   /// Returns a [Result] containing the [FeedData] or an error.
   Future<Result<FeedData>> getOrCreate() async {
+    _isWatching = query.watch;
+
     final result = await feedsRepository.getOrCreateFeed(query);
     result.onSuccess((feedData) {
       _stateNotifier.onQueryFeed(feedData);
@@ -138,8 +143,18 @@ class Feed with Disposable {
 
   /// Stops watching the feed.
   ///
+  /// The feed also stops fetching itself when the connection comes back;
+  /// [getOrCreate] starts both again. Watching is scoped to the connection, so
+  /// another [Feed] on the same [fid] stops receiving events too, until one that
+  /// is still watching fetches on reconnect.
+  ///
   /// Returns a [Result] indicating success or failure of the stop operation.
   Future<Result<void>> stopWatching() {
+    // Lowered before the request goes out, so a reconnect while it is in flight does not
+    // start watching again. It holds even when the request fails: the server drops the
+    // watch on disconnect anyway.
+    _isWatching = false;
+
     return feedsRepository.stopWatching(query.fid);
   }
 
@@ -630,11 +645,12 @@ class Feed with Disposable {
     // Early return if no more activities available
     if (next == null) return const Result.success([]);
 
-    // Create a new query with the next page token
+    // Create a new query with the next page token. It asks to watch only while the feed
+    // does, so a page fetched after stopWatching leaves it stopped.
     final nextQuery = query.copyWith(
-      fid: query.fid,
       activityNext: next,
       activityLimit: limit ?? query.activityLimit,
+      watch: _isWatching,
     );
 
     final result = await feedsRepository.getOrCreateFeed(nextQuery);
@@ -941,6 +957,9 @@ class Feed with Disposable {
   }) {
     _feedSubscriptions.add(
       onReconnectEmitter.listen((_) {
+        // The server drops every watch on disconnect, so a watched feed fetches itself again.
+        if (!_isWatching) return;
+
         getOrCreate();
       }),
     );
