@@ -650,11 +650,13 @@ class Feed with Disposable {
     // Early return if no more activities available
     if (next == null) return const Result.success([]);
 
-    // Create a new query with the next page token
+    // Create a new query with the next page token. It asks to watch only while the feed is
+    // watching, so a page fetched after stopWatching does not start it again.
     final nextQuery = query.copyWith(
       fid: query.fid,
       activityNext: next,
       activityLimit: limit ?? query.activityLimit,
+      watch: _isWatching,
     );
 
     final result = await feedsRepository.getOrCreateFeed(nextQuery);
