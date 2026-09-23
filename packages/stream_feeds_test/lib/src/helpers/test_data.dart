@@ -465,6 +465,8 @@ AddCommentReactionResponse createDefaultAddCommentReactionResponse({
   String objectType = 'activity',
   String userId = 'user-1',
   String reactionType = 'like',
+  int counterDelta = 1,
+  String outcome = 'created',
 }) {
   return AddCommentReactionResponse(
     comment: createDefaultCommentResponse(
@@ -473,7 +475,9 @@ AddCommentReactionResponse createDefaultAddCommentReactionResponse({
       objectType: objectType,
       userId: userId,
     ),
+    counterDelta: counterDelta,
     duration: '10ms',
+    outcome: outcome,
     reaction: FeedsReactionResponse(
       activityId: objectId,
       commentId: commentId,
@@ -605,10 +609,14 @@ AddReactionResponse createDefaultAddReactionResponse({
   String activityId = 'activity-id',
   String userId = 'user-id',
   String reactionType = 'like',
+  int counterDelta = 1,
+  String outcome = 'created',
 }) {
   return AddReactionResponse(
     activity: createDefaultActivityResponse(id: activityId),
+    counterDelta: counterDelta,
     duration: '10ms',
+    outcome: outcome,
     reaction: FeedsReactionResponse(
       activityId: activityId,
       type: reactionType,
