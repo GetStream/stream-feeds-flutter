@@ -10,28 +10,27 @@ import 'package:stream_core/stream_core.dart' as core;
 
 import '../models.dart';
 
-part 'flood_identical_rule_parameters.g.dart';
-part 'flood_identical_rule_parameters.freezed.dart';
+part 'user_identical_image_count_parameters.g.dart';
+part 'user_identical_image_count_parameters.freezed.dart';
 
 @freezed
 @immutable
 @JsonSerializable()
-class FloodIdenticalRuleParameters with _$FloodIdenticalRuleParameters {
-  const FloodIdenticalRuleParameters({
-    this.allowlist,
-    this.minTextLength,
+class UserIdenticalImageCountParameters with _$UserIdenticalImageCountParameters {
+  const UserIdenticalImageCountParameters({
+    this.match,
+    this.similarityDistance,
     this.threshold,
     this.timeWindow,
-    this.trackAcrossUsers,
   });
 
   @override
-  @JsonKey(name: 'allowlist')
-  final List<String>? allowlist;
+  @JsonKey(name: 'match')
+  final String? match;
 
   @override
-  @JsonKey(name: 'min_text_length')
-  final int? minTextLength;
+  @JsonKey(name: 'similarity_distance')
+  final int? similarityDistance;
 
   @override
   @JsonKey(name: 'threshold')
@@ -41,12 +40,8 @@ class FloodIdenticalRuleParameters with _$FloodIdenticalRuleParameters {
   @JsonKey(name: 'time_window')
   final String? timeWindow;
 
-  @override
-  @JsonKey(name: 'track_across_users')
-  final bool? trackAcrossUsers;
+  Map<String, dynamic> toJson() => _$UserIdenticalImageCountParametersToJson(this);
 
-  Map<String, dynamic> toJson() => _$FloodIdenticalRuleParametersToJson(this);
-
-  static FloodIdenticalRuleParameters fromJson(Map<String, dynamic> json) =>
-      _$FloodIdenticalRuleParametersFromJson(json);
+  static UserIdenticalImageCountParameters fromJson(Map<String, dynamic> json) =>
+      _$UserIdenticalImageCountParametersFromJson(json);
 }

@@ -2079,6 +2079,45 @@ class _DefaultApi implements DefaultApi {
     );
   }
 
+  Future<DeleteUserInterestsResponse> _deleteUserInterests({
+    required String userId,
+    required List<String> tags,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'tags': tags};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<Result<DeleteUserInterestsResponse>>(
+      Options(method: 'DELETE', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/feeds/users/${userId}/interests',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late DeleteUserInterestsResponse _value;
+    try {
+      _value = DeleteUserInterestsResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<DeleteUserInterestsResponse>> deleteUserInterests({
+    required String userId,
+    required List<String> tags,
+  }) {
+    return _ResultCallAdapter<DeleteUserInterestsResponse>().adapt(
+      () => _deleteUserInterests(userId: userId, tags: tags),
+    );
+  }
+
   Future<FlagItemResponse> _flag({required FlagRequest flagRequest}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -2247,6 +2286,7 @@ class _DefaultApi implements DefaultApi {
     required String id,
     String? commentSort,
     int? commentLimit,
+    bool? skipOwnFollowings,
     String? language,
     bool? translateText,
   }) async {
@@ -2254,6 +2294,7 @@ class _DefaultApi implements DefaultApi {
     final queryParameters = <String, dynamic>{
       r'comment_sort': commentSort,
       r'comment_limit': commentLimit,
+      r'skip_own_followings': skipOwnFollowings,
       r'language': language,
       r'translate_text': translateText,
     };
@@ -2286,6 +2327,7 @@ class _DefaultApi implements DefaultApi {
     required String id,
     String? commentSort,
     int? commentLimit,
+    bool? skipOwnFollowings,
     String? language,
     bool? translateText,
   }) {
@@ -2294,6 +2336,7 @@ class _DefaultApi implements DefaultApi {
         id: id,
         commentSort: commentSort,
         commentLimit: commentLimit,
+        skipOwnFollowings: skipOwnFollowings,
         language: language,
         translateText: translateText,
       ),
@@ -6226,6 +6269,49 @@ class _DefaultApi implements DefaultApi {
   }) {
     return _ResultCallAdapter<UpsertConfigResponse>().adapt(
       () => _upsertConfig(upsertConfigRequest: upsertConfigRequest),
+    );
+  }
+
+  Future<UpsertUserInterestsResponse> _upsertUserInterests({
+    required String userId,
+    required UpsertUserInterestsRequest upsertUserInterestsRequest,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(upsertUserInterestsRequest.toJson());
+    final _options = _setStreamType<Result<UpsertUserInterestsResponse>>(
+      Options(method: 'PUT', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/feeds/users/${userId}/interests',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late UpsertUserInterestsResponse _value;
+    try {
+      _value = UpsertUserInterestsResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<UpsertUserInterestsResponse>> upsertUserInterests({
+    required String userId,
+    required UpsertUserInterestsRequest upsertUserInterestsRequest,
+  }) {
+    return _ResultCallAdapter<UpsertUserInterestsResponse>().adapt(
+      () => _upsertUserInterests(
+        userId: userId,
+        upsertUserInterestsRequest: upsertUserInterestsRequest,
+      ),
     );
   }
 

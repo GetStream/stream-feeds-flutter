@@ -37,6 +37,7 @@ class CreatePollRequest with _$CreatePollRequest {
     this.maxVotesAllowed,
     required this.name,
     this.options,
+    this.team,
     this.votingVisibility,
   });
 
@@ -79,6 +80,10 @@ class CreatePollRequest with _$CreatePollRequest {
   @override
   @JsonKey(name: 'options')
   final List<PollOptionInput>? options;
+
+  @override
+  @JsonKey(name: 'team')
+  final String? team;
 
   @override
   @JsonKey(name: 'voting_visibility')

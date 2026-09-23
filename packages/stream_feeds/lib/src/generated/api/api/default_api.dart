@@ -303,6 +303,12 @@ abstract interface class DefaultApi {
     @Query('team_id') String? teamId,
   });
 
+  @DELETE('/api/v2/feeds/users/{user_id}/interests')
+  Future<Result<DeleteUserInterestsResponse>> deleteUserInterests({
+    @Path('user_id') required String userId,
+    @Query('tags') required List<String> tags,
+  });
+
   @POST('/api/v2/moderation/flag')
   Future<Result<FlagItemResponse>> flag({
     @Body() required FlagRequest flagRequest,
@@ -331,6 +337,7 @@ abstract interface class DefaultApi {
     @Path('id') required String id,
     @Query('comment_sort') String? commentSort,
     @Query('comment_limit') int? commentLimit,
+    @Query('skip_own_followings') bool? skipOwnFollowings,
     @Query('language') String? language,
     @Query('translate_text') bool? translateText,
   });
@@ -886,6 +893,12 @@ abstract interface class DefaultApi {
   @POST('/api/v2/moderation/config')
   Future<Result<UpsertConfigResponse>> upsertConfig({
     @Body() required UpsertConfigRequest upsertConfigRequest,
+  });
+
+  @PUT('/api/v2/feeds/users/{user_id}/interests')
+  Future<Result<UpsertUserInterestsResponse>> upsertUserInterests({
+    @Path('user_id') required String userId,
+    @Body() required UpsertUserInterestsRequest upsertUserInterestsRequest,
   });
 }
 

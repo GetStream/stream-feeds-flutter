@@ -14,7 +14,9 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$InterestTagResponse {
   int get count;
+  String get source;
   String get tag;
+  double get weight;
 
   /// Create a copy of InterestTagResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -32,15 +34,17 @@ mixin _$InterestTagResponse {
         (other.runtimeType == runtimeType &&
             other is InterestTagResponse &&
             (identical(other.count, count) || other.count == count) &&
-            (identical(other.tag, tag) || other.tag == tag));
+            (identical(other.source, source) || other.source == source) &&
+            (identical(other.tag, tag) || other.tag == tag) &&
+            (identical(other.weight, weight) || other.weight == weight));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, count, tag);
+  int get hashCode => Object.hash(runtimeType, count, source, tag, weight);
 
   @override
   String toString() {
-    return 'InterestTagResponse(count: $count, tag: $tag)';
+    return 'InterestTagResponse(count: $count, source: $source, tag: $tag, weight: $weight)';
   }
 }
 
@@ -51,7 +55,7 @@ abstract mixin class $InterestTagResponseCopyWith<$Res> {
     $Res Function(InterestTagResponse) _then,
   ) = _$InterestTagResponseCopyWithImpl;
   @useResult
-  $Res call({int count, String tag});
+  $Res call({int count, String source, String tag, double weight});
 }
 
 /// @nodoc
@@ -65,17 +69,30 @@ class _$InterestTagResponseCopyWithImpl<$Res> implements $InterestTagResponseCop
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? count = null, Object? tag = null}) {
+  $Res call({
+    Object? count = null,
+    Object? source = null,
+    Object? tag = null,
+    Object? weight = null,
+  }) {
     return _then(
       InterestTagResponse(
         count: null == count
             ? _self.count
             : count // ignore: cast_nullable_to_non_nullable
                   as int,
+        source: null == source
+            ? _self.source
+            : source // ignore: cast_nullable_to_non_nullable
+                  as String,
         tag: null == tag
             ? _self.tag
             : tag // ignore: cast_nullable_to_non_nullable
                   as String,
+        weight: null == weight
+            ? _self.weight
+            : weight // ignore: cast_nullable_to_non_nullable
+                  as double,
       ),
     );
   }
