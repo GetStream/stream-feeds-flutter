@@ -1,4 +1,4 @@
-## Upcoming
+## 0.6.1
 
 ### 🐛 Bug Fixes
 
