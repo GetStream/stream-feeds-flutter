@@ -294,6 +294,178 @@ void main() {
   });
 
   // ==========================================================================
+  // Feed - Reconnect
+  // ==========================================================================
+
+  group('Feed - Reconnect', () {
+    const feedId = FeedId(group: 'user', id: 'john');
+    const watchRequest = GetOrCreateFeedRequest(watch: true);
+
+    Future<Result<void>> stopWatching(FeedTester tester) {
+      tester.mockApi(
+        (api) => api.stopWatchingFeed(feedGroupId: feedId.group, feedId: feedId.id),
+        result: const DurationResponse(duration: '0ms'),
+      );
+
+      return tester.feed.stopWatching();
+    }
+
+    feedTest(
+      'fetches the feed again when the connection comes back',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(),
+      body: (tester) => tester.reconnect(),
+      verify: (tester) => tester.verifyApiCalled(
+        (api) => api.getOrCreateFeed(
+          feedId: feedId.id,
+          feedGroupId: feedId.group,
+          getOrCreateFeedRequest: watchRequest,
+        ),
+        times: 2,
+      ),
+    );
+
+    feedTest(
+      'does not fetch the feed again after stopWatching()',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) async {
+        await tester.getOrCreate();
+        await stopWatching(tester);
+      },
+      body: (tester) => tester.reconnect(),
+      verify: (tester) => tester.verifyApiCalled(
+        (api) => api.getOrCreateFeed(
+          feedId: feedId.id,
+          feedGroupId: feedId.group,
+          getOrCreateFeedRequest: watchRequest,
+        ),
+        times: 1,
+      ),
+    );
+
+    feedTest(
+      'watches again when getOrCreate() follows stopWatching()',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) async {
+        await tester.getOrCreate();
+        await stopWatching(tester);
+        await tester.getOrCreate();
+      },
+      body: (tester) => tester.reconnect(),
+      verify: (tester) => tester.verifyApiCalled(
+        (api) => api.getOrCreateFeed(
+          feedId: feedId.id,
+          feedGroupId: feedId.group,
+          getOrCreateFeedRequest: watchRequest,
+        ),
+        times: 3,
+      ),
+    );
+
+    feedTest(
+      'fetches the feed again after a fetch that failed while the connection was down',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) async {
+        tester.mockApiFailure(
+          (api) => api.getOrCreateFeed(
+            feedId: feedId.id,
+            feedGroupId: feedId.group,
+            getOrCreateFeedRequest: watchRequest,
+          ),
+          error: const StreamNetworkException(message: 'Connection failed'),
+        );
+
+        final result = await tester.feed.getOrCreate();
+        expect(result.isFailure, isTrue);
+      },
+      body: (tester) async {
+        // Answers the way the server does once it is reachable again.
+        tester.mockApi(
+          (api) => api.getOrCreateFeed(
+            feedId: feedId.id,
+            feedGroupId: feedId.group,
+            getOrCreateFeedRequest: watchRequest,
+          ),
+          result: createDefaultGetOrCreateFeedResponse(),
+        );
+
+        await tester.reconnect();
+
+        expect(tester.feedState.feed, isNotNull);
+      },
+      verify: (tester) => tester.verifyApiCalled(
+        (api) => api.getOrCreateFeed(
+          feedId: feedId.id,
+          feedGroupId: feedId.group,
+          getOrCreateFeedRequest: watchRequest,
+        ),
+        times: 2,
+      ),
+    );
+
+    feedTest(
+      'does not ask to watch again when loading more activities after stopWatching()',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) async {
+        await tester.getOrCreate(
+          modifyResponse: (it) => it.copyWith(next: 'next-cursor'),
+        );
+
+        await stopWatching(tester);
+      },
+      body: (tester) async {
+        tester.mockApi(
+          (api) => api.getOrCreateFeed(
+            feedGroupId: feedId.group,
+            feedId: feedId.id,
+            getOrCreateFeedRequest: const GetOrCreateFeedRequest(next: 'next-cursor', watch: false),
+          ),
+          result: createDefaultGetOrCreateFeedResponse(
+            activities: [createDefaultActivityResponse(id: 'activity-4')],
+          ),
+        );
+
+        final result = await tester.feed.queryMoreActivities();
+        expect(result.isSuccess, isTrue);
+
+        await tester.reconnect();
+      },
+      verify: (tester) {
+        // The page was asked for without watching, and the reconnect left the stopped feed alone.
+        tester.verifyApi(
+          (api) => api.getOrCreateFeed(
+            feedGroupId: feedId.group,
+            feedId: feedId.id,
+            getOrCreateFeedRequest: const GetOrCreateFeedRequest(next: 'next-cursor', watch: false),
+          ),
+        );
+
+        tester.verifyApiCalled(
+          (api) => api.getOrCreateFeed(
+            feedId: feedId.id,
+            feedGroupId: feedId.group,
+            getOrCreateFeedRequest: watchRequest,
+          ),
+          times: 1,
+        );
+      },
+    );
+
+    feedTest(
+      'does not fetch a feed that was never fetched when the connection comes back',
+      build: (client) => client.feedFromId(feedId),
+      body: (tester) => tester.reconnect(),
+      verify: (tester) => tester.verifyNeverCalled(
+        (api) => api.getOrCreateFeed(
+          feedId: feedId.id,
+          feedGroupId: feedId.group,
+          getOrCreateFeedRequest: watchRequest,
+        ),
+      ),
+    );
+  });
+
+  // ==========================================================================
   // Feed - Activities
   // ==========================================================================
 
