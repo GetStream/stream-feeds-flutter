@@ -10,27 +10,17 @@ import 'package:stream_core/stream_core.dart' as core;
 
 import '../models.dart';
 
-part 'interest_tag_response.g.dart';
-part 'interest_tag_response.freezed.dart';
+part 'user_interest_request.g.dart';
+part 'user_interest_request.freezed.dart';
 
 @freezed
 @immutable
 @JsonSerializable()
-class InterestTagResponse with _$InterestTagResponse {
-  const InterestTagResponse({
-    required this.count,
-    required this.source,
+class UserInterestRequest with _$UserInterestRequest {
+  const UserInterestRequest({
     required this.tag,
-    required this.weight,
+    this.weight,
   });
-
-  @override
-  @JsonKey(name: 'count')
-  final int count;
-
-  @override
-  @JsonKey(name: 'source')
-  final String source;
 
   @override
   @JsonKey(name: 'tag')
@@ -38,9 +28,9 @@ class InterestTagResponse with _$InterestTagResponse {
 
   @override
   @JsonKey(name: 'weight')
-  final double weight;
+  final double? weight;
 
-  Map<String, dynamic> toJson() => _$InterestTagResponseToJson(this);
+  Map<String, dynamic> toJson() => _$UserInterestRequestToJson(this);
 
-  static InterestTagResponse fromJson(Map<String, dynamic> json) => _$InterestTagResponseFromJson(json);
+  static UserInterestRequest fromJson(Map<String, dynamic> json) => _$UserInterestRequestFromJson(json);
 }

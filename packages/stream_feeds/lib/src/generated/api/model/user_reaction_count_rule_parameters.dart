@@ -10,28 +10,22 @@ import 'package:stream_core/stream_core.dart' as core;
 
 import '../models.dart';
 
-part 'flood_identical_rule_parameters.g.dart';
-part 'flood_identical_rule_parameters.freezed.dart';
+part 'user_reaction_count_rule_parameters.g.dart';
+part 'user_reaction_count_rule_parameters.freezed.dart';
 
 @freezed
 @immutable
 @JsonSerializable()
-class FloodIdenticalRuleParameters with _$FloodIdenticalRuleParameters {
-  const FloodIdenticalRuleParameters({
-    this.allowlist,
-    this.minTextLength,
+class UserReactionCountRuleParameters with _$UserReactionCountRuleParameters {
+  const UserReactionCountRuleParameters({
+    this.count,
     this.threshold,
     this.timeWindow,
-    this.trackAcrossUsers,
   });
 
   @override
-  @JsonKey(name: 'allowlist')
-  final List<String>? allowlist;
-
-  @override
-  @JsonKey(name: 'min_text_length')
-  final int? minTextLength;
+  @JsonKey(name: 'count')
+  final String? count;
 
   @override
   @JsonKey(name: 'threshold')
@@ -41,12 +35,8 @@ class FloodIdenticalRuleParameters with _$FloodIdenticalRuleParameters {
   @JsonKey(name: 'time_window')
   final String? timeWindow;
 
-  @override
-  @JsonKey(name: 'track_across_users')
-  final bool? trackAcrossUsers;
+  Map<String, dynamic> toJson() => _$UserReactionCountRuleParametersToJson(this);
 
-  Map<String, dynamic> toJson() => _$FloodIdenticalRuleParametersToJson(this);
-
-  static FloodIdenticalRuleParameters fromJson(Map<String, dynamic> json) =>
-      _$FloodIdenticalRuleParametersFromJson(json);
+  static UserReactionCountRuleParameters fromJson(Map<String, dynamic> json) =>
+      _$UserReactionCountRuleParametersFromJson(json);
 }

@@ -10,17 +10,16 @@ import 'package:stream_core/stream_core.dart' as core;
 
 import '../models.dart';
 
-part 'update_users_response.g.dart';
-part 'update_users_response.freezed.dart';
+part 'upsert_user_interests_response.g.dart';
+part 'upsert_user_interests_response.freezed.dart';
 
 @freezed
 @immutable
 @JsonSerializable()
-class UpdateUsersResponse with _$UpdateUsersResponse {
-  const UpdateUsersResponse({
+class UpsertUserInterestsResponse with _$UpsertUserInterestsResponse {
+  const UpsertUserInterestsResponse({
     required this.duration,
-    required this.membershipDeletionTaskId,
-    required this.users,
+    required this.interests,
   });
 
   @override
@@ -28,15 +27,10 @@ class UpdateUsersResponse with _$UpdateUsersResponse {
   final String duration;
 
   @override
-  @Deprecated('This field is deprecated.')
-  @JsonKey(name: 'membership_deletion_task_id')
-  final String membershipDeletionTaskId;
+  @JsonKey(name: 'interests')
+  final List<InterestTagResponse> interests;
 
-  @override
-  @JsonKey(name: 'users')
-  final Map<String, FullUserResponse> users;
+  Map<String, dynamic> toJson() => _$UpsertUserInterestsResponseToJson(this);
 
-  Map<String, dynamic> toJson() => _$UpdateUsersResponseToJson(this);
-
-  static UpdateUsersResponse fromJson(Map<String, dynamic> json) => _$UpdateUsersResponseFromJson(json);
+  static UpsertUserInterestsResponse fromJson(Map<String, dynamic> json) => _$UpsertUserInterestsResponseFromJson(json);
 }

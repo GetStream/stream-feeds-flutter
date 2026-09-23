@@ -10,10 +10,13 @@ AddReactionResponse _$AddReactionResponseFromJson(Map<String, dynamic> json) => 
   activity: ActivityResponse.fromJson(
     json['activity'] as Map<String, dynamic>,
   ),
+  counterDelta: (json['counter_delta'] as num).toInt(),
   duration: json['duration'] as String,
   notificationAccepted: json['notification_accepted'] as bool?,
   notificationCreated: json['notification_created'] as bool?,
   notificationTaskId: json['notification_task_id'] as String?,
+  outcome: json['outcome'] as String,
+  previousReactionType: json['previous_reaction_type'] as String?,
   reaction: FeedsReactionResponse.fromJson(
     json['reaction'] as Map<String, dynamic>,
   ),
@@ -28,10 +31,13 @@ Map<String, dynamic> _$AddReactionResponseToJson(
   AddReactionResponse instance,
 ) => <String, dynamic>{
   'activity': instance.activity.toJson(),
+  'counter_delta': instance.counterDelta,
   'duration': instance.duration,
   'notification_accepted': instance.notificationAccepted,
   'notification_created': instance.notificationCreated,
   'notification_task_id': instance.notificationTaskId,
+  'outcome': instance.outcome,
+  'previous_reaction_type': instance.previousReactionType,
   'reaction': instance.reaction.toJson(),
   'reference_activity': instance.referenceActivity?.toJson(),
 };

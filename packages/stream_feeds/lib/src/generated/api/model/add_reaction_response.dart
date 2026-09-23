@@ -19,10 +19,13 @@ part 'add_reaction_response.freezed.dart';
 class AddReactionResponse with _$AddReactionResponse {
   const AddReactionResponse({
     required this.activity,
+    required this.counterDelta,
     required this.duration,
     this.notificationAccepted,
     this.notificationCreated,
     this.notificationTaskId,
+    required this.outcome,
+    this.previousReactionType,
     required this.reaction,
     this.referenceActivity,
   });
@@ -30,6 +33,10 @@ class AddReactionResponse with _$AddReactionResponse {
   @override
   @JsonKey(name: 'activity')
   final ActivityResponse activity;
+
+  @override
+  @JsonKey(name: 'counter_delta')
+  final int counterDelta;
 
   @override
   @JsonKey(name: 'duration')
@@ -47,6 +54,14 @@ class AddReactionResponse with _$AddReactionResponse {
   @override
   @JsonKey(name: 'notification_task_id')
   final String? notificationTaskId;
+
+  @override
+  @JsonKey(name: 'outcome')
+  final String outcome;
+
+  @override
+  @JsonKey(name: 'previous_reaction_type')
+  final String? previousReactionType;
 
   @override
   @JsonKey(name: 'reaction')

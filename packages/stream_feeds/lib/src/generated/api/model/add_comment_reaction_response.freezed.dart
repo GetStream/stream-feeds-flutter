@@ -14,10 +14,13 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AddCommentReactionResponse {
   CommentResponse get comment;
+  int get counterDelta;
   String get duration;
   bool? get notificationAccepted;
   bool? get notificationCreated;
   String? get notificationTaskId;
+  String get outcome;
+  String? get previousReactionType;
   FeedsReactionResponse get reaction;
   ActivityResponse? get referenceActivity;
 
@@ -37,6 +40,7 @@ mixin _$AddCommentReactionResponse {
         (other.runtimeType == runtimeType &&
             other is AddCommentReactionResponse &&
             (identical(other.comment, comment) || other.comment == comment) &&
+            (identical(other.counterDelta, counterDelta) || other.counterDelta == counterDelta) &&
             (identical(other.duration, duration) || other.duration == duration) &&
             (identical(other.notificationAccepted, notificationAccepted) ||
                 other.notificationAccepted == notificationAccepted) &&
@@ -44,6 +48,9 @@ mixin _$AddCommentReactionResponse {
                 other.notificationCreated == notificationCreated) &&
             (identical(other.notificationTaskId, notificationTaskId) ||
                 other.notificationTaskId == notificationTaskId) &&
+            (identical(other.outcome, outcome) || other.outcome == outcome) &&
+            (identical(other.previousReactionType, previousReactionType) ||
+                other.previousReactionType == previousReactionType) &&
             (identical(other.reaction, reaction) || other.reaction == reaction) &&
             (identical(other.referenceActivity, referenceActivity) || other.referenceActivity == referenceActivity));
   }
@@ -52,17 +59,20 @@ mixin _$AddCommentReactionResponse {
   int get hashCode => Object.hash(
     runtimeType,
     comment,
+    counterDelta,
     duration,
     notificationAccepted,
     notificationCreated,
     notificationTaskId,
+    outcome,
+    previousReactionType,
     reaction,
     referenceActivity,
   );
 
   @override
   String toString() {
-    return 'AddCommentReactionResponse(comment: $comment, duration: $duration, notificationAccepted: $notificationAccepted, notificationCreated: $notificationCreated, notificationTaskId: $notificationTaskId, reaction: $reaction, referenceActivity: $referenceActivity)';
+    return 'AddCommentReactionResponse(comment: $comment, counterDelta: $counterDelta, duration: $duration, notificationAccepted: $notificationAccepted, notificationCreated: $notificationCreated, notificationTaskId: $notificationTaskId, outcome: $outcome, previousReactionType: $previousReactionType, reaction: $reaction, referenceActivity: $referenceActivity)';
   }
 }
 
@@ -75,10 +85,13 @@ abstract mixin class $AddCommentReactionResponseCopyWith<$Res> {
   @useResult
   $Res call({
     CommentResponse comment,
+    int counterDelta,
     String duration,
     bool? notificationAccepted,
     bool? notificationCreated,
     String? notificationTaskId,
+    String outcome,
+    String? previousReactionType,
     FeedsReactionResponse reaction,
     ActivityResponse? referenceActivity,
   });
@@ -97,10 +110,13 @@ class _$AddCommentReactionResponseCopyWithImpl<$Res> implements $AddCommentReact
   @override
   $Res call({
     Object? comment = null,
+    Object? counterDelta = null,
     Object? duration = null,
     Object? notificationAccepted = freezed,
     Object? notificationCreated = freezed,
     Object? notificationTaskId = freezed,
+    Object? outcome = null,
+    Object? previousReactionType = freezed,
     Object? reaction = null,
     Object? referenceActivity = freezed,
   }) {
@@ -110,6 +126,10 @@ class _$AddCommentReactionResponseCopyWithImpl<$Res> implements $AddCommentReact
             ? _self.comment
             : comment // ignore: cast_nullable_to_non_nullable
                   as CommentResponse,
+        counterDelta: null == counterDelta
+            ? _self.counterDelta
+            : counterDelta // ignore: cast_nullable_to_non_nullable
+                  as int,
         duration: null == duration
             ? _self.duration
             : duration // ignore: cast_nullable_to_non_nullable
@@ -125,6 +145,14 @@ class _$AddCommentReactionResponseCopyWithImpl<$Res> implements $AddCommentReact
         notificationTaskId: freezed == notificationTaskId
             ? _self.notificationTaskId
             : notificationTaskId // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        outcome: null == outcome
+            ? _self.outcome
+            : outcome // ignore: cast_nullable_to_non_nullable
+                  as String,
+        previousReactionType: freezed == previousReactionType
+            ? _self.previousReactionType
+            : previousReactionType // ignore: cast_nullable_to_non_nullable
                   as String?,
         reaction: null == reaction
             ? _self.reaction
