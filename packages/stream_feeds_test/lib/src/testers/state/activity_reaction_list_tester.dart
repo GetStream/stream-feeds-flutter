@@ -21,7 +21,7 @@ import '../base_tester.dart';
 /// [body] is the test callback that receives an [ActivityReactionListTester] for interactions.
 /// [verify] is optional and runs after [body] for verifying API calls and interactions.
 /// [tearDown] is optional and runs after [verify] for cleanup operations.
-/// [skip] is optional, skip this test.
+/// [skip] is optional, the reason to skip this test; omit it to run the test.
 /// [tags] is optional, tags for test filtering. Defaults to ['activity-reaction-list'].
 /// [timeout] is optional, custom timeout for this test.
 ///
@@ -50,7 +50,7 @@ void activityReactionListTest(
   required FutureOr<void> Function(ActivityReactionListTester tester) body,
   FutureOr<void> Function(ActivityReactionListTester tester)? verify,
   FutureOr<void> Function(ActivityReactionListTester tester)? tearDown,
-  bool skip = false,
+  String? skip,
   Iterable<String> tags = const ['activity-reaction-list'],
   test.Timeout? timeout,
 }) {

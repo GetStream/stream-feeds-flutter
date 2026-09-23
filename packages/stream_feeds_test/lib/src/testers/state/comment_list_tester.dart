@@ -21,7 +21,7 @@ import '../base_tester.dart';
 /// [body] is the test callback that receives a [CommentListTester] for interactions.
 /// [verify] is optional and runs after [body] for verifying API calls and interactions.
 /// [tearDown] is optional and runs after [verify] for cleanup operations.
-/// [skip] is optional, skip this test.
+/// [skip] is optional, the reason to skip this test; omit it to run the test.
 /// [tags] is optional, tags for test filtering. Defaults to ['comment-list'].
 /// [timeout] is optional, custom timeout for this test.
 ///
@@ -50,7 +50,7 @@ void commentListTest(
   required FutureOr<void> Function(CommentListTester tester) body,
   FutureOr<void> Function(CommentListTester tester)? verify,
   FutureOr<void> Function(CommentListTester tester)? tearDown,
-  bool skip = false,
+  String? skip,
   Iterable<String> tags = const ['comment-list'],
   test.Timeout? timeout,
 }) {

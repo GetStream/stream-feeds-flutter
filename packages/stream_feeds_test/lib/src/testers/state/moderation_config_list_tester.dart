@@ -20,7 +20,7 @@ import '../base_tester.dart';
 /// [body] is the test callback that receives a [ModerationConfigListTester] for interactions.
 /// [verify] is optional and runs after [body] for verifying API calls and interactions.
 /// [tearDown] is optional and runs after [verify] for cleanup operations.
-/// [skip] is optional, skip this test.
+/// [skip] is optional, the reason to skip this test; omit it to run the test.
 /// [tags] is optional, tags for test filtering. Defaults to ['moderation-config-list'].
 /// [timeout] is optional, custom timeout for this test.
 ///
@@ -45,7 +45,7 @@ void moderationConfigListTest(
   required FutureOr<void> Function(ModerationConfigListTester tester) body,
   FutureOr<void> Function(ModerationConfigListTester tester)? verify,
   FutureOr<void> Function(ModerationConfigListTester tester)? tearDown,
-  bool skip = false,
+  String? skip,
   Iterable<String> tags = const ['moderation-config-list'],
   test.Timeout? timeout,
 }) {
