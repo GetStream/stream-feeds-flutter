@@ -216,8 +216,8 @@ rm -rf "$OUTPUT_DIR_FEEDS"
 mkdir -p "$OUTPUT_DIR_FEEDS"
 
 (
-  cd "$CHAT_DIR/projects/chat-manager"
-  go run . openapi generate-client \
+  cd "$CHAT_DIR/tools/openapi"
+  go run . generate-client \
     --language dart \
     --spec "$SPEC_PATH" \
     --output "$OUTPUT_DIR_FEEDS"
