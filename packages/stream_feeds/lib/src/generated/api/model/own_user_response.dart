@@ -164,6 +164,7 @@ class OwnUserResponse with _$OwnUserResponse {
   final int unreadChannels;
 
   @override
+  @Deprecated('Use totalUnreadCount instead.')
   @JsonKey(name: 'unread_count')
   final int unreadCount;
 

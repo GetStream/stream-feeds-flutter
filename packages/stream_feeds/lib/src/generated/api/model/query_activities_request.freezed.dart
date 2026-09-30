@@ -15,7 +15,6 @@ T _$identity<T>(T value) => value;
 mixin _$QueryActivitiesRequest {
   bool? get enrichOwnFields;
   Map<String, Object?>? get filter;
-  bool? get includeSoftDeletedActivities;
   int? get limit;
   String? get next;
   String? get prev;
@@ -38,11 +37,6 @@ mixin _$QueryActivitiesRequest {
             other is QueryActivitiesRequest &&
             (identical(other.enrichOwnFields, enrichOwnFields) || other.enrichOwnFields == enrichOwnFields) &&
             const DeepCollectionEquality().equals(other.filter, filter) &&
-            (identical(
-                  other.includeSoftDeletedActivities,
-                  includeSoftDeletedActivities,
-                ) ||
-                other.includeSoftDeletedActivities == includeSoftDeletedActivities) &&
             (identical(other.limit, limit) || other.limit == limit) &&
             (identical(other.next, next) || other.next == next) &&
             (identical(other.prev, prev) || other.prev == prev) &&
@@ -54,7 +48,6 @@ mixin _$QueryActivitiesRequest {
     runtimeType,
     enrichOwnFields,
     const DeepCollectionEquality().hash(filter),
-    includeSoftDeletedActivities,
     limit,
     next,
     prev,
@@ -63,7 +56,7 @@ mixin _$QueryActivitiesRequest {
 
   @override
   String toString() {
-    return 'QueryActivitiesRequest(enrichOwnFields: $enrichOwnFields, filter: $filter, includeSoftDeletedActivities: $includeSoftDeletedActivities, limit: $limit, next: $next, prev: $prev, sort: $sort)';
+    return 'QueryActivitiesRequest(enrichOwnFields: $enrichOwnFields, filter: $filter, limit: $limit, next: $next, prev: $prev, sort: $sort)';
   }
 }
 
@@ -77,7 +70,6 @@ abstract mixin class $QueryActivitiesRequestCopyWith<$Res> {
   $Res call({
     bool? enrichOwnFields,
     Map<String, Object?>? filter,
-    bool? includeSoftDeletedActivities,
     int? limit,
     String? next,
     String? prev,
@@ -99,7 +91,6 @@ class _$QueryActivitiesRequestCopyWithImpl<$Res> implements $QueryActivitiesRequ
   $Res call({
     Object? enrichOwnFields = freezed,
     Object? filter = freezed,
-    Object? includeSoftDeletedActivities = freezed,
     Object? limit = freezed,
     Object? next = freezed,
     Object? prev = freezed,
@@ -115,10 +106,6 @@ class _$QueryActivitiesRequestCopyWithImpl<$Res> implements $QueryActivitiesRequ
             ? _self.filter
             : filter // ignore: cast_nullable_to_non_nullable
                   as Map<String, Object?>?,
-        includeSoftDeletedActivities: freezed == includeSoftDeletedActivities
-            ? _self.includeSoftDeletedActivities
-            : includeSoftDeletedActivities // ignore: cast_nullable_to_non_nullable
-                  as bool?,
         limit: freezed == limit
             ? _self.limit
             : limit // ignore: cast_nullable_to_non_nullable

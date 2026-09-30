@@ -1,3 +1,9 @@
+## Upcoming
+
+### 🔄 Changed
+
+- Updated the API spec to v239.43.1.
+
 ## 0.6.1
 
 ### 🐛 Bug Fixes

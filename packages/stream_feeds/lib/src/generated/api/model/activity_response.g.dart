@@ -107,6 +107,7 @@ ActivityResponse _$ActivityResponseFromJson(
   selectorSource: json['selector_source'] as String?,
   shareCount: (json['share_count'] as num).toInt(),
   text: json['text'] as String?,
+  topLevelCommentCount: (json['top_level_comment_count'] as num?)?.toInt(),
   type: json['type'] as String,
   updatedAt: const StreamDateTimeConverter().fromJson(
     json['updated_at'] as Object,
@@ -175,6 +176,7 @@ Map<String, dynamic> _$ActivityResponseToJson(
   'selector_source': instance.selectorSource,
   'share_count': instance.shareCount,
   'text': instance.text,
+  'top_level_comment_count': instance.topLevelCommentCount,
   'type': instance.type,
   'updated_at': const StreamDateTimeConverter().toJson(instance.updatedAt),
   'user': instance.user.toJson(),

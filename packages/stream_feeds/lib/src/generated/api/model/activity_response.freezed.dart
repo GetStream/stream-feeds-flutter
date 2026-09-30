@@ -58,6 +58,7 @@ mixin _$ActivityResponse {
   String? get selectorSource;
   int get shareCount;
   String? get text;
+  int? get topLevelCommentCount;
   String get type;
   DateTime get updatedAt;
   UserResponse get user;
@@ -161,6 +162,8 @@ mixin _$ActivityResponse {
             (identical(other.selectorSource, selectorSource) || other.selectorSource == selectorSource) &&
             (identical(other.shareCount, shareCount) || other.shareCount == shareCount) &&
             (identical(other.text, text) || other.text == text) &&
+            (identical(other.topLevelCommentCount, topLevelCommentCount) ||
+                other.topLevelCommentCount == topLevelCommentCount) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt) &&
             (identical(other.user, user) || other.user == user) &&
@@ -216,6 +219,7 @@ mixin _$ActivityResponse {
     selectorSource,
     shareCount,
     text,
+    topLevelCommentCount,
     type,
     updatedAt,
     user,
@@ -225,7 +229,7 @@ mixin _$ActivityResponse {
 
   @override
   String toString() {
-    return 'ActivityResponse(attachments: $attachments, bookmarkCount: $bookmarkCount, collections: $collections, commentCount: $commentCount, comments: $comments, createdAt: $createdAt, currentFeed: $currentFeed, custom: $custom, deletedAt: $deletedAt, editedAt: $editedAt, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, friendReactionCount: $friendReactionCount, friendReactions: $friendReactions, hidden: $hidden, i18n: $i18n, id: $id, interestTags: $interestTags, isRead: $isRead, isSeen: $isSeen, isWatched: $isWatched, latestReactions: $latestReactions, latestShares: $latestShares, location: $location, mentionedUsers: $mentionedUsers, metrics: $metrics, moderation: $moderation, moderationAction: $moderationAction, notificationContext: $notificationContext, ownBookmarks: $ownBookmarks, ownReactions: $ownReactions, parent: $parent, poll: $poll, popularity: $popularity, preview: $preview, reactionCount: $reactionCount, reactionGroups: $reactionGroups, restrictReplies: $restrictReplies, score: $score, scoreVars: $scoreVars, searchData: $searchData, selectorSource: $selectorSource, shareCount: $shareCount, text: $text, type: $type, updatedAt: $updatedAt, user: $user, visibility: $visibility, visibilityTag: $visibilityTag)';
+    return 'ActivityResponse(attachments: $attachments, bookmarkCount: $bookmarkCount, collections: $collections, commentCount: $commentCount, comments: $comments, createdAt: $createdAt, currentFeed: $currentFeed, custom: $custom, deletedAt: $deletedAt, editedAt: $editedAt, expiresAt: $expiresAt, feeds: $feeds, filterTags: $filterTags, friendReactionCount: $friendReactionCount, friendReactions: $friendReactions, hidden: $hidden, i18n: $i18n, id: $id, interestTags: $interestTags, isRead: $isRead, isSeen: $isSeen, isWatched: $isWatched, latestReactions: $latestReactions, latestShares: $latestShares, location: $location, mentionedUsers: $mentionedUsers, metrics: $metrics, moderation: $moderation, moderationAction: $moderationAction, notificationContext: $notificationContext, ownBookmarks: $ownBookmarks, ownReactions: $ownReactions, parent: $parent, poll: $poll, popularity: $popularity, preview: $preview, reactionCount: $reactionCount, reactionGroups: $reactionGroups, restrictReplies: $restrictReplies, score: $score, scoreVars: $scoreVars, searchData: $searchData, selectorSource: $selectorSource, shareCount: $shareCount, text: $text, topLevelCommentCount: $topLevelCommentCount, type: $type, updatedAt: $updatedAt, user: $user, visibility: $visibility, visibilityTag: $visibilityTag)';
   }
 }
 
@@ -282,6 +286,7 @@ abstract mixin class $ActivityResponseCopyWith<$Res> {
     String? selectorSource,
     int shareCount,
     String? text,
+    int? topLevelCommentCount,
     String type,
     DateTime updatedAt,
     UserResponse user,
@@ -347,6 +352,7 @@ class _$ActivityResponseCopyWithImpl<$Res> implements $ActivityResponseCopyWith<
     Object? selectorSource = freezed,
     Object? shareCount = null,
     Object? text = freezed,
+    Object? topLevelCommentCount = freezed,
     Object? type = null,
     Object? updatedAt = null,
     Object? user = null,
@@ -535,6 +541,10 @@ class _$ActivityResponseCopyWithImpl<$Res> implements $ActivityResponseCopyWith<
             ? _self.text
             : text // ignore: cast_nullable_to_non_nullable
                   as String?,
+        topLevelCommentCount: freezed == topLevelCommentCount
+            ? _self.topLevelCommentCount
+            : topLevelCommentCount // ignore: cast_nullable_to_non_nullable
+                  as int?,
         type: null == type
             ? _self.type
             : type // ignore: cast_nullable_to_non_nullable

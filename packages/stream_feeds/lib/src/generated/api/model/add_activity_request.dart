@@ -77,7 +77,7 @@ class AddActivityRequest with _$AddActivityRequest {
   final List<CollectionRequest>? collections;
 
   @override
-  @Deprecated('This field is deprecated.')
+  @Deprecated('use notification_context.trigger.custom and notification_context.target.custom instead')
   @JsonKey(name: 'copy_custom_to_notification')
   final bool? copyCustomToNotification;
 

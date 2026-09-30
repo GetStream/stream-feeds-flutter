@@ -18,12 +18,18 @@ part 'get_comments_response.freezed.dart';
 @JsonSerializable()
 class GetCommentsResponse with _$GetCommentsResponse {
   const GetCommentsResponse({
+    required this.commentCount,
     required this.comments,
     required this.duration,
     this.next,
     this.prev,
     required this.sort,
+    this.topLevelCommentCount,
   });
+
+  @override
+  @JsonKey(name: 'comment_count')
+  final int commentCount;
 
   @override
   @JsonKey(name: 'comments')
@@ -44,6 +50,10 @@ class GetCommentsResponse with _$GetCommentsResponse {
   @override
   @JsonKey(name: 'sort')
   final String sort;
+
+  @override
+  @JsonKey(name: 'top_level_comment_count')
+  final int? topLevelCommentCount;
 
   Map<String, dynamic> toJson() => _$GetCommentsResponseToJson(this);
 

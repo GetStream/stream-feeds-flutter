@@ -32,6 +32,7 @@ class ConfigResponse with _$ConfigResponse {
     this.blockListConfig,
     required this.createdAt,
     this.floodConfig,
+    this.intentConfig,
     required this.key,
     this.llmConfig,
     required this.supportedVideoCallHarmTypes,
@@ -97,6 +98,10 @@ class ConfigResponse with _$ConfigResponse {
   @override
   @JsonKey(name: 'flood_config')
   final FloodConfig? floodConfig;
+
+  @override
+  @JsonKey(name: 'intent_config')
+  final IntentConfigResponse? intentConfig;
 
   @override
   @JsonKey(name: 'key')

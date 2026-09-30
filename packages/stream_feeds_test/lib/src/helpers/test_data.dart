@@ -12,6 +12,7 @@ GetCommentsResponse createDefaultCommentsResponse({
     next: next,
     prev: prev,
     comments: comments,
+    commentCount: comments.length,
     duration: '10ms',
     sort: '',
   );

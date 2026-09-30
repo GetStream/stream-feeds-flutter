@@ -47,7 +47,7 @@ class AddCommentReactionResponse with _$AddCommentReactionResponse {
   final bool? notificationAccepted;
 
   @override
-  @Deprecated('This field is deprecated.')
+  @Deprecated('use notification_accepted')
   @JsonKey(name: 'notification_created')
   final bool? notificationCreated;
 

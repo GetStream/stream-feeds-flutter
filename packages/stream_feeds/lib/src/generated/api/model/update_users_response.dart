@@ -28,7 +28,9 @@ class UpdateUsersResponse with _$UpdateUsersResponse {
   final String duration;
 
   @override
-  @Deprecated('This field is deprecated.')
+  @Deprecated(
+    'Always empty. Removing a user from a team no longer deletes their memberships in that team\'s channels, so there is no task to poll.',
+  )
   @JsonKey(name: 'membership_deletion_task_id')
   final String membershipDeletionTaskId;
 

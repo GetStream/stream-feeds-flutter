@@ -64,6 +64,7 @@ class BulkActionAppealsRequest with _$BulkActionAppealsRequest {
   final UnbanActionRequestPayload? unban;
 
   @override
+  @Deprecated('Use restore instead, which now also reverses a block or shadow block.')
   @JsonKey(name: 'unblock')
   final UnblockActionRequestPayload? unblock;
 

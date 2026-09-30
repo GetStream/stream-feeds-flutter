@@ -28,6 +28,7 @@ extension type const PushPreferenceInputChatLevel._(String _) implements String 
   static const allMentions = PushPreferenceInputChatLevel._('all_mentions');
   static const default_ = PushPreferenceInputChatLevel._('default');
   static const directMentions = PushPreferenceInputChatLevel._('direct_mentions');
+  @Deprecated('Use directMentions instead.')
   static const mentions = PushPreferenceInputChatLevel._('mentions');
   static const none = PushPreferenceInputChatLevel._('none');
 
