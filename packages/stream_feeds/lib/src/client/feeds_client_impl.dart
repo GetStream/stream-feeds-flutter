@@ -107,7 +107,7 @@ class StreamFeedsClientImpl with Disposable implements StreamFeedsClient {
       messageCodec: const FeedsWsCodec(),
       onAuthenticate: _authenticateUser,
       wsProvider: wsProvider,
-      optionsBuilder: () => WebSocketOptions(
+      optionsProvider: (_) => WebSocketOptions(
         url: endpointConfig.wsEndpoint,
         queryParameters: {
           'api_key': apiKey,
