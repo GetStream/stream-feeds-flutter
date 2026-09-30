@@ -2,7 +2,7 @@
 
 ### 🔄 Changed
 
-- Updated the API spec to v239.43.1.
+- Updated the API spec to v239.44.0.
 
 ## 0.6.1
 
