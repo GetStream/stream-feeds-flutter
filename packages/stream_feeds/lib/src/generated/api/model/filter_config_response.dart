@@ -19,6 +19,7 @@ part 'filter_config_response.freezed.dart';
 class FilterConfigResponse with _$FilterConfigResponse {
   const FilterConfigResponse({
     this.aiImageLabels,
+    this.aiImageOcrLabels,
     this.aiImageTaxonomy,
     this.aiTextLabels,
     this.configKeys,
@@ -30,6 +31,10 @@ class FilterConfigResponse with _$FilterConfigResponse {
   @override
   @JsonKey(name: 'ai_image_labels')
   final List<String>? aiImageLabels;
+
+  @override
+  @JsonKey(name: 'ai_image_ocr_labels')
+  final List<String>? aiImageOcrLabels;
 
   @override
   @JsonKey(name: 'ai_image_taxonomy')

@@ -21,6 +21,7 @@ class ReminderResponseData with _$ReminderResponseData {
     this.channel,
     required this.channelCid,
     required this.createdAt,
+    this.expiresAt,
     this.message,
     required this.messageId,
     this.remindAt,
@@ -41,6 +42,11 @@ class ReminderResponseData with _$ReminderResponseData {
   @StreamDateTimeConverter()
   @JsonKey(name: 'created_at')
   final DateTime createdAt;
+
+  @override
+  @StreamDateTimeConverter()
+  @JsonKey(name: 'expires_at')
+  final DateTime? expiresAt;
 
   @override
   @JsonKey(name: 'message')

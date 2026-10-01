@@ -20,6 +20,7 @@ extension type const CreateBlockListRequestType._(String _) implements String {
   static const emailAllowlist = CreateBlockListRequestType._('email_allowlist');
   static const regex = CreateBlockListRequestType._('regex');
   static const word = CreateBlockListRequestType._('word');
+  static const wordAllowlist = CreateBlockListRequestType._('word_allowlist');
 
   factory CreateBlockListRequestType.fromJson(String json) => CreateBlockListRequestType._(json);
 

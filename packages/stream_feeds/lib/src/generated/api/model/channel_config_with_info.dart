@@ -48,6 +48,7 @@ extension type const ChannelConfigWithInfoPushLevel._(String _) implements Strin
   static const all = ChannelConfigWithInfoPushLevel._('all');
   static const allMentions = ChannelConfigWithInfoPushLevel._('all_mentions');
   static const directMentions = ChannelConfigWithInfoPushLevel._('direct_mentions');
+  @Deprecated('Use directMentions instead.')
   static const mentions = ChannelConfigWithInfoPushLevel._('mentions');
   static const none = ChannelConfigWithInfoPushLevel._('none');
 

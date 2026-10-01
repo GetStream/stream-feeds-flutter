@@ -2289,6 +2289,7 @@ class _DefaultApi implements DefaultApi {
     bool? skipOwnFollowings,
     String? language,
     bool? translateText,
+    bool? includeTopLevelCommentCount,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
@@ -2297,6 +2298,7 @@ class _DefaultApi implements DefaultApi {
       r'skip_own_followings': skipOwnFollowings,
       r'language': language,
       r'translate_text': translateText,
+      r'include_top_level_comment_count': includeTopLevelCommentCount,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
@@ -2330,6 +2332,7 @@ class _DefaultApi implements DefaultApi {
     bool? skipOwnFollowings,
     String? language,
     bool? translateText,
+    bool? includeTopLevelCommentCount,
   }) {
     return _ResultCallAdapter<GetActivityResponse>().adapt(
       () => _getActivity(
@@ -2339,6 +2342,7 @@ class _DefaultApi implements DefaultApi {
         skipOwnFollowings: skipOwnFollowings,
         language: language,
         translateText: translateText,
+        includeTopLevelCommentCount: includeTopLevelCommentCount,
       ),
     );
   }
@@ -2575,6 +2579,7 @@ class _DefaultApi implements DefaultApi {
     int? limit,
     String? prev,
     String? next,
+    bool? includeTopLevelCommentCount,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
@@ -2589,6 +2594,7 @@ class _DefaultApi implements DefaultApi {
       r'limit': limit,
       r'prev': prev,
       r'next': next,
+      r'include_top_level_comment_count': includeTopLevelCommentCount,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
@@ -2627,6 +2633,7 @@ class _DefaultApi implements DefaultApi {
     int? limit,
     String? prev,
     String? next,
+    bool? includeTopLevelCommentCount,
   }) {
     return _ResultCallAdapter<GetCommentsResponse>().adapt(
       () => _getComments(
@@ -2641,6 +2648,7 @@ class _DefaultApi implements DefaultApi {
         limit: limit,
         prev: prev,
         next: next,
+        includeTopLevelCommentCount: includeTopLevelCommentCount,
       ),
     );
   }

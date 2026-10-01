@@ -11,7 +11,6 @@ QueryActivitiesRequest _$QueryActivitiesRequestFromJson(
 ) => QueryActivitiesRequest(
   enrichOwnFields: json['enrich_own_fields'] as bool?,
   filter: json['filter'] as Map<String, dynamic>?,
-  includeSoftDeletedActivities: json['include_soft_deleted_activities'] as bool?,
   limit: (json['limit'] as num?)?.toInt(),
   next: json['next'] as String?,
   prev: json['prev'] as String?,
@@ -23,7 +22,6 @@ Map<String, dynamic> _$QueryActivitiesRequestToJson(
 ) => <String, dynamic>{
   'enrich_own_fields': instance.enrichOwnFields,
   'filter': instance.filter,
-  'include_soft_deleted_activities': instance.includeSoftDeletedActivities,
   'limit': instance.limit,
   'next': instance.next,
   'prev': instance.prev,

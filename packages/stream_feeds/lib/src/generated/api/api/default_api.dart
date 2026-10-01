@@ -340,6 +340,7 @@ abstract interface class DefaultApi {
     @Query('skip_own_followings') bool? skipOwnFollowings,
     @Query('language') String? language,
     @Query('translate_text') bool? translateText,
+    @Query('include_top_level_comment_count') bool? includeTopLevelCommentCount,
   });
 
   @GET('/api/v2/app')
@@ -387,6 +388,7 @@ abstract interface class DefaultApi {
     @Query('limit') int? limit,
     @Query('prev') String? prev,
     @Query('next') String? next,
+    @Query('include_top_level_comment_count') bool? includeTopLevelCommentCount,
   });
 
   @GET('/api/v2/moderation/config/{key}')

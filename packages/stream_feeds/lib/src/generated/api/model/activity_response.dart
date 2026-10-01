@@ -83,6 +83,7 @@ class ActivityResponse with _$ActivityResponse {
     this.selectorSource,
     required this.shareCount,
     this.text,
+    this.topLevelCommentCount,
     required this.type,
     required this.updatedAt,
     required this.user,
@@ -273,6 +274,10 @@ class ActivityResponse with _$ActivityResponse {
   @override
   @JsonKey(name: 'text')
   final String? text;
+
+  @override
+  @JsonKey(name: 'top_level_comment_count')
+  final int? topLevelCommentCount;
 
   @override
   @JsonKey(name: 'type')

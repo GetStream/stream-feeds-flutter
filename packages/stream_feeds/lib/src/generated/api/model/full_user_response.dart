@@ -165,6 +165,7 @@ class FullUserResponse with _$FullUserResponse {
   final int unreadChannels;
 
   @override
+  @Deprecated('Use totalUnreadCount instead.')
   @JsonKey(name: 'unread_count')
   final int unreadCount;
 

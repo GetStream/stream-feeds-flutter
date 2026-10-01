@@ -31,6 +31,7 @@ class UpsertConfigRequest with _$UpsertConfigRequest {
     this.bodyguardConfig,
     this.floodConfig,
     this.googleVisionConfig,
+    this.intentConfig,
     required this.key,
     this.llmConfig,
     this.ruleBuilderConfig,
@@ -90,6 +91,10 @@ class UpsertConfigRequest with _$UpsertConfigRequest {
   @override
   @JsonKey(name: 'google_vision_config')
   final GoogleVisionConfig? googleVisionConfig;
+
+  @override
+  @JsonKey(name: 'intent_config')
+  final IntentConfigRequest? intentConfig;
 
   @override
   @JsonKey(name: 'key')

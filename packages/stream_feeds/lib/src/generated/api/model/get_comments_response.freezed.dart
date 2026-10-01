@@ -13,11 +13,13 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$GetCommentsResponse {
+  int get commentCount;
   List<ThreadedCommentResponse> get comments;
   String get duration;
   String? get next;
   String? get prev;
   String get sort;
+  int? get topLevelCommentCount;
 
   /// Create a copy of GetCommentsResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -34,26 +36,31 @@ mixin _$GetCommentsResponse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is GetCommentsResponse &&
+            (identical(other.commentCount, commentCount) || other.commentCount == commentCount) &&
             const DeepCollectionEquality().equals(other.comments, comments) &&
             (identical(other.duration, duration) || other.duration == duration) &&
             (identical(other.next, next) || other.next == next) &&
             (identical(other.prev, prev) || other.prev == prev) &&
-            (identical(other.sort, sort) || other.sort == sort));
+            (identical(other.sort, sort) || other.sort == sort) &&
+            (identical(other.topLevelCommentCount, topLevelCommentCount) ||
+                other.topLevelCommentCount == topLevelCommentCount));
   }
 
   @override
   int get hashCode => Object.hash(
     runtimeType,
+    commentCount,
     const DeepCollectionEquality().hash(comments),
     duration,
     next,
     prev,
     sort,
+    topLevelCommentCount,
   );
 
   @override
   String toString() {
-    return 'GetCommentsResponse(comments: $comments, duration: $duration, next: $next, prev: $prev, sort: $sort)';
+    return 'GetCommentsResponse(commentCount: $commentCount, comments: $comments, duration: $duration, next: $next, prev: $prev, sort: $sort, topLevelCommentCount: $topLevelCommentCount)';
   }
 }
 
@@ -65,11 +72,13 @@ abstract mixin class $GetCommentsResponseCopyWith<$Res> {
   ) = _$GetCommentsResponseCopyWithImpl;
   @useResult
   $Res call({
+    int commentCount,
     List<ThreadedCommentResponse> comments,
     String duration,
     String? next,
     String? prev,
     String sort,
+    int? topLevelCommentCount,
   });
 }
 
@@ -85,14 +94,20 @@ class _$GetCommentsResponseCopyWithImpl<$Res> implements $GetCommentsResponseCop
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? commentCount = null,
     Object? comments = null,
     Object? duration = null,
     Object? next = freezed,
     Object? prev = freezed,
     Object? sort = null,
+    Object? topLevelCommentCount = freezed,
   }) {
     return _then(
       GetCommentsResponse(
+        commentCount: null == commentCount
+            ? _self.commentCount
+            : commentCount // ignore: cast_nullable_to_non_nullable
+                  as int,
         comments: null == comments
             ? _self.comments
             : comments // ignore: cast_nullable_to_non_nullable
@@ -113,6 +128,10 @@ class _$GetCommentsResponseCopyWithImpl<$Res> implements $GetCommentsResponseCop
             ? _self.sort
             : sort // ignore: cast_nullable_to_non_nullable
                   as String,
+        topLevelCommentCount: freezed == topLevelCommentCount
+            ? _self.topLevelCommentCount
+            : topLevelCommentCount // ignore: cast_nullable_to_non_nullable
+                  as int?,
       ),
     );
   }

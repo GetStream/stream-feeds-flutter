@@ -40,6 +40,7 @@ class RuleBuilderCondition with _$RuleBuilderCondition {
     this.textContentParams,
     this.textRuleParams,
     this.type,
+    this.userChannelCountParams,
     this.userCreatedWithinParams,
     this.userCustomPropertyParams,
     this.userFlagCountRuleParams,
@@ -139,6 +140,10 @@ class RuleBuilderCondition with _$RuleBuilderCondition {
   @override
   @JsonKey(name: 'type')
   final String? type;
+
+  @override
+  @JsonKey(name: 'user_channel_count_params')
+  final UserChannelCountRuleParameters? userChannelCountParams;
 
   @override
   @JsonKey(name: 'user_created_within_params')

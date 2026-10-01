@@ -10,32 +10,17 @@ import 'package:stream_core/stream_core.dart' as core;
 
 import '../models.dart';
 
-part 'flood_similar_rule_parameters.g.dart';
-part 'flood_similar_rule_parameters.freezed.dart';
+part 'user_channel_count_rule_parameters.g.dart';
+part 'user_channel_count_rule_parameters.freezed.dart';
 
 @freezed
 @immutable
 @JsonSerializable()
-class FloodSimilarRuleParameters with _$FloodSimilarRuleParameters {
-  const FloodSimilarRuleParameters({
-    this.allowlist,
-    this.minTextLength,
-    this.similarityDistance,
+class UserChannelCountRuleParameters with _$UserChannelCountRuleParameters {
+  const UserChannelCountRuleParameters({
     this.threshold,
     this.timeWindow,
   });
-
-  @override
-  @JsonKey(name: 'allowlist')
-  final List<String>? allowlist;
-
-  @override
-  @JsonKey(name: 'min_text_length')
-  final int? minTextLength;
-
-  @override
-  @JsonKey(name: 'similarity_distance')
-  final int? similarityDistance;
 
   @override
   @JsonKey(name: 'threshold')
@@ -45,7 +30,8 @@ class FloodSimilarRuleParameters with _$FloodSimilarRuleParameters {
   @JsonKey(name: 'time_window')
   final String? timeWindow;
 
-  Map<String, dynamic> toJson() => _$FloodSimilarRuleParametersToJson(this);
+  Map<String, dynamic> toJson() => _$UserChannelCountRuleParametersToJson(this);
 
-  static FloodSimilarRuleParameters fromJson(Map<String, dynamic> json) => _$FloodSimilarRuleParametersFromJson(json);
+  static UserChannelCountRuleParameters fromJson(Map<String, dynamic> json) =>
+      _$UserChannelCountRuleParametersFromJson(json);
 }

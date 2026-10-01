@@ -20,7 +20,6 @@ class QueryActivitiesRequest with _$QueryActivitiesRequest {
   const QueryActivitiesRequest({
     this.enrichOwnFields,
     this.filter,
-    this.includeSoftDeletedActivities,
     this.limit,
     this.next,
     this.prev,
@@ -34,10 +33,6 @@ class QueryActivitiesRequest with _$QueryActivitiesRequest {
   @override
   @JsonKey(name: 'filter')
   final Map<String, Object?>? filter;
-
-  @override
-  @JsonKey(name: 'include_soft_deleted_activities')
-  final bool? includeSoftDeletedActivities;
 
   @override
   @JsonKey(name: 'limit')
