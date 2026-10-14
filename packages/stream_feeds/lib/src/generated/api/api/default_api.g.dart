@@ -8,10 +8,11 @@ part of 'default_api.dart';
 // RetrofitGenerator
 // **************************************************************************
 
+// ignore_for_file: type=lint
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations,unused_element_parameter,avoid_unused_constructor_parameters,unreachable_from_main,avoid_redundant_argument_values
 
-class _DefaultApi implements DefaultApi {
-  _DefaultApi(this._dio, {this.baseUrl, this.errorLogger});
+class _DefaultApi extends DefaultApi {
+  _DefaultApi._(this._dio, {this.baseUrl, this.errorLogger}) : super._();
 
   final Dio _dio;
 
@@ -3436,7 +3437,7 @@ class _DefaultApi implements DefaultApi {
     );
   }
 
-  Future<void> _longPoll({WSAuthMessage? json}) async {
+  Future<void> __longPoll({_JsonQuery? json}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'json': json?.toJson()};
     queryParameters.removeWhere((k, v) => v == null);
@@ -3456,8 +3457,8 @@ class _DefaultApi implements DefaultApi {
   }
 
   @override
-  Future<Result<void>> longPoll({WSAuthMessage? json}) {
-    return _ResultCallAdapter<void>().adapt(() => _longPoll(json: json));
+  Future<Result<void>> _longPoll({_JsonQuery? json}) {
+    return _ResultCallAdapter<void>().adapt(() => __longPoll(json: json));
   }
 
   Future<DurationResponse> _markActivity({
@@ -4387,7 +4388,7 @@ class _DefaultApi implements DefaultApi {
     );
   }
 
-  Future<QueryUsersResponse> _queryUsers({QueryUsersPayload? payload}) async {
+  Future<QueryUsersResponse> __queryUsers({_JsonQuery? payload}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'payload': payload?.toJson()};
     queryParameters.removeWhere((k, v) => v == null);
@@ -4415,9 +4416,9 @@ class _DefaultApi implements DefaultApi {
   }
 
   @override
-  Future<Result<QueryUsersResponse>> queryUsers({QueryUsersPayload? payload}) {
+  Future<Result<QueryUsersResponse>> _queryUsers({_JsonQuery? payload}) {
     return _ResultCallAdapter<QueryUsersResponse>().adapt(
-      () => _queryUsers(payload: payload),
+      () => __queryUsers(payload: payload),
     );
   }
 
