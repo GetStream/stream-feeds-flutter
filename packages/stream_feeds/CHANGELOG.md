@@ -1,5 +1,9 @@
 ## Upcoming
 
+### 🐛 Bug Fixes
+
+- `Feed.addActivity` adds the activity to the feed it is called on when `FeedAddActivityRequest.feeds` is empty, instead of sending an empty `feeds` list that the API rejects with "feeds is a required field". A non-empty `feeds` is sent as given
+
 ### 🔄 Changed
 
 - Updated the API spec to v239.44.0.

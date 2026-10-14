@@ -479,7 +479,7 @@ void main() {
       body: (tester) async {
         tester.mockApi(
           (api) => api.addActivity(
-            addActivityRequest: const AddActivityRequest(type: 'post', feeds: []),
+            addActivityRequest: const AddActivityRequest(type: 'post', feeds: ['user:john']),
           ),
           result: AddActivityResponse(
             duration: '0ms',
@@ -508,7 +508,47 @@ void main() {
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.addActivity(
-          addActivityRequest: const AddActivityRequest(type: 'post', feeds: []),
+          addActivityRequest: const AddActivityRequest(type: 'post', feeds: ['user:john']),
+        ),
+      ),
+    );
+
+    feedTest(
+      'addActivity() - should keep the feeds given in the request',
+      build: (client) => client.feedFromId(feedId),
+      setUp: (tester) => tester.getOrCreate(),
+      body: (tester) async {
+        tester.mockApi(
+          (api) => api.addActivity(
+            addActivityRequest: const AddActivityRequest(
+              type: 'post',
+              feeds: ['user:1', 'stock:apple'],
+            ),
+          ),
+          result: AddActivityResponse(
+            duration: '0ms',
+            activity: createDefaultActivityResponse(
+              id: 'activity-1',
+              feeds: ['user:1', 'stock:apple'],
+            ),
+          ),
+        );
+
+        final result = await tester.feed.addActivity(
+          request: const FeedAddActivityRequest(
+            type: 'post',
+            feeds: ['user:1', 'stock:apple'],
+          ),
+        );
+
+        expect(result.isSuccess, isTrue);
+      },
+      verify: (tester) => tester.verifyApi(
+        (api) => api.addActivity(
+          addActivityRequest: const AddActivityRequest(
+            type: 'post',
+            feeds: ['user:1', 'stock:apple'],
+          ),
         ),
       ),
     );
@@ -5410,7 +5450,7 @@ void main() {
           (api) => api.addActivity(
             addActivityRequest: const AddActivityRequest(
               type: 'post',
-              feeds: [],
+              feeds: ['user:john'],
               createNotificationActivity: true,
               skipPush: true,
               enrichOwnFields: false,
@@ -5437,7 +5477,7 @@ void main() {
         (api) => api.addActivity(
           addActivityRequest: const AddActivityRequest(
             type: 'post',
-            feeds: [],
+            feeds: ['user:john'],
             createNotificationActivity: true,
             skipPush: true,
             enrichOwnFields: false,
@@ -5455,7 +5495,7 @@ void main() {
           (api) => api.addActivity(
             addActivityRequest: const AddActivityRequest(
               type: 'post',
-              feeds: [],
+              feeds: ['user:john'],
               text: 'check out https://getstream.io',
               skipEnrichUrl: true,
             ),
@@ -5480,7 +5520,7 @@ void main() {
         (api) => api.addActivity(
           addActivityRequest: const AddActivityRequest(
             type: 'post',
-            feeds: [],
+            feeds: ['user:john'],
             text: 'check out https://getstream.io',
             skipEnrichUrl: true,
           ),
@@ -5497,7 +5537,7 @@ void main() {
           (api) => api.addActivity(
             addActivityRequest: const AddActivityRequest(
               type: 'post',
-              feeds: [],
+              feeds: ['user:john'],
               location: Location(lat: 52, lng: 4),
             ),
           ),
@@ -5518,7 +5558,7 @@ void main() {
         (api) => api.addActivity(
           addActivityRequest: const AddActivityRequest(
             type: 'post',
-            feeds: [],
+            feeds: ['user:john'],
             location: Location(lat: 52, lng: 4),
           ),
         ),
@@ -5534,7 +5574,7 @@ void main() {
           (api) => api.addActivity(
             addActivityRequest: const AddActivityRequest(
               type: 'post',
-              feeds: [],
+              feeds: ['user:john'],
               restrictReplies: AddActivityRequestRestrictReplies.peopleIFollow,
             ),
           ),
@@ -5557,7 +5597,7 @@ void main() {
         (api) => api.addActivity(
           addActivityRequest: const AddActivityRequest(
             type: 'post',
-            feeds: [],
+            feeds: ['user:john'],
             restrictReplies: AddActivityRequestRestrictReplies.peopleIFollow,
           ),
         ),
@@ -5774,13 +5814,13 @@ void main() {
 
     const mergedRequest = AddActivityRequest(
       type: 'post',
-      feeds: [],
+      feeds: ['user:john'],
       attachments: [uploadedAttachment],
     );
 
     const mergedMixedRequest = AddActivityRequest(
       type: 'post',
-      feeds: [],
+      feeds: ['user:john'],
       attachments: [
         uploadedAttachment,
         Attachment(

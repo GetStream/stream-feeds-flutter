@@ -213,12 +213,21 @@ class Feed with Disposable {
   /// default to a fresh UUID, so this only happens when one is given
   /// explicitly, or the same attachment is listed twice.
   ///
+  /// When [FeedAddActivityRequest.feeds] is empty, the activity is added to
+  /// this feed. Pass [FeedAddActivityRequest.feeds] to add it to other feeds
+  /// instead; include this feed's id there to add it here as well.
+  ///
   /// Returns a [Result] containing the added [ActivityData] if successful, or an error if the
   /// operation fails.
   Future<Result<ActivityData>> addActivity({
     required FeedAddActivityRequest request,
   }) async {
-    final result = await activitiesRepository.addActivity(request);
+    final requestWithFeeds = switch (request.feeds) {
+      [] => request.copyWith(feeds: [query.fid.rawValue]),
+      _ => request,
+    };
+
+    final result = await activitiesRepository.addActivity(requestWithFeeds);
 
     result.onSuccess(
       (activity) => _eventsEmitter.tryEmit(

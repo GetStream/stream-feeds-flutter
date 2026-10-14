@@ -28,12 +28,18 @@ class ActivitiesRepository {
 
   /// Adds a new activity.
   ///
-  /// Creates a new activity using the provided [request] data.
+  /// Creates a new activity using the provided [request] data. The
+  /// [FeedAddActivityRequest.feeds] of [request] must not be empty.
   ///
   /// Returns a [Result] containing the created [ActivityData] or an error.
   Future<Result<ActivityData>> addActivity(
     FeedAddActivityRequest request,
   ) async {
+    assert(
+      request.feeds.isNotEmpty,
+      'FeedAddActivityRequest.feeds must name at least one feed to add the activity to.',
+    );
+
     final processedRequest = await _uploader.processRequest(request);
 
     return processedRequest.flatMapAsync((updatedRequest) async {
