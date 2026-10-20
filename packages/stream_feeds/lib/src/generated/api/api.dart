@@ -3,7 +3,7 @@
 // Spec:      feeds-clientside-api (API v239.44.0)
 // Source:    protocol @ openapi-v239.44.0
 // Checksum:  b9ec03b2a7af6c2a77e8a7cc69a4d8d531caafbff084edb6c1de5c021c899e75
-// Generator: GetStream/chat @ v239.21.0-411-ge07ef27ce9
+// Generator: GetStream/chat @ v239.70.0-5-g8d6e1fa600
 
 // ignore_for_file: directives_ordering
 

@@ -3,6 +3,8 @@
 // coverage:ignore-file
 // ignore_for_file: unused_import, unnecessary_import, prefer_single_quotes, require_trailing_commas, unnecessary_raw_strings, public_member_api_docs
 
+import 'dart:convert' show jsonEncode;
+
 import 'package:retrofit/retrofit.dart';
 import 'package:stream_core/stream_core.dart';
 
@@ -10,115 +12,144 @@ import '../models.dart';
 
 part 'default_api.g.dart';
 
-@RestApi(callAdapter: _ResultCallAdapter)
+// Call adapters are set per operation: retrofit_generator applies a
+// class-level adapter to every method, concrete ones included, so its overrides
+// would replace the typed methods declared here.
+@RestApi()
 abstract interface class DefaultApi {
   factory DefaultApi(
     Dio dio, {
     String? baseUrl,
-  }) = _DefaultApi;
+  }) = _DefaultApi._;
 
+  // A named non-factory constructor makes retrofit_generator extend this class
+  // instead of implementing it, so concrete methods declared here are
+  // inherited. The generated class mirrors it as `_DefaultApi._`, which is why
+  // the factory redirects there.
+  const DefaultApi._();
+
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/members/accept')
   Future<Result<AcceptFeedMemberInviteResponse>> acceptFeedMemberInvite({
     @Path('feed_id') required String feedId,
     @Path('feed_group_id') required String feedGroupId,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/follows/accept')
   Future<Result<AcceptFollowResponse>> acceptFollow({
     @Body() required AcceptFollowRequest acceptFollowRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/activities/{activity_id}/feedback')
   Future<Result<ActivityFeedbackResponse>> activityFeedback({
     @Path('activity_id') required String activityId,
     @Body() ActivityFeedbackRequest? activityFeedbackRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/activities')
   Future<Result<AddActivityResponse>> addActivity({
     @Body() required AddActivityRequest addActivityRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/activities/{activity_id}/reactions')
   Future<Result<AddReactionResponse>> addActivityReaction({
     @Path('activity_id') required String activityId,
     @Body() required AddReactionRequest addReactionRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/activities/{activity_id}/bookmarks')
   Future<Result<AddBookmarkResponse>> addBookmark({
     @Path('activity_id') required String activityId,
     @Body() AddBookmarkRequest? addBookmarkRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/comments')
   Future<Result<AddCommentResponse>> addComment({
     @Body() AddCommentRequest? addCommentRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/comments/{comment_id}/bookmarks')
   Future<Result<AddCommentBookmarkResponse>> addCommentBookmark({
     @Path('comment_id') required String commentId,
     @Body() AddCommentBookmarkRequest? addCommentBookmarkRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/comments/{id}/reactions')
   Future<Result<AddCommentReactionResponse>> addCommentReaction({
     @Path('id') required String id,
     @Body() required AddCommentReactionRequest addCommentReactionRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/comments/batch')
   Future<Result<AddCommentsBatchResponse>> addCommentsBatch({
     @Body() required AddCommentsBatchRequest addCommentsBatchRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/usergroups/{id}/members')
   Future<Result<AddUserGroupMembersResponse>> addUserGroupMembers({
     @Path('id') required String id,
     @Body() required AddUserGroupMembersRequest addUserGroupMembersRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/moderation/appeal')
   Future<Result<AppealResponse>> appeal({
     @Body() required AppealRequest appealRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/moderation/ban')
   Future<Result<ModerationBanResponse>> ban({
     @Body() required BanRequest banRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/activities/reactions/query')
   Future<Result<BatchQueryActivityReactionsResponse>> batchQueryActivityReactions({
     @Body() required BatchQueryActivityReactionsRequest batchQueryActivityReactionsRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/comments/reactions/query')
   Future<Result<BatchQueryCommentReactionsResponse>> batchQueryCommentReactions({
     @Body() required BatchQueryCommentReactionsRequest batchQueryCommentReactionsRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/users/block')
   Future<Result<BlockUsersResponse>> blockUsers({
     @Body() required BlockUsersRequest blockUsersRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/moderation/appeals/bulk_action')
   Future<Result<BulkActionAppealsResponse>> bulkActionAppeals({
     @Body() required BulkActionAppealsRequest bulkActionAppealsRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/moderation/action_config/bulk_delete')
   Future<Result<BulkDeleteActionConfigResponse>> bulkDeleteActionConfig({
     @Body() required BulkDeleteActionConfigRequest bulkDeleteActionConfigRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/moderation/action_config/bulk')
   Future<Result<BulkUpsertActionConfigResponse>> bulkUpsertActionConfig({
     @Body() required BulkUpsertActionConfigRequest bulkUpsertActionConfigRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/activities/{activity_id}/polls/{poll_id}/vote')
   Future<Result<PollVoteResponse>> castPollVote({
     @Path('activity_id') required String activityId,
@@ -126,6 +157,7 @@ abstract interface class DefaultApi {
     @Body() CastPollVoteRequest? castPollVoteRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/change_visibility')
   Future<Result<ChangeFeedVisibilityResponse>> changeFeedVisibility({
     @Path('feed_group_id') required String feedGroupId,
@@ -133,62 +165,74 @@ abstract interface class DefaultApi {
     @Body() required ChangeFeedVisibilityRequest changeFeedVisibilityRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/blocklists')
   Future<Result<CreateBlockListResponse>> createBlockList({
     @Body() required CreateBlockListRequest createBlockListRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/collections')
   Future<Result<CreateCollectionsResponse>> createCollections({
     @Body() required CreateCollectionsRequest createCollectionsRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/devices')
   Future<Result<DurationResponse>> createDevice({
     @Body() required CreateDeviceRequest createDeviceRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/feeds/batch')
   Future<Result<CreateFeedsBatchResponse>> createFeedsBatch({
     @Body() required CreateFeedsBatchRequest createFeedsBatchRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/guest')
   Future<Result<CreateGuestResponse>> createGuest({
     @Body() required CreateGuestRequest createGuestRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/polls')
   Future<Result<PollResponse>> createPoll({
     @Body() required CreatePollRequest createPollRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/polls/{poll_id}/options')
   Future<Result<PollOptionResponse>> createPollOption({
     @Path('poll_id') required String pollId,
     @Body() required CreatePollOptionRequest createPollOptionRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/moderation/queues')
   Future<Result<QueueResponse>> createQueue({
     @Body() required CreateQueueRequest createQueueRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/usergroups')
   Future<Result<CreateUserGroupResponse>> createUserGroup({
     @Body() required CreateUserGroupRequest createUserGroupRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @DELETE('/api/v2/moderation/action_config/{id}')
   Future<Result<DeleteActionConfigResponse>> deleteActionConfig({
     @Path('id') required String id,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/activities/delete')
   Future<Result<DeleteActivitiesResponse>> deleteActivities({
     @Body() required DeleteActivitiesRequest deleteActivitiesRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @DELETE('/api/v2/feeds/activities/{id}')
   Future<Result<DeleteActivityResponse>> deleteActivity({
     @Path('id') required String id,
@@ -196,6 +240,7 @@ abstract interface class DefaultApi {
     @Query('delete_notification_activity') bool? deleteNotificationActivity,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @DELETE('/api/v2/feeds/activities/{activity_id}/reactions/{type}')
   Future<Result<DeleteActivityReactionResponse>> deleteActivityReaction({
     @Path('activity_id') required String activityId,
@@ -203,28 +248,33 @@ abstract interface class DefaultApi {
     @Query('delete_notification_activity') bool? deleteNotificationActivity,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @DELETE('/api/v2/blocklists/{name}')
   Future<Result<DurationResponse>> deleteBlockList({
     @Path('name') required String name,
     @Query('team') String? team,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @DELETE('/api/v2/feeds/activities/{activity_id}/bookmarks')
   Future<Result<DeleteBookmarkResponse>> deleteBookmark({
     @Path('activity_id') required String activityId,
     @Query('folder_id') String? folderId,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @DELETE('/api/v2/feeds/bookmark_folders/{folder_id}')
   Future<Result<DeleteBookmarkFolderResponse>> deleteBookmarkFolder({
     @Path('folder_id') required String folderId,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @DELETE('/api/v2/feeds/collections')
   Future<Result<DeleteCollectionsResponse>> deleteCollections({
     @Query('collection_refs') required List<String> collectionRefs,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @DELETE('/api/v2/feeds/comments/{id}')
   Future<Result<DeleteCommentResponse>> deleteComment({
     @Path('id') required String id,
@@ -232,12 +282,14 @@ abstract interface class DefaultApi {
     @Query('delete_notification_activity') bool? deleteNotificationActivity,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @DELETE('/api/v2/feeds/comments/{comment_id}/bookmarks')
   Future<Result<DeleteCommentBookmarkResponse>> deleteCommentBookmark({
     @Path('comment_id') required String commentId,
     @Query('folder_id') String? folderId,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @DELETE('/api/v2/feeds/comments/{id}/reactions/{type}')
   Future<Result<DeleteCommentReactionResponse>> deleteCommentReaction({
     @Path('id') required String id,
@@ -245,17 +297,20 @@ abstract interface class DefaultApi {
     @Query('delete_notification_activity') bool? deleteNotificationActivity,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @DELETE('/api/v2/moderation/config/{key}')
   Future<Result<DeleteModerationConfigResponse>> deleteConfig({
     @Path('key') required String key,
     @Query('team') String? team,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @DELETE('/api/v2/devices')
   Future<Result<DurationResponse>> deleteDevice({
     @Query('id') required String id,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @DELETE('/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}')
   Future<Result<DeleteFeedResponse>> deleteFeed({
     @Path('feed_group_id') required String feedGroupId,
@@ -264,27 +319,32 @@ abstract interface class DefaultApi {
     @Query('purge_user_activities') bool? purgeUserActivities,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @DELETE('/api/v2/uploads/file')
   Future<Result<DurationResponse>> deleteFile({
     @Query('url') String? url,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @DELETE('/api/v2/uploads/image')
   Future<Result<DurationResponse>> deleteImage({
     @Query('url') String? url,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @DELETE('/api/v2/polls/{poll_id}')
   Future<Result<DurationResponse>> deletePoll({
     @Path('poll_id') required String pollId,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @DELETE('/api/v2/polls/{poll_id}/options/{option_id}')
   Future<Result<DurationResponse>> deletePollOption({
     @Path('poll_id') required String pollId,
     @Path('option_id') required String optionId,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @DELETE('/api/v2/feeds/activities/{activity_id}/polls/{poll_id}/vote/{vote_id}')
   Future<Result<PollVoteResponse>> deletePollVote({
     @Path('activity_id') required String activityId,
@@ -292,38 +352,45 @@ abstract interface class DefaultApi {
     @Path('vote_id') required String voteId,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/moderation/queues/{id}/delete')
   Future<Result<QueueResponse>> deleteQueue({
     @Path('id') required String id,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @DELETE('/api/v2/usergroups/{id}')
   Future<Result<DurationResponse>> deleteUserGroup({
     @Path('id') required String id,
     @Query('team_id') String? teamId,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @DELETE('/api/v2/feeds/users/{user_id}/interests')
   Future<Result<DeleteUserInterestsResponse>> deleteUserInterests({
     @Path('user_id') required String userId,
     @Query('tags') required List<String> tags,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/moderation/flag')
   Future<Result<FlagItemResponse>> flag({
     @Body() required FlagRequest flagRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/follows')
   Future<Result<SingleFollowResponse>> follow({
     @Body() required FollowRequest followRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/follows/batch')
   Future<Result<FollowBatchResponse>> followBatch({
     @Body() required FollowBatchRequest followBatchRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @GET('/api/v2/moderation/action_config')
   Future<Result<GetActionConfigResponse>> getActionConfig({
     @Query('queue_type') String? queueType,
@@ -332,6 +399,7 @@ abstract interface class DefaultApi {
     @Query('only_defaults') bool? onlyDefaults,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @GET('/api/v2/feeds/activities/{id}')
   Future<Result<GetActivityResponse>> getActivity({
     @Path('id') required String id,
@@ -343,17 +411,21 @@ abstract interface class DefaultApi {
     @Query('include_top_level_comment_count') bool? includeTopLevelCommentCount,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @GET('/api/v2/app')
   Future<Result<GetApplicationResponse>> getApp();
 
+  @UseCallAdapter(_ResultCallAdapter)
   @GET('/api/v2/moderation/appeal/{id}')
   Future<Result<GetAppealResponse>> getAppeal({
     @Path('id') required String id,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @GET('/api/v2/users/block')
   Future<Result<GetBlockedUsersResponse>> getBlockedUsers();
 
+  @UseCallAdapter(_ResultCallAdapter)
   @GET('/api/v2/feeds/comments/{id}')
   Future<Result<GetCommentResponse>> getComment({
     @Path('id') required String id,
@@ -361,6 +433,7 @@ abstract interface class DefaultApi {
     @Query('translate_text') bool? translateText,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @GET('/api/v2/feeds/comments/{id}/replies')
   Future<Result<GetCommentRepliesResponse>> getCommentReplies({
     @Path('id') required String id,
@@ -375,6 +448,7 @@ abstract interface class DefaultApi {
     @Query('next') String? next,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @GET('/api/v2/feeds/comments')
   Future<Result<GetCommentsResponse>> getComments({
     @Query('object_id') required String objectId,
@@ -391,29 +465,34 @@ abstract interface class DefaultApi {
     @Query('include_top_level_comment_count') bool? includeTopLevelCommentCount,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @GET('/api/v2/moderation/config/{key}')
   Future<Result<GetConfigResponse>> getConfig({
     @Path('key') required String key,
     @Query('team') String? team,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @GET('/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/counts')
   Future<Result<GetFeedCountsResponse>> getFeedCounts({
     @Path('feed_group_id') required String feedGroupId,
     @Path('feed_id') required String feedId,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @GET('/api/v2/feeds/feed_groups/{feed_group_id}/follow_suggestions')
   Future<Result<GetFollowSuggestionsResponse>> getFollowSuggestions({
     @Path('feed_group_id') required String feedGroupId,
     @Query('limit') int? limit,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @GET('/api/v2/og')
   Future<Result<GetOGResponse>> getOG({
     @Query('url') required String url,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}')
   Future<Result<GetOrCreateFeedResponse>> getOrCreateFeed({
     @Path('feed_group_id') required String feedGroupId,
@@ -423,63 +502,75 @@ abstract interface class DefaultApi {
     @Body() GetOrCreateFeedRequest? getOrCreateFeedRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/follows/upsert')
   Future<Result<GetOrCreateFollowResponse>> getOrCreateFollow({
     @Body() required FollowRequest followRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/follows/batch/upsert')
   Future<Result<FollowBatchResponse>> getOrCreateFollows({
     @Body() required FollowBatchRequest followBatchRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/unfollow/upsert')
   Future<Result<GetOrCreateUnfollowResponse>> getOrCreateUnfollow({
     @Body() required GetOrCreateUnfollowRequest getOrCreateUnfollowRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/unfollow/batch/upsert')
   Future<Result<UnfollowBatchResponse>> getOrCreateUnfollows({
     @Body() required UnfollowBatchRequest unfollowBatchRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @GET('/api/v2/polls/{poll_id}')
   Future<Result<PollResponse>> getPoll({
     @Path('poll_id') required String pollId,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @GET('/api/v2/polls/{poll_id}/options/{option_id}')
   Future<Result<PollOptionResponse>> getPollOption({
     @Path('poll_id') required String pollId,
     @Path('option_id') required String optionId,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @GET('/api/v2/moderation/queues/{id}')
   Future<Result<QueueResponse>> getQueue({
     @Path('id') required String id,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @GET('/api/v2/usergroups/{id}')
   Future<Result<GetUserGroupResponse>> getUserGroup({
     @Path('id') required String id,
     @Query('team_id') String? teamId,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @GET('/api/v2/feeds/users/{user_id}/interests')
   Future<Result<GetUserInterestsResponse>> getUserInterests({
     @Path('user_id') required String userId,
     @Query('limit') int? limit,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @GET('/api/v2/users/live_locations')
   Future<Result<SharedLocationsResponse>> getUserLiveLocations();
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/blocklists/{id}/import')
   Future<Result<ImportBlockListResponse>> importBlockList({
     @Path('id') required String id,
     @Body() required ImportBlockListRequest importBlockListRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @GET('/api/v2/blocklists')
   Future<Result<ListBlockListResponse>> listBlockLists({
     @Query('team') String? team,
@@ -487,12 +578,15 @@ abstract interface class DefaultApi {
     @Query('limit') int? limit,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @GET('/api/v2/devices')
   Future<Result<ListDevicesResponse>> listDevices();
 
+  @UseCallAdapter(_ResultCallAdapter)
   @GET('/api/v2/moderation/queues')
   Future<Result<ListQueuesResponse>> listQueues();
 
+  @UseCallAdapter(_ResultCallAdapter)
   @GET('/api/v2/usergroups')
   Future<Result<ListUserGroupsResponse>> listUserGroups({
     @Query('limit') int? limit,
@@ -501,11 +595,19 @@ abstract interface class DefaultApi {
     @Query('team_id') String? teamId,
   });
 
-  @GET('/api/v2/longpoll')
   Future<Result<void>> longPoll({
-    @Query('json') WSAuthMessage? json,
+    WSAuthMessage? json,
+  }) => _longPoll(
+    json: _JsonQuery.of(json),
+  );
+
+  @UseCallAdapter(_ResultCallAdapter)
+  @GET('/api/v2/longpoll')
+  Future<Result<void>> _longPoll({
+    @Query('json') _JsonQuery? json,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/activities/mark/batch')
   Future<Result<DurationResponse>> markActivity({
     @Path('feed_group_id') required String feedGroupId,
@@ -513,16 +615,19 @@ abstract interface class DefaultApi {
     @Body() MarkActivityRequest? markActivityRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/moderation/mute')
   Future<Result<MuteResponse>> mute({
     @Body() required MuteRequest muteRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/feeds/own/batch')
   Future<Result<OwnBatchResponse>> ownBatch({
     @Body() required OwnBatchRequest ownBatchRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/activities/{activity_id}/pin')
   Future<Result<PinActivityResponse>> pinActivity({
     @Path('feed_group_id') required String feedGroupId,
@@ -531,6 +636,7 @@ abstract interface class DefaultApi {
     @Body() PinActivityRequest? pinActivityRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/activities/query')
   Future<Result<QueryActivitiesResponse>> queryActivities({
     @Query('language') String? language,
@@ -538,12 +644,14 @@ abstract interface class DefaultApi {
     @Body() QueryActivitiesRequest? queryActivitiesRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/activities/{activity_id}/reactions/query')
   Future<Result<QueryActivityReactionsResponse>> queryActivityReactions({
     @Path('activity_id') required String activityId,
     @Body() QueryActivityReactionsRequest? queryActivityReactionsRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @GET('/api/v2/feeds/activities/{activity_id}/shares')
   Future<Result<QueryActivitySharesResponse>> queryActivityShares({
     @Path('activity_id') required String activityId,
@@ -552,16 +660,19 @@ abstract interface class DefaultApi {
     @Query('next') String? next,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/moderation/appeals')
   Future<Result<QueryAppealsResponse>> queryAppeals({
     @Body() QueryAppealsRequest? queryAppealsRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/bookmark_folders/query')
   Future<Result<QueryBookmarkFoldersResponse>> queryBookmarkFolders({
     @Body() QueryBookmarkFoldersRequest? queryBookmarkFoldersRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/bookmarks/query')
   Future<Result<QueryBookmarksResponse>> queryBookmarks({
     @Query('language') String? language,
@@ -569,17 +680,20 @@ abstract interface class DefaultApi {
     @Body() QueryBookmarksRequest? queryBookmarksRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/collections/query')
   Future<Result<QueryCollectionsResponse>> queryCollections({
     @Body() QueryCollectionsRequest? queryCollectionsRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/comments/{id}/reactions/query')
   Future<Result<QueryCommentReactionsResponse>> queryCommentReactions({
     @Path('id') required String id,
     @Body() QueryCommentReactionsRequest? queryCommentReactionsRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/comments/query')
   Future<Result<QueryCommentsResponse>> queryComments({
     @Query('language') String? language,
@@ -587,6 +701,7 @@ abstract interface class DefaultApi {
     @Body() required QueryCommentsRequest queryCommentsRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/members/query')
   Future<Result<QueryFeedMembersResponse>> queryFeedMembers({
     @Path('feed_group_id') required String feedGroupId,
@@ -594,21 +709,25 @@ abstract interface class DefaultApi {
     @Body() QueryFeedMembersRequest? queryFeedMembersRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/feeds/query')
   Future<Result<QueryFeedsResponse>> queryFeeds({
     @Body() QueryFeedsRequest? queryFeedsRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/follows/query')
   Future<Result<QueryFollowsResponse>> queryFollows({
     @Body() QueryFollowsRequest? queryFollowsRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/moderation/configs')
   Future<Result<QueryModerationConfigsResponse>> queryModerationConfigs({
     @Body() QueryModerationConfigsRequest? queryModerationConfigsRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/pinned_activities/query')
   Future<Result<QueryPinnedActivitiesResponse>> queryPinnedActivities({
     @Path('feed_group_id') required String feedGroupId,
@@ -618,60 +737,77 @@ abstract interface class DefaultApi {
     @Body() QueryPinnedActivitiesRequest? queryPinnedActivitiesRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/polls/{poll_id}/votes')
   Future<Result<PollVotesResponse>> queryPollVotes({
     @Path('poll_id') required String pollId,
     @Body() QueryPollVotesRequest? queryPollVotesRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/polls/query')
   Future<Result<QueryPollsResponse>> queryPolls({
     @Body() QueryPollsRequest? queryPollsRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/moderation/review_queue')
   Future<Result<QueryReviewQueueResponse>> queryReviewQueue({
     @Body() QueryReviewQueueRequest? queryReviewQueueRequest,
   });
 
-  @GET('/api/v2/users')
   Future<Result<QueryUsersResponse>> queryUsers({
-    @Query('payload') QueryUsersPayload? payload,
+    QueryUsersPayload? payload,
+  }) => _queryUsers(
+    payload: _JsonQuery.of(payload),
+  );
+
+  @UseCallAdapter(_ResultCallAdapter)
+  @GET('/api/v2/users')
+  Future<Result<QueryUsersResponse>> _queryUsers({
+    @Query('payload') _JsonQuery? payload,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @GET('/api/v2/feeds/collections')
   Future<Result<ReadCollectionsResponse>> readCollections({
     @Query('collection_refs') List<String>? collectionRefs,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/members/reject')
   Future<Result<RejectFeedMemberInviteResponse>> rejectFeedMemberInvite({
     @Path('feed_group_id') required String feedGroupId,
     @Path('feed_id') required String feedId,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/follows/reject')
   Future<Result<RejectFollowResponse>> rejectFollow({
     @Body() required RejectFollowRequest rejectFollowRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/usergroups/{id}/members/delete')
   Future<Result<RemoveUserGroupMembersResponse>> removeUserGroupMembers({
     @Path('id') required String id,
     @Body() required RemoveUserGroupMembersRequest removeUserGroupMembersRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/activities/{id}/restore')
   Future<Result<RestoreActivityResponse>> restoreActivity({
     @Path('id') required String id,
     @Query('enrich_own_fields') bool? enrichOwnFields,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/comments/{id}/restore')
   Future<Result<RestoreCommentResponse>> restoreComment({
     @Path('id') required String id,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @GET('/api/v2/roles/search')
   Future<Result<SearchRolesResponse>> searchRoles({
     @Query('query') required String query,
@@ -681,6 +817,7 @@ abstract interface class DefaultApi {
     @Query('include_global_roles') bool? includeGlobalRoles,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @GET('/api/v2/usergroups/search')
   Future<Result<SearchUserGroupsResponse>> searchUserGroups({
     @Query('query') required String query,
@@ -690,45 +827,53 @@ abstract interface class DefaultApi {
     @Query('team_id') String? teamId,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @DELETE('/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/watch')
   Future<Result<DurationResponse>> stopWatchingFeed({
     @Path('feed_group_id') required String feedGroupId,
     @Path('feed_id') required String feedId,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/moderation/submit_action')
   Future<Result<SubmitActionResponse>> submitAction({
     @Body() required SubmitActionRequest submitActionRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/activities/metrics/track')
   Future<Result<TrackActivityMetricsResponse>> trackActivityMetrics({
     @Body() required TrackActivityMetricsRequest trackActivityMetricsRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/activities/{id}/translate')
   Future<Result<TranslateActivityResponse>> translateActivity({
     @Path('id') required String id,
     @Body() required TranslateActivityRequest translateActivityRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/comments/{id}/translate')
   Future<Result<TranslateCommentResponse>> translateComment({
     @Path('id') required String id,
     @Body() required TranslateCommentRequest translateCommentRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/moderation/unban')
   Future<Result<UnbanResponse>> unban({
     @Query('target_user_id') required String targetUserId,
     @Query('channel_cid') String? channelCid,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/users/unblock')
   Future<Result<UnblockUsersResponse>> unblockUsers({
     @Body() required UnblockUsersRequest unblockUsersRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @DELETE('/api/v2/feeds/follows/{source}/{target}')
   Future<Result<UnfollowResponse>> unfollow({
     @Path('source') required String source,
@@ -738,11 +883,13 @@ abstract interface class DefaultApi {
     @Query('enrich_own_fields') bool? enrichOwnFields,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/moderation/unmute')
   Future<Result<UnmuteResponse>> unmute({
     @Body() required UnmuteRequest unmuteRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @DELETE('/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/activities/{activity_id}/pin')
   Future<Result<UnpinActivityResponse>> unpinActivity({
     @Path('feed_group_id') required String feedGroupId,
@@ -751,59 +898,69 @@ abstract interface class DefaultApi {
     @Query('enrich_own_fields') bool? enrichOwnFields,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @PUT('/api/v2/feeds/activities/{id}')
   Future<Result<UpdateActivityResponse>> updateActivity({
     @Path('id') required String id,
     @Body() UpdateActivityRequest? updateActivityRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @PATCH('/api/v2/feeds/activities/{id}')
   Future<Result<UpdateActivityPartialResponse>> updateActivityPartial({
     @Path('id') required String id,
     @Body() UpdateActivityPartialRequest? updateActivityPartialRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @PUT('/api/v2/blocklists/{name}')
   Future<Result<UpdateBlockListResponse>> updateBlockList({
     @Path('name') required String name,
     @Body() UpdateBlockListRequest? updateBlockListRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @PATCH('/api/v2/feeds/activities/{activity_id}/bookmarks')
   Future<Result<UpdateBookmarkResponse>> updateBookmark({
     @Path('activity_id') required String activityId,
     @Body() UpdateBookmarkRequest? updateBookmarkRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @PATCH('/api/v2/feeds/bookmark_folders/{folder_id}')
   Future<Result<UpdateBookmarkFolderResponse>> updateBookmarkFolder({
     @Path('folder_id') required String folderId,
     @Body() UpdateBookmarkFolderRequest? updateBookmarkFolderRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @PATCH('/api/v2/feeds/collections')
   Future<Result<UpdateCollectionsResponse>> updateCollections({
     @Body() required UpdateCollectionsRequest updateCollectionsRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @PATCH('/api/v2/feeds/comments/{id}')
   Future<Result<UpdateCommentResponse>> updateComment({
     @Path('id') required String id,
     @Body() UpdateCommentRequest? updateCommentRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @PATCH('/api/v2/feeds/comments/{comment_id}/bookmarks')
   Future<Result<UpdateCommentBookmarkResponse>> updateCommentBookmark({
     @Path('comment_id') required String commentId,
     @Body() UpdateCommentBookmarkRequest? updateCommentBookmarkRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/comments/{id}/partial')
   Future<Result<UpdateCommentPartialResponse>> updateCommentPartial({
     @Path('id') required String id,
     @Body() UpdateCommentPartialRequest? updateCommentPartialRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @PUT('/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}')
   Future<Result<UpdateFeedResponse>> updateFeed({
     @Path('feed_group_id') required String feedGroupId,
@@ -811,6 +968,7 @@ abstract interface class DefaultApi {
     @Body() UpdateFeedRequest? updateFeedRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @PATCH('/api/v2/feeds/feed_groups/{feed_group_id}/feeds/{feed_id}/members')
   Future<Result<UpdateFeedMembersResponse>> updateFeedMembers({
     @Path('feed_group_id') required String feedGroupId,
@@ -818,85 +976,101 @@ abstract interface class DefaultApi {
     @Body() required UpdateFeedMembersRequest updateFeedMembersRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @PATCH('/api/v2/feeds/follows')
   Future<Result<UpdateFollowResponse>> updateFollow({
     @Body() required UpdateFollowRequest updateFollowRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @PUT('/api/v2/users/live_locations')
   Future<Result<SharedLocationResponse>> updateLiveLocation({
     @Body() required UpdateLiveLocationRequest updateLiveLocationRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @PUT('/api/v2/polls')
   Future<Result<PollResponse>> updatePoll({
     @Body() required UpdatePollRequest updatePollRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @PUT('/api/v2/polls/{poll_id}/options')
   Future<Result<PollOptionResponse>> updatePollOption({
     @Path('poll_id') required String pollId,
     @Body() required UpdatePollOptionRequest updatePollOptionRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @PATCH('/api/v2/polls/{poll_id}')
   Future<Result<PollResponse>> updatePollPartial({
     @Path('poll_id') required String pollId,
     @Body() UpdatePollPartialRequest? updatePollPartialRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/push_preferences')
   Future<Result<UpsertPushPreferencesResponse>> updatePushNotificationPreferences({
     @Body() required UpsertPushPreferencesRequest upsertPushPreferencesRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @PATCH('/api/v2/moderation/queues/{id}')
   Future<Result<QueueResponse>> updateQueue({
     @Path('id') required String id,
     @Body() UpdateQueueRequest? updateQueueRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @PUT('/api/v2/usergroups/{id}')
   Future<Result<UpdateUserGroupResponse>> updateUserGroup({
     @Path('id') required String id,
     @Body() UpdateUserGroupRequest? updateUserGroupRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/users')
   Future<Result<UpdateUsersResponse>> updateUsers({
     @Body() required UpdateUsersRequest updateUsersRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @PATCH('/api/v2/users')
   Future<Result<UpdateUsersResponse>> updateUsersPartial({
     @Body() required UpdateUsersPartialRequest updateUsersPartialRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/uploads/file')
   Future<Result<FileUploadResponse>> uploadFile({
     @Body() FileUploadRequest? fileUploadRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/uploads/image')
   Future<Result<ImageUploadResponse>> uploadImage({
     @Body() ImageUploadRequest? imageUploadRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/moderation/action_config')
   Future<Result<UpsertActionConfigResponse>> upsertActionConfig({
     @Body() required UpsertActionConfigRequest upsertActionConfigRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/feeds/activities/batch')
   Future<Result<UpsertActivitiesResponse>> upsertActivities({
     @Body() required UpsertActivitiesRequest upsertActivitiesRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/moderation/config')
   Future<Result<UpsertConfigResponse>> upsertConfig({
     @Body() required UpsertConfigRequest upsertConfigRequest,
   });
 
+  @UseCallAdapter(_ResultCallAdapter)
   @PUT('/api/v2/feeds/users/{user_id}/interests')
   Future<Result<UpsertUserInterestsResponse>> upsertUserInterests({
     @Path('user_id') required String userId,
@@ -907,4 +1081,26 @@ abstract interface class DefaultApi {
 class _ResultCallAdapter<T> extends CallAdapter<Future<T>, Future<Result<T>>> {
   @override
   Future<Result<T>> adapt(Future<T> Function() call) => runApiSafely(call);
+}
+
+// A query parameter sent as one JSON string, such as a query payload or a sort
+// list. The generated retrofit code calls toJson() inside the call adapter, so a
+// value that cannot be encoded fails the call instead of throwing. Dates are
+// encoded as RFC3339 in UTC, like the models' date fields, and any other
+// iterable, such as a Set, as a list.
+final class _JsonQuery {
+  const _JsonQuery(this.value);
+
+  static _JsonQuery? of(Object? value) => value == null ? null : _JsonQuery(value);
+
+  final Object value;
+
+  String toJson() => jsonEncode(value, toEncodable: _toEncodable);
+
+  static Object? _toEncodable(Object? object) => switch (object) {
+    final DateTime date => date.toUtc().toIso8601String(),
+    final Iterable<Object?> iterable => iterable.toList(),
+    // ignore: avoid_dynamic_calls
+    _ => (object as dynamic).toJson(),
+  };
 }
