@@ -28,6 +28,8 @@ class ReviewQueueItemResponse with _$ReviewQueueItemResponse {
     this.completedAt,
     this.confidenceScore,
     this.configKey,
+    this.countryCode,
+    this.countryCodes,
     required this.createdAt,
     this.entityCreator,
     this.entityCreatorId,
@@ -37,6 +39,7 @@ class ReviewQueueItemResponse with _$ReviewQueueItemResponse {
     this.escalatedAt,
     this.escalatedBy,
     this.escalationMetadata,
+    this.falsePositiveFlags,
     this.feedsV2Activity,
     this.feedsV2Reaction,
     this.feedsV3Activity,
@@ -46,8 +49,10 @@ class ReviewQueueItemResponse with _$ReviewQueueItemResponse {
     required this.id,
     required this.languages,
     required this.latestModeratorAction,
+    required this.mediaDisplay,
     this.message,
     this.moderationPayload,
+    this.poll,
     this.reaction,
     required this.recommendedAction,
     this.reviewedAt,
@@ -100,6 +105,14 @@ class ReviewQueueItemResponse with _$ReviewQueueItemResponse {
   final String? configKey;
 
   @override
+  @JsonKey(name: 'country_code')
+  final String? countryCode;
+
+  @override
+  @JsonKey(name: 'country_codes')
+  final List<String>? countryCodes;
+
+  @override
   @StreamDateTimeConverter()
   @JsonKey(name: 'created_at')
   final DateTime createdAt;
@@ -138,6 +151,10 @@ class ReviewQueueItemResponse with _$ReviewQueueItemResponse {
   final EscalationMetadata? escalationMetadata;
 
   @override
+  @JsonKey(name: 'false_positive_flags')
+  final List<String>? falsePositiveFlags;
+
+  @override
   @JsonKey(name: 'feeds_v2_activity')
   final EnrichedActivity? feedsV2Activity;
 
@@ -174,12 +191,20 @@ class ReviewQueueItemResponse with _$ReviewQueueItemResponse {
   final String latestModeratorAction;
 
   @override
+  @JsonKey(name: 'media_display')
+  final MediaDisplayResponse mediaDisplay;
+
+  @override
   @JsonKey(name: 'message')
   final ChatMessageResponse? message;
 
   @override
   @JsonKey(name: 'moderation_payload')
   final ModerationPayloadResponse? moderationPayload;
+
+  @override
+  @JsonKey(name: 'poll')
+  final PollResponseData? poll;
 
   @override
   @JsonKey(name: 'reaction')

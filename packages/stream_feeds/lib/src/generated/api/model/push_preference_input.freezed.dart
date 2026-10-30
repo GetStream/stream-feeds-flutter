@@ -13,7 +13,6 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$PushPreferenceInput {
-  PushPreferenceInputCallLevel? get callLevel;
   String? get channelCid;
   PushPreferenceInputChatLevel? get chatLevel;
   ChatPreferencesInput? get chatPreferences;
@@ -21,6 +20,8 @@ mixin _$PushPreferenceInput {
   PushPreferenceInputFeedsLevel? get feedsLevel;
   FeedsPreferences? get feedsPreferences;
   bool? get removeDisable;
+  bool? get removeSchedule;
+  PushScheduleInput? get schedule;
   String? get userId;
 
   /// Create a copy of PushPreferenceInput
@@ -38,7 +39,6 @@ mixin _$PushPreferenceInput {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is PushPreferenceInput &&
-            (identical(other.callLevel, callLevel) || other.callLevel == callLevel) &&
             (identical(other.channelCid, channelCid) || other.channelCid == channelCid) &&
             (identical(other.chatLevel, chatLevel) || other.chatLevel == chatLevel) &&
             (identical(other.chatPreferences, chatPreferences) || other.chatPreferences == chatPreferences) &&
@@ -46,13 +46,14 @@ mixin _$PushPreferenceInput {
             (identical(other.feedsLevel, feedsLevel) || other.feedsLevel == feedsLevel) &&
             (identical(other.feedsPreferences, feedsPreferences) || other.feedsPreferences == feedsPreferences) &&
             (identical(other.removeDisable, removeDisable) || other.removeDisable == removeDisable) &&
+            (identical(other.removeSchedule, removeSchedule) || other.removeSchedule == removeSchedule) &&
+            (identical(other.schedule, schedule) || other.schedule == schedule) &&
             (identical(other.userId, userId) || other.userId == userId));
   }
 
   @override
   int get hashCode => Object.hash(
     runtimeType,
-    callLevel,
     channelCid,
     chatLevel,
     chatPreferences,
@@ -60,12 +61,14 @@ mixin _$PushPreferenceInput {
     feedsLevel,
     feedsPreferences,
     removeDisable,
+    removeSchedule,
+    schedule,
     userId,
   );
 
   @override
   String toString() {
-    return 'PushPreferenceInput(callLevel: $callLevel, channelCid: $channelCid, chatLevel: $chatLevel, chatPreferences: $chatPreferences, disabledUntil: $disabledUntil, feedsLevel: $feedsLevel, feedsPreferences: $feedsPreferences, removeDisable: $removeDisable, userId: $userId)';
+    return 'PushPreferenceInput(channelCid: $channelCid, chatLevel: $chatLevel, chatPreferences: $chatPreferences, disabledUntil: $disabledUntil, feedsLevel: $feedsLevel, feedsPreferences: $feedsPreferences, removeDisable: $removeDisable, removeSchedule: $removeSchedule, schedule: $schedule, userId: $userId)';
   }
 }
 
@@ -77,7 +80,6 @@ abstract mixin class $PushPreferenceInputCopyWith<$Res> {
   ) = _$PushPreferenceInputCopyWithImpl;
   @useResult
   $Res call({
-    PushPreferenceInputCallLevel? callLevel,
     String? channelCid,
     PushPreferenceInputChatLevel? chatLevel,
     ChatPreferencesInput? chatPreferences,
@@ -85,6 +87,8 @@ abstract mixin class $PushPreferenceInputCopyWith<$Res> {
     PushPreferenceInputFeedsLevel? feedsLevel,
     FeedsPreferences? feedsPreferences,
     bool? removeDisable,
+    bool? removeSchedule,
+    PushScheduleInput? schedule,
     String? userId,
   });
 }
@@ -101,7 +105,6 @@ class _$PushPreferenceInputCopyWithImpl<$Res> implements $PushPreferenceInputCop
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? callLevel = freezed,
     Object? channelCid = freezed,
     Object? chatLevel = freezed,
     Object? chatPreferences = freezed,
@@ -109,14 +112,12 @@ class _$PushPreferenceInputCopyWithImpl<$Res> implements $PushPreferenceInputCop
     Object? feedsLevel = freezed,
     Object? feedsPreferences = freezed,
     Object? removeDisable = freezed,
+    Object? removeSchedule = freezed,
+    Object? schedule = freezed,
     Object? userId = freezed,
   }) {
     return _then(
       PushPreferenceInput(
-        callLevel: freezed == callLevel
-            ? _self.callLevel
-            : callLevel // ignore: cast_nullable_to_non_nullable
-                  as PushPreferenceInputCallLevel?,
         channelCid: freezed == channelCid
             ? _self.channelCid
             : channelCid // ignore: cast_nullable_to_non_nullable
@@ -145,6 +146,14 @@ class _$PushPreferenceInputCopyWithImpl<$Res> implements $PushPreferenceInputCop
             ? _self.removeDisable
             : removeDisable // ignore: cast_nullable_to_non_nullable
                   as bool?,
+        removeSchedule: freezed == removeSchedule
+            ? _self.removeSchedule
+            : removeSchedule // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        schedule: freezed == schedule
+            ? _self.schedule
+            : schedule // ignore: cast_nullable_to_non_nullable
+                  as PushScheduleInput?,
         userId: freezed == userId
             ? _self.userId
             : userId // ignore: cast_nullable_to_non_nullable

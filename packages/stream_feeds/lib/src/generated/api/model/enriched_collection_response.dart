@@ -13,15 +13,6 @@ import '../models.dart';
 part 'enriched_collection_response.g.dart';
 part 'enriched_collection_response.freezed.dart';
 
-extension type const EnrichedCollectionResponseStatus._(String _) implements String {
-  static const notfound = EnrichedCollectionResponseStatus._('notfound');
-  static const ok = EnrichedCollectionResponseStatus._('ok');
-
-  factory EnrichedCollectionResponseStatus.fromJson(String json) => EnrichedCollectionResponseStatus._(json);
-
-  String toJson() => this;
-}
-
 @freezed
 @immutable
 @JsonSerializable()
@@ -55,7 +46,7 @@ class EnrichedCollectionResponse with _$EnrichedCollectionResponse {
 
   @override
   @JsonKey(name: 'status')
-  final EnrichedCollectionResponseStatus status;
+  final CollectionStatus status;
 
   @override
   @StreamDateTimeConverter()

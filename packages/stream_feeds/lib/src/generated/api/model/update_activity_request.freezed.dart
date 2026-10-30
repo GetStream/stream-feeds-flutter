@@ -26,12 +26,12 @@ mixin _$UpdateActivityRequest {
   Location? get location;
   List<String>? get mentionedUserIds;
   String? get pollId;
-  UpdateActivityRequestRestrictReplies? get restrictReplies;
+  RestrictReplies? get restrictReplies;
   bool? get runActivityProcessors;
   Map<String, Object?>? get searchData;
   bool? get skipEnrichUrl;
   String? get text;
-  UpdateActivityRequestVisibility? get visibility;
+  ActivityVisibility? get visibility;
   String? get visibilityTag;
 
   /// Create a copy of UpdateActivityRequest
@@ -150,12 +150,12 @@ abstract mixin class $UpdateActivityRequestCopyWith<$Res> {
     Location? location,
     List<String>? mentionedUserIds,
     String? pollId,
-    UpdateActivityRequestRestrictReplies? restrictReplies,
+    RestrictReplies? restrictReplies,
     bool? runActivityProcessors,
     Map<String, Object?>? searchData,
     bool? skipEnrichUrl,
     String? text,
-    UpdateActivityRequestVisibility? visibility,
+    ActivityVisibility? visibility,
     String? visibilityTag,
   });
 }
@@ -250,7 +250,7 @@ class _$UpdateActivityRequestCopyWithImpl<$Res> implements $UpdateActivityReques
         restrictReplies: freezed == restrictReplies
             ? _self.restrictReplies
             : restrictReplies // ignore: cast_nullable_to_non_nullable
-                  as UpdateActivityRequestRestrictReplies?,
+                  as RestrictReplies?,
         runActivityProcessors: freezed == runActivityProcessors
             ? _self.runActivityProcessors
             : runActivityProcessors // ignore: cast_nullable_to_non_nullable
@@ -270,7 +270,7 @@ class _$UpdateActivityRequestCopyWithImpl<$Res> implements $UpdateActivityReques
         visibility: freezed == visibility
             ? _self.visibility
             : visibility // ignore: cast_nullable_to_non_nullable
-                  as UpdateActivityRequestVisibility?,
+                  as ActivityVisibility?,
         visibilityTag: freezed == visibilityTag
             ? _self.visibilityTag
             : visibilityTag // ignore: cast_nullable_to_non_nullable

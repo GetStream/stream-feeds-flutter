@@ -2998,7 +2998,7 @@ void main() {
           result: AcceptFeedMemberInviteResponse(
             member: createDefaultFeedMemberResponse(
               id: currentUser.id,
-              status: FeedMemberResponseStatus.member,
+              status: FeedMemberStatus.member,
             ),
             duration: '0ms',
           ),
@@ -3041,7 +3041,7 @@ void main() {
           result: RejectFeedMemberInviteResponse(
             member: createDefaultFeedMemberResponse(
               id: currentUser.id,
-              status: FeedMemberResponseStatus.rejected,
+              status: FeedMemberStatus.rejected,
             ),
             duration: '0ms',
           ),
@@ -3147,12 +3147,12 @@ void main() {
               createdAt: DateTime(2021, 1, 1),
               custom: const {},
               followerRole: 'follower',
-              pushPreference: FollowResponsePushPreference.all,
+              pushPreference: FollowPushPreference.all,
               sourceFeed: createDefaultFeedResponse(
                 id: feedId.id,
                 groupId: feedId.group,
               ),
-              status: FollowResponseStatus.accepted,
+              status: FollowStatus.accepted,
               targetFeed: createDefaultFeedResponse(
                 id: targetFeedId.id,
                 groupId: targetFeedId.group,
@@ -3201,12 +3201,12 @@ void main() {
               createdAt: DateTime(2021, 1, 1),
               custom: const {},
               followerRole: 'follower',
-              pushPreference: FollowResponsePushPreference.all,
+              pushPreference: FollowPushPreference.all,
               sourceFeed: createDefaultFeedResponse(
                 id: feedId.id,
                 groupId: feedId.group,
               ),
-              status: FollowResponseStatus.accepted,
+              status: FollowStatus.accepted,
               targetFeed: createDefaultFeedResponse(
                 id: targetFeedId.id,
                 groupId: targetFeedId.group,
@@ -3255,12 +3255,12 @@ void main() {
               createdAt: DateTime(2021, 1, 1),
               custom: const {},
               followerRole: 'follower',
-              pushPreference: FollowResponsePushPreference.all,
+              pushPreference: FollowPushPreference.all,
               sourceFeed: createDefaultFeedResponse(
                 id: sourceFeedId.id,
                 groupId: sourceFeedId.group,
               ),
-              status: FollowResponseStatus.accepted,
+              status: FollowStatus.accepted,
               targetFeed: createDefaultFeedResponse(
                 id: targetFeedId.id,
                 groupId: targetFeedId.group,
@@ -3315,12 +3315,12 @@ void main() {
               createdAt: DateTime(2021, 1, 1),
               custom: const {},
               followerRole: 'follower',
-              pushPreference: FollowResponsePushPreference.all,
+              pushPreference: FollowPushPreference.all,
               sourceFeed: createDefaultFeedResponse(
                 id: sourceFeedId.id,
                 groupId: sourceFeedId.group,
               ),
-              status: FollowResponseStatus.rejected,
+              status: FollowStatus.rejected,
               targetFeed: createDefaultFeedResponse(
                 id: targetFeedId.id,
                 groupId: targetFeedId.group,
@@ -3377,7 +3377,7 @@ void main() {
               createdAt: DateTime.timestamp(),
               custom: const {},
               followerRole: 'followerRole',
-              pushPreference: FollowResponsePushPreference.none,
+              pushPreference: FollowPushPreference.none,
               requestAcceptedAt: DateTime.timestamp(),
               requestRejectedAt: DateTime.timestamp(),
               sourceFeed: createDefaultFeedResponse(
@@ -3385,7 +3385,7 @@ void main() {
                 groupId: 'user',
                 followingCount: 1,
               ),
-              status: FollowResponseStatus.accepted,
+              status: FollowStatus.accepted,
               targetFeed: createDefaultFeedResponse(
                 id: targetFeedId.id,
                 groupId: targetFeedId.group,
@@ -3419,7 +3419,7 @@ void main() {
               createdAt: DateTime.timestamp(),
               custom: const {},
               followerRole: 'followerRole',
-              pushPreference: FollowResponsePushPreference.none,
+              pushPreference: FollowPushPreference.none,
               requestAcceptedAt: DateTime.timestamp(),
               requestRejectedAt: DateTime.timestamp(),
               sourceFeed: createDefaultFeedResponse(
@@ -3427,7 +3427,7 @@ void main() {
                 groupId: 'user',
                 followingCount: 1,
               ),
-              status: FollowResponseStatus.accepted,
+              status: FollowStatus.accepted,
               targetFeed: createDefaultFeedResponse(
                 id: targetFeedId.id,
                 groupId: targetFeedId.group,
@@ -3470,7 +3470,7 @@ void main() {
               createdAt: DateTime.timestamp(),
               custom: const {},
               followerRole: 'followerRole',
-              pushPreference: FollowResponsePushPreference.none,
+              pushPreference: FollowPushPreference.none,
               requestAcceptedAt: DateTime.timestamp(),
               requestRejectedAt: DateTime.timestamp(),
               sourceFeed: createDefaultFeedResponse(
@@ -3478,7 +3478,7 @@ void main() {
                 groupId: 'user',
                 followingCount: 0,
               ),
-              status: FollowResponseStatus.accepted,
+              status: FollowStatus.accepted,
               targetFeed: createDefaultFeedResponse(
                 id: targetFeedId.id,
                 groupId: targetFeedId.group,
@@ -3521,7 +3521,7 @@ void main() {
               createdAt: DateTime.timestamp(),
               custom: const {},
               followerRole: 'followerRole',
-              pushPreference: FollowResponsePushPreference.none,
+              pushPreference: FollowPushPreference.none,
               requestAcceptedAt: DateTime.timestamp(),
               requestRejectedAt: DateTime.timestamp(),
               sourceFeed: createDefaultFeedResponse(
@@ -3529,7 +3529,7 @@ void main() {
                 groupId: 'user',
                 followingCount: 0,
               ),
-              status: FollowResponseStatus.accepted,
+              status: FollowStatus.accepted,
               targetFeed: createDefaultFeedResponse(
                 id: targetFeedId.id,
                 groupId: targetFeedId.group,
@@ -3579,7 +3579,7 @@ void main() {
               createdAt: initialFollow.createdAt,
               custom: const {'updated': true},
               followerRole: initialFollow.followerRole,
-              pushPreference: FollowResponsePushPreference.fromJson(
+              pushPreference: FollowPushPreference(
                 initialFollow.pushPreference,
               ),
               requestAcceptedAt: initialFollow.requestAcceptedAt,
@@ -3588,7 +3588,7 @@ void main() {
                 id: initialFollow.sourceFeed.id,
                 groupId: initialFollow.sourceFeed.groupId,
               ),
-              status: FollowResponseStatus.accepted,
+              status: FollowStatus.accepted,
               targetFeed: createDefaultFeedResponse(
                 id: initialFollow.targetFeed.id,
                 groupId: initialFollow.targetFeed.groupId,
@@ -5575,7 +5575,7 @@ void main() {
             addActivityRequest: const AddActivityRequest(
               type: 'post',
               feeds: ['user:john'],
-              restrictReplies: AddActivityRequestRestrictReplies.peopleIFollow,
+              restrictReplies: RestrictReplies.peopleIFollow,
             ),
           ),
           result: AddActivityResponse(
@@ -5587,7 +5587,7 @@ void main() {
         final result = await tester.feed.addActivity(
           request: const FeedAddActivityRequest(
             type: 'post',
-            restrictReplies: ActivityRestrictReplies.peopleIFollow,
+            restrictReplies: RestrictReplies.peopleIFollow,
           ),
         );
 
@@ -5598,7 +5598,7 @@ void main() {
           addActivityRequest: const AddActivityRequest(
             type: 'post',
             feeds: ['user:john'],
-            restrictReplies: AddActivityRequestRestrictReplies.peopleIFollow,
+            restrictReplies: RestrictReplies.peopleIFollow,
           ),
         ),
       ),
@@ -5614,7 +5614,7 @@ void main() {
               createDefaultActivityResponse(
                 id: 'activity-1',
                 feeds: [feedId.rawValue],
-                restrictReplies: ActivityResponseRestrictReplies.nobody,
+                restrictReplies: RestrictReplies.nobody,
               ),
             ],
           ),
@@ -5623,7 +5623,7 @@ void main() {
         final activity = tester.feedState.activities.firstWhere(
           (a) => a.id == 'activity-1',
         );
-        expect(activity.restrictReplies, equals(ActivityRestrictReplies.nobody));
+        expect(activity.restrictReplies, equals(RestrictReplies.nobody));
       },
     );
 
@@ -5691,7 +5691,7 @@ void main() {
               createDefaultActivityResponse(
                 id: 'activity-1',
                 feeds: [feedId.rawValue],
-                restrictReplies: ActivityResponseRestrictReplies.peopleIFollow,
+                restrictReplies: RestrictReplies.peopleIFollow,
               ),
             ],
           ),
@@ -5702,7 +5702,7 @@ void main() {
         );
         expect(
           activity.restrictReplies,
-          equals(ActivityRestrictReplies.peopleIFollow),
+          equals(RestrictReplies.peopleIFollow),
         );
       },
     );
@@ -5717,7 +5717,7 @@ void main() {
               createDefaultActivityResponse(
                 id: 'activity-1',
                 feeds: [feedId.rawValue],
-                restrictReplies: ActivityResponseRestrictReplies.fromJson(
+                restrictReplies: const RestrictReplies(
                   'some_future_value',
                 ),
               ),
@@ -5730,7 +5730,7 @@ void main() {
         );
         expect(
           activity.restrictReplies,
-          equals(const ActivityRestrictReplies('some_future_value')),
+          equals(const RestrictReplies('some_future_value')),
         );
       },
     );
@@ -5753,7 +5753,7 @@ void main() {
           (api) => api.updateActivity(
             id: 'activity-1',
             updateActivityRequest: const UpdateActivityRequest(
-              restrictReplies: UpdateActivityRequestRestrictReplies.nobody,
+              restrictReplies: RestrictReplies.nobody,
             ),
           ),
           result: UpdateActivityResponse(
@@ -5761,7 +5761,7 @@ void main() {
             activity: createDefaultActivityResponse(
               id: 'activity-1',
               feeds: [feedId.rawValue],
-              restrictReplies: ActivityResponseRestrictReplies.nobody,
+              restrictReplies: RestrictReplies.nobody,
             ),
           ),
         );
@@ -5769,19 +5769,19 @@ void main() {
         final result = await tester.feed.updateActivity(
           id: 'activity-1',
           request: const UpdateActivityRequest(
-            restrictReplies: UpdateActivityRequestRestrictReplies.nobody,
+            restrictReplies: RestrictReplies.nobody,
           ),
         );
 
         expect(result.isSuccess, isTrue);
         final activity = result.getOrThrow();
-        expect(activity.restrictReplies, equals(ActivityRestrictReplies.nobody));
+        expect(activity.restrictReplies, equals(RestrictReplies.nobody));
       },
       verify: (tester) => tester.verifyApi(
         (api) => api.updateActivity(
           id: 'activity-1',
           updateActivityRequest: const UpdateActivityRequest(
-            restrictReplies: UpdateActivityRequestRestrictReplies.nobody,
+            restrictReplies: RestrictReplies.nobody,
           ),
         ),
       ),

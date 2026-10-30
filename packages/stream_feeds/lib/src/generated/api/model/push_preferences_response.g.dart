@@ -9,7 +9,6 @@ part of 'push_preferences_response.dart';
 PushPreferencesResponse _$PushPreferencesResponseFromJson(
   Map<String, dynamic> json,
 ) => PushPreferencesResponse(
-  callLevel: json['call_level'] as String?,
   chatLevel: json['chat_level'] as String?,
   chatPreferences: json['chat_preferences'] == null
       ? null
@@ -26,12 +25,12 @@ PushPreferencesResponse _$PushPreferencesResponseFromJson(
       : FeedsPreferencesResponse.fromJson(
           json['feeds_preferences'] as Map<String, dynamic>,
         ),
+  schedule: json['schedule'] == null ? null : PushScheduleResponse.fromJson(json['schedule'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$PushPreferencesResponseToJson(
   PushPreferencesResponse instance,
 ) => <String, dynamic>{
-  'call_level': instance.callLevel,
   'chat_level': instance.chatLevel,
   'chat_preferences': instance.chatPreferences?.toJson(),
   'disabled_until': _$JsonConverterToJson<Object, DateTime>(
@@ -40,6 +39,7 @@ Map<String, dynamic> _$PushPreferencesResponseToJson(
   ),
   'feeds_level': instance.feedsLevel,
   'feeds_preferences': instance.feedsPreferences?.toJson(),
+  'schedule': instance.schedule?.toJson(),
 };
 
 Value? _$JsonConverterFromJson<Json, Value>(

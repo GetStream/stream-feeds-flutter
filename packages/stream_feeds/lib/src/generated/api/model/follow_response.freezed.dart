@@ -16,11 +16,11 @@ mixin _$FollowResponse {
   DateTime get createdAt;
   Map<String, Object?>? get custom;
   String get followerRole;
-  FollowResponsePushPreference get pushPreference;
+  FollowPushPreference get pushPreference;
   DateTime? get requestAcceptedAt;
   DateTime? get requestRejectedAt;
   FeedResponse get sourceFeed;
-  FollowResponseStatus get status;
+  FollowStatus get status;
   FeedResponse get targetFeed;
   DateTime get updatedAt;
 
@@ -82,11 +82,11 @@ abstract mixin class $FollowResponseCopyWith<$Res> {
     DateTime createdAt,
     Map<String, Object?>? custom,
     String followerRole,
-    FollowResponsePushPreference pushPreference,
+    FollowPushPreference pushPreference,
     DateTime? requestAcceptedAt,
     DateTime? requestRejectedAt,
     FeedResponse sourceFeed,
-    FollowResponseStatus status,
+    FollowStatus status,
     FeedResponse targetFeed,
     DateTime updatedAt,
   });
@@ -132,7 +132,7 @@ class _$FollowResponseCopyWithImpl<$Res> implements $FollowResponseCopyWith<$Res
         pushPreference: null == pushPreference
             ? _self.pushPreference
             : pushPreference // ignore: cast_nullable_to_non_nullable
-                  as FollowResponsePushPreference,
+                  as FollowPushPreference,
         requestAcceptedAt: freezed == requestAcceptedAt
             ? _self.requestAcceptedAt
             : requestAcceptedAt // ignore: cast_nullable_to_non_nullable
@@ -148,7 +148,7 @@ class _$FollowResponseCopyWithImpl<$Res> implements $FollowResponseCopyWith<$Res
         status: null == status
             ? _self.status
             : status // ignore: cast_nullable_to_non_nullable
-                  as FollowResponseStatus,
+                  as FollowStatus,
         targetFeed: null == targetFeed
             ? _self.targetFeed
             : targetFeed // ignore: cast_nullable_to_non_nullable

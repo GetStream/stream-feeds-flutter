@@ -262,7 +262,7 @@ extension CommentsSortExtension on CommentsSort {
   /// Both sides are `String`-backed, so the value is sent as-is — a caller can
   /// pass a sort this client version doesn't declare and it still reaches the
   /// API intact.
-  api.QueryCommentsRequestSort toRequest() => api.QueryCommentsRequestSort.fromJson(sort);
+  api.QueryCommentsRequestSort toRequest() => api.QueryCommentsRequestSort(sort);
 
   /// Compares two [CommentsSortDataFields] instances based on the current sort criteria.
   ///

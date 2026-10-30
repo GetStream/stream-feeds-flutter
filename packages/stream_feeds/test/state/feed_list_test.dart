@@ -234,7 +234,7 @@ void main() {
             fid: 'user:feed-1',
             feed: createDefaultFeedResponse(
               id: 'feed-1',
-            ).copyWith(visibility: FeedResponseVisibility.private),
+            ).copyWith(visibility: FeedVisibility.private),
           ),
         );
 
@@ -262,7 +262,7 @@ void main() {
             fid: 'user:feed-1',
             feed: createDefaultFeedResponse(
               id: 'feed-1',
-            ).copyWith(visibility: FeedResponseVisibility.private),
+            ).copyWith(visibility: FeedVisibility.private),
           ),
         );
 

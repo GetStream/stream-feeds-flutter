@@ -54,7 +54,7 @@ class ActivitySelectorConfig with _$ActivitySelectorConfig {
 
   @override
   @JsonKey(name: 'type')
-  final String? type;
+  final ActivitySelectorType? type;
 
   Map<String, dynamic> toJson() => _$ActivitySelectorConfigToJson(this);
 

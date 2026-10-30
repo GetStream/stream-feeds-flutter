@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$CreatePollState {
 
- bool get allowAnswers; bool get allowUserSuggestedOptions; String get description; bool get enforceUniqueVote; String? get id; bool get isClosed; int? get maxVotesAllowed; String get name; List<PollOptionInputState> get options; VotingVisibility? get votingVisibility;
+ bool get allowAnswers; bool get allowUserSuggestedOptions; String get description; bool get enforceUniqueVote; String? get id; bool get isClosed; int? get maxVotesAllowed; String get name; List<PollOptionInputState> get options; PollVotingVisibility? get votingVisibility;
 /// Create a copy of CreatePollState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -45,7 +45,7 @@ abstract mixin class $CreatePollStateCopyWith<$Res>  {
   factory $CreatePollStateCopyWith(CreatePollState value, $Res Function(CreatePollState) _then) = _$CreatePollStateCopyWithImpl;
 @useResult
 $Res call({
- bool allowAnswers, bool allowUserSuggestedOptions, String description, bool enforceUniqueVote, String? id, bool isClosed, int? maxVotesAllowed, String name, List<PollOptionInputState> options, VotingVisibility? votingVisibility
+ bool allowAnswers, bool allowUserSuggestedOptions, String description, bool enforceUniqueVote, String? id, bool isClosed, int? maxVotesAllowed, String name, List<PollOptionInputState> options, PollVotingVisibility? votingVisibility
 });
 
 
@@ -74,7 +74,7 @@ as bool,maxVotesAllowed: freezed == maxVotesAllowed ? _self.maxVotesAllowed : ma
 as int?,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,options: null == options ? _self.options : options // ignore: cast_nullable_to_non_nullable
 as List<PollOptionInputState>,votingVisibility: freezed == votingVisibility ? _self.votingVisibility : votingVisibility // ignore: cast_nullable_to_non_nullable
-as VotingVisibility?,
+as PollVotingVisibility?,
   ));
 }
 

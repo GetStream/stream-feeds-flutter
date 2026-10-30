@@ -19,7 +19,7 @@ mixin _$FeedInput {
   Location? get location;
   List<FeedMemberRequest>? get members;
   String? get name;
-  FeedInputVisibility? get visibility;
+  FeedVisibility? get visibility;
 
   /// Create a copy of FeedInput
   /// with the given fields replaced by the non-null parameter values.
@@ -73,7 +73,7 @@ abstract mixin class $FeedInputCopyWith<$Res> {
     Location? location,
     List<FeedMemberRequest>? members,
     String? name,
-    FeedInputVisibility? visibility,
+    FeedVisibility? visibility,
   });
 }
 
@@ -126,7 +126,7 @@ class _$FeedInputCopyWithImpl<$Res> implements $FeedInputCopyWith<$Res> {
         visibility: freezed == visibility
             ? _self.visibility
             : visibility // ignore: cast_nullable_to_non_nullable
-                  as FeedInputVisibility?,
+                  as FeedVisibility?,
       ),
     );
   }

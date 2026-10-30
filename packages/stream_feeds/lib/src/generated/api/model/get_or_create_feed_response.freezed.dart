@@ -16,6 +16,7 @@ mixin _$GetOrCreateFeedResponse {
   List<ActivityResponse> get activities;
   List<AggregatedActivityResponse> get aggregatedActivities;
   bool get created;
+  List<String>? get degradedSelectors;
   String get duration;
   FeedResponse get feed;
   List<FollowResponse> get followers;
@@ -53,6 +54,10 @@ mixin _$GetOrCreateFeedResponse {
               aggregatedActivities,
             ) &&
             (identical(other.created, created) || other.created == created) &&
+            const DeepCollectionEquality().equals(
+              other.degradedSelectors,
+              degradedSelectors,
+            ) &&
             (identical(other.duration, duration) || other.duration == duration) &&
             (identical(other.feed, feed) || other.feed == feed) &&
             const DeepCollectionEquality().equals(other.followers, followers) &&
@@ -79,6 +84,7 @@ mixin _$GetOrCreateFeedResponse {
     const DeepCollectionEquality().hash(activities),
     const DeepCollectionEquality().hash(aggregatedActivities),
     created,
+    const DeepCollectionEquality().hash(degradedSelectors),
     duration,
     feed,
     const DeepCollectionEquality().hash(followers),
@@ -95,7 +101,7 @@ mixin _$GetOrCreateFeedResponse {
 
   @override
   String toString() {
-    return 'GetOrCreateFeedResponse(activities: $activities, aggregatedActivities: $aggregatedActivities, created: $created, duration: $duration, feed: $feed, followers: $followers, followersPagination: $followersPagination, following: $following, followingPagination: $followingPagination, memberPagination: $memberPagination, members: $members, next: $next, notificationStatus: $notificationStatus, pinnedActivities: $pinnedActivities, prev: $prev)';
+    return 'GetOrCreateFeedResponse(activities: $activities, aggregatedActivities: $aggregatedActivities, created: $created, degradedSelectors: $degradedSelectors, duration: $duration, feed: $feed, followers: $followers, followersPagination: $followersPagination, following: $following, followingPagination: $followingPagination, memberPagination: $memberPagination, members: $members, next: $next, notificationStatus: $notificationStatus, pinnedActivities: $pinnedActivities, prev: $prev)';
   }
 }
 
@@ -110,6 +116,7 @@ abstract mixin class $GetOrCreateFeedResponseCopyWith<$Res> {
     List<ActivityResponse> activities,
     List<AggregatedActivityResponse> aggregatedActivities,
     bool created,
+    List<String>? degradedSelectors,
     String duration,
     FeedResponse feed,
     List<FollowResponse> followers,
@@ -140,6 +147,7 @@ class _$GetOrCreateFeedResponseCopyWithImpl<$Res> implements $GetOrCreateFeedRes
     Object? activities = null,
     Object? aggregatedActivities = null,
     Object? created = null,
+    Object? degradedSelectors = freezed,
     Object? duration = null,
     Object? feed = null,
     Object? followers = null,
@@ -167,6 +175,10 @@ class _$GetOrCreateFeedResponseCopyWithImpl<$Res> implements $GetOrCreateFeedRes
             ? _self.created
             : created // ignore: cast_nullable_to_non_nullable
                   as bool,
+        degradedSelectors: freezed == degradedSelectors
+            ? _self.degradedSelectors
+            : degradedSelectors // ignore: cast_nullable_to_non_nullable
+                  as List<String>?,
         duration: null == duration
             ? _self.duration
             : duration // ignore: cast_nullable_to_non_nullable

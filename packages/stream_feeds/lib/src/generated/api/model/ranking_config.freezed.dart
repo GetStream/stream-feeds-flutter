@@ -14,6 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$RankingConfig {
   Map<String, Object?>? get defaults;
+  double? get excludeBelow;
   Map<String, DecayFunctionConfig>? get functions;
   String? get score;
   String? get type;
@@ -33,6 +34,7 @@ mixin _$RankingConfig {
         (other.runtimeType == runtimeType &&
             other is RankingConfig &&
             const DeepCollectionEquality().equals(other.defaults, defaults) &&
+            (identical(other.excludeBelow, excludeBelow) || other.excludeBelow == excludeBelow) &&
             const DeepCollectionEquality().equals(other.functions, functions) &&
             (identical(other.score, score) || other.score == score) &&
             (identical(other.type, type) || other.type == type));
@@ -42,6 +44,7 @@ mixin _$RankingConfig {
   int get hashCode => Object.hash(
     runtimeType,
     const DeepCollectionEquality().hash(defaults),
+    excludeBelow,
     const DeepCollectionEquality().hash(functions),
     score,
     type,
@@ -49,7 +52,7 @@ mixin _$RankingConfig {
 
   @override
   String toString() {
-    return 'RankingConfig(defaults: $defaults, functions: $functions, score: $score, type: $type)';
+    return 'RankingConfig(defaults: $defaults, excludeBelow: $excludeBelow, functions: $functions, score: $score, type: $type)';
   }
 }
 
@@ -62,6 +65,7 @@ abstract mixin class $RankingConfigCopyWith<$Res> {
   @useResult
   $Res call({
     Map<String, Object?>? defaults,
+    double? excludeBelow,
     Map<String, DecayFunctionConfig>? functions,
     String? score,
     String? type,
@@ -81,6 +85,7 @@ class _$RankingConfigCopyWithImpl<$Res> implements $RankingConfigCopyWith<$Res> 
   @override
   $Res call({
     Object? defaults = freezed,
+    Object? excludeBelow = freezed,
     Object? functions = freezed,
     Object? score = freezed,
     Object? type = freezed,
@@ -91,6 +96,10 @@ class _$RankingConfigCopyWithImpl<$Res> implements $RankingConfigCopyWith<$Res> 
             ? _self.defaults
             : defaults // ignore: cast_nullable_to_non_nullable
                   as Map<String, Object?>?,
+        excludeBelow: freezed == excludeBelow
+            ? _self.excludeBelow
+            : excludeBelow // ignore: cast_nullable_to_non_nullable
+                  as double?,
         functions: freezed == functions
             ? _self.functions
             : functions // ignore: cast_nullable_to_non_nullable

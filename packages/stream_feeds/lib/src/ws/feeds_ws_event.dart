@@ -17,7 +17,7 @@ class FeedsWsCodec implements WebSocketMessageCodec<WsEvent, WsRequest> {
   @override
   WsEvent decode(Object message) {
     final jsonData = json.decode(message.toString()) as Map<String, Object?>;
-    final event = api.WSEvent.fromJson(jsonData).wrapped;
+    final event = api.WSEvent.fromJson(jsonData);
 
     // Handle unknown events by mapping them to known event types if possible
     if (event is api.UnknownWSEvent) return _parseUnknownEvent(event);

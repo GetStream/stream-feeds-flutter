@@ -13,18 +13,6 @@ import '../models.dart';
 part 'threaded_comment_response.g.dart';
 part 'threaded_comment_response.freezed.dart';
 
-extension type const ThreadedCommentResponseStatus._(String _) implements String {
-  static const active = ThreadedCommentResponseStatus._('active');
-  static const deleted = ThreadedCommentResponseStatus._('deleted');
-  static const hidden = ThreadedCommentResponseStatus._('hidden');
-  static const removed = ThreadedCommentResponseStatus._('removed');
-  static const shadowBlocked = ThreadedCommentResponseStatus._('shadow_blocked');
-
-  factory ThreadedCommentResponseStatus.fromJson(String json) => ThreadedCommentResponseStatus._(json);
-
-  String toJson() => this;
-}
-
 @freezed
 @immutable
 @JsonSerializable()
@@ -39,6 +27,7 @@ class ThreadedCommentResponse with _$ThreadedCommentResponse {
     this.deletedAt,
     required this.downvoteCount,
     this.editedAt,
+    required this.hidden,
     this.i18n,
     required this.id,
     this.latestReactions,
@@ -99,6 +88,10 @@ class ThreadedCommentResponse with _$ThreadedCommentResponse {
   @StreamDateTimeConverter()
   @JsonKey(name: 'edited_at')
   final DateTime? editedAt;
+
+  @override
+  @JsonKey(name: 'hidden')
+  final bool hidden;
 
   @override
   @JsonKey(name: 'i18n')
@@ -162,7 +155,7 @@ class ThreadedCommentResponse with _$ThreadedCommentResponse {
 
   @override
   @JsonKey(name: 'status')
-  final ThreadedCommentResponseStatus status;
+  final CommentStatus status;
 
   @override
   @JsonKey(name: 'text')

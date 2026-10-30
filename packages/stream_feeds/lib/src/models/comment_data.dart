@@ -315,29 +315,11 @@ extension CommentDataMutations on CommentData {
   }
 }
 
-/// Extension type representing the status of a comment.
-///
-/// This collapses the per-message-shape status types the API generator emits
-/// ([CommentResponseStatus], [ThreadedCommentResponseStatus]) into one domain
-/// name, so the public API doesn't move when the generator reshapes them.
-///
-/// By implementing String, it seamlessly supports both known and unknown
-/// status values.
-extension type const CommentStatus(String value) implements String {
-  /// The comment is visible.
-  static const active = CommentStatus('active');
-
-  /// The comment was deleted.
-  static const deleted = CommentStatus('deleted');
-
-  /// The comment was hidden by moderation.
-  static const hidden = CommentStatus('hidden');
-
-  /// The comment was removed by moderation.
-  static const removed = CommentStatus('removed');
-
-  /// The comment is visible to its author only, having been shadow blocked.
-  static const shadowBlocked = CommentStatus('shadow_blocked');
+/// Reads a [CommentStatus] as the `String` it already is.
+extension CommentStatusValue on CommentStatus {
+  /// The raw value.
+  @Deprecated('CommentStatus is a String; use it directly.')
+  String get value => this;
 }
 
 /// Extension function to convert a [CommentResponse] to a [CommentData] model.
@@ -374,7 +356,7 @@ extension CommentResponseMapper on CommentResponse {
       replyCount: replyCount,
       i18n: i18n,
       score: score,
-      status: CommentStatus(status),
+      status: status,
       text: text,
       updatedAt: updatedAt,
       upvoteCount: upvoteCount,
@@ -416,7 +398,7 @@ extension ThreadedCommentResponseMapper on ThreadedCommentResponse {
       replyCount: replyCount,
       i18n: i18n,
       score: score,
-      status: CommentStatus(status),
+      status: status,
       text: text,
       updatedAt: updatedAt,
       upvoteCount: upvoteCount,

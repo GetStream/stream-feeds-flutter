@@ -13,15 +13,6 @@ import '../models.dart';
 part 'update_follow_request.g.dart';
 part 'update_follow_request.freezed.dart';
 
-extension type const UpdateFollowRequestPushPreference._(String _) implements String {
-  static const all = UpdateFollowRequestPushPreference._('all');
-  static const none = UpdateFollowRequestPushPreference._('none');
-
-  factory UpdateFollowRequestPushPreference.fromJson(String json) => UpdateFollowRequestPushPreference._(json);
-
-  String toJson() => this;
-}
-
 @freezed
 @immutable
 @JsonSerializable()
@@ -66,7 +57,7 @@ class UpdateFollowRequest with _$UpdateFollowRequest {
 
   @override
   @JsonKey(name: 'push_preference')
-  final UpdateFollowRequestPushPreference? pushPreference;
+  final FollowPushPreference? pushPreference;
 
   @override
   @JsonKey(name: 'skip_push')

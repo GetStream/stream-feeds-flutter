@@ -3,20 +3,14 @@
 // coverage:ignore-file
 // ignore_for_file: unused_import, unnecessary_import, prefer_single_quotes, require_trailing_commas, unnecessary_raw_strings, public_member_api_docs, sort_constructors_first, provide_deprecation_message
 
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
-import 'package:stream_core/stream_core.dart' as core;
-
-import '../models.dart';
-
-part 'notification_feed_updated_event.g.dart';
-part 'notification_feed_updated_event.freezed.dart';
+part of 'events.dart';
 
 @freezed
 @immutable
 @JsonSerializable()
-class NotificationFeedUpdatedEvent extends core.WsEvent with _$NotificationFeedUpdatedEvent {
+class NotificationFeedUpdatedEvent extends core.WsEvent
+    with _$NotificationFeedUpdatedEvent
+    implements WSClientEvent, WSEvent {
   const NotificationFeedUpdatedEvent({
     this.aggregatedActivities,
     required this.createdAt,
@@ -44,7 +38,7 @@ class NotificationFeedUpdatedEvent extends core.WsEvent with _$NotificationFeedU
 
   @override
   @JsonKey(name: 'feed_visibility')
-  final String? feedVisibility;
+  final FeedVisibility? feedVisibility;
 
   @override
   @JsonKey(name: 'fid')
@@ -67,6 +61,7 @@ class NotificationFeedUpdatedEvent extends core.WsEvent with _$NotificationFeedU
   @JsonKey(name: 'user')
   final UserResponseCommonFields? user;
 
+  @override
   Map<String, dynamic> toJson() => _$NotificationFeedUpdatedEventToJson(this);
 
   static NotificationFeedUpdatedEvent fromJson(Map<String, dynamic> json) =>

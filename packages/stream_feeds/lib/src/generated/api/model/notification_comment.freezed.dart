@@ -16,6 +16,7 @@ mixin _$NotificationComment {
   List<Attachment>? get attachments;
   String get comment;
   String get id;
+  String? get parentId;
   String get userId;
 
   /// Create a copy of NotificationComment
@@ -39,6 +40,7 @@ mixin _$NotificationComment {
             ) &&
             (identical(other.comment, comment) || other.comment == comment) &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.parentId, parentId) || other.parentId == parentId) &&
             (identical(other.userId, userId) || other.userId == userId));
   }
 
@@ -48,12 +50,13 @@ mixin _$NotificationComment {
     const DeepCollectionEquality().hash(attachments),
     comment,
     id,
+    parentId,
     userId,
   );
 
   @override
   String toString() {
-    return 'NotificationComment(attachments: $attachments, comment: $comment, id: $id, userId: $userId)';
+    return 'NotificationComment(attachments: $attachments, comment: $comment, id: $id, parentId: $parentId, userId: $userId)';
   }
 }
 
@@ -68,6 +71,7 @@ abstract mixin class $NotificationCommentCopyWith<$Res> {
     List<Attachment>? attachments,
     String comment,
     String id,
+    String? parentId,
     String userId,
   });
 }
@@ -87,6 +91,7 @@ class _$NotificationCommentCopyWithImpl<$Res> implements $NotificationCommentCop
     Object? attachments = freezed,
     Object? comment = null,
     Object? id = null,
+    Object? parentId = freezed,
     Object? userId = null,
   }) {
     return _then(
@@ -103,6 +108,10 @@ class _$NotificationCommentCopyWithImpl<$Res> implements $NotificationCommentCop
             ? _self.id
             : id // ignore: cast_nullable_to_non_nullable
                   as String,
+        parentId: freezed == parentId
+            ? _self.parentId
+            : parentId // ignore: cast_nullable_to_non_nullable
+                  as String?,
         userId: null == userId
             ? _self.userId
             : userId // ignore: cast_nullable_to_non_nullable

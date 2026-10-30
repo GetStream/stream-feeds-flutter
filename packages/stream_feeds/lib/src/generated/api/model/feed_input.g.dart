@@ -15,7 +15,7 @@ FeedInput _$FeedInputFromJson(Map<String, dynamic> json) => FeedInput(
       ?.map((e) => FeedMemberRequest.fromJson(e as Map<String, dynamic>))
       .toList(),
   name: json['name'] as String?,
-  visibility: json['visibility'] == null ? null : FeedInputVisibility.fromJson(json['visibility'] as String),
+  visibility: json['visibility'] as FeedVisibility?,
 );
 
 Map<String, dynamic> _$FeedInputToJson(FeedInput instance) => <String, dynamic>{
@@ -25,5 +25,5 @@ Map<String, dynamic> _$FeedInputToJson(FeedInput instance) => <String, dynamic>{
   'location': instance.location?.toJson(),
   'members': instance.members?.map((e) => e.toJson()).toList(),
   'name': instance.name,
-  'visibility': instance.visibility?.toJson(),
+  'visibility': instance.visibility,
 };
