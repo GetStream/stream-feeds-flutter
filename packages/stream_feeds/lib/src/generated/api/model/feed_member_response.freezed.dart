@@ -19,7 +19,7 @@ mixin _$FeedMemberResponse {
   DateTime? get inviteRejectedAt;
   MembershipLevelResponse? get membershipLevel;
   String get role;
-  FeedMemberResponseStatus get status;
+  FeedMemberStatus get status;
   DateTime get updatedAt;
   UserResponse get user;
 
@@ -82,7 +82,7 @@ abstract mixin class $FeedMemberResponseCopyWith<$Res> {
     DateTime? inviteRejectedAt,
     MembershipLevelResponse? membershipLevel,
     String role,
-    FeedMemberResponseStatus status,
+    FeedMemberStatus status,
     DateTime updatedAt,
     UserResponse user,
   });
@@ -139,7 +139,7 @@ class _$FeedMemberResponseCopyWithImpl<$Res> implements $FeedMemberResponseCopyW
         status: null == status
             ? _self.status
             : status // ignore: cast_nullable_to_non_nullable
-                  as FeedMemberResponseStatus,
+                  as FeedMemberStatus,
         updatedAt: null == updatedAt
             ? _self.updatedAt
             : updatedAt // ignore: cast_nullable_to_non_nullable

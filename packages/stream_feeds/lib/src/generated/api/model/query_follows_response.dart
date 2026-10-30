@@ -20,6 +20,7 @@ class QueryFollowsResponse with _$QueryFollowsResponse {
   const QueryFollowsResponse({
     required this.duration,
     required this.follows,
+    this.groupCounts,
     this.next,
     this.prev,
   });
@@ -31,6 +32,10 @@ class QueryFollowsResponse with _$QueryFollowsResponse {
   @override
   @JsonKey(name: 'follows')
   final List<FollowResponse> follows;
+
+  @override
+  @JsonKey(name: 'group_counts')
+  final Map<String, int>? groupCounts;
 
   @override
   @JsonKey(name: 'next')

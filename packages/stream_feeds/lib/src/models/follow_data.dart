@@ -109,40 +109,18 @@ class FollowData with _$FollowData {
   bool isFollowRequestFor(FeedId fid) => isFollowRequest && targetFeed.fid == fid;
 }
 
-/// Extension type representing the status of a follow relationship.
-///
-/// This extension type provides type-safe representation of common follow
-/// statuses while automatically handling any custom status values that might be
-/// returned from the API.
-///
-/// By implementing String, it seamlessly supports both known and unknown status values.
-extension type const FollowStatus(String value) implements String {
-  /// Represents a follow relationship that has been accepted.
-  static const accepted = FollowStatus('accepted');
-
-  /// Represents a follow relationship that is pending approval.
-  static const pending = FollowStatus('pending');
-
-  /// Represents a follow relationship that has been rejected.
-  static const rejected = FollowStatus('rejected');
+/// Reads a [FollowStatus] as the `String` it already is.
+extension FollowStatusValue on FollowStatus {
+  /// The raw value.
+  @Deprecated('FollowStatus is a String; use it directly.')
+  String get value => this;
 }
 
-/// Extension type representing the push notification preference for a follow.
-///
-/// This collapses the three per-message-shape preference types the API
-/// generator emits — [FollowRequestPushPreference],
-/// [FollowResponsePushPreference] and [UpdateFollowRequestPushPreference] —
-/// into one domain name, so the public API doesn't move when the generator
-/// reshapes them.
-///
-/// By implementing String, it seamlessly supports both known and unknown
-/// preference values.
-extension type const FollowPushPreference(String value) implements String {
-  /// Every activity on the followed feed sends a push notification.
-  static const all = FollowPushPreference('all');
-
-  /// The followed feed sends no push notifications.
-  static const none = FollowPushPreference('none');
+/// Reads a [FollowPushPreference] as the `String` it already is.
+extension FollowPushPreferenceValue on FollowPushPreference {
+  /// The raw value.
+  @Deprecated('FollowPushPreference is a String; use it directly.')
+  String get value => this;
 }
 
 /// Extension function to convert a [FollowResponse] to a [FollowData] model.
@@ -156,11 +134,11 @@ extension FollowResponseMapper on FollowResponse {
     return FollowData(
       createdAt: createdAt,
       followerRole: followerRole,
-      pushPreference: FollowPushPreference(pushPreference),
+      pushPreference: pushPreference,
       requestAcceptedAt: requestAcceptedAt,
       requestRejectedAt: requestRejectedAt,
       sourceFeed: sourceFeed.toModel(),
-      status: FollowStatus(status),
+      status: status,
       targetFeed: targetFeed.toModel(),
       updatedAt: updatedAt,
       custom: custom,

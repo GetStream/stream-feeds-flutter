@@ -16,7 +16,7 @@ EnrichedCollectionResponse _$EnrichedCollectionResponseFromJson(
   custom: json['custom'] as Map<String, dynamic>?,
   id: json['id'] as String,
   name: json['name'] as String,
-  status: EnrichedCollectionResponseStatus.fromJson(json['status'] as String),
+  status: json['status'] as CollectionStatus,
   updatedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['updated_at'],
     const StreamDateTimeConverter().fromJson,
@@ -34,7 +34,7 @@ Map<String, dynamic> _$EnrichedCollectionResponseToJson(
   'custom': instance.custom,
   'id': instance.id,
   'name': instance.name,
-  'status': instance.status.toJson(),
+  'status': instance.status,
   'updated_at': _$JsonConverterToJson<Object, DateTime>(
     instance.updatedAt,
     const StreamDateTimeConverter().toJson,

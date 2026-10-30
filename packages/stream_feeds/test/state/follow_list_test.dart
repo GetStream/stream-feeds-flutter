@@ -194,7 +194,7 @@ void main() {
             follow: createDefaultFollowResponse(
               sourceId: 'source-1',
               targetId: 'target-1',
-              status: FollowResponseStatus.rejected,
+              status: FollowStatus.rejected,
             ),
           ),
         );
@@ -290,7 +290,7 @@ void main() {
             follow: createDefaultFollowResponse(
               sourceId: 'source-1',
               targetId: 'target-1',
-              status: FollowResponseStatus.rejected,
+              status: FollowStatus.rejected,
             ),
           ),
         );
@@ -320,7 +320,7 @@ void main() {
             follow: createDefaultFollowResponse(
               sourceId: 'source-1',
               targetId: 'target-1',
-              status: FollowResponseStatus.rejected,
+              status: FollowStatus.rejected,
             ),
           ),
         );

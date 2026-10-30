@@ -59,22 +59,11 @@ class FeedMemberData with _$FeedMemberData {
   String get id => user.id;
 }
 
-/// Extension type representing the different status of feed members.
-///
-/// This extension type provides type-safe representation of common feed member
-/// statuses while automatically handling any custom status values that might be
-/// returned from the API.
-///
-/// By implementing String, it seamlessly supports both known and unknown status values.
-extension type const FeedMemberStatus(String value) implements String {
-  /// Represents a feed member.
-  static const member = FeedMemberStatus('member');
-
-  /// Represents a feed whose membership is pending approval.
-  static const pending = FeedMemberStatus('pending');
-
-  /// Represents a feed member whose invite has been rejected.
-  static const rejected = FeedMemberStatus('rejected');
+/// Reads a [FeedMemberStatus] as the `String` it already is.
+extension FeedMemberStatusValue on FeedMemberStatus {
+  /// The raw value.
+  @Deprecated('FeedMemberStatus is a String; use it directly.')
+  String get value => this;
 }
 
 /// Extension function to convert a [FeedMemberResponse] to a [FeedMemberData] model.
@@ -89,7 +78,7 @@ extension FeedMemberResponseMapper on FeedMemberResponse {
       inviteAcceptedAt: inviteAcceptedAt,
       inviteRejectedAt: inviteRejectedAt,
       role: role,
-      status: FeedMemberStatus(status),
+      status: status,
       updatedAt: updatedAt,
       user: user.toModel(),
       custom: custom,

@@ -58,28 +58,15 @@ class FeedInputData with _$FeedInputData {
   final Map<String, Object?>? custom;
 }
 
-/// Extension type representing the visibility settings for a feed.
-///
-/// This extension type defines the different visibility levels that can be applied to a feed,
-/// controlling who can access, view, and interact with the feed content.
-///
-/// By implementing String, it automatically handles any custom visibility values
-/// returned from the API while providing type safety for common values.
-extension type const FeedVisibility(String value) implements String {
-  /// Feed is visible only to followers.
-  static const followers = FeedVisibility('followers');
+/// Deprecated members kept so code written against earlier versions compiles.
+extension FeedVisibilityValue on FeedVisibility {
+  /// The raw value.
+  @Deprecated('FeedVisibility is a String; use it directly.')
+  String get value => this;
 
-  /// Feed is visible only to members.
-  static const members = FeedVisibility('members');
-
-  /// Feed is private and only visible to the owner.
-  static const private = FeedVisibility('private');
-
-  /// Feed is publicly visible to everyone.
-  static const public = FeedVisibility('public');
-
-  /// Feed is visible (general visibility setting).
-  static const visible = FeedVisibility('visible');
+  /// Returns this visibility unchanged: the request takes a [FeedVisibility].
+  @Deprecated('FeedVisibility is the request type; pass it directly.')
+  FeedVisibility toRequest() => this;
 }
 
 /// Converts a [FeedInput] to a [FeedInputData] model.
@@ -88,7 +75,7 @@ extension FeedInputMapper on FeedInput {
     return FeedInputData(
       description: description,
       name: name,
-      visibility: visibility?.let(FeedVisibility.new),
+      visibility: visibility,
       filterTags: [...?filterTags],
       members: [...?members?.map((e) => e.toModel())],
       custom: custom,
@@ -102,20 +89,10 @@ extension FeedInputDataMapper on FeedInputData {
     return FeedInput(
       description: description,
       name: name,
-      visibility: visibility?.toRequest(),
+      visibility: visibility,
       filterTags: filterTags.takeIf((it) => it.isNotEmpty),
       members: members.takeIf((it) => it.isNotEmpty)?.map((e) => e.toRequest()).toList(),
       custom: custom,
     );
   }
-}
-
-/// Converts a [FeedVisibility] to a [FeedInputVisibility] request model.
-extension FeedVisibilityMapper on FeedVisibility {
-  /// Converts this visibility extension type to its API counterpart.
-  ///
-  /// Both sides are `String`-backed, so the value is sent as-is — a caller can
-  /// pass a visibility this client version doesn't declare and it still reaches
-  /// the API intact.
-  FeedInputVisibility toRequest() => FeedInputVisibility.fromJson(value);
 }

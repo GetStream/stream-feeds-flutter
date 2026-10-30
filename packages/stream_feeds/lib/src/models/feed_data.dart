@@ -3,7 +3,6 @@ import 'package:stream_core/stream_core.dart';
 
 import '../generated/api/models.dart';
 import 'feed_id.dart';
-import 'feed_input_data.dart';
 import 'feed_member_data.dart';
 import 'follow_data.dart';
 import 'user_data.dart';
@@ -165,7 +164,7 @@ extension FeedResponseMapper on FeedResponse {
       ownFollows: ownFollows?.map((f) => f.toModel()).toList(),
       pinCount: pinCount,
       updatedAt: updatedAt,
-      visibility: visibility?.let(FeedVisibility.new),
+      visibility: visibility,
       custom: custom,
     );
   }

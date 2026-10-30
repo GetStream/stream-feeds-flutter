@@ -28,13 +28,13 @@ mixin _$ActivityRequest {
   List<String>? get mentionedUserIds;
   String? get parentId;
   String? get pollId;
-  ActivityRequestRestrictReplies? get restrictReplies;
+  RestrictReplies? get restrictReplies;
   Map<String, Object?>? get searchData;
   bool? get skipEnrichUrl;
   bool? get skipPush;
   String? get text;
   String get type;
-  ActivityRequestVisibility? get visibility;
+  ActivityVisibility? get visibility;
   String? get visibilityTag;
 
   /// Create a copy of ActivityRequest
@@ -162,13 +162,13 @@ abstract mixin class $ActivityRequestCopyWith<$Res> {
     List<String>? mentionedUserIds,
     String? parentId,
     String? pollId,
-    ActivityRequestRestrictReplies? restrictReplies,
+    RestrictReplies? restrictReplies,
     Map<String, Object?>? searchData,
     bool? skipEnrichUrl,
     bool? skipPush,
     String? text,
     String type,
-    ActivityRequestVisibility? visibility,
+    ActivityVisibility? visibility,
     String? visibilityTag,
   });
 }
@@ -274,7 +274,7 @@ class _$ActivityRequestCopyWithImpl<$Res> implements $ActivityRequestCopyWith<$R
         restrictReplies: freezed == restrictReplies
             ? _self.restrictReplies
             : restrictReplies // ignore: cast_nullable_to_non_nullable
-                  as ActivityRequestRestrictReplies?,
+                  as RestrictReplies?,
         searchData: freezed == searchData
             ? _self.searchData
             : searchData // ignore: cast_nullable_to_non_nullable
@@ -298,7 +298,7 @@ class _$ActivityRequestCopyWithImpl<$Res> implements $ActivityRequestCopyWith<$R
         visibility: freezed == visibility
             ? _self.visibility
             : visibility // ignore: cast_nullable_to_non_nullable
-                  as ActivityRequestVisibility?,
+                  as ActivityVisibility?,
         visibilityTag: freezed == visibilityTag
             ? _self.visibilityTag
             : visibilityTag // ignore: cast_nullable_to_non_nullable

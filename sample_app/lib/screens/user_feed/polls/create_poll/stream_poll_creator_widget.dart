@@ -129,11 +129,11 @@ class StreamPollCreatorWidget extends StatelessWidget {
               const SizedBox(height: 8),
               PollSwitchListTile(
                 title: 'Anonymous poll',
-                value: poll.votingVisibility == VotingVisibility.anonymous,
+                value: poll.votingVisibility == PollVotingVisibility.anonymous,
                 onChanged: (anon) => controller.votingVisibility =
                     anon //
-                    ? VotingVisibility.anonymous
-                    : VotingVisibility.public,
+                    ? PollVotingVisibility.anonymous
+                    : PollVotingVisibility.public,
               ),
               const SizedBox(height: 8),
               PollSwitchListTile(

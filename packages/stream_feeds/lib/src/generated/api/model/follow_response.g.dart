@@ -12,9 +12,7 @@ FollowResponse _$FollowResponseFromJson(Map<String, dynamic> json) => FollowResp
   ),
   custom: json['custom'] as Map<String, dynamic>?,
   followerRole: json['follower_role'] as String,
-  pushPreference: FollowResponsePushPreference.fromJson(
-    json['push_preference'] as String,
-  ),
+  pushPreference: json['push_preference'] as FollowPushPreference,
   requestAcceptedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['request_accepted_at'],
     const StreamDateTimeConverter().fromJson,
@@ -26,7 +24,7 @@ FollowResponse _$FollowResponseFromJson(Map<String, dynamic> json) => FollowResp
   sourceFeed: FeedResponse.fromJson(
     json['source_feed'] as Map<String, dynamic>,
   ),
-  status: FollowResponseStatus.fromJson(json['status'] as String),
+  status: json['status'] as FollowStatus,
   targetFeed: FeedResponse.fromJson(
     json['target_feed'] as Map<String, dynamic>,
   ),
@@ -39,7 +37,7 @@ Map<String, dynamic> _$FollowResponseToJson(FollowResponse instance) => <String,
   'created_at': const StreamDateTimeConverter().toJson(instance.createdAt),
   'custom': instance.custom,
   'follower_role': instance.followerRole,
-  'push_preference': instance.pushPreference.toJson(),
+  'push_preference': instance.pushPreference,
   'request_accepted_at': _$JsonConverterToJson<Object, DateTime>(
     instance.requestAcceptedAt,
     const StreamDateTimeConverter().toJson,
@@ -49,7 +47,7 @@ Map<String, dynamic> _$FollowResponseToJson(FollowResponse instance) => <String,
     const StreamDateTimeConverter().toJson,
   ),
   'source_feed': instance.sourceFeed.toJson(),
-  'status': instance.status.toJson(),
+  'status': instance.status,
   'target_feed': instance.targetFeed.toJson(),
   'updated_at': const StreamDateTimeConverter().toJson(instance.updatedAt),
 };

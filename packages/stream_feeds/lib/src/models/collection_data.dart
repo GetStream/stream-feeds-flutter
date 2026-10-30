@@ -54,16 +54,11 @@ class CollectionData with _$CollectionData {
   final Map<String, Object?>? custom;
 }
 
-/// The status of a collection when enriched.
-///
-/// This indicates whether the collection was successfully found during
-/// activity enrichment.
-extension type const CollectionStatus(String value) implements String {
-  /// The collection was found and enriched successfully.
-  static const ok = CollectionStatus('ok');
-
-  /// The collection was not found during enrichment.
-  static const notfound = CollectionStatus('notfound');
+/// Reads a [CollectionStatus] as the `String` it already is.
+extension CollectionStatusValue on CollectionStatus {
+  /// The raw value.
+  @Deprecated('CollectionStatus is a String; use it directly.')
+  String get value => this;
 }
 
 /// Extension function to convert an [EnrichedCollectionResponse] to a [CollectionData] model.
@@ -73,7 +68,7 @@ extension EnrichedCollectionResponseMapper on EnrichedCollectionResponse {
     return CollectionData(
       id: id,
       name: name,
-      status: CollectionStatus(status),
+      status: status,
       createdAt: createdAt,
       updatedAt: updatedAt,
       userId: userId,

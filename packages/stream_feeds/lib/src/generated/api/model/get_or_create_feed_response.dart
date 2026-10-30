@@ -21,6 +21,7 @@ class GetOrCreateFeedResponse with _$GetOrCreateFeedResponse {
     required this.activities,
     required this.aggregatedActivities,
     required this.created,
+    this.degradedSelectors,
     required this.duration,
     required this.feed,
     required this.followers,
@@ -46,6 +47,10 @@ class GetOrCreateFeedResponse with _$GetOrCreateFeedResponse {
   @override
   @JsonKey(name: 'created')
   final bool created;
+
+  @override
+  @JsonKey(name: 'degraded_selectors')
+  final List<String>? degradedSelectors;
 
   @override
   @JsonKey(name: 'duration')

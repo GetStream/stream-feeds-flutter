@@ -18,7 +18,7 @@ FeedRequest _$FeedRequestFromJson(Map<String, dynamic> json) => FeedRequest(
       ?.map((e) => FeedMemberRequest.fromJson(e as Map<String, dynamic>))
       .toList(),
   name: json['name'] as String?,
-  visibility: json['visibility'] == null ? null : FeedRequestVisibility.fromJson(json['visibility'] as String),
+  visibility: json['visibility'] as FeedVisibility?,
 );
 
 Map<String, dynamic> _$FeedRequestToJson(FeedRequest instance) => <String, dynamic>{
@@ -31,5 +31,5 @@ Map<String, dynamic> _$FeedRequestToJson(FeedRequest instance) => <String, dynam
   'location': instance.location?.toJson(),
   'members': instance.members?.map((e) => e.toJson()).toList(),
   'name': instance.name,
-  'visibility': instance.visibility?.toJson(),
+  'visibility': instance.visibility,
 };

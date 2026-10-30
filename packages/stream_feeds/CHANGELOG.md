@@ -1,3 +1,23 @@
+## Upcoming
+
+### 💥 BREAKING CHANGES
+
+- `WSEvent` and `WSClientEvent` are sealed, and `fromJson` returns the event model itself, so a `switch` over them is exhaustive. Drop `.wrapped` from `WSEvent.fromJson(json).wrapped`; an event type this version has no model for decodes to `UnknownWSEvent`
+- Generated enum types have no `fromJson`/`toJson`. Build one with its constructor, e.g. `FeedVisibility('public')`, which also accepts values this version doesn't declare
+- Removed `DefaultApi.importBlockList` with `ImportBlockListRequest` and `ImportBlockListResponse`, `PushPreferenceInput.callLevel` with `PushPreferenceInputCallLevel`, `PushPreferencesResponse.callLevel`, and `enabled`, `scoreThreshold`, `analysisCooldownSeconds`, `maxCapturedItems` and `refireCooldownSeconds` from `IntentTopicRequest` and `IntentTopicResponse`, which the API no longer offers to clients
+- `revokeTokensIssuedBefore` is removed from `UserResponse`, `OwnUserResponse`, `FullUserResponse` and `EntityCreatorResponse`
+- Constructing these API models needs the fields that became required: `CommentResponse.hidden`, `ThreadedCommentResponse.hidden`, `FeedsV3CommentResponse.hidden`, `ReviewQueueItemResponse.mediaDisplay` and `OwnUserResponse.blockedUserIds`; `ChannelMemberResponse.userId` is non-nullable
+- `SortParamRequest.type`, `ActivitySelectorConfig.type`, `DeviceResponse.pushProvider`, `FeedGroup.defaultVisibility`, `ChannelMetadata.pushLevel`, `FeedsV3CommentResponse.status` and the events' `feedVisibility` take their enum types rather than `String`, so constructing one from a literal needs the constructor, e.g. `PushProviderName('firebase')`
+
+### 🔄 Changed
+
+- Updated the API spec to v240.1.0.
+- Per-field enums merged into shared ones, e.g. `FollowResponseStatus` is now `FollowStatus` and `AddActivityRequestRestrictReplies` is now `RestrictReplies`. The old names remain as deprecated aliases
+- `FeedVisibility`, `FollowStatus`, `FollowPushPreference`, `FeedMemberStatus`, `CommentStatus` and `CollectionStatus` are the same types the API requests and responses use. Their constants are unchanged; `.value` and `FeedVisibility.toRequest()` are deprecated, since each is already the `String` the request takes
+- `ActivityDataVisibility` and `ActivityRestrictReplies` are deprecated aliases of `ActivityVisibility` and `RestrictReplies`, the types the API requests and responses use; their constants are unchanged
+- The API now exports shared enum names such as `VotingVisibility`, `RestrictReplies`, `ModerationAction`, `PushLevel` and `DeleteMessages`; an app type with the same name needs a `hide` on the `stream_feeds` import
+- `UserData.revokeTokensIssuedBefore` is deprecated: the API no longer sends it to clients
+
 ## 0.6.2
 
 ### 🐛 Bug Fixes

@@ -13,18 +13,6 @@ import '../models.dart';
 part 'feed_response.g.dart';
 part 'feed_response.freezed.dart';
 
-extension type const FeedResponseVisibility._(String _) implements String {
-  static const followers = FeedResponseVisibility._('followers');
-  static const members = FeedResponseVisibility._('members');
-  static const private = FeedResponseVisibility._('private');
-  static const public = FeedResponseVisibility._('public');
-  static const visible = FeedResponseVisibility._('visible');
-
-  factory FeedResponseVisibility.fromJson(String json) => FeedResponseVisibility._(json);
-
-  String toJson() => this;
-}
-
 @freezed
 @immutable
 @JsonSerializable()
@@ -143,7 +131,7 @@ class FeedResponse with _$FeedResponse {
 
   @override
   @JsonKey(name: 'visibility')
-  final FeedResponseVisibility? visibility;
+  final FeedVisibility? visibility;
 
   Map<String, dynamic> toJson() => _$FeedResponseToJson(this);
 

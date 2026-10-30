@@ -62,7 +62,7 @@ class ActivityData with _$ActivityData {
     this.preview = false,
     this.reactionCount = 0,
     this.reactionGroups = const {},
-    this.restrictReplies = ActivityRestrictReplies.everyone,
+    this.restrictReplies = RestrictReplies.everyone,
     this.score = 0.0,
     this.searchData = const {},
     this.latestShares = const [],
@@ -71,7 +71,7 @@ class ActivityData with _$ActivityData {
     required this.type,
     required this.updatedAt,
     required this.user,
-    this.visibility = ActivityDataVisibility.public,
+    this.visibility = ActivityVisibility.public,
     this.visibilityTag,
     this.custom,
   });
@@ -237,13 +237,13 @@ class ActivityData with _$ActivityData {
   /// Who is allowed to add comments/replies to this activity.
   ///
   /// Controls the comment restriction setting for this activity:
-  /// - [ActivityRestrictReplies.everyone] (default) — anyone can comment.
-  /// - [ActivityRestrictReplies.nobody] — comments are disabled.
-  /// - [ActivityRestrictReplies.peopleIFollow] — only users followed by the
+  /// - [RestrictReplies.everyone] (default) — anyone can comment.
+  /// - [RestrictReplies.nobody] — comments are disabled.
+  /// - [RestrictReplies.peopleIFollow] — only users followed by the
   ///   activity author may comment. Use [FeedData.ownFollowings] from the
   ///   current feed to decide whether to show the comment input.
   @override
-  final ActivityRestrictReplies restrictReplies;
+  final RestrictReplies restrictReplies;
 
   /// A relevance or quality score assigned to the activity.
   @override
@@ -279,7 +279,7 @@ class ActivityData with _$ActivityData {
 
   /// The visibility settings for the activity.
   @override
-  final ActivityDataVisibility visibility;
+  final ActivityVisibility visibility;
 
   /// Additional visibility classification tag, if applicable.
   @override
@@ -301,20 +301,15 @@ class ActivityData with _$ActivityData {
   }
 }
 
-/// Extension type for activity visibility settings.
-/// This represents the visibility state of an activity (public, private or tag).
-///
-/// By implementing String, it automatically handles any custom visibility values
-/// returned from the API while providing type safety for common values.
-extension type const ActivityDataVisibility(String value) implements String {
-  /// Private visibility - only visible to the user who created it
-  static const private = ActivityDataVisibility('private');
+/// Use [ActivityVisibility] instead.
+@Deprecated('Use ActivityVisibility instead.')
+typedef ActivityDataVisibility = ActivityVisibility;
 
-  /// Public visibility - visible to all users
-  static const public = ActivityDataVisibility('public');
-
-  /// Tag visibility - visible based on tag rules
-  static const tag = ActivityDataVisibility('tag');
+/// Reads a [ActivityVisibility] as the `String` it already is.
+extension ActivityVisibilityValue on ActivityVisibility {
+  /// The raw value.
+  @Deprecated('ActivityVisibility is a String; use it directly.')
+  String get value => this;
 }
 
 /// Extension function to convert an [ActivityResponse] to an [ActivityData] model.
@@ -369,7 +364,7 @@ extension ActivityResponseMapper on ActivityResponse {
       reactionGroups: {
         for (final entry in reactionGroups.entries) entry.key: entry.value.toModel(),
       },
-      restrictReplies: ActivityRestrictReplies(restrictReplies),
+      restrictReplies: restrictReplies,
       score: score,
       searchData: searchData,
       latestShares: [...?latestShares?.map((s) => s.toModel())],
@@ -378,7 +373,7 @@ extension ActivityResponseMapper on ActivityResponse {
       type: type,
       updatedAt: updatedAt,
       user: user.toModel(),
-      visibility: ActivityDataVisibility(visibility),
+      visibility: visibility,
       visibilityTag: visibilityTag,
       custom: custom,
     );
@@ -641,17 +636,13 @@ extension ActivityDataMutations on ActivityData {
   }
 }
 
-/// Controls who can add comments/replies to an activity.
-///
-/// Implemented as an extension type so any future server-side values are
-/// handled without requiring a client update.
-extension type const ActivityRestrictReplies(String value) implements String {
-  /// Anyone can comment on the activity (default).
-  static const everyone = ActivityRestrictReplies('everyone');
+/// Use [RestrictReplies] instead.
+@Deprecated('Use RestrictReplies instead.')
+typedef ActivityRestrictReplies = RestrictReplies;
 
-  /// No one can comment on the activity.
-  static const nobody = ActivityRestrictReplies('nobody');
-
-  /// Only users followed by the activity author can comment.
-  static const peopleIFollow = ActivityRestrictReplies('people_i_follow');
+/// Reads a [RestrictReplies] as the `String` it already is.
+extension RestrictRepliesValue on RestrictReplies {
+  /// The raw value.
+  @Deprecated('RestrictReplies is a String; use it directly.')
+  String get value => this;
 }

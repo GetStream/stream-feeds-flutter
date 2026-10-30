@@ -17,7 +17,7 @@ mixin _$EnrichedCollectionResponse {
   Map<String, Object?>? get custom;
   String get id;
   String get name;
-  EnrichedCollectionResponseStatus get status;
+  CollectionStatus get status;
   DateTime? get updatedAt;
   String? get userId;
 
@@ -75,7 +75,7 @@ abstract mixin class $EnrichedCollectionResponseCopyWith<$Res> {
     Map<String, Object?>? custom,
     String id,
     String name,
-    EnrichedCollectionResponseStatus status,
+    CollectionStatus status,
     DateTime? updatedAt,
     String? userId,
   });
@@ -122,7 +122,7 @@ class _$EnrichedCollectionResponseCopyWithImpl<$Res> implements $EnrichedCollect
         status: null == status
             ? _self.status
             : status // ignore: cast_nullable_to_non_nullable
-                  as EnrichedCollectionResponseStatus,
+                  as CollectionStatus,
         updatedAt: freezed == updatedAt
             ? _self.updatedAt
             : updatedAt // ignore: cast_nullable_to_non_nullable

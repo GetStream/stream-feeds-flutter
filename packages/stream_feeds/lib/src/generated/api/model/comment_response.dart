@@ -13,18 +13,6 @@ import '../models.dart';
 part 'comment_response.g.dart';
 part 'comment_response.freezed.dart';
 
-extension type const CommentResponseStatus._(String _) implements String {
-  static const active = CommentResponseStatus._('active');
-  static const deleted = CommentResponseStatus._('deleted');
-  static const hidden = CommentResponseStatus._('hidden');
-  static const removed = CommentResponseStatus._('removed');
-  static const shadowBlocked = CommentResponseStatus._('shadow_blocked');
-
-  factory CommentResponseStatus.fromJson(String json) => CommentResponseStatus._(json);
-
-  String toJson() => this;
-}
-
 @freezed
 @immutable
 @JsonSerializable()
@@ -39,6 +27,7 @@ class CommentResponse with _$CommentResponse {
     this.deletedAt,
     required this.downvoteCount,
     this.editedAt,
+    required this.hidden,
     this.i18n,
     required this.id,
     this.latestReactions,
@@ -99,6 +88,10 @@ class CommentResponse with _$CommentResponse {
   final DateTime? editedAt;
 
   @override
+  @JsonKey(name: 'hidden')
+  final bool hidden;
+
+  @override
   @JsonKey(name: 'i18n')
   final Map<String, String>? i18n;
 
@@ -152,7 +145,7 @@ class CommentResponse with _$CommentResponse {
 
   @override
   @JsonKey(name: 'status')
-  final CommentResponseStatus status;
+  final CommentStatus status;
 
   @override
   @JsonKey(name: 'text')

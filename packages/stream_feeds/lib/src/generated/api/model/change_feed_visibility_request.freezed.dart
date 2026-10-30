@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ChangeFeedVisibilityRequest {
   ChangeFeedVisibilityRequestPendingFollowsAction? get pendingFollowsAction;
-  ChangeFeedVisibilityRequestVisibility get visibility;
+  FeedVisibility get visibility;
 
   /// Create a copy of ChangeFeedVisibilityRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -54,7 +54,7 @@ abstract mixin class $ChangeFeedVisibilityRequestCopyWith<$Res> {
   @useResult
   $Res call({
     ChangeFeedVisibilityRequestPendingFollowsAction? pendingFollowsAction,
-    ChangeFeedVisibilityRequestVisibility visibility,
+    FeedVisibility visibility,
   });
 }
 
@@ -82,7 +82,7 @@ class _$ChangeFeedVisibilityRequestCopyWithImpl<$Res> implements $ChangeFeedVisi
         visibility: null == visibility
             ? _self.visibility
             : visibility // ignore: cast_nullable_to_non_nullable
-                  as ChangeFeedVisibilityRequestVisibility,
+                  as FeedVisibility,
       ),
     );
   }

@@ -163,7 +163,7 @@ class StreamPollController extends ValueNotifier<CreatePollState> {
   }
 
   /// Sets the poll voting visibility.
-  set votingVisibility(VotingVisibility visibility) {
+  set votingVisibility(PollVotingVisibility visibility) {
     value = value.copyWith(votingVisibility: visibility);
   }
 

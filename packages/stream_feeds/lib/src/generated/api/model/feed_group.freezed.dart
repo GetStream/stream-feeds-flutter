@@ -22,7 +22,7 @@ mixin _$FeedGroup {
   DateTime get createdAt;
   Map<String, Object?> get custom;
   String get defaultFollowerRole;
-  String get defaultVisibility;
+  FeedVisibility get defaultVisibility;
   DateTime? get deletedAt;
   String get groupId;
   DateTime? get lastFeedGetAt;
@@ -114,7 +114,7 @@ abstract mixin class $FeedGroupCopyWith<$Res> {
     DateTime createdAt,
     Map<String, Object?> custom,
     String defaultFollowerRole,
-    String defaultVisibility,
+    FeedVisibility defaultVisibility,
     DateTime? deletedAt,
     String groupId,
     DateTime? lastFeedGetAt,
@@ -198,7 +198,7 @@ class _$FeedGroupCopyWithImpl<$Res> implements $FeedGroupCopyWith<$Res> {
         defaultVisibility: null == defaultVisibility
             ? _self.defaultVisibility
             : defaultVisibility // ignore: cast_nullable_to_non_nullable
-                  as String,
+                  as FeedVisibility,
         deletedAt: freezed == deletedAt
             ? _self.deletedAt
             : deletedAt // ignore: cast_nullable_to_non_nullable
