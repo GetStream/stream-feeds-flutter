@@ -7,6 +7,7 @@
 - Removed `DefaultApi.importBlockList` with `ImportBlockListRequest` and `ImportBlockListResponse`, `PushPreferenceInput.callLevel` with `PushPreferenceInputCallLevel`, `PushPreferencesResponse.callLevel`, and `enabled`, `scoreThreshold`, `analysisCooldownSeconds`, `maxCapturedItems` and `refireCooldownSeconds` from `IntentTopicRequest` and `IntentTopicResponse`, which the API no longer offers to clients
 - `revokeTokensIssuedBefore` is removed from `UserResponse`, `OwnUserResponse`, `FullUserResponse` and `EntityCreatorResponse`
 - Constructing these API models needs the fields that became required: `CommentResponse.hidden`, `ThreadedCommentResponse.hidden`, `FeedsV3CommentResponse.hidden`, `ReviewQueueItemResponse.mediaDisplay` and `OwnUserResponse.blockedUserIds`; `ChannelMemberResponse.userId` is non-nullable
+- `AutomodMode.aI` is renamed `AutomodMode.ai`
 - `SortParamRequest.type`, `ActivitySelectorConfig.type`, `DeviceResponse.pushProvider`, `FeedGroup.defaultVisibility`, `ChannelMetadata.pushLevel`, `FeedsV3CommentResponse.status` and the events' `feedVisibility` take their enum types rather than `String`, so constructing one from a literal needs the constructor, e.g. `PushProviderName('firebase')`
 
 ### 🔄 Changed
