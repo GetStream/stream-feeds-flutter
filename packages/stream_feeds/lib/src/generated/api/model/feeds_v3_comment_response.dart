@@ -27,6 +27,7 @@ class FeedsV3CommentResponse with _$FeedsV3CommentResponse {
     this.deletedAt,
     required this.downvoteCount,
     this.editedAt,
+    required this.hidden,
     this.i18n,
     required this.id,
     this.latestReactions,
@@ -87,6 +88,10 @@ class FeedsV3CommentResponse with _$FeedsV3CommentResponse {
   final DateTime? editedAt;
 
   @override
+  @JsonKey(name: 'hidden')
+  final bool hidden;
+
+  @override
   @JsonKey(name: 'i18n')
   final Map<String, String>? i18n;
 
@@ -140,7 +145,7 @@ class FeedsV3CommentResponse with _$FeedsV3CommentResponse {
 
   @override
   @JsonKey(name: 'status')
-  final String status;
+  final CommentStatus status;
 
   @override
   @JsonKey(name: 'text')

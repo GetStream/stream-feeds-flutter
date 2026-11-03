@@ -13,15 +13,6 @@ import '../models.dart';
 part 'friend_reactions_options.g.dart';
 part 'friend_reactions_options.freezed.dart';
 
-extension type const FriendReactionsOptionsType._(String _) implements String {
-  static const following = FriendReactionsOptionsType._('following');
-  static const mutual = FriendReactionsOptionsType._('mutual');
-
-  factory FriendReactionsOptionsType.fromJson(String json) => FriendReactionsOptionsType._(json);
-
-  String toJson() => this;
-}
-
 @freezed
 @immutable
 @JsonSerializable()
@@ -42,7 +33,7 @@ class FriendReactionsOptions with _$FriendReactionsOptions {
 
   @override
   @JsonKey(name: 'type')
-  final FriendReactionsOptionsType? type;
+  final FriendReactionType? type;
 
   Map<String, dynamic> toJson() => _$FriendReactionsOptionsToJson(this);
 

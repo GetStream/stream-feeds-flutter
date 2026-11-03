@@ -6,9 +6,7 @@ part of 'activity_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ActivityResponse _$ActivityResponseFromJson(
-  Map<String, dynamic> json,
-) => ActivityResponse(
+ActivityResponse _$ActivityResponseFromJson(Map<String, dynamic> json) => ActivityResponse(
   attachments: (json['attachments'] as List<dynamic>)
       .map((e) => Attachment.fromJson(e as Map<String, dynamic>))
       .toList(),
@@ -46,7 +44,9 @@ ActivityResponse _$ActivityResponseFromJson(
   filterTags: (json['filter_tags'] as List<dynamic>).map((e) => e as String).toList(),
   friendReactionCount: (json['friend_reaction_count'] as num?)?.toInt(),
   friendReactions: (json['friend_reactions'] as List<dynamic>?)
-      ?.map((e) => FeedsReactionResponse.fromJson(e as Map<String, dynamic>))
+      ?.map(
+        (e) => FeedsReactionResponse.fromJson(e as Map<String, dynamic>),
+      )
       .toList(),
   hidden: json['hidden'] as bool,
   i18n: (json['i18n'] as Map<String, dynamic>?)?.map(
@@ -98,9 +98,7 @@ ActivityResponse _$ActivityResponseFromJson(
       FeedsReactionGroupResponse.fromJson(e as Map<String, dynamic>),
     ),
   ),
-  restrictReplies: ActivityResponseRestrictReplies.fromJson(
-    json['restrict_replies'] as String,
-  ),
+  restrictReplies: json['restrict_replies'] as RestrictReplies,
   score: (json['score'] as num).toDouble(),
   scoreVars: json['score_vars'] as Map<String, dynamic>?,
   searchData: json['search_data'] as Map<String, dynamic>,
@@ -113,7 +111,7 @@ ActivityResponse _$ActivityResponseFromJson(
     json['updated_at'] as Object,
   ),
   user: UserResponse.fromJson(json['user'] as Map<String, dynamic>),
-  visibility: ActivityResponseVisibility.fromJson(json['visibility'] as String),
+  visibility: json['visibility'] as ActivityVisibility,
   visibilityTag: json['visibility_tag'] as String?,
 );
 
@@ -169,7 +167,7 @@ Map<String, dynamic> _$ActivityResponseToJson(
   'reaction_groups': instance.reactionGroups.map(
     (k, e) => MapEntry(k, e.toJson()),
   ),
-  'restrict_replies': instance.restrictReplies.toJson(),
+  'restrict_replies': instance.restrictReplies,
   'score': instance.score,
   'score_vars': instance.scoreVars,
   'search_data': instance.searchData,
@@ -180,7 +178,7 @@ Map<String, dynamic> _$ActivityResponseToJson(
   'type': instance.type,
   'updated_at': const StreamDateTimeConverter().toJson(instance.updatedAt),
   'user': instance.user.toJson(),
-  'visibility': instance.visibility.toJson(),
+  'visibility': instance.visibility,
   'visibility_tag': instance.visibilityTag,
 };
 

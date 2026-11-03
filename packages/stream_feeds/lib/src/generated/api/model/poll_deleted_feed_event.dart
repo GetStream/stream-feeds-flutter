@@ -3,20 +3,12 @@
 // coverage:ignore-file
 // ignore_for_file: unused_import, unnecessary_import, prefer_single_quotes, require_trailing_commas, unnecessary_raw_strings, public_member_api_docs, sort_constructors_first, provide_deprecation_message
 
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
-import 'package:stream_core/stream_core.dart' as core;
-
-import '../models.dart';
-
-part 'poll_deleted_feed_event.g.dart';
-part 'poll_deleted_feed_event.freezed.dart';
+part of 'events.dart';
 
 @freezed
 @immutable
 @JsonSerializable()
-class PollDeletedFeedEvent extends core.WsEvent with _$PollDeletedFeedEvent {
+class PollDeletedFeedEvent extends core.WsEvent with _$PollDeletedFeedEvent implements WSClientEvent, WSEvent {
   const PollDeletedFeedEvent({
     required this.createdAt,
     required this.custom,
@@ -38,7 +30,7 @@ class PollDeletedFeedEvent extends core.WsEvent with _$PollDeletedFeedEvent {
 
   @override
   @JsonKey(name: 'feed_visibility')
-  final String? feedVisibility;
+  final FeedVisibility? feedVisibility;
 
   @override
   @JsonKey(name: 'fid')
@@ -57,6 +49,7 @@ class PollDeletedFeedEvent extends core.WsEvent with _$PollDeletedFeedEvent {
   @JsonKey(name: 'type')
   final String type;
 
+  @override
   Map<String, dynamic> toJson() => _$PollDeletedFeedEventToJson(this);
 
   static PollDeletedFeedEvent fromJson(Map<String, dynamic> json) => _$PollDeletedFeedEventFromJson(json);

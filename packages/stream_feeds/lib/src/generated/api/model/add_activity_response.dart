@@ -21,6 +21,7 @@ class AddActivityResponse with _$AddActivityResponse {
     required this.activity,
     required this.duration,
     this.mentionNotificationsCreated,
+    this.skippedExisting,
   });
 
   @override
@@ -34,6 +35,10 @@ class AddActivityResponse with _$AddActivityResponse {
   @override
   @JsonKey(name: 'mention_notifications_created')
   final int? mentionNotificationsCreated;
+
+  @override
+  @JsonKey(name: 'skipped_existing')
+  final List<String>? skippedExisting;
 
   Map<String, dynamic> toJson() => _$AddActivityResponseToJson(this);
 

@@ -11,7 +11,7 @@ FriendReactionsOptions _$FriendReactionsOptionsFromJson(
 ) => FriendReactionsOptions(
   enabled: json['enabled'] as bool?,
   limit: (json['limit'] as num?)?.toInt(),
-  type: json['type'] == null ? null : FriendReactionsOptionsType.fromJson(json['type'] as String),
+  type: json['type'] as FriendReactionType?,
 );
 
 Map<String, dynamic> _$FriendReactionsOptionsToJson(
@@ -19,5 +19,5 @@ Map<String, dynamic> _$FriendReactionsOptionsToJson(
 ) => <String, dynamic>{
   'enabled': instance.enabled,
   'limit': instance.limit,
-  'type': instance.type?.toJson(),
+  'type': instance.type,
 };

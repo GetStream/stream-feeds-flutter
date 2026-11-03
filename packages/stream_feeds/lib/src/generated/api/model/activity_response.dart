@@ -13,26 +13,6 @@ import '../models.dart';
 part 'activity_response.g.dart';
 part 'activity_response.freezed.dart';
 
-extension type const ActivityResponseRestrictReplies._(String _) implements String {
-  static const everyone = ActivityResponseRestrictReplies._('everyone');
-  static const nobody = ActivityResponseRestrictReplies._('nobody');
-  static const peopleIFollow = ActivityResponseRestrictReplies._('people_i_follow');
-
-  factory ActivityResponseRestrictReplies.fromJson(String json) => ActivityResponseRestrictReplies._(json);
-
-  String toJson() => this;
-}
-
-extension type const ActivityResponseVisibility._(String _) implements String {
-  static const private = ActivityResponseVisibility._('private');
-  static const public = ActivityResponseVisibility._('public');
-  static const tag = ActivityResponseVisibility._('tag');
-
-  factory ActivityResponseVisibility.fromJson(String json) => ActivityResponseVisibility._(json);
-
-  String toJson() => this;
-}
-
 @freezed
 @immutable
 @JsonSerializable()
@@ -249,7 +229,7 @@ class ActivityResponse with _$ActivityResponse {
 
   @override
   @JsonKey(name: 'restrict_replies')
-  final ActivityResponseRestrictReplies restrictReplies;
+  final RestrictReplies restrictReplies;
 
   @override
   @JsonKey(name: 'score')
@@ -294,7 +274,7 @@ class ActivityResponse with _$ActivityResponse {
 
   @override
   @JsonKey(name: 'visibility')
-  final ActivityResponseVisibility visibility;
+  final ActivityVisibility visibility;
 
   @override
   @JsonKey(name: 'visibility_tag')

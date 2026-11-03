@@ -13,14 +13,10 @@ import '../models.dart';
 part 'ws_auth_message.g.dart';
 part 'ws_auth_message.freezed.dart';
 
-extension type const WSAuthMessageProducts._(String _) implements String {
-  static const chat = WSAuthMessageProducts._('chat');
-  static const feeds = WSAuthMessageProducts._('feeds');
-  static const video = WSAuthMessageProducts._('video');
-
-  factory WSAuthMessageProducts.fromJson(String json) => WSAuthMessageProducts._(json);
-
-  String toJson() => this;
+extension type const WSAuthMessageProducts(String _) implements String {
+  static const chat = WSAuthMessageProducts('chat');
+  static const feeds = WSAuthMessageProducts('feeds');
+  static const video = WSAuthMessageProducts('video');
 }
 
 @freezed
@@ -28,10 +24,15 @@ extension type const WSAuthMessageProducts._(String _) implements String {
 @JsonSerializable()
 class WSAuthMessage with _$WSAuthMessage {
   const WSAuthMessage({
+    this.eventProtocol,
     this.memberCustomInclude,
     this.products,
     required this.token,
   });
+
+  @override
+  @JsonKey(name: 'event_protocol')
+  final int? eventProtocol;
 
   @override
   @JsonKey(name: 'member_custom_include')

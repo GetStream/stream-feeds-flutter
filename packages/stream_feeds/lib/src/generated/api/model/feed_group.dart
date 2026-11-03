@@ -77,7 +77,7 @@ class FeedGroup with _$FeedGroup {
 
   @override
   @JsonKey(name: 'default_visibility')
-  final String defaultVisibility;
+  final FeedVisibility defaultVisibility;
 
   @override
   @StreamDateTimeConverter()

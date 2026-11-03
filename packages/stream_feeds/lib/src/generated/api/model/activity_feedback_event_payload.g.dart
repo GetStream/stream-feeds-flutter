@@ -9,7 +9,7 @@ part of 'activity_feedback_event_payload.dart';
 ActivityFeedbackEventPayload _$ActivityFeedbackEventPayloadFromJson(
   Map<String, dynamic> json,
 ) => ActivityFeedbackEventPayload(
-  action: ActivityFeedbackEventPayloadAction.fromJson(json['action'] as String),
+  action: json['action'] as ActivityFeedbackEventPayloadAction,
   activityId: json['activity_id'] as String,
   createdAt: const StreamDateTimeConverter().fromJson(
     json['created_at'] as Object,
@@ -24,7 +24,7 @@ ActivityFeedbackEventPayload _$ActivityFeedbackEventPayloadFromJson(
 Map<String, dynamic> _$ActivityFeedbackEventPayloadToJson(
   ActivityFeedbackEventPayload instance,
 ) => <String, dynamic>{
-  'action': instance.action.toJson(),
+  'action': instance.action,
   'activity_id': instance.activityId,
   'created_at': const StreamDateTimeConverter().toJson(instance.createdAt),
   'updated_at': const StreamDateTimeConverter().toJson(instance.updatedAt),

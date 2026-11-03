@@ -10,6 +10,7 @@ GetOrCreateFeedRequest _$GetOrCreateFeedRequestFromJson(
   Map<String, dynamic> json,
 ) => GetOrCreateFeedRequest(
   data: json['data'] == null ? null : FeedInput.fromJson(json['data'] as Map<String, dynamic>),
+  discardActors: (json['discard_actors'] as List<dynamic>?)?.map((e) => e as String).toList(),
   enrichmentOptions: json['enrichment_options'] == null
       ? null
       : EnrichmentOptions.fromJson(
@@ -46,6 +47,9 @@ GetOrCreateFeedRequest _$GetOrCreateFeedRequestFromJson(
   overwriteInterestWeights: json['overwrite_interest_weights'] as bool?,
   prev: json['prev'] as String?,
   view: json['view'] as String?,
+  viewerLocation: json['viewer_location'] == null
+      ? null
+      : Location.fromJson(json['viewer_location'] as Map<String, dynamic>),
   watch: json['watch'] as bool?,
 );
 
@@ -53,6 +57,7 @@ Map<String, dynamic> _$GetOrCreateFeedRequestToJson(
   GetOrCreateFeedRequest instance,
 ) => <String, dynamic>{
   'data': instance.data?.toJson(),
+  'discard_actors': instance.discardActors,
   'enrichment_options': instance.enrichmentOptions?.toJson(),
   'external_ranking': instance.externalRanking,
   'filter': instance.filter,
@@ -67,5 +72,6 @@ Map<String, dynamic> _$GetOrCreateFeedRequestToJson(
   'overwrite_interest_weights': instance.overwriteInterestWeights,
   'prev': instance.prev,
   'view': instance.view,
+  'viewer_location': instance.viewerLocation?.toJson(),
   'watch': instance.watch,
 };

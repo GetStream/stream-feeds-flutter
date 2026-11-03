@@ -19,7 +19,7 @@ mixin _$ActivitySelectorConfig {
   int? get minPopularity;
   Map<String, Object?>? get params;
   List<SortParam>? get sort;
-  String? get type;
+  ActivitySelectorType? get type;
 
   /// Create a copy of ActivitySelectorConfig
   /// with the given fields replaced by the non-null parameter values.
@@ -77,7 +77,7 @@ abstract mixin class $ActivitySelectorConfigCopyWith<$Res> {
     int? minPopularity,
     Map<String, Object?>? params,
     List<SortParam>? sort,
-    String? type,
+    ActivitySelectorType? type,
   });
 }
 
@@ -130,7 +130,7 @@ class _$ActivitySelectorConfigCopyWithImpl<$Res> implements $ActivitySelectorCon
         type: freezed == type
             ? _self.type
             : type // ignore: cast_nullable_to_non_nullable
-                  as String?,
+                  as ActivitySelectorType?,
       ),
     );
   }

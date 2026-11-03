@@ -19,6 +19,7 @@ part 'query_follows_request.freezed.dart';
 class QueryFollowsRequest with _$QueryFollowsRequest {
   const QueryFollowsRequest({
     this.filter,
+    this.includeGroupCounts,
     this.limit,
     this.next,
     this.prev,
@@ -28,6 +29,10 @@ class QueryFollowsRequest with _$QueryFollowsRequest {
   @override
   @JsonKey(name: 'filter')
   final Map<String, Object?>? filter;
+
+  @override
+  @JsonKey(name: 'include_group_counts')
+  final bool? includeGroupCounts;
 
   @override
   @JsonKey(name: 'limit')

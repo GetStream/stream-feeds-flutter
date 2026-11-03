@@ -26,17 +26,13 @@ ActivityRequest _$ActivityRequestFromJson(Map<String, dynamic> json) => Activity
   mentionedUserIds: (json['mentioned_user_ids'] as List<dynamic>?)?.map((e) => e as String).toList(),
   parentId: json['parent_id'] as String?,
   pollId: json['poll_id'] as String?,
-  restrictReplies: json['restrict_replies'] == null
-      ? null
-      : ActivityRequestRestrictReplies.fromJson(
-          json['restrict_replies'] as String,
-        ),
+  restrictReplies: json['restrict_replies'] as RestrictReplies?,
   searchData: json['search_data'] as Map<String, dynamic>?,
   skipEnrichUrl: json['skip_enrich_url'] as bool?,
   skipPush: json['skip_push'] as bool?,
   text: json['text'] as String?,
   type: json['type'] as String,
-  visibility: json['visibility'] == null ? null : ActivityRequestVisibility.fromJson(json['visibility'] as String),
+  visibility: json['visibility'] as ActivityVisibility?,
   visibilityTag: json['visibility_tag'] as String?,
 );
 
@@ -56,12 +52,12 @@ Map<String, dynamic> _$ActivityRequestToJson(ActivityRequest instance) => <Strin
   'mentioned_user_ids': instance.mentionedUserIds,
   'parent_id': instance.parentId,
   'poll_id': instance.pollId,
-  'restrict_replies': instance.restrictReplies?.toJson(),
+  'restrict_replies': instance.restrictReplies,
   'search_data': instance.searchData,
   'skip_enrich_url': instance.skipEnrichUrl,
   'skip_push': instance.skipPush,
   'text': instance.text,
   'type': instance.type,
-  'visibility': instance.visibility?.toJson(),
+  'visibility': instance.visibility,
   'visibility_tag': instance.visibilityTag,
 };

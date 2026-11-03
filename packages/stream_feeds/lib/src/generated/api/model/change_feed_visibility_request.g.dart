@@ -9,19 +9,13 @@ part of 'change_feed_visibility_request.dart';
 ChangeFeedVisibilityRequest _$ChangeFeedVisibilityRequestFromJson(
   Map<String, dynamic> json,
 ) => ChangeFeedVisibilityRequest(
-  pendingFollowsAction: json['pending_follows_action'] == null
-      ? null
-      : ChangeFeedVisibilityRequestPendingFollowsAction.fromJson(
-          json['pending_follows_action'] as String,
-        ),
-  visibility: ChangeFeedVisibilityRequestVisibility.fromJson(
-    json['visibility'] as String,
-  ),
+  pendingFollowsAction: json['pending_follows_action'] as ChangeFeedVisibilityRequestPendingFollowsAction?,
+  visibility: json['visibility'] as FeedVisibility,
 );
 
 Map<String, dynamic> _$ChangeFeedVisibilityRequestToJson(
   ChangeFeedVisibilityRequest instance,
 ) => <String, dynamic>{
-  'pending_follows_action': instance.pendingFollowsAction?.toJson(),
-  'visibility': instance.visibility.toJson(),
+  'pending_follows_action': instance.pendingFollowsAction,
+  'visibility': instance.visibility,
 };

@@ -257,6 +257,7 @@ Map<String, Object?> _createConnectedEvent(String userId) {
     'me': <String, Object?>{
       'id': userId,
       'banned': false,
+      'blocked_user_ids': <String>[],
       'channel_mutes': <Map<String, Object?>>[],
       'created_at': now,
       'updated_at': now,

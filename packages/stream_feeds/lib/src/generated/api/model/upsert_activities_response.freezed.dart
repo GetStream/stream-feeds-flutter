@@ -16,6 +16,7 @@ mixin _$UpsertActivitiesResponse {
   List<ActivityResponse> get activities;
   String get duration;
   int? get mentionNotificationsCreated;
+  List<String>? get skippedExisting;
 
   /// Create a copy of UpsertActivitiesResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -41,7 +42,11 @@ mixin _$UpsertActivitiesResponse {
                   other.mentionNotificationsCreated,
                   mentionNotificationsCreated,
                 ) ||
-                other.mentionNotificationsCreated == mentionNotificationsCreated));
+                other.mentionNotificationsCreated == mentionNotificationsCreated) &&
+            const DeepCollectionEquality().equals(
+              other.skippedExisting,
+              skippedExisting,
+            ));
   }
 
   @override
@@ -50,11 +55,12 @@ mixin _$UpsertActivitiesResponse {
     const DeepCollectionEquality().hash(activities),
     duration,
     mentionNotificationsCreated,
+    const DeepCollectionEquality().hash(skippedExisting),
   );
 
   @override
   String toString() {
-    return 'UpsertActivitiesResponse(activities: $activities, duration: $duration, mentionNotificationsCreated: $mentionNotificationsCreated)';
+    return 'UpsertActivitiesResponse(activities: $activities, duration: $duration, mentionNotificationsCreated: $mentionNotificationsCreated, skippedExisting: $skippedExisting)';
   }
 }
 
@@ -69,6 +75,7 @@ abstract mixin class $UpsertActivitiesResponseCopyWith<$Res> {
     List<ActivityResponse> activities,
     String duration,
     int? mentionNotificationsCreated,
+    List<String>? skippedExisting,
   });
 }
 
@@ -87,6 +94,7 @@ class _$UpsertActivitiesResponseCopyWithImpl<$Res> implements $UpsertActivitiesR
     Object? activities = null,
     Object? duration = null,
     Object? mentionNotificationsCreated = freezed,
+    Object? skippedExisting = freezed,
   }) {
     return _then(
       UpsertActivitiesResponse(
@@ -102,6 +110,10 @@ class _$UpsertActivitiesResponseCopyWithImpl<$Res> implements $UpsertActivitiesR
             ? _self.mentionNotificationsCreated
             : mentionNotificationsCreated // ignore: cast_nullable_to_non_nullable
                   as int?,
+        skippedExisting: freezed == skippedExisting
+            ? _self.skippedExisting
+            : skippedExisting // ignore: cast_nullable_to_non_nullable
+                  as List<String>?,
       ),
     );
   }

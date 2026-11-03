@@ -17,7 +17,7 @@ ActivitySelectorConfig _$ActivitySelectorConfigFromJson(
   minPopularity: (json['min_popularity'] as num?)?.toInt(),
   params: json['params'] as Map<String, dynamic>?,
   sort: (json['sort'] as List<dynamic>?)?.map((e) => SortParam.fromJson(e as Map<String, dynamic>)).toList(),
-  type: json['type'] as String?,
+  type: json['type'] as ActivitySelectorType?,
 );
 
 Map<String, dynamic> _$ActivitySelectorConfigToJson(

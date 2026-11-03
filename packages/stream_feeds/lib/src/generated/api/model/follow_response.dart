@@ -13,25 +13,6 @@ import '../models.dart';
 part 'follow_response.g.dart';
 part 'follow_response.freezed.dart';
 
-extension type const FollowResponsePushPreference._(String _) implements String {
-  static const all = FollowResponsePushPreference._('all');
-  static const none = FollowResponsePushPreference._('none');
-
-  factory FollowResponsePushPreference.fromJson(String json) => FollowResponsePushPreference._(json);
-
-  String toJson() => this;
-}
-
-extension type const FollowResponseStatus._(String _) implements String {
-  static const accepted = FollowResponseStatus._('accepted');
-  static const pending = FollowResponseStatus._('pending');
-  static const rejected = FollowResponseStatus._('rejected');
-
-  factory FollowResponseStatus.fromJson(String json) => FollowResponseStatus._(json);
-
-  String toJson() => this;
-}
-
 @freezed
 @immutable
 @JsonSerializable()
@@ -64,7 +45,7 @@ class FollowResponse with _$FollowResponse {
 
   @override
   @JsonKey(name: 'push_preference')
-  final FollowResponsePushPreference pushPreference;
+  final FollowPushPreference pushPreference;
 
   @override
   @StreamDateTimeConverter()
@@ -82,7 +63,7 @@ class FollowResponse with _$FollowResponse {
 
   @override
   @JsonKey(name: 'status')
-  final FollowResponseStatus status;
+  final FollowStatus status;
 
   @override
   @JsonKey(name: 'target_feed')

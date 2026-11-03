@@ -28,6 +28,7 @@ ThreadedCommentResponse _$ThreadedCommentResponseFromJson(
     json['edited_at'],
     const StreamDateTimeConverter().fromJson,
   ),
+  hidden: json['hidden'] as bool,
   i18n: (json['i18n'] as Map<String, dynamic>?)?.map(
     (k, e) => MapEntry(k, e as String),
   ),
@@ -62,7 +63,7 @@ ThreadedCommentResponse _$ThreadedCommentResponseFromJson(
       .toList(),
   replyCount: (json['reply_count'] as num).toInt(),
   score: (json['score'] as num).toInt(),
-  status: ThreadedCommentResponseStatus.fromJson(json['status'] as String),
+  status: json['status'] as CommentStatus,
   text: json['text'] as String?,
   updatedAt: const StreamDateTimeConverter().fromJson(
     json['updated_at'] as Object,
@@ -89,6 +90,7 @@ Map<String, dynamic> _$ThreadedCommentResponseToJson(
     instance.editedAt,
     const StreamDateTimeConverter().toJson,
   ),
+  'hidden': instance.hidden,
   'i18n': instance.i18n,
   'id': instance.id,
   'latest_reactions': instance.latestReactions?.map((e) => e.toJson()).toList(),
@@ -106,7 +108,7 @@ Map<String, dynamic> _$ThreadedCommentResponseToJson(
   'replies': instance.replies?.map((e) => e.toJson()).toList(),
   'reply_count': instance.replyCount,
   'score': instance.score,
-  'status': instance.status.toJson(),
+  'status': instance.status,
   'text': instance.text,
   'updated_at': const StreamDateTimeConverter().toJson(instance.updatedAt),
   'upvote_count': instance.upvoteCount,

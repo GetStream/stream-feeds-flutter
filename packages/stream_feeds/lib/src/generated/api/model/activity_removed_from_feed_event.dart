@@ -3,20 +3,14 @@
 // coverage:ignore-file
 // ignore_for_file: unused_import, unnecessary_import, prefer_single_quotes, require_trailing_commas, unnecessary_raw_strings, public_member_api_docs, sort_constructors_first, provide_deprecation_message
 
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
-import 'package:stream_core/stream_core.dart' as core;
-
-import '../models.dart';
-
-part 'activity_removed_from_feed_event.g.dart';
-part 'activity_removed_from_feed_event.freezed.dart';
+part of 'events.dart';
 
 @freezed
 @immutable
 @JsonSerializable()
-class ActivityRemovedFromFeedEvent extends core.WsEvent with _$ActivityRemovedFromFeedEvent {
+class ActivityRemovedFromFeedEvent extends core.WsEvent
+    with _$ActivityRemovedFromFeedEvent
+    implements WSClientEvent, WSEvent {
   const ActivityRemovedFromFeedEvent({
     required this.activity,
     required this.createdAt,
@@ -43,7 +37,7 @@ class ActivityRemovedFromFeedEvent extends core.WsEvent with _$ActivityRemovedFr
 
   @override
   @JsonKey(name: 'feed_visibility')
-  final String? feedVisibility;
+  final FeedVisibility? feedVisibility;
 
   @override
   @JsonKey(name: 'fid')
@@ -62,6 +56,7 @@ class ActivityRemovedFromFeedEvent extends core.WsEvent with _$ActivityRemovedFr
   @JsonKey(name: 'user')
   final UserResponseCommonFields? user;
 
+  @override
   Map<String, dynamic> toJson() => _$ActivityRemovedFromFeedEventToJson(this);
 
   static ActivityRemovedFromFeedEvent fromJson(Map<String, dynamic> json) =>

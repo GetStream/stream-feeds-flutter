@@ -8,7 +8,6 @@ part of 'default_api.dart';
 // RetrofitGenerator
 // **************************************************************************
 
-// ignore_for_file: type=lint
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations,unused_element_parameter,avoid_unused_constructor_parameters,unreachable_from_main,avoid_redundant_argument_values
 
 class _DefaultApi extends DefaultApi {
@@ -879,6 +878,50 @@ class _DefaultApi extends DefaultApi {
         feedGroupId: feedGroupId,
         feedId: feedId,
         changeFeedVisibilityRequest: changeFeedVisibilityRequest,
+      ),
+    );
+  }
+
+  Future<CommentFeedbackResponse> _commentFeedback({
+    required String id,
+    CommentFeedbackRequest? commentFeedbackRequest,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(commentFeedbackRequest?.toJson() ?? <String, dynamic>{});
+    final _options = _setStreamType<Result<CommentFeedbackResponse>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/feeds/comments/${id}/feedback',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late CommentFeedbackResponse _value;
+    try {
+      _value = CommentFeedbackResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<CommentFeedbackResponse>> commentFeedback({
+    required String id,
+    CommentFeedbackRequest? commentFeedbackRequest,
+  }) {
+    return _ResultCallAdapter<CommentFeedbackResponse>().adapt(
+      () => _commentFeedback(
+        id: id,
+        commentFeedbackRequest: commentFeedbackRequest,
       ),
     );
   }
@@ -3230,49 +3273,6 @@ class _DefaultApi extends DefaultApi {
     );
   }
 
-  Future<ImportBlockListResponse> _importBlockList({
-    required String id,
-    required ImportBlockListRequest importBlockListRequest,
-  }) async {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(importBlockListRequest.toJson());
-    final _options = _setStreamType<Result<ImportBlockListResponse>>(
-      Options(method: 'POST', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/api/v2/blocklists/${id}/import',
-            queryParameters: queryParameters,
-            data: _data,
-          )
-          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
-    );
-    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ImportBlockListResponse _value;
-    try {
-      _value = ImportBlockListResponse.fromJson(_result.data!);
-    } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options, response: _result);
-      rethrow;
-    }
-    return _value;
-  }
-
-  @override
-  Future<Result<ImportBlockListResponse>> importBlockList({
-    required String id,
-    required ImportBlockListRequest importBlockListRequest,
-  }) {
-    return _ResultCallAdapter<ImportBlockListResponse>().adapt(
-      () => _importBlockList(
-        id: id,
-        importBlockListRequest: importBlockListRequest,
-      ),
-    );
-  }
-
   Future<ListBlockListResponse> _listBlockLists({
     String? team,
     String? cursor,
@@ -3437,9 +3437,12 @@ class _DefaultApi extends DefaultApi {
     );
   }
 
-  Future<void> __longPoll({_JsonQuery? json}) async {
+  Future<void> __longPoll({bool? close, _JsonQuery? json}) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'json': json?.toJson()};
+    final queryParameters = <String, dynamic>{
+      r'close': close,
+      r'json': json?.toJson(),
+    };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
@@ -3457,8 +3460,10 @@ class _DefaultApi extends DefaultApi {
   }
 
   @override
-  Future<Result<void>> _longPoll({_JsonQuery? json}) {
-    return _ResultCallAdapter<void>().adapt(() => __longPoll(json: json));
+  Future<Result<void>> _longPoll({bool? close, _JsonQuery? json}) {
+    return _ResultCallAdapter<void>().adapt(
+      () => __longPoll(close: close, json: json),
+    );
   }
 
   Future<DurationResponse> _markActivity({
@@ -4654,6 +4659,44 @@ class _DefaultApi extends DefaultApi {
   Future<Result<RestoreCommentResponse>> restoreComment({required String id}) {
     return _ResultCallAdapter<RestoreCommentResponse>().adapt(
       () => _restoreComment(id: id),
+    );
+  }
+
+  Future<RevealMediaResponse> _revealMedia({
+    required RevealMediaRequest revealMediaRequest,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(revealMediaRequest.toJson());
+    final _options = _setStreamType<Result<RevealMediaResponse>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v2/moderation/reveal_media',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late RevealMediaResponse _value;
+    try {
+      _value = RevealMediaResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<RevealMediaResponse>> revealMedia({
+    required RevealMediaRequest revealMediaRequest,
+  }) {
+    return _ResultCallAdapter<RevealMediaResponse>().adapt(
+      () => _revealMedia(revealMediaRequest: revealMediaRequest),
     );
   }
 

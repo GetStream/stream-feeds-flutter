@@ -19,7 +19,7 @@ mixin _$UpdateFollowRequest {
   Map<String, Object?>? get custom;
   bool? get enrichOwnFields;
   String? get followerRole;
-  UpdateFollowRequestPushPreference? get pushPreference;
+  FollowPushPreference? get pushPreference;
   bool? get skipPush;
   String get source;
   String get target;
@@ -94,7 +94,7 @@ abstract mixin class $UpdateFollowRequestCopyWith<$Res> {
     Map<String, Object?>? custom,
     bool? enrichOwnFields,
     String? followerRole,
-    UpdateFollowRequestPushPreference? pushPreference,
+    FollowPushPreference? pushPreference,
     bool? skipPush,
     String source,
     String target,
@@ -153,7 +153,7 @@ class _$UpdateFollowRequestCopyWithImpl<$Res> implements $UpdateFollowRequestCop
         pushPreference: freezed == pushPreference
             ? _self.pushPreference
             : pushPreference // ignore: cast_nullable_to_non_nullable
-                  as UpdateFollowRequestPushPreference?,
+                  as FollowPushPreference?,
         skipPush: freezed == skipPush
             ? _self.skipPush
             : skipPush // ignore: cast_nullable_to_non_nullable

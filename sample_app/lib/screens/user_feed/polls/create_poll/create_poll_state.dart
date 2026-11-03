@@ -29,7 +29,7 @@ class CreatePollState with _$CreatePollState {
       maxVotesAllowed = null,
       name = '',
       options = [PollOptionInputState(text: '')],
-      votingVisibility = VotingVisibility.public;
+      votingVisibility = PollVotingVisibility.public;
 
   @override
   final bool allowAnswers;
@@ -59,7 +59,7 @@ class CreatePollState with _$CreatePollState {
   final List<PollOptionInputState> options;
 
   @override
-  final VotingVisibility? votingVisibility;
+  final PollVotingVisibility? votingVisibility;
 }
 
 @freezed
@@ -81,7 +81,7 @@ class PollOptionInputState with _$PollOptionInputState {
   final String text;
 }
 
-enum VotingVisibility {
+enum PollVotingVisibility {
   anonymous,
   public,
 }

@@ -22,6 +22,7 @@ mixin _$CommentResponse {
   DateTime? get deletedAt;
   int get downvoteCount;
   DateTime? get editedAt;
+  bool get hidden;
   Map<String, String>? get i18n;
   String get id;
   List<FeedsReactionResponse>? get latestReactions;
@@ -35,7 +36,7 @@ mixin _$CommentResponse {
   Map<String, FeedsReactionGroupResponse>? get reactionGroups;
   int get replyCount;
   int get score;
-  CommentResponseStatus get status;
+  CommentStatus get status;
   String? get text;
   DateTime get updatedAt;
   int get upvoteCount;
@@ -67,6 +68,7 @@ mixin _$CommentResponse {
             (identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt) &&
             (identical(other.downvoteCount, downvoteCount) || other.downvoteCount == downvoteCount) &&
             (identical(other.editedAt, editedAt) || other.editedAt == editedAt) &&
+            (identical(other.hidden, hidden) || other.hidden == hidden) &&
             const DeepCollectionEquality().equals(other.i18n, i18n) &&
             (identical(other.id, id) || other.id == id) &&
             const DeepCollectionEquality().equals(
@@ -111,6 +113,7 @@ mixin _$CommentResponse {
     deletedAt,
     downvoteCount,
     editedAt,
+    hidden,
     const DeepCollectionEquality().hash(i18n),
     id,
     const DeepCollectionEquality().hash(latestReactions),
@@ -133,7 +136,7 @@ mixin _$CommentResponse {
 
   @override
   String toString() {
-    return 'CommentResponse(attachments: $attachments, bookmarkCount: $bookmarkCount, confidenceScore: $confidenceScore, controversyScore: $controversyScore, createdAt: $createdAt, custom: $custom, deletedAt: $deletedAt, downvoteCount: $downvoteCount, editedAt: $editedAt, i18n: $i18n, id: $id, latestReactions: $latestReactions, mentionedUsers: $mentionedUsers, moderation: $moderation, objectId: $objectId, objectType: $objectType, ownReactions: $ownReactions, parentId: $parentId, reactionCount: $reactionCount, reactionGroups: $reactionGroups, replyCount: $replyCount, score: $score, status: $status, text: $text, updatedAt: $updatedAt, upvoteCount: $upvoteCount, user: $user)';
+    return 'CommentResponse(attachments: $attachments, bookmarkCount: $bookmarkCount, confidenceScore: $confidenceScore, controversyScore: $controversyScore, createdAt: $createdAt, custom: $custom, deletedAt: $deletedAt, downvoteCount: $downvoteCount, editedAt: $editedAt, hidden: $hidden, i18n: $i18n, id: $id, latestReactions: $latestReactions, mentionedUsers: $mentionedUsers, moderation: $moderation, objectId: $objectId, objectType: $objectType, ownReactions: $ownReactions, parentId: $parentId, reactionCount: $reactionCount, reactionGroups: $reactionGroups, replyCount: $replyCount, score: $score, status: $status, text: $text, updatedAt: $updatedAt, upvoteCount: $upvoteCount, user: $user)';
   }
 }
 
@@ -154,6 +157,7 @@ abstract mixin class $CommentResponseCopyWith<$Res> {
     DateTime? deletedAt,
     int downvoteCount,
     DateTime? editedAt,
+    bool hidden,
     Map<String, String>? i18n,
     String id,
     List<FeedsReactionResponse>? latestReactions,
@@ -167,7 +171,7 @@ abstract mixin class $CommentResponseCopyWith<$Res> {
     Map<String, FeedsReactionGroupResponse>? reactionGroups,
     int replyCount,
     int score,
-    CommentResponseStatus status,
+    CommentStatus status,
     String? text,
     DateTime updatedAt,
     int upvoteCount,
@@ -196,6 +200,7 @@ class _$CommentResponseCopyWithImpl<$Res> implements $CommentResponseCopyWith<$R
     Object? deletedAt = freezed,
     Object? downvoteCount = null,
     Object? editedAt = freezed,
+    Object? hidden = null,
     Object? i18n = freezed,
     Object? id = null,
     Object? latestReactions = freezed,
@@ -253,6 +258,10 @@ class _$CommentResponseCopyWithImpl<$Res> implements $CommentResponseCopyWith<$R
             ? _self.editedAt
             : editedAt // ignore: cast_nullable_to_non_nullable
                   as DateTime?,
+        hidden: null == hidden
+            ? _self.hidden
+            : hidden // ignore: cast_nullable_to_non_nullable
+                  as bool,
         i18n: freezed == i18n
             ? _self.i18n
             : i18n // ignore: cast_nullable_to_non_nullable
@@ -308,7 +317,7 @@ class _$CommentResponseCopyWithImpl<$Res> implements $CommentResponseCopyWith<$R
         status: null == status
             ? _self.status
             : status // ignore: cast_nullable_to_non_nullable
-                  as CommentResponseStatus,
+                  as CommentStatus,
         text: freezed == text
             ? _self.text
             : text // ignore: cast_nullable_to_non_nullable

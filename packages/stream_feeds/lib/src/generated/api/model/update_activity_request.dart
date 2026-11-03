@@ -13,26 +13,6 @@ import '../models.dart';
 part 'update_activity_request.g.dart';
 part 'update_activity_request.freezed.dart';
 
-extension type const UpdateActivityRequestRestrictReplies._(String _) implements String {
-  static const everyone = UpdateActivityRequestRestrictReplies._('everyone');
-  static const nobody = UpdateActivityRequestRestrictReplies._('nobody');
-  static const peopleIFollow = UpdateActivityRequestRestrictReplies._('people_i_follow');
-
-  factory UpdateActivityRequestRestrictReplies.fromJson(String json) => UpdateActivityRequestRestrictReplies._(json);
-
-  String toJson() => this;
-}
-
-extension type const UpdateActivityRequestVisibility._(String _) implements String {
-  static const private = UpdateActivityRequestVisibility._('private');
-  static const public = UpdateActivityRequestVisibility._('public');
-  static const tag = UpdateActivityRequestVisibility._('tag');
-
-  factory UpdateActivityRequestVisibility.fromJson(String json) => UpdateActivityRequestVisibility._(json);
-
-  String toJson() => this;
-}
-
 @freezed
 @immutable
 @JsonSerializable()
@@ -116,7 +96,7 @@ class UpdateActivityRequest with _$UpdateActivityRequest {
 
   @override
   @JsonKey(name: 'restrict_replies')
-  final UpdateActivityRequestRestrictReplies? restrictReplies;
+  final RestrictReplies? restrictReplies;
 
   @override
   @JsonKey(name: 'run_activity_processors')
@@ -136,7 +116,7 @@ class UpdateActivityRequest with _$UpdateActivityRequest {
 
   @override
   @JsonKey(name: 'visibility')
-  final UpdateActivityRequestVisibility? visibility;
+  final ActivityVisibility? visibility;
 
   @override
   @JsonKey(name: 'visibility_tag')

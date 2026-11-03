@@ -61,15 +61,15 @@ enum PushNotificationsProvider {
   String toString() => value;
 }
 
-/// Converts a [PushNotificationsProvider] to a [CreateDeviceRequestPushProvider] request model.
+/// Converts a [PushNotificationsProvider] to a [PushProviderName] request model.
 extension PushNotificationsProviderMapper on PushNotificationsProvider {
   /// Converts this push notification provider to an API enum.
-  CreateDeviceRequestPushProvider toRequest() {
+  PushProviderName toRequest() {
     return switch (this) {
-      PushNotificationsProvider.firebase => CreateDeviceRequestPushProvider.firebase,
-      PushNotificationsProvider.apn => CreateDeviceRequestPushProvider.apn,
-      PushNotificationsProvider.huawei => CreateDeviceRequestPushProvider.huawei,
-      PushNotificationsProvider.xiaomi => CreateDeviceRequestPushProvider.xiaomi,
+      PushNotificationsProvider.firebase => PushProviderName.firebase,
+      PushNotificationsProvider.apn => PushProviderName.apn,
+      PushNotificationsProvider.huawei => PushProviderName.huawei,
+      PushNotificationsProvider.xiaomi => PushProviderName.xiaomi,
     };
   }
 }

@@ -13,18 +13,6 @@ import '../models.dart';
 part 'feed_input.g.dart';
 part 'feed_input.freezed.dart';
 
-extension type const FeedInputVisibility._(String _) implements String {
-  static const followers = FeedInputVisibility._('followers');
-  static const members = FeedInputVisibility._('members');
-  static const private = FeedInputVisibility._('private');
-  static const public = FeedInputVisibility._('public');
-  static const visible = FeedInputVisibility._('visible');
-
-  factory FeedInputVisibility.fromJson(String json) => FeedInputVisibility._(json);
-
-  String toJson() => this;
-}
-
 @freezed
 @immutable
 @JsonSerializable()
@@ -65,7 +53,7 @@ class FeedInput with _$FeedInput {
 
   @override
   @JsonKey(name: 'visibility')
-  final FeedInputVisibility? visibility;
+  final FeedVisibility? visibility;
 
   Map<String, dynamic> toJson() => _$FeedInputToJson(this);
 

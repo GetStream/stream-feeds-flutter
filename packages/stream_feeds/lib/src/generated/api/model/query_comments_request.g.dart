@@ -14,7 +14,7 @@ QueryCommentsRequest _$QueryCommentsRequestFromJson(
   limit: (json['limit'] as num?)?.toInt(),
   next: json['next'] as String?,
   prev: json['prev'] as String?,
-  sort: json['sort'] == null ? null : QueryCommentsRequestSort.fromJson(json['sort'] as String),
+  sort: json['sort'] as QueryCommentsRequestSort?,
 );
 
 Map<String, dynamic> _$QueryCommentsRequestToJson(
@@ -25,5 +25,5 @@ Map<String, dynamic> _$QueryCommentsRequestToJson(
   'limit': instance.limit,
   'next': instance.next,
   'prev': instance.prev,
-  'sort': instance.sort?.toJson(),
+  'sort': instance.sort,
 };

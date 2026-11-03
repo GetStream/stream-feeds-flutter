@@ -280,7 +280,7 @@ void main() {
             fid: query.fid.rawValue,
             member: createDefaultFeedMemberResponse(
               id: 'member-1',
-              status: FeedMemberResponseStatus.pending,
+              status: FeedMemberStatus.pending,
             ),
           ),
         );
@@ -306,7 +306,7 @@ void main() {
             fid: query.fid.rawValue,
             member: createDefaultFeedMemberResponse(
               id: 'member-1',
-              status: FeedMemberResponseStatus.pending,
+              status: FeedMemberStatus.pending,
             ),
           ),
         );

@@ -13,26 +13,9 @@ import '../models.dart';
 part 'change_feed_visibility_request.g.dart';
 part 'change_feed_visibility_request.freezed.dart';
 
-extension type const ChangeFeedVisibilityRequestPendingFollowsAction._(String _) implements String {
-  static const autoApprove = ChangeFeedVisibilityRequestPendingFollowsAction._('auto_approve');
-  static const reject = ChangeFeedVisibilityRequestPendingFollowsAction._('reject');
-
-  factory ChangeFeedVisibilityRequestPendingFollowsAction.fromJson(String json) =>
-      ChangeFeedVisibilityRequestPendingFollowsAction._(json);
-
-  String toJson() => this;
-}
-
-extension type const ChangeFeedVisibilityRequestVisibility._(String _) implements String {
-  static const followers = ChangeFeedVisibilityRequestVisibility._('followers');
-  static const members = ChangeFeedVisibilityRequestVisibility._('members');
-  static const private = ChangeFeedVisibilityRequestVisibility._('private');
-  static const public = ChangeFeedVisibilityRequestVisibility._('public');
-  static const visible = ChangeFeedVisibilityRequestVisibility._('visible');
-
-  factory ChangeFeedVisibilityRequestVisibility.fromJson(String json) => ChangeFeedVisibilityRequestVisibility._(json);
-
-  String toJson() => this;
+extension type const ChangeFeedVisibilityRequestPendingFollowsAction(String _) implements String {
+  static const autoApprove = ChangeFeedVisibilityRequestPendingFollowsAction('auto_approve');
+  static const reject = ChangeFeedVisibilityRequestPendingFollowsAction('reject');
 }
 
 @freezed
@@ -50,7 +33,7 @@ class ChangeFeedVisibilityRequest with _$ChangeFeedVisibilityRequest {
 
   @override
   @JsonKey(name: 'visibility')
-  final ChangeFeedVisibilityRequestVisibility visibility;
+  final FeedVisibility visibility;
 
   Map<String, dynamic> toJson() => _$ChangeFeedVisibilityRequestToJson(this);
 

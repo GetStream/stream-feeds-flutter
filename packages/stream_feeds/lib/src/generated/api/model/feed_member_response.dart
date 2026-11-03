@@ -13,16 +13,6 @@ import '../models.dart';
 part 'feed_member_response.g.dart';
 part 'feed_member_response.freezed.dart';
 
-extension type const FeedMemberResponseStatus._(String _) implements String {
-  static const member = FeedMemberResponseStatus._('member');
-  static const pending = FeedMemberResponseStatus._('pending');
-  static const rejected = FeedMemberResponseStatus._('rejected');
-
-  factory FeedMemberResponseStatus.fromJson(String json) => FeedMemberResponseStatus._(json);
-
-  String toJson() => this;
-}
-
 @freezed
 @immutable
 @JsonSerializable()
@@ -68,7 +58,7 @@ class FeedMemberResponse with _$FeedMemberResponse {
 
   @override
   @JsonKey(name: 'status')
-  final FeedMemberResponseStatus status;
+  final FeedMemberStatus status;
 
   @override
   @StreamDateTimeConverter()

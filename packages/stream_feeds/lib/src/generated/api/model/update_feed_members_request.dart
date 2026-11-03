@@ -13,14 +13,10 @@ import '../models.dart';
 part 'update_feed_members_request.g.dart';
 part 'update_feed_members_request.freezed.dart';
 
-extension type const UpdateFeedMembersRequestOperation._(String _) implements String {
-  static const remove = UpdateFeedMembersRequestOperation._('remove');
-  static const set = UpdateFeedMembersRequestOperation._('set');
-  static const upsert = UpdateFeedMembersRequestOperation._('upsert');
-
-  factory UpdateFeedMembersRequestOperation.fromJson(String json) => UpdateFeedMembersRequestOperation._(json);
-
-  String toJson() => this;
+extension type const UpdateFeedMembersRequestOperation(String _) implements String {
+  static const remove = UpdateFeedMembersRequestOperation('remove');
+  static const set = UpdateFeedMembersRequestOperation('set');
+  static const upsert = UpdateFeedMembersRequestOperation('upsert');
 }
 
 @freezed

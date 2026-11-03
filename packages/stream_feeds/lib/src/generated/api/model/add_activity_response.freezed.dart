@@ -16,6 +16,7 @@ mixin _$AddActivityResponse {
   ActivityResponse get activity;
   String get duration;
   int? get mentionNotificationsCreated;
+  List<String>? get skippedExisting;
 
   /// Create a copy of AddActivityResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -38,15 +39,25 @@ mixin _$AddActivityResponse {
                   other.mentionNotificationsCreated,
                   mentionNotificationsCreated,
                 ) ||
-                other.mentionNotificationsCreated == mentionNotificationsCreated));
+                other.mentionNotificationsCreated == mentionNotificationsCreated) &&
+            const DeepCollectionEquality().equals(
+              other.skippedExisting,
+              skippedExisting,
+            ));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, activity, duration, mentionNotificationsCreated);
+  int get hashCode => Object.hash(
+    runtimeType,
+    activity,
+    duration,
+    mentionNotificationsCreated,
+    const DeepCollectionEquality().hash(skippedExisting),
+  );
 
   @override
   String toString() {
-    return 'AddActivityResponse(activity: $activity, duration: $duration, mentionNotificationsCreated: $mentionNotificationsCreated)';
+    return 'AddActivityResponse(activity: $activity, duration: $duration, mentionNotificationsCreated: $mentionNotificationsCreated, skippedExisting: $skippedExisting)';
   }
 }
 
@@ -61,6 +72,7 @@ abstract mixin class $AddActivityResponseCopyWith<$Res> {
     ActivityResponse activity,
     String duration,
     int? mentionNotificationsCreated,
+    List<String>? skippedExisting,
   });
 }
 
@@ -79,6 +91,7 @@ class _$AddActivityResponseCopyWithImpl<$Res> implements $AddActivityResponseCop
     Object? activity = null,
     Object? duration = null,
     Object? mentionNotificationsCreated = freezed,
+    Object? skippedExisting = freezed,
   }) {
     return _then(
       AddActivityResponse(
@@ -94,6 +107,10 @@ class _$AddActivityResponseCopyWithImpl<$Res> implements $AddActivityResponseCop
             ? _self.mentionNotificationsCreated
             : mentionNotificationsCreated // ignore: cast_nullable_to_non_nullable
                   as int?,
+        skippedExisting: freezed == skippedExisting
+            ? _self.skippedExisting
+            : skippedExisting // ignore: cast_nullable_to_non_nullable
+                  as List<String>?,
       ),
     );
   }

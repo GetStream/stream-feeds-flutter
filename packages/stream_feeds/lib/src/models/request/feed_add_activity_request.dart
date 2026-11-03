@@ -3,7 +3,6 @@ import 'package:stream_core/stream_core.dart';
 
 import '../../generated/api/models.dart';
 import '../../utils/uploader.dart';
-import '../activity_data.dart';
 
 part 'feed_add_activity_request.freezed.dart';
 
@@ -112,12 +111,12 @@ class FeedAddActivityRequest with _$FeedAddActivityRequest implements HasAttachm
 
   /// Controls who can add comments/replies to this activity.
   ///
-  /// Defaults to [AddActivityRequestRestrictReplies.everyone] (no restriction).
-  /// Use [AddActivityRequestRestrictReplies.nobody] to disable comments, or
-  /// [AddActivityRequestRestrictReplies.peopleIFollow] to restrict to users
+  /// Defaults to [RestrictReplies.everyone] (no restriction).
+  /// Use [RestrictReplies.nobody] to disable comments, or
+  /// [RestrictReplies.peopleIFollow] to restrict to users
   /// followed by the activity author.
   @override
-  final ActivityRestrictReplies? restrictReplies;
+  final RestrictReplies? restrictReplies;
 
   /// Optional search metadata for enhanced discoverability.
   @override
@@ -146,7 +145,7 @@ class FeedAddActivityRequest with _$FeedAddActivityRequest implements HasAttachm
 
   /// Optional visibility setting for the activity.
   @override
-  final ActivityDataVisibility? visibility;
+  final ActivityVisibility? visibility;
 
   /// Optional visibility tag for custom visibility rules.
   @override
@@ -188,12 +187,12 @@ extension FeedAddActivityRequestMapper on FeedAddActivityRequest {
       mentionedUserIds: mentionedUserIds,
       parentId: parentId,
       pollId: pollId,
-      restrictReplies: restrictReplies?.let(AddActivityRequestRestrictReplies.fromJson),
+      restrictReplies: restrictReplies,
       searchData: searchData,
       skipEnrichUrl: skipEnrichUrl,
       skipPush: skipPush,
       text: text,
-      visibility: visibility?.let(AddActivityRequestVisibility.fromJson),
+      visibility: visibility,
       visibilityTag: visibilityTag,
     );
   }

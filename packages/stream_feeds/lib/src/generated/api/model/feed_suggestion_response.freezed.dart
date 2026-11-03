@@ -37,7 +37,7 @@ mixin _$FeedSuggestionResponse {
   String? get reason;
   double? get recommendationScore;
   DateTime get updatedAt;
-  FeedSuggestionResponseVisibility? get visibility;
+  FeedVisibility? get visibility;
 
   /// Create a copy of FeedSuggestionResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -165,7 +165,7 @@ abstract mixin class $FeedSuggestionResponseCopyWith<$Res> {
     String? reason,
     double? recommendationScore,
     DateTime updatedAt,
-    FeedSuggestionResponseVisibility? visibility,
+    FeedVisibility? visibility,
   });
 }
 
@@ -308,7 +308,7 @@ class _$FeedSuggestionResponseCopyWithImpl<$Res> implements $FeedSuggestionRespo
         visibility: freezed == visibility
             ? _self.visibility
             : visibility // ignore: cast_nullable_to_non_nullable
-                  as FeedSuggestionResponseVisibility?,
+                  as FeedVisibility?,
       ),
     );
   }

@@ -18,17 +18,13 @@ part 'push_preferences_response.freezed.dart';
 @JsonSerializable()
 class PushPreferencesResponse with _$PushPreferencesResponse {
   const PushPreferencesResponse({
-    this.callLevel,
     this.chatLevel,
     this.chatPreferences,
     this.disabledUntil,
     this.feedsLevel,
     this.feedsPreferences,
+    this.schedule,
   });
-
-  @override
-  @JsonKey(name: 'call_level')
-  final String? callLevel;
 
   @override
   @JsonKey(name: 'chat_level')
@@ -50,6 +46,10 @@ class PushPreferencesResponse with _$PushPreferencesResponse {
   @override
   @JsonKey(name: 'feeds_preferences')
   final FeedsPreferencesResponse? feedsPreferences;
+
+  @override
+  @JsonKey(name: 'schedule')
+  final PushScheduleResponse? schedule;
 
   Map<String, dynamic> toJson() => _$PushPreferencesResponseToJson(this);
 

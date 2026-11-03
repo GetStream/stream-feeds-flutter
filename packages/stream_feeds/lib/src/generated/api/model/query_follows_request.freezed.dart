@@ -14,6 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$QueryFollowsRequest {
   Map<String, Object?>? get filter;
+  bool? get includeGroupCounts;
   int? get limit;
   String? get next;
   String? get prev;
@@ -35,6 +36,8 @@ mixin _$QueryFollowsRequest {
         (other.runtimeType == runtimeType &&
             other is QueryFollowsRequest &&
             const DeepCollectionEquality().equals(other.filter, filter) &&
+            (identical(other.includeGroupCounts, includeGroupCounts) ||
+                other.includeGroupCounts == includeGroupCounts) &&
             (identical(other.limit, limit) || other.limit == limit) &&
             (identical(other.next, next) || other.next == next) &&
             (identical(other.prev, prev) || other.prev == prev) &&
@@ -45,6 +48,7 @@ mixin _$QueryFollowsRequest {
   int get hashCode => Object.hash(
     runtimeType,
     const DeepCollectionEquality().hash(filter),
+    includeGroupCounts,
     limit,
     next,
     prev,
@@ -53,7 +57,7 @@ mixin _$QueryFollowsRequest {
 
   @override
   String toString() {
-    return 'QueryFollowsRequest(filter: $filter, limit: $limit, next: $next, prev: $prev, sort: $sort)';
+    return 'QueryFollowsRequest(filter: $filter, includeGroupCounts: $includeGroupCounts, limit: $limit, next: $next, prev: $prev, sort: $sort)';
   }
 }
 
@@ -66,6 +70,7 @@ abstract mixin class $QueryFollowsRequestCopyWith<$Res> {
   @useResult
   $Res call({
     Map<String, Object?>? filter,
+    bool? includeGroupCounts,
     int? limit,
     String? next,
     String? prev,
@@ -86,6 +91,7 @@ class _$QueryFollowsRequestCopyWithImpl<$Res> implements $QueryFollowsRequestCop
   @override
   $Res call({
     Object? filter = freezed,
+    Object? includeGroupCounts = freezed,
     Object? limit = freezed,
     Object? next = freezed,
     Object? prev = freezed,
@@ -97,6 +103,10 @@ class _$QueryFollowsRequestCopyWithImpl<$Res> implements $QueryFollowsRequestCop
             ? _self.filter
             : filter // ignore: cast_nullable_to_non_nullable
                   as Map<String, Object?>?,
+        includeGroupCounts: freezed == includeGroupCounts
+            ? _self.includeGroupCounts
+            : includeGroupCounts // ignore: cast_nullable_to_non_nullable
+                  as bool?,
         limit: freezed == limit
             ? _self.limit
             : limit // ignore: cast_nullable_to_non_nullable

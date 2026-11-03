@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 mixin _$FriendReactionsOptions {
   bool? get enabled;
   int? get limit;
-  FriendReactionsOptionsType? get type;
+  FriendReactionType? get type;
 
   /// Create a copy of FriendReactionsOptions
   /// with the given fields replaced by the non-null parameter values.
@@ -53,7 +53,7 @@ abstract mixin class $FriendReactionsOptionsCopyWith<$Res> {
     $Res Function(FriendReactionsOptions) _then,
   ) = _$FriendReactionsOptionsCopyWithImpl;
   @useResult
-  $Res call({bool? enabled, int? limit, FriendReactionsOptionsType? type});
+  $Res call({bool? enabled, int? limit, FriendReactionType? type});
 }
 
 /// @nodoc
@@ -85,7 +85,7 @@ class _$FriendReactionsOptionsCopyWithImpl<$Res> implements $FriendReactionsOpti
         type: freezed == type
             ? _self.type
             : type // ignore: cast_nullable_to_non_nullable
-                  as FriendReactionsOptionsType?,
+                  as FriendReactionType?,
       ),
     );
   }

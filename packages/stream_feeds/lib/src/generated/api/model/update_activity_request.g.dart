@@ -27,18 +27,12 @@ UpdateActivityRequest _$UpdateActivityRequestFromJson(
   location: json['location'] == null ? null : Location.fromJson(json['location'] as Map<String, dynamic>),
   mentionedUserIds: (json['mentioned_user_ids'] as List<dynamic>?)?.map((e) => e as String).toList(),
   pollId: json['poll_id'] as String?,
-  restrictReplies: json['restrict_replies'] == null
-      ? null
-      : UpdateActivityRequestRestrictReplies.fromJson(
-          json['restrict_replies'] as String,
-        ),
+  restrictReplies: json['restrict_replies'] as RestrictReplies?,
   runActivityProcessors: json['run_activity_processors'] as bool?,
   searchData: json['search_data'] as Map<String, dynamic>?,
   skipEnrichUrl: json['skip_enrich_url'] as bool?,
   text: json['text'] as String?,
-  visibility: json['visibility'] == null
-      ? null
-      : UpdateActivityRequestVisibility.fromJson(json['visibility'] as String),
+  visibility: json['visibility'] as ActivityVisibility?,
   visibilityTag: json['visibility_tag'] as String?,
 );
 
@@ -61,12 +55,12 @@ Map<String, dynamic> _$UpdateActivityRequestToJson(
   'location': instance.location?.toJson(),
   'mentioned_user_ids': instance.mentionedUserIds,
   'poll_id': instance.pollId,
-  'restrict_replies': instance.restrictReplies?.toJson(),
+  'restrict_replies': instance.restrictReplies,
   'run_activity_processors': instance.runActivityProcessors,
   'search_data': instance.searchData,
   'skip_enrich_url': instance.skipEnrichUrl,
   'text': instance.text,
-  'visibility': instance.visibility?.toJson(),
+  'visibility': instance.visibility,
   'visibility_tag': instance.visibilityTag,
 };
 
