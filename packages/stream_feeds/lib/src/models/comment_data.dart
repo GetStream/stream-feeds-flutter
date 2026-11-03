@@ -316,6 +316,7 @@ extension CommentDataMutations on CommentData {
 }
 
 /// Reads a [CommentStatus] as the `String` it already is.
+@Deprecated('CommentStatus is a String; use it directly.')
 extension CommentStatusValue on CommentStatus {
   /// The raw value.
   @Deprecated('CommentStatus is a String; use it directly.')

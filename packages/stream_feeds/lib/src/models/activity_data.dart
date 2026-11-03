@@ -302,10 +302,11 @@ class ActivityData with _$ActivityData {
 }
 
 /// Use [ActivityVisibility] instead.
-@Deprecated('Use ActivityVisibility instead.')
+@Deprecated('Renamed to ActivityVisibility. Migrate to ActivityVisibility.')
 typedef ActivityDataVisibility = ActivityVisibility;
 
-/// Reads a [ActivityVisibility] as the `String` it already is.
+/// Reads an [ActivityVisibility] as the `String` it already is.
+@Deprecated('ActivityVisibility is a String; use it directly.')
 extension ActivityVisibilityValue on ActivityVisibility {
   /// The raw value.
   @Deprecated('ActivityVisibility is a String; use it directly.')
@@ -637,10 +638,11 @@ extension ActivityDataMutations on ActivityData {
 }
 
 /// Use [RestrictReplies] instead.
-@Deprecated('Use RestrictReplies instead.')
+@Deprecated('Renamed to RestrictReplies. Migrate to RestrictReplies.')
 typedef ActivityRestrictReplies = RestrictReplies;
 
 /// Reads a [RestrictReplies] as the `String` it already is.
+@Deprecated('RestrictReplies is a String; use it directly.')
 extension RestrictRepliesValue on RestrictReplies {
   /// The raw value.
   @Deprecated('RestrictReplies is a String; use it directly.')

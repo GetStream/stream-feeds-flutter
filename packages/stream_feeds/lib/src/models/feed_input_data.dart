@@ -58,12 +58,17 @@ class FeedInputData with _$FeedInputData {
   final Map<String, Object?>? custom;
 }
 
-/// Deprecated members kept so code written against earlier versions compiles.
+/// Reads a [FeedVisibility] as the `String` it already is.
+@Deprecated('FeedVisibility is a String; use it directly.')
 extension FeedVisibilityValue on FeedVisibility {
   /// The raw value.
   @Deprecated('FeedVisibility is a String; use it directly.')
   String get value => this;
+}
 
+/// Converts a [FeedVisibility] to the type a request sends.
+@Deprecated('FeedVisibility is the request type; pass it directly.')
+extension FeedVisibilityMapper on FeedVisibility {
   /// Returns this visibility unchanged: the request takes a [FeedVisibility].
   @Deprecated('FeedVisibility is the request type; pass it directly.')
   FeedVisibility toRequest() => this;

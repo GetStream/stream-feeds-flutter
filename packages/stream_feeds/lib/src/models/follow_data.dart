@@ -110,6 +110,7 @@ class FollowData with _$FollowData {
 }
 
 /// Reads a [FollowStatus] as the `String` it already is.
+@Deprecated('FollowStatus is a String; use it directly.')
 extension FollowStatusValue on FollowStatus {
   /// The raw value.
   @Deprecated('FollowStatus is a String; use it directly.')
@@ -117,6 +118,7 @@ extension FollowStatusValue on FollowStatus {
 }
 
 /// Reads a [FollowPushPreference] as the `String` it already is.
+@Deprecated('FollowPushPreference is a String; use it directly.')
 extension FollowPushPreferenceValue on FollowPushPreference {
   /// The raw value.
   @Deprecated('FollowPushPreference is a String; use it directly.')

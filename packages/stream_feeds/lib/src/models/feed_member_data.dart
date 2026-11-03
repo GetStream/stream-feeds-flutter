@@ -60,6 +60,7 @@ class FeedMemberData with _$FeedMemberData {
 }
 
 /// Reads a [FeedMemberStatus] as the `String` it already is.
+@Deprecated('FeedMemberStatus is a String; use it directly.')
 extension FeedMemberStatusValue on FeedMemberStatus {
   /// The raw value.
   @Deprecated('FeedMemberStatus is a String; use it directly.')

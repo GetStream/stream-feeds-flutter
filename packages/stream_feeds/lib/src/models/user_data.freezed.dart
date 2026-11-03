@@ -109,10 +109,7 @@ abstract mixin class $UserDataCopyWith<$Res> {
     DateTime? lastActive,
     String? name,
     bool online,
-    @Deprecated(
-      'The API no longer sends this to clients, so it is always null.',
-    )
-    DateTime? revokeTokensIssuedBefore,
+    @Deprecated('Always null; will be removed.') DateTime? revokeTokensIssuedBefore,
     String role,
     List<String> teams,
     DateTime updatedAt,

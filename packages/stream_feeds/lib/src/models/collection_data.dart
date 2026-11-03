@@ -55,6 +55,7 @@ class CollectionData with _$CollectionData {
 }
 
 /// Reads a [CollectionStatus] as the `String` it already is.
+@Deprecated('CollectionStatus is a String; use it directly.')
 extension CollectionStatusValue on CollectionStatus {
   /// The raw value.
   @Deprecated('CollectionStatus is a String; use it directly.')
