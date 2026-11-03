@@ -14,7 +14,7 @@
 
 - Updated the API spec to v240.1.0.
 - Per-field enums merged into shared ones, e.g. `FollowResponseStatus` is now `FollowStatus` and `AddActivityRequestRestrictReplies` is now `RestrictReplies`. The old names remain as deprecated aliases
-- `FeedVisibility`, `FollowStatus`, `FollowPushPreference`, `FeedMemberStatus`, `CommentStatus` and `CollectionStatus` are the same types the API requests and responses use. Their constants are unchanged; `.value` and `FeedVisibility.toRequest()` are deprecated, since each is already the `String` the request takes
+- `FeedVisibility`, `FollowStatus`, `FollowPushPreference`, `FeedMemberStatus`, `CommentStatus` and `CollectionStatus` are the same types the API requests and responses use. Their constants are unchanged; `.value` and `FeedVisibility.toRequest()` are deprecated, since each is already the `String` the request takes. Both come from extensions (`FeedVisibilityValue`, `FollowStatusValue`, …), so an import that `show`s only the type must also show its extension
 - `ActivityDataVisibility` and `ActivityRestrictReplies` are deprecated aliases of `ActivityVisibility` and `RestrictReplies`, the types the API requests and responses use; their constants are unchanged
 - The API now exports shared enum names such as `VotingVisibility`, `RestrictReplies`, `ModerationAction`, `PushLevel` and `DeleteMessages`; an app type with the same name needs a `hide` on the `stream_feeds` import
 - `UserData.revokeTokensIssuedBefore` is deprecated: the API no longer sends it to clients
