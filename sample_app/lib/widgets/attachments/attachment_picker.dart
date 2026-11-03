@@ -50,15 +50,11 @@ class AttachmentPicker extends StatelessWidget {
 
   Future<void> _pickImages(BuildContext context) async {
     try {
-      final result = await FilePicker.pickFiles(
-        type: FileType.image,
-        allowMultiple: true,
-        withData: true, // Load bytes for web compatibility
-      );
+      final files = await FilePicker.pickFiles(type: FileType.image);
 
-      if (result != null && result.files.isNotEmpty) {
+      if (files.isNotEmpty) {
         final attachments = _convertToStreamAttachments(
-          result.files,
+          files,
           type: AttachmentType.image,
         );
 
@@ -73,15 +69,11 @@ class AttachmentPicker extends StatelessWidget {
 
   Future<void> _pickVideos(BuildContext context) async {
     try {
-      final result = await FilePicker.pickFiles(
-        type: FileType.video,
-        allowMultiple: true,
-        withData: true, // Load bytes for web compatibility
-      );
+      final files = await FilePicker.pickFiles(type: FileType.video);
 
-      if (result != null && result.files.isNotEmpty) {
+      if (files.isNotEmpty) {
         final attachments = _convertToStreamAttachments(
-          result.files,
+          files,
           type: AttachmentType.video,
         );
 
