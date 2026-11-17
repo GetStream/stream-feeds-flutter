@@ -18,6 +18,7 @@ GetOrCreateFeedResponse _$GetOrCreateFeedResponseFromJson(
       )
       .toList(),
   created: json['created'] as bool,
+  degradedSelectors: (json['degraded_selectors'] as List<dynamic>?)?.map((e) => e as String).toList(),
   duration: json['duration'] as String,
   feed: FeedResponse.fromJson(json['feed'] as Map<String, dynamic>),
   followers: (json['followers'] as List<dynamic>)
@@ -62,6 +63,7 @@ Map<String, dynamic> _$GetOrCreateFeedResponseToJson(
   'activities': instance.activities.map((e) => e.toJson()).toList(),
   'aggregated_activities': instance.aggregatedActivities.map((e) => e.toJson()).toList(),
   'created': instance.created,
+  'degraded_selectors': instance.degradedSelectors,
   'duration': instance.duration,
   'feed': instance.feed.toJson(),
   'followers': instance.followers.map((e) => e.toJson()).toList(),

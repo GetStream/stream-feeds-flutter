@@ -712,7 +712,7 @@ void main() {
 
         const request = CreateDeviceRequest(
           id: deviceId,
-          pushProvider: CreateDeviceRequestPushProvider.firebase,
+          pushProvider: PushProviderName.firebase,
           pushProviderName: pushProviderName,
         );
 
@@ -744,7 +744,7 @@ void main() {
 
         const request = CreateDeviceRequest(
           id: deviceId,
-          pushProvider: CreateDeviceRequestPushProvider.apn,
+          pushProvider: PushProviderName.apn,
           pushProviderName: pushProviderName,
         );
 

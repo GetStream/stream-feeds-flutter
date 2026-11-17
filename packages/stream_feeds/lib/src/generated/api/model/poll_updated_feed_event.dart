@@ -3,20 +3,12 @@
 // coverage:ignore-file
 // ignore_for_file: unused_import, unnecessary_import, prefer_single_quotes, require_trailing_commas, unnecessary_raw_strings, public_member_api_docs, sort_constructors_first, provide_deprecation_message
 
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
-import 'package:stream_core/stream_core.dart' as core;
-
-import '../models.dart';
-
-part 'poll_updated_feed_event.g.dart';
-part 'poll_updated_feed_event.freezed.dart';
+part of 'events.dart';
 
 @freezed
 @immutable
 @JsonSerializable()
-class PollUpdatedFeedEvent extends core.WsEvent with _$PollUpdatedFeedEvent {
+class PollUpdatedFeedEvent extends core.WsEvent with _$PollUpdatedFeedEvent implements WSClientEvent, WSEvent {
   const PollUpdatedFeedEvent({
     required this.createdAt,
     required this.custom,
@@ -38,7 +30,7 @@ class PollUpdatedFeedEvent extends core.WsEvent with _$PollUpdatedFeedEvent {
 
   @override
   @JsonKey(name: 'feed_visibility')
-  final String? feedVisibility;
+  final FeedVisibility? feedVisibility;
 
   @override
   @JsonKey(name: 'fid')
@@ -57,6 +49,7 @@ class PollUpdatedFeedEvent extends core.WsEvent with _$PollUpdatedFeedEvent {
   @JsonKey(name: 'type')
   final String type;
 
+  @override
   Map<String, dynamic> toJson() => _$PollUpdatedFeedEventToJson(this);
 
   static PollUpdatedFeedEvent fromJson(Map<String, dynamic> json) => _$PollUpdatedFeedEventFromJson(json);

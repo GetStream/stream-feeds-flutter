@@ -13,11 +13,7 @@ UpdateFollowRequest _$UpdateFollowRequestFromJson(Map<String, dynamic> json) => 
   custom: json['custom'] as Map<String, dynamic>?,
   enrichOwnFields: json['enrich_own_fields'] as bool?,
   followerRole: json['follower_role'] as String?,
-  pushPreference: json['push_preference'] == null
-      ? null
-      : UpdateFollowRequestPushPreference.fromJson(
-          json['push_preference'] as String,
-        ),
+  pushPreference: json['push_preference'] as FollowPushPreference?,
   skipPush: json['skip_push'] as bool?,
   source: json['source'] as String,
   target: json['target'] as String,
@@ -32,7 +28,7 @@ Map<String, dynamic> _$UpdateFollowRequestToJson(
   'custom': instance.custom,
   'enrich_own_fields': instance.enrichOwnFields,
   'follower_role': instance.followerRole,
-  'push_preference': instance.pushPreference?.toJson(),
+  'push_preference': instance.pushPreference,
   'skip_push': instance.skipPush,
   'source': instance.source,
   'target': instance.target,

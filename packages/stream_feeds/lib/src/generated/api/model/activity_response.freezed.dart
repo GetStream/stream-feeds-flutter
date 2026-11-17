@@ -51,7 +51,7 @@ mixin _$ActivityResponse {
   bool get preview;
   int get reactionCount;
   Map<String, FeedsReactionGroupResponse> get reactionGroups;
-  ActivityResponseRestrictReplies get restrictReplies;
+  RestrictReplies get restrictReplies;
   double get score;
   Map<String, Object?>? get scoreVars;
   Map<String, Object?> get searchData;
@@ -62,7 +62,7 @@ mixin _$ActivityResponse {
   String get type;
   DateTime get updatedAt;
   UserResponse get user;
-  ActivityResponseVisibility get visibility;
+  ActivityVisibility get visibility;
   String? get visibilityTag;
 
   /// Create a copy of ActivityResponse
@@ -279,7 +279,7 @@ abstract mixin class $ActivityResponseCopyWith<$Res> {
     bool preview,
     int reactionCount,
     Map<String, FeedsReactionGroupResponse> reactionGroups,
-    ActivityResponseRestrictReplies restrictReplies,
+    RestrictReplies restrictReplies,
     double score,
     Map<String, Object?>? scoreVars,
     Map<String, Object?> searchData,
@@ -290,7 +290,7 @@ abstract mixin class $ActivityResponseCopyWith<$Res> {
     String type,
     DateTime updatedAt,
     UserResponse user,
-    ActivityResponseVisibility visibility,
+    ActivityVisibility visibility,
     String? visibilityTag,
   });
 }
@@ -516,7 +516,7 @@ class _$ActivityResponseCopyWithImpl<$Res> implements $ActivityResponseCopyWith<
         restrictReplies: null == restrictReplies
             ? _self.restrictReplies
             : restrictReplies // ignore: cast_nullable_to_non_nullable
-                  as ActivityResponseRestrictReplies,
+                  as RestrictReplies,
         score: null == score
             ? _self.score
             : score // ignore: cast_nullable_to_non_nullable
@@ -560,7 +560,7 @@ class _$ActivityResponseCopyWithImpl<$Res> implements $ActivityResponseCopyWith<
         visibility: null == visibility
             ? _self.visibility
             : visibility // ignore: cast_nullable_to_non_nullable
-                  as ActivityResponseVisibility,
+                  as ActivityVisibility,
         visibilityTag: freezed == visibilityTag
             ? _self.visibilityTag
             : visibilityTag // ignore: cast_nullable_to_non_nullable

@@ -452,7 +452,7 @@ void main() {
             comment: createDefaultCommentResponse(
               id: 'comment-1',
               objectId: 'obj-1',
-            ).copyWith(status: CommentResponseStatus.deleted),
+            ).copyWith(status: CommentStatus.deleted),
           ),
         );
 
@@ -481,7 +481,7 @@ void main() {
             comment: createDefaultCommentResponse(
               id: 'comment-1',
               objectId: 'obj-1',
-            ).copyWith(status: CommentResponseStatus.deleted),
+            ).copyWith(status: CommentStatus.deleted),
           ),
         );
 

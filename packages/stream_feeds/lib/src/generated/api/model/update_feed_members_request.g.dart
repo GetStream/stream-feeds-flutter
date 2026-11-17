@@ -14,9 +14,7 @@ UpdateFeedMembersRequest _$UpdateFeedMembersRequestFromJson(
       ?.map((e) => FeedMemberRequest.fromJson(e as Map<String, dynamic>))
       .toList(),
   next: json['next'] as String?,
-  operation: UpdateFeedMembersRequestOperation.fromJson(
-    json['operation'] as String,
-  ),
+  operation: json['operation'] as UpdateFeedMembersRequestOperation,
   prev: json['prev'] as String?,
 );
 
@@ -26,6 +24,6 @@ Map<String, dynamic> _$UpdateFeedMembersRequestToJson(
   'limit': instance.limit,
   'members': instance.members?.map((e) => e.toJson()).toList(),
   'next': instance.next,
-  'operation': instance.operation.toJson(),
+  'operation': instance.operation,
   'prev': instance.prev,
 };

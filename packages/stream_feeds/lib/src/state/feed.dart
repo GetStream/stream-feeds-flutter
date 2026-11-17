@@ -707,12 +707,12 @@ class Feed with Disposable {
     required FeedId targetFid,
     bool? createNotificationActivity,
     Map<String, Object>? custom,
-    FollowPushPreference? pushPreference,
+    api.FollowPushPreference? pushPreference,
   }) async {
     final request = api.FollowRequest(
       createNotificationActivity: createNotificationActivity,
       custom: custom,
-      pushPreference: pushPreference?.let(api.FollowRequestPushPreference.fromJson),
+      pushPreference: pushPreference,
       source: query.fid.rawValue,
       target: targetFid.rawValue,
     );

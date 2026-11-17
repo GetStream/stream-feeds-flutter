@@ -251,11 +251,11 @@ extension on PollOptionInputState {
   }
 }
 
-extension on VotingVisibility {
-  CreatePollRequestVotingVisibility toRequest() {
+extension on PollVotingVisibility {
+  VotingVisibility toRequest() {
     return switch (this) {
-      VotingVisibility.public => CreatePollRequestVotingVisibility.public,
-      VotingVisibility.anonymous => CreatePollRequestVotingVisibility.anonymous,
+      PollVotingVisibility.public => VotingVisibility.public,
+      PollVotingVisibility.anonymous => VotingVisibility.anonymous,
     };
   }
 }

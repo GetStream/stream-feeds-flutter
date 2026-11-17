@@ -13,16 +13,12 @@ import '../models.dart';
 part 'query_comments_request.g.dart';
 part 'query_comments_request.freezed.dart';
 
-extension type const QueryCommentsRequestSort._(String _) implements String {
-  static const best = QueryCommentsRequestSort._('best');
-  static const controversial = QueryCommentsRequestSort._('controversial');
-  static const first = QueryCommentsRequestSort._('first');
-  static const last = QueryCommentsRequestSort._('last');
-  static const top = QueryCommentsRequestSort._('top');
-
-  factory QueryCommentsRequestSort.fromJson(String json) => QueryCommentsRequestSort._(json);
-
-  String toJson() => this;
+extension type const QueryCommentsRequestSort(String _) implements String {
+  static const best = QueryCommentsRequestSort('best');
+  static const controversial = QueryCommentsRequestSort('controversial');
+  static const first = QueryCommentsRequestSort('first');
+  static const last = QueryCommentsRequestSort('last');
+  static const top = QueryCommentsRequestSort('top');
 }
 
 @freezed

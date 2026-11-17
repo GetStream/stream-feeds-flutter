@@ -34,7 +34,7 @@ mixin _$FeedResponse {
   FeedMemberResponse? get ownMembership;
   int get pinCount;
   DateTime get updatedAt;
-  FeedResponseVisibility? get visibility;
+  FeedVisibility? get visibility;
 
   /// Create a copy of FeedResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -148,7 +148,7 @@ abstract mixin class $FeedResponseCopyWith<$Res> {
     FeedMemberResponse? ownMembership,
     int pinCount,
     DateTime updatedAt,
-    FeedResponseVisibility? visibility,
+    FeedVisibility? visibility,
   });
 }
 
@@ -276,7 +276,7 @@ class _$FeedResponseCopyWithImpl<$Res> implements $FeedResponseCopyWith<$Res> {
         visibility: freezed == visibility
             ? _self.visibility
             : visibility // ignore: cast_nullable_to_non_nullable
-                  as FeedResponseVisibility?,
+                  as FeedVisibility?,
       ),
     );
   }

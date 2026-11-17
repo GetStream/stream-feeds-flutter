@@ -166,6 +166,13 @@ abstract interface class DefaultApi {
   });
 
   @UseCallAdapter(_ResultCallAdapter)
+  @POST('/api/v2/feeds/comments/{id}/feedback')
+  Future<Result<CommentFeedbackResponse>> commentFeedback({
+    @Path('id') required String id,
+    @Body() CommentFeedbackRequest? commentFeedbackRequest,
+  });
+
+  @UseCallAdapter(_ResultCallAdapter)
   @POST('/api/v2/blocklists')
   Future<Result<CreateBlockListResponse>> createBlockList({
     @Body() required CreateBlockListRequest createBlockListRequest,
@@ -564,13 +571,6 @@ abstract interface class DefaultApi {
   Future<Result<SharedLocationsResponse>> getUserLiveLocations();
 
   @UseCallAdapter(_ResultCallAdapter)
-  @POST('/api/v2/blocklists/{id}/import')
-  Future<Result<ImportBlockListResponse>> importBlockList({
-    @Path('id') required String id,
-    @Body() required ImportBlockListRequest importBlockListRequest,
-  });
-
-  @UseCallAdapter(_ResultCallAdapter)
   @GET('/api/v2/blocklists')
   Future<Result<ListBlockListResponse>> listBlockLists({
     @Query('team') String? team,
@@ -596,14 +596,17 @@ abstract interface class DefaultApi {
   });
 
   Future<Result<void>> longPoll({
+    bool? close,
     WSAuthMessage? json,
   }) => _longPoll(
+    close: close,
     json: _JsonQuery.of(json),
   );
 
   @UseCallAdapter(_ResultCallAdapter)
   @GET('/api/v2/longpoll')
   Future<Result<void>> _longPoll({
+    @Query('close') bool? close,
     @Query('json') _JsonQuery? json,
   });
 
@@ -805,6 +808,12 @@ abstract interface class DefaultApi {
   @POST('/api/v2/feeds/comments/{id}/restore')
   Future<Result<RestoreCommentResponse>> restoreComment({
     @Path('id') required String id,
+  });
+
+  @UseCallAdapter(_ResultCallAdapter)
+  @POST('/api/v2/moderation/reveal_media')
+  Future<Result<RevealMediaResponse>> revealMedia({
+    @Body() required RevealMediaRequest revealMediaRequest,
   });
 
   @UseCallAdapter(_ResultCallAdapter)

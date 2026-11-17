@@ -13,14 +13,10 @@ import '../models.dart';
 part 'activity_feedback_event_payload.g.dart';
 part 'activity_feedback_event_payload.freezed.dart';
 
-extension type const ActivityFeedbackEventPayloadAction._(String _) implements String {
-  static const hide = ActivityFeedbackEventPayloadAction._('hide');
-  static const showLess = ActivityFeedbackEventPayloadAction._('show_less');
-  static const showMore = ActivityFeedbackEventPayloadAction._('show_more');
-
-  factory ActivityFeedbackEventPayloadAction.fromJson(String json) => ActivityFeedbackEventPayloadAction._(json);
-
-  String toJson() => this;
+extension type const ActivityFeedbackEventPayloadAction(String _) implements String {
+  static const hide = ActivityFeedbackEventPayloadAction('hide');
+  static const showLess = ActivityFeedbackEventPayloadAction('show_less');
+  static const showMore = ActivityFeedbackEventPayloadAction('show_more');
 }
 
 @freezed

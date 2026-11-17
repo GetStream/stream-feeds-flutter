@@ -32,9 +32,7 @@ FeedSuggestionResponse _$FeedSuggestionResponseFromJson(
   location: json['location'] == null ? null : Location.fromJson(json['location'] as Map<String, dynamic>),
   memberCount: (json['member_count'] as num).toInt(),
   name: json['name'] as String,
-  ownCapabilities: (json['own_capabilities'] as List<dynamic>?)
-      ?.map((e) => FeedOwnCapability.fromJson(e as String))
-      .toList(),
+  ownCapabilities: (json['own_capabilities'] as List<dynamic>?)?.map((e) => e as FeedOwnCapability).toList(),
   ownFollowings: (json['own_followings'] as List<dynamic>?)
       ?.map((e) => FollowResponse.fromJson(e as Map<String, dynamic>))
       .toList(),
@@ -52,9 +50,7 @@ FeedSuggestionResponse _$FeedSuggestionResponseFromJson(
   updatedAt: const StreamDateTimeConverter().fromJson(
     json['updated_at'] as Object,
   ),
-  visibility: json['visibility'] == null
-      ? null
-      : FeedSuggestionResponseVisibility.fromJson(json['visibility'] as String),
+  visibility: json['visibility'] as FeedVisibility?,
 );
 
 Map<String, dynamic> _$FeedSuggestionResponseToJson(
@@ -79,7 +75,7 @@ Map<String, dynamic> _$FeedSuggestionResponseToJson(
   'location': instance.location?.toJson(),
   'member_count': instance.memberCount,
   'name': instance.name,
-  'own_capabilities': instance.ownCapabilities?.map((e) => e.toJson()).toList(),
+  'own_capabilities': instance.ownCapabilities,
   'own_followings': instance.ownFollowings?.map((e) => e.toJson()).toList(),
   'own_follows': instance.ownFollows?.map((e) => e.toJson()).toList(),
   'own_membership': instance.ownMembership?.toJson(),
@@ -87,7 +83,7 @@ Map<String, dynamic> _$FeedSuggestionResponseToJson(
   'reason': instance.reason,
   'recommendation_score': instance.recommendationScore,
   'updated_at': const StreamDateTimeConverter().toJson(instance.updatedAt),
-  'visibility': instance.visibility?.toJson(),
+  'visibility': instance.visibility,
 };
 
 Value? _$JsonConverterFromJson<Json, Value>(
