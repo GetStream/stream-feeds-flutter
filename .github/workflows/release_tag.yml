@@ -63,9 +63,6 @@ jobs:
         run: |
           set -euo pipefail
 
-          git config user.name "stream-flutter-ci-bot[bot]"
-          git config user.email "357444665+stream-flutter-ci-bot[bot]@users.noreply.github.com"
-
           echo "Creating and pushing tag: $TAG"
           git tag "$TAG"
           git push origin "$TAG"
