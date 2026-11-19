@@ -1,0 +1,25 @@
+name: pr_labels
+
+# Keeps the review-state labels (ready, pending, approved) of pull requests in
+# sync, through the shared workflow in stream-core-flutter.
+
+on:
+  pull_request:
+    types:
+      - opened
+      - labeled
+      - ready_for_review
+      - converted_to_draft
+  pull_request_review:
+    types:
+      - submitted
+      - dismissed
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  review_labels:
+    uses: GetStream/stream-core-flutter/.github/workflows/pr_review_labels.yml@ci/shared-pr-labels
