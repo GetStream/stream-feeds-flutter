@@ -366,42 +366,55 @@ class StreamFeedsClientImpl with Disposable implements StreamFeedsClient {
       return;
     }
 
-    // Tried once more with a new token when an expired one is refused.
-    var canRetryWithNewToken = !_tokenManager.usesStaticProvider;
+    _canRetryWithNewToken = true;
 
+    try {
+      return await _attempt();
+    } finally {
+      _canRetryWithNewToken = false;
+    }
+  }
+
+  // Whether the connection being opened may still be tried again with a new token.
+  var _canRetryWithNewToken = false;
+
+  // Opens the connection, trying once more with a new token when an expired one is refused.
+  Future<void> _attempt() async {
     while (true) {
       _ws.connect().ignore();
 
-      final state = await connectionState.settled;
-      if (state case Disconnected(:final source)) {
-        final isTokenExpired = switch (source) {
-          ServerInitiated(error: StreamApiException(isTokenExpired: true)) => true,
-          _ => false,
-        };
-
+      final settledState = await connectionState.settled;
+      if (settledState case Disconnected(:final source)) {
         // The next attempt loads a new token in place of the refused one.
-        if (canRetryWithNewToken && isTokenExpired) {
-          _logger.d(() => 'connect ${user.id} refused with an expired token, retrying with a new one');
-          canRetryWithNewToken = false;
+        if (_willRetryWithNewToken(source)) {
+          _canRetryWithNewToken = false;
           continue;
         }
 
-        _logger.w(() => 'connect ${user.id} failed: ${source.closeReason}', error: source.cause);
-
-        var exception = StreamException.tryFrom(source.cause);
-        exception ??= StreamNetworkException(message: source.closeReason, cause: source.cause);
-
-        final stackTrace = switch (source) {
-          ServerInitiated(:final stackTrace) || AuthenticationFailed(:final stackTrace) => stackTrace,
-          UserInitiated() || SystemInitiated() || UnHealthyConnection() || ConnectTimeout() => null,
-        };
-
-        Error.throwWithStackTrace(exception, stackTrace ?? StackTrace.current);
+        _refuse(source);
       }
 
       _logger.d(() => 'connected ${user.id}');
       return;
     }
+  }
+
+  // Whether the attempt refused with [source] is tried again with a new token.
+  bool _willRetryWithNewToken(DisconnectionSource source) {
+    if (!_canRetryWithNewToken) return false;
+    if (_tokenManager.usesStaticProvider) return false;
+
+    return switch (source) {
+      ServerInitiated(error: StreamApiException(isTokenExpired: true)) => true,
+      _ => false,
+    };
+  }
+
+  // Raises why a connection was refused, the way a rejected request is raised.
+  Never _refuse(DisconnectionSource source) {
+    _logger.w(() => 'connect ${user.id} failed: ${source.closeReason}', error: source.cause);
+
+    Error.throwWithStackTrace(source.exception, source.stackTrace ?? StackTrace.current);
   }
 
   @override
