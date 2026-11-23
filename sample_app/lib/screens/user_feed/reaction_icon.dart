@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_positional_boolean_parameters
-
 import 'package:flutter/material.dart';
 
 /// {@template reactionIcon}
@@ -67,8 +65,8 @@ class ReactionIcon {
 /// Extension methods for [ReactionIcon].
 extension ReactionIconExtension on ReactionIcon {
   /// Returns the appropriate icon based on whether the reaction is highlighted.
-  IconData getIcon(bool highlighted) => highlighted ? filledIcon : icon;
+  IconData getIcon({required bool highlighted}) => highlighted ? filledIcon : icon;
 
   /// Returns the appropriate color based on whether the reaction is highlighted.
-  Color? getColor(bool isHighlighted) => isHighlighted ? iconColor : null;
+  Color? getColor({required bool highlighted}) => highlighted ? iconColor : null;
 }
