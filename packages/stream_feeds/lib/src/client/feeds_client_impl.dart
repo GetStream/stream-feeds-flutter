@@ -260,9 +260,10 @@ class StreamFeedsClientImpl with Disposable implements StreamFeedsClient {
     if (previousError?.isTokenExpired ?? false) {
       _tokenManager.expireToken();
 
-      // A guest cannot refresh: another exchange answers with a different guest. The session ends
-      // here, and the app starts another by building a new client.
-      if (_tokenManager.usesStaticProvider) {
+      // A static provider, such as a guest's, can only present the refused token again, so a
+      // reconnect gives up instead of offering it for the life of the client. A connect the app
+      // asks for still presents it.
+      if (!_isConnectingForApp && _tokenManager.usesStaticProvider) {
         throw StreamAuthenticationException(
           message: 'The token was refused and the provider has no other to give',
           cause: previousError,
@@ -366,28 +367,53 @@ class StreamFeedsClientImpl with Disposable implements StreamFeedsClient {
       return;
     }
 
-    _ws.connect().ignore();
-
-    final state = await Future.any([
-      connectionState.waitFor<Connected>(),
-      connectionState.waitFor<Disconnected>(),
-    ]);
-
-    if (state case Disconnected(:final source)) {
-      _logger.w(() => 'connect ${user.id} failed: ${source.closeReason}', error: source.cause);
-
-      var exception = StreamException.tryFrom(source.cause);
-      exception ??= StreamNetworkException(message: source.closeReason, cause: source.cause);
-
-      final stackTrace = switch (source) {
-        ServerInitiated(:final stackTrace) || AuthenticationFailed(:final stackTrace) => stackTrace,
-        UserInitiated() || SystemInitiated() || UnHealthyConnection() || ConnectTimeout() => null,
-      };
-
-      Error.throwWithStackTrace(exception, stackTrace ?? StackTrace.current);
+    _isConnectingForApp = true;
+    try {
+      await _openSocket();
+    } finally {
+      _isConnectingForApp = false;
     }
+  }
 
-    _logger.d(() => 'connected ${user.id}');
+  // Whether the connection being opened is one the app asked for, rather than a reconnect.
+  var _isConnectingForApp = false;
+
+  // Opens the socket, trying once more with a new token when an expired one is refused.
+  Future<void> _openSocket() async {
+    var canRetryWithNewToken = !_tokenManager.usesStaticProvider;
+
+    while (true) {
+      _ws.connect().ignore();
+
+      final state = await connectionState.settled;
+      if (state case Disconnected(:final source)) {
+        final isTokenExpired = switch (source) {
+          ServerInitiated(error: StreamApiException(isTokenExpired: true)) => true,
+          _ => false,
+        };
+
+        // The next attempt loads a new token in place of the refused one.
+        if (canRetryWithNewToken && isTokenExpired) {
+          canRetryWithNewToken = false;
+          continue;
+        }
+
+        _logger.w(() => 'connect ${user.id} failed: ${source.closeReason}', error: source.cause);
+
+        var exception = StreamException.tryFrom(source.cause);
+        exception ??= StreamNetworkException(message: source.closeReason, cause: source.cause);
+
+        final stackTrace = switch (source) {
+          ServerInitiated(:final stackTrace) || AuthenticationFailed(:final stackTrace) => stackTrace,
+          UserInitiated() || SystemInitiated() || UnHealthyConnection() || ConnectTimeout() => null,
+        };
+
+        Error.throwWithStackTrace(exception, stackTrace ?? StackTrace.current);
+      }
+
+      _logger.d(() => 'connected ${user.id}');
+      return;
+    }
   }
 
   @override
