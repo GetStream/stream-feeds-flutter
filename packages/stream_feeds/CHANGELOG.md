@@ -3,8 +3,6 @@
 ### 🐛 Bug Fixes
 
 - `connect()` asks the `TokenProvider` for a new token and tries once more when the connection is refused because its token expired, instead of failing
-- `connect()` with a static token presents it again after it was refused as expired, and reports the server's refusal instead of failing without trying it
-
 ## 0.6.2
 
 ### 🐛 Bug Fixes

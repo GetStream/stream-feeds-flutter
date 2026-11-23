@@ -126,23 +126,6 @@ void main() {
       },
     );
 
-    feedsClientTest(
-      'is presented again when the app connects after its refusal',
-      connect: (tester) {
-        // The default provider is static, as a guest's is.
-        tester.mockFailedAuth();
-        addTearDown(tester.client.dispose);
-      },
-      body: (tester) async {
-        await expectLater(tester.client.connect(), throwsA(isA<StreamApiException>()));
-
-        tester.mockSuccessfulAuth(tester.user.id);
-        await tester.client.connect();
-
-        expect(tester.client.connectionState.value, isA<Connected>());
-      },
-    );
-
     FeedsClientTester? refusingTester;
 
     feedsClientTest(

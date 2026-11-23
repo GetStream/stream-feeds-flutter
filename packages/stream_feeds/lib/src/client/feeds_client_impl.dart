@@ -260,10 +260,9 @@ class StreamFeedsClientImpl with Disposable implements StreamFeedsClient {
     if (previousError?.isTokenExpired ?? false) {
       _tokenManager.expireToken();
 
-      // A static provider, such as a guest's, can only present the refused token again, so a
-      // reconnect gives up instead of offering it for the life of the client. A connect the app
-      // asks for still presents it.
-      if (!_isConnectingForApp && _tokenManager.usesStaticProvider) {
+      // A guest cannot refresh: another exchange answers with a different guest. The session ends
+      // here, and the app starts another by building a new client.
+      if (_tokenManager.usesStaticProvider) {
         throw StreamAuthenticationException(
           message: 'The token was refused and the provider has no other to give',
           cause: previousError,
@@ -367,19 +366,7 @@ class StreamFeedsClientImpl with Disposable implements StreamFeedsClient {
       return;
     }
 
-    _isConnectingForApp = true;
-    try {
-      await _openSocket();
-    } finally {
-      _isConnectingForApp = false;
-    }
-  }
-
-  // Whether the connection being opened is one the app asked for, rather than a reconnect.
-  var _isConnectingForApp = false;
-
-  // Opens the socket, trying once more with a new token when an expired one is refused.
-  Future<void> _openSocket() async {
+    // Tried once more with a new token when an expired one is refused.
     var canRetryWithNewToken = !_tokenManager.usesStaticProvider;
 
     while (true) {
