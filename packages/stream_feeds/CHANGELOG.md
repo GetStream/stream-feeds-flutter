@@ -3,6 +3,7 @@
 ### 🐛 Bug Fixes
 
 - `connect()` asks the `TokenProvider` for a new token and tries once more when the connection is refused because its token expired, instead of failing
+
 ## 0.6.2
 
 ### 🐛 Bug Fixes

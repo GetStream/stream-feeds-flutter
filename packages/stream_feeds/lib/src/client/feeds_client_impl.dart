@@ -381,6 +381,7 @@ class StreamFeedsClientImpl with Disposable implements StreamFeedsClient {
 
         // The next attempt loads a new token in place of the refused one.
         if (canRetryWithNewToken && isTokenExpired) {
+          _logger.d(() => 'connect ${user.id} refused with an expired token, retrying with a new one');
           canRetryWithNewToken = false;
           continue;
         }

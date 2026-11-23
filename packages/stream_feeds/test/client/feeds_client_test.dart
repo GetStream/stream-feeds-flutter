@@ -151,6 +151,27 @@ void main() {
     );
 
     feedsClientTest(
+      'is kept when connecting is refused for another reason',
+      tokenProvider: TokenProvider.dynamic((userId) async => generateTestUserToken(userId)),
+      connect: (tester) {
+        tester.mockFailedAuth(errorCode: 43);
+        addTearDown(tester.client.dispose);
+      },
+      body: (tester) async {
+        final states = <WebSocketConnectionState>[];
+        final subscription = tester.client.connectionState.listen(states.add);
+        addTearDown(subscription.cancel);
+
+        await expectLater(
+          tester.client.connect(),
+          throwsA(isA<StreamApiException>().having((it) => it.code, 'code', 43)),
+        );
+
+        expect(states.whereType<Connecting>(), hasLength(1));
+      },
+    );
+
+    feedsClientTest(
       'is replaced only once when connecting is refused',
       tokenProvider: TokenProvider.dynamic((userId) async {
         tokenLoads++;
