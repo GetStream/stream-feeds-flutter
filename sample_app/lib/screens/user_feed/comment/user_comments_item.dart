@@ -113,9 +113,9 @@ class UserCommentItem extends StatelessWidget {
       final selected = ownReactions.any((it) => it.type == reaction.type);
 
       yield ActionButton(
-        icon: Icon(reaction.getIcon(selected)),
+        icon: Icon(reaction.getIcon(highlighted: selected)),
         count: count,
-        color: reaction.getColor(selected),
+        color: reaction.getColor(highlighted: selected),
         onTap: () => onReactionClick?.call(reaction),
       );
     }
