@@ -117,7 +117,11 @@ class Activity with Disposable {
   Future<Result<ActivityData>> get({
     bool withComments = true,
   }) async {
-    final activityRequest = activitiesRepository.getActivity(activityId);
+    // The activity is applied as soon as it arrives, without waiting for the
+    // comments.
+    final activityRequest = activitiesRepository
+        .getActivity(activityId)
+        .then((result) => result.onSuccess(_onActivityFetched));
     // Runs at the same time as the activity request; the comment list puts the
     // comments into the state itself.
     final commentsRequest = withComments ? queryComments() : null;
@@ -126,22 +130,20 @@ class Activity with Disposable {
     // instead of being reported as uncaught while the other is still running.
     await Future.wait([activityRequest, ?commentsRequest]);
 
-    final result = await activityRequest;
+    return activityRequest;
+  }
 
-    result.onSuccess((activity) {
-      // Update this activity's state right away (events are delivered
-      // asynchronously), and let other states that hold it know as well.
-      _stateNotifier.onActivityUpdated(activity);
-      _eventsEmitter.tryEmit(
-        ActivityUpdated(scope: FidScope.unknown, activity: activity),
-      );
+  void _onActivityFetched(ActivityData activity) {
+    // Update this activity's state right away (events are delivered
+    // asynchronously), and let other states that hold it know as well.
+    _stateNotifier.onActivityUpdated(activity);
+    _eventsEmitter.tryEmit(
+      ActivityUpdated(scope: FidScope.unknown, activity: activity),
+    );
 
-      if (activity.currentFeed case final feed?) {
-        capabilitiesRepository.cacheCapabilitiesForFeeds([feed]);
-      }
-    });
-
-    return result;
+    if (activity.currentFeed case final feed?) {
+      capabilitiesRepository.cacheCapabilitiesForFeeds([feed]);
+    }
   }
 
   /// Submits feedback for this activity.
