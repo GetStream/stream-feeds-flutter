@@ -13,7 +13,7 @@ jobs:
     # Only run this job for commits that indicate a release. Scope-agnostic:
     # releases land as `chore(llc): release …` as often as `chore(repo): …`.
     if: "${{ startsWith(github.event.head_commit.message, 'chore(') && contains(github.event.head_commit.message, '): release') }}"
-    runs-on: ubuntu-latest
+    runs-on: { group: github-public-amd64 }
     permissions:
       contents: write  # Required to create and push tags
 
