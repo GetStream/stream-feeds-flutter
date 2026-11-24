@@ -114,7 +114,9 @@ class Activity with Disposable {
   /// Returns a [Result] containing [ActivityData] or an error. It is the result
   /// of the activity request only: failing to load the comments does not fail
   /// it.
-  Future<Result<ActivityData>> get({bool withComments = true}) async {
+  Future<Result<ActivityData>> get({
+    bool withComments = true,
+  }) async {
     // Start the comments first so both requests run at the same time
     // (state will be updated automatically).
     final comments = withComments ? queryComments() : null;
