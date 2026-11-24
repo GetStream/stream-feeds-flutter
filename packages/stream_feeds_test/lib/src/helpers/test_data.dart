@@ -103,7 +103,7 @@ ActivityResponse createDefaultActivityResponse({
   List<FeedsReactionResponse>? friendReactions,
   int? friendReactionCount,
   Map<String, int>? metrics,
-  ActivityResponseRestrictReplies? restrictReplies,
+  RestrictReplies? restrictReplies,
   Map<String, String>? i18n,
   List<ShareResponse>? latestShares,
   FeedResponse? currentFeed,
@@ -161,7 +161,7 @@ ActivityResponse createDefaultActivityResponse({
     preview: false,
     reactionCount: reactionGroups.values.sumOf((group) => group.count),
     reactionGroups: reactionGroups,
-    restrictReplies: restrictReplies ?? ActivityResponseRestrictReplies.everyone,
+    restrictReplies: restrictReplies ?? RestrictReplies.everyone,
     currentFeed: currentFeed,
     score: 0,
     latestShares: latestShares,
@@ -172,7 +172,7 @@ ActivityResponse createDefaultActivityResponse({
     isWatched: isWatched,
     updatedAt: DateTime(2021, 2, 1),
     user: createDefaultUserResponse(id: userId),
-    visibility: ActivityResponseVisibility.public,
+    visibility: ActivityVisibility.public,
     visibilityTag: null,
   );
 }
@@ -225,7 +225,7 @@ PollResponseData createDefaultPollResponse({
     voteCountsByOption: latestVotesByOption.map(
       (k, e) => MapEntry(k, e.length),
     ),
-    votingVisibility: PollResponseDataVotingVisibility.public,
+    votingVisibility: VotingVisibility.public,
     options: options,
   );
 }
@@ -276,7 +276,7 @@ FeedResponse createDefaultFeedResponse({
   List<FollowResponse>? ownFollowings,
   List<FollowResponse>? ownFollows,
   Location? location,
-  FeedResponseVisibility visibility = FeedResponseVisibility.public,
+  FeedVisibility visibility = FeedVisibility.public,
 }) {
   return FeedResponse(
     id: id,
@@ -311,7 +311,7 @@ CommentResponse createDefaultCommentResponse({
   int bookmarkCount = 0,
   DateTime? editedAt,
   Map<String, String>? i18n,
-  CommentResponseStatus status = CommentResponseStatus.active,
+  CommentStatus status = CommentStatus.active,
   List<FeedsReactionResponse> ownReactions = const [],
   List<FeedsReactionResponse> latestReactions = const [],
   Map<String, FeedsReactionGroupResponse> reactionGroups = const {},
@@ -342,6 +342,7 @@ CommentResponse createDefaultCommentResponse({
     id: id,
     bookmarkCount: bookmarkCount,
     confidenceScore: 0,
+    hidden: false,
     createdAt: DateTime(2021, 1, 1),
     custom: const {},
     downvoteCount: 0,
@@ -374,7 +375,7 @@ ThreadedCommentResponse createDefaultThreadedCommentResponse({
   int bookmarkCount = 0,
   DateTime? editedAt,
   Map<String, String>? i18n,
-  ThreadedCommentResponseStatus status = ThreadedCommentResponseStatus.active,
+  CommentStatus status = CommentStatus.active,
   List<FeedsReactionResponse>? ownReactions,
   List<ThreadedCommentResponse> replies = const [],
 }) {
@@ -382,6 +383,7 @@ ThreadedCommentResponse createDefaultThreadedCommentResponse({
     id: id,
     bookmarkCount: bookmarkCount,
     confidenceScore: 0,
+    hidden: false,
     createdAt: DateTime(2021, 1, 1),
     custom: const {},
     downvoteCount: 0,
@@ -715,7 +717,7 @@ QueryCommentsResponse createDefaultQueryCommentsResponse({
 FeedMemberResponse createDefaultFeedMemberResponse({
   String id = 'member-id',
   String role = 'member',
-  FeedMemberResponseStatus status = FeedMemberResponseStatus.member,
+  FeedMemberStatus status = FeedMemberStatus.member,
 }) {
   return FeedMemberResponse(
     createdAt: DateTime(2021, 1, 1),
@@ -744,12 +746,12 @@ FollowResponse createDefaultFollowResponse({
   String sourceId = 'follow-source-id',
   String targetId = 'follow-target-id',
   String followerRole = 'follower',
-  FollowResponseStatus status = FollowResponseStatus.accepted,
+  FollowStatus status = FollowStatus.accepted,
 }) {
   return FollowResponse(
     custom: const {},
     followerRole: followerRole,
-    pushPreference: FollowResponsePushPreference.all,
+    pushPreference: FollowPushPreference.all,
     sourceFeed: createDefaultFeedResponse(id: sourceId, groupId: 'user'),
     status: status,
     targetFeed: createDefaultFeedResponse(id: targetId, groupId: 'user'),
@@ -888,7 +890,7 @@ FeedSuggestionResponse createDefaultFeedSuggestionResponse({
   List<FollowResponse>? ownFollows,
   Location? location,
   List<FeedOwnCapability>? ownCapabilities,
-  FeedSuggestionResponseVisibility visibility = FeedSuggestionResponseVisibility.public,
+  FeedVisibility visibility = FeedVisibility.public,
 }) {
   return FeedSuggestionResponse(
     id: id,
@@ -1111,7 +1113,7 @@ CollectionResponse createDefaultCollectionResponse({
 EnrichedCollectionResponse createDefaultEnrichedCollectionResponse({
   String id = 'collection-123',
   String name = 'my_collection',
-  EnrichedCollectionResponseStatus status = EnrichedCollectionResponseStatus.ok,
+  CollectionStatus status = CollectionStatus.ok,
   String? userId,
   Map<String, Object?>? custom,
   DateTime? createdAt,

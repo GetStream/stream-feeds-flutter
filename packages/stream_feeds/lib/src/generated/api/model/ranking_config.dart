@@ -19,6 +19,7 @@ part 'ranking_config.freezed.dart';
 class RankingConfig with _$RankingConfig {
   const RankingConfig({
     this.defaults,
+    this.excludeBelow,
     this.functions,
     this.score,
     this.type,
@@ -27,6 +28,10 @@ class RankingConfig with _$RankingConfig {
   @override
   @JsonKey(name: 'defaults')
   final Map<String, Object?>? defaults;
+
+  @override
+  @JsonKey(name: 'exclude_below')
+  final double? excludeBelow;
 
   @override
   @JsonKey(name: 'functions')

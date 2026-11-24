@@ -25,7 +25,7 @@ FeedMemberResponse _$FeedMemberResponseFromJson(Map<String, dynamic> json) => Fe
           json['membership_level'] as Map<String, dynamic>,
         ),
   role: json['role'] as String,
-  status: FeedMemberResponseStatus.fromJson(json['status'] as String),
+  status: json['status'] as FeedMemberStatus,
   updatedAt: const StreamDateTimeConverter().fromJson(
     json['updated_at'] as Object,
   ),
@@ -45,7 +45,7 @@ Map<String, dynamic> _$FeedMemberResponseToJson(FeedMemberResponse instance) => 
   ),
   'membership_level': instance.membershipLevel?.toJson(),
   'role': instance.role,
-  'status': instance.status.toJson(),
+  'status': instance.status,
   'updated_at': const StreamDateTimeConverter().toJson(instance.updatedAt),
   'user': instance.user.toJson(),
 };

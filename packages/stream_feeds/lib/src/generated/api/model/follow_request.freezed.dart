@@ -18,7 +18,7 @@ mixin _$FollowRequest {
   bool? get createNotificationActivity;
   Map<String, Object?>? get custom;
   bool? get enrichOwnFields;
-  FollowRequestPushPreference? get pushPreference;
+  FollowPushPreference? get pushPreference;
   bool? get skipPush;
   String get source;
   String get target;
@@ -89,7 +89,7 @@ abstract mixin class $FollowRequestCopyWith<$Res> {
     bool? createNotificationActivity,
     Map<String, Object?>? custom,
     bool? enrichOwnFields,
-    FollowRequestPushPreference? pushPreference,
+    FollowPushPreference? pushPreference,
     bool? skipPush,
     String source,
     String target,
@@ -143,7 +143,7 @@ class _$FollowRequestCopyWithImpl<$Res> implements $FollowRequestCopyWith<$Res> 
         pushPreference: freezed == pushPreference
             ? _self.pushPreference
             : pushPreference // ignore: cast_nullable_to_non_nullable
-                  as FollowRequestPushPreference?,
+                  as FollowPushPreference?,
         skipPush: freezed == skipPush
             ? _self.skipPush
             : skipPush // ignore: cast_nullable_to_non_nullable

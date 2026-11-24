@@ -24,7 +24,7 @@ class UserData with _$UserData {
     this.lastActive,
     this.name,
     required this.online,
-    this.revokeTokensIssuedBefore,
+    @Deprecated('Always null; will be removed.') this.revokeTokensIssuedBefore,
     required this.role,
     this.teams = const [],
     required this.updatedAt,
@@ -75,8 +75,9 @@ class UserData with _$UserData {
   @override
   final bool online;
 
-  /// The date and time before which tokens should be revoked, if applicable.
+  /// Always null.
   @override
+  @Deprecated('Always null; will be removed.')
   final DateTime? revokeTokensIssuedBefore;
 
   /// The role of the user in the system.
@@ -116,7 +117,6 @@ extension UserResponseMapper on UserResponse {
       lastActive: lastActive,
       name: name,
       online: online,
-      revokeTokensIssuedBefore: revokeTokensIssuedBefore,
       role: role,
       teams: teams,
       updatedAt: updatedAt,
@@ -141,7 +141,6 @@ extension FullUserResponseMapper on FullUserResponse {
       lastActive: lastActive,
       name: name,
       online: online,
-      revokeTokensIssuedBefore: revokeTokensIssuedBefore,
       role: role,
       teams: teams,
       updatedAt: updatedAt,

@@ -21,6 +21,7 @@ class UpsertActivitiesResponse with _$UpsertActivitiesResponse {
     required this.activities,
     required this.duration,
     this.mentionNotificationsCreated,
+    this.skippedExisting,
   });
 
   @override
@@ -34,6 +35,10 @@ class UpsertActivitiesResponse with _$UpsertActivitiesResponse {
   @override
   @JsonKey(name: 'mention_notifications_created')
   final int? mentionNotificationsCreated;
+
+  @override
+  @JsonKey(name: 'skipped_existing')
+  final List<String>? skippedExisting;
 
   Map<String, dynamic> toJson() => _$UpsertActivitiesResponseToJson(this);
 

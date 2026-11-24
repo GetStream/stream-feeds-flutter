@@ -11,6 +11,9 @@ QueryFollowsResponse _$QueryFollowsResponseFromJson(
 ) => QueryFollowsResponse(
   duration: json['duration'] as String,
   follows: (json['follows'] as List<dynamic>).map((e) => FollowResponse.fromJson(e as Map<String, dynamic>)).toList(),
+  groupCounts: (json['group_counts'] as Map<String, dynamic>?)?.map(
+    (k, e) => MapEntry(k, (e as num).toInt()),
+  ),
   next: json['next'] as String?,
   prev: json['prev'] as String?,
 );
@@ -20,6 +23,7 @@ Map<String, dynamic> _$QueryFollowsResponseToJson(
 ) => <String, dynamic>{
   'duration': instance.duration,
   'follows': instance.follows.map((e) => e.toJson()).toList(),
+  'group_counts': instance.groupCounts,
   'next': instance.next,
   'prev': instance.prev,
 };

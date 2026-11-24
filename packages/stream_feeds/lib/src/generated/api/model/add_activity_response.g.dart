@@ -12,6 +12,7 @@ AddActivityResponse _$AddActivityResponseFromJson(Map<String, dynamic> json) => 
   ),
   duration: json['duration'] as String,
   mentionNotificationsCreated: (json['mention_notifications_created'] as num?)?.toInt(),
+  skippedExisting: (json['skipped_existing'] as List<dynamic>?)?.map((e) => e as String).toList(),
 );
 
 Map<String, dynamic> _$AddActivityResponseToJson(
@@ -20,4 +21,5 @@ Map<String, dynamic> _$AddActivityResponseToJson(
   'activity': instance.activity.toJson(),
   'duration': instance.duration,
   'mention_notifications_created': instance.mentionNotificationsCreated,
+  'skipped_existing': instance.skippedExisting,
 };

@@ -13,18 +13,6 @@ import '../models.dart';
 part 'feed_request.g.dart';
 part 'feed_request.freezed.dart';
 
-extension type const FeedRequestVisibility._(String _) implements String {
-  static const followers = FeedRequestVisibility._('followers');
-  static const members = FeedRequestVisibility._('members');
-  static const private = FeedRequestVisibility._('private');
-  static const public = FeedRequestVisibility._('public');
-  static const visible = FeedRequestVisibility._('visible');
-
-  factory FeedRequestVisibility.fromJson(String json) => FeedRequestVisibility._(json);
-
-  String toJson() => this;
-}
-
 @freezed
 @immutable
 @JsonSerializable()
@@ -80,7 +68,7 @@ class FeedRequest with _$FeedRequest {
 
   @override
   @JsonKey(name: 'visibility')
-  final FeedRequestVisibility? visibility;
+  final FeedVisibility? visibility;
 
   Map<String, dynamic> toJson() => _$FeedRequestToJson(this);
 

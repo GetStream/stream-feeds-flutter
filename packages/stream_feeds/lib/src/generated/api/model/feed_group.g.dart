@@ -28,7 +28,7 @@ FeedGroup _$FeedGroupFromJson(Map<String, dynamic> json) => FeedGroup(
   ),
   custom: json['custom'] as Map<String, dynamic>,
   defaultFollowerRole: json['default_follower_role'] as String,
-  defaultVisibility: json['default_visibility'] as String,
+  defaultVisibility: json['default_visibility'] as FeedVisibility,
   deletedAt: _$JsonConverterFromJson<Object, DateTime>(
     json['deleted_at'],
     const StreamDateTimeConverter().fromJson,

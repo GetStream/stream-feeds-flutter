@@ -7,9 +7,7 @@ part of 'feed_own_data.dart';
 // **************************************************************************
 
 FeedOwnData _$FeedOwnDataFromJson(Map<String, dynamic> json) => FeedOwnData(
-  ownCapabilities: (json['own_capabilities'] as List<dynamic>?)
-      ?.map((e) => FeedOwnCapability.fromJson(e as String))
-      .toList(),
+  ownCapabilities: (json['own_capabilities'] as List<dynamic>?)?.map((e) => e as FeedOwnCapability).toList(),
   ownFollowings: (json['own_followings'] as List<dynamic>?)
       ?.map((e) => FollowResponse.fromJson(e as Map<String, dynamic>))
       .toList(),
@@ -23,10 +21,8 @@ FeedOwnData _$FeedOwnDataFromJson(Map<String, dynamic> json) => FeedOwnData(
         ),
 );
 
-Map<String, dynamic> _$FeedOwnDataToJson(
-  FeedOwnData instance,
-) => <String, dynamic>{
-  'own_capabilities': instance.ownCapabilities?.map((e) => e.toJson()).toList(),
+Map<String, dynamic> _$FeedOwnDataToJson(FeedOwnData instance) => <String, dynamic>{
+  'own_capabilities': instance.ownCapabilities,
   'own_followings': instance.ownFollowings?.map((e) => e.toJson()).toList(),
   'own_follows': instance.ownFollows?.map((e) => e.toJson()).toList(),
   'own_membership': instance.ownMembership?.toJson(),

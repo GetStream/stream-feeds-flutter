@@ -109,7 +109,7 @@ abstract mixin class $UserDataCopyWith<$Res> {
     DateTime? lastActive,
     String? name,
     bool online,
-    DateTime? revokeTokensIssuedBefore,
+    @Deprecated('Always null; will be removed.') DateTime? revokeTokensIssuedBefore,
     String role,
     List<String> teams,
     DateTime updatedAt,

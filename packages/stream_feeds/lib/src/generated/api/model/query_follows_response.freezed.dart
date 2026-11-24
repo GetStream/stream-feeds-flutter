@@ -15,6 +15,7 @@ T _$identity<T>(T value) => value;
 mixin _$QueryFollowsResponse {
   String get duration;
   List<FollowResponse> get follows;
+  Map<String, int>? get groupCounts;
   String? get next;
   String? get prev;
 
@@ -35,6 +36,10 @@ mixin _$QueryFollowsResponse {
             other is QueryFollowsResponse &&
             (identical(other.duration, duration) || other.duration == duration) &&
             const DeepCollectionEquality().equals(other.follows, follows) &&
+            const DeepCollectionEquality().equals(
+              other.groupCounts,
+              groupCounts,
+            ) &&
             (identical(other.next, next) || other.next == next) &&
             (identical(other.prev, prev) || other.prev == prev));
   }
@@ -44,13 +49,14 @@ mixin _$QueryFollowsResponse {
     runtimeType,
     duration,
     const DeepCollectionEquality().hash(follows),
+    const DeepCollectionEquality().hash(groupCounts),
     next,
     prev,
   );
 
   @override
   String toString() {
-    return 'QueryFollowsResponse(duration: $duration, follows: $follows, next: $next, prev: $prev)';
+    return 'QueryFollowsResponse(duration: $duration, follows: $follows, groupCounts: $groupCounts, next: $next, prev: $prev)';
   }
 }
 
@@ -64,6 +70,7 @@ abstract mixin class $QueryFollowsResponseCopyWith<$Res> {
   $Res call({
     String duration,
     List<FollowResponse> follows,
+    Map<String, int>? groupCounts,
     String? next,
     String? prev,
   });
@@ -83,6 +90,7 @@ class _$QueryFollowsResponseCopyWithImpl<$Res> implements $QueryFollowsResponseC
   $Res call({
     Object? duration = null,
     Object? follows = null,
+    Object? groupCounts = freezed,
     Object? next = freezed,
     Object? prev = freezed,
   }) {
@@ -96,6 +104,10 @@ class _$QueryFollowsResponseCopyWithImpl<$Res> implements $QueryFollowsResponseC
             ? _self.follows
             : follows // ignore: cast_nullable_to_non_nullable
                   as List<FollowResponse>,
+        groupCounts: freezed == groupCounts
+            ? _self.groupCounts
+            : groupCounts // ignore: cast_nullable_to_non_nullable
+                  as Map<String, int>?,
         next: freezed == next
             ? _self.next
             : next // ignore: cast_nullable_to_non_nullable

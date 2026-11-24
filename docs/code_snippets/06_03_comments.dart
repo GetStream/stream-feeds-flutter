@@ -128,7 +128,7 @@ Future<void> restrictReplies() async {
     request: const FeedAddActivityRequest(
       type: 'post',
       text: 'Only my followers can reply to this.',
-      restrictReplies: ActivityRestrictReplies.peopleIFollow,
+      restrictReplies: RestrictReplies.peopleIFollow,
     ),
   );
 
@@ -147,11 +147,11 @@ Future<void> restrictReplies() async {
   if (activity == null) return;
 
   switch (activity.restrictReplies) {
-    case ActivityRestrictReplies.everyone:
+    case RestrictReplies.everyone:
       print('Anyone can comment');
-    case ActivityRestrictReplies.nobody:
+    case RestrictReplies.nobody:
       print('Comments are disabled');
-    case ActivityRestrictReplies.peopleIFollow:
+    case RestrictReplies.peopleIFollow:
       // own_followings lists follow relationships where the source feed is the
       // activity author's and the target is the current user's feed. A non-empty
       // list means the activity author follows the current user, so they may
@@ -170,7 +170,7 @@ Future<void> updateRestrictReplies() async {
   await feed.updateActivity(
     id: 'activity-id',
     request: const UpdateActivityRequest(
-      restrictReplies: UpdateActivityRequestRestrictReplies.nobody,
+      restrictReplies: RestrictReplies.nobody,
     ),
   );
 }

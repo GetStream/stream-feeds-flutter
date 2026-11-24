@@ -14,6 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$GetOrCreateFeedRequest {
   FeedInput? get data;
+  List<String>? get discardActors;
   EnrichmentOptions? get enrichmentOptions;
   Map<String, Object?>? get externalRanking;
   Map<String, Object?>? get filter;
@@ -28,6 +29,7 @@ mixin _$GetOrCreateFeedRequest {
   bool? get overwriteInterestWeights;
   String? get prev;
   String? get view;
+  Location? get viewerLocation;
   bool? get watch;
 
   /// Create a copy of GetOrCreateFeedRequest
@@ -46,6 +48,10 @@ mixin _$GetOrCreateFeedRequest {
         (other.runtimeType == runtimeType &&
             other is GetOrCreateFeedRequest &&
             (identical(other.data, data) || other.data == data) &&
+            const DeepCollectionEquality().equals(
+              other.discardActors,
+              discardActors,
+            ) &&
             (identical(other.enrichmentOptions, enrichmentOptions) || other.enrichmentOptions == enrichmentOptions) &&
             const DeepCollectionEquality().equals(
               other.externalRanking,
@@ -73,6 +79,7 @@ mixin _$GetOrCreateFeedRequest {
                 other.overwriteInterestWeights == overwriteInterestWeights) &&
             (identical(other.prev, prev) || other.prev == prev) &&
             (identical(other.view, view) || other.view == view) &&
+            (identical(other.viewerLocation, viewerLocation) || other.viewerLocation == viewerLocation) &&
             (identical(other.watch, watch) || other.watch == watch));
   }
 
@@ -80,6 +87,7 @@ mixin _$GetOrCreateFeedRequest {
   int get hashCode => Object.hash(
     runtimeType,
     data,
+    const DeepCollectionEquality().hash(discardActors),
     enrichmentOptions,
     const DeepCollectionEquality().hash(externalRanking),
     const DeepCollectionEquality().hash(filter),
@@ -94,12 +102,13 @@ mixin _$GetOrCreateFeedRequest {
     overwriteInterestWeights,
     prev,
     view,
+    viewerLocation,
     watch,
   );
 
   @override
   String toString() {
-    return 'GetOrCreateFeedRequest(data: $data, enrichmentOptions: $enrichmentOptions, externalRanking: $externalRanking, filter: $filter, followersPagination: $followersPagination, followingPagination: $followingPagination, friendReactionsOptions: $friendReactionsOptions, idAround: $idAround, interestWeights: $interestWeights, limit: $limit, memberPagination: $memberPagination, next: $next, overwriteInterestWeights: $overwriteInterestWeights, prev: $prev, view: $view, watch: $watch)';
+    return 'GetOrCreateFeedRequest(data: $data, discardActors: $discardActors, enrichmentOptions: $enrichmentOptions, externalRanking: $externalRanking, filter: $filter, followersPagination: $followersPagination, followingPagination: $followingPagination, friendReactionsOptions: $friendReactionsOptions, idAround: $idAround, interestWeights: $interestWeights, limit: $limit, memberPagination: $memberPagination, next: $next, overwriteInterestWeights: $overwriteInterestWeights, prev: $prev, view: $view, viewerLocation: $viewerLocation, watch: $watch)';
   }
 }
 
@@ -112,6 +121,7 @@ abstract mixin class $GetOrCreateFeedRequestCopyWith<$Res> {
   @useResult
   $Res call({
     FeedInput? data,
+    List<String>? discardActors,
     EnrichmentOptions? enrichmentOptions,
     Map<String, Object?>? externalRanking,
     Map<String, Object?>? filter,
@@ -126,6 +136,7 @@ abstract mixin class $GetOrCreateFeedRequestCopyWith<$Res> {
     bool? overwriteInterestWeights,
     String? prev,
     String? view,
+    Location? viewerLocation,
     bool? watch,
   });
 }
@@ -143,6 +154,7 @@ class _$GetOrCreateFeedRequestCopyWithImpl<$Res> implements $GetOrCreateFeedRequ
   @override
   $Res call({
     Object? data = freezed,
+    Object? discardActors = freezed,
     Object? enrichmentOptions = freezed,
     Object? externalRanking = freezed,
     Object? filter = freezed,
@@ -157,6 +169,7 @@ class _$GetOrCreateFeedRequestCopyWithImpl<$Res> implements $GetOrCreateFeedRequ
     Object? overwriteInterestWeights = freezed,
     Object? prev = freezed,
     Object? view = freezed,
+    Object? viewerLocation = freezed,
     Object? watch = freezed,
   }) {
     return _then(
@@ -165,6 +178,10 @@ class _$GetOrCreateFeedRequestCopyWithImpl<$Res> implements $GetOrCreateFeedRequ
             ? _self.data
             : data // ignore: cast_nullable_to_non_nullable
                   as FeedInput?,
+        discardActors: freezed == discardActors
+            ? _self.discardActors
+            : discardActors // ignore: cast_nullable_to_non_nullable
+                  as List<String>?,
         enrichmentOptions: freezed == enrichmentOptions
             ? _self.enrichmentOptions
             : enrichmentOptions // ignore: cast_nullable_to_non_nullable
@@ -221,6 +238,10 @@ class _$GetOrCreateFeedRequestCopyWithImpl<$Res> implements $GetOrCreateFeedRequ
             ? _self.view
             : view // ignore: cast_nullable_to_non_nullable
                   as String?,
+        viewerLocation: freezed == viewerLocation
+            ? _self.viewerLocation
+            : viewerLocation // ignore: cast_nullable_to_non_nullable
+                  as Location?,
         watch: freezed == watch
             ? _self.watch
             : watch // ignore: cast_nullable_to_non_nullable

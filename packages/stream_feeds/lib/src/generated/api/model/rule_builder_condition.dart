@@ -18,6 +18,8 @@ part 'rule_builder_condition.freezed.dart';
 @JsonSerializable()
 class RuleBuilderCondition with _$RuleBuilderCondition {
   const RuleBuilderCondition({
+    this.appChannelCountParams,
+    this.appMessageCountParams,
     this.callCustomPropertyParams,
     this.callTypeRuleParams,
     this.callViolationCountParams,
@@ -25,6 +27,7 @@ class RuleBuilderCondition with _$RuleBuilderCondition {
     this.closedCaptionRuleParams,
     this.confidence,
     this.contentCountRuleParams,
+    this.contentCountryCodeParams,
     this.contentCustomPropertyCountParams,
     this.contentCustomPropertyParams,
     this.contentFlagCountRuleParams,
@@ -32,6 +35,7 @@ class RuleBuilderCondition with _$RuleBuilderCondition {
     this.floodSimilarParams,
     this.imageContentParams,
     this.imageRuleParams,
+    this.intentRuleParams,
     this.ipContentCountRuleParams,
     this.ipFlagCountRuleParams,
     this.keyframeOcrRuleParams,
@@ -40,6 +44,7 @@ class RuleBuilderCondition with _$RuleBuilderCondition {
     this.textContentParams,
     this.textRuleParams,
     this.type,
+    this.userChannelBanCountParams,
     this.userChannelCountParams,
     this.userCreatedWithinParams,
     this.userCustomPropertyParams,
@@ -52,6 +57,14 @@ class RuleBuilderCondition with _$RuleBuilderCondition {
     this.videoContentParams,
     this.videoRuleParams,
   });
+
+  @override
+  @JsonKey(name: 'app_channel_count_params')
+  final AppChannelCountParameters? appChannelCountParams;
+
+  @override
+  @JsonKey(name: 'app_message_count_params')
+  final AppMessageCountParameters? appMessageCountParams;
 
   @override
   @JsonKey(name: 'call_custom_property_params')
@@ -82,6 +95,10 @@ class RuleBuilderCondition with _$RuleBuilderCondition {
   final ContentCountRuleParameters? contentCountRuleParams;
 
   @override
+  @JsonKey(name: 'content_country_code_params')
+  final ContentCountryCodeParameters? contentCountryCodeParams;
+
+  @override
   @JsonKey(name: 'content_custom_property_count_params')
   final ContentCustomPropertyCountParameters? contentCustomPropertyCountParams;
 
@@ -108,6 +125,10 @@ class RuleBuilderCondition with _$RuleBuilderCondition {
   @override
   @JsonKey(name: 'image_rule_params')
   final ImageRuleParameters? imageRuleParams;
+
+  @override
+  @JsonKey(name: 'intent_rule_params')
+  final IntentRuleParameters? intentRuleParams;
 
   @override
   @JsonKey(name: 'ip_content_count_rule_params')
@@ -140,6 +161,10 @@ class RuleBuilderCondition with _$RuleBuilderCondition {
   @override
   @JsonKey(name: 'type')
   final String? type;
+
+  @override
+  @JsonKey(name: 'user_channel_ban_count_params')
+  final UserChannelBanCountRuleParameters? userChannelBanCountParams;
 
   @override
   @JsonKey(name: 'user_channel_count_params')

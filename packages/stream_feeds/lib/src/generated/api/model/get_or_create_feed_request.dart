@@ -19,6 +19,7 @@ part 'get_or_create_feed_request.freezed.dart';
 class GetOrCreateFeedRequest with _$GetOrCreateFeedRequest {
   const GetOrCreateFeedRequest({
     this.data,
+    this.discardActors,
     this.enrichmentOptions,
     this.externalRanking,
     this.filter,
@@ -33,12 +34,17 @@ class GetOrCreateFeedRequest with _$GetOrCreateFeedRequest {
     this.overwriteInterestWeights,
     this.prev,
     this.view,
+    this.viewerLocation,
     this.watch,
   });
 
   @override
   @JsonKey(name: 'data')
   final FeedInput? data;
+
+  @override
+  @JsonKey(name: 'discard_actors')
+  final List<String>? discardActors;
 
   @override
   @JsonKey(name: 'enrichment_options')
@@ -95,6 +101,10 @@ class GetOrCreateFeedRequest with _$GetOrCreateFeedRequest {
   @override
   @JsonKey(name: 'view')
   final String? view;
+
+  @override
+  @JsonKey(name: 'viewer_location')
+  final Location? viewerLocation;
 
   @override
   @JsonKey(name: 'watch')
