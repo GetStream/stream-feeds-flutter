@@ -51,6 +51,6 @@ jobs:
   # checks that the entries went under `## Upcoming` rather than into a section
   # for a version that is already published.
   changelog_placement:
-    runs-on: ubuntu-latest
+    runs-on: { group: github-public-amd64 }
     steps:
       - uses: GetStream/verify-semantic-changelog-update/placement@v1.1.0
