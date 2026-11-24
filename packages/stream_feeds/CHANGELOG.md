@@ -1,3 +1,13 @@
+## Upcoming
+
+### ✨ Features
+
+- `Activity.get()` takes `withComments`. Pass `withComments: false` to fetch only the activity, without the comments request. The default is `true`, so existing calls still load the comments
+
+### 🔄 Changed
+
+- `Activity.get()` now requests the activity and its comments at the same time instead of one after the other, so it returns sooner
+
 ## 0.6.2
 
 ### 🐛 Bug Fixes

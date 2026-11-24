@@ -139,9 +139,11 @@ final class ActivityTester extends BaseTester<Activity> {
   /// Skip this in API tests that only verify method calls.
   ///
   /// Parameters:
+  /// - [withComments]: Passed on to [Activity.get]
   /// - [modifyResponse]: Optional function to customize the activity response
   /// - [modifyCommentsResponse]: Optional function to customize the comments response
   Future<Result<ActivityData>> get({
+    bool withComments = true,
     ActivityResponse Function(ActivityResponse)? modifyResponse,
     GetCommentsResponse Function(GetCommentsResponse)? modifyCommentsResponse,
   }) {
@@ -178,7 +180,7 @@ final class ActivityTester extends BaseTester<Activity> {
       },
     );
 
-    return activity.get();
+    return activity.get(withComments: withComments);
   }
 }
 

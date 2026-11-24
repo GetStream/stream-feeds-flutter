@@ -106,8 +106,19 @@ class Activity with Disposable {
 
   /// Fetches the activity data from the server.
   ///
-  /// Returns a [Result] containing [ActivityData] or an error.
-  Future<Result<ActivityData>> get() async {
+  /// By default this also loads the first page of the activity's comments into
+  /// [ActivityState.comments], at the same time as the activity itself. Pass
+  /// `withComments: false` to fetch only the activity; the comments can still
+  /// be loaded later with [queryComments].
+  ///
+  /// Returns a [Result] containing [ActivityData] or an error. It is the result
+  /// of the activity request only: failing to load the comments does not fail
+  /// it.
+  Future<Result<ActivityData>> get({bool withComments = true}) async {
+    // Start the comments first so both requests run at the same time
+    // (state will be updated automatically).
+    final comments = withComments ? queryComments() : null;
+
     final result = await activitiesRepository.getActivity(activityId);
 
     result.onSuccess((activity) {
@@ -120,8 +131,7 @@ class Activity with Disposable {
       }
     });
 
-    // Query the comments as well (state will be updated automatically)
-    await queryComments();
+    await comments;
 
     return result;
   }
