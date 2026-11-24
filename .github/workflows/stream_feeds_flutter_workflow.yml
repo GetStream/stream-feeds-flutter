@@ -79,6 +79,13 @@ jobs:
         with:
           fetch-depth: 0
 
+      # Android lint needs Java 21 or newer; the runner image defaults to 17.
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "21"
+
       - name: Install Flutter
         uses: subosito/flutter-action@v2
         with:
