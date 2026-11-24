@@ -106,24 +106,44 @@ class Activity with Disposable {
 
   /// Fetches the activity data from the server.
   ///
-  /// Returns a [Result] containing [ActivityData] or an error.
-  Future<Result<ActivityData>> get() async {
-    final result = await activitiesRepository.getActivity(activityId);
+  /// By default this also loads the first page of the activity's comments into
+  /// [ActivityState.comments], at the same time as the activity itself. Pass
+  /// `withComments: false` to fetch only the activity; the comments can still
+  /// be loaded later with [queryComments].
+  ///
+  /// Returns a [Result] containing [ActivityData] or an error. It is the result
+  /// of the activity request only: failing to load the comments does not fail
+  /// it.
+  Future<Result<ActivityData>> get({
+    bool withComments = true,
+  }) async {
+    // The activity is applied as soon as it arrives, without waiting for the
+    // comments.
+    final activityRequest = activitiesRepository
+        .getActivity(activityId)
+        .then((result) => result.onSuccess(_onActivityFetched));
+    // Runs at the same time as the activity request; the comment list puts the
+    // comments into the state itself.
+    final commentsRequest = withComments ? queryComments() : null;
 
-    result.onSuccess((activity) {
-      _eventsEmitter.tryEmit(
-        ActivityUpdated(scope: FidScope.unknown, activity: activity),
-      );
+    // Wait for both together, so an error in either one reaches the caller
+    // instead of being reported as uncaught while the other is still running.
+    await Future.wait([activityRequest, ?commentsRequest]);
 
-      if (activity.currentFeed case final feed?) {
-        capabilitiesRepository.cacheCapabilitiesForFeeds([feed]);
-      }
-    });
+    return activityRequest;
+  }
 
-    // Query the comments as well (state will be updated automatically)
-    await queryComments();
+  void _onActivityFetched(ActivityData activity) {
+    // Update this activity's state right away (events are delivered
+    // asynchronously), and let other states that hold it know as well.
+    _stateNotifier.onActivityUpdated(activity);
+    _eventsEmitter.tryEmit(
+      ActivityUpdated(scope: FidScope.unknown, activity: activity),
+    );
 
-    return result;
+    if (activity.currentFeed case final feed?) {
+      capabilitiesRepository.cacheCapabilitiesForFeeds([feed]);
+    }
   }
 
   /// Submits feedback for this activity.

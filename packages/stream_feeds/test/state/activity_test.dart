@@ -34,6 +34,90 @@ void main() {
     );
 
     activityTest(
+      'get() loads the comments into state by default',
+      build: (client) => client.activity(activityId: activityId, fid: fid),
+      body: (tester) async {
+        final result = await tester.get(
+          modifyCommentsResponse: (response) => response.copyWith(
+            comments: [
+              createDefaultThreadedCommentResponse(
+                id: 'comment-1',
+                objectId: activityId,
+                objectType: 'activity',
+              ),
+            ],
+          ),
+        );
+
+        expect(result.isSuccess, isTrue);
+        expect(tester.activityState.comments.map((c) => c.id), ['comment-1']);
+      },
+      verify: (tester) {
+        tester.verifyApi((api) => api.getActivity(id: activityId));
+        tester.verifyApi(
+          (api) => api.getComments(
+            objectId: activityId,
+            objectType: 'activity',
+            depth: 3,
+          ),
+        );
+      },
+    );
+
+    activityTest(
+      'get() returns the activity when loading the comments fails',
+      build: (client) => client.activity(activityId: activityId, fid: fid),
+      body: (tester) async {
+        tester.mockApi(
+          (api) => api.getActivity(id: activityId),
+          result: GetActivityResponse(
+            activity: createDefaultActivityResponse(
+              id: activityId,
+              feeds: [fid.rawValue],
+            ),
+            duration: '0ms',
+          ),
+        );
+        tester.mockApiFailure(
+          (api) => api.getComments(
+            objectId: activityId,
+            objectType: 'activity',
+            depth: 3,
+          ),
+          error: const StreamNetworkException(message: 'Connection failed'),
+        );
+
+        final result = await tester.activity.get();
+
+        expect(result.getOrNull()?.id, activityId);
+        expect(tester.activityState.activity?.id, activityId);
+        expect(tester.activityState.comments, isEmpty);
+      },
+    );
+
+    activityTest(
+      'get(withComments: false) fetches only the activity',
+      build: (client) => client.activity(activityId: activityId, fid: fid),
+      body: (tester) async {
+        final result = await tester.get(withComments: false);
+
+        expect(result.getOrNull()?.id, activityId);
+        expect(tester.activityState.activity?.id, activityId);
+        expect(tester.activityState.comments, isEmpty);
+      },
+      verify: (tester) {
+        tester.verifyApi((api) => api.getActivity(id: activityId));
+        tester.verifyNeverCalled(
+          (api) => api.getComments(
+            objectId: activityId,
+            objectType: 'activity',
+            depth: 3,
+          ),
+        );
+      },
+    );
+
+    activityTest(
       'queryMoreComments - should load more comments',
       build: (client) => client.activity(activityId: activityId, fid: fid),
       setUp: (tester) => tester.get(
