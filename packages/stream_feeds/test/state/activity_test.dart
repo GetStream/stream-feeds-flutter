@@ -65,6 +65,37 @@ void main() {
     );
 
     activityTest(
+      'get() returns the activity when loading the comments fails',
+      build: (client) => client.activity(activityId: activityId, fid: fid),
+      body: (tester) async {
+        tester.mockApi(
+          (api) => api.getActivity(id: activityId),
+          result: GetActivityResponse(
+            activity: createDefaultActivityResponse(
+              id: activityId,
+              feeds: [fid.rawValue],
+            ),
+            duration: '0ms',
+          ),
+        );
+        tester.mockApiFailure(
+          (api) => api.getComments(
+            objectId: activityId,
+            objectType: 'activity',
+            depth: 3,
+          ),
+          error: const StreamNetworkException(message: 'Connection failed'),
+        );
+
+        final result = await tester.activity.get();
+
+        expect(result.getOrNull()?.id, activityId);
+        expect(tester.activityState.activity?.id, activityId);
+        expect(tester.activityState.comments, isEmpty);
+      },
+    );
+
+    activityTest(
       'get(withComments: false) fetches only the activity',
       build: (client) => client.activity(activityId: activityId, fid: fid),
       body: (tester) async {

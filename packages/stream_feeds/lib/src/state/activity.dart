@@ -117,13 +117,21 @@ class Activity with Disposable {
   Future<Result<ActivityData>> get({
     bool withComments = true,
   }) async {
-    // Start the comments first so both requests run at the same time
-    // (state will be updated automatically).
-    final comments = withComments ? queryComments() : null;
+    final activityRequest = activitiesRepository.getActivity(activityId);
+    // Runs at the same time as the activity request; the comment list puts the
+    // comments into the state itself.
+    final commentsRequest = withComments ? queryComments() : null;
 
-    final result = await activitiesRepository.getActivity(activityId);
+    // Wait for both together, so an error in either one reaches the caller
+    // instead of being reported as uncaught while the other is still running.
+    await Future.wait([activityRequest, ?commentsRequest]);
+
+    final result = await activityRequest;
 
     result.onSuccess((activity) {
+      // Update this activity's state right away (events are delivered
+      // asynchronously), and let other states that hold it know as well.
+      _stateNotifier.onActivityUpdated(activity);
       _eventsEmitter.tryEmit(
         ActivityUpdated(scope: FidScope.unknown, activity: activity),
       );
@@ -132,8 +140,6 @@ class Activity with Disposable {
         capabilitiesRepository.cacheCapabilitiesForFeeds([feed]);
       }
     });
-
-    await comments;
 
     return result;
   }
