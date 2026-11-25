@@ -126,6 +126,72 @@ void main() {
       },
     );
 
+    FeedsClientTester? refusingTester;
+
+    feedsClientTest(
+      'is replaced when connecting is refused',
+      tokenProvider: TokenProvider.dynamic((userId) async {
+        tokenLoads++;
+        // The server accepts the token loaded after the refused one.
+        if (tokenLoads == 2) refusingTester?.mockSuccessfulAuth(userId);
+        return generateTestUserToken(userId);
+      }),
+      connect: (tester) {
+        tokenLoads = 0;
+        refusingTester = tester;
+        tester.mockFailedAuth();
+        addTearDown(tester.client.dispose);
+      },
+      body: (tester) async {
+        await tester.client.connect();
+
+        expect(tester.client.connectionState.value, isA<Connected>());
+        expect(tokenLoads, 2);
+      },
+    );
+
+    feedsClientTest(
+      'is kept when connecting is refused for another reason',
+      tokenProvider: TokenProvider.dynamic((userId) async => generateTestUserToken(userId)),
+      connect: (tester) {
+        tester.mockFailedAuth(errorCode: 43);
+        addTearDown(tester.client.dispose);
+      },
+      body: (tester) async {
+        final states = <WebSocketConnectionState>[];
+        final subscription = tester.client.connectionState.listen(states.add);
+        addTearDown(subscription.cancel);
+
+        await expectLater(
+          tester.client.connect(),
+          throwsA(isA<StreamApiException>().having((it) => it.code, 'code', 43)),
+        );
+
+        expect(states.whereType<Connecting>(), hasLength(1));
+      },
+    );
+
+    feedsClientTest(
+      'is replaced only once when connecting is refused',
+      tokenProvider: TokenProvider.dynamic((userId) async {
+        tokenLoads++;
+        return generateTestUserToken(userId);
+      }),
+      connect: (tester) {
+        tokenLoads = 0;
+        tester.mockFailedAuth();
+        addTearDown(tester.client.dispose);
+      },
+      body: (tester) async {
+        await expectLater(
+          tester.client.connect(),
+          throwsA(isA<StreamApiException>().having((it) => it.code, 'code', 40)),
+        );
+
+        expect(tokenLoads, 2);
+      },
+    );
+
     feedsClientTest(
       'is kept when the server closed for a reason other than the token',
       tokenProvider: TokenProvider.dynamic((userId) async {

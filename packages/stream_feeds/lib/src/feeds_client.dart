@@ -279,6 +279,9 @@ abstract interface class StreamFeedsClient {
   ///
   /// An anonymous user has no token for a socket, so it never opens one.
   ///
+  /// A connection refused because its token expired is tried once more with a new token, unless
+  /// the token provider is static.
+  ///
   /// A guest gets its identity from the server on the first [connect], so [user] changes. That
   /// identity cannot be renewed, because a new one would be a different guest. If the server
   /// rejects a guest token, the connection stays down. Call [dispose], build a new client, and
